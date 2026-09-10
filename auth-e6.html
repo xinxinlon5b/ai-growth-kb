@@ -584,7 +584,132 @@ Palantir 是发明者，OpenAI 2025 年专门成立 The OpenAI Deployment Compan
 <h3 id="3_3">反模式 3：不沉淀</h3>
 <p><strong>症状</strong>：每个客户从零开始。<br />
 <strong>风险</strong>：没有复利。<br />
-<strong>正解</strong>：沉淀 Skill / 模板 / 组件库。</p></div>
+<strong>正解</strong>：沉淀 Skill / 模板 / 组件库。</p>
+<hr />
+<h2 id="palantir-foundry-openai-deployment-company">十一、原文核心（Palantir Foundry 官方 + OpenAI Deployment Company 官方）</h2>
+<blockquote>
+<p>来源：https://www.palantir.com/docs/foundry/architecture-center/platforms</p>
+</blockquote>
+<h3 id="1-palantir-foundry-ontology">1. Palantir Foundry 的 Ontology 概念（原文）</h3>
+<p>Palantir 把企业的"对象 + 链接 + 动作"建为<strong>本体（Ontology）</strong>：</p>
+<blockquote>
+<p>"The Ontology is the foundation of Foundry. It models your business as objects, links, functions, and actions.<br />
+Objects represent real-world entities. Links represent relationships between objects.<br />
+Functions represent computations on objects. Actions represent changes to objects."</p>
+</blockquote>
+<p><strong>翻译</strong>：Ontology 把业务建模为：<br />
+- <strong>Objects（对象）</strong>：现实世界实体（订单、客户、设备）<br />
+- <strong>Links（链接）</strong>：对象之间的关系<br />
+- <strong>Functions（函数）</strong>：基于对象的计算<br />
+- <strong>Actions（动作）</strong>：对对象的修改</p>
+<h3 id="2-fde-palantir">2. FDE 在 Palantir 的角色（原文）</h3>
+<blockquote>
+<p>"Forward Deployed Engineers embed with strategic customers to deliver production-grade<br />
+data and analytics capabilities. They serve as the technical interface between<br />
+Palantir's platform and customer business needs."</p>
+</blockquote>
+<p><strong>关键</strong>：FDE 是<strong>平台（Palantir Foundry）和客户业务</strong>之间的<strong>技术接口</strong>。</p>
+<h3 id="3-ontology-ddd">3. Ontology 与 DDD 的关系</h3>
+<table>
+<thead>
+<tr>
+<th>Palantir Ontology</th>
+<th>DDD 概念</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Objects</td>
+<td>Entities / Aggregates</td>
+</tr>
+<tr>
+<td>Links</td>
+<td>Relationships</td>
+</tr>
+<tr>
+<td>Functions</td>
+<td>Domain Services</td>
+</tr>
+<tr>
+<td>Actions</td>
+<td>Aggregates / Commands</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>"Palantir 的 Ontology 本质是 DDD 的工程化实现 —— 把领域建模变成可视化平台"</p>
+</blockquote>
+<h3 id="4-openai-deployment-company2025">4. OpenAI Deployment Company（2025 年成立）</h3>
+<p><strong>官方页面核心</strong>：</p>
+<blockquote>
+<p>"FDE is how OpenAI brings AI into production for complex, real-world use cases.<br />
+The OpenAI Deployment Company exists to scale this practice globally."</p>
+</blockquote>
+<p><strong>关键动作</strong>：<br />
+- 2025 年 OpenAI 独立成立 <strong>The OpenAI Deployment Company</strong><br />
+- 专门负责 FDE 业务<br />
+- 把 FDE 从"部门职能"升级为"独立公司"</p>
+<p><strong>为什么</strong>：<br />
+- 标志 FDE 模式在 AI 时代被最大认可<br />
+- 客户愿意为 FDE 服务付高价<br />
+- 行业其他公司（Anthropic / 各大咨询公司）跟随</p>
+<h3 id="5">5. 三原厂核心对比</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Palantir</th>
+<th>OpenAI</th>
+<th>Anthropic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>创立时间</strong></td>
+<td>2008</td>
+<td>2023</td>
+<td>2024</td>
+</tr>
+<tr>
+<td><strong>FDE 核心交付</strong></td>
+<td>Ontology / Foundry</td>
+<td>Assistants API / Agent SDK</td>
+<td>Claude / MCP / Skills</td>
+</tr>
+<tr>
+<td><strong>典型客户</strong></td>
+<td>政府 / 国防 / 大型金融</td>
+<td>中型企业 / 互联网</td>
+<td>科技公司 / 研究</td>
+</tr>
+<tr>
+<td><strong>FDE 特点</strong></td>
+<td>深度定制 / 周期长</td>
+<td>标准化 / 周期短</td>
+<td>工程化 / Agent 化</td>
+</tr>
+<tr>
+<td><strong>薪酬</strong></td>
+<td>$200-500K</td>
+<td>$150-300K</td>
+<td>$200-400K</td>
+</tr>
+</tbody>
+</table>
+<h3 id="6-fde">6. 共同点（所有 FDE 都必须做）</h3>
+<ul>
+<li><strong>驻场</strong>：线上或线下</li>
+<li><strong>对业务结果负责</strong>：不是代码上线</li>
+<li><strong>沉淀可复用资产</strong>：每次交付为下次修路</li>
+<li><strong>风险分级</strong>：高危动作必有人工接管</li>
+</ul>
+<h2 id="_5">十二、原文链接</h2>
+<ul>
+<li>Palantir Foundry：https://www.palantir.com/docs/foundry/architecture-center/platforms</li>
+<li>OpenAI Deployment Company：https://openai.com/business/the-openai-deployment-company/</li>
+<li>Anthropic FDE JD：https://anthropic.com/careers/</li>
+<li>行业讨论：a16z, Y Combinator, Stratechery 等</li>
+</ul></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

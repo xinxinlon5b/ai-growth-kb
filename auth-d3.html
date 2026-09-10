@@ -755,7 +755,131 @@ if response.choices[0].message.tool_calls:
 <h3 id="4_2">反模式 4：结果不验证</h3>
 <p><strong>症状</strong>：工具返回后直接交给模型。<br />
 <strong>风险</strong>：错误数据被模型当成真。<br />
-<strong>正解</strong>：结果 schema 校验 + 异常告警。</p></div>
+<strong>正解</strong>：结果 schema 校验 + 异常告警。</p>
+<hr />
+<h2 id="openai-function-calling-managed-agents">十一、原文核心（OpenAI Function Calling + Managed Agents 官方文档）</h2>
+<blockquote>
+<p>来源：https://platform.openai.com/docs/guides/function-calling + Managed Agents 文档</p>
+</blockquote>
+<h3 id="1-openai-function-calling">1. OpenAI Function Calling 核心</h3>
+<blockquote>
+<p>"Function calling provides a way to <strong>connect LLMs to external tools and APIs</strong>.<br />
+The model generates a JSON object describing which function to call and with what arguments."</p>
+</blockquote>
+<p><strong>Function Calling 3 步</strong>：<br />
+1. <strong>定义工具</strong>：以 JSON schema 声明可用函数<br />
+2. <strong>模型决定调用</strong>：LLM 决定调哪个函数 + 参数<br />
+3. <strong>执行 + 回传</strong>：你的代码执行函数，把结果回给 LLM</p>
+<h3 id="2-function">2. Function 定义示例</h3>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;function&quot;,
+  &quot;function&quot;: {
+    &quot;name&quot;: &quot;get_order_status&quot;,
+    &quot;description&quot;: &quot;查询订单状态&quot;,
+    &quot;parameters&quot;: {
+      &quot;type&quot;: &quot;object&quot;,
+      &quot;properties&quot;: {
+        &quot;order_id&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;订单 ID&quot;}
+      },
+      &quot;required&quot;: [&quot;order_id&quot;]
+    }
+  }
+}
+</code></pre>
+<h3 id="3-3-openai">3. 3 级风险分级（OpenAI 实践）</h3>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>工具类型</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L0 只读</strong></td>
+<td>get_<em>, search_</em>, list_*</td>
+<td>AI 自动</td>
+</tr>
+<tr>
+<td><strong>L1 低危写</strong></td>
+<td>update_<em>, set_</em></td>
+<td>AI 自动 + 通知</td>
+</tr>
+<tr>
+<td><strong>L2 中危写</strong></td>
+<td>send_email, create_order</td>
+<td>AI 提交 + 异步通知</td>
+</tr>
+<tr>
+<td><strong>L3 高危写</strong></td>
+<td>transfer_money, delete_*</td>
+<td>AI 提交 + 人工确认</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-4">4. 4 大循环控制（防死循环）</h3>
+<ol>
+<li><strong>max_steps</strong>：最大步数（如 10 步）</li>
+<li><strong>max_tokens</strong>：最大 Token 消耗（如 100K）</li>
+<li><strong>max_time</strong>：最大运行时间（如 5 分钟）</li>
+<li><strong>重复检测</strong>：同一工具调用 3 次自动停止</li>
+</ol>
+<h3 id="5-managed-agentsopenai-2025">5. Managed Agents（OpenAI 2025）</h3>
+<blockquote>
+<p>"Managed Agents are a managed service for deploying Claude and other agents in production<br />
+with built-in safety, observability, and scale."</p>
+</blockquote>
+<p><strong>核心能力</strong>：<br />
+- 内置 Guardrails（输入过滤 + 输出过滤）<br />
+- 完整 Trace（每个调用可追溯）<br />
+- 自动扩缩<br />
+- 风险分级 + 人工接管</p>
+<h3 id="6-5-openai-cookbook">6. 5 个核心模式（OpenAI Cookbook）</h3>
+<h4 id="1function-calling">模式 1：Function Calling 基础</h4>
+<p>LLM 决定调哪个函数，传什么参数。</p>
+<h4 id="2parallel-function-calling">模式 2：Parallel Function Calling</h4>
+<p>一次返回多个函数调用，并行执行。</p>
+<h4 id="3tool-choice">模式 3：Tool Choice</h4>
+<p>控制模型是否必须调用工具：<code>none</code> / <code>auto</code> / <code>specific_function_name</code></p>
+<h4 id="4structured-outputs">模式 4：Structured Outputs</h4>
+<p>强制 LLM 按 JSON schema 输出。</p>
+<h4 id="5streaming">模式 5：Streaming</h4>
+<p>流式输出，用户体验更好。</p>
+<h3 id="7-fde">7. 与企业 FDE 项目的对应</h3>
+<table>
+<thead>
+<tr>
+<th>OpenAI 模式</th>
+<th>FDE 交付物</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Function Calling</td>
+<td>API 集成层</td>
+</tr>
+<tr>
+<td>3 级风险分级</td>
+<td>合同条款</td>
+</tr>
+<tr>
+<td>循环控制</td>
+<td>Agent 配置</td>
+</tr>
+<tr>
+<td>Managed Agents</td>
+<td>部署架构</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_7">十二、原文链接</h2>
+<ul>
+<li>Function Calling：https://platform.openai.com/docs/guides/function-calling</li>
+<li>Structured Outputs：https://platform.openai.com/docs/guides/structured-outputs</li>
+<li>Cookbook：https://cookbook.openai.com/</li>
+<li>Anthropic Tools：https://docs.anthropic.com/en/docs/tool-use</li>
+</ul></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

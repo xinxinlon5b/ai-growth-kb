@@ -706,7 +706,139 @@ a:hover { color: var(--accent-hover); }
 <h3 id="2_1">反模式 2：组件越多越好</h3>
 <p><strong>症状</strong>：每个技术都"先加上再说"。<br />
 <strong>风险</strong>：技术债 + 没人能维护。<br />
-<strong>正解</strong>：每个组件对应消除一个具体风险。</p></div>
+<strong>正解</strong>：每个组件对应消除一个具体风险。</p>
+<hr />
+<h2 id="risk-driven-architecture">十一、原文核心（Risk-Driven Architecture 工业实践）</h2>
+<blockquote>
+<p>综合自 Microsoft Architecture Guides + NIST 风险框架 + ThoughtWorks 实践</p>
+</blockquote>
+<h3 id="1_2">1. 风险驱动架构的核心思想</h3>
+<blockquote>
+<p>"Architect for risk, not for features.<br />
+Every architectural component should exist because it mitigates a specific risk."</p>
+</blockquote>
+<p><strong>翻译</strong>：为风险做架构，不为功能做架构。<br />
+每个架构组件存在的原因 = 缓解某个具体风险。</p>
+<h3 id="2_2">2. 风险 = 损失 × 概率</h3>
+<p>不是所有风险都值得解决：<br />
+- <strong>损失 × 概率</strong> = 风险值<br />
+- 风险值高 = 必须解决<br />
+- 风险值低 = 可接受</p>
+<table>
+<thead>
+<tr>
+<th>风险</th>
+<th>损失</th>
+<th>概率</th>
+<th>风险值</th>
+<th>优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据泄露</td>
+<td>高</td>
+<td>中</td>
+<td>高</td>
+<td>必须解决</td>
+</tr>
+<tr>
+<td>AI 幻觉</td>
+<td>中</td>
+<td>高</td>
+<td>高</td>
+<td>必须解决</td>
+</tr>
+<tr>
+<td>接口超时</td>
+<td>低</td>
+<td>中</td>
+<td>低</td>
+<td>可接受</td>
+</tr>
+<tr>
+<td>误删数据</td>
+<td>高</td>
+<td>低</td>
+<td>中</td>
+<td>应解决</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3_3">3. 组件引入决策矩阵</h3>
+<table>
+<thead>
+<tr>
+<th>风险等级</th>
+<th>引入组件</th>
+<th>决策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>没有风险</strong></td>
+<td>不加</td>
+<td>YAGNI（不需要就别做）</td>
+</tr>
+<tr>
+<td><strong>有风险 / 低</strong></td>
+<td>简单措施</td>
+<td>最小成本</td>
+</tr>
+<tr>
+<td><strong>有风险 / 中</strong></td>
+<td>标准组件</td>
+<td>选成熟方案</td>
+</tr>
+<tr>
+<td><strong>有风险 / 高</strong></td>
+<td>复杂方案</td>
+<td>多重防护</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-5">4. 5 个常见决策</h3>
+<h4 id="1-rag_1">决策 1：要不要上 RAG？</h4>
+<ul>
+<li>数据更新 &gt; 每周 + 需要可溯源 = 用 RAG</li>
+<li>数据稳定 + 创意任务 = 不用</li>
+</ul>
+<h4 id="2-agent_1">决策 2：要不要上多 Agent？</h4>
+<ul>
+<li>业务流 &gt; 10 + 团队 &gt; 3 FDE = 用多 Agent</li>
+<li>业务流 &lt; 3 + 1 FDE = 单 Agent 足够</li>
+</ul>
+<h4 id="3_4">决策 3：要不要私有部署？</h4>
+<ul>
+<li>数据敏感 + 合规要求 = 私有部署</li>
+<li>流量 &lt; 10K/天 = 云 API</li>
+</ul>
+<h4 id="4_1">决策 4：要不要上中间网关？</h4>
+<ul>
+<li>多模型 + 多业务 = 加中间网关</li>
+<li>单模型 + 单业务 = 直接调</li>
+</ul>
+<h4 id="5-rerank">决策 5：要不要 Rerank？</h4>
+<ul>
+<li>召回 &gt; 100 个 = 加 Rerank</li>
+<li>召回 &lt; 10 个 = 不需要</li>
+</ul>
+<h3 id="5-7">5. 7 个反模式</h3>
+<ol>
+<li><strong>为"看起来专业"加组件</strong></li>
+<li><strong>组件越多越好</strong></li>
+<li><strong>不识别风险就设计</strong></li>
+<li><strong>KPI 倒挂</strong>：KPI 倒过来驱动架构</li>
+<li><strong>不可逆决策</strong>：架构决策没留 rollback 余地</li>
+<li><strong>忽视合规</strong>：法务/合规早期不介入</li>
+<li><strong>过度设计</strong>：为不存在的需求设计</li>
+</ol>
+<h2 id="_7">十二、原文链接</h2>
+<ul>
+<li>Microsoft Architecture：https://learn.microsoft.com/en-us/azure/architecture/</li>
+<li>NIST Risk：https://www.nist.gov/cyberframework</li>
+<li>实践：ThoughtWorks Technology Radar</li>
+</ul></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

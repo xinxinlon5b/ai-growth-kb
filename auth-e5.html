@@ -617,7 +617,226 @@ GCP 重度 → GCP Architecture Framework
 <h3 id="3_1">反模式 3：忽略国际标准</h3>
 <p><strong>症状</strong>：只用国内标准。<br />
 <strong>风险</strong>：出海 / 跨国客户无法对接。<br />
-<strong>正解</strong>：国际标准做基线 + 国内标准做补充。</p></div>
+<strong>正解</strong>：国际标准做基线 + 国内标准做补充。</p>
+<hr />
+<h2 id="togaf-pmbok-iso-42001-aws-well-architected">十一、原文核心（TOGAF / PMBOK / ISO 42001 / AWS Well-Architected 综合）</h2>
+<blockquote>
+<p>来源：The Open Group TOGAF 10 / PMI PMBOK 8 / ISO/IEC 42001:2023 / AWS WAF</p>
+</blockquote>
+<h3 id="1-togaf-10-adm">1. TOGAF 10 ADM（架构开发方法）</h3>
+<p>The Open Group Architecture Framework 是企业架构领域唯一国际标准。</p>
+<p><strong>ADM 10 阶段</strong>：<br />
+- Phase A：架构愿景（Architecture Vision）<br />
+- Phase B：业务架构（Business Architecture）<br />
+- Phase C：信息系统架构（Data + Application）<br />
+- Phase D：技术架构（Technology Architecture）<br />
+- Phase E：机会与解决方案<br />
+- Phase F：迁移规划<br />
+- Phase G：实施治理<br />
+- Phase H：架构变更管理 ★ <strong>TOGAF 独有强项</strong><br />
+- Requirements Management（贯穿）<br />
+- Architecture Change Management（贯穿）</p>
+<h3 id="2-pmbok-8">2. PMBOK 8 七绩效域</h3>
+<p>PMI 项目管理体系：8 = 7 绩效域 + 1 裁剪。</p>
+<table>
+<thead>
+<tr>
+<th>绩效域</th>
+<th>关注什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. 团队</strong></td>
+<td>团队建设、文化、领导力</td>
+</tr>
+<tr>
+<td><strong>2. 规划</strong></td>
+<td>项目规划、估算、节奏</td>
+</tr>
+<tr>
+<td><strong>3. 不确定性</strong></td>
+<td>风险、模糊性、复杂性</td>
+</tr>
+<tr>
+<td><strong>4. 交付</strong></td>
+<td>交付范围、质量、节奏</td>
+</tr>
+<tr>
+<td><strong>5. 度量</strong></td>
+<td>进度、成本、范围</td>
+</tr>
+<tr>
+<td><strong>6. 业务</strong></td>
+<td>业务价值、战略对齐</td>
+</tr>
+<tr>
+<td><strong>7. 干系人</strong></td>
+<td>沟通、参与、期望管理</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-isoiec-420012023ai">3. ISO/IEC 42001:2023（AI 管理体系）</h3>
+<p><strong>全球第一个 AI 管理国际标准</strong>，结构：<br />
+- <strong>Clause 4-7</strong>：组织上下文 + 领导 + 计划 + 支持（PDCA）<br />
+- <strong>Clause 8</strong>：运行（核心 AI 特定条款）<br />
+- <strong>Clause 9</strong>：绩效评价<br />
+- <strong>Clause 10</strong>：改进<br />
+- <strong>Annex A</strong>：93 个控制目标</p>
+<p><strong>强项（AI 特有）</strong>：<br />
+- AI 影响评估（<strong>Discover 阶段独有</strong>）<br />
+- 数据治理（<strong>Data 阶段</strong>）<br />
+- 模型退役（<strong>Retire 阶段</strong>）<br />
+- 透明性 + 可解释性 + 问责制</p>
+<h3 id="4-aws-well-architected-framework-6">4. AWS Well-Architected Framework 6 支柱</h3>
+<table>
+<thead>
+<tr>
+<th>支柱</th>
+<th>关注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operational Excellence</td>
+<td>监控 + 改进</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>保护数据 + 系统</td>
+</tr>
+<tr>
+<td>Reliability</td>
+<td>故障恢复</td>
+</tr>
+<tr>
+<td>Performance Efficiency</td>
+<td>资源利用</td>
+</tr>
+<tr>
+<td>Cost Optimization</td>
+<td>商业价值</td>
+</tr>
+<tr>
+<td>Sustainability</td>
+<td>环境影响</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-12">5. 12 阶段覆盖矩阵</h3>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>TOGAF</th>
+<th>PMBOK</th>
+<th>ISO 42001</th>
+<th>AWS WAF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B1 立项</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>B2 业务建模</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>B3 需求</td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>B4 架构</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>B5 实现</td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>B6 测试</td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>B7 部署</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>B8 运维</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>B9 监控</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>B10 演进</td>
+<td>✓ H</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>B11 退役</td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td>B12 变更</td>
+<td>✓ H</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>12 阶段全覆盖</strong> = TOGAF + PMBOK + ISO 42001 + AWS WAF 的组合。</p>
+<h3 id="6-5">6. 5 个常见选型决策</h3>
+<ul>
+<li><strong>小团队 (&lt; 5 人)</strong>：Scrum</li>
+<li><strong>中团队 (5-20 人)</strong>：PMBOK + 敏捷混合</li>
+<li><strong>大组织</strong>：TOGAF + PMBOK</li>
+<li><strong>欧盟市场</strong>：必须 ISO 42001</li>
+<li><strong>云架构</strong>：AWS / Azure / GCP WAF</li>
+</ul>
+<h2 id="_5">十二、原文链接</h2>
+<ul>
+<li>TOGAF 10：https://www.opengroup.org/togaf</li>
+<li>PMBOK 8：https://www.pmi.org/pmbok-guide</li>
+<li>ISO 42001：https://www.iso.org/standard/42001</li>
+<li>AWS WAF：https://aws.amazon.com/architecture/well-architected/</li>
+</ul></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

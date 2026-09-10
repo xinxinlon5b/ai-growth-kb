@@ -618,6 +618,97 @@ C2「混沌工程」讲的是<strong>所有分布式系统</strong>的可靠性�
 <li>故意让 L3 动作的确认人 5 分钟不响应</li>
 <li>看 Agent 是否自动取消 / 升级 / 兜底</li>
 <li>预期：自动取消 + 通知替代决策人</li>
+</ul>
+<hr />
+<h2 id="principles-of-chaos-engineering-netflix">十一、原文核心（Principles of Chaos Engineering · Netflix）</h2>
+<blockquote>
+<p>来源：https://principlesofchaos.org/</p>
+</blockquote>
+<h3 id="1-steady-state">1. Steady State（稳态）原文定义</h3>
+<blockquote>
+<p>"Focus on the measurable output of a system, rather than internal attributes of the system.<br />
+Measurements of that output over a short period of time constitute <strong>a proxy for the system's steady state</strong>.<br />
+The overall system's throughput, error rates, latency percentiles, etc. could all be metrics of interest<br />
+representing <strong>steady state behavior</strong>."</p>
+</blockquote>
+<p><strong>翻译</strong>：关注系统的<strong>可测量输出</strong>（吞吐、错误率、延迟百分位），不是内部属性。</p>
+<h3 id="2-4">2. 4 大原则（原文）</h3>
+<h4 id="1build-a-hypothesis-around-steady-state-behavior">原则 1：Build a Hypothesis around Steady State Behavior</h4>
+<blockquote>
+<p>"By focusing on systemic behavior patterns during experiments,<br />
+Chaos verifies that the system <strong>does work</strong>, rather than trying to validate how it works."</p>
+</blockquote>
+<h4 id="2vary-real-world-events">原则 2：Vary Real-world Events</h4>
+<blockquote>
+<p>"Chaos variables reflect real-world events. Prioritize events either by potential impact or estimated frequency.<br />
+Consider events that correspond to:<br />
+- <strong>Hardware failures</strong> like servers dying<br />
+- <strong>Software failures</strong> like malformed responses<br />
+- <strong>Non-failure events</strong> like a spike in traffic or a scaling event"</p>
+</blockquote>
+<h4 id="3run-experiments-in-production">原则 3：Run Experiments in Production</h4>
+<blockquote>
+<p>"Systems behave differently depending on environment and traffic patterns.<br />
+Since the behavior of utilization can change at any time, <strong>sampling real traffic is the only way<br />
+to reliably capture the request path</strong>."</p>
+</blockquote>
+<h4 id="4automate-experiments-to-run-continuously">原则 4：Automate Experiments to Run Continuously</h4>
+<blockquote>
+<p>"Chaos Engineering automates experiments to run on production systems continuously.<br />
+Running experiments manually is <strong>labor-intensive and ultimately unsustainable</strong>."</p>
+</blockquote>
+<h3 id="3_1">3. 高级原则（原文）</h3>
+<blockquote>
+<p>"These principles describe an ideal application of Chaos Engineering, applied to the processes of experimentation<br />
+described above. The degree to which these principles are pursued strongly correlates to<br />
+the <strong>confidence we can have in a distributed system at scale</strong>."</p>
+</blockquote>
+<h3 id="4-ai">4. 与企业 AI 项目的具体映射</h3>
+<table>
+<thead>
+<tr>
+<th>Chaos 原则</th>
+<th>FDE 项目应用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Steady State</td>
+<td>业务指标（响应时长、解决率） = 稳态</td>
+</tr>
+<tr>
+<td>Vary Real-world Events</td>
+<td>故障注入剧本：网络延迟 / API 失败 / 工具超时</td>
+</tr>
+<tr>
+<td>Run in Production</td>
+<td>A/B 测试用真实流量</td>
+</tr>
+<tr>
+<td>Automate Continuously</td>
+<td>CI/CD 中自动跑混沌测试</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-4-chaos-monkey">5. 4 个标准实验（Chaos Monkey 系列）</h3>
+<ul>
+<li><strong>Chaos Monkey</strong>：随机 kill 服务实例</li>
+<li><strong>Chaos Gorilla</strong>：模拟整个可用区挂掉</li>
+<li><strong>Chaos Kong</strong>：模拟整个 region 挂掉</li>
+<li><strong>Latency Monkey</strong>：注入网络延迟</li>
+</ul>
+<h3 id="6-fde-4">6. FDE 实战剧本（4 个）</h3>
+<ul>
+<li><strong>剧本 A：RAG 召回失败</strong> —— 断网向量库，看 Agent 行为</li>
+<li><strong>剧本 B：订单创建失败</strong> —— 5xx 错误，看 Saga 回滚</li>
+<li><strong>剧本 C：人工接管超时</strong> —— 5 分钟不响应，看自动取消</li>
+<li><strong>剧本 D：恶意 prompt</strong> —— 注入"忽略之前指令"，看护栏</li>
+</ul>
+<h2 id="_6">十二、原文链接</h2>
+<ul>
+<li>全文：https://principlesofchaos.org/</li>
+<li>出版：Netflix，2010 年代初提出</li>
+<li>工具：Chaos Monkey, Gremlin, Litmus</li>
 </ul></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>

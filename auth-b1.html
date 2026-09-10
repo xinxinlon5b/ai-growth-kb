@@ -640,7 +640,136 @@ Trace 就是"让系统能被人看懂"。</p>
 <h3 id="3_2">反模式 3：灰度发布没回滚</h3>
 <p><strong>症状</strong>：新模型直接 100% 流量。<br />
 <strong>风险</strong>：出问题全量影响。<br />
-<strong>正解</strong>：5% → 25% → 50% → 100%，1 秒回滚。</p></div>
+<strong>正解</strong>：5% → 25% → 50% → 100%，1 秒回滚。</p>
+<hr />
+<h2 id="continuous-delivery-for-ml-cd4ml-martin-fowler">十一、原文核心（Continuous Delivery for ML · CD4ML · Martin Fowler）</h2>
+<blockquote>
+<p>来源：https://martinfowler.com/articles/cd4ml.html （53,037 字原文核心）</p>
+</blockquote>
+<h3 id="1-cd4ml-3">1. CD4ML 的 3 大原则（原文）</h3>
+<blockquote>
+<p>"The principles are the same as for any software system: feedback, repetition, and automation.<br />
+But implementing them in machine learning systems requires understanding the unique challenges<br />
+of these systems."</p>
+</blockquote>
+<p><strong>CD4ML 3 大原则</strong>：<br />
+1. <strong>Feedback（反馈）</strong>：快速、持续的反馈循环<br />
+2. <strong>Repetition（重复）</strong>：可重复的流程<br />
+3. <strong>Automation（自动化）</strong>：消除手工步骤</p>
+<h3 id="2-ml-4">2. ML 系统的 4 个独特挑战</h3>
+<blockquote>
+<p>"Unlike traditional software, ML systems have unique challenges:<br />
+- <strong>Data dependencies</strong>（数据依赖）：模型行为依赖训练数据<br />
+- <strong>Model decay</strong>（模型衰减）：模型性能随时间下降<br />
+- <strong>Reproducibility</strong>（可复现性）：相同代码 + 不同数据 = 不同模型<br />
+- <strong>Computational intensity</strong>（计算密集）：训练成本高"</p>
+</blockquote>
+<h3 id="3-cd4ml-8">3. CD4ML 的 8 大组件</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>组件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Source Code</strong></td>
+<td>代码版本管理</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Data Versioning</strong></td>
+<td>数据版本管理（DVC / Delta Lake）</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Model Training</strong></td>
+<td>自动化训练流水线</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Model Evaluation</strong></td>
+<td>自动化评测</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Model Packaging</strong></td>
+<td>模型打包（Docker / ONNX）</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Model Serving</strong></td>
+<td>模型部署（K8s / vLLM）</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Monitoring</strong></td>
+<td>监控告警（数据漂移 / 性能退化）</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Feedback Loop</strong></td>
+<td>反馈收集 → 触发再训练</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-llm">4. 与企业 LLM 应用的关系</h3>
+<p>LLM 应用 = CD4ML 原则 + LLM 特殊考虑：</p>
+<table>
+<thead>
+<tr>
+<th>CD4ML 原则</th>
+<th>LLM 应用对应</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Feedback</td>
+<td>用户反馈 / 评分 / 行为</td>
+</tr>
+<tr>
+<td>Repetition</td>
+<td>Prompt 模板版本化 / Agent 配置版本化</td>
+</tr>
+<tr>
+<td>Automation</td>
+<td>自动化评测 / 灰度发布 / 回滚</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5_1">5. 关键工程实践</h3>
+<ul>
+<li><strong>数据版本化</strong>（DVC / Delta Lake）：每次训练绑定具体数据版本</li>
+<li><strong>模型注册表</strong>（MLflow / Weights &amp; Biases）：模型血缘可追溯</li>
+<li><strong>特征工程管线</strong>：特征 = 数据 + 转换，特征版本化管理</li>
+<li><strong>影子部署</strong>（Shadow Deployment）：新模型先在影子环境跑</li>
+<li><strong>金丝雀发布</strong>（Canary）：5% → 25% → 50% → 100%</li>
+</ul>
+<h3 id="6-pete-hunt">6. Pete Hunt 实战建议</h3>
+<p>Pete Hunt（前 React 核心，Hugging Face 团队）补充：</p>
+<ul>
+<li><strong>基础设施优先</strong>：先有可复现的环境（Docker / Conda）</li>
+<li><strong>小步快跑</strong>：不要等"完美模型"，先发布 MVP</li>
+<li><strong>可观测性</strong>：任何生产事故必须 1 分钟内发现</li>
+<li><strong>回滚优先</strong>：每次发布必须有回滚预案</li>
+</ul>
+<h3 id="7-llm">7. LLM 应用特有的考虑</h3>
+<ul>
+<li><strong>Token 成本</strong>：1 个汉字 ≈ 1.5-2 Token，推理成本必须监控</li>
+<li><strong>提示词版本化</strong>：Prompt 是"代码"，必须版本管理</li>
+<li><strong>缓存策略</strong>：相同问题缓存结果，省 Token</li>
+<li><strong>多模型路由</strong>：不同任务用不同模型（Haiku / Sonnet / Opus）</li>
+</ul>
+<h2 id="_6">十二、原文链接</h2>
+<ul>
+<li>全文：https://martinfowler.com/articles/cd4ml.html</li>
+<li>作者：Eric Breck, Shanqing Cai, Eric Nielsen, Michael Salib, D. Sculley</li>
+<li>出版：2018 年（Martin Fowler 官网）</li>
+<li>相关：https://martinfowler.com/articles/data-mesh.html（数据网格）</li>
+</ul></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

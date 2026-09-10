@@ -647,7 +647,140 @@ a:hover { color: var(--accent-hover); }
 <h3 id="3_2">反模式 3：白名单写在代码里</h3>
 <p><strong>症状</strong>：白名单是 Python dict 写死的。<br />
 <strong>风险</strong>：改白名单要发版。<br />
-<strong>正解</strong>：白名单放配置文件或数据库，运行时加载。</p></div>
+<strong>正解</strong>：白名单放配置文件或数据库，运行时加载。</p>
+<hr />
+<h2 id="google-agent-design-vertex-ai-agent-builder">十一、原文核心（Google Agent Design + Vertex AI Agent Builder）</h2>
+<blockquote>
+<p>综合自 Google Cloud Vertex AI Agent Builder 文档 + Google AI Blog</p>
+</blockquote>
+<h3 id="1-google-agent">1. Google 的 Agent 定义</h3>
+<blockquote>
+<p>"Agents are autonomous programs that can take actions to achieve goals.<br />
+They combine the reasoning capabilities of large language models<br />
+with the ability to take actions in the digital and physical world."</p>
+</blockquote>
+<p><strong>Google Agent 3 要素</strong>：<br />
+1. <strong>Reasoning</strong>（推理）—— LLM 思考<br />
+2. <strong>Tools</strong>（工具）—— 调外部能力<br />
+3. <strong>Actions</strong>（动作）—— 改变世界</p>
+<h3 id="2-vertex-ai-agent-builder">2. Vertex AI Agent Builder 架构</h3>
+<pre><code>┌─────────────────────────────────────┐
+│  Reasoning Engine（Gemini / Claude）  │
+├─────────────────────────────────────┤
+│  Tools Layer                         │
+│  - Function Calling                 │
+│  - Code Execution                   │
+│  - Search APIs                      │
+│  - Custom APIs                       │
+├─────────────────────────────────────┤
+│  Memory &amp; Context                    │
+│  - Short-term（会话）                │
+│  - Long-term（向量库 / 知识图谱）    │
+├─────────────────────────────────────┤
+│  Orchestration                       │
+│  - LangChain / LangGraph            │
+│  - Sequential / Parallel / Loop    │
+├─────────────────────────────────────┤
+│  Observability（Cloud Trace）        │
+└─────────────────────────────────────┘
+</code></pre>
+<h3 id="3-4-agent-google">3. 4 类 Agent 模式（Google 分类）</h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>特征</th>
+<th>适合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Single Agent</strong></td>
+<td>1 个 LLM + 几个工具</td>
+<td>简单任务</td>
+</tr>
+<tr>
+<td><strong>Multi-Agent Sequential</strong></td>
+<td>Agent 1 → Agent 2 → Agent 3</td>
+<td>多步流程</td>
+</tr>
+<tr>
+<td><strong>Multi-Agent Parallel</strong></td>
+<td>多个 Agent 并行</td>
+<td>投票 / 多视角</td>
+</tr>
+<tr>
+<td><strong>Hierarchical</strong></td>
+<td>协调者 + 工人</td>
+<td>复杂任务</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-3-guardrailgoogle">4. 3 层 Guardrail（Google 实践）</h3>
+<blockquote>
+<p>"Guardrails ensure your agent behaves safely and within intended boundaries."</p>
+</blockquote>
+<p><strong>第 1 层：Input Validation（输入验证）</strong><br />
+- 检测 prompt injection<br />
+- 过滤敏感内容<br />
+- 验证用户权限</p>
+<p><strong>第 2 层：Output Filtering（输出过滤）</strong><br />
+- 屏蔽违规内容<br />
+- 检查 PII<br />
+- 验证格式</p>
+<p><strong>第 3 层：Action Constraints（动作约束）</strong><br />
+- 白名单工具<br />
+- 风险分级<br />
+- 人工接管</p>
+<h3 id="5-google">5. 工具白名单的工程实现（Google 模式）</h3>
+<pre><code class="language-python">ALLOWED_TOOLS = {
+    'search_documents': {'tier': 'L0', 'risk': 'none'},
+    'send_email': {'tier': 'L2', 'requires_confirmation': True},
+    'process_payment': {'tier': 'L3', 'requires_confirmation': True},
+    'delete_record': {'tier': 'L4', 'forbidden_in_auto_mode': True}
+}
+
+def invoke(tool_name, args):
+    if tool_name not in ALLOWED_TOOLS:
+        return reject(&quot;Tool not in whitelist&quot;)
+    if ALLOWED_TOOLS[tool_name]['tier'] &gt;= 'L3' and not human_confirmed:
+        return require_human()
+    return execute(tool_name, args)
+</code></pre>
+<h3 id="6-fde">6. 与企业 FDE 项目的对应</h3>
+<table>
+<thead>
+<tr>
+<th>Google 框架组件</th>
+<th>FDE 项目交付物</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reasoning Engine</td>
+<td>选 Claude / GPT-4 / Gemini</td>
+</tr>
+<tr>
+<td>Tools Layer</td>
+<td>接客户系统 API</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>短期 / 长期存储</td>
+</tr>
+<tr>
+<td>Guardrails</td>
+<td>3 层防护</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_6">十二、原文链接</h2>
+<ul>
+<li>Vertex AI Agent Builder：https://cloud.google.com/products/vertex-ai-agent-builder</li>
+<li>Google AI Agents 概览：https://cloud.google.com/discover/what-are-ai-agents</li>
+<li>Gemini API 文档：https://ai.google.dev/</li>
+<li>实战：https://www.cloudskillsboost.google/paths/118</li>
+</ul></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

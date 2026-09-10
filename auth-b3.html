@@ -701,7 +701,190 @@ a:hover { color: var(--accent-hover); }
 <h3 id="3-overlap">反模式 3：不加 Overlap</h3>
 <p><strong>症状</strong>：段落之间无重叠。<br />
 <strong>风险</strong>：边界信息丢失。<br />
-<strong>正解</strong>：前后 10-20% 重叠。</p></div>
+<strong>正解</strong>：前后 10-20% 重叠。</p>
+<hr />
+<h2 id="rag-anthropic-pinecone-langchain">十一、原文核心（基于 RAG 工业实践 + Anthropic / Pinecone / LangChain 文档）</h2>
+<blockquote>
+<p>综合自 Anthropic Claude RAG 文档 + Pinecone Learning Center + LangChain RAG Tutorial</p>
+</blockquote>
+<h3 id="1-rag-3">1. RAG 解决的 3 个核心问题</h3>
+<blockquote>
+<p>"RAG (Retrieval-Augmented Generation) addresses three fundamental limitations of LLMs:<br />
+1. <strong>Knowledge cutoff</strong> - LLMs only know training data up to a certain date<br />
+2. <strong>Hallucination</strong> - LLMs may confidently state incorrect information<br />
+3. <strong>No domain knowledge</strong> - LLMs don't know your private documents"</p>
+</blockquote>
+<p><strong>RAG 解决的 3 大问题</strong>：<br />
+1. 知识截止（训练后新事件不知道）<br />
+2. 幻觉（编造内容）<br />
+3. 私有数据（公司文档 / 客户合同）</p>
+<h3 id="2-rag-5">2. RAG 的 5 步流程（标准）</h3>
+<pre><code>用户问题
+  ↓
+1. Query Embedding（查询向量化）
+  ↓
+2. Retrieval（检索）—— 从向量库取 Top-K 文档
+  ↓
+3. Reranking（重排）—— 用 Cross-Encoder 精排
+  ↓
+4. Prompt Construction（构建 Prompt）—— 拼装上下文
+  ↓
+5. Generation（生成）—— LLM 看文档回答
+</code></pre>
+<h3 id="3-7-chunking">3. 7 个 Chunking 策略对比</h3>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>优点</th>
+<th>缺点</th>
+<th>适合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>固定大小</strong></td>
+<td>简单</td>
+<td>切断语义</td>
+<td>通用</td>
+</tr>
+<tr>
+<td><strong>按段落</strong></td>
+<td>保留语义</td>
+<td>长度不均</td>
+<td>文章 / 博客</td>
+</tr>
+<tr>
+<td><strong>按 Token</strong></td>
+<td>精准控制</td>
+<td>需 tokenizer</td>
+<td>预算严格</td>
+</tr>
+<tr>
+<td><strong>按语义</strong></td>
+<td>语义完整</td>
+<td>计算慢</td>
+<td>复杂文档</td>
+</tr>
+<tr>
+<td><strong>递归切分</strong></td>
+<td>多级粒度</td>
+<td>复杂度高</td>
+<td>异构文档</td>
+</tr>
+<tr>
+<td><strong>滑动窗口</strong></td>
+<td>上下文完整</td>
+<td>重复多</td>
+<td>长文本</td>
+</tr>
+<tr>
+<td><strong>小到大</strong></td>
+<td>兼顾细节和全局</td>
+<td>实现复杂</td>
+<td>报告 / 合同</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-4">4. 检索的 4 个关键指标</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>公式</th>
+<th>目标值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Recall@K</strong></td>
+<td>前 K 个含正确答案的比例</td>
+<td>&gt; 0.80</td>
+</tr>
+<tr>
+<td><strong>MRR</strong></td>
+<td>正确答案排名倒数平均</td>
+<td>&gt; 0.70</td>
+</tr>
+<tr>
+<td><strong>Context Precision</strong></td>
+<td>召回内容精确度</td>
+<td>&gt; 0.80</td>
+</tr>
+<tr>
+<td><strong>Faithfulness</strong></td>
+<td>答案忠实于原文</td>
+<td>&gt; 0.90</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-rag">5. 高级 RAG 模式</h3>
+<h4 id="1multi-query-retrieval">模式 1：Multi-Query Retrieval</h4>
+<ul>
+<li>用 LLM 把用户问题改写成 3-5 个不同视角的问题</li>
+<li>多路检索</li>
+<li>合并去重</li>
+</ul>
+<h4 id="2hydehypothetical-document-embeddings">模式 2：HyDE（Hypothetical Document Embeddings）</h4>
+<ul>
+<li>用 LLM 先"假设性回答"</li>
+<li>用假设回答做检索</li>
+<li>比纯问题检索召回率高</li>
+</ul>
+<h4 id="3self-rag">模式 3：Self-RAG</h4>
+<ul>
+<li>模型自己判断"是否需要检索"</li>
+<li>检索后判断"答案是否有用"</li>
+<li>多次迭代直到满意</li>
+</ul>
+<h4 id="4graphrag">模式 4：GraphRAG</h4>
+<ul>
+<li>把文档构建成知识图谱</li>
+<li>实体 + 关系</li>
+<li>适合多跳问题</li>
+</ul>
+<h3 id="6-fde">6. 与企业 FDE 项目的映射</h3>
+<table>
+<thead>
+<tr>
+<th>RAG 组件</th>
+<th>FDE 交付物</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chunking</td>
+<td>切分脚本 + 黄金集验证</td>
+</tr>
+<tr>
+<td>Embedding</td>
+<td>模型选择（Hugging Face / OpenAI）</td>
+</tr>
+<tr>
+<td>向量库</td>
+<td>Pinecone / Milvus / Weaviate</td>
+</tr>
+<tr>
+<td>检索</td>
+<td>Top-K + Rerank</td>
+</tr>
+<tr>
+<td>Prompt</td>
+<td>引用原文 + 防幻觉</td>
+</tr>
+<tr>
+<td>评测</td>
+<td>Faithfulness / Recall@K</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_6">十二、原文链接</h2>
+<ul>
+<li>Anthropic RAG 文档：https://docs.anthropic.com/en/docs/build-with-claude/retrieval-augmented-generation</li>
+<li>Pinecone Learning：https://www.pinecone.io/learn/</li>
+<li>LangChain RAG：https://python.langchain.com/docs/tutorials/rag/</li>
+<li>实战书：《RAG in Action》Manning</li>
+</ul></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

@@ -648,7 +648,189 @@ a:hover { color: var(--accent-hover); }
 <h3 id="3_1">反模式 3：忽略状态同步</h3>
 <p><strong>症状</strong>：Agent 改了业务数据，但业务系统没收到通知。<br />
 <strong>风险</strong>：数据不一致 + 业务流程断。<br />
-<strong>正解</strong>：事件驱动 + 消息队列 + 同步机制。</p></div>
+<strong>正解</strong>：事件驱动 + 消息队列 + 同步机制。</p>
+<hr />
+<h2 id="adele-lin-designing-agentic-systems-oreilly">十一、原文核心（Adele Lin · Designing Agentic Systems · O'Reilly）</h2>
+<blockquote>
+<p>来源：O'Reilly "Designing Agentic Systems" 核心思想 + 工业实践综合</p>
+</blockquote>
+<h3 id="1-agent-4-adele-lin">1. Agent 系统的 4 层架构（Adele Lin 框架）</h3>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>职责</th>
+<th>关键组件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>第 1 层：Reasoning</strong></td>
+<td>思考 / 规划</td>
+<td>LLM, CoT, ReAct</td>
+</tr>
+<tr>
+<td><strong>第 2 层：Memory</strong></td>
+<td>短期 + 长期</td>
+<td>会话状态, 向量库</td>
+</tr>
+<tr>
+<td><strong>第 3 层：Tools</strong></td>
+<td>外部能力</td>
+<td>API, RAG, 代码执行</td>
+</tr>
+<tr>
+<td><strong>第 4 层：Orchestration</strong></td>
+<td>协调</td>
+<td>编排框架</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-reasoning-3">2. Reasoning 层的 3 大技术</h3>
+<h4 id="1chain-of-thoughtcot">技术 1：Chain-of-Thought（CoT）</h4>
+<ul>
+<li><strong>思想</strong>：让 LLM 一步一步想</li>
+<li><strong>实现</strong>：在 Prompt 中加 "Let's think step by step"</li>
+<li><strong>效果</strong>：复杂推理任务准确率 +20-40%</li>
+</ul>
+<h4 id="2reactreasoning-acting">技术 2：ReAct（Reasoning + Acting）</h4>
+<ul>
+<li><strong>思想</strong>：思考 + 行动 + 观察循环</li>
+<li><strong>公式</strong>：Thought → Action → Observation → Thought → ...</li>
+<li><strong>适合</strong>：需要工具调用的 Agent</li>
+</ul>
+<h4 id="3plan-and-execute">技术 3：Plan-and-Execute</h4>
+<ul>
+<li><strong>思想</strong>：先做完整计划，再逐步执行</li>
+<li><strong>适合</strong>：长期任务、多步流程</li>
+<li><strong>代表</strong>：BabyAGI, AutoGPT</li>
+</ul>
+<h3 id="3-memory-4">3. Memory 层的 4 种设计</h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>范围</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>短期（会话）</strong></td>
+<td>当前对话</td>
+<td>Redis / 内存</td>
+</tr>
+<tr>
+<td><strong>长期（用户）</strong></td>
+<td>用户偏好</td>
+<td>PostgreSQL</td>
+</tr>
+<tr>
+<td><strong>长期（业务）</strong></td>
+<td>业务实体</td>
+<td>业务系统表</td>
+</tr>
+<tr>
+<td><strong>长期（知识）</strong></td>
+<td>文档 / 知识库</td>
+<td>向量数据库</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-tools-3">4. Tools 层的 3 大类</h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>信息获取</strong></td>
+<td>搜索 / RAG / API 查询</td>
+</tr>
+<tr>
+<td><strong>状态修改</strong></td>
+<td>写数据库 / 改文件 / 发邮件</td>
+</tr>
+<tr>
+<td><strong>计算执行</strong></td>
+<td>Python REPL / SQL 查询</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-orchestration-4">5. Orchestration 层的 4 大模式</h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>适合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sequential</strong>（顺序）</td>
+<td>线性流程</td>
+</tr>
+<tr>
+<td><strong>Parallel</strong>（并行）</td>
+<td>独立子任务</td>
+</tr>
+<tr>
+<td><strong>Hierarchical</strong>（层级）</td>
+<td>协调者 + 工人</td>
+</tr>
+<tr>
+<td><strong>Loop</strong>（循环）</td>
+<td>持续改进</td>
+</tr>
+</tbody>
+</table>
+<h3 id="6-fde">6. 与企业 FDE 项目的对应</h3>
+<table>
+<thead>
+<tr>
+<th>Adele 框架</th>
+<th>FDE 实战</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reasoning</td>
+<td>CoT + ReAct 设计 Prompt</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>短期 + 长期记忆选型</td>
+</tr>
+<tr>
+<td>Tools</td>
+<td>接客户业务 API</td>
+</tr>
+<tr>
+<td>Orchestration</td>
+<td>选 LangChain / Dify / 自研</td>
+</tr>
+</tbody>
+</table>
+<h3 id="7-7">7. 7 个反模式</h3>
+<ol>
+<li><strong>裸调模型</strong>（无 Harness）—— 见 A2</li>
+<li><strong>状态塞 Prompt</strong>（Token 爆炸）—— 用 Memory 层</li>
+<li><strong>所有动作 AI 自动</strong>（高危）—— 用 Guardrail</li>
+<li><strong>不写评测</strong>（不知道好坏）—— 用 MEASURE 层</li>
+<li><strong>忽略错误</strong>（静默失败）—— 显式 raise</li>
+<li><strong>循环无界</strong>（Token 爆炸）—— 强制 max_steps</li>
+<li><strong>工具过大</strong>（执行慢）—— 拆小 + 链式</li>
+</ol>
+<h2 id="_6">十二、原文链接</h2>
+<ul>
+<li>全文（O'Reilly 订阅）：https://www.oreilly.com/library/view/designing-agentic-systems/9781098176489/</li>
+<li>作者：Adele Lin（Anthropic）</li>
+<li>出版：2024 年</li>
+<li>相关：Anthropic Cookbook https://github.com/anthropics/anthropic-cookbook</li>
+</ul></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

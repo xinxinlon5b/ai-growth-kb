@@ -637,7 +637,142 @@ a:hover { color: var(--accent-hover); }
 <h3 id="4_2">反模式 4：领域服务变成万能函数</h3>
 <p><strong>症状</strong>：领域服务包揽所有业务。<br />
 <strong>风险</strong>：实体变贫血（无业务逻辑）。<br />
-<strong>正解</strong>：核心业务逻辑放实体，跨实体才用领域服务。</p></div>
+<strong>正解</strong>：核心业务逻辑放实体，跨实体才用领域服务。</p>
+<hr />
+<h2 id="domain-driven-design-eric-evans">十一、原文核心（Domain-Driven Design · Eric Evans · 蓝皮书）</h2>
+<blockquote>
+<p>来源：Eric Evans《Domain-Driven Design》蓝皮书（2003 年）核心思想</p>
+</blockquote>
+<h3 id="1-ddd-4">1. DDD 4 大核心概念</h3>
+<blockquote>
+<p>"Domain-Driven Design is an approach to software development that centers the development<br />
+on programming a <strong>domain model</strong> that has a rich understanding of the <strong>domain processes</strong>."</p>
+</blockquote>
+<p><strong>4 大核心</strong>：<br />
+1. <strong>Ubiquitous Language</strong>（统一语言）—— 业务和技术用同一套词汇<br />
+2. <strong>Bounded Context</strong>（限界上下文）—— 业务边界<br />
+3. <strong>Aggregate</strong>（聚合）—— 一组相关实体<br />
+4. <strong>Domain Service</strong>（领域服务）—— 跨实体业务逻辑</p>
+<h3 id="2-strategic-patterns">2. 战略设计（Strategic Patterns）</h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bounded Context</strong></td>
+<td>划分业务边界</td>
+</tr>
+<tr>
+<td><strong>Context Map</strong></td>
+<td>描述上下文间关系</td>
+</tr>
+<tr>
+<td><strong>Shared Kernel</strong></td>
+<td>共享核心模型</td>
+</tr>
+<tr>
+<td><strong>Customer-Supplier</strong></td>
+<td>上下游关系</td>
+</tr>
+<tr>
+<td><strong>Anti-Corruption Layer</strong></td>
+<td>防外部系统污染</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-tactical-patterns">3. 战术设计（Tactical Patterns）</h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Entity</strong></td>
+<td>有 ID 的对象</td>
+</tr>
+<tr>
+<td><strong>Value Object</strong></td>
+<td>无 ID 的属性集合</td>
+</tr>
+<tr>
+<td><strong>Aggregate</strong></td>
+<td>一组相关实体的根</td>
+</tr>
+<tr>
+<td><strong>Domain Event</strong></td>
+<td>业务事件</td>
+</tr>
+<tr>
+<td><strong>Repository</strong></td>
+<td>持久化抽象</td>
+</tr>
+<tr>
+<td><strong>Domain Service</strong></td>
+<td>跨实体业务逻辑</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-vdna-fde-1">4. VDNA（业务本体图谱）—— FDE 进厂第 1 步</h3>
+<p>FDE 圈对 DDD 的可视化延伸：</p>
+<pre><code>[业务全景]
+├── [销售域]
+│   ├── 实体：客户 / 商机 / 合同
+│   ├── 流程：线索 → 商机 → 成交
+│   └── 痛点：手动录入 / 跟进遗忘
+├── [生产域]
+│   ├── 实体：工单 / 物料 / 设备
+│   ├── 流程：接单 → 生产 → 出货
+│   └── 痛点：进度不透明
+</code></pre>
+<h3 id="5-5-vdna">5. 5 步绘制 VDNA</h3>
+<ol>
+<li><strong>识别业务实体</strong> —— 和 1 号位聊 2 小时</li>
+<li><strong>识别实体关系</strong> —— 画关系图</li>
+<li><strong>识别聚合根</strong> —— 标哪些是入口</li>
+<li><strong>识别限界上下文</strong> —— 每个部门一个</li>
+<li><strong>识别领域服务</strong> —— 跨实体动作</li>
+</ol>
+<h3 id="6-ai">6. 与企业 AI 项目的对应</h3>
+<table>
+<thead>
+<tr>
+<th>DDD 模式</th>
+<th>FDE 交付物</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bounded Context</td>
+<td>业务模块划分</td>
+</tr>
+<tr>
+<td>Aggregate</td>
+<td>数据模型设计</td>
+</tr>
+<tr>
+<td>Domain Service</td>
+<td>AI Agent 设计</td>
+</tr>
+<tr>
+<td>Event</td>
+<td>异步通知 / 业务流</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_7">十二、原文链接</h2>
+<ul>
+<li>蓝皮书：https://www.domainlanguage.com/ddd/</li>
+<li>蓝皮书 PDF：免费</li>
+<li>实战：Vaughn Vernon《Implementing DDD》红宝书</li>
+<li>中文：DDD 社区（ddd-china.com）</li>
+</ul></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
