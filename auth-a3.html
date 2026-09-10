@@ -749,7 +749,96 @@ ROI = (年节省 - 项目费) / 项目费 × 100%
 <li>全文：https://www.anthropic.com/research/evaluating-ai-systems</li>
 <li>关键发现：6 大评估挑战 + 5 条政策建议</li>
 <li>出版时间：2023 年 10 月</li>
-</ul></div>
+</ul>
+<hr />
+<h1 id="_9">📖 完整中文全文翻译</h1>
+<blockquote>
+<p><strong>原文</strong>：Challenges in Evaluating AI Systems（评估 AI 系统的挑战）<br />
+<strong>作者</strong>：Deep Ganguli, Nicholas Schiefer, Marina Favaro, Jack Clark（Anthropic）<br />
+<strong>发布</strong>：2023-10-04<br />
+<strong>原文链接</strong>：https://www.anthropic.com/research/evaluating-ai-systems</p>
+</blockquote>
+<h2 id="_10">引言</h2>
+<p>大多数关于 AI 社会影响的讨论，最终都归结为讨论 AI 系统的某种性质——真实性、公平性、被滥用的可能性等等。我们之所以能谈论这些特性，是因为我们能在技术上评估模型在这些方面的表现。但许多 AI 行业内外的人<strong>没有充分意识到，构建稳健可靠的模型评估有多么困难</strong>。今天许多现有评估套件，作为模型能力或安全性的准确指标，能力是有限的。</p>
+<p>在 Anthropic，我们花大量时间构建评估来更好地理解我们的 AI 系统，也用评估来改进组织安全（如我们的 Responsible Scaling Policy）。在此过程中，我们越来越认识到开发和运行评估的种种挑战。</p>
+<p><strong>本文希望读者带走两个核心观点：</strong><br />
+1. 稳健的评估<strong>极其难以开发和实施</strong>；<br />
+2. 有效的 AI 治理<strong>取决于我们有意义地评估 AI 系统的能力</strong>。</p>
+<p>本文按"从较易到较难"的顺序讨论我们遇到的挑战：<br />
+- 多选题评估<br />
+- 第三方评估框架（BIG-bench、HELM）<br />
+- 用众包工人衡量模型帮助性/有害性<br />
+- 用领域专家对国家安全威胁做红队测试<br />
+- 用生成式 AI 开发评估<br />
+- 与第三方非营利组织合作审计模型的危险能力</p>
+<h2 id="_11">挑战一："看似简单"的多选题评估</h2>
+<h3 id="mmlu">MMLU：我们测的是我们以为在测的东西吗？</h3>
+<p>MMLU（大规模多任务语言理解）衡量 57 个任务（数学到历史到法律）的准确率。它被广泛使用，因为单一准确率分数代表了多样任务的表现。我们发现 MMLU 有<strong>四个次要但重要的挑战</strong>：</p>
+<ol>
+<li><strong>训练污染</strong>：因为 MMLU 太广泛使用，模型更可能在训练时遇到过 MMLU 题目——相当于学生考前看过考题，这是作弊。</li>
+<li><strong>格式敏感性</strong>：简单的格式变化——把选项从 (A) 改成 (1)、括号从 (A) 改成 [A]、或在选项和答案间加一个空格——都可能导致准确率 <strong>~5% 的变化</strong>。</li>
+<li><strong>实现不一致</strong>：AI 开发者没有一致地实现 MMLU。有些实验室用 few-shot 或 chain-of-thought 等已知能提高 MMLU 分数的方法。因此<strong>跨实验室比较 MMLU 分数要非常小心</strong>。</li>
+<li><strong>MMLU 本身可能有错</strong>：我们发现 MMLU 里有错误标注或无法回答的题目。</li>
+</ol>
+<h3 id="bbq">BBQ：衡量社会偏见更难</h3>
+<p>我们用 BBQ（Bias Benchmark for QA）测试模型对受保护人群沿九个社会维度的社会偏见。<strong>BBQ 的开发和实现比预期困难得多</strong>——我们找不到能"开箱即用"的开源实现，最终<strong>花了一个最好的全职工程师一整周</strong>来实施和测试。</p>
+<p>复杂性的核心在于 BBQ 的"bias score"。不同于准确率，bias score 需要细致和经验来定义、计算和解释。BBQ 的偏见分数范围 -1 到 1：1 表示显著刻板偏见、0 表示无偏见、-1 表示显著反刻板偏见。</p>
+<p><strong>关键教训</strong>：实现 BBQ 后，我们一些模型达到偏见分 0，我们乐观地以为在减少偏见输出上取得了进展。当我们内部分享结果时，一位 BBQ 主要开发者（在 Anthropic 工作）问：<strong>"你们检查了模型是否在回答问题吗？"</strong> 我们发现——它们没有。<strong>结果技术上无偏见，但也完全无用。</strong></p>
+<blockquote>
+<p>所有评估都受制于这个失败模式：<strong>你过度解读量化分数，欺骗自己以为取得了进展，其实并没有。</strong></p>
+</blockquote>
+<h2 id="_12">挑战二：第三方评估框架并非万能</h2>
+<h3 id="big-bench">BIG-bench：自下而上</h3>
+<p>BIG-bench 由 204 个评估组成、450+ 作者贡献。我们遇到几个挑战：<br />
+- 光是安装就需要大量工程努力，不如 MMLU"即插即用"；<br />
+- 无法在合理时间内跑完 204 个评估；<br />
+- 发现 BBQ-lite 实现有 bug；<br />
+- 判断哪些任务最重要需要跑全部 204 个任务验证分析——即使对有大量工程资源的组织也是巨大研究投入。</p>
+<h3 id="helm">HELM：自上而下</h3>
+<p>HELM 采用"自上而下"的方式，由专家决定评估什么。它解决了 BIG-bench 的两个问题：无需大量工程努力、可依赖专家选择高质量评估。但 HELM 有自己的挑战：</p>
+<ul>
+<li><strong>方法错配</strong>：Claude 系列模型被训练成遵循特定的 Human/Assistant 文本格式。HELM 为保持对其它模型的一致性，评估时不用这个格式——这让 HELM 给出<strong>误导性的 Claude 表现印象</strong>。</li>
+<li><strong>迭代慢</strong>：评估新模型可能花几个月。</li>
+<li><strong>需要外部协调</strong>：沟通成本高，双方都可能人手不足。</li>
+</ul>
+<h2 id="_13">挑战三：人类评估的主观性</h2>
+<h3 id="ab">众包 A/B 测试</h3>
+<p>我们主要依赖一种基本的人类评估：在众包平台做 A/B 测试，人们与两个模型开放对话，选择更 helpful 或 harmless 的回复。局限性包括：<br />
+- <strong>昂贵耗时</strong>：需要付费众包平台、建自定义 web 界面、设计说明、分析存储数据、处理伦理挑战；<br />
+- <strong>评估者差异大</strong>：创造力、动机、识别缺陷的能力都会影响评估；<br />
+- <strong>helpfulness vs harmlessness 的内在张力</strong>：系统可以靠给出"抱歉我帮不了你"这种无用的回复来避免伤害。多少数值才算"足够 helpful 和 harmless"？</p>
+<h3 id="_14">国家安全红队测试</h3>
+<p>我们探索了让领域专家对国家安全相关危害做红队测试，称为 <strong>frontier threats red teaming（前沿威胁红队）</strong>。早期工作揭示额外挑战：<br />
+- 国家安全背景独特，风险复杂、需要专家级敏感知识、依赖现实场景；<br />
+- <strong>红队目前"更像艺术而非科学"</strong>——过程尚未标准化；<br />
+- 某些情况需要<strong>有安全许可的红队成员</strong>，但这可能限制他们能与非涉密环境中的 AI 开发者分享什么；<br />
+- 某些国家安全危害的红队测试可能带来<strong>法律后果</strong>，需要构建适当的法律安全港。</p>
+<h2 id="ouroboros">挑战四：模型生成评估的衔尾蛇（Ouroboros）</h2>
+<p>随着模型达到人类水平能力，我们可以让它们评估自己。我们用模型生成新颖的多选题评估，<strong>几分钟</strong>生成人类要花数天或数月才能开发的评估。但模型生成的评估有自己的挑战：</p>
+<ul>
+<li>我们仍依赖人类验证模型生成评估的准确性——继承了人类评估的所有挑战；</li>
+<li>模型可能包含社会偏见、可能编造信息——模型生成的评估可能继承这些不良特征。</li>
+</ul>
+<p><strong>反例：Constitutional AI (CAI)</strong>——我们用基于模型的红队替代人类红队来训练 Claude 更无害。令人惊讶的是，人类发现 CAI 模型比预先被人类红队的模型<strong>更无害</strong>。虽然这很有希望，但模型生成评估仍然复杂，值得深入研究。</p>
+<h2 id="_15">挑战五：在利用内部专长时保持第三方审计的客观性</h2>
+<p>第三方审计（audit）和第三方评估（evaluation）的区别：审计是<strong>针对风险的更深入独立评估</strong>，评估则更广泛地看待能力。我们参与了 Alignment Research Center (ARC) 的前沿模型危险能力评估。最初以为合作会很简单，结果<strong>需要大量科学和工程支持</strong>。</p>
+<p>关键发现：审计者通常限制与被审计方分享的细节以保持评估完整性。但信息不足时，被评估方可能在制作技术评估时难以解决根本问题。<strong>如果早知道 ARC 聪明而精心设计的审计方法的更多细节，我们本可以帮 ARC 更成功地识别相关行为。</strong></p>
+<h2 id="_16">政策建议</h2>
+<p>为推进评估的科学和工程，我们建议政策制定者：</p>
+<ol>
+<li><strong>资助可重复、有用评估的科学</strong>——建议政府"重质不重量"（资助一个高质量评估，而非十个低质量评估）。</li>
+<li><strong>资助现有评估的实施</strong>——资助工程努力，为 BIG-bench 等创建易安装易运行的软件包、开发版本控制且标准化的动态基准。</li>
+<li><strong>分析现有评估的稳健性</strong>——评估实施后需要持续监控（如判断评估是否已饱和、不再有用）。</li>
+<li><strong>增加对评估相关政府机构的资助</strong>（如美国 NIST），并鼓励通过公开的"AI 安全排行榜"来激励私企在评估上表现良好——类似 NIST 的人脸识别供应商测试（FRVT）。</li>
+<li><strong>创建法律安全港</strong>，允许公司与政府和第三方严格评估国家安全风险（如 CBRN 领域）而不承担法律后果，并纳入"负责任披露协议"。</li>
+</ol>
+<h2 id="_17">结语</h2>
+<p>我们希望通过公开分享跨多个维度评估自家系统的经验，帮助关注 AI 政策的人认识到当前模型评估的挑战。</p>
+<hr />
+<blockquote>
+<p><strong>翻译说明</strong>：以上为原文完整中文翻译，覆盖 MMLU/BBQ/BIG-bench/HELM 四大评估的挑战、人类评估主观性、模型生成评估的衔尾蛇、第三方审计、以及 5 条政策建议。<br />
+<strong>脚注</strong>：BBQ 的开发花了约 2 人年、6 个月、8 个人——设计和实现哪怕一个评估都是资源密集的，可能耗费几十个人数月。</p>
+</blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

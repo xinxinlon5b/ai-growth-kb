@@ -806,7 +806,147 @@ enhanced with augmentations such as retrieval, tools, and memory."</p>
 <li>摘要 PDF：见原文</li>
 <li>关键发现：5 workflow 模式 + autonomous agent 区分</li>
 <li>出版时间：2024 年 12 月</li>
-</ul></div>
+</ul>
+<hr />
+<h1 id="_9">📖 完整中文全文翻译</h1>
+<blockquote>
+<p><strong>原文</strong>：Building Effective Agents（构建高效的智能体）<br />
+<strong>作者</strong>：Erik Schluntz &amp; Barry Zhang（Anthropic 工程团队）<br />
+<strong>发布</strong>：2024-12-19<br />
+<strong>原文链接</strong>：https://www.anthropic.com/engineering/building-effective-agents<br />
+<strong>翻译说明</strong>：以下为关键章节的完整中文翻译，非摘要，尽量保留原文论证逻辑。</p>
+</blockquote>
+<h2 id="_10">引言</h2>
+<p>过去一年，我们与数十个团队合作，在多个行业构建 LLM 智能体。<strong>一致地，最成功的实现使用的都是简单、可组合的模式，而不是复杂的框架。</strong></p>
+<blockquote>
+<p>"The most successful implementations weren't using complex frameworks or specialized libraries. Instead, they were building with simple, composable patterns."</p>
+</blockquote>
+<p>在这篇文章中，我们分享从客户合作和自建智能体中学到的东西，给开发者提供构建高效智能体的实用建议。</p>
+<h2 id="agent">什么是智能体（Agent）？</h2>
+<p>"Agent" 有几种定义方式。有些客户把 Agent 定义为<strong>完全自主的系统</strong>，能长时间独立运行、使用各种工具完成复杂任务；另一些人则用这个词指代<strong>更规范化的实现</strong>，遵循预定义的工作流。</p>
+<p>在 Anthropic，我们把所有这些变体统称为 <strong>agentic systems（智能体系统）</strong>，但画出一条重要的架构区分：</p>
+<ul>
+<li><strong>Workflows（工作流）</strong>：LLM 和工具通过<strong>预定义的代码路径</strong>编排的系统。</li>
+<li><strong>Agents（智能体）</strong>：LLM <strong>动态指导自己的流程和工具使用</strong>、掌控如何完成任务的系统。</li>
+</ul>
+<h2 id="_11">何时该用、何时不该用智能体</h2>
+<p>构建 LLM 应用时，我们建议<strong>寻找最简单的解决方案，只在需要时增加复杂度</strong>。这可能意味着根本不构建智能体系统。</p>
+<blockquote>
+<p>智能体系统通常用<strong>延迟和成本换取更好的任务性能</strong>，你要考虑这种权衡何时合理。</p>
+</blockquote>
+<p>当需要更多复杂度时：<br />
+- <strong>Workflow</strong> 为定义明确的任务提供<strong>可预测性和一致性</strong>；<br />
+- <strong>Agent</strong> 在需要<strong>灵活性和模型驱动决策</strong>的大规模场景下是更好的选择。</p>
+<p>但对很多应用来说，<strong>用检索和上下文示例优化单次 LLM 调用通常就足够了</strong>。</p>
+<h2 id="_12">何时以及如何使用框架</h2>
+<p>有很多框架让智能体系统更容易实现，包括：<br />
+- Claude Agent SDK<br />
+- AWS 的 Strands Agents SDK<br />
+- Rivet（拖拽式 GUI LLM 工作流构建器）<br />
+- Vellum（另一个构建和测试复杂工作流的 GUI 工具）</p>
+<p>这些框架通过简化调用 LLM、定义和解析工具、链式调用等底层任务来降低上手门槛。<strong>但它们常常增加额外的抽象层，掩盖底层的 prompt 和响应，让调试更难。</strong> 它们还可能诱导你在简单方案已足够时增加复杂度。</p>
+<blockquote>
+<p>我们建议开发者<strong>直接用 LLM API 起步</strong>：很多模式可以用几行代码实现。如果你用框架，<strong>确保你理解底层代码</strong>——对底层工作原理的错误假设是客户错误的常见来源。</p>
+</blockquote>
+<h2 id="_13">基础构件、工作流与智能体</h2>
+<p>我们从基础构件——<strong>增强型 LLM（augmented LLM）</strong>——开始，逐步增加复杂度，从简单的组合式工作流到自主智能体。</p>
+<h3 id="llm">基础构件：增强型 LLM</h3>
+<p>智能体系统的基础构件是<strong>一个经过增强的 LLM</strong>，增强包括<strong>检索、工具和记忆</strong>。我们当前的模型能主动使用这些能力——生成自己的搜索查询、选择合适的工具、决定保留什么信息。</p>
+<p>我们建议关注实现的两个关键方面：<strong>把这些能力定制到你的具体用例</strong>，以及<strong>确保它们为 LLM 提供简单、文档清晰的接口</strong>。实现这些增强的一种方式是通过我们最近发布的 <strong>Model Context Protocol (MCP)</strong>。</p>
+<h3 id="1prompt-chaining_1">工作流 1：Prompt Chaining（提示链）</h3>
+<p>提示链把任务分解成<strong>一系列步骤</strong>，每个 LLM 调用处理上一个的输出。你可以在任何中间步骤添加程序化检查（图中的"gate"）确保流程仍在正轨。</p>
+<ul>
+<li><strong>何时用</strong>：任务能清晰分解为固定子任务时。主要目标是<strong>用延迟换取更高准确率</strong>——让每个 LLM 调用变成更简单的任务。</li>
+<li><strong>例子</strong>：生成营销文案 → 翻译成另一种语言；写文档大纲 → 检查大纲 → 基于大纲写正文。</li>
+</ul>
+<h3 id="2routing_1">工作流 2：Routing（路由）</h3>
+<p>路由对输入做分类，并导向专门的后续任务。它实现<strong>关注点分离</strong>，构建更专门的 prompt。</p>
+<ul>
+<li><strong>何时用</strong>：复杂任务有明确的不同类别、分类能被 LLM 或传统分类模型准确处理时。</li>
+<li><strong>例子</strong>：把客服查询（一般问题/退款请求/技术支持）导向不同流程；把简单问题路由给 Claude Haiku 4.5、难题路由给 Claude Sonnet 4.5。</li>
+</ul>
+<h3 id="3parallelization_1">工作流 3：Parallelization（并行化）</h3>
+<p>LLM 有时能同时处理一个任务的不同部分，再程序化聚合结果。两种关键变体：<br />
+- <strong>Sectioning（分段）</strong>：把任务拆成独立子任务并行运行。<br />
+- <strong>Voting（投票）</strong>：同一任务跑多次，取多样化输出。</p>
+<ul>
+<li><strong>何时用</strong>：子任务可并行提速，或需要多视角/多次尝试以获得更高置信度结果时。</li>
+<li><strong>例子</strong>：</li>
+<li>分段：一个模型实例处理用户查询、另一个筛查不当内容（比让同一次调用同时处理护栏和核心响应更好）；自动化评估时每个 LLM 调用评估不同维度。</li>
+<li>投票：多个不同 prompt 审查同一段代码漏洞；多个 prompt 评估内容是否不当、设定不同投票阈值。</li>
+</ul>
+<h3 id="4orchestrator-workers-_1">工作流 4：Orchestrator-Workers（编排者-工人）</h3>
+<p>中央 LLM <strong>动态分解任务</strong>、委派给 worker LLM、综合结果。</p>
+<ul>
+<li><strong>何时用</strong>：复杂任务无法预知所需子任务时（比如编码中要改的文件数量、每个文件的改动性质取决于任务本身）。与并行化的关键区别是<strong>灵活性</strong>——子任务不是预定义的，而是编排者根据具体输入决定的。</li>
+<li><strong>例子</strong>：每次都改动多个文件的编码产品；需要从多个来源搜集分析信息的搜索任务。</li>
+</ul>
+<h3 id="5evaluator-optimizer-_1">工作流 5：Evaluator-Optimizer（评估者-优化者）</h3>
+<p>一个 LLM 调用生成响应，另一个提供评估和反馈，形成循环。</p>
+<ul>
+<li><strong>何时用</strong>：有明确评估标准、迭代优化带来可衡量价值时。两个好的契合信号：① 人类反馈能让 LLM 响应明显改善；② LLM 能提供这样的反馈。</li>
+<li><strong>例子</strong>：文学翻译（译者 LLM 一开始捕捉不到细微之处、评估者 LLM 能提供有用批评）；需要多轮搜索分析的复杂搜索任务。</li>
+</ul>
+<h2 id="agents">智能体（Agents）</h2>
+<p>随着 LLM 在理解复杂输入、推理规划、可靠使用工具、错误恢复等关键能力上成熟，智能体开始在生产中出现。</p>
+<p>智能体从一个命令或与人类用户的交互讨论开始。任务清晰后，智能体独立规划运作，可能返回人类获取更多信息或判断。执行期间，智能体<strong>在每一步从环境获取"ground truth"（如工具调用结果或代码执行）以评估进展</strong>至关重要。智能体可以在检查点或遇到阻碍时暂停等待人类反馈。任务常在完成时终止，但通常会加入<strong>停止条件</strong>（如最大迭代次数）以保持控制。</p>
+<blockquote>
+<p>智能体能处理复杂任务，但实现往往简单——它们通常只是<strong>基于环境反馈在循环中使用工具的 LLM</strong>。因此，<strong>清晰周到地设计工具集及其文档</strong>至关重要。</p>
+</blockquote>
+<ul>
+<li><strong>何时用</strong>：开放式问题、难以预测所需步数、无法硬编码固定路径时。智能体可能运行很多轮，你需要对它的决策有一定信任。</li>
+<li><strong>成本与风险</strong>：自主性意味着更高成本、错误可能复合。建议在<strong>沙箱环境大量测试 + 适当护栏</strong>。</li>
+</ul>
+<h2 id="_14">组合与定制这些模式</h2>
+<p>这些构件不是规定性的。它们是常见模式，开发者可以塑造和组合以适应不同用例。<strong>成功的关键（与任何 LLM 功能一样）是衡量性能并迭代实现</strong>。重复一遍：<strong>只有在能明显改善结果时才增加复杂度</strong>。</p>
+<h2 id="_15">总结</h2>
+<blockquote>
+<p>"Success in the LLM space isn't about building the most sophisticated system. It's about building the right system for your needs."</p>
+</blockquote>
+<p>构建智能体时，我们尽量遵循三个核心原则：<br />
+1. <strong>保持设计的简洁</strong>（Maintain simplicity）<br />
+2. <strong>通过显式展示规划步骤来优先透明度</strong>（Prioritize transparency）<br />
+3. <strong>通过彻底的工具文档和测试精心打造 agent-computer interface (ACI)</strong></p>
+<p>框架能帮你快速上手，但<strong>不要犹豫在生产中减少抽象层、用基础组件构建</strong>。遵循这些原则，你就能创建不仅强大、而且可靠、可维护、受用户信任的智能体。</p>
+<h2 id="1_1">附录 1：智能体实战（两大高价值场景）</h2>
+<h3 id="a-customer-support">A. 客服支持（Customer Support）</h3>
+<p>客服结合熟悉的聊天机器人界面 + 工具集成增强能力。适合开放式智能体，因为：<br />
+- 支持交互天然遵循对话流，同时需要访问外部信息和动作；<br />
+- 工具可集成拉取客户数据、订单历史、知识库文章；<br />
+- 退款、更新工单等动作可程序化处理；<br />
+- 成功可通过用户定义的解决率清晰衡量。</p>
+<h3 id="b-coding-agents">B. 编码智能体（Coding Agents）</h3>
+<ul>
+<li>代码方案可通过自动化测试验证；</li>
+<li>智能体可用测试结果作为反馈迭代方案；</li>
+<li>问题空间定义清晰、结构化；</li>
+<li>输出质量可客观衡量。</li>
+</ul>
+<blockquote>
+<p>我们自己的实现现在能仅凭 PR 描述解决 SWE-bench Verified 中的真实 GitHub issue。但自动化测试验证功能的同时，<strong>人类审查仍对确保方案符合更广泛系统需求至关重要</strong>。</p>
+</blockquote>
+<h2 id="2prompt-engineering-your-tools">附录 2：工具提示工程（Prompt Engineering your Tools）</h2>
+<p>给工具定义和规格<strong>与整体 prompt 同等重视的提示工程关注</strong>。</p>
+<p><strong>工具格式建议</strong>：<br />
+- 给模型足够的 token 在"把自己逼进死胡同"前思考；<br />
+- 保持格式接近模型在互联网文本中自然见过的样子；<br />
+- 确保没有格式"开销"（如需要精确计数数千行代码、或对代码做字符串转义）。</p>
+<blockquote>
+<p>一个经验法则：想想你在人机界面（HCI）上投入了多少精力，就计划在创建好的 agent-computer interface (ACI) 上投入同样多的精力。</p>
+</blockquote>
+<p><strong>ACI 设计建议</strong>：<br />
+- 站在模型的角度想——基于描述和参数，用这个工具是否显而易见？<br />
+- 好的工具定义常包含示例用法、边界情况、输入格式要求、与其它工具的清晰边界；<br />
+- 像给团队初级开发者写优秀 docstring 一样改参数名和描述；<br />
+- 用 workbench 跑大量示例输入，看模型犯什么错，迭代；<br />
+- <strong>Poka-yoke（防呆）你的工具</strong>——改参数让犯错更难。</p>
+<blockquote>
+<p>在构建 SWE-bench 智能体时，我们花在优化工具上的时间<strong>比整体 prompt 还多</strong>。例如，我们发现模型在 agent 离开根目录后会用相对路径的工具出错，于是把工具改成始终要求绝对路径——模型从此完美使用。</p>
+</blockquote>
+<hr />
+<blockquote>
+<p><strong>翻译说明</strong>：以上为原文关键章节的完整中文翻译。核心论证逻辑（workflow 5 种模式、agent vs workflow 区分、简洁优先原则、ACI 设计）均完整保留。部分工具生态描述因时效性省略。</p>
+</blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

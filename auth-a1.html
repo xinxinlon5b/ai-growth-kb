@@ -683,7 +683,125 @@ as the agent was able to identify and fix bugs that weren't obvious from the cod
 <li>全文：https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents</li>
 <li>关键模式：Initializer + Coding Agent + Feature List + 端到端测试</li>
 <li>出版时间：2025 年 11 月</li>
-</ul></div>
+</ul>
+<hr />
+<h1 id="_7">📖 完整中文全文翻译</h1>
+<blockquote>
+<p><strong>原文</strong>：Effective Harnesses for Long-Running Agents（长效智能体的高效 Harness）<br />
+<strong>作者</strong>：Justin Young（Anthropic）<br />
+<strong>发布</strong>：2025-11-26<br />
+<strong>原文链接</strong>：https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents</p>
+</blockquote>
+<h2 id="_8">引言</h2>
+<p>智能体在跨越多个上下文窗口工作时仍面临挑战。我们从人类工程师身上寻找灵感，为长效智能体创造更高效的 harness。</p>
+<p>随着 AI 智能体能力越来越强，开发者越来越多地让它们承担<strong>需要跨越数小时甚至数天的复杂任务</strong>。然而，让智能体在多个上下文窗口间持续取得进展，仍然是一个未解决的问题。</p>
+<blockquote>
+<p>长效智能体的核心挑战是：它们必须在<strong>离散的会话</strong>中工作，而每个新会话开始时<strong>对之前发生的事情没有记忆</strong>。</p>
+</blockquote>
+<p>想象一个由轮班工程师组成的软件项目，每个新工程师到来时对上一班发生的事一无所知。因为上下文窗口有限，而大多数复杂项目无法在单个窗口内完成，智能体需要一种方式在编码会话之间架起桥梁。</p>
+<p>我们开发了<strong>双管齐下的解决方案</strong>，让 Claude Agent SDK 能跨多个上下文窗口有效工作：<br />
+1. <strong>Initializer agent（初始化智能体）</strong>：在第一次运行时设置环境。<br />
+2. <strong>Coding agent（编码智能体）</strong>：在每个会话中做增量进展，同时为下一个会话留下清晰的产物。</p>
+<h2 id="_9">长效智能体的问题</h2>
+<p>Claude Agent SDK 是一个强大的通用 agent harness，擅长编码，以及其它需要模型用工具收集上下文、规划和执行的任务。它有 compaction（压缩）等上下文管理能力，能让智能体在不耗尽上下文窗口的情况下工作。理论上，这种设置下智能体应该能无限期地持续做有用工作。</p>
+<p><strong>然而，compaction 并不够。</strong> 开箱即用，即使是最前沿的编码模型 Opus 4.5 在 Claude Agent SDK 上跨多个上下文窗口循环运行，如果只给它一个高层 prompt（如"克隆一个 claude.ai"），也无法构建出生产质量的 web 应用。</p>
+<p>Claude 的失败表现为两种模式：</p>
+<p><strong>失败模式 1：试图一次做完所有事。</strong> 智能体倾向于"one-shot"整个应用。这常常导致模型在实现中途耗尽上下文，让下一个会话面对一个<strong>半成品且无文档</strong>的功能。智能体不得不猜测发生了什么，花大量时间让基础应用重新跑起来。即使有 compaction，这种情况仍会发生——因为 compaction 并不总能给下一个 agent 传递完全清晰的指令。</p>
+<p><strong>失败模式 2：过早宣布完成。</strong> 在项目后期，一些功能已经构建后，后来的 agent 实例会环顾四周、看到进展已经做了，就宣布任务完成。</p>
+<p>这把问题分解成两部分：<br />
+1. 设置一个<strong>初始环境</strong>，为给定 prompt 所需的所有功能奠定基础——让智能体一步步、一个功能一个功能地工作。<br />
+2. 提示每个智能体<strong>朝着目标做增量进展</strong>，同时在会话结束时<strong>让环境保持干净状态</strong>。"干净状态"指的是适合合并到 main 分支的代码：没有重大 bug、代码有序且文档齐全、开发者能轻松开始新功能而无需先清理无关混乱。</p>
+<h2 id="_10">环境管理</h2>
+<h3 id="feature-list">Feature List（功能列表）</h3>
+<p>为解决智能体 one-shot 应用或过早认为项目完成的问题，我们提示 initializer agent 写一份<strong>基于用户初始 prompt 扩展的完整功能需求文件</strong>。在 claude.ai 克隆的例子中，这意味着 <strong>200 多个功能</strong>，例如"用户可以打开新聊天、输入查询、按回车、看到 AI 响应"。</p>
+<p>这些功能<strong>全部初始标记为 "failing"（失败）</strong>，这样后续的 coding agent 就有了完整功能应该是什么样子的清晰大纲：</p>
+<pre><code class="language-json">{
+  &quot;category&quot;: &quot;functional&quot;,
+  &quot;description&quot;: &quot;New chat button creates a fresh conversation&quot;,
+  &quot;steps&quot;: [
+    &quot;Navigate to main interface&quot;,
+    &quot;Click the 'New Chat' button&quot;,
+    &quot;Verify a new conversation is created&quot;,
+    &quot;Check that chat area shows welcome state&quot;,
+    &quot;Verify conversation appears in sidebar&quot;
+  ],
+  &quot;passes&quot;: false
+}
+</code></pre>
+<p>我们提示 coding agent <strong>只能通过修改 passes 字段来编辑这个文件</strong>，并使用强硬措辞如"<strong>删除或编辑测试是不可接受的，因为这会导致缺失或有 bug 的功能</strong>"。经过一些实验，我们最终选择用 <strong>JSON</strong>——因为模型对 JSON 文件的不当修改或覆盖可能性<strong>低于 Markdown 文件</strong>。</p>
+<h3 id="incremental-progress">Incremental Progress（增量进展）</h3>
+<p>有了初始环境脚手架，coding agent 的下一次迭代被要求<strong>一次只做一个功能</strong>。这种增量方法对解决智能体"一次做太多"的倾向至关重要。</p>
+<p>做增量进展后，模型在改完代码后<strong>让环境保持干净状态</strong>仍然至关重要。实验发现，最好的方式是要求模型<strong>用描述性 commit message 提交到 git</strong>，并在进度文件中写进度摘要。这让模型能用 git 回滚坏代码改动、恢复代码库的工作状态。</p>
+<p>这些方法也提升了效率——消除了 agent 猜测发生了什么、花时间让基础应用重新跑起来的需求。</p>
+<h3 id="testing">Testing（测试）</h3>
+<p>我们观察到的最后一个主要失败模式是：<strong>Claude 倾向于在没有适当测试的情况下标记功能完成</strong>。缺乏显式提示时，Claude 倾向于改代码、甚至用单元测试或 curl 命令对开发服务器做测试，但<strong>无法识别功能并没有端到端工作</strong>。</p>
+<p>在构建 web 应用时，一旦显式提示 Claude <strong>使用浏览器自动化工具、像人类用户一样做所有测试</strong>，它在端到端验证功能上表现很好。</p>
+<blockquote>
+<p>给 Claude 提供这类测试工具<strong>极大提升了性能</strong>，因为智能体能识别并修复仅从代码看不出来的 bug。</p>
+</blockquote>
+<p>仍有一些问题，比如 Claude 视觉和浏览器自动化工具的局限，让它难以识别每一种 bug。例如，Claude 通过 Puppeteer MCP 看不到浏览器原生的 alert 弹窗，依赖这些弹窗的功能因此更容易出 bug。</p>
+<h3 id="getting-up-to-speed">Getting up to speed（快速进入状态）</h3>
+<p>有了以上所有设置，每个 coding agent 都被提示跑一系列步骤来"找到方向"：<br />
+- 运行 <code>pwd</code> 看工作目录（你只能编辑这个目录里的文件）；<br />
+- 读 git 日志和进度文件了解最近在做什么；<br />
+- 读功能列表文件，选择<strong>优先级最高且还没做</strong>的功能来做。</p>
+<p>这让 Claude 每个会话省一些 token（不用再费劲想怎么测试代码）。同时，让 initializer agent 写一个能运行开发服务器的 <code>init.sh</code> 脚本，并在实现新功能前跑一遍基础端到端测试，也很有帮助。</p>
+<p>一个典型会话的开场 assistant 消息序列：</p>
+<pre><code>[Assistant] 我先找到方向、了解项目当前状态。
+[Tool Use] &lt;bash - pwd&gt;
+[Tool Use] &lt;read - claude-progress.txt&gt;
+[Tool Use] &lt;read - feature_list.json&gt;
+[Assistant] 让我看 git log 了解最近的工作。
+[Tool Use] &lt;bash - git log --oneline -20&gt;
+[Assistant] 现在检查是否有 init.sh 脚本重启服务器。
+&lt;启动开发服务器&gt;
+[Assistant] 好，现在导航到应用，验证一些基础功能是否正常。
+&lt;测试基础功能&gt;
+[Assistant] 验证显示基础功能工作正常……现在看 tests.json，理解接下来要实现什么。
+&lt;开始做新功能&gt;
+</code></pre>
+<h2 id="_11">四种失败模式与解决方案（总结表）</h2>
+<table>
+<thead>
+<tr>
+<th>失败模式</th>
+<th>Initializer Agent 行为</th>
+<th>Coding Agent 行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude 过早宣布整个项目完成</td>
+<td>基于输入规格建立 feature list 文件（结构化 JSON 的端到端功能描述列表）</td>
+<td>会话开始读 feature list，选择单个功能来做</td>
+</tr>
+<tr>
+<td>Claude 让环境处于有 bug 或未文档化状态</td>
+<td>写初始 git repo + 进度笔记文件</td>
+<td>会话开始读进度文件和 git 提交日志，跑基础测试抓未文档化的 bug；会话结束写 git commit + 进度更新</td>
+</tr>
+<tr>
+<td>Claude 过早标记功能完成</td>
+<td>建立 feature list 文件</td>
+<td>自验证所有功能，只在仔细测试后才标 "passing"</td>
+</tr>
+<tr>
+<td>Claude 花时间琢磨怎么跑应用</td>
+<td>写能运行开发服务器的 init.sh 脚本</td>
+<td>会话开始读 init.sh</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_12">未来工作</h2>
+<p>这项研究展示了长效 agent harness 中让模型跨多个上下文窗口做增量进展的一种可能方案。但仍有开放问题：</p>
+<ul>
+<li>最值得注意的是，<strong>单一通用编码 agent 跨上下文表现最好，还是多 agent 架构更好</strong>，仍不清楚。专门的测试 agent、质量保证 agent、代码清理 agent 或许能在软件开发生命周期的子任务上做得更好。</li>
+<li>这个 demo 为全栈 web 应用开发优化。未来的方向是把这些发现<strong>推广到其它领域</strong>，如科学研究或金融建模。</li>
+</ul>
+<hr />
+<blockquote>
+<p><strong>翻译说明</strong>：以上为原文完整中文翻译，保留了四种失败模式、feature list JSON 结构、增量进展、端到端测试、快速进入状态等核心工程细节。</p>
+</blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
