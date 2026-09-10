@@ -1,496 +1,233 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOP · 🤖 Agent 工具链方向(自己先武装) · 企业 AI 实战知识库</title>
-<meta name="description" content="基于 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径，构建的 FDE/AI落地 实战知识库">
-<style>
-:root {
-  --bg: #0f1419;
-  --bg-elevated: #1a2028;
-  --bg-card: #232a35;
-  --border: #2d3540;
-  --text: #e6e6e6;
-  --text-dim: #9aa5b1;
-  --text-bright: #ffffff;
-  --accent: #4f9eff;
-  --accent-hover: #6bb0ff;
-  --warning: #ff9a4f;
-  --success: #4fdf9a;
-  --code-bg: #0a0e13;
-  --shadow: 0 2px 12px rgba(0,0,0,0.3);
-}
-* { box-sizing: border-box; }
-html, body {
-  margin: 0; padding: 0;
-  font-family: -apple-system, "SF Pro Display", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.65;
-  font-size: 15px;
-}
-a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
-a:hover { color: var(--accent-hover); }
-
-/* Layout */
-.app {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  min-height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  background: var(--bg-elevated);
-  border-right: 1px solid var(--border);
-  padding: 24px 0;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow-y: auto;
-}
-.brand {
-  padding: 0 24px 24px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 16px;
-}
-.brand h1 {
-  margin: 0;
-  font-size: 18px;
-  color: var(--text-bright);
-  font-weight: 600;
-}
-.brand .sub {
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 4px;
-}
-.search-box {
-  margin: 0 24px 16px;
-  position: relative;
-}
-.search-box input {
-  width: 100%;
-  padding: 8px 12px 8px 32px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
-  font-size: 13px;
-}
-.search-box input:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-.search-box::before {
-  content: "🔍";
-  position: absolute;
-  left: 10px; top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  opacity: 0.5;
-}
-.nav-section {
-  margin-bottom: 8px;
-}
-.nav-section-title {
-  padding: 8px 24px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.nav-item {
-  display: block;
-  padding: 8px 24px;
-  color: var(--text);
-  font-size: 13px;
-  border-left: 3px solid transparent;
-  transition: all 0.15s;
-}
-.nav-item:hover {
-  background: var(--bg-card);
-  border-left-color: var(--accent);
-}
-.nav-item.active {
-  background: var(--bg-card);
-  border-left-color: var(--accent);
-  color: var(--text-bright);
-}
-.nav-item .desc {
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-top: 2px;
-}
-
-/* Main content */
-.main {
-  padding: 40px 56px;
-  max-width: 980px;
-  margin: 0 auto;
-  width: 100%;
-}
-.content h1 {
-  color: var(--text-bright);
-  font-size: 32px;
-  margin: 0 0 8px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
-}
-.content > blockquote {
-  border-left: 4px solid var(--accent);
-  padding: 8px 16px;
-  margin: 16px 0 24px;
-  background: var(--bg-elevated);
-  border-radius: 0 6px 6px 0;
-  color: var(--text-dim);
-}
-.content h2 {
-  color: var(--text-bright);
-  font-size: 24px;
-  margin: 40px 0 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-}
-.content h3 {
-  color: var(--text-bright);
-  font-size: 18px;
-  margin: 28px 0 12px;
-}
-.content h4 {
-  color: var(--text);
-  font-size: 15px;
-  margin: 20px 0 8px;
-}
-.content p {
-  margin: 12px 0;
-}
-.content ul, .content ol {
-  padding-left: 24px;
-}
-.content li { margin: 4px 0; }
-.content code {
-  background: var(--code-bg);
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-family: "SF Mono", Menlo, monospace;
-  font-size: 13px;
-  color: var(--accent);
-}
-.content pre {
-  background: var(--code-bg);
-  padding: 16px;
-  border-radius: 6px;
-  overflow-x: auto;
-  border: 1px solid var(--border);
-}
-.content pre code {
-  background: none;
-  padding: 0;
-  color: var(--text);
-}
-.content table {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 16px 0;
-  font-size: 13px;
-}
-.content th {
-  background: var(--bg-elevated);
-  text-align: left;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  color: var(--text-bright);
-}
-.content td {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-}
-.content blockquote {
-  border-left: 4px solid var(--border);
-  padding: 4px 16px;
-  margin: 16px 0;
-  color: var(--text-dim);
-  background: var(--bg-elevated);
-}
-.content hr {
-  border: 0;
-  border-top: 1px solid var(--border);
-  margin: 32px 0;
-}
-
-/* Cards for KB pages */
-.video-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px 20px;
-  margin: 16px 0;
-}
-.video-meta {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 8px;
-}
-.video-meta .author { color: var(--accent); font-weight: 500; }
-.video-meta a { color: var(--text-dim); }
-.video-meta a:hover { color: var(--accent); }
-.video-meta .badge {
-  background: var(--bg-elevated);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-}
-.video-meta .badge.high { background: #2d4a3a; color: var(--success); }
-.video-meta .badge.sub { background: #2d3a4a; color: var(--accent); }
-.video-insight {
-  background: var(--code-bg);
-  border-left: 3px solid var(--accent);
-  padding: 12px 16px;
-  margin: 12px 0;
-  font-size: 13px;
-  white-space: pre-wrap;
-  border-radius: 0 6px 6px 0;
-}
-details {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 16px;
-  margin: 12px 0;
-}
-details summary {
-  cursor: pointer;
-  color: var(--accent);
-  font-size: 13px;
-}
-details[open] summary { margin-bottom: 12px; }
-details pre {
-  margin: 0;
-  font-size: 13px;
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-/* Footer */
-.footer {
-  margin-top: 60px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
-  color: var(--text-dim);
-  font-size: 12px;
-  text-align: center;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; }
-  .sidebar { position: relative; height: auto; }
-  .main { padding: 24px; }
-}
-
-/* Mermaid-style simple diagrams */
-.diagram {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-  margin: 16px 0;
-  font-family: "SF Mono", Menlo, monospace;
-  font-size: 12px;
-  white-space: pre;
-  overflow-x: auto;
-  line-height: 1.5;
-}
-</style>
-
-</head>
-<body>
-<div class="app">
-<aside class="sidebar">
-<div class="brand">
-<h1>企业 AI 实战知识库</h1>
-<div class="sub">个人成长系统 v3.0</div>
-</div>
-<div class="search-box">
-<input type="text" id="search" placeholder="搜索本页内容..." />
-</div>
-<div class="nav-section">
-<div class="nav-section-title">总览</div>
-<a class="nav-item" href="index.html">🏠 知识体系<div class="desc">00-知识体系</div></a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">核心方法论</div>
-<a class="nav-item" href="method.html">📐 方法论总纲<div class="desc">162 条原则</div></a>
-<a class="nav-item" href="tools.html">🛠️ 工具链<div class="desc">47 个要点</div></a>
-<a class="nav-item" href="lines.html">🎙️ 话术弹药<div class="desc">22 句金句</div></a>
-<a class="nav-item" href="pits.html">⚠️ 避坑清单<div class="desc">13 个错误</div></a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">可执行 SOP</div>
-<a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a>
-<a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a>
-<a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a>
-<a class="nav-item active" href="sop-04.html">🤖 Agent 工具链 SOP</a>
-<a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a>
-<a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a>
-<a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">知识库 · 9 大主题</div>
-<a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a>
-<a class="nav-item" href="kb-02.html">🤖 智能体·OpenClaw</a>
-<a class="nav-item" href="kb-03.html">💻 AI 编程工具链</a>
-<a class="nav-item" href="kb-04.html">💰 商业案例·变现</a>
-<a class="nav-item" href="kb-05.html">🎨 AI 内容创作</a>
-<a class="nav-item" href="kb-06.html">📣 自媒体·获客</a>
-<a class="nav-item" href="kb-07.html">🧰 效率工具·知识管理</a>
-<a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a>
-<a class="nav-item" href="kb-09.html">📦 自己的内容资产</a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">工具</div>
-<a class="nav-item" href="glossary.html">📖 专业大词典<div class="desc">50+ 术语</div></a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">权威支撑（新增）</div>
-<a class="nav-item" href="auth-index.html">📚 权威支撑总览<div class="desc">12 个来源</div></a>
-<a class="nav-item" href="auth-a1.html">A1 · Anthropic FDE 博客<div class="desc">一手权威</div></a>
-<a class="nav-item" href="auth-a2.html">A2 · Anthropic Agent 白皮书<div class="desc">Harness/护栏</div></a>
-<a class="nav-item" href="auth-a3.html">A3 · Anthropic Agent 评估<div class="desc">可验证标准</div></a>
-<a class="nav-item" href="auth-b1.html">B1 · LLM 应用生产化<div class="desc">Pete Hunt</div></a>
-<a class="nav-item" href="auth-b2.html">B2 · Agentic Systems<div class="desc">O'Reilly</div></a>
-<a class="nav-item" href="auth-b3.html">B3 · RAG in Action<div class="desc">知识库工程</div></a>
-<a class="nav-item" href="auth-b4.html">B4 · LLM Security<div class="desc">安全与合规</div></a>
-<a class="nav-item" href="auth-c1.html">C1 · 风险驱动架构<div class="desc">方法论</div></a>
-<a class="nav-item" href="auth-c2.html">C2 · 混沌工程<div class="desc">Netflix</div></a>
-<a class="nav-item" href="auth-c3.html">C3 · DDD 领域驱动<div class="desc">Eric Evans</div></a>
-<a class="nav-item" href="auth-d1.html">D1 · Google Agent<div class="desc">厂商框架</div></a>
-<a class="nav-item" href="auth-d2.html">D2 · AWS LLM 框架<div class="desc">厂商框架</div></a>
-<a class="nav-item" href="auth-d3.html">D3 · OpenAI Agent<div class="desc">厂商框架</div></a>
-</div>
-</aside>
-<main class="main">
-<div class="content">
-<h1 id="sop-agent">SOP · 🤖 Agent 工具链方向(自己先武装)</h1>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Agent 工具链 SOP · 企业 AI 实战知识库</title><style>:root{--bg:#0f1419;--bg-elevated:#1a2028;--bg-card:#232a35;--border:#2d3540;--text:#e6e6e6;--text-dim:#9aa5b1;--text-bright:#fff;--accent:#4f9eff;--accent-hover:#6bb0ff;--warning:#ff9a4f;--success:#4fdf9a;--gold:#ffd24f;--silver:#c0c8d0;--bronze:#cd7f32;--code-bg:#0a0e13}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family:-apple-system,"SF Pro Display","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.65;font-size:15px}
+a{color:var(--accent);text-decoration:none;transition:color .15s}a:hover{color:var(--accent-hover)}
+.app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+.sidebar{background:var(--bg-elevated);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{padding:0 24px 24px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.brand h1{margin:0;font-size:18px;color:var(--text-bright);font-weight:600}
+.brand .sub{font-size:12px;color:var(--text-dim);margin-top:4px}
+.nav-section{margin-bottom:8px}
+.nav-section-title{padding:8px 24px;font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em}
+.nav-item{display:block;padding:8px 24px;color:var(--text);font-size:13px;border-left:3px solid transparent;transition:all .15s}
+.nav-item:hover{background:var(--bg-card);border-left-color:var(--accent)}
+.nav-item.active{background:var(--bg-card);border-left-color:var(--accent);color:var(--text-bright)}
+.nav-item .desc{font-size:11px;color:var(--text-dim);margin-top:2px}
+.main{padding:40px 56px;max-width:980px;margin:0 auto;width:100%}
+.content h1{color:var(--text-bright);font-size:32px;margin:0 0 8px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.content>blockquote{border-left:4px solid var(--accent);padding:8px 16px;margin:16px 0 24px;background:var(--bg-elevated);border-radius:0 6px 6px 0;color:var(--text-dim)}
+.content h2{color:var(--text-bright);font-size:24px;margin:40px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.content h3{color:var(--text-bright);font-size:18px;margin:28px 0 12px}
+.content p{margin:12px 0}
+.content ul,.content ol{padding-left:24px}.content li{margin:4px 0}
+.content code{background:var(--code-bg);padding:2px 6px;border-radius:3px;font-family:"SF Mono",Menlo,monospace;font-size:13px;color:var(--accent)}
+.content pre{background:var(--code-bg);padding:16px;border-radius:6px;overflow-x:auto;border:1px solid var(--border)}
+.content pre code{background:none;padding:0;color:var(--text)}
+.content table{border-collapse:collapse;width:100%;margin:16px 0;font-size:13px}
+.content th{background:var(--bg-elevated);text-align:left;padding:8px 12px;border:1px solid var(--border);color:var(--text-bright)}
+.content td{padding:8px 12px;border:1px solid var(--border)}
+.content blockquote{border-left:4px solid var(--border);padding:4px 16px;margin:16px 0;color:var(--text-dim);background:var(--bg-elevated)}
+.content hr{border:0;border-top:1px solid var(--border);margin:32px 0}
+@media (max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.main{padding:24px}}</style></head>
+<body><div class="app"><aside class="sidebar"><div class="brand"><h1>企业 AI 实战知识库</h1><div class="sub">个人成长系统 v3.0</div></div><div class="nav-section"><div class="nav-section-title">总览</div><a class="nav-item" href="index.html">🏠 知识体系</a></div><div class="nav-section"><div class="nav-section-title">核心方法论</div><a class="nav-item" href="method.html">📐 方法论总纲</a><a class="nav-item" href="top30.html">⭐ TOP 30 精华</a><a class="nav-item" href="tools.html">🛠️ 工具链</a><a class="nav-item" href="lines.html">🎙️ 话术弹药</a><a class="nav-item" href="pits.html">⚠️ 避坑清单</a></div><div class="nav-section"><div class="nav-section-title">可执行 SOP</div><a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a><a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a><a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a><a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a><a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a><a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a><a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a></div><div class="nav-section"><div class="nav-section-title">知识库</div><a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a><a class="nav-item" href="kb-02.html">🤖 智能体·OpenClaw</a><a class="nav-item" href="kb-03.html">💻 AI 编程工具链</a><a class="nav-item" href="kb-04.html">💰 商业案例·变现</a><a class="nav-item" href="kb-05.html">🎨 AI 内容创作</a><a class="nav-item" href="kb-06.html">📣 自媒体·获客</a><a class="nav-item" href="kb-07.html">🧰 效率工具·知识管理</a><a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a><a class="nav-item" href="kb-09.html">📦 自己的内容资产</a></div><div class="nav-section"><div class="nav-section-title">权威支撑</div><a class="nav-item" href="auth-index.html">📚 权威支撑总览</a><a class="nav-item" href="auth-a1.html">🏛️ A1 Anthropic FDE</a><a class="nav-item" href="auth-a2.html">🏛️ A2 生产级 Agent</a><a class="nav-item" href="auth-a3.html">🏛️ A3 企业评估</a><a class="nav-item" href="auth-b1.html">📖 B1 LLM Apps</a><a class="nav-item" href="auth-b2.html">📖 B2 Agentic Systems</a><a class="nav-item" href="auth-b3.html">📖 B3 RAG in Action</a><a class="nav-item" href="auth-b4.html">📖 B4 LLM Security</a><a class="nav-item" href="auth-c1.html">🏗️ C1 风险驱动架构</a><a class="nav-item" href="auth-c2.html">🏗️ C2 混沌工程</a><a class="nav-item" href="auth-c3.html">🏗️ C3 领域驱动设计</a><a class="nav-item" href="auth-d1.html">🌐 D1 Google Agent</a><a class="nav-item" href="auth-d2.html">🌐 D2 AWS LLM</a><a class="nav-item" href="auth-d3.html">🌐 D3 OpenAI</a><a class="nav-item" href="auth-e1.html">⚙️ E1 软件工程体系</a><a class="nav-item" href="auth-e2.html">⚙️ E2 MLOps 五层栈</a><a class="nav-item" href="auth-e3.html">⚙️ E3 AI 治理三件套</a><a class="nav-item" href="auth-e4.html">📊 E4 失败率证据</a><a class="nav-item" href="auth-e5.html">⚙️ E5 企业架构标准</a><a class="nav-item" href="auth-e6.html">🏛️ E6 FDE 三原厂</a></div><div class="nav-section"><div class="nav-section-title">工具</div><a class="nav-item" href="glossary.html">📖 专业大词典</a></div></aside>
+<main class="main"><div class="content"><h1 id="sop-agent">SOP · 🤖 Agent 工具链方向（自己先武装）</h1>
 <blockquote>
-<p><strong>方向标签</strong>：把重复活交给 AI, 人只做判断</p>
+<p><strong>方向标签</strong>：把重复活交给 AI，人只做判断<br />
+<strong>v2 更新</strong>：2026-09-10 — 从 5 步骨架扩到完整可执行流程</p>
 </blockquote>
 <h2 id="_1">一、为什么这条路径</h2>
-<p>无论接单还是做内容, 你自己的效率是地基。这一方向不直接赚钱, 但能让你每天省 2-3 小时, 且所有实战都是内容素材。我的判断: 它是「接单+内容」的隐形加速器, 值得每周固定半天捣鼓。</p>
+<p>无论接单还是做内容，你自己的效率是地基。这一方向不直接赚钱，但能让你<strong>每天省 2-3 小时</strong>，且所有实战都是内容素材。它是「接单+内容」的隐形加速器，值得每周固定半天捣鼓。</p>
+<p><strong>金句</strong>：「让 AI 替你熬夜，把省下的时间用在真判断上」——柱子哥。</p>
 <h2 id="_2">二、适合谁</h2>
-<p>适合每天有大量重复性工作(整理/筛选/回复/发布)的人。</p>
-<h2 id="sop5">三、执行 SOP（5 步）</h2>
-<h3 id="1">步骤 1：按岗位不按任务设计</h3>
-<p>挑一个每天重复的岗位(如早报/选题/文件归档), 写岗位说明书(SOP), 不是一次性派单(刘小排原文)。</p>
-<h3 id="2">步骤 2：先免费白嫖后升级</h3>
-<p>用免费额度跑通流程, 问题贵到值得再付费(龙虾系列原文); 国产模型/免费 token 优先。</p>
-<h3 id="3-ai">步骤 3：给 AI 立硬规则</h3>
-<p>agents.md 写两条: 失败透明(出错必须停下报告不许偷偷绕过) + 真品验证(部署的必须是真品)——防止 AI 糊弄你(装假Hermes 案例)。</p>
-<h3 id="4-ai">步骤 4：多 AI 互审防返工</h3>
-<p>重要产出让多个 AI 互相审核挑刺再定稿(董事会审核法)。</p>
-<h3 id="5-skill">步骤 5：沉淀成 Skill</h3>
-<p>跑通的流程固化成 Skill/工作流, 下次直接复用, 也变成可交付资产。</p>
+<p>适合<strong>每天有大量重复性工作</strong>（整理 / 筛选 / 回复 / 发布）的人。</p>
+<p><strong>不要做这条路径的场景</strong>：<br />
+- 你的工作全是"判断型"（接单 / 客户沟通）—— AI 帮不上太多<br />
+- 你不愿写规则（Agent 的核心是规则 + 工具调用）<br />
+- 你想"AI 全自动"—— 现实是 80% 自动化 + 20% 人工兜底</p>
+<h2 id="sop5">三、执行 SOP（5 步 · 完整版）</h2>
+<h3 id="1-ai">步骤 1：按岗位不按任务设计（决定 AI 能不能替你干活）</h3>
+<p><strong>不要做</strong>：做"自动生成周报"这种任务级 Agent（一次性的、难复用的）。<br />
+<strong>要做</strong>：挑一个每天重复的<strong>岗位</strong>（如早报 / 选题 / 文件归档），写岗位说明书（SOP）。</p>
+<p><strong>任务 vs 岗位</strong>（刘小排原话）：<br />
+- ❌ 任务："帮我做今天的早报"（一次性）<br />
+- ✅ 岗位："早报编辑"（每天重复、流程固定、有输入输出标准）</p>
+<p><strong>3 个推荐起步岗位</strong>（低门槛高复用）：<br />
+| 岗位 | 每天耗时 | 自动化后 | 难度 |<br />
+|---|---|---|---|<br />
+| <strong>早报编辑</strong> | 30 分钟 | 5 分钟 | ⭐ |<br />
+| <strong>选题打分</strong> | 60 分钟 | 10 分钟 | ⭐⭐ |<br />
+| <strong>文件归档</strong> | 20 分钟 | 2 分钟 | ⭐ |</p>
+<p><strong>岗位说明书模板</strong>：</p>
+<pre><code>岗位：___
+输入：___（每天/每周从哪里拿数据）
+输出：___（最终交付什么格式）
+SOP：1. ___ 2. ___ 3. ___
+例外：___（什么情况不算标准，要人工处理）
+</code></pre>
+<p><strong>真实案例</strong>：龙虾系列"早报 Skill"——每天自动抓行业新闻 + 分类 + 评分 + 推送到微信。设置一次，跑一年。</p>
+<h3 id="2">步骤 2：先免费白嫖后升级（决定成本控制）</h3>
+<p><strong>不要做</strong>：上来就买 Plus / Pro / Enterprise。<br />
+<strong>要做</strong>：用免费额度跑通流程，问题贵到值得再付费。</p>
+<p><strong>免费额度清单</strong>（2026 年 9 月时点）：<br />
+| 模型 | 免费额度 | 够用场景 |<br />
+|---|---|---|<br />
+| <strong>GPT-4o mini</strong> | 每天有限免费 | 简单任务 / 测试 |<br />
+| <strong>Claude Sonnet 4</strong> | 每日有限免费 | 复杂推理 |<br />
+| <strong>Kimi K2</strong> | 国产，量大便宜 | 中文长文本 |<br />
+| <strong>DeepSeek V3</strong> | 国产，性价比最高 | 大批量处理 |<br />
+| <strong>Qwen3</strong> | 开源，本地跑 | 数据敏感场景 |<br />
+| <strong>本地 Ollama</strong> | 完全免费 | 离线 / 隐私场景 |</p>
+<p><strong>国产模型 / 免费 token 优先</strong>（龙虾系列原话）——能用 Kimi / DeepSeek 解决的别用 GPT-4。</p>
+<p><strong>升级判断</strong>：<br />
+- 任务失败率 &lt; 5% → 不升级<br />
+- 任务失败率 5-15% → 看 ROI<br />
+- 任务失败率 &gt; 15% → 升级或换工具</p>
+<p><strong>关键</strong>：「先白嫖后付费」不是抠门，是测试场景值得不值得。</p>
+<h3 id="3-ai-ai">步骤 3：给 AI 立硬规则（防止 AI 糊弄你）</h3>
+<p><strong>不要做</strong>：让 AI 自由发挥，出了问题怪 AI。<br />
+<strong>要做</strong>：写 <code>agents.md</code>，把"什么必须做、什么绝对不能做"写死。</p>
+<p><strong>agents.md 必写两条</strong>（龙虾系列 + 装假Hermes 案例总结）：</p>
+<pre><code>## 1. 失败透明
+- 出错必须停下 + 报告原因 + 给出修复建议
+- 绝对不许&quot;偷偷绕过&quot;或&quot;假装成功&quot;
+- 失败率超 ___% 立即告警
+
+## 2. 真品验证
+- 部署的 Agent 必须是真品（不是 mock / 假 demo）
+- 调用的工具必须有真实返回值
+- 输出的内容必须有可验证的来源
+</code></pre>
+<p><strong>反面案例</strong>（装假Hermes）：某个用户让 AI 装成 Hermes Agent，AI 一直假装在调用工具但实际是 mock——用户用了 3 个月才发现。这是"AI 糊弄你"的经典案例。</p>
+<p><strong>额外规则</strong>（按岗位加）：<br />
+- 内容岗位：禁止编造客户名 / 报价 / 数字<br />
+- 数据岗位：禁止删除原始数据 / 改字段类型<br />
+- 通讯岗位：禁止群发 / 禁止删除消息</p>
+<h3 id="4-ai">步骤 4：多 AI 互审防返工（董事会审核法）</h3>
+<p><strong>不要做</strong>：一个 AI 输出就当真。<br />
+<strong>要做</strong>：重要产出让多个 AI 互相审核挑刺再定稿。</p>
+<p><strong>互审三件套</strong>：<br />
+1. <strong>AI-A 起草</strong>（GPT-4 / Claude）：负责出第一版<br />
+2. <strong>AI-B 审核</strong>（DeepSeek / Kimi）：专门挑刺，找漏洞<br />
+3. <strong>AI-C 定稿</strong>（你 + AI 协作）：根据 B 的反馈改 A</p>
+<p><strong>适合多 AI 互审的场景</strong>：<br />
+- 客户报价单（金额不能错）<br />
+- 合同条款（法律风险）<br />
+- 公开内容（口碑风险）<br />
+- 决策建议（路径选择）</p>
+<p><strong>不适合</strong>（浪费）：<br />
+- 日常聊天回复<br />
+- 简单信息查询<br />
+- 已成熟的模板</p>
+<p><strong>真实案例</strong>：FDE 项目里"合同条款"必须三 AI 互审——AI-A 起草条款、AI-B 找法律漏洞、AI-C 评估对客户友好度。</p>
+<h3 id="5-skill">步骤 5：沉淀成 Skill（决定能不能复利）</h3>
+<p><strong>不要做</strong>：每次重新配置 Agent。<br />
+<strong>要做</strong>：跑通的流程固化成 <strong>Skill / 工作流</strong>，下次直接复用。</p>
+<p><strong>Skill 沉淀三件套</strong>：<br />
+- <strong>Prompt 模板</strong>：把"问 AI 的话"写成变量化的模板<br />
+- <strong>工具调用配置</strong>：把"AI 用什么工具"标准化<br />
+- <strong>异常处理 SOP</strong>：把"出错了怎么办"写清楚</p>
+<p><strong>Skill 库管理</strong>（推荐结构）：</p>
+<pre><code>skills/
+├── 早报/
+│   ├── prompt.md
+│   ├── tools.json
+│   ├── exceptions.md
+│   └── output_template.md
+├── 选题/
+├── 客户初筛/
+└── 报价单生成/
+</code></pre>
+<p><strong>沉淀判断</strong>：<br />
+- 这个流程跑了 3 次以上 → 应该沉淀<br />
+- 这个流程救了你 1 小时以上 → 必须沉淀<br />
+- 这个流程别人也想用 → 团队共享</p>
 <h2 id="_3">四、避坑（重要）</h2>
-<p>别陷入工具囤积(收藏一堆教程=会了); 先跑通一件小事拿到正反馈再扩展。</p>
-<h2 id="_4">五、相关资料索引</h2>
-<p>总纲: tools; 智能体类 23 簇; 效率工具类 7 簇</p>
-<h2 id="08-">六、权威依据（来自 08-权威支撑 层）</h2>
+<p>❌ <strong>工具囤积</strong>：收藏一堆教程 ≠ 会了——先跑通一件小事拿到正反馈再扩展<br />
+❌ <strong>不写规则</strong>：Agent 没有规则 = 不可控<br />
+❌ <strong>完全信任 AI 输出</strong>：重要产出必须人工 review<br />
+❌ <strong>不沉淀 Skill</strong>：每次重新配置 = 浪费时间<br />
+❌ <strong>追求"全自动"</strong>：现实是 80% 自动化 + 20% 人工兜底<br />
+❌ <strong>用公网模型处理敏感数据</strong>：客户数据 / 商业机密 = 用本地模型或私有部署</p>
+<h2 id="_4">五、实战工具清单</h2>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>用途</th>
+<th>何时用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OpenClaw</strong></td>
+<td>多 Agent 协作 / Skill 管理</td>
+<td>主力平台</td>
+</tr>
+<tr>
+<td><strong>Coze / 扣子</strong></td>
+<td>无代码搭 Agent</td>
+<td>快速验证</td>
+</tr>
+<tr>
+<td><strong>Dify</strong></td>
+<td>工作流编排</td>
+<td>复杂流程</td>
+</tr>
+<tr>
+<td><strong>LangChain</strong></td>
+<td>自建 Agent 框架</td>
+<td>深度定制</td>
+</tr>
+<tr>
+<td><strong>Cursor / Claude Code</strong></td>
+<td>编程 Agent</td>
+<td>代码场景</td>
+</tr>
+<tr>
+<td><strong>Ollama</strong></td>
+<td>本地模型</td>
+<td>隐私场景</td>
+</tr>
+<tr>
+<td><strong>MCP 协议</strong></td>
+<td>工具调用标准</td>
+<td>跨平台</td>
+</tr>
+</tbody>
+</table>
+<p><strong>OpenClaw</strong> 文档：参照 <a href="../08-权威支撑/B2-Designing-Agentic-Systems.md">B2-Designing-Agentic-Systems.md</a></p>
+<h2 id="_5">六、一句话速查卡</h2>
+<pre><code>□ 选 1 个重复岗位（早报 / 选题 / 归档）
+□ 写岗位说明书（输入 / 输出 / SOP / 例外）
+□ 用免费模型跑通（Kimi / DeepSeek 优先）
+□ 写 agents.md（失败透明 + 真品验证）
+□ 重要产出多 AI 互审
+□ 跑通 3 次以上沉淀成 Skill
+</code></pre>
+<h2 id="_6">七、真实案例参考</h2>
 <ul>
-<li><strong><a href="../08-权威支撑/B1-Building-LLM-Apps.md">B1-Building-LLM-Apps.md</a></strong> — 模型网关 / 灰度发布 / 可观测 / 链路追踪</li>
-<li><strong><a href="../08-权威支撑/B2-Designing-Agentic-Systems.md">B2-Designing-Agentic-Systems.md</a></strong> — Agent 编排范式 / 状态管理 / Tool 复用</li>
-<li><strong><a href="../08-权威支撑/B4-LLM-Security-and-Governance.md">B4-LLM-Security-and-Governance.md</a></strong> — RBAC / 审计日志 / 数据隔离</li>
-<li><strong><a href="../08-权威支撑/D3-OpenAI-Agent-Best-Practices.md">D3-OpenAI-Agent-Best-Practices.md</a></strong> — Function Calling / 循环控制 / 风险分级</li>
+<li><strong>刘小排</strong>：按岗位不按任务设计 Agent</li>
+<li><strong>龙虾系列</strong>：早报 Skill / 选题 Skill / 客户初筛 Skill</li>
+<li><strong>装假 Hermes 案例</strong>：AI 糊弄你的反面教材</li>
+<li><strong>OpenAI Deep Research</strong>：多步推理 + 工具调用的范本</li>
+<li><strong>MCP 协议</strong>：2025 年成为 Agent 工具调用事实标准</li>
 </ul>
-<blockquote>
-<p>关键对齐：你的「步骤 3 给 AI 立硬规则」= Anthropic 的 <strong>Guardrails</strong> 思想；「步骤 5 沉淀成 Skill」= Anthropic 的 <strong>Skill 库</strong>概念。</p>
-</blockquote>
-</div>
-<div class="footer">
-企业 AI 实战知识库 · 个人成长系统 v3.0 · 数据基于 514 条视频原文 + 110 方法簇 + 162 方法论<br>
-部署于 GitHub Pages · 2026-09-10
-</div>
-</main>
-</div>
-<script>
-// Search functionality
-const searchIndex = [];
-const PAGES = {};
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Build search index from current page content
-  const content = document.querySelector('.content');
-  if (content) {
-    const text = content.innerText.toLowerCase();
-    const title = document.querySelector('h1')?.innerText || '';
-    const headings = Array.from(document.querySelectorAll('h2, h3')).map(h => h.innerText);
-    searchIndex.push({
-      title, headings: headings.join(' '), text: text.substring(0, 5000)
-    });
-  }
-  
-  // Search input
-  const searchInput = document.getElementById('search');
-  if (searchInput) {
-    let timer;
-    searchInput.addEventListener('input', (e) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => doSearch(e.target.value), 200);
-    });
-  }
-  
-  // Highlight current page in nav
-  const path = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-item').forEach(el => {
-    if (el.getAttribute('href') === path) el.classList.add('active');
-  });
-});
-
-function doSearch(q) {
-  if (!q || q.length < 2) return;
-  // Basic in-page highlight (could be enhanced)
-  const content = document.querySelector('.content');
-  if (!content) return;
-  // remove old marks
-  content.querySelectorAll('mark.search-mark').forEach(m => {
-    const t = document.createTextNode(m.textContent);
-    m.parentNode.replaceChild(t, m);
-  });
-  if (q.length < 2) return;
-  // walk text nodes
-  const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
-  const re = new RegExp(q.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&'), 'gi');
-  let count = 0;
-  while (walker.nextNode() && count < 30) {
-    const node = walker.currentNode;
-    if (node.parentNode.tagName === 'SCRIPT' || node.parentNode.tagName === 'STYLE') continue;
-    const text = node.nodeValue;
-    if (!re.test(text)) continue;
-    re.lastIndex = 0;
-    const frag = document.createDocumentFragment();
-    let last = 0;
-    let m;
-    while ((m = re.exec(text)) !== null) {
-      frag.appendChild(document.createTextNode(text.substring(last, m.index)));
-      const mark = document.createElement('mark');
-      mark.className = 'search-mark';
-      mark.style.background = '#ff9a4f';
-      mark.style.color = '#000';
-      mark.textContent = m[0];
-      frag.appendChild(mark);
-      last = m.index + m[0].length;
-      count++;
-      if (count > 30) break;
-    }
-    frag.appendChild(document.createTextNode(text.substring(last)));
-    node.parentNode.replaceChild(frag, node);
-  }
-}
-</script>
-</body>
-</html>
+<h2 id="_7">八、相关资料索引</h2>
+<ul>
+<li><strong>总纲</strong>：<code>01-方法论总纲.md</code>「工具链」章</li>
+<li><strong>知识库</strong>：02-知识库/02-智能体·OpenClaw·Hermes.md（115 视频）+ 02-知识库/03-AI编程工具链.md（182 视频）+ 02-知识库/07-效率工具·知识管理.md（26 视频）</li>
+<li><strong>TOP 30</strong>：top30.html 中有 6 条 Agent / 工具链相关</li>
+<li><strong>权威依据</strong>：A2-Anthropic生产级Agent白皮书 / B1-Building-LLM-Apps / B2-Designing-Agentic-Systems</li>
+</ul>
+<h2 id="08-">九、权威依据（来自 08-权威支撑 层）</h2>
+<ul>
+<li><strong><a href="../08-权威支撑/A2-Anthropic生产级Agent白皮书.md">A2-Anthropic生产级Agent白皮书.md</a></strong> — Harness / 护栏 / 风险分级（你的 agents.md 的工程化来源）</li>
+<li><strong><a href="../08-权威支撑/A1-Anthropic-FDE博客.md">A1-Anthropic-FDE博客.md</a></strong> — Skill 沉淀 = Anthropic 平台级资产（和你 SOP 第 5 步一致）</li>
+<li><strong><a href="../08-权威支撑/B1-Building-LLM-Apps.md">B1-Building-LLM-Apps.md</a></strong> — 模型网关 = Agent 调用的工程底座</li>
+<li><strong><a href="../08-权威支撑/B2-Designing-Agentic-Systems.md">B2-Designing-Agentic-Systems.md</a></strong> — Agent 编排范式 / 状态管理 / Tool 复用</li>
+<li><strong><a href="../08-权威支撑/B4-LLM-Security-and-Governance.md">B4-LLM-Security-and-Governance.md</a></strong> — RBAC / 审计 / 数据隔离（敏感数据处理）</li>
+<li><strong><a href="../08-权威支撑/D3-OpenAI-Agent-Best-Practices.md">D3-OpenAI-Agent-Best-Practices.md</a></strong> — Function Calling 风险分级</li>
+<li><strong><a href="../08-权威支撑/E2-AI工程-MLOps与五层技术栈.md">E2-AI工程-MLOps与五层技术栈.md</a></strong> — MLOps 7 步 = Skill 沉淀的标准化</li>
+</ul></div></main></div>
+<script>document.addEventListener('DOMContentLoaded',()=>{const path=window.location.pathname.split('/').pop()||'index.html';document.querySelectorAll('.nav-item').forEach(el=>{if(el.getAttribute('href')===path)el.classList.add('active')})});</script></body></html>
