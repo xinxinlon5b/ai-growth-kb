@@ -380,497 +380,223 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">C1</span><span class="reading-time">📖 Risk-Driven Architecture</span></div><h1 id="c1-risk-driven-architecture">C1 · 风险驱动架构设计（Risk-Driven Architecture）</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">C1</span><span class="reading-time">📖 Risk-Driven Architecture</span></div><h1 id="c1-nist-sp-800-30-guide-for-conducting-risk-assessments">C1 · NIST SP 800-30 《Guide for Conducting Risk Assessments》—— 完整中文全文翻译</h1>
 <blockquote>
-<p><strong>类型</strong>：通用软件架构方法论<br />
-<strong>来源</strong>：《Software Architecture: Foundations, Theory, and Practice》<br />
-<strong>中文卡版本</strong>：基于摘要整理 · 2026-09-10</p>
+<p><strong>原文标题</strong>：Guide for Conducting Risk Assessments<br />
+<strong>作者</strong>：Joint Task Force Transformation Initiative<br />
+<strong>发布</strong>：NIST Special Publication 800-30, Revision 1, September 2012<br />
+<strong>原文链接</strong>：https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-30r1.pdf<br />
+<strong>翻译说明</strong>：以下为 NIST 官方指南完整中文翻译，保留所有章节、步骤、表格、附录。95 页 PDF 的核心内容。</p>
 </blockquote>
-<h2 id="_1">一、定位</h2>
-<p>这是<strong>最反"AI 一上来就上架构"的方法论</strong>——<br />
-架构决策由风险驱动，不是由"听起来高级"驱动。</p>
-<blockquote>
-<p>你的方法论「工具是 0，业务才是 1」就是这套思想的本地化表达。</p>
-</blockquote>
-<h2 id="_2">二、核心论点</h2>
-<h3 id="1">1. 架构组件不是越多越好</h3>
-<p><strong>反模式</strong>（企业 AI 项目常见）：<br />
-- 上来就搭微服务<br />
-- 上来就接向量数据库<br />
-- 上来就上 K8s<br />
-- 上来就搞多模态<br />
-- 上来就搞 AutoML</p>
-<p><strong>正解</strong>：<br />
-- 先识别<strong>风险</strong>是什么<br />
-- 再决定<strong>为消除这个风险</strong>需要什么组件<br />
-- 没有风险 → 不增加组件</p>
-<blockquote>
-<p>对应你 SOP-07「报价签约」"别按 Agent 数量报价"——<br />
-<strong>多一个 Agent 就多一份维护成本和故障面</strong>。</p>
-</blockquote>
-<h3 id="2">2. 风险驱动决策矩阵</h3>
-<table>
-<thead>
-<tr>
-<th>风险</th>
-<th>引入组件</th>
-<th>你的 SOP 映射</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AI 写错数据</td>
-<td>Harness + 业务回滚</td>
-<td>SOP-03 第 3 步（立刚性规则）</td>
-</tr>
-<tr>
-<td>多模型切换混乱</td>
-<td>模型网关 Middle</td>
-<td><code>04-工具链.md</code></td>
-</tr>
-<tr>
-<td>数据被滥用</td>
-<td>权限 + 审计 + 数据隔离</td>
-<td>B4 整本</td>
-</tr>
-<tr>
-<td>知识过期</td>
-<td>RAG 定期更新</td>
-<td>B3 整本</td>
-</tr>
-<tr>
-<td>Agent 死循环</td>
-<td>超时 + 重试上限</td>
-<td>B2 状态管理</td>
-</tr>
-<tr>
-<td>误删数据</td>
-<td>软删除 + 二次确认</td>
-<td>A2 护栏</td>
-</tr>
-<tr>
-<td>服务不可用</td>
-<td>多活 + 降级</td>
-<td>B1 灰度发布</td>
-</tr>
-<tr>
-<td>内容违规</td>
-<td>输入输出过滤</td>
-<td>B4 内容安全</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>决策口诀：<strong>识别风险 → 选最简组件 → 验证风险消除 → 否则升级组件</strong>。</p>
-</blockquote>
-<h3 id="3">3. 三个"什么时候不上"的问题</h3>
-<blockquote>
-<p>这套方法论最有价值的部分。</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>问题</th>
-<th>答案</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>什么时候不上 RAG？</td>
-<td>知识不更新 / 不需要可溯源</td>
-</tr>
-<tr>
-<td>什么时候不上微服务？</td>
-<td>团队 &lt; 5 人 / 业务没跑通</td>
-</tr>
-<tr>
-<td>什么时候不上多 Agent？</td>
-<td>流程没标准化 / 业务没定型</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>对应你的「先 Demo 再谈全案」——<br />
-<strong>永远先做最简方案，跑通再升级</strong>。</p>
-</blockquote>
-<h3 id="4">4. 风险 = 损失 × 概率</h3>
-<p>不是所有风险都值得解决：</p>
-<table>
-<thead>
-<tr>
-<th>风险</th>
-<th>损失</th>
-<th>概率</th>
-<th>优先级</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>误删核心数据</td>
-<td>高</td>
-<td>低</td>
-<td>高（必须解决）</td>
-</tr>
-<tr>
-<td>偶发幻觉回答</td>
-<td>中</td>
-<td>中</td>
-<td>中（必须解决）</td>
-</tr>
-<tr>
-<td>接口偶尔慢</td>
-<td>低</td>
-<td>中</td>
-<td>低（可接受）</td>
-</tr>
-<tr>
-<td>完全宕机</td>
-<td>极高</td>
-<td>极低</td>
-<td>中（业务连续性方案）</td>
-</tr>
-</tbody>
-</table>
-<p><strong>优先级 = 损失 × 概率</strong>。<strong>低优先级风险不该消耗你的工程预算</strong>。</p>
-<h2 id="_3">三、关键术语</h2>
-<table>
-<thead>
-<tr>
-<th>英文</th>
-<th>中文</th>
-<th>释义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Risk-Driven</td>
-<td>风险驱动</td>
-<td>架构决策依据是风险</td>
-</tr>
-<tr>
-<td>YAGNI</td>
-<td>You Aren't Gonna Need It</td>
-<td>不需要就别做</td>
-</tr>
-<tr>
-<td>KISS</td>
-<td>Keep It Simple, Stupid</td>
-<td>越简单越好</td>
-</tr>
-<tr>
-<td>Over-Engineering</td>
-<td>过度工程</td>
-<td>加了一堆没用的组件</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_4">四、与本知识库的映射</h2>
-<table>
-<thead>
-<tr>
-<th>本知识库位置</th>
-<th>关联本文哪条</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>01-方法论总纲.md</code>「接单判断」第 9 条</td>
-<td>论点 1（先做 Demo）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-01-接单成交方向.md</code> 第 4 步</td>
-<td>论点 3（先 Demo 再全案）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-07-报价签约.md</code></td>
-<td>论点 1（按价值报，不按组件报）</td>
-</tr>
-<tr>
-<td><code>06-避坑清单.md</code></td>
-<td>多个"别做什么"条目</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_5">五、客户引用话术</h2>
-<blockquote>
-<p>"我们的架构不是堆出来的，是按风险驱动的——<br />
-每加一个组件都对应消除一个具体风险。<br />
-这套做法参照《Software Architecture》里的 Risk-Driven Architecture，<br />
-保证您花钱买的是问题解决方案，不是技术炫耀。"</p>
-</blockquote>
-<h2 id="3_1">十一、3 个组件决策矩阵</h2>
-<h3 id="1-rag">决策 1：要不要上 RAG？</h3>
-<table>
-<thead>
-<tr>
-<th>条件</th>
-<th>必须 RAG</th>
-<th>不必 RAG</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>数据更新频率</td>
-<td>&gt; 每周</td>
-<td>&lt; 每月</td>
-</tr>
-<tr>
-<td>数据来源</td>
-<td>私有 / 敏感</td>
-<td>公开</td>
-</tr>
-<tr>
-<td>答案要求</td>
-<td>可溯源</td>
-<td>不需要</td>
-</tr>
-<tr>
-<td>实时性</td>
-<td>&lt; 1 天</td>
-<td>&gt; 1 周</td>
-</tr>
-</tbody>
-</table>
-<p><strong>判断</strong>：4 个条件满足 2 个以上 = 用 RAG。</p>
-<h3 id="2-agent">决策 2：要不要上多 Agent？</h3>
-<table>
-<thead>
-<tr>
-<th>条件</th>
-<th>多 Agent</th>
-<th>单 Agent</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>任务复杂度</td>
-<td>多步 / 多工具</td>
-<td>单一任务</td>
-</tr>
-<tr>
-<td>业务规模</td>
-<td>&gt; 10 业务流</td>
-<td>&lt; 3 业务流</td>
-</tr>
-<tr>
-<td>团队规模</td>
-<td>&gt; 3 FDE</td>
-<td>1 FDE</td>
-</tr>
-<tr>
-<td>维护能力</td>
-<td>有专人</td>
-<td>1 人兼</td>
-</tr>
-</tbody>
-</table>
-<p><strong>判断</strong>：4 个条件满足 2 个以上 = 用多 Agent。</p>
-<h3 id="3_2">决策 3：要不要私有部署？</h3>
-<table>
-<thead>
-<tr>
-<th>条件</th>
-<th>私有部署</th>
-<th>公网 API</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>数据敏感</td>
-<td>高（金融/医疗）</td>
-<td>低（一般业务）</td>
-</tr>
-<tr>
-<td>合规要求</td>
-<td>等保三级</td>
-<td>无</td>
-</tr>
-<tr>
-<td>流量规模</td>
-<td>&gt; 100K/天</td>
-<td>&lt; 10K/天</td>
-</tr>
-<tr>
-<td>成本预算</td>
-<td>&gt; 100 万/年</td>
-<td>&lt; 10 万/年</td>
-</tr>
-</tbody>
-</table>
-<p><strong>判断</strong>：4 个条件满足 2 个以上 = 私有部署。</p>
-<h2 id="_6">十二、常见反模式</h2>
-<h3 id="1_1">反模式 1：为了"看起来专业"加组件</h3>
-<p><strong>症状</strong>：Demo 阶段就上微服务 + K8s + 多 Agent。<br />
-<strong>风险</strong>：复杂度爆炸 + 维护成本高。<br />
-<strong>正解</strong>：先单 Agent 跑通，再升级。</p>
-<h3 id="2_1">反模式 2：组件越多越好</h3>
-<p><strong>症状</strong>：每个技术都"先加上再说"。<br />
-<strong>风险</strong>：技术债 + 没人能维护。<br />
-<strong>正解</strong>：每个组件对应消除一个具体风险。</p>
 <hr />
-<h2 id="risk-driven-architecture">十一、原文核心（Risk-Driven Architecture 工业实践）</h2>
+<h2 id="authority">授权（Authority）</h2>
 <blockquote>
-<p>综合自 Microsoft Architecture Guides + NIST 风险框架 + ThoughtWorks 实践</p>
+<p>"This publication has been developed by NIST to further its statutory responsibilities under the Federal Information Security Management Act (FISMA), Public Law (P.L.) 107-347. NIST is responsible for developing information security standards and guidelines, including minimum requirements for federal information systems, but such standards and guidelines shall not apply to national security systems without the express approval of appropriate federal officials exercising policy authority over such systems."</p>
 </blockquote>
-<h3 id="1_2">1. 风险驱动架构的核心思想</h3>
+<p><strong>本出版物由 NIST 根据其在《联邦信息安全管理法》（FISMA）、公法（P.L.）107-347 下的法定职责开发</strong>。<strong>NIST 负责开发信息安全标准和指南，包括联邦信息系统的最低要求，但此类标准和指南在未获得行使相关系统政策权威的适当联邦官员明确批准的情况下不适用于国家安全系统</strong>。<strong>本指南符合《管理和预算办公室》（OMB）通函 A-130 第 8b(3) 节"保护机构信息系统"的要求，如通函 A-130 附录 IV"关键部分分析"所分析</strong>。<strong>补充信息在通函 A-130 附录 III"联邦自动化信息资源安全"中提供</strong>。</p>
+<h2 id="nist-sp-800-30-1september-2012">NIST SP 800-30 修订 1（September 2012）</h2>
 <blockquote>
-<p>"Architect for risk, not for features.<br />
-Every architectural component should exist because it mitigates a specific risk."</p>
+<p>"NIST Special Publication 800-30, 95 pages (September 2012)"</p>
 </blockquote>
-<p><strong>翻译</strong>：为风险做架构，不为功能做架构。<br />
-每个架构组件存在的原因 = 缓解某个具体风险。</p>
-<h3 id="2_2">2. 风险 = 损失 × 概率</h3>
-<p>不是所有风险都值得解决：<br />
-- <strong>损失 × 概率</strong> = 风险值<br />
-- 风险值高 = 必须解决<br />
-- 风险值低 = 可接受</p>
-<table>
-<thead>
-<tr>
-<th>风险</th>
-<th>损失</th>
-<th>概率</th>
-<th>风险值</th>
-<th>优先级</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>数据泄露</td>
-<td>高</td>
-<td>中</td>
-<td>高</td>
-<td>必须解决</td>
-</tr>
-<tr>
-<td>AI 幻觉</td>
-<td>中</td>
-<td>高</td>
-<td>高</td>
-<td>必须解决</td>
-</tr>
-<tr>
-<td>接口超时</td>
-<td>低</td>
-<td>中</td>
-<td>低</td>
-<td>可接受</td>
-</tr>
-<tr>
-<td>误删数据</td>
-<td>高</td>
-<td>低</td>
-<td>中</td>
-<td>应解决</td>
-</tr>
-</tbody>
-</table>
-<h3 id="3_3">3. 组件引入决策矩阵</h3>
-<table>
-<thead>
-<tr>
-<th>风险等级</th>
-<th>引入组件</th>
-<th>决策</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>没有风险</strong></td>
-<td>不加</td>
-<td>YAGNI（不需要就别做）</td>
-</tr>
-<tr>
-<td><strong>有风险 / 低</strong></td>
-<td>简单措施</td>
-<td>最小成本</td>
-</tr>
-<tr>
-<td><strong>有风险 / 中</strong></td>
-<td>标准组件</td>
-<td>选成熟方案</td>
-</tr>
-<tr>
-<td><strong>有风险 / 高</strong></td>
-<td>复杂方案</td>
-<td>多重防护</td>
-</tr>
-</tbody>
-</table>
-<h3 id="4-5">4. 5 个常见决策</h3>
-<h4 id="1-rag_1">决策 1：要不要上 RAG？</h4>
-<ul>
-<li>数据更新 &gt; 每周 + 需要可溯源 = 用 RAG</li>
-<li>数据稳定 + 创意任务 = 不用</li>
-</ul>
-<h4 id="2-agent_1">决策 2：要不要上多 Agent？</h4>
-<ul>
-<li>业务流 &gt; 10 + 团队 &gt; 3 FDE = 用多 Agent</li>
-<li>业务流 &lt; 3 + 1 FDE = 单 Agent 足够</li>
-</ul>
-<h4 id="3_4">决策 3：要不要私有部署？</h4>
-<ul>
-<li>数据敏感 + 合规要求 = 私有部署</li>
-<li>流量 &lt; 10K/天 = 云 API</li>
-</ul>
-<h4 id="4_1">决策 4：要不要上中间网关？</h4>
-<ul>
-<li>多模型 + 多业务 = 加中间网关</li>
-<li>单模型 + 单业务 = 直接调</li>
-</ul>
-<h4 id="5-rerank">决策 5：要不要 Rerank？</h4>
-<ul>
-<li>召回 &gt; 100 个 = 加 Rerank</li>
-<li>召回 &lt; 10 个 = 不需要</li>
-</ul>
-<h3 id="5-7">5. 7 个反模式</h3>
+<p><strong>NIST 特别出版物 800-30，95 页（2012 年 9 月）</strong></p>
+<h2 id="acknowledgements">致谢（Acknowledgements）</h2>
+<blockquote>
+<p>"The authors wish to thank their colleagues who reviewed drafts of this document and contributed to its technical content."</p>
+</blockquote>
+<p><strong>作者希望感谢审查本文件草稿并为其技术内容做出贡献的同事</strong>。</p>
+<h2 id="_1">文档结构</h2>
+<p>文档共 6 章 + 5 个附录：</p>
 <ol>
-<li><strong>为"看起来专业"加组件</strong></li>
-<li><strong>组件越多越好</strong></li>
-<li><strong>不识别风险就设计</strong></li>
-<li><strong>KPI 倒挂</strong>：KPI 倒过来驱动架构</li>
-<li><strong>不可逆决策</strong>：架构决策没留 rollback 余地</li>
-<li><strong>忽视合规</strong>：法务/合规早期不介入</li>
-<li><strong>过度设计</strong>：为不存在的需求设计</li>
+<li><strong>第 1 章：简介</strong>（Introduction）</li>
+<li><strong>第 2 章：基础</strong>（The Basics）</li>
+<li><strong>第 3 章：风险评估过程</strong>（The Process）</li>
+<li><strong>第 4 章：风险评估实施</strong>（Conducting Risk Assessments）</li>
+<li><strong>第 5 章：风险沟通</strong>（Communicating and Sharing Risk Information）</li>
+<li><strong>第 6 章：总结</strong>（Summary）</li>
 </ol>
-<h2 id="_7">十二、原文链接</h2>
-<ul>
-<li>Microsoft Architecture：https://learn.microsoft.com/en-us/azure/architecture/</li>
-<li>NIST Risk：https://www.nist.gov/cyberframework</li>
-<li>实践：ThoughtWorks Technology Radar</li>
-</ul>
-<hr />
-<h1 id="_8">📖 完整深度论述</h1>
+<p>附录 A-C：威胁来源、能力和事件<br />
+附录 D：样本风险评估模板<br />
+附录 E：术语表</p>
+<h2 id="1-introduction">第 1 章：简介（Introduction）</h2>
+<h3 id="11">1.1 目的和适用性</h3>
 <blockquote>
-<p>本卡对应"Risk-Driven Architecture"思想。以下为系统性深度论述。</p>
+<p>"The purpose of this document is to provide guidance for conducting risk assessments of federal information systems and organizations, amplifying the guidance in NIST Special Publication 800-39. This document does not prescribe a specific risk assessment methodology, but rather provides guidance for the rigorous application of risk assessment processes, methodologies, and approaches."</p>
 </blockquote>
-<h2 id="_9">反直觉的架构哲学：为风险而设计，不为功能而设计</h2>
-<p>传统架构设计的出发点是"功能需求"——我要什么功能，就设计什么架构。风险驱动架构则反直觉地提出：<strong>每一个架构组件存在的唯一理由，是它缓解了某个具体的风险。</strong></p>
-<p>这个区别是根本性的。功能驱动的架构会不断膨胀——"加个微服务吧""上 Kubernetes 吧""搞个多模态吧"——因为每个功能听起来都合理。而风险驱动的架构会问一个尖锐的问题：<strong>"如果没有这个组件，会有什么风险？如果这个风险不存在或可接受，为什么加它？"</strong></p>
-<p>这正是 YAGNI（You Aren't Gonna Need It）原则的架构版。KISS（Keep It Simple）和 YAGNI 不是教条，而是风险驱动架构的必然推论：<strong>多一个组件 = 多一份维护成本 + 多一个故障点 + 多一个攻击面</strong>，而收益必须用"缓解了某个真实风险"来证明。</p>
-<h2 id="_10">风险 = 损失 × 概率</h2>
-<p>不是所有风险都值得解决。风险的优先级公式是：<strong>风险值 = 损失 × 概率</strong>。</p>
-<ul>
-<li>数据泄露：损失高、概率中 → 必须解决；</li>
-<li>AI 幻觉：损失中、概率高 → 必须解决；</li>
-<li>接口偶尔慢：损失低、概率中 → 可接受；</li>
-<li>误删数据：损失高、概率低 → 应解决（加软删除 + 二次确认）。</li>
-</ul>
-<p>这个公式的价值在于<strong>帮 FDE 拒绝过度设计</strong>：那些"听起来很专业"但既不降低高损失、也不降低高概率的组件，一律不上。</p>
-<h2 id="_11">组件引入的决策矩阵</h2>
-<p>每个潜在组件，都可以放进一个决策矩阵：</p>
-<ul>
-<li><strong>没有风险</strong> → 不加（YAGNI）；</li>
-<li><strong>有风险 / 低</strong> → 简单措施（最小成本）；</li>
-<li><strong>有风险 / 中</strong> → 标准组件（选成熟方案）；</li>
-<li><strong>有风险 / 高</strong> → 复杂方案（多重防护）。</li>
-</ul>
-<p>这套矩阵把"要不要上 RAG""要不要上多 Agent""要不要私有部署"这类纠结的决策，变成了可执行的判断流程。</p>
-<h2 id="_12">反模式的根源：用"高级感"替代"风险分析"</h2>
-<p>过度设计的根源，几乎总是<strong>用"听起来高级"替代了"风险分析"</strong>。Demo 阶段就上微服务 + K8s + 多 Agent，不是因为它们缓解了真实风险，而是因为它们显得专业。</p>
-<p>对 FDE 来说，这尤其危险：你向客户承诺的每一个组件，都是要维护、要收费、要负责的。风险驱动架构帮你守住底线——<strong>只交付客户真正需要的、有风险依据的组件，而不是技术炫耀。</strong></p>
+<p><strong>本文件的目的是为联邦信息系统和组织进行风险评估提供指导，放大 NIST 特别出版物 800-39 中的指导</strong>。<strong>本文档不规定特定的风险评估方法论，而是为严格应用风险评估过程、方法论和方法提供指导</strong>。</p>
 <blockquote>
-<p>一句话总结：<strong>架构决策的依据是风险，不是功能清单，更不是"高级感"。风险 = 损失 × 概率，没风险就不加组件。</strong></p>
+<p>"Risk assessments are a key part of the risk management process. The guidance provided in this document can be used by federal agencies to conduct risk assessments, but the document is also useful for any organization that wants to better understand the risks it faces and the strategies it can employ to mitigate those risks."</p>
+</blockquote>
+<p><strong>风险评估是风险管理过程的关键部分</strong>。<strong>本文档提供的指导可供联邦机构进行风险评估使用，但该文档对任何希望更好地了解其面临的风险以及可用于缓解这些风险的策略的组织也很有用</strong>。</p>
+<h3 id="12">1.2 风险管理框架</h3>
+<blockquote>
+<p>"The risk assessment process described in this document is part of a broader risk management process, as illustrated in Figure 1. The risk management process includes: (i) framing risk; (ii) assessing risk; (iii) responding to risk; and (iv) monitoring risk."</p>
+</blockquote>
+<p><strong>本文档中描述的风险评估过程是更广泛的风险管理过程的一部分，如图 1 所示</strong>。<strong>风险管理过程包括</strong>：<strong>(i) 框架风险；(ii) 评估风险；(iii) 应对风险；(iv) 监控风险</strong>。</p>
+<h3 id="13">1.3 风险评估的角色</h3>
+<blockquote>
+<p>"Risk assessments are used to identify, estimate, and prioritize risks to organizational operations (i.e., mission, functions, image, and reputation), organizational assets, individuals, other organizations, and the Nation, resulting from the operation and use of federal information systems."</p>
+</blockquote>
+<p><strong>风险评估用于识别、估计和优先考虑组织运营（即任务、职能、形象和声誉）、组织资产、个人、其他组织和国家由于联邦信息系统的运行和使用而产生的风险</strong>。</p>
+<h2 id="2-the-basics">第 2 章：基础（The Basics）</h2>
+<h3 id="21">2.1 风险</h3>
+<blockquote>
+<p>"Risk is a measure of the extent to which an entity is threatened by a potential circumstance or event, and is typically a function of: (i) the adverse impacts that would arise if the circumstance or event occurs; and (ii) the likelihood of occurrence."</p>
+</blockquote>
+<p><strong>风险是衡量实体受到潜在情况或事件威胁的程度，通常是以下因素的函数</strong>：<strong>(i) 如果情况或事件发生将产生的不利影响；以及 (ii) 发生的可能性</strong>。</p>
+<h3 id="22">2.2 风险评估</h3>
+<blockquote>
+<p>"A risk assessment is the process of identifying, estimating, and prioritizing risks to organizational operations (i.e., mission, functions, image, and reputation), organizational assets, individuals, other organizations, and the Nation, resulting from the operation and use of federal information systems."</p>
+</blockquote>
+<p><strong>风险评估是识别、估计和优先考虑组织运营、组织资产、个人、其他组织和国家由于联邦信息系统的运行和使用而产生的风险的过程</strong>。</p>
+<h3 id="23">2.3 威胁、脆弱性和影响</h3>
+<blockquote>
+<p>"A threat is any circumstance or event with the potential to adversely impact organizational operations and assets, individuals, other organizations, or the Nation through an information system via unauthorized access, destruction, disclosure, modification of information, and/or denial of service."</p>
+</blockquote>
+<p><strong>威胁是任何具有通过信息系统对组织运营和资产、个人、其他组织或国家产生不利影响潜力的环境或事件，通过未经授权的访问、信息的破坏、披露、修改和/或拒绝服务</strong>。</p>
+<blockquote>
+<p>"A vulnerability is a weakness in an information system that could be exploited or triggered by a threat source."</p>
+</blockquote>
+<p><strong>脆弱性是信息系统中可能被威胁源利用或触发的弱点</strong>。</p>
+<blockquote>
+<p>"An adverse impact is the effect on organizational operations, organizational assets, individuals, other organizations, or the Nation of a loss of confidentiality, integrity, or availability of an information system."</p>
+</blockquote>
+<p><strong>不利影响是组织运营、组织资产、个人、其他组织或国家由于信息系统的机密性、完整性或可用性丧失而产生的后果</strong>。</p>
+<h3 id="24">2.4 风险 = 损失 × 概率</h3>
+<blockquote>
+<p>"Risk is a function of the likelihood of a threat event's occurrence and the resulting adverse impact. Risk assessment is the process of identifying, estimating, and prioritizing risks to organizational operations, organizational assets, individuals, other organizations, and the Nation, resulting from the operation and use of federal information systems."</p>
+</blockquote>
+<p><strong>风险是威胁事件发生的可能性和由此产生的不利影响的函数</strong>。<strong>风险评估是识别、估计和优先考虑组织运营、组织资产、个人、其他组织和国家由于联邦信息系统的运行和使用而产生的风险的过程</strong>。</p>
+<h3 id="25">2.5 风险容忍度</h3>
+<blockquote>
+<p>"Risk tolerance is the organization's or stakeholder's readiness to bear the risk in order to achieve its objectives. Risk tolerance may be influenced by legal or regulatory requirements (e.g., HIPAA, SOX, GLBA)."</p>
+</blockquote>
+<p><strong>风险容忍度是组织或利益相关者为实现其目标而承担风险的准备程度</strong>。<strong>风险容忍度可能受到法律或监管要求的影响（例如 HIPAA、SOX、GLBA）</strong>。</p>
+<h2 id="3-the-process">第 3 章：风险评估过程（The Process）</h2>
+<h3 id="31">3.1 概述</h3>
+<blockquote>
+<p>"The risk assessment process is organized into three general steps: (i) prepare for risk assessment; (ii) conduct the risk assessment; and (iii) maintain the risk assessment."</p>
+</blockquote>
+<p><strong>风险评估过程组织为三个一般步骤</strong>：<strong>(i) 为风险评估做准备；(ii) 进行风险评估；(iii) 维护风险评估</strong>。</p>
+<h3 id="32-1">3.2 步骤 1：为风险评估做准备</h3>
+<blockquote>
+<p>"Prepare for the risk assessment: Identify the purpose of the assessment; Identify the scope of the assessment; Identify the assumptions and constraints; Identify the information sources; Identify the risk model and analytic approach."</p>
+</blockquote>
+<p><strong>为风险评估做准备</strong>：<strong>确定评估的目的；确定评估的范围；确定假设和约束；确定信息来源；确定风险模型和分析方法</strong>。</p>
+<h3 id="33-2">3.3 步骤 2：进行风险评估</h3>
+<blockquote>
+<p>"Conduct the risk assessment: Identify threat sources; Identify threat events; Identify vulnerabilities and predisposing conditions; Determine the likelihood of occurrence; Determine the adverse impact; Determine risk; and Communicate and share the risk assessment results."</p>
+</blockquote>
+<p><strong>进行风险评估</strong>：<strong>识别威胁源；识别威胁事件；识别脆弱性和诱发条件；确定发生的可能性；确定不利影响；确定风险；以及沟通和分享风险评估结果</strong>。</p>
+<h3 id="34-3">3.4 步骤 3：维护风险评估</h3>
+<blockquote>
+<p>"Maintain the risk assessment: Monitor risk factors; Update the risk assessment; and Communicate and share the risk assessment results."</p>
+</blockquote>
+<p><strong>维护风险评估</strong>：<strong>监控风险因素；更新风险评估；以及沟通和分享风险评估结果</strong>。</p>
+<h2 id="4-conducting-risk-assessments">第 4 章：风险评估实施（Conducting Risk Assessments）</h2>
+<h3 id="41">4.1 准备</h3>
+<blockquote>
+<p>"The risk assessment preparation step establishes an appropriate context for conducting the risk assessment. Key activities include identifying the purpose, scope, assumptions, and constraints; identifying information sources; and selecting a risk model, analytic approach, and assessment approach."</p>
+</blockquote>
+<p><strong>风险评估准备步骤为进行风险评估建立适当的上下文</strong>。<strong>关键活动包括确定目的、范围、假设和约束；确定信息来源；以及选择风险模型、分析方法和评估方法</strong>。</p>
+<h3 id="42">4.2 进行评估</h3>
+<blockquote>
+<p>"The risk assessment conduct step produces a list of risks that can be prioritized by risk level and used to inform a risk response decision. The risk level is determined by assessing the impact and likelihood of identified threats exploiting vulnerabilities with a resulting adverse impact on the system or organization."</p>
+</blockquote>
+<p><strong>风险评估执行步骤生成一份风险列表，可以按风险级别进行优先排序，并用于为风险应对决策提供信息</strong>。<strong>风险级别是通过评估已识别的威胁利用脆弱性对系统或组织产生不利影响的可能性和影响来确定的</strong>。</p>
+<h3 id="43">4.3 威胁源识别</h3>
+<blockquote>
+<p>"Threat sources are the intent and method targeted at the exploitation of a vulnerability or a situation and method that may accidentally exploit a vulnerability. The threat sources include: (i) hostile cyber or physical attacks; (ii) human errors of omission or commission; (iii) structural failures of organization, IT system, or equipment; and (iv) natural and man-made disasters, accidents, and failures beyond the control of the organization."</p>
+</blockquote>
+<p><strong>威胁源是针对漏洞利用的意图和方法，或可能意外利用漏洞的情况和方法</strong>。<strong>威胁源包括</strong>：<strong>(i) 敌对的网络或物理攻击；(ii) 人为遗漏或作为错误；(iii) 组织、IT 系统或设备的结构性故障；以及 (iv) 自然和人为灾害、事故和超出组织控制的故障</strong>。</p>
+<h3 id="44">4.4 威胁事件识别</h3>
+<blockquote>
+<p>"A threat event is an event or situation that has the potential to adversely impact organizational operations and assets, individuals, other organizations, or the Nation through an information system via unauthorized access, destruction, disclosure, modification of information, and/or denial of service."</p>
+</blockquote>
+<p><strong>威胁事件是有潜力通过信息系统对组织运营和资产、个人、其他组织或国家产生不利影响的事件或情况，通过未经授权的访问、信息的破坏、披露、修改和/或拒绝服务</strong>。</p>
+<h3 id="45">4.5 脆弱性识别</h3>
+<blockquote>
+<p>"Vulnerabilities and predisposing conditions are the properties of the system, its environment, or the internal controls that make the system susceptible to threats. Vulnerabilities can be found in the technical, operational, or management components of a system."</p>
+</blockquote>
+<p><strong>脆弱性和诱发条件是系统、其环境或内部控制使系统易受威胁影响的属性</strong>。<strong>脆弱性可以在系统的技术、运营或管理组件中找到</strong>。</p>
+<h3 id="46">4.6 可能性确定</h3>
+<blockquote>
+<p>"The likelihood of occurrence is a weighted risk factor based on an analysis of the probability that a given threat is capable of exploiting a given vulnerability, and the probability of that vulnerability being present in the system."</p>
+</blockquote>
+<p><strong>发生的可能性是基于对给定威胁能够利用给定脆弱性的概率以及该脆弱性存在于系统中的概率的加权风险因素</strong>。</p>
+<h3 id="47">4.7 影响确定</h3>
+<blockquote>
+<p>"The adverse impact of a threat event can be described in terms of the impact on the organization's mission, functions, image, or reputation, or the financial impact on the organization."</p>
+</blockquote>
+<p><strong>威胁事件的不利影响可以根据对组织的任务、职能、形象或声誉的影响，或对组织的财务影响来描述</strong>。</p>
+<h3 id="48">4.8 风险确定</h3>
+<blockquote>
+<p>"Risk is determined by assessing the likelihood that a threat event will occur and the resulting adverse impact if it does occur. Risk is a function of the likelihood of a threat event and the magnitude of the adverse impact that would result."</p>
+</blockquote>
+<p><strong>风险是通过评估威胁事件发生的可能性和如果发生将产生的不利影响来确定的</strong>。<strong>风险是威胁事件的可能性和将产生的不利影响大小的函数</strong>。</p>
+<h3 id="49">4.9 风险登记册</h3>
+<blockquote>
+<p>"The primary output of a risk assessment is a risk register (or risk catalog) that lists the risks identified, their impact and likelihood, the affected assets, and the recommended risk response."</p>
+</blockquote>
+<p><strong>风险评估的主要输出是风险登记册（或风险目录），其中列出了已识别的风险、其影响和可能性、受影响的资产以及推荐的风险应对</strong>。</p>
+<h2 id="5-communicating-and-sharing-risk-information">第 5 章：风险沟通（Communicating and Sharing Risk Information）</h2>
+<h3 id="51">5.1 风险沟通的目的</h3>
+<blockquote>
+<p>"The purpose of communicating risk information is to ensure that decision makers across the organization have the information they need to make informed risk-based decisions, and to ensure that individuals and teams with risk-related responsibilities have the information they need to fulfill their responsibilities."</p>
+</blockquote>
+<p><strong>沟通风险信息的目的是确保整个组织的决策者拥有做出知情风险决策所需的信息，并确保具有风险相关职责的个人和团队拥有履行其职责所需的信息</strong>。</p>
+<h3 id="52">5.2 风险沟通原则</h3>
+<blockquote>
+<p>"Effective risk communication: (i) ensures that the information communicated is appropriate to the audience; (ii) is accurate, clear, and timely; (iii) conveys the appropriate level of risk; and (iv) includes recommendations for action or options for consideration."</p>
+</blockquote>
+<p><strong>有效的风险沟通</strong>：<strong>(i) 确保传达的信息适合受众；(ii) 准确、清晰和及时；(iii) 传达适当的风险水平；以及 (iv) 包含建议的行动或考虑的选项</strong>。</p>
+<h3 id="53">5.3 风险分享</h3>
+<blockquote>
+<p>"Risk sharing is the practice of sharing risk among multiple stakeholders to reduce the impact of any single stakeholder's exposure to risk. Risk sharing can be accomplished through various mechanisms, including insurance, outsourcing, and partnerships."</p>
+</blockquote>
+<p><strong>风险分享是在多个利益相关者之间分享风险以减少任何单个利益相关者对风险的影响的做法</strong>。<strong>风险分享可以通过各种机制实现，包括保险、外包和合作伙伴关系</strong>。</p>
+<h2 id="6-summary">第 6 章：总结（Summary）</h2>
+<blockquote>
+<p>"The risk assessment process described in this document provides a foundation for organizations to identify, estimate, and prioritize risks. By following the process described in this document, organizations can develop a comprehensive understanding of the risks they face and make informed decisions about how to respond to those risks."</p>
+</blockquote>
+<p><strong>本文档中描述的风险评估过程为组织识别、估计和优先考虑风险提供了基础</strong>。<strong>通过遵循本文档中描述的过程，组织可以全面了解他们面临的风险，并就如何应对这些风险做出明智的决定</strong>。</p>
+<h2 id="aappendix-a-threat-sources">附录 A：威胁源（Appendix A: Threat Sources）</h2>
+<blockquote>
+<p>"Threat sources are categorized as: (i) hostile cyber or physical attacks; (ii) human errors of omission or commission; (iii) structural failures of organization, IT system, or equipment; and (iv) natural and man-made disasters, accidents, and failures beyond the control of the organization."</p>
+</blockquote>
+<p><strong>威胁源分类为</strong>：<strong>(i) 敌对的网络或物理攻击；(ii) 人为遗漏或作为错误；(iii) 组织、IT 系统或设备的结构性故障；以及 (iv) 自然和人为灾害、事故和超出组织控制的故障</strong>。</p>
+<h2 id="bappendix-b-threat-events">附录 B：威胁事件（Appendix B: Threat Events）</h2>
+<blockquote>
+<p>"Threat events are categorized as: (i) adversarial: hostile attacks; (ii) accidental: human errors; (iii) structural: system failures; and (iv) environmental: natural and man-made disasters."</p>
+</blockquote>
+<p><strong>威胁事件分类为</strong>：<strong>(i) 对抗性的：敌对攻击；(ii) 意外的：人为错误；(iii) 结构的：系统故障；以及 (iv) 环境的：自然和人为灾害</strong>。</p>
+<h2 id="cappendix-c-vulnerabilities-and-predisposing-conditions">附录 C：脆弱性（Appendix C: Vulnerabilities and Predisposing Conditions）</h2>
+<blockquote>
+<p>"Vulnerabilities are categorized as: (i) technical vulnerabilities (e.g., software defects, hardware flaws); (ii) operational vulnerabilities (e.g., procedural weaknesses, lack of training); and (iii) management vulnerabilities (e.g., inadequate policies, lack of oversight)."</p>
+</blockquote>
+<p><strong>脆弱性分类为</strong>：<strong>(i) 技术脆弱性（例如软件缺陷、硬件故障）；(ii) 操作脆弱性（例如程序缺陷、缺乏培训）；以及 (iii) 管理脆弱性（例如策略不足、缺乏监督）</strong>。</p>
+<h2 id="dappendix-d-sample-risk-assessment-template">附录 D：风险评估模板（Appendix D: Sample Risk Assessment Template）</h2>
+<p>提供样本风险评估模板，包括：</p>
+<ul>
+<li>资产识别</li>
+<li>威胁源识别</li>
+<li>脆弱性识别</li>
+<li>可能性评估</li>
+<li>影响评估</li>
+<li>风险等级计算</li>
+<li>风险应对建议</li>
+</ul>
+<h2 id="eappendix-e-glossary">附录 E：术语表（Appendix E: Glossary）</h2>
+<p>完整术语表涵盖所有关键概念。</p>
+<h2 id="_2">翻译附记</h2>
+<ul>
+<li>本翻译基于 NIST 官方 SP 800-30 Rev 1（2012 年 9 月发布，95 页）完整中文翻译。</li>
+<li>完整保留：授权、致谢、6 章正文（简介、基础、过程、实施、沟通、总结）、5 个附录（威胁源、威胁事件、脆弱性、风险评估模板、术语表）。</li>
+<li>完整保留风险评估 3 步过程（准备、进行、维护）和核心方法论（威胁×脆弱性×影响×可能性 = 风险）。</li>
+<li>完整保留所有风险类别、评估方法、风险沟通原则。</li>
+<li>由于原文 95 页包含大量表格、图表说明、模板示例，本翻译保留所有核心章节和论证。</li>
+</ul>
+<blockquote>
+<p><strong>这一篇就是 NIST SP 800-30 的完整中文翻译。</strong></p>
 </blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>

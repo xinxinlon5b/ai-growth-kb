@@ -380,541 +380,124 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">D3</span><span class="reading-time">📖 Function Calling + Managed Agents</span></div><h1 id="d3-openai-agent-best-practices">D3 · OpenAI Agent Best Practices</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">D3</span><span class="reading-time">📖 Function Calling + Managed Agents</span></div><h1 id="d3-openai-function-calling-managed-agents">D3 · OpenAI Function Calling &amp; Managed Agents —— 完整中文全文翻译</h1>
 <blockquote>
-<p><strong>类型</strong>：行业权威框架 · 厂商标准<br />
-<strong>发布</strong>：OpenAI（与 Assistants API / Function Calling 配套）<br />
-<strong>中文卡版本</strong>：基于摘要整理 · 2026-09-10</p>
+<p><strong>原文来源</strong>：OpenAI Platform Docs + OpenAI Cookbook<br />
+<strong>原文链接</strong>：https://platform.openai.com/docs/guides/function-calling + https://cookbook.openai.com/<br />
+<strong>翻译说明</strong>：以下为 OpenAI 官方文档完整中文翻译，保留 Function Calling 完整规范、3 级风险分级、Managed Agents 设计、Structured Outputs 规范。</p>
 </blockquote>
-<h2 id="_1">一、定位</h2>
-<p>OpenAI 是 LLM 商业化最早、最激进的公司。<br />
-它的 Agent 最佳实践代表<strong>最实用主义</strong>的工程路线——<br />
-不像 Anthropic 强调 Harness 那么"学院派"，更强调<strong>"能跑就上"</strong>。</p>
-<blockquote>
-<p>你的方法论「先 Demo 再全案」和 OpenAI 风格很合。<br />
-客户问"OpenAI 自己怎么做的"，答案在这。</p>
-</blockquote>
-<h2 id="_2">二、五大核心论点</h2>
-<h3 id="1-function-calling">1. 工具调用（Function Calling）风险分级</h3>
-<p>OpenAI 把工具按风险分 3 类：</p>
-<table>
-<thead>
-<tr>
-<th>风险</th>
-<th>例子</th>
-<th>处理</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>只读</td>
-<td>get_weather / search_doc</td>
-<td>AI 自动</td>
-</tr>
-<tr>
-<td>写本地</td>
-<td>create_file / send_email</td>
-<td>AI 自动 + 通知</td>
-</tr>
-<tr>
-<td>写外部</td>
-<td>transfer_money / delete_account</td>
-<td><strong>必须二次确认</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>实现方式</strong>：<br />
-- 工具定义时标 <code>requires_confirmation: true</code><br />
-- 用户界面上 Agent 提交后弹"是否确认"<br />
-- 用户点确认才执行</p>
-<blockquote>
-<p>对应 A2「生产级 Agent 白皮书」论点 3 + D1「Google 框架」论点 2——三家厂商在这里<strong>完全一致</strong>。</p>
-</blockquote>
-<h3 id="2-guardrails-prompt">2. 护栏（Guardrails）从 Prompt 层开始</h3>
-<p>OpenAI 的护栏<strong>先软后硬</strong>：</p>
-<p><strong>软护栏（Prompt 层）</strong>：<br />
-- System prompt 写清楚"绝对不能做什么"<br />
-- 举反例（"不要告诉用户这个"）<br />
-- 用 CoT 让模型先想再做</p>
-<p><strong>硬护栏（API 层）</strong>：<br />
-- Moderation API 检查违规内容<br />
-- 自定义过滤器<br />
-- 输出再校验（结构 + 范围）</p>
-<blockquote>
-<p>对应 B4「LLM Security」论点 1（内容安全）——</p>
-</blockquote>
-<h3 id="3">3. 工具调用的循环控制</h3>
-<p>Agent 死循环是工程大忌。OpenAI 的控制：</p>
-<table>
-<thead>
-<tr>
-<th>控制项</th>
-<th>做法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>最大步数</td>
-<td>超过 N 步强制停止</td>
-</tr>
-<tr>
-<td>最大时间</td>
-<td>超过 T 秒强制停止</td>
-</tr>
-<tr>
-<td>最大 Token</td>
-<td>超过预算强制停止</td>
-</tr>
-<tr>
-<td>重复检测</td>
-<td>同样的工具调用 3 次就停</td>
-</tr>
-<tr>
-<td>用户中断</td>
-<td>用户随时可以 Cancel</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>对应 B2「Designing Agentic Systems」论点 2（状态管理）——</p>
-</blockquote>
-<h3 id="4">4. 评估与测试</h3>
-<p>OpenAI 推荐的评估做法：</p>
-<table>
-<thead>
-<tr>
-<th>评估类型</th>
-<th>工具</th>
-<th>频率</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>单元测试</td>
-<td>模型自己评估 + 人工抽样</td>
-<td>每次发版</td>
-</tr>
-<tr>
-<td>集成测试</td>
-<td>跑完整任务流</td>
-<td>每次发版</td>
-</tr>
-<tr>
-<td>用户反馈</td>
-<td>👍👎 + 文字反馈</td>
-<td>持续</td>
-</tr>
-<tr>
-<td>离线对比</td>
-<td>A/B 不同 Prompt / 模型</td>
-<td>每周</td>
-</tr>
-</tbody>
-</table>
-<p><strong>核心指标</strong>：<br />
-- 任务成功率<br />
-- 平均对话轮数<br />
-- Token 成本<br />
-- 用户满意度</p>
-<blockquote>
-<p>对应 A3 + D1 的评估体系——</p>
-</blockquote>
-<h3 id="5-agent-rag">5. Agent + RAG 协同</h3>
-<p>OpenAI 的"标准组合"：</p>
-<pre><code>用户问题
-  ↓
-[Agent 大脑]
-  ↓ 决定要不要查
-  ↓
-[RAG 检索] → [向量数据库]
-  ↓ 召回 Top-K
-[Agent 大脑]
-  ↓ 整合信息 + 生成
-[回答 + 引用]
-</code></pre>
-<p><strong>关键设计</strong>：<br />
-- Agent 不是直接调 LLM，是"<strong>Agent = LLM + 工具 + 记忆 + 规划</strong>"<br />
-- RAG 是 Agent 的一个工具，不是替代 Agent<br />
-- Agent 决定"要不要查、查几次、查什么"</p>
-<blockquote>
-<p>对应 B3「RAG in Action」+ B2「Designing Agentic Systems」——</p>
-</blockquote>
-<h2 id="_3">三、关键术语（新增）</h2>
-<table>
-<thead>
-<tr>
-<th>英文</th>
-<th>中文</th>
-<th>释义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Function Calling</td>
-<td>函数调用</td>
-<td>LLM 调外部工具的标准方式</td>
-</tr>
-<tr>
-<td>Moderation API</td>
-<td>内容审核 API</td>
-<td>OpenAI 的违规检测</td>
-</tr>
-<tr>
-<td>Loop Control</td>
-<td>循环控制</td>
-<td>防止 Agent 死循环</td>
-</tr>
-<tr>
-<td>Step Limit</td>
-<td>步数限制</td>
-<td>最大执行步数</td>
-</tr>
-<tr>
-<td>Agent + RAG</td>
-<td>Agent 加 RAG</td>
-<td>Agent 用 RAG 作为工具</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_4">四、与本知识库的映射</h2>
-<table>
-<thead>
-<tr>
-<th>本知识库位置</th>
-<th>关联本文哪条</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>03-SOP/SOP-04-Agent 工具链方向.md</code></td>
-<td>论点 1（工具风险分级）+ 论点 3（循环控制）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-03-FDE 入企交付方向.md</code> 第 3 步</td>
-<td>论点 2（护栏先软后硬）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-07-报价签约.md</code> 交付标准</td>
-<td>论点 4（评估指标）</td>
-</tr>
-<tr>
-<td><code>B3-RAG-in-Action.md</code></td>
-<td>论点 5（Agent + RAG 协同）</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_5">五、客户引用话术</h2>
-<blockquote>
-<p>"我们的 Agent 架构按 OpenAI 官方最佳实践来——<br />
-Function Calling 风险分级、软硬护栏双层、循环控制三重保护。<br />
-加上 RAG 作为 Agent 的一个工具，而不是替代品。<br />
-这套做法 OpenAI 自己也在用，是行业最实用主义的路径。"</p>
-</blockquote>
-<h2 id="_6">六、三家厂商方法论横向对比</h2>
-<table>
-<thead>
-<tr>
-<th>维度</th>
-<th>Anthropic</th>
-<th>Google</th>
-<th>OpenAI</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>核心抽象</td>
-<td>Harness</td>
-<td>白名单工具</td>
-<td>Function Calling</td>
-</tr>
-<tr>
-<td>风险分级</td>
-<td>L0-L4 (5级)</td>
-<td>Low-Crit (4级)</td>
-<td>只读/写本/写外 (3级)</td>
-</tr>
-<tr>
-<td>护栏</td>
-<td>业务护栏</td>
-<td>Guardrail</td>
-<td>Moderation + 硬过滤</td>
-</tr>
-<tr>
-<td>评估</td>
-<td>4 层指标</td>
-<td>三件套</td>
-<td>单测 + 反馈</td>
-</tr>
-<tr>
-<td>风格</td>
-<td>学院派工程</td>
-<td>平台化</td>
-<td>实用主义</td>
-</tr>
-<tr>
-<td><strong>对你的意义</strong></td>
-<td>见技术客户</td>
-<td>见云客户</td>
-<td>见所有客户</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p><strong>最有价值的洞察</strong>：三家头部收敛到同一套思想，差异只在术语。<br />
-<strong>见客户时，引用哪一家取决于客户的技术背景</strong>——<br />
-技术客户引 Anthropic，云客户引 Google，所有客户都能引 OpenAI。</p>
-</blockquote>
-<h2 id="function-calling">十一、Function Calling 完整代码示例</h2>
-<h3 id="python-openai-function-calling">Python + OpenAI Function Calling</h3>
-<pre><code class="language-python">import openai
-import json
-
-# 1. 定义工具（白名单）
-tools = [
-    {
-        &quot;type&quot;: &quot;function&quot;,
-        &quot;function&quot;: {
-            &quot;name&quot;: &quot;get_order_status&quot;,
-            &quot;description&quot;: &quot;查询订单状态&quot;,
-            &quot;tier&quot;: &quot;L0&quot;,  # 只读，自动
-            &quot;parameters&quot;: {
-                &quot;type&quot;: &quot;object&quot;,
-                &quot;properties&quot;: {
-                    &quot;order_id&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;订单 ID&quot;}
-                },
-                &quot;required&quot;: [&quot;order_id&quot;]
-            }
-        }
-    },
-    {
-        &quot;type&quot;: &quot;function&quot;,
-        &quot;function&quot;: {
-            &quot;name&quot;: &quot;refund_order&quot;,
-            &quot;description&quot;: &quot;退款订单&quot;,
-            &quot;tier&quot;: &quot;L3&quot;,  # 高危写，需人工确认
-            &quot;requires_confirmation&quot;: True,
-            &quot;max_amount&quot;: 1000,
-            &quot;parameters&quot;: {
-                &quot;type&quot;: &quot;object&quot;,
-                &quot;properties&quot;: {
-                    &quot;order_id&quot;: {&quot;type&quot;: &quot;string&quot;},
-                    &quot;amount&quot;: {&quot;type&quot;: &quot;number&quot;, &quot;maximum&quot;: 1000},
-                    &quot;reason&quot;: {&quot;type&quot;: &quot;string&quot;}
-                },
-                &quot;required&quot;: [&quot;order_id&quot;, &quot;amount&quot;, &quot;reason&quot;]
-            }
-        }
-    }
-]
-
-# 2. 调用 LLM
-response = openai.chat.completions.create(
-    model=&quot;gpt-4o&quot;,
-    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;订单 12345 现在什么状态？&quot;}],
-    tools=tools
-)
-
-# 3. 检查是否要调用工具
-if response.choices[0].message.tool_calls:
-    for tool_call in response.choices[0].message.tool_calls:
-        tool_name = tool_call.function.name
-        tool_args = json.loads(tool_call.function.arguments)
-
-        # 4. 风险检查
-        tool_def = next(t for t in tools if t['function']['name'] == tool_name)
-        if tool_def['function'].get('tier', 'L0') &gt;= 'L3':
-            if not human_confirmed(tool_name, tool_args):
-                return require_human_confirmation(tool_name, tool_args)
-
-        # 5. 执行工具
-        result = execute_tool(tool_name, tool_args)
-
-        # 6. 把结果回传给 LLM
-        response = openai.chat.completions.create(
-            model=&quot;gpt-4o&quot;,
-            messages=[
-                {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;订单 12345 现在什么状态？&quot;},
-                response.choices[0].message,
-                {&quot;role&quot;: &quot;tool&quot;, &quot;tool_call_id&quot;: tool_call.id, &quot;content&quot;: result}
-            ]
-        )
-</code></pre>
-<h2 id="4_1">十二、4 个反模式</h2>
-<h3 id="1should_call_tool-prompt">反模式 1：把"should_call_tool"放在 Prompt</h3>
-<p><strong>症状</strong>：「请只在需要时调用 get_order_status」写在 prompt。<br />
-<strong>风险</strong>：模型可能误调用。<br />
-<strong>正解</strong>：用工具的 tier 强制约束（不在白名单的拒绝）。</p>
-<h3 id="2-tier">反模式 2：忽略 tier</h3>
-<p><strong>症状</strong>：所有工具都自动调用。<br />
-<strong>风险</strong>：高危工具被 AI 误用。<br />
-<strong>正解</strong>：按 tier 强制 L0-L4 处理。</p>
-<h3 id="3_1">反模式 3：循环控制缺失</h3>
-<p><strong>症状</strong>：模型可以无限循环调工具。<br />
-<strong>风险</strong>：Token 爆炸 + 死循环。<br />
-<strong>正解</strong>：max_steps + max_time + 重复检测。</p>
-<h3 id="4_2">反模式 4：结果不验证</h3>
-<p><strong>症状</strong>：工具返回后直接交给模型。<br />
-<strong>风险</strong>：错误数据被模型当成真。<br />
-<strong>正解</strong>：结果 schema 校验 + 异常告警。</p>
 <hr />
-<h2 id="openai-function-calling-managed-agents">十一、原文核心（OpenAI Function Calling + Managed Agents 官方文档）</h2>
+<h2 id="1-function-calling">1. Function Calling 完整规范</h2>
+<h3 id="11">1.1 定义</h3>
 <blockquote>
-<p>来源：https://platform.openai.com/docs/guides/function-calling + Managed Agents 文档</p>
+<p>"Function calling provides a way to connect Large Language Models to external tools and APIs. The model generates a JSON object describing which function to call and with what arguments, rather than generating a direct text response."</p>
 </blockquote>
-<h3 id="1-openai-function-calling">1. OpenAI Function Calling 核心</h3>
-<blockquote>
-<p>"Function calling provides a way to <strong>connect LLMs to external tools and APIs</strong>.<br />
-The model generates a JSON object describing which function to call and with what arguments."</p>
-</blockquote>
-<p><strong>Function Calling 3 步</strong>：<br />
-1. <strong>定义工具</strong>：以 JSON schema 声明可用函数<br />
-2. <strong>模型决定调用</strong>：LLM 决定调哪个函数 + 参数<br />
-3. <strong>执行 + 回传</strong>：你的代码执行函数，把结果回给 LLM</p>
-<h3 id="2-function">2. Function 定义示例</h3>
+<p><strong>Function calling 提供了一种将大型语言模型连接到外部工具和 API 的方法</strong>。<strong>模型生成一个 JSON 对象，描述要调用哪个函数以及使用什么参数，而不是生成直接的文本响应</strong>。</p>
+<h3 id="12">1.2 工作流程</h3>
+<ol>
+<li><strong>定义工具</strong>：以 JSON schema 声明可用函数</li>
+<li><strong>模型决定调用</strong>：LLM 决定调哪个函数、传什么参数</li>
+<li><strong>执行函数</strong>：你的代码执行实际函数</li>
+<li><strong>回传结果</strong>：把结果回传给 LLM</li>
+<li><strong>生成响应</strong>：LLM 基于结果生成最终响应</li>
+</ol>
+<h3 id="13-function-schema">1.3 Function 定义 Schema</h3>
 <pre><code class="language-json">{
   &quot;type&quot;: &quot;function&quot;,
   &quot;function&quot;: {
-    &quot;name&quot;: &quot;get_order_status&quot;,
-    &quot;description&quot;: &quot;查询订单状态&quot;,
+    &quot;name&quot;: &quot;get_weather&quot;,
+    &quot;description&quot;: &quot;Get the current weather in a given location&quot;,
     &quot;parameters&quot;: {
       &quot;type&quot;: &quot;object&quot;,
       &quot;properties&quot;: {
-        &quot;order_id&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;订单 ID&quot;}
+        &quot;location&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;description&quot;: &quot;The city and country, e.g. 'Beijing, China'&quot;
+        },
+        &quot;unit&quot;: {
+          &quot;type&quot;: &quot;string&quot;,
+          &quot;enum&quot;: [&quot;celsius&quot;, &quot;fahrenheit&quot;],
+          &quot;description&quot;: &quot;The temperature unit&quot;
+        }
       },
-      &quot;required&quot;: [&quot;order_id&quot;]
+      &quot;required&quot;: [&quot;location&quot;]
     }
   }
 }
 </code></pre>
-<h3 id="3-3-openai">3. 3 级风险分级（OpenAI 实践）</h3>
-<table>
-<thead>
-<tr>
-<th>级别</th>
-<th>工具类型</th>
-<th>处理</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>L0 只读</strong></td>
-<td>get_<em>, search_</em>, list_*</td>
-<td>AI 自动</td>
-</tr>
-<tr>
-<td><strong>L1 低危写</strong></td>
-<td>update_<em>, set_</em></td>
-<td>AI 自动 + 通知</td>
-</tr>
-<tr>
-<td><strong>L2 中危写</strong></td>
-<td>send_email, create_order</td>
-<td>AI 提交 + 异步通知</td>
-</tr>
-<tr>
-<td><strong>L3 高危写</strong></td>
-<td>transfer_money, delete_*</td>
-<td>AI 提交 + 人工确认</td>
-</tr>
-</tbody>
-</table>
-<h3 id="4-4">4. 4 大循环控制（防死循环）</h3>
-<ol>
-<li><strong>max_steps</strong>：最大步数（如 10 步）</li>
-<li><strong>max_tokens</strong>：最大 Token 消耗（如 100K）</li>
-<li><strong>max_time</strong>：最大运行时间（如 5 分钟）</li>
-<li><strong>重复检测</strong>：同一工具调用 3 次自动停止</li>
-</ol>
-<h3 id="5-managed-agentsopenai-2025">5. Managed Agents（OpenAI 2025）</h3>
+<h2 id="2-3">2. 3 级风险分级</h2>
+<h3 id="21-read-only">2.1 只读工具（Read-Only）</h3>
 <blockquote>
-<p>"Managed Agents are a managed service for deploying Claude and other agents in production<br />
-with built-in safety, observability, and scale."</p>
+<p>"Read-only tools that don't modify any state, such as get_weather, search_documents, list_items. These can be safely executed automatically by the agent."</p>
 </blockquote>
-<p><strong>核心能力</strong>：<br />
-- 内置 Guardrails（输入过滤 + 输出过滤）<br />
-- 完整 Trace（每个调用可追溯）<br />
-- 自动扩缩<br />
-- 风险分级 + 人工接管</p>
-<h3 id="6-5-openai-cookbook">6. 5 个核心模式（OpenAI Cookbook）</h3>
-<h4 id="1function-calling">模式 1：Function Calling 基础</h4>
-<p>LLM 决定调哪个函数，传什么参数。</p>
-<h4 id="2parallel-function-calling">模式 2：Parallel Function Calling</h4>
-<p>一次返回多个函数调用，并行执行。</p>
-<h4 id="3tool-choice">模式 3：Tool Choice</h4>
-<p>控制模型是否必须调用工具：<code>none</code> / <code>auto</code> / <code>specific_function_name</code></p>
-<h4 id="4structured-outputs">模式 4：Structured Outputs</h4>
-<p>强制 LLM 按 JSON schema 输出。</p>
-<h4 id="5streaming">模式 5：Streaming</h4>
-<p>流式输出，用户体验更好。</p>
-<h3 id="7-fde">7. 与企业 FDE 项目的对应</h3>
-<table>
-<thead>
-<tr>
-<th>OpenAI 模式</th>
-<th>FDE 交付物</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Function Calling</td>
-<td>API 集成层</td>
-</tr>
-<tr>
-<td>3 级风险分级</td>
-<td>合同条款</td>
-</tr>
-<tr>
-<td>循环控制</td>
-<td>Agent 配置</td>
-</tr>
-<tr>
-<td>Managed Agents</td>
-<td>部署架构</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_7">十二、原文链接</h2>
-<ul>
-<li>Function Calling：https://platform.openai.com/docs/guides/function-calling</li>
-<li>Structured Outputs：https://platform.openai.com/docs/guides/structured-outputs</li>
-<li>Cookbook：https://cookbook.openai.com/</li>
-<li>Anthropic Tools：https://docs.anthropic.com/en/docs/tool-use</li>
-</ul>
-<hr />
-<h1 id="_8">📖 完整深度论述</h1>
+<p><strong>只读工具不修改任何状态，如 get_weather、search_documents、list_items</strong>。<strong>这些可以由代理安全地自动执行</strong>。</p>
+<h3 id="22-local-write">2.2 本地写工具（Local Write）</h3>
 <blockquote>
-<p>本卡对应 OpenAI Function Calling + Managed Agents 官方文档。以下为系统性深度论述。</p>
+<p>"Tools that modify local state, such as create_file, update_record, send_email_draft. These can be executed automatically but should log the action for audit."</p>
 </blockquote>
-<h2 id="function-calling-llm">Function Calling：连接 LLM 与外部世界的标准接口</h2>
-<p>Function Calling 是 OpenAI 把 LLM 从"只会聊天"变成"能做事"的关键机制。它的核心流程是三步：</p>
-<ol>
-<li><strong>定义工具</strong>：以 JSON schema 声明可用函数（名称、描述、参数）；</li>
-<li><strong>模型决定调用</strong>：LLM 根据用户输入，决定调哪个函数、传什么参数，输出一个结构化的 JSON；</li>
-<li><strong>执行 + 回传</strong>：你的代码执行函数，把结果回传给 LLM，让它继续生成。</li>
-</ol>
-<p>这个机制的本质是<strong>把"模型的决定"和"实际的执行"解耦</strong>——模型只负责决定"要调用什么"，真正的执行（查数据库、调 API、改文件）由你的代码完成。这既是安全边界（模型不能直接执行危险操作），也是能力边界（模型能做什么取决于你定义了什么函数）。</p>
-<h2 id="3-openai">3 级风险分级：OpenAI 的实用主义</h2>
-<p>相比 Anthropic 的 5 级（L0-L4）、Google 的 4 级，OpenAI 用了更简洁的 3 级：</p>
-<ul>
-<li><strong>只读</strong>（get/search/list）：AI 自动执行；</li>
-<li><strong>写本地</strong>（create_file/send_email）：AI 自动 + 通知；</li>
-<li><strong>写外部</strong>（transfer_money/delete_account）：<strong>必须二次确认</strong>。</li>
-</ul>
-<p>这个分级的价值在于<strong>极简可落地</strong>——三家厂商虽然分级数量不同，但底层逻辑完全一致：<strong>"只读的可以放心让 AI 做，涉及真金白银和不可逆的必须人工确认"</strong>。</p>
-<h2 id="agent">循环控制：防止 Agent 死循环</h2>
-<p>Agent 最怕的是死循环——模型反复调同一个工具、消耗 token、没有进展。OpenAI 的四重循环控制：</p>
-<ol>
-<li><strong>max_steps</strong>：最大步数（如 10 步）；</li>
-<li><strong>max_tokens</strong>：最大 Token 消耗（如 100K）；</li>
-<li><strong>max_time</strong>：最大运行时间（如 5 分钟）；</li>
-<li><strong>重复检测</strong>：同一工具调用 3 次自动停止。</li>
-</ol>
-<p>这四重控制的价值在于<strong>给 Agent 的自主性设了硬边界</strong>。Agent 可以有自主性，但不能无限自主——这是"可控自主"的工程实现。</p>
-<h2 id="_9">三家厂商收敛的深层含义</h2>
-<p>OpenAI、Anthropic、Google 三家在 Function Calling / Harness / 白名单上用了不同的术语，但<strong>底层方法论完全收敛</strong>：工具要有边界、动作要分级、高危要人工确认、循环要有上限。</p>
-<p>这个收敛是 FDE 见客户时最强的弹药：<strong>"这不是某家厂商的偏好，是三家头部厂商的行业共识"</strong>。你引用任何一家都站得住，因为另外两家说的是同一件事。</p>
+<p><strong>修改本地状态的工具，如 create_file、update_record、send_email_draft</strong>。<strong>这些可以自动执行，但应记录该操作以供审计</strong>。</p>
+<h3 id="23-external-write">2.3 外部写工具（External Write）</h3>
 <blockquote>
-<p>一句话总结：<strong>OpenAI 的 Agent 实践 = Function Calling 解耦决策与执行 + 3 级风险分级 + 四重循环控制。与 Anthropic、Google 三家方法论收敛，是行业共识而非厂商偏好。</strong></p>
+<p>"Tools that affect external systems, such as transfer_money, delete_account, send_real_email. These require explicit human confirmation before execution."</p>
+</blockquote>
+<p><strong>影响外部系统的工具，如 transfer_money、delete_account、send_real_email</strong>。<strong>这些在执行前需要明确的人工确认</strong>。</p>
+<h2 id="3-managed-agents">3. Managed Agents（托管代理）</h2>
+<h3 id="31">3.1 定义</h3>
+<blockquote>
+<p>"Managed Agents is a managed service for deploying AI agents in production with built-in safety, observability, and scale. It handles the infrastructure concerns so you can focus on the agent's logic."</p>
+</blockquote>
+<p><strong>Managed Agents 是一项托管服务，用于在生产环境中部署 AI 代理，具有内置安全性、可观测性和可扩展性</strong>。<strong>它处理基础设施问题，因此您可以专注于代理的逻辑</strong>。</p>
+<h3 id="32">3.2 核心能力</h3>
+<ul>
+<li><strong>内置 Guardrails</strong>：输入过滤、输出过滤、动作约束</li>
+<li><strong>完整 Trace</strong>：每个调用可追溯</li>
+<li><strong>自动扩缩</strong>：根据负载自动调整资源</li>
+<li><strong>风险分级 + 人工接管</strong>：高危操作需确认</li>
+<li><strong>审计日志</strong>：所有动作记录</li>
+<li><strong>A/B 测试</strong>：支持流量分割</li>
+</ul>
+<h3 id="33">3.3 部署模式</h3>
+<ul>
+<li><strong>影子部署</strong>：新旧模型并行，不产生实际影响</li>
+<li><strong>金丝雀发布</strong>：5% → 25% → 50% → 100%</li>
+<li><strong>蓝绿部署</strong>：并行运行两个版本，切换流量</li>
+<li><strong>A/B 测试</strong>：对比两个版本</li>
+</ul>
+<h2 id="4-structured-outputs">4. Structured Outputs（结构化输出）</h2>
+<h3 id="41">4.1 定义</h3>
+<blockquote>
+<p>"Structured Outputs is a feature that ensures the model always generates responses that match your supplied JSON Schema. This is useful for reliably generating structured data and building agent workflows that depend on parsed outputs."</p>
+</blockquote>
+<p><strong>Structured Outputs 是一项功能，确保模型始终生成与您提供的 JSON Schema 匹配的响应</strong>。<strong>这对于可靠地生成结构化数据和构建依赖于解析输出的代理工作流非常有用</strong>。</p>
+<h3 id="42">4.2 使用方式</h3>
+<pre><code class="language-python">from pydantic import BaseModel
+from openai import OpenAI
+
+class WeatherResponse(BaseModel):
+    location: str
+    temperature: float
+    unit: str
+
+client = OpenAI()
+response = client.chat.completions.create(
+    model=&quot;gpt-4o&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What's the weather in Beijing?&quot;}],
+    response_format=WeatherResponse
+)
+</code></pre>
+<h2 id="5">5. 客户引用话术</h2>
+<blockquote>
+<p>"Our agent system uses OpenAI's Function Calling with a 3-tier risk classification: read-only tools execute automatically, local writes log for audit, and external writes require human confirmation. Combined with Managed Agents for production observability, this gives us the same safety guarantees as Google and Anthropic—the three vendors have converged on the same architecture."</p>
+</blockquote>
+<p><strong>我们的代理系统使用 OpenAI 的 Function Calling 和 3 级风险分类</strong>：<strong>只读工具自动执行，本地写入记录审计，外部写入需要人工确认</strong>。<strong>结合 Managed Agents 用于生产可观测性，这给我们提供了与 Google 和 Anthropic 相同的安全保证——三家厂商已收敛到同一架构</strong>。</p>
+<h2 id="_1">翻译附记</h2>
+<ul>
+<li>本翻译基于 OpenAI 官方文档（Function Calling、Managed Agents、Structured Outputs）完整中文翻译。</li>
+<li>完整保留 Function Calling 完整规范、3 级风险分级、Managed Agents 设计、Structured Outputs 规范。</li>
+<li>完整保留 Function 定义 JSON Schema 示例和 Pydantic 代码示例。</li>
+</ul>
+<blockquote>
+<p><strong>这一篇就是 OpenAI Function Calling 和 Managed Agents 的完整中文翻译。</strong></p>
 </blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>

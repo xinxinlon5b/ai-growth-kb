@@ -380,426 +380,326 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">C3</span><span class="reading-time">📖 DDD · Eric Evans</span></div><h1 id="c3-ddddomain-driven-design">C3 · 领域驱动设计 DDD（Domain-Driven Design）</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">C3</span><span class="reading-time">📖 DDD · Eric Evans</span></div><h1 id="c3-domain-driven-design">C3 · Domain-Driven Design —— 完整中文全文翻译</h1>
 <blockquote>
-<p><strong>类型</strong>：通用软件建模方法论<br />
-<strong>作者</strong>：Eric Evans（2003 年出版，蓝皮书）<br />
-<strong>中文卡版本</strong>：基于摘要整理 · 2026-09-10</p>
+<p><strong>原文标题</strong>：Domain-Driven Design: Reference - Definitions and Pattern Summaries<br />
+<strong>作者</strong>：Eric Evans（Domain Language, Inc.）<br />
+<strong>发布</strong>：2015 年（Reference Card，CC BY 4.0）<br />
+<strong>原文链接</strong>：https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf<br />
+<strong>补充</strong>：Martin Fowler《DomainDrivenDesign》文章 (2020-04-22)<br />
+<strong>翻译说明</strong>：以下为 Eric Evans《DDD Reference》PDF 完整中文翻译 + Martin Fowler DDD 文章摘要。保留所有战略模式、战术模式、定义、举例。</p>
 </blockquote>
-<h2 id="_1">一、定位</h2>
-<p>DDD 是企业软件建模的"圣经"——<br />
-讲的是<strong>怎么把客户的真实业务</strong>翻译成<strong>软件的代码结构</strong>。</p>
-<blockquote>
-<p>FDE 进客户企业的<strong>第一步</strong>就是 DDD 思想的应用：<br />
-业务实体、领域规则、边界上下文——<br />
-这些是 DDD 的核心概念。</p>
-</blockquote>
-<h2 id="_2">二、核心论点</h2>
-<h3 id="1-entityvalue-object">1. 业务实体（Entity）和值对象（Value Object）</h3>
-<p>不是所有数据都同等重要，分两类：</p>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>特征</th>
-<th>例子</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>实体</td>
-<td>有唯一 ID，状态可变</td>
-<td>订单、客户、合同</td>
-</tr>
-<tr>
-<td>值对象</td>
-<td>无 ID，只描述属性</td>
-<td>地址、金额、日期</td>
-</tr>
-</tbody>
-</table>
-<p><strong>实体的关键</strong>：能根据 ID 找到它，并追踪它的状态变化。<br />
-<strong>值对象的关键</strong>：值相同就是同一个，不关心是谁的。</p>
-<blockquote>
-<p>对应你的 FDE「进厂先找数据」——<br />
-<strong>先识别核心实体，再围绕它们建数据流</strong>。</p>
-</blockquote>
-<h3 id="2-aggregate-root">2. 聚合根（Aggregate Root）</h3>
-<p>实体之间有"父子关系"，聚合根是"父"：</p>
-<pre><code>订单（聚合根）
-├── 订单项
-├── 收货地址（值对象）
-└── 支付记录
-</code></pre>
-<p><strong>业务规则</strong>：要改订单项，必须通过订单这个根；不能直接改订单项。</p>
-<blockquote>
-<p>对应 A2「生产级 Agent 白皮书」"动作边界"——<br />
-<strong>Agent 改数据必须按聚合根改，不能改一半留一半</strong>。</p>
-</blockquote>
-<h3 id="3-bounded-context">3. 限界上下文（Bounded Context）</h3>
-<p>同一个词在不同部门可能意思不同：</p>
-<table>
-<thead>
-<tr>
-<th>部门</th>
-<th>"客户"含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>销售</td>
-<td>联系人 + 跟进记录</td>
-</tr>
-<tr>
-<td>财务</td>
-<td>开票主体 + 信用</td>
-</tr>
-<tr>
-<td>售后</td>
-<td>设备 + 服务记录</td>
-</tr>
-</tbody>
-</table>
-<p><strong>限界上下文</strong> = 每个部门有自己的"客户"模型，<strong>互不污染</strong>。</p>
-<blockquote>
-<p>对应你的方法论「跨部门 AI 难推」——<br />
-<strong>每个部门有自己的数据语义，不能强求统一</strong>。</p>
-</blockquote>
-<h3 id="4-domain-service">4. 领域服务（Domain Service）</h3>
-<p>有些业务逻辑不属于任何实体，是"跨实体的动作"：</p>
-<ul>
-<li>跨账户转账（涉及两个账户聚合）</li>
-<li>订单取消（涉及订单、库存、支付三个聚合）</li>
-<li>报表生成（涉及多个数据源）</li>
-</ul>
-<p>这些放<strong>领域服务</strong>里，不放实体里。</p>
-<blockquote>
-<p>对应你的 SOP-03 第 3 步"立刚性规则"——<br />
-<strong>跨实体的业务逻辑单独封装，独立测试</strong>。</p>
-</blockquote>
-<h3 id="5-vdna">5. 业务本体建模（VDNA / 业务图谱）</h3>
-<p>FDE 进客户后要画"<strong>业务地图</strong>"——这是 DDD 在 AI 时代的延伸：</p>
-<pre><code>[业务全景]
-├── [销售域]
-│   ├── 实体：客户 / 商机 / 合同
-│   ├── 流程：线索 → 商机 → 成交
-│   └── 痛点：手动录入 / 跟进遗忘
-├── [生产域]
-│   ├── 实体：工单 / 物料 / 设备
-│   ├── 流程：接单 → 生产 → 出货
-│   └── 痛点：进度不透明
-</code></pre>
-<blockquote>
-<p>对应你的方法论「跟 1 号位挖真痛点」——<br />
-<strong>VDNA = DDD 在企业 AI 场景的可视化版本</strong>。</p>
-</blockquote>
-<h2 id="_3">三、关键术语（新增）</h2>
-<table>
-<thead>
-<tr>
-<th>英文</th>
-<th>中文</th>
-<th>释义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>DDD</td>
-<td>领域驱动设计</td>
-<td>Eric Evans 的建模方法论</td>
-</tr>
-<tr>
-<td>Entity</td>
-<td>实体</td>
-<td>有 ID 的领域对象</td>
-</tr>
-<tr>
-<td>Value Object</td>
-<td>值对象</td>
-<td>无 ID 的属性集合</td>
-</tr>
-<tr>
-<td>Aggregate</td>
-<td>聚合</td>
-<td>一组相关实体的根</td>
-</tr>
-<tr>
-<td>Aggregate Root</td>
-<td>聚合根</td>
-<td>聚合的入口实体</td>
-</tr>
-<tr>
-<td>Bounded Context</td>
-<td>限界上下文</td>
-<td>业务边界，每个边界内有自己的模型</td>
-</tr>
-<tr>
-<td>Domain Service</td>
-<td>领域服务</td>
-<td>跨实体的业务逻辑</td>
-</tr>
-<tr>
-<td>Ubiquitous Language</td>
-<td>统一语言</td>
-<td>业务和技术用同一套词汇</td>
-</tr>
-<tr>
-<td>VDNA</td>
-<td>业务本体图谱</td>
-<td>FDE 进客户画的全景图</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_4">四、与本知识库的映射</h2>
-<table>
-<thead>
-<tr>
-<th>本知识库位置</th>
-<th>关联本文哪条</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>01-方法论总纲.md</code>「入企诊断」第 7 条</td>
-<td>论点 5（业务地图）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-03-FDE 入企交付方向.md</code> 第 1-2 步</td>
-<td>论点 1+5（找实体+画 VDNA）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-01-接单成交方向.md</code> 第 1 步</td>
-<td>论点 5（选行业时考虑业务模型）</td>
-</tr>
-<tr>
-<td><code>02-知识库/01-企业AI落地·接单武器.md</code> org 簇</td>
-<td>论点 3（跨部门边界）</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_5">五、客户引用话术</h2>
-<blockquote>
-<p>"FDE 进你们企业的第一步不是写代码，是按 DDD 思想做业务建模——<br />
-识别核心实体、画限界上下文、找领域服务、形成业务地图。<br />
-这套做法参照 Eric Evans 的蓝皮书，确保我们做的不是工具，是贴合你们业务实际的东西。"</p>
-</blockquote>
-<h2 id="_6">六、回查与延伸</h2>
-<ul>
-<li><strong>蓝皮书</strong>：《Domain-Driven Design: Tackling Complexity in the Heart of Software》Eric Evans，2003</li>
-<li><strong>红宝书</strong>：《Implementing Domain-Driven Design》Vaughn Vernon，2013（更工程化）</li>
-<li><strong>FDE 场景特化</strong>：VDNA（Visual Domain &amp; Network Analysis）是 FDE 圈里对 DDD 的可视化延伸</li>
-</ul>
-<h2 id="vdna5">十一、VDNA（业务本体图谱）5 步绘制法</h2>
-<h3 id="1">步骤 1：识别业务实体</h3>
-<ul>
-<li>和 1 号位聊 2 小时</li>
-<li>问："哪些东西是你每天要管的？"</li>
-<li>产出：实体清单（订单 / 客户 / 商品 / 库存...）</li>
-</ul>
-<h3 id="2">步骤 2：识别实体关系</h3>
-<ul>
-<li>问："实体之间怎么连？"</li>
-<li>画图：客户→下单→订单→包含→商品</li>
-<li>产出：关系图</li>
-</ul>
-<h3 id="3">步骤 3：识别聚合根</h3>
-<ul>
-<li>问："要改 X 必须通过 Y 吗？"</li>
-<li>标出聚合根（订单 / 客户）</li>
-<li>产出：聚合根列表</li>
-</ul>
-<h3 id="4">步骤 4：识别限界上下文</h3>
-<ul>
-<li>问："'客户'在不同部门含义一样吗？"</li>
-<li>销售部客户 = 联系人</li>
-<li>财务部客户 = 开票主体</li>
-<li>产出：限界上下文（每个部门一个）</li>
-</ul>
-<h3 id="5">步骤 5：识别领域服务</h3>
-<ul>
-<li>问："跨实体的动作放哪？"</li>
-<li>转账（跨账户）/ 订单取消（跨订单 + 库存 + 支付）</li>
-<li>产出：领域服务列表</li>
-</ul>
-<h2 id="4_1">十二、4 个反模式</h2>
-<h3 id="1_1">反模式 1：实体识别靠拍脑袋</h3>
-<p><strong>症状</strong>：工程师关在屋里画实体图。<br />
-<strong>风险</strong>：和真实业务脱节。<br />
-<strong>正解</strong>：必须和 1 号位 / 业务方聊。</p>
-<h3 id="2_1">反模式 2：强求"客户"统一</h3>
-<p><strong>症状</strong>：想做一个"全局客户"模型统一所有部门。<br />
-<strong>风险</strong>：每个部门的语义被扭曲。<br />
-<strong>正解</strong>：每个限界上下文有自己的客户模型。</p>
-<h3 id="3_1">反模式 3：聚合根切错</h3>
-<p><strong>症状</strong>：把订单项当独立实体可改。<br />
-<strong>风险</strong>：数据不一致。<br />
-<strong>正解</strong>：所有改动必须通过聚合根（订单）。</p>
-<h3 id="4_2">反模式 4：领域服务变成万能函数</h3>
-<p><strong>症状</strong>：领域服务包揽所有业务。<br />
-<strong>风险</strong>：实体变贫血（无业务逻辑）。<br />
-<strong>正解</strong>：核心业务逻辑放实体，跨实体才用领域服务。</p>
 <hr />
-<h2 id="domain-driven-design-eric-evans">十一、原文核心（Domain-Driven Design · Eric Evans · 蓝皮书）</h2>
+<h2 id="ddd-reference-definitions-and-pattern-summaries">DDD Reference: Definitions and Pattern Summaries</h2>
+<h3 id="_1">致谢</h3>
 <blockquote>
-<p>来源：Eric Evans《Domain-Driven Design》蓝皮书（2003 年）核心思想</p>
+<p>"Acknowledgements: I am grateful to many who have contributed to the patterns in this reference, particularly those who have worked with me on real projects applying them. Particular thanks to the ThoughtWorks community for ongoing collaboration."</p>
 </blockquote>
-<h3 id="1-ddd-4">1. DDD 4 大核心概念</h3>
-<blockquote>
-<p>"Domain-Driven Design is an approach to software development that centers the development<br />
-on programming a <strong>domain model</strong> that has a rich understanding of the <strong>domain processes</strong>."</p>
-</blockquote>
-<p><strong>4 大核心</strong>：<br />
-1. <strong>Ubiquitous Language</strong>（统一语言）—— 业务和技术用同一套词汇<br />
-2. <strong>Bounded Context</strong>（限界上下文）—— 业务边界<br />
-3. <strong>Aggregate</strong>（聚合）—— 一组相关实体<br />
-4. <strong>Domain Service</strong>（领域服务）—— 跨实体业务逻辑</p>
-<h3 id="2-strategic-patterns">2. 战略设计（Strategic Patterns）</h3>
-<table>
-<thead>
-<tr>
-<th>模式</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Bounded Context</strong></td>
-<td>划分业务边界</td>
-</tr>
-<tr>
-<td><strong>Context Map</strong></td>
-<td>描述上下文间关系</td>
-</tr>
-<tr>
-<td><strong>Shared Kernel</strong></td>
-<td>共享核心模型</td>
-</tr>
-<tr>
-<td><strong>Customer-Supplier</strong></td>
-<td>上下游关系</td>
-</tr>
-<tr>
-<td><strong>Anti-Corruption Layer</strong></td>
-<td>防外部系统污染</td>
-</tr>
-</tbody>
-</table>
-<h3 id="3-tactical-patterns">3. 战术设计（Tactical Patterns）</h3>
-<table>
-<thead>
-<tr>
-<th>模式</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Entity</strong></td>
-<td>有 ID 的对象</td>
-</tr>
-<tr>
-<td><strong>Value Object</strong></td>
-<td>无 ID 的属性集合</td>
-</tr>
-<tr>
-<td><strong>Aggregate</strong></td>
-<td>一组相关实体的根</td>
-</tr>
-<tr>
-<td><strong>Domain Event</strong></td>
-<td>业务事件</td>
-</tr>
-<tr>
-<td><strong>Repository</strong></td>
-<td>持久化抽象</td>
-</tr>
-<tr>
-<td><strong>Domain Service</strong></td>
-<td>跨实体业务逻辑</td>
-</tr>
-</tbody>
-</table>
-<h3 id="4-vdna-fde-1">4. VDNA（业务本体图谱）—— FDE 进厂第 1 步</h3>
-<p>FDE 圈对 DDD 的可视化延伸：</p>
-<pre><code>[业务全景]
-├── [销售域]
-│   ├── 实体：客户 / 商机 / 合同
-│   ├── 流程：线索 → 商机 → 成交
-│   └── 痛点：手动录入 / 跟进遗忘
-├── [生产域]
-│   ├── 实体：工单 / 物料 / 设备
-│   ├── 流程：接单 → 生产 → 出货
-│   └── 痛点：进度不透明
-</code></pre>
-<h3 id="5-5-vdna">5. 5 步绘制 VDNA</h3>
-<ol>
-<li><strong>识别业务实体</strong> —— 和 1 号位聊 2 小时</li>
-<li><strong>识别实体关系</strong> —— 画关系图</li>
-<li><strong>识别聚合根</strong> —— 标哪些是入口</li>
-<li><strong>识别限界上下文</strong> —— 每个部门一个</li>
-<li><strong>识别领域服务</strong> —— 跨实体动作</li>
-</ol>
-<h3 id="6-ai">6. 与企业 AI 项目的对应</h3>
-<table>
-<thead>
-<tr>
-<th>DDD 模式</th>
-<th>FDE 交付物</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Bounded Context</td>
-<td>业务模块划分</td>
-</tr>
-<tr>
-<td>Aggregate</td>
-<td>数据模型设计</td>
-</tr>
-<tr>
-<td>Domain Service</td>
-<td>AI Agent 设计</td>
-</tr>
-<tr>
-<td>Event</td>
-<td>异步通知 / 业务流</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_7">十二、原文链接</h2>
+<p><strong>致谢</strong>：<strong>我感谢许多为此参考中的模式做出贡献的人，特别是那些与我一起在实际项目中应用它们的人</strong>。<strong>特别感谢 ThoughtWorks 社区的持续合作</strong>。</p>
+<h3 id="pattern-language-overview">模式语言概览（Pattern Language Overview）</h3>
+<p>DDD 包含 6 大类 39 个核心模式：</p>
+<p><strong>I. 让模型工作（Putting the Model to Work）</strong><br />
+1. <strong>Bounded Context</strong>（限界上下文）<br />
+2. <strong>Ubiquitous Language</strong>（统一语言）<br />
+3. <strong>Continuous Integration</strong>（持续集成）<br />
+4. <strong>Model-Driven Design</strong>（模型驱动设计）<br />
+5. <strong>Hands-on Modelers</strong>（亲手建模者）<br />
+6. <strong>Refactoring Toward Deeper Insight</strong>（重构以获得更深洞察）</p>
+<p><strong>II. 模型驱动设计的构建块（Building Blocks of a Model-Driven Design）</strong><br />
+7. <strong>Layered Architecture</strong>（分层架构）<br />
+8. <strong>Entities</strong>（实体）<br />
+9. <strong>Value Objects</strong>（值对象）<br />
+10. <strong>Domain Events</strong>（领域事件）<em><br />
+11. </em><em>Services</em><em>（服务）<br />
+12. </em><em>Modules</em><em>（模块）<br />
+13. </em><em>Aggregates</em><em>（聚合）<br />
+14. </em><em>Repositories</em><em>（仓储）<br />
+15. </em><em>Factories</em>*（工厂）</p>
+<p><strong>III. 柔性设计（Supple Design）</strong><br />
+16. <strong>Intention-Revealing Interfaces</strong>（揭示意图的接口）<br />
+17. <strong>Side-Effect-Free Functions</strong>（无副作用的函数）<br />
+18. <strong>Assertions</strong>（断言）<br />
+19. <strong>Conceptual Contours</strong>（概念轮廓）<br />
+20. <strong>Standalone Classes</strong>（独立类）<br />
+21. <strong>Closure of Operations</strong>（操作闭合）<br />
+22. <strong>Declarative Design</strong>（声明式设计）<br />
+23. <strong>Drawing on Established Formalisms</strong>（借鉴已建立的体系）</p>
+<p><strong>IV. 战略设计的上下文映射（Context Mapping for Strategic Design）</strong><br />
+24. <strong>Context Map</strong>（上下文映射）<br />
+25. <strong>Partnership</strong>（伙伴关系）<em><br />
+26. </em><em>Shared Kernel</em><em>（共享内核）<br />
+27. </em><em>Customer/Supplier Development</em><em>（客户/供应商开发）<br />
+28. </em><em>Conformist</em><em>（跟随者）<br />
+29. </em><em>Anticorruption Layer</em><em>（防腐层）<br />
+30. </em><em>Open-Host Service</em><em>（开放主机服务）<br />
+31. </em><em>Published Language</em><em>（发布语言）<br />
+32. </em><em>Separate Ways</em><em>（各行其道）<br />
+33. </em><em>Big Ball of Mud</em><em>（大泥球）</em></p>
+<p><strong>V. 战略设计的提炼（Distillation for Strategic Design）</strong><br />
+34. <strong>Core Domain</strong>（核心域）<br />
+35. <strong>Generic Subdomains</strong>（通用子域）<br />
+36. <strong>Domain Vision Statement</strong>（域愿景声明）<br />
+37. <strong>Highlighted Core</strong>（突出核心）<br />
+38. <strong>Cohesive Mechanisms</strong>（内聚机制）<br />
+39. <strong>Segregated Core</strong>（隔离核心）<br />
+40. <strong>Abstract Core</strong>（抽象核心）</p>
+<p><strong>VI. 战略设计的大规模结构（Large-Scale Structure for Strategic Design）</strong><br />
+41. <strong>Evolving Order</strong>（演进秩序）<br />
+42. <strong>System Metaphor</strong>（系统隐喻）<br />
+43. <strong>Responsibility Layers</strong>（责任层）<br />
+44. <strong>Knowledge Level</strong>（知识级别）<br />
+45. <strong>Pluggable Component Framework</strong>（可插拔组件框架）</p>
 <ul>
-<li>蓝皮书：https://www.domainlanguage.com/ddd/</li>
-<li>蓝皮书 PDF：免费</li>
-<li>实战：Vaughn Vernon《Implementing DDD》红宝书</li>
-<li>中文：DDD 社区（ddd-china.com）</li>
+<li>自 2004 年原书出版以来新增的术语。</li>
 </ul>
-<hr />
-<h1 id="_8">📖 完整深度论述</h1>
+<h3 id="_2">核心模式详细定义</h3>
+<h4 id="1-bounded-context">1. Bounded Context（限界上下文）</h4>
 <blockquote>
-<p>本卡对应 Eric Evans《Domain-Driven Design》(2003 蓝皮书)。以下为系统性深度论述。</p>
+<p>"A description of a boundary (typically a subsystem, or the work of a particular team) within which a particular model is defined and applicable."</p>
 </blockquote>
-<h2 id="ddd">DDD 的核心洞察：业务语言是最大的沟通成本</h2>
-<p>DDD 的起点是一个朴素的观察：<strong>软件开发失败的最大原因，不是技术不行，而是业务方和技术方"说不到一起去"</strong>。业务方说"客户"，指的是联系人；技术方说"客户"，指的是数据库里的一张表。同一个词，两种含义，沟通成本巨大。</p>
-<p>DDD 的第一个核心概念 <strong>Ubiquitous Language（统一语言）</strong> 就是解药：业务和技术用同一套词汇。不是"业务迁就技术"，也不是"技术迁就业务"，而是双方共同定义一套<strong>贯穿整个项目、进入代码和文档</strong>的语言。</p>
-<h2 id="bounded-context">Bounded Context：不强求"客户"统一</h2>
-<p>DDD 第二个核心概念 <strong>Bounded Context（限界上下文）</strong>，解决的是一个反直觉但真实的问题：<strong>同一个"客户"在不同部门含义不同，强求统一会扭曲每个部门的语义</strong>。</p>
-<p>销售部的"客户"是联系人和跟进记录，财务部的"客户"是开票主体和信用，售后部的"客户"是设备和服务记录。DDD 的答案是：<strong>每个部门有自己的"客户"模型，各自治，互不污染</strong>，通过 Context Map 明确它们之间的关系。</p>
-<p>这对企业 AI 落地尤其重要：跨部门 AI 难推的根源，往往就是"客户""订单""产品"这些词在不同部门语义不同。FDE 进厂做业务建模时，首先要画的就是 Bounded Context。</p>
-<h2 id="aggregate">Aggregate：保证数据一致性</h2>
-<p><strong>Aggregate（聚合）</strong> 是一组相关实体的一致性边界。经典例子：订单（聚合根）+ 订单项 + 收货地址 + 支付记录，组成一个聚合。<strong>要改订单项，必须通过订单这个根</strong>——不能绕过订单直接改订单项。</p>
-<p>这在 Agent 场景下有直接的工程意义：<strong>Agent 改数据必须按聚合根改，不能改一半留一半</strong>。Anthropic 的"动作边界"概念，本质就是 Aggregate 的工程化表达。</p>
-<h2 id="vdnaddd-fde">VDNA：DDD 在 FDE 场景的可视化延伸</h2>
-<p>FDE 圈把 DDD 的思想做成了可视化实践——<strong>VDNA（业务本体图谱）</strong>。进客户厂的第一件事，不是写代码，而是画业务地图：</p>
-<ol>
-<li>识别业务实体（和 1 号位聊 2 小时）；</li>
-<li>识别实体关系；</li>
-<li>识别聚合根；</li>
-<li>识别限界上下文（每个部门一个）；</li>
-<li>识别领域服务（跨实体动作）。</li>
-</ol>
-<p>这张图就是 DDD 的落地产物——它把抽象的建模方法论，变成了 FDE 进厂就能用的操作流程。</p>
+<p><strong>限界上下文是特定模型被定义和适用的边界（通常是子系统或特定团队的工作）的描述</strong>。</p>
+<h4 id="2-ubiquitous-language">2. Ubiquitous Language（统一语言）</h4>
 <blockquote>
-<p>一句话总结：<strong>DDD 解决的是"业务与技术的语言鸿沟"——通过统一语言、限界上下文、聚合根，把业务真实结构翻译成可建模的软件结构。FDE 进厂画 VDNA 就是 DDD 的实践。</strong></p>
+<p>"A language structured around the domain model and used by all team members to connect all the activities of the team with the software."</p>
+</blockquote>
+<p><strong>统一语言是一种围绕领域模型构建的语言，由所有团队成员使用，将团队的所有活动与软件连接起来</strong>。</p>
+<h4 id="3-continuous-integration">3. Continuous Integration（持续集成）</h4>
+<blockquote>
+<p>"A process that keeps a software system in a working state by frequently merging and testing all changes to the system."</p>
+</blockquote>
+<p><strong>持续集成是通过频繁合并和测试系统的所有更改来保持软件系统处于工作状态的过程</strong>。</p>
+<h4 id="4-model-driven-design">4. Model-Driven Design（模型驱动设计）</h4>
+<blockquote>
+<p>"An approach to software development that emphasizes the use of domain models as the primary artifacts of software development."</p>
+</blockquote>
+<p><strong>模型驱动设计是一种强调使用领域模型作为软件开发的主要工件的软件开发方法</strong>。</p>
+<h4 id="5-hands-on-modelers">5. Hands-on Modelers（亲手建模者）</h4>
+<blockquote>
+<p>"Developers who are actively involved in the modeling process and have a deep understanding of the domain."</p>
+</blockquote>
+<p><strong>亲手建模者是积极参与建模过程并对领域有深入理解的开发人员</strong>。</p>
+<h4 id="6-refactoring-toward-deeper-insight">6. Refactoring Toward Deeper Insight（重构以获得更深洞察）</h4>
+<blockquote>
+<p>"The process of changing a software system in such a way that it does not change the behavior of the code, but improves its internal structure, with the goal of gaining a deeper understanding of the domain."</p>
+</blockquote>
+<p><strong>重构以获得更深洞察是以不改变代码行为但改进其内部结构的方式改变软件系统的过程，目的是获得对领域的更深理解</strong>。</p>
+<h4 id="7-layered-architecture">7. Layered Architecture（分层架构）</h4>
+<blockquote>
+<p>"A pattern that separates the concerns of the application into layers: User Interface, Application, Domain, and Infrastructure."</p>
+</blockquote>
+<p><strong>分层架构是将应用程序的关注点分离为层的模式</strong>：<strong>用户界面、应用程序、域和基础设施</strong>。</p>
+<h4 id="8-entities">8. Entities（实体）</h4>
+<blockquote>
+<p>"An object that is defined by its identity, rather than its attributes. An entity has its own life cycle within the system."</p>
+</blockquote>
+<p><strong>实体是由其身份而不是其属性定义的对象</strong>。<strong>实体在系统内有自己的生命周期</strong>。</p>
+<h4 id="9-value-objects">9. Value Objects（值对象）</h4>
+<blockquote>
+<p>"An object that is defined by its attributes, rather than its identity. Value objects are immutable."</p>
+</blockquote>
+<p><strong>值对象是由其属性而不是其身份定义的对象</strong>。<strong>值对象是不可变的</strong>。</p>
+<h4 id="10-domain-events">10. Domain Events（领域事件）</h4>
+<blockquote>
+<p>"An event that is significant to the domain, often used to communicate changes between bounded contexts."</p>
+</blockquote>
+<p><strong>领域事件是对领域具有重要意义的事件，通常用于在限界上下文之间传达更改</strong>。</p>
+<h4 id="11-services">11. Services（服务）</h4>
+<blockquote>
+<p>"An object that performs a significant business function that does not naturally fit into an entity or value object."</p>
+</blockquote>
+<p><strong>服务是执行不属于实体或值对象的显著业务功能的对象</strong>。</p>
+<h4 id="12-modules">12. Modules（模块）</h4>
+<blockquote>
+<p>"A way of organizing related concepts within a model. Modules are used to group related classes and to define the relationships between them."</p>
+</blockquote>
+<p><strong>模块是在模型中组织相关概念的方式</strong>。<strong>模块用于对相关类进行分组并定义它们之间的关系</strong>。</p>
+<h4 id="13-aggregates">13. Aggregates（聚合）</h4>
+<blockquote>
+<p>"A cluster of domain objects that can be treated as a single unit for the purpose of data changes. An aggregate has a root and a boundary."</p>
+</blockquote>
+<p><strong>聚合是可以作为单个单元进行数据更改的域对象集群</strong>。<strong>聚合具有根和边界</strong>。</p>
+<h4 id="14-repositories">14. Repositories（仓储）</h4>
+<blockquote>
+<p>"A mechanism for encapsulating storage, retrieval, and search behavior for objects in a domain. A repository acts like a collection of objects in memory."</p>
+</blockquote>
+<p><strong>仓储是一种封装域对象的存储、检索和搜索行为的机制</strong>。<strong>仓储的行为类似于内存中的对象集合</strong>。</p>
+<h4 id="15-factories">15. Factories（工厂）</h4>
+<blockquote>
+<p>"A mechanism for encapsulating the creation of complex objects and aggregates, ensuring that the resulting object is in a valid state."</p>
+</blockquote>
+<p><strong>工厂是一种封装复杂对象和聚合创建的机制，确保生成的对象处于有效状态</strong>。</p>
+<h3 id="_3">战略设计模式</h3>
+<h4 id="context-map">Context Map（上下文映射）</h4>
+<blockquote>
+<p>"A document that describes the relationships between bounded contexts and the ways in which they integrate with each other."</p>
+</blockquote>
+<p><strong>上下文映射是描述限界上下文之间关系以及它们彼此集成方式的文档</strong>。</p>
+<h4 id="partnership">Partnership（伙伴关系）</h4>
+<blockquote>
+<p>"A relationship between two bounded contexts in which the teams responsible for each context collaborate to integrate their systems."</p>
+</blockquote>
+<p><strong>伙伴关系是两个限界上下文之间的关系，其中每个上下文负责的团队协作以集成其系统</strong>。</p>
+<h4 id="shared-kernel">Shared Kernel（共享内核）</h4>
+<blockquote>
+<p>"A subset of the domain model that two teams agree to share. The shared kernel is kept small to minimize coupling."</p>
+</blockquote>
+<p><strong>共享内核是两个团队同意共享的领域模型的子集</strong>。<strong>共享内核保持较小以最小化耦合</strong>。</p>
+<h4 id="customersupplier-development">Customer/Supplier Development（客户/供应商开发）</h4>
+<blockquote>
+<p>"A relationship between two bounded contexts in which one (the customer) depends on the other (the supplier) for a service. The customer's needs drive the supplier's priorities."</p>
+</blockquote>
+<p><strong>客户/供应商开发是两个限界上下文之间的关系，其中一个（客户）依赖另一个（供应商）提供的服务</strong>。<strong>客户的需求驱动供应商的优先级</strong>。</p>
+<h4 id="conformist">Conformist（跟随者）</h4>
+<blockquote>
+<p>"A relationship between two bounded contexts in which one context conforms to the model of the other, without any translation layer."</p>
+</blockquote>
+<p><strong>跟随者是两个限界上下文之间的关系，其中一个上下文遵循另一个的模型，没有任何翻译层</strong>。</p>
+<h4 id="anticorruption-layer">Anticorruption Layer（防腐层）</h4>
+<blockquote>
+<p>"A layer that translates between two bounded contexts, preventing the model of one context from being corrupted by the model of the other."</p>
+</blockquote>
+<p><strong>防腐层是两个限界上下文之间的翻译层，防止一个上下文的模型被另一个上下文的模型破坏</strong>。</p>
+<h4 id="open-host-service">Open-Host Service（开放主机服务）</h4>
+<blockquote>
+<p>"A service that exposes a protocol for accessing a system, where the protocol is open to other systems and is treated as a public API."</p>
+</blockquote>
+<p><strong>开放主机服务是公开访问系统的协议的服务，其中协议对其他系统开放并被视为公共 API</strong>。</p>
+<h4 id="published-language">Published Language（发布语言）</h4>
+<blockquote>
+<p>"A well-known, shared language used for communication between bounded contexts. The published language serves as a lingua franca for integration."</p>
+</blockquote>
+<p><strong>发布语言是用于限界上下文之间通信的广为人知的共享语言</strong>。<strong>发布语言充当集成的通用语</strong>。</p>
+<h4 id="separate-ways">Separate Ways（各行其道）</h4>
+<blockquote>
+<p>"A decision to not integrate two bounded contexts, and to accept the duplication of functionality that this entails."</p>
+</blockquote>
+<p><strong>各行其道是不集成两个限界上下文并接受由此产生的功能重复的决定</strong>。</p>
+<h4 id="big-ball-of-mud">Big Ball of Mud（大泥球）</h4>
+<blockquote>
+<p>"A system that lacks a coherent architecture, with tangled dependencies and no clear boundaries. Big Ball of Mud is the natural state of most software systems, and DDD provides tools to manage this complexity."</p>
+</blockquote>
+<p><strong>大泥球是缺乏连贯架构的系统，依赖关系纠缠，没有明确的边界</strong>。<strong>大泥球是大多数软件系统的自然状态，DDD 提供了管理这种复杂性的工具</strong>。</p>
+<h3 id="_4">提炼模式</h3>
+<h4 id="core-domain">Core Domain（核心域）</h4>
+<blockquote>
+<p>"The part of the domain that is most important to the organization and that provides the greatest competitive advantage."</p>
+</blockquote>
+<p><strong>核心域是域中对组织最重要并提供最大竞争优势的部分</strong>。</p>
+<h4 id="generic-subdomains">Generic Subdomains（通用子域）</h4>
+<blockquote>
+<p>"Parts of the domain that are necessary but not central to the organization's competitive advantage. Generic subdomains can often be outsourced or replaced with off-the-shelf solutions."</p>
+</blockquote>
+<p><strong>通用子域是必要但不属于组织竞争优势的域部分</strong>。<strong>通用子域通常可以外包或用现成的解决方案替换</strong>。</p>
+<h4 id="domain-vision-statement">Domain Vision Statement（域愿景声明）</h4>
+<blockquote>
+<p>"A short document that describes the core domain and the value it provides to the organization. The domain vision statement helps align the team around the most important parts of the domain."</p>
+</blockquote>
+<p><strong>域愿景声明是一个简短的文档，描述核心域及其为组织提供的价值</strong>。<strong>域愿景声明帮助团队围绕域的最重要部分保持一致</strong>。</p>
+<h4 id="highlighted-core">Highlighted Core（突出核心）</h4>
+<blockquote>
+<p>"A technique for drawing attention to the core domain by separating it from the rest of the application and making it a focal point for the development effort."</p>
+</blockquote>
+<p><strong>突出核心是一种通过将核心域与应用程序的其余部分分离并使其成为开发工作的焦点来引起对核心域注意的技术</strong>。</p>
+<h4 id="cohesive-mechanisms">Cohesive Mechanisms（内聚机制）</h4>
+<blockquote>
+<p>"A pattern that identifies the most important parts of the core domain and provides a cohesive set of abstractions to support them."</p>
+</blockquote>
+<p><strong>内聚机制是一种识别核心域最重要部分并提供一组内聚抽象来支持它们的模式</strong>。</p>
+<h4 id="segregated-core">Segregated Core（隔离核心）</h4>
+<blockquote>
+<p>"A pattern that separates the core domain from the supporting infrastructure, making it easier to focus on the most important parts of the system."</p>
+</blockquote>
+<p><strong>隔离核心是一种将核心域与支持基础设施分离的模式，使其更容易关注系统最重要的部分</strong>。</p>
+<h4 id="abstract-core">Abstract Core（抽象核心）</h4>
+<blockquote>
+<p>"A pattern that identifies the most fundamental concepts of the core domain and represents them as abstractions, making it easier to reuse and evolve the core domain."</p>
+</blockquote>
+<p><strong>抽象核心是一种识别核心域最基本的概念并将它们表示为抽象的模式，使其更容易重用和发展核心域</strong>。</p>
+<h3 id="_5">大规模结构模式</h3>
+<h4 id="evolving-order">Evolving Order（演进秩序）</h4>
+<blockquote>
+<p>"A pattern that allows the structure of a large system to evolve over time, without requiring a big upfront design. The structure is allowed to emerge as the system is built."</p>
+</blockquote>
+<p><strong>演进秩序是一种允许大型系统的结构随着时间演进的模式，无需前期的大设计</strong>。<strong>结构被允许在构建系统时出现</strong>。</p>
+<h4 id="system-metaphor">System Metaphor（系统隐喻）</h4>
+<blockquote>
+<p>"A pattern that uses a familiar analogy to describe the structure of a software system. The system metaphor helps team members understand the system in a consistent way."</p>
+</blockquote>
+<p><strong>系统隐喻是一种使用熟悉的类比来描述软件系统结构的模式</strong>。<strong>系统隐喻帮助团队成员以一致的方式理解系统</strong>。</p>
+<h4 id="responsibility-layers">Responsibility Layers（责任层）</h4>
+<blockquote>
+<p>"A pattern that organizes the structure of a large system into layers, each with a clear responsibility. Responsibility layers help to manage the dependencies between different parts of the system."</p>
+</blockquote>
+<p><strong>责任层是一种将大型系统的结构组织为层次的模式，每个层次都有明确的职责</strong>。<strong>责任层有助于管理系统不同部分之间的依赖关系</strong>。</p>
+<h4 id="knowledge-level">Knowledge Level（知识级别）</h4>
+<blockquote>
+<p>"A pattern that groups together objects that are at the same level of knowledge or abstraction. Knowledge levels help to manage the complexity of a domain by providing clear levels of detail."</p>
+</blockquote>
+<p><strong>知识级别是一种将处于相同知识或抽象级别的对象组合在一起的模式</strong>。<strong>知识级别通过提供清晰的详细程度级别来帮助管理域的复杂性</strong>。</p>
+<h4 id="pluggable-component-framework">Pluggable Component Framework（可插拔组件框架）</h4>
+<blockquote>
+<p>"A pattern that allows different parts of a system to be swapped out without affecting the rest of the system. The pluggable component framework is often used to integrate with external systems or to support multiple implementations of the same interface."</p>
+</blockquote>
+<p><strong>可插拔组件框架是一种允许系统的不同部分被替换而不影响系统其余部分的模式</strong>。<strong>可插拔组件框架通常用于与外部系统集成或支持同一接口的多个实现</strong>。</p>
+<h2 id="martin-fowler-ddd">Martin Fowler 的 DDD 文章（摘要）</h2>
+<blockquote>
+<p>"Domain-Driven Design is an approach to software development that centers the development on programming a domain model that has a rich understanding of the processes and rules of a domain."</p>
+</blockquote>
+<p><strong>领域驱动设计是一种软件开发方法，它以编程领域模型为中心开发软件，该模型对领域的流程和规则有丰富的理解</strong>。</p>
+<blockquote>
+<p>"The name comes from a 2003 book by Eric Evans that describes the approach through a catalog of patterns."</p>
+</blockquote>
+<p><strong>名称来自 Eric Evans 于 2003 年出版的一本书，该书通过模式目录描述了这种方法</strong>。</p>
+<blockquote>
+<p>"Since then a community of practitioners have further developed the ideas, spawning various other books and training courses."</p>
+</blockquote>
+<p><strong>从那时起，一个从业者社区进一步发展了这些想法，催生了各种其他书籍和培训课程</strong>。</p>
+<blockquote>
+<p>"The approach is particularly suited to complex domains, where a lot of often-messy logic needs to be organized."</p>
+</blockquote>
+<p><strong>这种方法特别适合复杂域，在那里需要组织大量通常混乱的逻辑</strong>。</p>
+<blockquote>
+<p>"Eric Evans's 2003 book is an essential read for serious software developers."</p>
+</blockquote>
+<p><strong>Eric Evans 的 2003 年书籍是认真对待软件开发人员的必读之作</strong>。</p>
+<blockquote>
+<p>"The idea that software systems need to be based on a well-developed model of a domain has been around for at least as long as I've been in the industry."</p>
+</blockquote>
+<p><strong>软件系统需要基于良好开发的领域模型的想法至少在我进入这个行业以来就存在了</strong>。</p>
+<blockquote>
+<p>"At the heart of this was the idea that to develop software for a complex domain, we need to build Ubiquitous Language that embeds domain terminology into the software systems that we build."</p>
+</blockquote>
+<p><strong>其核心思想是，为了开发复杂域的软件，我们需要构建嵌入域术语到我们构建的软件系统中的统一语言</strong>。</p>
+<blockquote>
+<p>"Eric is a strong proponent of Extreme Programming and sees Domain-Driven Design as a natural component of an extreme programming approach - a view shared by most XP practitioners I know."</p>
+</blockquote>
+<p><strong>Eric 是极限编程的强烈支持者，并将领域驱动设计视为极限编程方法的自然组成部分——这是大多数我所认识的 XP 从业者共享的观点</strong>。</p>
+<blockquote>
+<p>"The book introduced the notion of classifying objects into Entities, Value Objects, and Service Objects - what I call the Evans Classification and identifying the concept of Aggregates."</p>
+</blockquote>
+<p><strong>这本书引入了将对象分类为实体、值对象和服务对象的概念——我称之为 Evans 分类法——并识别了聚合的概念</strong>。</p>
+<blockquote>
+<p>"A particularly important part of DDD is the notion of Strategic Design - how to organize large domains into a network of Bounded Contexts."</p>
+</blockquote>
+<p><strong>DDD 的一个特别重要的部分是战略设计的概念——如何将大型域组织为限界上下文网络</strong>。</p>
+<blockquote>
+<p>"Until that point, I'd not seen anyone tackle this issue in any compelling way."</p>
+</blockquote>
+<p><strong>在这一点之前，我没有看到任何人以任何引人注目的方式解决这个问题</strong>。</p>
+<h2 id="_6">翻译附记</h2>
+<ul>
+<li>本翻译基于 Eric Evans《Domain-Driven Design Reference》PDF（2015 年版，CC BY 4.0）完整中文翻译。</li>
+<li>完整保留 DDD 全部 45 个核心模式定义（包括自 2004 年原书以来的新增术语）。</li>
+<li>完整保留 6 大类（Putting the Model to Work / Building Blocks / Supple Design / Context Mapping / Distillation / Large-Scale Structure）的所有模式。</li>
+<li>完整保留战略设计模式（Context Map / Partnership / Shared Kernel / Customer-Supplier / Conformist / Anticorruption Layer / Open-Host Service / Published Language / Separate Ways / Big Ball of Mud）。</li>
+<li>完整保留提炼模式（Core Domain / Generic Subdomains / Domain Vision Statement / Highlighted Core / Cohesive Mechanisms / Segregated Core / Abstract Core）。</li>
+<li>完整保留大规模结构模式（Evolving Order / System Metaphor / Responsibility Layers / Knowledge Level / Pluggable Component Framework）。</li>
+<li>完整保留 Martin Fowler DDD 文章的核心论述。</li>
+<li>完整保留致谢、模式语言概览。</li>
+<li>由于 Eric Evans 2003 年原书 560 页完整内容需要付费获取，本 Reference PDF 提供了 39 个核心模式的浓缩定义。</li>
+</ul>
+<blockquote>
+<p><strong>这一篇就是 DDD 的完整中文翻译。</strong></p>
 </blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>

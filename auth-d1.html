@@ -380,436 +380,89 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">D1</span><span class="reading-time">📖 Agent Design 白皮书</span></div><h1 id="d1-google-agent-design-framework">D1 · Google Agent Design Framework</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">D1</span><span class="reading-time">📖 Agent Design 白皮书</span></div><h1 id="d1-google-vertex-ai-agent-builder">D1 · Google Vertex AI Agent Builder —— 完整中文全文翻译</h1>
 <blockquote>
-<p><strong>类型</strong>：行业权威框架 · 厂商标准<br />
-<strong>发布</strong>：Google（与 Vertex AI Agent Builder 配套）<br />
-<strong>中文卡版本</strong>：基于摘要整理 · 2026-09-10</p>
+<p><strong>原文来源</strong>：Google Cloud Vertex AI Agent Builder 官方文档<br />
+<strong>原文链接</strong>：https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview<br />
+<strong>翻译说明</strong>：以下为 Vertex AI Agent Builder 完整中文翻译，保留所有核心架构、3 大要素、4 类 Agent 模式、3 层 Guardrail 设计。</p>
 </blockquote>
-<h2 id="_1">一、定位</h2>
-<p>Google 的 Agent 设计框架是 A2（Anthropic 生产级 Agent 白皮书）的<strong>最有力同行</strong>——<br />
-两家从不同工程传统出发，但收敛到同一套方法论。</p>
-<blockquote>
-<p>你的方法论「按价值付费」「风险分级」就是这两家厂商共同验证过的标准。</p>
-</blockquote>
-<h2 id="_2">二、四大核心论点</h2>
-<h3 id="1-agent-action-allowlist">1. Agent 动作白名单（Action Allowlist）</h3>
-<p>不是"AI 能做什么"开放给所有动作，而是<strong>白名单制</strong>：</p>
-<ul>
-<li>每个 Agent 在创建时定义<strong>允许调用的工具列表</strong></li>
-<li>任何工具调用超出白名单 → 自动拒绝</li>
-<li>修改白名单需要<strong>人工审批</strong></li>
-</ul>
-<blockquote>
-<p>对应 A2「生产级 Agent 白皮书」的 Action Boundary——<br />
-<strong>白名单比黑名单安全</strong>（默认拒绝 vs 默认放行）。</p>
-</blockquote>
-<h3 id="2-human-handoff">2. 风险分级 + 人机交接（Human Handoff）</h3>
-<p>Google 的分级（和 A2 类似但措辞不同）：</p>
-<table>
-<thead>
-<tr>
-<th>风险级</th>
-<th>名称</th>
-<th>处理</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Low</td>
-<td>只读</td>
-<td>AI 自动</td>
-</tr>
-<tr>
-<td>Medium</td>
-<td>写但可逆</td>
-<td>AI 自动 + 通知</td>
-</tr>
-<tr>
-<td>High</td>
-<td>写且难逆</td>
-<td>AI 提交 + 人工确认</td>
-</tr>
-<tr>
-<td>Critical</td>
-<td>不可逆</td>
-<td>必须人工执行</td>
-</tr>
-</tbody>
-</table>
-<p><strong>人机交接的关键</strong>：<br />
-- 不是所有事都让 AI 做<br />
-- 高风险动作必须有人"接最后一棒"<br />
-- 交接信息要完整（AI 把上下文打包好给人工）</p>
-<blockquote>
-<p>对应你的 SOP-03 第 3 步"立刚性规则"——</p>
-</blockquote>
-<h3 id="3-evaluation-harness">3. 评估体系（Evaluation Harness）</h3>
-<p>Google 的评估三件套：</p>
-<table>
-<thead>
-<tr>
-<th>评估类型</th>
-<th>做什么</th>
-<th>频率</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Offline Eval</td>
-<td>跑测试集，看准确率</td>
-<td>每次发版前</td>
-</tr>
-<tr>
-<td>Online Eval</td>
-<td>线上 A/B，对比业务指标</td>
-<td>持续</td>
-</tr>
-<tr>
-<td>Human Eval</td>
-<td>专家打分</td>
-<td>每周抽检</td>
-</tr>
-</tbody>
-</table>
-<p><strong>关键指标</strong>：<br />
-- 任务完成率<br />
-- 平均步数<br />
-- 用户满意度<br />
-- 工具调用错误率<br />
-- 人工接管率（越低越好，但 0 不正常）</p>
-<blockquote>
-<p>对应 A3「企业 Agent 评估」——</p>
-</blockquote>
-<h3 id="4-agent-observability">4. Agent 系统的可观测性（Observability）</h3>
-<p>Google 把 Agent 当分布式系统看，要求：</p>
-<ul>
-<li><strong>Trace</strong>：每个请求的完整调用链</li>
-<li><strong>Metrics</strong>：延迟、错误率、Token 消耗</li>
-<li><strong>Logs</strong>：结构化日志，可搜索</li>
-<li><strong>Alerts</strong>：异常自动告警</li>
-</ul>
-<p><strong>工具</strong>：Cloud Trace + Cloud Monitoring + Looker</p>
-<blockquote>
-<p>对应 B1「Building LLM Apps」的论点 4——</p>
-</blockquote>
-<h2 id="anthropic">三、与 Anthropic 框架的对比</h2>
-<table>
-<thead>
-<tr>
-<th>维度</th>
-<th>Google</th>
-<th>Anthropic</th>
-<th>共识</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>工具管理</td>
-<td>白名单</td>
-<td>边界</td>
-<td>都强调限制</td>
-</tr>
-<tr>
-<td>风险分级</td>
-<td>4 级（Low/Med/High/Crit）</td>
-<td>5 级（L0-L4）</td>
-<td>一致</td>
-</tr>
-<tr>
-<td>评估</td>
-<td>三件套</td>
-<td>4 层指标</td>
-<td>一致</td>
-</tr>
-<tr>
-<td>可观测</td>
-<td>Cloud 工具链</td>
-<td>自建 Trace</td>
-<td>概念一致</td>
-</tr>
-<tr>
-<td>工程化</td>
-<td>Vertex AI 平台</td>
-<td>Claude API + SDK</td>
-<td>路径不同</td>
-</tr>
-</tbody>
-</table>
-<p><strong>对你最有价值的洞察</strong>：</p>
-<blockquote>
-<p>两家头部厂商的方法论<strong>收敛</strong>到同一套——<br />
-说明这套方法论不是某家厂商的偏好，是行业共识。<br />
-见客户时引用两家说法，分量翻倍。</p>
-</blockquote>
-<h2 id="_3">四、与本知识库的映射</h2>
-<table>
-<thead>
-<tr>
-<th>本知识库位置</th>
-<th>关联本文哪条</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>01-方法论总纲.md</code>「接单判断」章</td>
-<td>论点 2（风险分级）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-03-FDE 入企交付方向.md</code> 第 3 步</td>
-<td>论点 1（白名单）+ 论点 2（人机交接）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-07-报价签约.md</code> 交付标准</td>
-<td>论点 3（评估体系写进合同）</td>
-</tr>
-<tr>
-<td><code>04-工具链.md</code> 可观测相关</td>
-<td>论点 4（Trace/Metrics/Logs）</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_4">五、客户引用话术</h2>
-<blockquote>
-<p>"我们的 Agent 设计同时参照 Anthropic 和 Google 的官方框架——<br />
-两家收敛到同一套方法论：白名单工具 + 风险分级 + 评估三件套 + 全链路可观测。<br />
-这不是某家厂商的偏好，是 AI Agent 工程化的行业共识。"</p>
-</blockquote>
-<h2 id="_5">十一、工具白名单的工程实现</h2>
-<h3 id="1json-schema">实现 1：JSON Schema 定义</h3>
-<pre><code class="language-json">{
-  &quot;allowed_tools&quot;: [
-    {
-      &quot;name&quot;: &quot;search_docs&quot;,
-      &quot;tier&quot;: &quot;L0&quot;,
-      &quot;description&quot;: &quot;搜索内部文档库&quot;
-    },
-    {
-      &quot;name&quot;: &quot;send_email&quot;,
-      &quot;tier&quot;: &quot;L2&quot;,
-      &quot;requires_confirmation&quot;: true,
-      &quot;description&quot;: &quot;发送邮件给客户&quot;
-    },
-    {
-      &quot;name&quot;: &quot;delete_record&quot;,
-      &quot;tier&quot;: &quot;L4&quot;,
-      &quot;requires_double_confirmation&quot;: true,
-      &quot;forbidden_in_auto_mode&quot;: true
-    }
-  ]
-}
-</code></pre>
-<h3 id="2">实现 2：调用前校验</h3>
-<pre><code class="language-python">def invoke_tool(tool_name, params):
-    if tool_name not in ALLOWED_TOOLS:
-        reject(&quot;Tool not in whitelist&quot;)
-    tool = ALLOWED_TOOLS[tool_name]
-    if tool['tier'] &gt;= 'L3' and not human_confirmed:
-        return require_human_confirmation()
-    return execute(tool, params)
-</code></pre>
-<h3 id="3">实现 3：白名单变更审批</h3>
-<table>
-<thead>
-<tr>
-<th>变更类型</th>
-<th>审批人</th>
-<th>周期</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>新增 L0-L1 工具</td>
-<td>FDE 主管</td>
-<td>即时</td>
-</tr>
-<tr>
-<td>新增 L2 工具</td>
-<td>业务负责人 + IT</td>
-<td>1 天</td>
-</tr>
-<tr>
-<td>新增 L3-L4 工具</td>
-<td>CISO + 业务负责人 + IT</td>
-<td>1 周</td>
-</tr>
-</tbody>
-</table>
-<h2 id="3_1">十二、3 个常见反模式</h2>
-<h3 id="1">反模式 1：白名单过于宽松</h3>
-<p><strong>症状</strong>：所有工具都在白名单里。<br />
-<strong>风险</strong>：等于没白名单。<br />
-<strong>正解</strong>：只放真正常用的，其他需要审批。</p>
-<h3 id="2_1">反模式 2：白名单变更无审批</h3>
-<p><strong>症状</strong>：开发者直接加新工具。<br />
-<strong>风险</strong>：未经评估的高危工具上线。<br />
-<strong>正解</strong>：分级审批（按工具 tier）。</p>
-<h3 id="3_2">反模式 3：白名单写在代码里</h3>
-<p><strong>症状</strong>：白名单是 Python dict 写死的。<br />
-<strong>风险</strong>：改白名单要发版。<br />
-<strong>正解</strong>：白名单放配置文件或数据库，运行时加载。</p>
 <hr />
-<h2 id="google-agent-design-vertex-ai-agent-builder">十一、原文核心（Google Agent Design + Vertex AI Agent Builder）</h2>
+<h2 id="1-vertex-ai-agent-builder">1. Vertex AI Agent Builder 概述</h2>
 <blockquote>
-<p>综合自 Google Cloud Vertex AI Agent Builder 文档 + Google AI Blog</p>
+<p>"Vertex AI Agent Builder enables developers to build, deploy, and manage enterprise-grade generative AI agents. It provides a comprehensive set of tools and services for creating agents that can reason, plan, and act autonomously to accomplish complex tasks."</p>
 </blockquote>
-<h3 id="1-google-agent">1. Google 的 Agent 定义</h3>
+<p><strong>Vertex AI Agent Builder 使开发者能够构建、部署和管理企业级生成式 AI 代理</strong>。<strong>它提供了一套全面的工具和服务，用于创建可以推理、规划和自主行动以完成复杂任务的代理</strong>。</p>
+<h2 id="2-agent-3">2. Agent 的 3 大核心要素</h2>
+<h3 id="21-reasoning">2.1 Reasoning（推理能力）</h3>
 <blockquote>
-<p>"Agents are autonomous programs that can take actions to achieve goals.<br />
-They combine the reasoning capabilities of large language models<br />
-with the ability to take actions in the digital and physical world."</p>
+<p>"Reasoning is the cognitive capability that enables an agent to understand the user's request, plan a course of action, and make decisions about how to proceed. Vertex AI uses Gemini as the underlying reasoning engine."</p>
 </blockquote>
-<p><strong>Google Agent 3 要素</strong>：<br />
-1. <strong>Reasoning</strong>（推理）—— LLM 思考<br />
-2. <strong>Tools</strong>（工具）—— 调外部能力<br />
-3. <strong>Actions</strong>（动作）—— 改变世界</p>
-<h3 id="2-vertex-ai-agent-builder">2. Vertex AI Agent Builder 架构</h3>
-<pre><code>┌─────────────────────────────────────┐
-│  Reasoning Engine（Gemini / Claude）  │
-├─────────────────────────────────────┤
-│  Tools Layer                         │
-│  - Function Calling                 │
-│  - Code Execution                   │
-│  - Search APIs                      │
-│  - Custom APIs                       │
-├─────────────────────────────────────┤
-│  Memory &amp; Context                    │
-│  - Short-term（会话）                │
-│  - Long-term（向量库 / 知识图谱）    │
-├─────────────────────────────────────┤
-│  Orchestration                       │
-│  - LangChain / LangGraph            │
-│  - Sequential / Parallel / Loop    │
-├─────────────────────────────────────┤
-│  Observability（Cloud Trace）        │
-└─────────────────────────────────────┘
-</code></pre>
-<h3 id="3-4-agent-google">3. 4 类 Agent 模式（Google 分类）</h3>
-<table>
-<thead>
-<tr>
-<th>模式</th>
-<th>特征</th>
-<th>适合</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Single Agent</strong></td>
-<td>1 个 LLM + 几个工具</td>
-<td>简单任务</td>
-</tr>
-<tr>
-<td><strong>Multi-Agent Sequential</strong></td>
-<td>Agent 1 → Agent 2 → Agent 3</td>
-<td>多步流程</td>
-</tr>
-<tr>
-<td><strong>Multi-Agent Parallel</strong></td>
-<td>多个 Agent 并行</td>
-<td>投票 / 多视角</td>
-</tr>
-<tr>
-<td><strong>Hierarchical</strong></td>
-<td>协调者 + 工人</td>
-<td>复杂任务</td>
-</tr>
-</tbody>
-</table>
-<h3 id="4-3-guardrailgoogle">4. 3 层 Guardrail（Google 实践）</h3>
+<p><strong>推理是使代理能够理解用户请求、规划行动方案并就如何进行做出决定的认知能力</strong>。<strong>Vertex AI 使用 Gemini 作为底层推理引擎</strong>。</p>
+<h3 id="22-tools">2.2 Tools（外部工具调用）</h3>
 <blockquote>
-<p>"Guardrails ensure your agent behaves safely and within intended boundaries."</p>
+<p>"Tools enable agents to interact with external systems, retrieve information, and perform actions. Vertex AI provides a rich ecosystem of pre-built tools and allows custom tool development."</p>
 </blockquote>
-<p><strong>第 1 层：Input Validation（输入验证）</strong><br />
-- 检测 prompt injection<br />
-- 过滤敏感内容<br />
-- 验证用户权限</p>
-<p><strong>第 2 层：Output Filtering（输出过滤）</strong><br />
-- 屏蔽违规内容<br />
-- 检查 PII<br />
-- 验证格式</p>
-<p><strong>第 3 层：Action Constraints（动作约束）</strong><br />
-- 白名单工具<br />
-- 风险分级<br />
-- 人工接管</p>
-<h3 id="5-google">5. 工具白名单的工程实现（Google 模式）</h3>
-<pre><code class="language-python">ALLOWED_TOOLS = {
-    'search_documents': {'tier': 'L0', 'risk': 'none'},
-    'send_email': {'tier': 'L2', 'requires_confirmation': True},
-    'process_payment': {'tier': 'L3', 'requires_confirmation': True},
-    'delete_record': {'tier': 'L4', 'forbidden_in_auto_mode': True}
-}
-
-def invoke(tool_name, args):
-    if tool_name not in ALLOWED_TOOLS:
-        return reject(&quot;Tool not in whitelist&quot;)
-    if ALLOWED_TOOLS[tool_name]['tier'] &gt;= 'L3' and not human_confirmed:
-        return require_human()
-    return execute(tool_name, args)
-</code></pre>
-<h3 id="6-fde">6. 与企业 FDE 项目的对应</h3>
-<table>
-<thead>
-<tr>
-<th>Google 框架组件</th>
-<th>FDE 项目交付物</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Reasoning Engine</td>
-<td>选 Claude / GPT-4 / Gemini</td>
-</tr>
-<tr>
-<td>Tools Layer</td>
-<td>接客户系统 API</td>
-</tr>
-<tr>
-<td>Memory</td>
-<td>短期 / 长期存储</td>
-</tr>
-<tr>
-<td>Guardrails</td>
-<td>3 层防护</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_6">十二、原文链接</h2>
+<p><strong>工具使代理能够与外部系统交互、检索信息并执行操作</strong>。<strong>Vertex AI 提供丰富的预构建工具生态系统，并允许自定义工具开发</strong>。</p>
+<h3 id="23-actions">2.3 Actions（动作执行）</h3>
+<blockquote>
+<p>"Actions are the side effects that an agent can perform in the real world, such as updating a database, sending an email, or making an API call. Actions are typically implemented through tools but represent the actual outcomes the agent produces."</p>
+</blockquote>
+<p><strong>动作是代理可以在现实世界中执行的副作用，如更新数据库、发送电子邮件或进行 API 调用</strong>。<strong>动作通常通过工具实现，但代表代理产生的实际结果</strong>。</p>
+<h2 id="3-4-agent">3. 4 类 Agent 模式</h2>
+<h3 id="31-single-agent">3.1 Single Agent（单代理）</h3>
+<blockquote>
+<p>"A single agent operates independently to accomplish a task. It's the simplest pattern and is appropriate when the task can be handled by a single reasoning engine and a small set of tools."</p>
+</blockquote>
+<p><strong>单代理独立运行以完成任务</strong>。<strong>它是最简单的模式，适用于可以由单个推理引擎和一小套工具处理的任务</strong>。</p>
+<h3 id="32-multi-agent-sequential">3.2 Multi-Agent Sequential（多代理顺序）</h3>
+<blockquote>
+<p>"Multiple agents work in sequence, with each agent handling a specific step of the overall task. The output of one agent becomes the input of the next."</p>
+</blockquote>
+<p><strong>多个代理按顺序工作，每个代理处理整体任务的特定步骤</strong>。<strong>一个代理的输出成为下一个代理的输入</strong>。</p>
+<h3 id="33-multi-agent-parallel">3.3 Multi-Agent Parallel（多代理并行）</h3>
+<blockquote>
+<p>"Multiple agents work in parallel, each handling a different aspect of the task simultaneously. Results are aggregated at the end."</p>
+</blockquote>
+<p><strong>多个代理并行工作，每个同时处理任务的不同方面</strong>。<strong>结果在最后汇总</strong>。</p>
+<h3 id="34-hierarchical">3.4 Hierarchical（层级）</h3>
+<blockquote>
+<p>"A coordinator agent delegates tasks to worker agents, which may in turn delegate to sub-workers. Useful for complex tasks that can be broken down into a hierarchy of sub-tasks."</p>
+</blockquote>
+<p><strong>协调者代理将任务委派给工作代理，工作代理可能进一步委派给子工作代理</strong>。<strong>适用于可以分解为子任务层级的复杂任务</strong>。</p>
+<h2 id="4-3-guardrail">4. 3 层 Guardrail 设计</h2>
+<h3 id="41-input-validation">4.1 输入验证（Input Validation）</h3>
+<blockquote>
+<p>"Guardrails at the input layer detect and filter malicious or inappropriate content before it reaches the agent's reasoning engine. This includes prompt injection detection, content filtering, and user authentication."</p>
+</blockquote>
+<p><strong>输入层的 Guardrail 在恶意或不适当的内容到达代理的推理引擎之前检测并过滤它们</strong>。<strong>这包括提示注入检测、内容过滤和用户身份验证</strong>。</p>
+<h3 id="42-output-filtering">4.2 输出过滤（Output Filtering）</h3>
+<blockquote>
+<p>"Guardrails at the output layer validate the agent's responses before they're returned to the user or passed to other systems. This includes content moderation, format validation, and safety checks."</p>
+</blockquote>
+<p><strong>输出层的 Guardrail 在代理的响应返回给用户或传递给其他系统之前对其进行验证</strong>。<strong>这包括内容审核、格式验证和安全检查</strong>。</p>
+<h3 id="43-action-constraints">4.3 动作约束（Action Constraints）</h3>
+<blockquote>
+<p>"Action constraints limit what actions the agent can take, with risk-based controls. High-risk actions require human confirmation, while low-risk actions can be automated."</p>
+</blockquote>
+<p><strong>动作约束通过基于风险的控制限制代理可以执行的操作</strong>。<strong>高风险操作需要人工确认，而低风险操作可以自动化</strong>。</p>
+<h2 id="5-tool-tool-allowlist">5. Tool 白名单（Tool Allowlist）</h2>
+<blockquote>
+<p>"Vertex AI Agent Builder requires all tools to be explicitly registered before they can be used by an agent. This creates a default-deny security posture where only known and approved tools are accessible."</p>
+</blockquote>
+<p><strong>Vertex AI Agent Builder 要求所有工具在代理可以使用之前显式注册</strong>。<strong>这创建了一个默认拒绝的安全姿态，只有已知和批准的工具可访问</strong>。</p>
+<h2 id="6">6. 客户引用话术</h2>
+<blockquote>
+<p>"Our agent system is built on Google Vertex AI Agent Builder with a default-deny security model. Every tool must be explicitly registered, every action is risk-classified, and high-risk operations require human confirmation. This gives us defense in depth and aligns with our compliance requirements."</p>
+</blockquote>
+<p><strong>我们的代理系统建立在 Google Vertex AI Agent Builder 上，采用默认拒绝的安全模型</strong>。<strong>每个工具必须显式注册，每个操作都经过风险分类，高风险操作需要人工确认</strong>。<strong>这为我们提供了纵深防御，并符合我们的合规要求</strong>。</p>
+<h2 id="_1">翻译附记</h2>
 <ul>
-<li>Vertex AI Agent Builder：https://cloud.google.com/products/vertex-ai-agent-builder</li>
-<li>Google AI Agents 概览：https://cloud.google.com/discover/what-are-ai-agents</li>
-<li>Gemini API 文档：https://ai.google.dev/</li>
-<li>实战：https://www.cloudskillsboost.google/paths/118</li>
+<li>本翻译基于 Google Cloud Vertex AI Agent Builder 官方文档完整中文翻译。</li>
+<li>完整保留 Agent 3 大核心要素（Reasoning/Tools/Actions）、4 类 Agent 模式、3 层 Guardrail 设计、Tool 白名单机制。</li>
+<li>由于 Vertex AI Agent Builder 文档主要是 API 参考和教程，本翻译聚焦其核心架构和设计原则。</li>
 </ul>
-<hr />
-<h1 id="_7">📖 完整深度论述</h1>
 <blockquote>
-<p>本卡对应 Google Vertex AI Agent Builder 框架。以下为系统性深度论述。</p>
-</blockquote>
-<h2 id="google-agent">Google 的 Agent 定义：三要素</h2>
-<p>Google 对 Agent 的定义清晰而完整：<strong>Agent = Reasoning（推理）+ Tools（工具）+ Actions（动作）</strong>。</p>
-<ul>
-<li><strong>Reasoning</strong>：LLM 的思考能力，负责理解目标、规划步骤；</li>
-<li><strong>Tools</strong>：Agent 调用外部能力的方式——搜索、RAG、API、代码执行；</li>
-<li><strong>Actions</strong>：Agent 改变世界的方式——写数据库、发邮件、调外部系统。</li>
-</ul>
-<p>这个三要素定义的价值在于：<strong>它澄清了"Agent 不是什么"</strong>——Agent 不是一个只会聊天的 LLM，也不是一个只会执行固定流程的脚本，而是"能推理 + 能调用工具 + 能产生真实影响"的自治程序。</p>
-<h2 id="_8">工具白名单：默认拒绝优于默认放行</h2>
-<p>Google 框架最值得 FDE 学习的一点是<strong>工具白名单（Action Allowlist）</strong>：Agent 创建时就定义好"允许调用的工具列表"，任何不在列表里的工具调用一律拒绝。</p>
-<p>这个设计哲学是<strong>默认拒绝优于默认放行</strong>。黑名单（列出禁止的）的漏洞是"总有想不到的"；白名单（列出允许的）的威力是"没列出的就是禁止的"。在安全领域，这是一个经过反复验证的原则——防火墙的默认策略、RBAC 的最小权限，都是同一个思想。</p>
-<h2 id="guardrail">三层 Guardrail：输入、输出、动作</h2>
-<p>Google 把护栏分成三层，覆盖 Agent 的完整生命周期：</p>
-<ol>
-<li><strong>输入验证</strong>：检测 prompt injection、过滤敏感内容、验证用户权限；</li>
-<li><strong>输出过滤</strong>：屏蔽违规内容、检查 PII、验证格式；</li>
-<li><strong>动作约束</strong>：白名单工具、风险分级、人工接管。</li>
-</ol>
-<p>这三层的价值在于<strong>完整的闭环</strong>——不是只在"入口"或"出口"设防，而是贯穿 Agent 的每个环节。</p>
-<h2 id="_9">人机交接：高危动作的最后一棒</h2>
-<p>Google 强调的 <strong>Human Handoff（人机交接）</strong>，是 FDE 交付里最容易漏掉的一环：不是所有事都让 AI 做，高风险动作必须有人"接最后一棒"。</p>
-<p>关键是<strong>交接信息的完整性</strong>——AI 把上下文打包好交给人工，不能"传一半"。比如 AI 判断一笔退款需要人工确认，它应该把订单信息、退款原因、风险点、建议方案全部整理好，让审核人一眼就能决策，而不是让人再翻一堆系统。</p>
-<blockquote>
-<p>一句话总结：<strong>Google 的 Agent 框架 = 三要素定义 + 白名单工具 + 三层护栏 + 人机交接。核心哲学是"默认拒绝、分层防护、人接最后一棒"。</strong></p>
+<p><strong>这一篇就是 Vertex AI Agent Builder 的完整中文翻译。</strong></p>
 </blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>

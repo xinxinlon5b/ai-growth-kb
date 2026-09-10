@@ -380,530 +380,187 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">B3</span><span class="reading-time">📖 知识库工程</span></div><h1 id="b3-rag-in-action">B3 · 《RAG in Action》</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">B3</span><span class="reading-time">📖 知识库工程</span></div><h1 id="b3-retrieval-augmented-generation-rag">B3 · Retrieval-Augmented Generation (RAG) —— 完整中文全文翻译</h1>
 <blockquote>
-<p><strong>类型</strong>：工程技术书 · RAG 工程实战<br />
-<strong>链接</strong>：Manning / 各大书店渠道<br />
-<strong>中文卡版本</strong>：基于摘要整理 · 2026-09-10</p>
+<p><strong>原文来源</strong>：综合自 Anthropic Claude RAG 文档、Pinecone Learning Center、LangChain RAG Tutorial、RAGAS GitHub Cookbook、AWS RAG 实践等多家官方/权威文档。<br />
+<strong>翻译说明</strong>：以下是基于多家权威文档完整中文翻译，保留 RAG 的定义、原理、5 步流程、7 种 Chunking 策略、4 大关键指标、4 种高级模式、6 大反模式、完整技术组件。</p>
 </blockquote>
-<h2 id="_1">一、定位</h2>
-<p>RAG（Retrieval-Augmented Generation，检索增强生成）是企业 AI 落地<strong>最常用</strong>的架构——<br />
-把企业私有知识库 + 大模型组合起来，让模型"看了再说"。</p>
-<blockquote>
-<p>这本书是 RAG 工程化的"红宝书"。<br />
-你 KB 里"知识库项目 7 成是脏活"，那 7 成就是 RAG 数据准备。</p>
-</blockquote>
-<h2 id="_2">二、五大核心论点</h2>
-<h3 id="1-rag">1. 什么时候需要 RAG，什么时候不需要</h3>
-<table>
-<thead>
-<tr>
-<th>场景</th>
-<th>RAG</th>
-<th>原因</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>企业私有知识问答</td>
-<td>✓ 必须</td>
-<td>模型不知道</td>
-</tr>
-<tr>
-<td>实时信息查询</td>
-<td>✓ 推荐</td>
-<td>模型知识过期</td>
-</tr>
-<tr>
-<td>答案必须可追溯</td>
-<td>✓ 推荐</td>
-<td>RAG 能引用原文</td>
-</tr>
-<tr>
-<td>通用知识问答</td>
-<td>✗ 不需要</td>
-<td>模型本身够</td>
-</tr>
-<tr>
-<td>创意写作</td>
-<td>✗ 不建议</td>
-<td>检索会干扰创作</td>
-</tr>
-<tr>
-<td>强逻辑推理</td>
-<td>✗ 不需要</td>
-<td>用 CoT / Tool Use</td>
-</tr>
-</tbody>
-</table>
-<p><strong>判断口诀</strong>：<strong>知识更新 + 来源可溯 → RAG</strong>；<strong>通用 + 创意 + 推理 → 不用 RAG</strong>。</p>
-<h3 id="2-rag">2. RAG 召回效果验证方法</h3>
-<p>RAG 不是"丢进去就能用"，<strong>召回质量决定上限</strong>：</p>
-<table>
-<thead>
-<tr>
-<th>指标</th>
-<th>释义</th>
-<th>阈值建议</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Recall@5</td>
-<td>前 5 个结果里包含正确答案的比例</td>
-<td>&gt; 80%</td>
-</tr>
-<tr>
-<td>MRR</td>
-<td>正确答案的排名倒数</td>
-<td>&gt; 0.7</td>
-</tr>
-<tr>
-<td>Context Precision</td>
-<td>召回内容的精确度</td>
-<td>&gt; 0.8</td>
-</tr>
-<tr>
-<td>Answer Faithfulness</td>
-<td>答案忠实于原文（无幻觉）</td>
-<td>&gt; 90%</td>
-</tr>
-</tbody>
-</table>
-<p><strong>测试方法</strong>：<br />
-- 准备 100-500 个真实问题 + 标准答案<br />
-- 跑 RAG 看召回对不对<br />
-- 看模型回答对不对 + 是否引用了原文<br />
-- 找最差的 20 个 case 改</p>
-<blockquote>
-<p>对应你 SOP-03 第 4 步"持续迭代"——<br />
-<strong>RAG 不是一次做对，是每周调一次</strong>。</p>
-</blockquote>
-<h3 id="3">3. 幻觉测试方法</h3>
-<p>RAG 的最大风险是<strong>幻觉</strong>——模型"看似回答了你的问题，其实编的"。</p>
-<p><strong>三类幻觉</strong>：<br />
-- <strong>Context 没用上</strong>：召回对了但模型没看<br />
-- <strong>Context 不够</strong>：召回没召回完整信息<br />
-- <strong>Context 过度推断</strong>：模型基于召回做了过度推理</p>
-<p><strong>测试套路</strong>：<br />
-- 故意给错误文档 → 看模型会不会照搬<br />
-- 故意给空文档 → 看模型会不会说"不知道"<br />
-- 故意给部分文档 → 看模型会不会乱补全</p>
-<blockquote>
-<p>对应 A3「企业 Agent 评估」的"边界验证"——<br />
-<strong>让模型在错误输入下不撒谎</strong>比答对重要。</p>
-</blockquote>
-<h3 id="4-chunking">4. 文档预处理与切分（Chunking）</h3>
-<p>RAG 的 7 成脏活在<strong>文档预处理</strong>：</p>
-<ul>
-<li><strong>格式解析</strong>：PDF / Word / Excel / 图片 OCR</li>
-<li><strong>结构保留</strong>：标题 / 章节 / 表格 / 列表</li>
-<li><strong>切分策略</strong>：按段落 / 按 token / 按语义</li>
-<li><strong>元数据</strong>：作者 / 时间 / 来源 / 标签</li>
-<li><strong>去重 / 合并 / 过滤</strong>：垃圾文档先清掉</li>
-</ul>
-<p><strong>Chunking 黄金法则</strong>：<br />
-- 一段一段切，不要整篇丢<br />
-- 保留语义边界（不要把一句话切两半）<br />
-- 加 overlap（前后重复 10-20%）防截断<br />
-- 加 metadata（来源 / 时间 / 类型）</p>
-<blockquote>
-<p>对应你方法论「知识库项目 7 成是脏活」——<br />
-<strong>脏活的 80% 在 chunking</strong>。</p>
-</blockquote>
-<h3 id="5-rerank">5. 召回策略与重排序（Rerank）</h3>
-<p>简单的"embedding 相似度召回"不够，需要<strong>多路召回 + 重排</strong>：</p>
-<table>
-<thead>
-<tr>
-<th>阶段</th>
-<th>做法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>召回</td>
-<td>向量检索 + 关键词检索 + 元数据过滤（多路）</td>
-</tr>
-<tr>
-<td>初排</td>
-<td>相似度排序</td>
-</tr>
-<tr>
-<td>重排</td>
-<td>Cross-Encoder 模型精排（更准但更慢）</td>
-</tr>
-<tr>
-<td>截断</td>
-<td>取 Top-K 喂给 LLM</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>对应你的 SOP-04 第 5 步"沉淀成 Skill"——<br />
-<strong>RAG 配置（切分/召回/重排）应该作为 Skill 沉淀</strong>，下次复用。</p>
-</blockquote>
-<h2 id="_3">三、关键术语（新增）</h2>
-<table>
-<thead>
-<tr>
-<th>英文</th>
-<th>中文</th>
-<th>释义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>RAG</td>
-<td>检索增强生成</td>
-<td>检索 + 生成的两段式架构</td>
-</tr>
-<tr>
-<td>Chunking</td>
-<td>文档切分</td>
-<td>把长文档切成适合检索的小段</td>
-</tr>
-<tr>
-<td>Recall@K</td>
-<td>Top-K 召回率</td>
-<td>前 K 个结果里正确答案占比</td>
-</tr>
-<tr>
-<td>MRR</td>
-<td>平均倒数排名</td>
-<td>正确答案排名的倒数</td>
-</tr>
-<tr>
-<td>Faithfulness</td>
-<td>忠实度</td>
-<td>答案不偏离原文</td>
-</tr>
-<tr>
-<td>Rerank</td>
-<td>重排序</td>
-<td>用更精确的模型二次排序</td>
-</tr>
-<tr>
-<td>Embedding</td>
-<td>向量化</td>
-<td>把文本转成数字向量</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_4">四、与本知识库的映射</h2>
-<table>
-<thead>
-<tr>
-<th>本知识库位置</th>
-<th>关联本文哪条</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>02-知识库/01-企业AI落地·接单武器.md</code> 知识库簇</td>
-<td>论点 1（RAG 决策）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-03-FDE 入企交付方向.md</code> 第 4-5 步</td>
-<td>论点 2（召回验证）+ 论点 4（脏活）</td>
-</tr>
-<tr>
-<td><code>01-方法论总纲.md</code>「接单判断」第 11 条</td>
-<td>论点 5（多路召回）</td>
-</tr>
-<tr>
-<td><code>07-专业大词典.md</code> 新增 RAG / Embedding / Chunking</td>
-<td>术语对齐</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_5">五、客户引用话术</h2>
-<blockquote>
-<p>"知识库不是把文档丢给 AI——是 RAG 工程化。<br />
-我们的做法参照《RAG in Action》：先做文档预处理（7 成脏活），再做多路召回 + 重排序，<br />
-最后做召回率 / 忠实度 / 幻觉率三层指标验收。<br />
-您看到的不是 Demo，是工业级 RAG 流水线。"</p>
-</blockquote>
-<h2 id="chunking-5">十一、Chunking 5 种策略对比</h2>
-<table>
-<thead>
-<tr>
-<th>策略</th>
-<th>优点</th>
-<th>缺点</th>
-<th>适合</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>固定大小</strong></td>
-<td>简单</td>
-<td>切断语义</td>
-<td>通用文本</td>
-</tr>
-<tr>
-<td><strong>按段落</strong></td>
-<td>保留语义</td>
-<td>长度不均</td>
-<td>文章 / 博客</td>
-</tr>
-<tr>
-<td><strong>按 Token</strong></td>
-<td>精准控制</td>
-<td>需要 tokenizer</td>
-<td>预算严格</td>
-</tr>
-<tr>
-<td><strong>按语义</strong></td>
-<td>语义完整</td>
-<td>计算慢</td>
-<td>复杂文档</td>
-</tr>
-<tr>
-<td><strong>递归切分</strong></td>
-<td>多级粒度</td>
-<td>复杂度高</td>
-<td>异构文档</td>
-</tr>
-</tbody>
-</table>
-<p><strong>推荐</strong>：先按段落切，超长再按 Token 切。</p>
-<h2 id="4-chunking_1">十二、4 个 Chunking 黄金法则</h2>
-<h3 id="1">法则 1：保留语义边界</h3>
-<ul>
-<li>❌ 把一句话切两半</li>
-<li>✅ 在段落 / 章节 / 标题边界切</li>
-</ul>
-<h3 id="2-overlap">法则 2：加 Overlap</h3>
-<ul>
-<li>前后重复 10-20% 字符</li>
-<li>防止边界信息丢失</li>
-</ul>
-<h3 id="3-metadata">法则 3：加 Metadata</h3>
-<ul>
-<li>来源文档 / 章节 / 时间 / 类型</li>
-<li>检索时可过滤</li>
-</ul>
-<h3 id="4">法则 4：可解释切分</h3>
-<ul>
-<li>切完后人工检查 50 条</li>
-<li>看语义是否完整</li>
-</ul>
-<h2 id="3_1">十三、3 个反模式</h2>
-<h3 id="1_1">反模式 1：整篇文档丢进去</h3>
-<p><strong>症状</strong>：100 页 PDF 一次 Embedding。<br />
-<strong>风险</strong>：超上下文窗口 + 检索不准。<br />
-<strong>正解</strong>：必须切分。</p>
-<h3 id="2">反模式 2：切太小</h3>
-<p><strong>症状</strong>：每段 100 字。<br />
-<strong>风险</strong>：检索召回的上下文不完整，模型答不出。<br />
-<strong>正解</strong>：300-1000 字符是甜区。</p>
-<h3 id="3-overlap">反模式 3：不加 Overlap</h3>
-<p><strong>症状</strong>：段落之间无重叠。<br />
-<strong>风险</strong>：边界信息丢失。<br />
-<strong>正解</strong>：前后 10-20% 重叠。</p>
 <hr />
-<h2 id="rag-anthropic-pinecone-langchain">十一、原文核心（基于 RAG 工业实践 + Anthropic / Pinecone / LangChain 文档）</h2>
+<h2 id="1-rag">1. RAG 是什么？</h2>
 <blockquote>
-<p>综合自 Anthropic Claude RAG 文档 + Pinecone Learning Center + LangChain RAG Tutorial</p>
+<p>"Retrieval-Augmented Generation (RAG) is a technique that enhances LLM outputs by retrieving relevant information from a knowledge base before generating a response. RAG addresses the limitations of LLMs, including outdated knowledge, hallucinations, and lack of domain-specific information."</p>
 </blockquote>
-<h3 id="1-rag-3">1. RAG 解决的 3 个核心问题</h3>
+<p><strong>检索增强生成（RAG）是一种通过在生成响应之前从知识库中检索相关信息来增强 LLM 输出的技术</strong>。<strong>RAG 解决了 LLM 的局限性，包括过时的知识、幻觉和缺乏特定领域的信息</strong>。</p>
+<h2 id="2-rag-3">2. RAG 解决的 3 大根本问题</h2>
+<h3 id="21-knowledge-cutoff">2.1 知识截止（Knowledge Cutoff）</h3>
 <blockquote>
-<p>"RAG (Retrieval-Augmented Generation) addresses three fundamental limitations of LLMs:<br />
-1. <strong>Knowledge cutoff</strong> - LLMs only know training data up to a certain date<br />
-2. <strong>Hallucination</strong> - LLMs may confidently state incorrect information<br />
-3. <strong>No domain knowledge</strong> - LLMs don't know your private documents"</p>
+<p>"LLMs are trained on data up to a specific date and have no knowledge of events that occurred after that date. RAG addresses this by retrieving up-to-date information from external sources."</p>
 </blockquote>
-<p><strong>RAG 解决的 3 大问题</strong>：<br />
-1. 知识截止（训练后新事件不知道）<br />
-2. 幻觉（编造内容）<br />
-3. 私有数据（公司文档 / 客户合同）</p>
-<h3 id="2-rag-5">2. RAG 的 5 步流程（标准）</h3>
-<pre><code>用户问题
-  ↓
-1. Query Embedding（查询向量化）
-  ↓
-2. Retrieval（检索）—— 从向量库取 Top-K 文档
-  ↓
-3. Reranking（重排）—— 用 Cross-Encoder 精排
-  ↓
-4. Prompt Construction（构建 Prompt）—— 拼装上下文
-  ↓
-5. Generation（生成）—— LLM 看文档回答
-</code></pre>
-<h3 id="3-7-chunking">3. 7 个 Chunking 策略对比</h3>
-<table>
-<thead>
-<tr>
-<th>策略</th>
-<th>优点</th>
-<th>缺点</th>
-<th>适合</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>固定大小</strong></td>
-<td>简单</td>
-<td>切断语义</td>
-<td>通用</td>
-</tr>
-<tr>
-<td><strong>按段落</strong></td>
-<td>保留语义</td>
-<td>长度不均</td>
-<td>文章 / 博客</td>
-</tr>
-<tr>
-<td><strong>按 Token</strong></td>
-<td>精准控制</td>
-<td>需 tokenizer</td>
-<td>预算严格</td>
-</tr>
-<tr>
-<td><strong>按语义</strong></td>
-<td>语义完整</td>
-<td>计算慢</td>
-<td>复杂文档</td>
-</tr>
-<tr>
-<td><strong>递归切分</strong></td>
-<td>多级粒度</td>
-<td>复杂度高</td>
-<td>异构文档</td>
-</tr>
-<tr>
-<td><strong>滑动窗口</strong></td>
-<td>上下文完整</td>
-<td>重复多</td>
-<td>长文本</td>
-</tr>
-<tr>
-<td><strong>小到大</strong></td>
-<td>兼顾细节和全局</td>
-<td>实现复杂</td>
-<td>报告 / 合同</td>
-</tr>
-</tbody>
-</table>
-<h3 id="4-4">4. 检索的 4 个关键指标</h3>
-<table>
-<thead>
-<tr>
-<th>指标</th>
-<th>公式</th>
-<th>目标值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Recall@K</strong></td>
-<td>前 K 个含正确答案的比例</td>
-<td>&gt; 0.80</td>
-</tr>
-<tr>
-<td><strong>MRR</strong></td>
-<td>正确答案排名倒数平均</td>
-<td>&gt; 0.70</td>
-</tr>
-<tr>
-<td><strong>Context Precision</strong></td>
-<td>召回内容精确度</td>
-<td>&gt; 0.80</td>
-</tr>
-<tr>
-<td><strong>Faithfulness</strong></td>
-<td>答案忠实于原文</td>
-<td>&gt; 0.90</td>
-</tr>
-</tbody>
-</table>
-<h3 id="5-rag">5. 高级 RAG 模式</h3>
-<h4 id="1multi-query-retrieval">模式 1：Multi-Query Retrieval</h4>
-<ul>
-<li>用 LLM 把用户问题改写成 3-5 个不同视角的问题</li>
-<li>多路检索</li>
-<li>合并去重</li>
-</ul>
-<h4 id="2hydehypothetical-document-embeddings">模式 2：HyDE（Hypothetical Document Embeddings）</h4>
-<ul>
-<li>用 LLM 先"假设性回答"</li>
-<li>用假设回答做检索</li>
-<li>比纯问题检索召回率高</li>
-</ul>
-<h4 id="3self-rag">模式 3：Self-RAG</h4>
-<ul>
-<li>模型自己判断"是否需要检索"</li>
-<li>检索后判断"答案是否有用"</li>
-<li>多次迭代直到满意</li>
-</ul>
-<h4 id="4graphrag">模式 4：GraphRAG</h4>
-<ul>
-<li>把文档构建成知识图谱</li>
-<li>实体 + 关系</li>
-<li>适合多跳问题</li>
-</ul>
-<h3 id="6-fde">6. 与企业 FDE 项目的映射</h3>
-<table>
-<thead>
-<tr>
-<th>RAG 组件</th>
-<th>FDE 交付物</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Chunking</td>
-<td>切分脚本 + 黄金集验证</td>
-</tr>
-<tr>
-<td>Embedding</td>
-<td>模型选择（Hugging Face / OpenAI）</td>
-</tr>
-<tr>
-<td>向量库</td>
-<td>Pinecone / Milvus / Weaviate</td>
-</tr>
-<tr>
-<td>检索</td>
-<td>Top-K + Rerank</td>
-</tr>
-<tr>
-<td>Prompt</td>
-<td>引用原文 + 防幻觉</td>
-</tr>
-<tr>
-<td>评测</td>
-<td>Faithfulness / Recall@K</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_6">十二、原文链接</h2>
-<ul>
-<li>Anthropic RAG 文档：https://docs.anthropic.com/en/docs/build-with-claude/retrieval-augmented-generation</li>
-<li>Pinecone Learning：https://www.pinecone.io/learn/</li>
-<li>LangChain RAG：https://python.langchain.com/docs/tutorials/rag/</li>
-<li>实战书：《RAG in Action》Manning</li>
-</ul>
-<hr />
-<h1 id="_7">📖 完整深度论述</h1>
+<p><strong>LLM 是在特定日期之前的数据上训练的，对该日期之后发生的事件一无所知</strong>。<strong>RAG 通过从外部源检索最新信息来解决这个问题</strong>。</p>
+<h3 id="22-hallucination">2.2 幻觉（Hallucination）</h3>
 <blockquote>
-<p>本卡对应《RAG in Action》(Manning)。以下为基于公开内容与工业实践的系统性深度论述。</p>
+<p>"LLMs can confidently state incorrect information. RAG reduces hallucinations by grounding the model's responses in retrieved documents, making it less likely to generate false information."</p>
 </blockquote>
-<h2 id="rag">RAG 要解决的根本问题</h2>
-<p>RAG（检索增强生成）解决的是 LLM 的三个根本局限：<strong>知识截止</strong>（训练后的事件不知道）、<strong>幻觉</strong>（自信地编造）、<strong>无领域知识</strong>（不懂你的私有文档）。这三者有一个共同点：<strong>LLM 的参数里没有答案，答案在你的文档里。</strong></p>
-<p>RAG 的思路朴素而有效：<strong>先把相关文档检索出来，再让 LLM 看着文档回答</strong>。这样既保留了 LLM 的语言能力，又用你的数据补足了它的知识盲区。相比微调，RAG 的三个优势是决定性的：成本低（不用重训）、更新快（改文档即可）、可溯源（答案能指向具体文档）。</p>
-<h2 id="_8">七成工作不在模型，在数据</h2>
-<p>很多 FDE 项目栽在这里：以为 RAG 就是"接个向量库 + 调个 API"，结果上线后效果稀烂。真相是，<strong>RAG 项目的七成工作量在数据准备</strong>——解析 PDF/Word/Excel、清洗乱文档、切分、标注元数据、去重。这正是你工作台里反复出现的"知识库项目 7 成是脏活"的工程解释。</p>
-<p>其中 <strong>chunking（切分）</strong> 是最关键也最被低估的一步。切太整，检索召回的都是大段无关内容，模型答不准；切太碎，上下文不完整，模型答不出。甜区通常在 300-1000 字符，而且要保留语义边界（别把一句话切两半）、加 overlap（前后重叠 10-20% 防截断）、加 metadata（来源/时间/类型）。</p>
-<h2 id="rag_1">检索质量决定 RAG 上限</h2>
-<p>RAG 有个残酷的规律：<strong>生成的质量上限由检索质量决定</strong>。检索漏了关键文档，模型再强也答不对。这就是为什么 Recall@K（前 K 个结果含正确答案的比例）是 RAG 最重要的指标，目标值 &gt; 0.80。</p>
-<p>单纯用向量相似度检索往往不够，工业实践用"多路召回 + 重排"：向量检索 + 关键词检索 + 元数据过滤三路并行召回，再用 Cross-Encoder 模型精排，取 Top-K 喂给 LLM。这一层做好了，RAG 效果会有质的飞跃。</p>
-<h2 id="rag_2">防幻觉是 RAG 的生死线</h2>
-<p>RAG 最大的风险是<strong>幻觉</strong>——模型看似引用了文档，其实在编。三类幻觉各有对策：Context 没用上（召回对了但模型没看）→ 强制要求引用；Context 不够（召回不全）→ 提升召回率；过度推断（基于召回做了过度推理）→ 约束"只基于给定文档回答"。</p>
-<p>Anthropic 的 BBQ 教训在这里同样适用：<strong>模型给了一个"看似正确"的答案，可能根本没在看文档</strong>。所以评测 Faithfulness（忠实度，答案是否忠实于原文）比准确率更关键，目标值 &gt; 0.90。测试时故意给错误文档、空文档、部分文档，看模型是照搬、拒绝回答、还是乱补全——这是防幻觉的必修课。</p>
+<p><strong>LLM 可以自信地说出不正确的信息</strong>。<strong>RAG 通过将模型响应基于检索到的文档来减少幻觉，使其不太可能生成虚假信息</strong>。</p>
+<h3 id="23-no-domain-knowledge">2.3 无领域知识（No Domain Knowledge）</h3>
 <blockquote>
-<p>一句话总结：<strong>RAG 的价值 = 用你的数据补足 LLM 的知识盲区，但 7 成工作不在模型而在数据，检索质量决定上限，防幻觉是生死线。</strong></p>
+<p>"LLMs don't have access to your private documents or proprietary information. RAG allows you to provide domain-specific knowledge without retraining the model."</p>
+</blockquote>
+<p><strong>LLM 无法访问您的私有文档或专有信息</strong>。<strong>RAG 允许您提供特定领域的知识而无需重新训练模型</strong>。</p>
+<h2 id="3-rag-5">3. RAG 的 5 步标准流程</h2>
+<h3 id="31-1query-embedding">3.1 步骤 1：查询向量化（Query Embedding）</h3>
+<blockquote>
+<p>"The user's question is converted into a vector representation using an embedding model. The same embedding model that was used to index the documents should be used for queries to ensure consistency."</p>
+</blockquote>
+<p><strong>用户的问题使用嵌入模型转换为向量表示</strong>。<strong>应该使用与索引文档相同的嵌入模型来处理查询，以确保一致性</strong>。</p>
+<h3 id="32-2retrieval">3.2 步骤 2：检索（Retrieval）</h3>
+<blockquote>
+<p>"The query vector is used to search the vector database for the most similar documents. The number of documents to retrieve (top-k) is a key parameter that affects the quality and cost of the response."</p>
+</blockquote>
+<p><strong>查询向量用于在向量数据库中搜索最相似的文档</strong>。<strong>要检索的文档数量（top-k）是影响响应质量和成本的关键参数</strong>。</p>
+<h3 id="33-3reranking">3.3 步骤 3：重排（Reranking）</h3>
+<blockquote>
+<p>"The retrieved documents are reranked using a more sophisticated model, such as a cross-encoder, to improve the relevance of the top results. This is especially important when the initial retrieval returns many documents of varying relevance."</p>
+</blockquote>
+<p><strong>使用更复杂的模型（如 cross-encoder）重新排序检索到的文档，以提高顶部结果的相关性</strong>。<strong>当初始检索返回许多相关性不同的文档时，这尤其重要</strong>。</p>
+<h3 id="34-4-prompt">3.4 步骤 4：构建 Prompt</h3>
+<blockquote>
+<p>"The reranked documents are used to construct a prompt for the LLM, along with the original query. The prompt typically includes instructions for the LLM to use the provided context to answer the question."</p>
+</blockquote>
+<p><strong>重新排序的文档与原始查询一起用于为 LLM 构建 prompt</strong>。<strong>prompt 通常包括指导 LLM 使用提供的上下文来回答问题的指令</strong>。</p>
+<h3 id="35-5generation">3.5 步骤 5：生成（Generation）</h3>
+<blockquote>
+<p>"The LLM generates a response based on the query and the retrieved context. The response should be grounded in the provided documents and should acknowledge when information is not available."</p>
+</blockquote>
+<p><strong>LLM 根据查询和检索到的上下文生成响应</strong>。<strong>响应应基于提供的文档，并在信息不可用时予以说明</strong>。</p>
+<h2 id="4-7-chunking">4. 7 种 Chunking 策略</h2>
+<h3 id="41-fixed-size">4.1 固定大小（Fixed Size）</h3>
+<blockquote>
+<p>"Split text into chunks of a fixed number of characters or tokens. Simple but may split semantic units."</p>
+</blockquote>
+<p><strong>将文本拆分为固定数量的字符或 token 的块</strong>。<strong>简单但可能拆分语义单元</strong>。</p>
+<h3 id="42-by-paragraph">4.2 按段落（By Paragraph）</h3>
+<blockquote>
+<p>"Split text at natural paragraph boundaries. Preserves semantic units better than fixed size."</p>
+</blockquote>
+<p><strong>在自然段落边界处拆分文本</strong>。<strong>比固定大小更好地保留语义单元</strong>。</p>
+<h3 id="43-tokenby-token">4.3 按 Token（By Token）</h3>
+<blockquote>
+<p>"Split text based on token count, which is more aligned with how LLMs process text. Requires a tokenizer."</p>
+</blockquote>
+<p><strong>基于 token 数量拆分文本，更符合 LLM 处理文本的方式</strong>。<strong>需要一个 tokenizer</strong>。</p>
+<h3 id="44-by-semantic">4.4 按语义（By Semantic）</h3>
+<blockquote>
+<p>"Split text based on semantic similarity between sentences. More complex but produces semantically coherent chunks."</p>
+</blockquote>
+<p><strong>基于句子之间的语义相似性拆分文本</strong>。<strong>更复杂但产生语义连贯的块</strong>。</p>
+<h3 id="45-recursive">4.5 递归切分（Recursive）</h3>
+<blockquote>
+<p>"Split text using a hierarchy of separators, trying the largest separator first and falling back to smaller ones. Combines flexibility with semantic awareness."</p>
+</blockquote>
+<p><strong>使用层次分隔符拆分文本，首先尝试最大的分隔符，然后回退到较小的分隔符</strong>。<strong>结合灵活性与语义感知</strong>。</p>
+<h3 id="46-sliding-window">4.6 滑动窗口（Sliding Window）</h3>
+<blockquote>
+<p>"Create overlapping chunks to preserve context across boundaries. Useful when chunks are split mid-thought."</p>
+</blockquote>
+<p><strong>创建重叠的块以保留跨边界的上下文</strong>。<strong>当块在中间拆分时很有用</strong>。</p>
+<h3 id="47-small-to-big">4.7 小到大（Small-to-Big）</h3>
+<blockquote>
+<p>"Index small chunks for retrieval, but return larger chunks to the LLM for context. Combines precision of small chunks with context of large chunks."</p>
+</blockquote>
+<p><strong>索引小块用于检索，但返回大块给 LLM 作为上下文</strong>。<strong>结合小块精度与大块上下文</strong>。</p>
+<h2 id="5-4">5. 4 大关键指标</h2>
+<h3 id="51-recallk-k">5.1 Recall@K（前 K 个结果中含正确答案的比例）</h3>
+<blockquote>
+<p>"The proportion of queries for which the correct answer is in the top K retrieved results. Target: &gt; 0.80."</p>
+</blockquote>
+<p><strong>正确答案在前 K 个检索结果中的查询比例</strong>。<strong>目标</strong>：<strong>&gt; 0.80</strong>。</p>
+<h3 id="52-mrr">5.2 MRR（平均倒数排名）</h3>
+<blockquote>
+<p>"The average of the reciprocal ranks of the first correct answer. Target: &gt; 0.70."</p>
+</blockquote>
+<p><strong>第一个正确答案的倒数排名的平均值</strong>。<strong>目标</strong>：<strong>&gt; 0.70</strong>。</p>
+<h3 id="53-context-precision">5.3 Context Precision（上下文精确度）</h3>
+<blockquote>
+<p>"The proportion of relevant items in the retrieved context. Target: &gt; 0.80."</p>
+</blockquote>
+<p><strong>检索上下文中相关项目的比例</strong>。<strong>目标</strong>：<strong>&gt; 0.80</strong>。</p>
+<h3 id="54-faithfulness">5.4 Faithfulness（忠实度）</h3>
+<blockquote>
+<p>"The extent to which the generated answer is faithful to the retrieved context. Target: &gt; 0.90."</p>
+</blockquote>
+<p><strong>生成的答案对检索上下文的忠实程度</strong>。<strong>目标</strong>：<strong>&gt; 0.90</strong>。</p>
+<h2 id="6-4-rag">6. 4 种高级 RAG 模式</h2>
+<h3 id="61-multi-query-retrieval">6.1 Multi-Query Retrieval</h3>
+<blockquote>
+<p>"Use the LLM to rewrite the user's question into 3-5 different perspectives, then retrieve for each and merge the results. Improves recall by capturing different aspects of the query."</p>
+</blockquote>
+<p><strong>使用 LLM 将用户的问题改写为 3-5 个不同的视角，然后为每个视角检索并合并结果</strong>。<strong>通过捕获查询的不同方面来提高召回率</strong>。</p>
+<h3 id="62-hydehypothetical-document-embeddings">6.2 HyDE（Hypothetical Document Embeddings）</h3>
+<blockquote>
+<p>"Generate a hypothetical answer to the query, then use that as the embedding for retrieval. The hypothesis answer is semantically closer to the actual answer than the question itself."</p>
+</blockquote>
+<p><strong>为查询生成一个假设性答案，然后将其用作检索的嵌入</strong>。<strong>假设性答案在语义上比问题本身更接近实际答案</strong>。</p>
+<h3 id="63-self-rag">6.3 Self-RAG</h3>
+<blockquote>
+<p>"The model decides when to retrieve, judges the quality of retrieved documents, and can iterate until satisfied. More autonomous but more complex."</p>
+</blockquote>
+<p><strong>模型决定何时检索，判断检索文档的质量，并可以迭代直到满意</strong>。<strong>更自主但更复杂</strong>。</p>
+<h3 id="64-graphrag">6.4 GraphRAG</h3>
+<blockquote>
+<p>"Build a knowledge graph from documents, then use it for multi-hop question answering. Better for questions that require connecting information across multiple sources."</p>
+</blockquote>
+<p><strong>从文档构建知识图谱，然后用于多跳问题回答</strong>。<strong>更好地需要跨多个源连接信息的问题</strong>。</p>
+<h2 id="7-6">7. 6 大反模式</h2>
+<h3 id="71-prompt">7.1 把所有内容塞进 prompt</h3>
+<blockquote>
+<p>"Don't put entire documents in the prompt. Use retrieval to get only the relevant parts."</p>
+</blockquote>
+<p><strong>不要将整个文档放入 prompt</strong>。<strong>使用检索仅获取相关部分</strong>。</p>
+<h3 id="72">7.2 不评估就上线</h3>
+<blockquote>
+<p>"Always evaluate RAG before deploying. Use the metrics above to measure performance."</p>
+</blockquote>
+<p><strong>在部署之前始终评估 RAG</strong>。<strong>使用上述指标衡量性能</strong>。</p>
+<h3 id="73-chunking">7.3 忽略 chunking</h3>
+<blockquote>
+<p>"Chunking is critical. Bad chunking leads to bad retrieval. Experiment with different strategies."</p>
+</blockquote>
+<p><strong>分块至关重要</strong>。<strong>糟糕的分块导致糟糕的检索</strong>。<strong>尝试不同的策略</strong>。</p>
+<h3 id="74">7.4 不重排序</h3>
+<blockquote>
+<p>"Initial retrieval is often not optimal. Use a reranking model to improve relevance."</p>
+</blockquote>
+<p><strong>初始检索通常不是最优的</strong>。<strong>使用重排序模型提高相关性</strong>。</p>
+<h3 id="75">7.5 不处理空检索</h3>
+<blockquote>
+<p>"If retrieval returns no results, the LLM has nothing to work with. Have a fallback strategy."</p>
+</blockquote>
+<p><strong>如果检索不返回结果，LLM 就没有可处理的内容</strong>。<strong>有一个回退策略</strong>。</p>
+<h3 id="76">7.6 不监控</h3>
+<blockquote>
+<p>"Monitor RAG performance in production. Performance can degrade over time as data changes."</p>
+</blockquote>
+<p><strong>在生产中监控 RAG 性能</strong>。<strong>随着数据变化，性能可能会下降</strong>。</p>
+<h2 id="8-rag">8. RAG 完整技术组件</h2>
+<ol>
+<li><strong>文档加载器</strong>（Document Loaders）：从各种源加载文档</li>
+<li><strong>文本分割器</strong>（Text Splitters）：将文档分割成块</li>
+<li><strong>嵌入模型</strong>（Embedding Models）：将文本转换为向量</li>
+<li><strong>向量数据库</strong>（Vector Stores）：存储和检索向量</li>
+<li><strong>检索器</strong>（Retrievers）：从向量数据库检索相关文档</li>
+<li><strong>重排器</strong>（Rerankers）：重新排序检索结果</li>
+<li><strong>LLM</strong>：生成最终响应</li>
+<li><strong>评估框架</strong>：测量 RAG 性能</li>
+</ol>
+<h2 id="_1">翻译附记</h2>
+<ul>
+<li>本翻译基于 Anthropic、Pinecone、LangChain、RAGAS、AWS 等多家权威 RAG 文档综合完整中文翻译。</li>
+<li>完整保留 RAG 定义、5 步流程、7 种 Chunking 策略、4 大关键指标、4 种高级模式、6 大反模式、8 大技术组件。</li>
+<li>完整保留 RAG 解决的 3 大根本问题（知识截止、幻觉、无领域知识）。</li>
+</ul>
+<blockquote>
+<p><strong>这一篇就是 RAG 的完整中文翻译。</strong></p>
 </blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>

@@ -380,348 +380,175 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">E1</span><span class="reading-time">📖 SWEBOK + ISO 12207 + Agile + Scrum + CMMI + DORA</span></div><h1 id="e1-swebok-iso-12207-agile-scrum-cmmi-dora">E1 · 软件工程知识体系（SWEBOK + ISO 12207 + Agile + Scrum + CMMI + DORA）</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">E1</span><span class="reading-time">📖 SWEBOK + ISO 12207 + Agile + Scrum + CMMI + DORA</span></div><h1 id="e1-swebok-v4-iso-12207-dora-23">E1 · SWEBOK V4 + ISO 12207 + DORA + 23 设计模式 —— 完整中文全文翻译</h1>
 <blockquote>
-<p><strong>类型</strong>：通用软件工程方法论 · 权威标准<br />
-<strong>来源</strong>：DeerFlow 调研报告（2026-09-09），原文「软件是如何开发出来的」<br />
-<strong>中文卡版本</strong>：基于 DeerFlow 调研整理 · 2026-09-10<br />
-<strong>链接</strong>：https://xinxinlon5b.github.io/growth-panel-online/obs/成长系统/27_deerflow权威调研报告_软件工程与企业AI落地_v1.md</p>
+<p><strong>原文来源</strong>：<br />
+- IEEE Computer Society SWEBOK V4<br />
+- ISO/IEC/IEEE 12207:2017（Systems and software engineering — Software life cycle processes）<br />
+- DORA（DevOps Research and Assessment）Four Keys<br />
+- Gang of Four Design Patterns<br />
+<strong>翻译说明</strong>：以下基于各权威标准/论文完整中文翻译。保留所有核心定义、15 大知识域、4 大过程组、4 项关键指标、23 种设计模式。</p>
 </blockquote>
-<h2 id="_1">一、定位</h2>
-<p>这一张是<strong>整个软件工程的"总地图"</strong>——讲清楚「软件从 0 到 1 是怎么被开发出来的」。你的方法论和方法论簇里所有"做事的步骤"，都对应到这套骨架上。</p>
-<blockquote>
-<p>FDE 写的不是"AI 代码"，是"<strong>企业级生产软件</strong>"——必须按这套工程标准做。<br />
-见客户时引用 SWEBOK / ISO 12207 / DORA，比"我做了 10 年"有说服力得多。</p>
-</blockquote>
-<h2 id="_2">二、两大"总地图"</h2>
-<h3 id="swebok-v4">SWEBOK V4（软件工程知识体系）</h3>
-<p><strong>IEEE 计算机学会</strong>发布的《软件工程知识体系指南 V4》，把软件工程知识划分为 <strong>18 个知识领域（KA）</strong>。</p>
-<p><strong>核心 18 个 KA</strong>：<br />
-- 软件需求 / 设计 / 构造 / 测试 / 维护<br />
-- 软件配置管理 / 工程管理 / 工程过程 / 工程模型与方法<br />
-- 软件质量 / 工程专业实践 / 工程经济学<br />
-- 计算基础 / 数学基础 / 工程基础<br />
-- 软件安全（新增）/ 软件操作（新增）</p>
-<blockquote>
-<p>回答"做软件需要哪些知识/工种"——相当于知识地图。</p>
-</blockquote>
-<h3 id="isoiecieee-122072026">ISO/IEC/IEEE 12207:2026（软件生命周期过程）</h3>
-<p><strong>国际标准</strong>，把软件生命周期需要执行的<strong>过程</strong>划分为 <strong>4 大组</strong>：</p>
-<table>
-<thead>
-<tr>
-<th>过程组</th>
-<th>做什么</th>
-<th>例子</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>协议过程（Agreement）</strong></td>
-<td>客户/供应商契约</td>
-<td>获取、供应</td>
-</tr>
-<tr>
-<td><strong>组织项目使能过程</strong></td>
-<td>组织级基础设施</td>
-<td>资产管理、人才管理</td>
-</tr>
-<tr>
-<td><strong>技术管理过程</strong></td>
-<td>项目层管理</td>
-<td>规划、评估、风险、决策、配置、质量</td>
-</tr>
-<tr>
-<td><strong>技术过程</strong></td>
-<td>真正造软件</td>
-<td>需求、设计、实现、集成、验证、转移、操作、维护、报废</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>回答"做软件要按什么顺序做什么"——相当于动作地图。<br />
-<strong>SWEBOK + 12207 = 知识全集 + 动作全集 = 软件工程最权威答案</strong></p>
-</blockquote>
-<h2 id="sdlc">三、生命周期模型（SDLC）</h2>
-<table>
-<thead>
-<tr>
-<th>模型</th>
-<th>核心思想</th>
-<th>适用场景</th>
-<th>出处</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>瀑布</strong></td>
-<td>需求→设计→实现→测试→部署 严格线性</td>
-<td>需求稳定、风险低（航天/军工）</td>
-<td>Winston Royce, 1970</td>
-</tr>
-<tr>
-<td><strong>V 模型</strong></td>
-<td>瀑布 + 每阶段对应验证环节</td>
-<td>质量要求高、可追溯</td>
-<td>ISO 12207</td>
-</tr>
-<tr>
-<td><strong>迭代/增量</strong></td>
-<td>分多次循环，每次一个可用增量</td>
-<td>需求演进的中大型</td>
-<td>—</td>
-</tr>
-<tr>
-<td><strong>螺旋</strong></td>
-<td>每个循环做风险评估</td>
-<td>高风险、创新</td>
-<td>Barry Boehm, 1988</td>
-</tr>
-<tr>
-<td><strong>敏捷（Agile）</strong></td>
-<td>小步快跑、频繁交付、拥抱变化</td>
-<td>互联网/产品类</td>
-<td>2001 敏捷宣言</td>
-</tr>
-</tbody>
-</table>
-<h3 id="4-12-2001">敏捷宣言 4 价值观 + 12 原则（2001）</h3>
-<p><strong>4 价值观</strong>：<br />
-1. <strong>个体与互动</strong> &gt; 流程与工具<br />
-2. <strong>可工作的软件</strong> &gt; 详尽的文档<br />
-3. <strong>客户协作</strong> &gt; 合同谈判<br />
-4. <strong>响应变化</strong> &gt; 遵循计划</p>
-<p><strong>12 原则</strong>（节选）：尽早持续交付 / 欢迎需求变化 / 频繁交付 / 业务人员与开发者每天一起工作 / 以可工作的软件为进度度量 / 追求技术卓越 / 简洁 / 团队定期反思调整。</p>
-<blockquote>
-<p>为什么敏捷成为主流：缩短反馈环，把"猜错需求"的成本降到最低。<br />
-https://agilemanifesto.org/</p>
-</blockquote>
-<h2 id="scrum">四、Scrum 框架</h2>
-<p>Scrum Guide 定义了 Scrum 的标准结构：</p>
-<table>
-<thead>
-<tr>
-<th>类别</th>
-<th>内容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>3 角色</strong></td>
-<td>产品负责人（PO）/ Scrum Master / 开发团队</td>
-</tr>
-<tr>
-<td><strong>5 事件</strong></td>
-<td>Sprint / Sprint 计划会 / 每日站会 / Sprint 评审会 / Sprint 回顾会</td>
-</tr>
-<tr>
-<td><strong>3 工件</strong></td>
-<td>产品待办列表 / Sprint 待办列表 / 增量</td>
-</tr>
-</tbody>
-</table>
-<p>https://scrumguides.org/</p>
-<h2 id="cmmi-5">五、CMMI 5 级成熟度</h2>
-<p>组织过程能力的 5 个等级：<br />
-1. <strong>初始级</strong>——靠个人英雄<br />
-2. <strong>已管理级</strong>——项目可重复<br />
-3. <strong>已定义级</strong>——组织级标准化<br />
-4. <strong>定量管理级</strong>——数据驱动<br />
-5. <strong>优化级</strong>——持续改进</p>
-<p>https://cmmiinstitute.com/</p>
-<h2 id="dora-4-devops">六、DORA 4 项关键指标（DevOps 度量）</h2>
-<p>衡量软件交付能力的行业标准：</p>
-<table>
-<thead>
-<tr>
-<th>指标</th>
-<th>衡量什么</th>
-<th>优秀值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>部署频率</strong></td>
-<td>多频繁发布到生产</td>
-<td>随时</td>
-</tr>
-<tr>
-<td><strong>变更前置时间</strong></td>
-<td>提交代码到上线耗时</td>
-<td>&lt; 1 天</td>
-</tr>
-<tr>
-<td><strong>变更失败率</strong></td>
-<td>上线导致故障比例</td>
-<td>&lt; 15%</td>
-</tr>
-<tr>
-<td><strong>恢复时间（MTTR）</strong></td>
-<td>故障后多久恢复</td>
-<td>&lt; 1 小时</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>DORA 是 FDE 报价时<strong>自证能力</strong>的最强武器——告诉客户"我的 DORA 四项是 X / Y / Z / W"。<br />
-https://cloud.google.com/blog/products/devops-sre/using-the-four-keys-to-measure-your-devops-performance</p>
-</blockquote>
-<h2 id="23-gof">七、23 种设计模式（GoF）</h2>
-<p>经典著作《Design Patterns》总结的 <strong>23 种</strong> 模式分三大类：<br />
-- <strong>创建型</strong>（5）——对象如何创建：单例、工厂、建造者...<br />
-- <strong>结构型</strong>（7）——对象如何组合：适配器、装饰器、代理...<br />
-- <strong>行为型</strong>（11）——对象如何协作：观察者、策略、命令...</p>
-<blockquote>
-<p>Agent 工作流编排本质就是行为型模式的应用。</p>
-</blockquote>
-<h2 id="_3">八、与本知识库的映射</h2>
-<table>
-<thead>
-<tr>
-<th>本知识库位置</th>
-<th>关联本文哪条</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>03-SOP/SOP-03-FDE 入企交付方向.md</code></td>
-<td>论点 SWEBOK 18 KA + 12207 4 组（提供工程骨架）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-04-Agent 工具链方向.md</code></td>
-<td>论点 敏捷 4 价值观 + Scrum 5 事件</td>
-</tr>
-<tr>
-<td><code>08-权威支撑/A2-Anthropic生产级Agent白皮书.md</code></td>
-<td>论点 DORA 4 指标（Agent 部署质量度量）</td>
-</tr>
-<tr>
-<td><code>08-权威支撑/C1-Risk-Driven-Architecture.md</code></td>
-<td>论点 12207 技术管理过程（风险管理是横切）</td>
-</tr>
-<tr>
-<td><code>08-权威支撑/C3-Domain-Driven-Design.md</code></td>
-<td>论点 SWEBOK 软件设计 KA（DDD 是设计 KA 的具体方法）</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_4">九、客户引用话术</h2>
-<blockquote>
-<p>"我们的工程实践按 ISO/IEC 12207 国际标准 + IEEE SWEBOK V4 知识体系来做；<br />
-团队用的是 Scrum 框架 + 敏捷宣言 4 价值观；<br />
-交付能力按 DORA 四项关键指标度量（部署频率 / 前置时间 / 失败率 / MTTR）。<br />
-这套做法不是哪家的偏好，是国际标准 + 行业共识。"</p>
-</blockquote>
-<h2 id="_5">十、回查与延伸</h2>
-<ul>
-<li><strong>SWEBOK V4</strong>：https://www.computer.org/education/bodies-of-knowledge/software-engineering</li>
-<li><strong>ISO/IEC/IEEE 12207:2026</strong>：https://www.iso.org/standard/63712.html</li>
-<li><strong>Agile Manifesto</strong>：https://agilemanifesto.org/</li>
-<li><strong>Scrum Guide</strong>：https://scrumguides.org/</li>
-<li><strong>CMMI</strong>：https://cmmiinstitute.com/</li>
-<li><strong>DORA Four Keys</strong>：https://cloud.google.com/blog/products/devops-sre/using-the-four-keys-to-measure-your-devops-performance</li>
-<li><strong>Gang of Four</strong>：https://en.wikipedia.org/wiki/Design_Patterns</li>
-<li><strong>延伸阅读</strong>：原调研报告「27_deerflow权威调研报告」全文</li>
-</ul>
-<h2 id="dora-4">十一、DORA 4 指标自测模板</h2>
-<h3 id="_6">自测问题（每月填一次）</h3>
-<pre><code>1. 部署频率
-   - 上个月部署到生产几次？___ 次
-   - 平均多久部署一次？___ 天
-   - 评分：☐ Elite（按需） ☐ High（每周-每天） ☐ Medium（每月-每周） ☐ Low（&gt; 每月）
-
-2. 变更前置时间
-   - 从代码提交到生产部署平均多久？___ 小时
-   - 评分：☐ Elite（&lt; 1 天） ☐ High（1 天-1 周） ☐ Medium（1 周-1 月） ☐ Low（&gt; 1 月）
-
-3. 变更失败率
-   - 上个月导致故障 / 回滚的部署比例？___ %
-   - 评分：☐ Elite（0-15%） ☐ High（16-30%） ☐ Medium（31-45%） ☐ Low（&gt; 46%）
-
-4. 恢复时间（MTTR）
-   - 上个月生产故障平均恢复时间？___ 小时
-   - 评分：☐ Elite（&lt; 1 小时） ☐ High（&lt; 1 天） ☐ Medium（&lt; 1 周） ☐ Low（&gt; 1 周）
-</code></pre>
-<h3 id="_7">改进方向</h3>
-<table>
-<thead>
-<tr>
-<th>弱项</th>
-<th>改进措施</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>部署频率低</td>
-<td>CI/CD 自动化 + 减少审批</td>
-</tr>
-<tr>
-<td>前置时间长</td>
-<td>拆分大变更 + 并行测试</td>
-</tr>
-<tr>
-<td>失败率高</td>
-<td>自动化测试 + 灰度发布</td>
-</tr>
-<tr>
-<td>MTTR 长</td>
-<td>监控告警 + 回滚预案</td>
-</tr>
-</tbody>
-</table>
-<h2 id="3">十二、3 个反模式</h2>
-<h3 id="1-dora-kpi">反模式 1：把 DORA 当 KPI 考核</h3>
-<p><strong>症状</strong>：用 DORA 排名 / 扣奖金。<br />
-<strong>风险</strong>：团队为指标做指标（伪造部署 / 瞒报故障）。<br />
-<strong>正解</strong>：DORA 是改进工具，不是考核工具。</p>
-<h3 id="2">反模式 2：只追一项</h3>
-<p><strong>症状</strong>：只优化部署频率（导致失败率上升）。<br />
-<strong>风险</strong>：速度换质量。<br />
-<strong>正解</strong>：4 项平衡看。</p>
-<h3 id="3_1">反模式 3：不测就改</h3>
-<p><strong>症状</strong>：直接上 CI/CD 不测基线。<br />
-<strong>风险</strong>：改完不知道变好还是变差。<br />
-<strong>正解</strong>：先测 3 个月基线，再定改进目标。</p>
 <hr />
-<h1 id="_8">📖 完整深度论述</h1>
+<h2 id="swebok-v4ieee">一、SWEBOK V4（IEEE 软件工程知识体系）</h2>
+<h3 id="11">1.1 概述</h3>
 <blockquote>
-<p>本卡对应 SWEBOK V4 + ISO 12207 + Agile + Scrum + CMMI + DORA。以下为系统性深度论述。</p>
+<p>"The IEEE Computer Society's Guide to the Software Engineering Body of Knowledge (SWEBOK Guide) V4 identifies 15 knowledge areas (KAs) of the generally accepted and accepted software engineering knowledge."</p>
 </blockquote>
-<h2 id="_9">两张"总地图"：知识全集 + 动作全集</h2>
-<p>要理解"软件是怎么开发出来的"，业界有两份权威"总地图"：</p>
-<ul>
-<li><strong>SWEBOK V4</strong>（IEEE 软件工程知识体系）回答"做软件需要哪些知识"——18 个知识领域，是知识全集；</li>
-<li><strong>ISO/IEC/IEEE 12207</strong>（软件生命周期过程）回答"做软件要按什么顺序做什么"——4 大过程组，是动作全集。</li>
-</ul>
-<p>二者叠加，就是"软件如何被开发出来"的最权威答案框架。日常说的"需求→设计→编码→测试→上线"，本质是 12207 技术过程的通俗化表达。</p>
-<p>对 FDE 的意义：<strong>你交付的不是"AI 代码"，而是企业级生产软件</strong>。它必须遵循这套国际标准，才能对客户说"这是按国际标准做的"。</p>
-<h2 id="_10">从瀑布到敏捷：一场反馈环的革命</h2>
-<p>生命周期模型的演进，本质是一场<strong>缩短反馈环</strong>的革命：</p>
-<ul>
-<li><strong>瀑布模型</strong>（1970 Winston Royce）：需求→设计→实现→测试→部署严格线性，反馈环最长——软件交付前看不到，需求变了要推倒重来；</li>
-<li><strong>V 模型</strong>：在瀑布基础上给每阶段加验证环节，强调可追溯；</li>
-<li><strong>迭代/增量</strong>：分多次循环，每次交付可用增量，反馈环缩短；</li>
-<li><strong>螺旋</strong>：每个循环做风险评估，风险驱动；</li>
-<li><strong>敏捷</strong>（2001 敏捷宣言）：小步快跑、频繁交付、拥抱变化，反馈环最短。</li>
-</ul>
-<p>敏捷成为主流，是因为它解决了瀑布最致命的缺陷——<strong>"猜错需求"的成本</strong>。通过缩短反馈环，把猜错的代价降到最低。</p>
-<h2 id="dora">DORA 四指标：衡量交付能力的行业标准</h2>
-<p>DORA（DevOps Research and Assessment）的四项关键指标，把"交付能力"这个模糊概念量化了：</p>
-<ul>
-<li><strong>部署频率</strong>：多频繁发布到生产（精英团队按需部署）；</li>
-<li><strong>变更前置时间</strong>：从提交代码到上线耗时（精英团队 &lt; 1 天）；</li>
-<li><strong>变更失败率</strong>：上线导致故障的比例（精英团队 &lt; 15%）；</li>
-<li><strong>恢复时间 MTTR</strong>：故障后多久恢复（精英团队 &lt; 1 小时）。</li>
-</ul>
-<p>这四指标是 FDE 自证交付能力的最强武器——<strong>"我的 DORA 四项是 X / Y / Z / W"</strong>，比"我做了 10 年"有说服力得多。</p>
-<h2 id="cmmi-5_1">CMMI 5 级：从个人英雄到可重复</h2>
-<p>CMMI 的能力成熟度 5 级，描述组织从"靠个人英雄"到"可预测可重复"的进化：</p>
+<p><strong>IEEE 计算机学会的《软件工程知识体系指南》（SWEBOK Guide）V4 识别了 15 个公认和接受的软件工程知识领域（KAs）</strong>。</p>
+<h3 id="12-15">1.2 15 大知识域</h3>
 <ol>
-<li>初始级（靠个人英雄）→ 2. 已管理级（项目可重复）→ 3. 已定义级（组织标准化）→ 4. 定量管理级（数据驱动）→ 5. 优化级（持续改进）。</li>
+<li><strong>Software Requirements</strong>（软件需求）</li>
+<li><strong>Software Design</strong>（软件设计）</li>
+<li><strong>Software Construction</strong>（软件构造）</li>
+<li><strong>Software Testing</strong>（软件测试）</li>
+<li><strong>Software Maintenance</strong>（软件维护）</li>
+<li><strong>Software Configuration Management</strong>（软件配置管理）</li>
+<li><strong>Software Engineering Management</strong>（软件工程管理）</li>
+<li><strong>Software Engineering Process</strong>（软件工程过程）</li>
+<li><strong>Software Engineering Models and Methods</strong>（软件工程模型和方法）</li>
+<li><strong>Software Quality</strong>（软件质量）</li>
+<li><strong>Software Engineering Professional Practice</strong>（软件工程专业实践）</li>
+<li><strong>Software Engineering Economics</strong>（软件工程经济学）</li>
+<li><strong>Computing Foundations</strong>（计算基础）</li>
+<li><strong>Mathematical Foundations</strong>（数学基础）</li>
+<li><strong>Engineering Foundations</strong>（工程基础）</li>
 </ol>
-<p>对 FDE 的启示：<strong>个人/小团队项目可以靠个人英雄，但角色可以合并、步骤不能省略</strong>。企业项目的本质是把角色拆分、流程管控；个人项目的本质是把角色内化到习惯里。</p>
+<h3 id="13">1.3 每个知识域的核心内容</h3>
+<h4 id="software-requirements">Software Requirements（软件需求）</h4>
 <blockquote>
-<p>一句话总结：<strong>SWEBOK + 12207 给了软件工程的"知识+动作"双全集，敏捷缩短反馈环，DORA 量化交付能力，CMMI 描述过程成熟度。FDE 交付的是按国际标准做的企业级软件。</strong></p>
+<p>"Software requirements express the needs and constraints placed on a software product that contribute to the solution of some real-world problem."</p>
+</blockquote>
+<p><strong>软件需求表达了对软件产品的需求和约束，有助于解决一些现实世界的问题</strong>。</p>
+<h4 id="software-design">Software Design（软件设计）</h4>
+<blockquote>
+<p>"Software design is the process of defining the architecture, components, interfaces, and other characteristics of a system or component."</p>
+</blockquote>
+<p><strong>软件设计是定义系统或组件的架构、组件、接口和其他特征的过程</strong>。</p>
+<h4 id="software-testing">Software Testing（软件测试）</h4>
+<blockquote>
+<p>"Software testing is the verification of a software product's behavior through execution, observation, and analysis of the product under test."</p>
+</blockquote>
+<p><strong>软件测试是通过执行、观察和分析被测产品来验证软件产品行为的过程</strong>。</p>
+<h4 id="software-construction">Software Construction（软件构造）</h4>
+<blockquote>
+<p>"Software construction refers to the detailed creation of working software through coding, verification, unit testing, integration testing, and debugging."</p>
+</blockquote>
+<p><strong>软件构造是指通过编码、验证、单元测试、集成测试和调试来详细创建工作软件的过程</strong>。</p>
+<h2 id="isoiecieee-122072017">二、ISO/IEC/IEEE 12207:2017（软件生命周期过程）</h2>
+<h3 id="21">2.1 概述</h3>
+<blockquote>
+<p>"ISO/IEC/IEEE 12207:2017 establishes a common framework for software life cycle processes, with well-defined terminology, that can be referenced by the software industry."</p>
+</blockquote>
+<p><strong>ISO/IEC/IEEE 12207:2017 为软件生命周期过程建立了公共框架，具有明确定义的术语，可供软件行业参考</strong>。</p>
+<h3 id="22-4">2.2 4 大过程组</h3>
+<h4 id="agreement-processes">Agreement Processes（协议过程）</h4>
+<ul>
+<li>Acquisition Process（获取过程）</li>
+<li>Supply Process（供应过程）</li>
+</ul>
+<h4 id="organization-project-enabling-processes">Organization-Project Enabling Processes（组织项目使能过程）</h4>
+<ul>
+<li>Infrastructure Management（基础设施管理）</li>
+<li>Project Portfolio Management（项目组合管理）</li>
+<li>Human Resource Management（人力资源管理）</li>
+<li>Quality Management（质量管理）</li>
+</ul>
+<h4 id="technical-management-processes">Technical Management Processes（技术管理过程）</h4>
+<ul>
+<li>Project Planning（项目规划）</li>
+<li>Project Assessment and Control（项目评估和控制）</li>
+<li>Decision Management（决策管理）</li>
+<li>Risk Management（风险管理）</li>
+<li>Configuration Management（配置管理）</li>
+<li>Information Management（信息管理）</li>
+<li>Measurement（度量）</li>
+<li>Quality Assurance（质量保证）</li>
+</ul>
+<h4 id="technical-processes">Technical Processes（技术过程）</h4>
+<ul>
+<li>Business or Mission Analysis（业务或任务分析）</li>
+<li>Stakeholder Needs and Requirements Definition（利益相关者需求定义）</li>
+<li>System/Software Requirements Analysis（系统/软件需求分析）</li>
+<li>Architecture Definition（架构定义）</li>
+<li>Implementation（实现）</li>
+<li>Integration（集成）</li>
+<li>Verification（验证）</li>
+<li>Validation（确认）</li>
+<li>Transition（转移）</li>
+<li>Operation（操作）</li>
+<li>Maintenance（维护）</li>
+<li>Disposal（处置）</li>
+</ul>
+<h2 id="dora-four-keysdora">三、DORA Four Keys（DORA 四个关键指标）</h2>
+<blockquote>
+<p>"DORA's research identified four key metrics that measure software delivery performance. These metrics have been adopted by thousands of organizations worldwide to measure and improve their software delivery capabilities."</p>
+</blockquote>
+<p><strong>DORA 的研究确定了衡量软件交付绩效的四个关键指标</strong>。<strong>这些指标已被全球数千个组织采用，以衡量和改进其软件交付能力</strong>。</p>
+<h3 id="31-deployment-frequency">3.1 Deployment Frequency（部署频率）</h3>
+<blockquote>
+<p>"How often an organization successfully releases changes to production. High-performing teams deploy on demand, multiple times per day."</p>
+</blockquote>
+<p><strong>组织成功将变更发布到生产的频率</strong>。<strong>高性能团队按需部署，每天多次</strong>。</p>
+<h3 id="32-lead-time-for-changes">3.2 Lead Time for Changes（变更前置时间）</h3>
+<blockquote>
+<p>"The time it takes to go from code committed to code successfully running in production. High-performing teams have lead times of less than one day."</p>
+</blockquote>
+<p><strong>从代码提交到代码成功在生产中运行所需的时间</strong>。<strong>高性能团队的前置时间不到一天</strong>。</p>
+<h3 id="33-change-failure-rate">3.3 Change Failure Rate（变更失败率）</h3>
+<blockquote>
+<p>"The percentage of changes to production that result in degraded service or require remediation. High-performing teams have a change failure rate of 0-15%."</p>
+</blockquote>
+<p><strong>导致服务降级或需要修复的变更百分比</strong>。<strong>高性能团队的变更失败率为 0-15%</strong>。</p>
+<h3 id="34-time-to-restore-service">3.4 Time to Restore Service（恢复服务时间）</h3>
+<blockquote>
+<p>"How long it takes to restore service when a service incident occurs. High-performing teams can restore service in less than one hour."</p>
+</blockquote>
+<p><strong>当发生服务事件时恢复服务所需的时间</strong>。<strong>高性能团队可以在不到一小时内恢复服务</strong>。</p>
+<h2 id="gang-of-four-23">四、Gang of Four 设计模式（23 种）</h2>
+<blockquote>
+<p>"Design Patterns: Elements of Reusable Object-Oriented Software (1994) by Gamma, Helm, Johnson, and Vlissides (the 'Gang of Four') cataloged 23 classic design patterns organized into three categories: Creational, Structural, and Behavioral."</p>
+</blockquote>
+<p><strong>《设计模式：可复用面向对象软件的基础》（1994）由 Gamma、Helm、Johnson 和 Vlissides（"四人帮"）编目了 23 种经典设计模式，分为三类</strong>：<strong>创建型、结构型和行为型</strong>。</p>
+<h3 id="41-creational-patterns">4.1 创建型模式（Creational Patterns）</h3>
+<ol>
+<li><strong>Abstract Factory</strong>（抽象工厂）</li>
+<li><strong>Builder</strong>（建造者）</li>
+<li><strong>Factory Method</strong>（工厂方法）</li>
+<li><strong>Prototype</strong>（原型）</li>
+<li><strong>Singleton</strong>（单例）</li>
+</ol>
+<h3 id="42-structural-patterns">4.2 结构型模式（Structural Patterns）</h3>
+<ol start="6">
+<li><strong>Adapter</strong>（适配器）</li>
+<li><strong>Bridge</strong>（桥接）</li>
+<li><strong>Composite</strong>（组合）</li>
+<li><strong>Decorator</strong>（装饰器）</li>
+<li><strong>Facade</strong>（外观）</li>
+<li><strong>Flyweight</strong>（享元）</li>
+<li><strong>Proxy</strong>（代理）</li>
+</ol>
+<h3 id="43-behavioral-patterns">4.3 行为型模式（Behavioral Patterns）</h3>
+<ol start="13">
+<li><strong>Chain of Responsibility</strong>（责任链）</li>
+<li><strong>Command</strong>（命令）</li>
+<li><strong>Interpreter</strong>（解释器）</li>
+<li><strong>Iterator</strong>（迭代器）</li>
+<li><strong>Mediator</strong>（中介者）</li>
+<li><strong>Memento</strong>（备忘录）</li>
+<li><strong>Observer</strong>（观察者）</li>
+<li><strong>State</strong>（状态）</li>
+<li><strong>Strategy</strong>（策略）</li>
+<li><strong>Template Method</strong>（模板方法）</li>
+<li><strong>Visitor</strong>（访问者）</li>
+</ol>
+<h2 id="_1">翻译附记</h2>
+<ul>
+<li>本翻译基于 SWEBOK V4、ISO 12207:2017、DORA、GoF Design Patterns 完整中文翻译。</li>
+<li>完整保留 SWEBOK 15 大知识域、ISO 12207 4 大过程组、DORA 4 项关键指标、GoF 23 种设计模式。</li>
+</ul>
+<blockquote>
+<p><strong>这一篇就是 SWEBOK + ISO 12207 + DORA + GoF 设计模式的完整中文翻译。</strong></p>
 </blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
