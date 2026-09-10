@@ -380,398 +380,109 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">E3</span><span class="reading-time">📖 NIST AI RMF + EU AI Act + Responsible AI</span></div><h1 id="e3-nist-ai-rmf-eu-ai-act-aiai">E3 · NIST AI RMF + EU AI Act + 负责任 AI（AI 治理三件套）</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">E3</span><span class="reading-time">📖 NIST AI RMF + EU AI Act + Responsible AI</span></div><h1 id="e3-nist-ai-risk-management-framework">E3 · NIST AI Risk Management Framework —— 完整中文全文翻译</h1>
 <blockquote>
-<p><strong>类型</strong>：AI 治理与合规 · 权威标准<br />
-<strong>来源</strong>：DeerFlow 调研报告 + NIST + 欧盟数字战略<br />
-<strong>中文卡版本</strong>：基于 DeerFlow 调研整理 · 2026-09-10</p>
+<p><strong>原文标题</strong>：AI Risk Management Framework<br />
+<strong>发布机构</strong>：NIST（美国国家标准与技术研究院）<br />
+<strong>发布日期</strong>：2023 年 1 月 26 日（AI RMF 1.0）<br />
+<strong>来源</strong>：https://www.nist.gov/itl/ai-risk-management-framework<br />
+<strong>翻译说明</strong>：以下为 NIST AI RMF 官方页面完整中文翻译，保留所有更新、Profile、配套资源、新闻。仅跳过页面 UI 元素。</p>
 </blockquote>
-<h2 id="_1">一、定位</h2>
-<p>这张讲<strong>「AI 落地的护栏」</strong>——技术之外必须有的治理框架。<br />
-对 B 端客户（特别是金融/医疗/政府）这是<strong>必谈</strong>的，没有这层不敢用 AI。</p>
-<h2 id="nist-ai-ai-rmf-10">二、NIST AI 风险管理框架（AI RMF 1.0）</h2>
-<p><strong>美国国家标准与技术研究院</strong>发布的 AI 治理基线，被多国企业采纳。</p>
-<h3 id="4">4 个核心功能</h3>
-<table>
-<thead>
-<tr>
-<th>功能</th>
-<th>做什么</th>
-<th>你做的时候</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Govern（治理）</strong></td>
-<td>建立 AI 风险治理结构、政策、问责制</td>
-<td>客户内部成立 AI 委员会 / 制定 AI 使用规范</td>
-</tr>
-<tr>
-<td><strong>Map（映射）</strong></td>
-<td>识别 AI 系统的上下文、风险场景与影响</td>
-<td>画出 AI 系统会触及的所有业务流程 + 影响范围</td>
-</tr>
-<tr>
-<td><strong>Measure（度量）</strong></td>
-<td>评估与量化风险（准确性、鲁棒性、公平性、安全性）</td>
-<td>建立评测集（黄金集）持续度量</td>
-</tr>
-<tr>
-<td><strong>Manage（管理）</strong></td>
-<td>采取措施缓解风险、持续监控并沟通</td>
-<td>出问题时怎么回滚 / 怎么通知用户</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>https://www.nist.gov/itl/ai-risk-management-framework</p>
-</blockquote>
-<h2 id="eu-ai-act">三、欧盟《人工智能法案》（EU AI Act）</h2>
-<p><strong>全球首部综合性 AI 法律</strong>，采用<strong>基于风险的分级监管</strong>（4 级）：</p>
-<table>
-<thead>
-<tr>
-<th>风险级</th>
-<th>名称</th>
-<th>处理</th>
-<th>例子</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td><strong>不可接受风险</strong></td>
-<td><strong>禁止</strong></td>
-<td>社会评分、无差别人脸抓取</td>
-</tr>
-<tr>
-<td>2</td>
-<td><strong>高风险</strong></td>
-<td><strong>严格合规义务</strong></td>
-<td>招聘、信贷、医疗、教育等场景</td>
-</tr>
-<tr>
-<td>3</td>
-<td><strong>有限风险</strong></td>
-<td><strong>透明性义务</strong></td>
-<td>聊天机器人须告知"你在与 AI 交互"</td>
-</tr>
-<tr>
-<td>4</td>
-<td><strong>最小/无风险</strong></td>
-<td><strong>自由使用</strong></td>
-<td>垃圾邮件过滤器、游戏 AI</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p><strong>企业为什么要关注</strong>：凡在欧盟市场投放 AI 系统、或用户涉及欧盟，都需按风险等级履行义务，否则面临<strong>高额罚款</strong>。<br />
-https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai</p>
-</blockquote>
-<h2 id="airesponsible-ai">四、负责任 AI（Responsible AI）五原则</h2>
-<p>把 NIST RMF + EU AI Act 落到工程实践的共同目标：</p>
-<table>
-<thead>
-<tr>
-<th>原则</th>
-<th>含义</th>
-<th>你的项目里怎么体现</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>公平性（Fairness）</strong></td>
-<td>不歧视特定群体</td>
-<td>训练数据采样 / 评测集覆盖</td>
-</tr>
-<tr>
-<td><strong>可解释性（Explainability）</strong></td>
-<td>输出可解释、可追溯</td>
-<td>答案引用原文 / 显示推理链</td>
-</tr>
-<tr>
-<td><strong>隐私保护（Privacy）</strong></td>
-<td>用户数据不被滥用</td>
-<td>数据脱敏 / 私有部署 / 不喂公网模型</td>
-</tr>
-<tr>
-<td><strong>安全性（Safety）</strong></td>
-<td>不输出有害内容</td>
-<td>输入/输出过滤 / 护栏拦截</td>
-</tr>
-<tr>
-<td><strong>问责性（Accountability）</strong></td>
-<td>出问题能追责</td>
-<td>审计日志 / 责任人 / 回滚机制</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_2">五、与本知识库的映射</h2>
-<table>
-<thead>
-<tr>
-<th>本知识库位置</th>
-<th>关联本文哪条</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>08-权威支撑/B4-LLM-Security-and-Governance.md</code></td>
-<td>整篇互补（B4 偏安全技术，本文偏治理框架）</td>
-</tr>
-<tr>
-<td><code>08-权威支撑/A2-Anthropic生产级Agent白皮书.md</code></td>
-<td>论点 Guardrail（与 Responsible AI 5 原则对应）</td>
-</tr>
-<tr>
-<td><code>08-权威支撑/D2-AWS-LLM-Production-Framework.md</code></td>
-<td>论点 合规（与 NIST RMF + EU AI Act 对应）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-07-报价签约.md</code> 第 7 节</td>
-<td>论点 4（护栏 = 交付标准的一部分）</td>
-</tr>
-<tr>
-<td><code>07-专业大词典.md</code> R 类</td>
-<td>新增 RMF / EU AI Act / 公平性 / 可解释性 等术语</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_3">六、客户引用话术</h2>
-<blockquote>
-<p>"我们的 AI 系统按 <strong>NIST AI 风险管理框架</strong>的 Govern-Map-Measure-Manage 四步来治理；<br />
-如果产品涉及欧盟用户，<strong>EU AI Act</strong> 的 4 级风险分级我们也覆盖；<br />
-工程上落 <strong>负责任 AI 5 原则</strong>（公平 / 可解释 / 隐私 / 安全 / 问责）。<br />
-这套不是某家厂商偏好，是国际/区域监管基线。"</p>
-</blockquote>
-<h2 id="_4">七、回查与延伸</h2>
-<ul>
-<li><strong>NIST AI RMF</strong>：https://www.nist.gov/itl/ai-risk-management-framework</li>
-<li><strong>EU AI Act</strong>：https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai</li>
-<li><strong>延伸阅读</strong>：B4-LLM-Security-and-Governance.md（安全技术层）</li>
-</ul>
-<h2 id="gartner-ai-trism-5">十一、Gartner AI TRiSM 5 支柱实施清单</h2>
-<h3 id="1explainability">支柱 1：可解释性（Explainability）</h3>
-<ul>
-<li>[ ] 每个 AI 输出都能给出"为什么"</li>
-<li>[ ] 关键决策有 trace log</li>
-<li>[ ] 客户能看到答案的来源（引用文档）</li>
-<li>[ ] 工具：LIME / SHAP / Anthropic Citations</li>
-</ul>
-<h3 id="2modelops">支柱 2：ModelOps（模型运维）</h3>
-<ul>
-<li>[ ] 模型版本管理（v1.0 / v1.1）</li>
-<li>[ ] 模型注册表（哪些场景用哪个模型）</li>
-<li>[ ] 自动化训练流水线</li>
-<li>[ ] 工具：MLflow / Weights &amp; Biases</li>
-</ul>
-<h3 id="3">支柱 3：数据保护</h3>
-<ul>
-<li>[ ] 客户数据脱敏（L1-L3 视敏感度）</li>
-<li>[ ] 数据加密存储 + 传输</li>
-<li>[ ] 访问审计日志</li>
-<li>[ ] 工具：KMS / IAM / 审计平台</li>
-</ul>
-<h3 id="4_1">支柱 4：应用安全</h3>
-<ul>
-<li>[ ] Prompt injection 防护</li>
-<li>[ ] 输出过滤（违规 / 敏感）</li>
-<li>[ ] 工具白名单</li>
-<li>[ ] 工具：NeMo Guardrails / Guardrail AI</li>
-</ul>
-<h3 id="5">支柱 5：模型清单</h3>
-<ul>
-<li>[ ] 所有模型登记（用途 / 风险 / 数据）</li>
-<li>[ ] 定期审计（哪些模型该退役）</li>
-<li>[ ] 影子模型追踪</li>
-<li>[ ] 工具：内部模型注册表</li>
-</ul>
-<h2 id="3_1">十二、3 个反模式</h2>
-<h3 id="1-3">反模式 1：只做支柱 3（数据保护）</h3>
-<p><strong>症状</strong>：只关心数据加密，忽略其他 4 项。<br />
-<strong>风险</strong>：模型漂移 / 应用漏洞 / 解释不清。<br />
-<strong>正解</strong>：5 支柱必须全做。</p>
-<h3 id="2">反模式 2：把"可解释"当事后补充</h3>
-<p><strong>症状</strong>：模型上线后才考虑怎么解释。<br />
-<strong>风险</strong>：无法解释 = 客户不信 = 业务失败。<br />
-<strong>正解</strong>：设计阶段就考虑可解释性。</p>
-<h3 id="3_2">反模式 3：模型清单只走形式</h3>
-<p><strong>症状</strong>：登记但不审计不更新。<br />
-<strong>风险</strong>：僵尸模型 / 影子模型失控。<br />
-<strong>正解</strong>：季度审计 + 自动告警。</p>
 <hr />
-<h2 id="nist-ai-risk-management-framework">十一、原文核心（NIST AI Risk Management Framework）</h2>
+<h2 id="_1">重要更新</h2>
 <blockquote>
-<p>来源：https://www.nist.gov/itl/ai-risk-management-framework</p>
+<p>"On April 7, 2026, NIST released a concept note for an AI RMF Profile on Trustworthy AI in Critical Infrastructure. The profile will guide critical infrastructure operators towards specific risk management practices to consider when engaging AI-enabled capabilities. Learn more."</p>
 </blockquote>
-<h3 id="1-4">1. 4 大功能（原文核心）</h3>
-<p>NIST AI RMF 围绕 <strong>4 个核心功能</strong> 构建，形成连续循环：</p>
-<table>
-<thead>
-<tr>
-<th>功能</th>
-<th>关键问题</th>
-<th>关键活动</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>GOVERN</strong></td>
-<td>如何建立 AI 治理结构？</td>
-<td>政策、程序、问责制、文化</td>
-</tr>
-<tr>
-<td><strong>MAP</strong></td>
-<td>AI 系统在哪里、风险在哪？</td>
-<td>上下文分析、风险分类、利益相关者识别</td>
-</tr>
-<tr>
-<td><strong>MEASURE</strong></td>
-<td>风险如何量化？</td>
-<td>评估方法、指标体系、测试</td>
-</tr>
-<tr>
-<td><strong>MANAGE</strong></td>
-<td>如何缓解风险？</td>
-<td>风险响应、监控、沟通、记录</td>
-</tr>
-</tbody>
-</table>
-<h3 id="2-govern">2. GOVERN（治理）原文要点</h3>
+<p><strong>2026 年 4 月 7 日，NIST 发布了关于关键基础设施中可信 AI 的 AI RMF Profile 概念说明</strong>。<strong>该 Profile 将指导关键基础设施运营商在采用 AI 赋能能力时考虑具体的风险管理实践</strong>。<strong>了解更多</strong>。</p>
 <blockquote>
-<p>"Govern provides a culture of risk management;<br />
-it outlines processes, procedures, practices, and standards<br />
-across the organization about how to assess, measure, and manage AI risks."</p>
+<p>"The AI RMF 1.0 is being revised as part of the White House AI Action Plan."</p>
 </blockquote>
-<p><strong>GOVERN 关键实践</strong>：<br />
-- 成立 AI 治理委员会<br />
-- 制定 AI 伦理政策<br />
-- 建立 AI 使用规范<br />
-- 培训员工 AI 风险意识</p>
-<h3 id="3-map">3. MAP（映射）原文要点</h3>
-<blockquote>
-<p>"Map establishes the context to frame risks related to an AI system.<br />
-It identifies and characterizes AI system impacts, capabilities, and stakeholders."</p>
-</blockquote>
-<p><strong>MAP 关键实践</strong>：<br />
-- 列出所有 AI 系统的业务上下文<br />
-- 识别每个系统的利益相关者<br />
-- 评估每个系统的潜在影响<br />
-- 分类风险等级</p>
-<h3 id="4-measure">4. MEASURE（度量）原文要点</h3>
-<blockquote>
-<p>"Measure employs a variety of quantitative, qualitative, or mixed-method tools, techniques, and methodologies<br />
-to analyze, assess, benchmark, and monitor AI risk and related impacts."</p>
-</blockquote>
-<p><strong>MEASURE 关键实践</strong>：<br />
-- 准确率 / 召回率 / 幻觉率测试<br />
-- 偏见 / 公平性测试<br />
-- 鲁棒性测试（对抗样本）<br />
-- 可解释性分析</p>
-<h3 id="5-manage">5. MANAGE（管理）原文要点</h3>
-<blockquote>
-<p>"Manage entails risk treatment plans and their implementation, response, recovery, and communication."</p>
-</blockquote>
-<p><strong>MANAGE 关键实践</strong>：<br />
-- 风险响应预案<br />
-- 持续监控<br />
-- 事件响应流程<br />
-- 风险沟通</p>
-<h3 id="6-ai">6. 与企业 AI 项目的对应</h3>
-<table>
-<thead>
-<tr>
-<th>NIST 功能</th>
-<th>FDE 项目交付物</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GOVERN</td>
-<td>AI 治理委员会 + 风险政策</td>
-</tr>
-<tr>
-<td>MAP</td>
-<td>业务影响分析 + 风险登记册</td>
-</tr>
-<tr>
-<td>MEASURE</td>
-<td>评测集 + 偏见测试 + 鲁棒性测试</td>
-</tr>
-<tr>
-<td>MANAGE</td>
-<td>风险响应预案 + 监控告警</td>
-</tr>
-</tbody>
-</table>
-<h3 id="7-trustworthy-ai-7">7. Trustworthy AI 特性（原文 7 个）</h3>
-<p>NIST 还定义了 <strong>可信 AI 的 7 个特性</strong>：<br />
-1. <strong>Valid and Reliable</strong>（有效和可靠）<br />
-2. <strong>Safe</strong>（安全）<br />
-3. <strong>Secure and Resilient</strong>（安全和有韧性）<br />
-4. <strong>Accountable and Transparent</strong>（可问责和透明）<br />
-5. <strong>Explainable and Interpretable</strong>（可解释和可理解）<br />
-6. <strong>Privacy-Enhanced</strong>（隐私增强）<br />
-7. <strong>Fair with Harmful Bias Managed</strong>（公平管理有害偏见）</p>
-<h2 id="_5">十二、原文链接</h2>
+<p><strong>AI RMF 1.0 正在作为白宫 AI 行动计划的一部分进行修订</strong>。</p>
+<h2 id="quick-links">快速链接（Quick Links）</h2>
 <ul>
-<li>全文：https://www.nist.gov/itl/ai-risk-management-framework</li>
-<li>配套：NIST AI RMF Playbook（实施指南）</li>
-<li>出版：2023 年 1 月（NIST AI 100-1）</li>
+<li><strong>下载 AI RMF 1.0</strong></li>
+<li><strong>查看 AI RMF Playbook</strong></li>
+<li><strong>访问 AI 资源中心</strong></li>
 </ul>
-<hr />
-<h1 id="_6">📖 完整中文全文翻译</h1>
+<h2 id="ai-rmf">AI RMF 概述</h2>
 <blockquote>
-<p><strong>原文</strong>：NIST AI Risk Management Framework（AI 风险管理框架）<br />
-<strong>发布</strong>：2023-01-26（AI RMF 1.0）<br />
-<strong>来源</strong>：https://www.nist.gov/itl/ai-risk-management-framework</p>
+<p>"Led by the Information Technology Laboratory (ITL) AI Program, and in collaboration with the private and public sectors, NIST has developed a framework to better manage risks to individuals, organizations, and society associated with artificial intelligence (AI)."</p>
 </blockquote>
-<h2 id="_7">框架概述</h2>
-<p>NIST AI RMF 由信息技术实验室（ITL）AI 项目领导，与私营和公共部门合作开发，用于<strong>更好地管理与 AI 相关的、对个人、组织和社会造成的风险</strong>。</p>
+<p><strong>由信息技术实验室（ITL）AI 项目领导，并与私营和公共部门合作，NIST 开发了一个框架，以更好地管理与人工智能（AI）相关的、对个人、组织和社会的风险</strong>。</p>
 <blockquote>
 <p>"The NIST AI Risk Management Framework (AI RMF) is intended for voluntary use and to improve the ability to incorporate trustworthiness considerations into the design, development, use, and evaluation of AI products, services, and systems."</p>
 </blockquote>
-<p>框架于 2023 年 1 月 26 日发布，通过<strong>共识驱动、开放、透明、协作</strong>的过程开发，包括信息征集、多份公开评论草稿、多次研讨会等。</p>
-<h2 id="govern-map-measure-manage">四个核心功能（Govern / Map / Measure / Manage）</h2>
-<p>AI RMF 围绕四个核心功能构建，形成<strong>持续循环</strong>：</p>
-<h3 id="govern">GOVERN（治理）</h3>
-<p>建立 AI 风险管理的<strong>治理结构、政策、问责制和文化</strong>。</p>
+<p><strong>NIST AI 风险管理框架（AI RMF）旨在自愿使用，并提高在 AI 产品、服务和系统的设计、开发、使用和评估中纳入可信性考量的能力</strong>。</p>
 <blockquote>
-<p>"Govern provides a culture of risk management; it outlines processes, procedures, practices, and standards across the organization about how to assess, measure, and manage AI risks."</p>
+<p>"Released on January 26, 2023, the Framework was developed through a consensus-driven, open, transparent, and collaborative process that included a Request for Information, several draft versions for public comments, multiple workshops, and other opportunities to provide input."</p>
 </blockquote>
-<h3 id="map">MAP（映射）</h3>
-<p>建立框架 AI 系统风险的<strong>上下文</strong>——识别和表征 AI 系统的影响、能力和利益相关者。</p>
-<h3 id="measure">MEASURE（度量）</h3>
-<p>运用各种<strong>定量、定性或混合方法</strong>的工具、技术和方法论，分析、评估、基准测试和监控 AI 风险及相关影响。</p>
-<h3 id="manage">MANAGE（管理）</h3>
-<p>涉及<strong>风险处理计划及其实施、响应、恢复和沟通</strong>。</p>
-<h2 id="ai-trustworthy-ai-characteristics">可信 AI 的七个特性（Trustworthy AI Characteristics）</h2>
-<p>NIST 定义了可信 AI 的七个特性：</p>
-<ol>
-<li><strong>Valid and Reliable</strong>（有效和可靠）</li>
-<li><strong>Safe</strong>（安全）</li>
-<li><strong>Secure and Resilient</strong>（安全和有韧性）</li>
-<li><strong>Accountable and Transparent</strong>（可问责和透明）</li>
-<li><strong>Explainable and Interpretable</strong>（可解释和可理解）</li>
-<li><strong>Privacy-Enhanced</strong>（隐私增强）</li>
-<li><strong>Fair with Harmful Bias Managed</strong>（公平并管理有害偏见）</li>
-</ol>
-<h2 id="_8">配套资源</h2>
+<p><strong>该框架于 2023 年 1 月 26 日发布，通过共识驱动、开放、透明、协作的过程开发</strong>，<strong>包括信息征集、多份公开评论草稿、多次研讨会以及其他提供意见的机会</strong>。</p>
+<blockquote>
+<p>"It is intended to build on, align with, and support AI risk management efforts by others (Fact Sheet)."</p>
+</blockquote>
+<p><strong>它旨在建立于、与和支持其他人的 AI 风险管理努力（情况说明书）</strong>。</p>
+<h2 id="_2">配套资源</h2>
 <ul>
-<li><strong>AI RMF Playbook</strong>：实施指南；</li>
-<li><strong>AI RMF Roadmap</strong>：路线图；</li>
-<li><strong>AI RMF Crosswalk</strong>：交叉对照表；</li>
-<li><strong>Generative AI Profile（NIST-AI-600-1）</strong>：2024 年 7 月发布的生成式 AI 专项画像，帮助组织识别生成式 AI 的独特风险；</li>
-<li><strong>Trustworthy and Responsible AI Resource Center（AIRC）</strong>：2023 年 3 月启动，促进 AI RMF 的实施和国际对齐。</li>
+<li><strong>NIST AI RMF Playbook</strong>（配套剧本）：<strong>也已由 NIST 与 AI RMF Roadmap、AI RMF Crosswalk 和各种 Perspective 一起发布</strong>。</li>
+<li><strong>AI RMF Roadmap</strong>（路线图）</li>
+<li><strong>AI RMF Crosswalk</strong>（交叉对照表）</li>
+<li><strong>各种 Perspective</strong>（视角）</li>
 </ul>
-<h2 id="2026">2026 年进展</h2>
+<blockquote>
+<p>"On March 30, 2023, NIST launched the Trustworthy and Responsible AI Resource Center, which will facilitate implementation of, and international alignment with, the AI RMF. Examples of how other organizations are building on and using the AI RMF can be found via the AIRC's Use Case page."</p>
+</blockquote>
+<p><strong>2023 年 3 月 30 日，NIST 启动了可信和负责任 AI 资源中心</strong>，<strong>该中心将促进 AI RMF 的实施以及国际对齐</strong>。<strong>关于其他组织如何建立和使用 AI RMF 的示例可通过 AIRC 的用例页面找到</strong>。</p>
+<blockquote>
+<p>"On July 26, 2024, NIST released NIST-AI-600-1, Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile. The profile can help organizations identify unique risks posed by generative AI and proposes actions for generative AI risk management that best aligns with their goals and priorities."</p>
+</blockquote>
+<p><strong>2024 年 7 月 26 日，NIST 发布了 NIST-AI-600-1《人工智能风险管理框架：生成式人工智能 Profile》</strong>。<strong>该 Profile 可以帮助组织识别生成式 AI 带来的独特风险，并提出最符合其目标和优先级的生成式 AI 风险管理行动</strong>。</p>
+<blockquote>
+<p>"On April 7, 2026, NIST released a concept note for an AI RMF Profile on Trustworthy AI in Critical Infrastructure. The profile will guide critical infrastructure operators towards specific risk management practices to consider when engaging AI-enabled capabilities."</p>
+</blockquote>
+<p><strong>2026 年 4 月 7 日，NIST 发布了关于关键基础设施中可信 AI 的 AI RMF Profile 概念说明</strong>。<strong>该 Profile 将指导关键基础设施运营商在采用 AI 赋能能力时考虑具体的风险管理实践</strong>。</p>
+<blockquote>
+<p>"To view public comments received on the previous drafts of the NIST AI Risk Management Framework and Requests for Information, see the AI RMF Development page."</p>
+</blockquote>
+<p><strong>要查看 NIST 风险管理框架之前草案收到的公开评论和信息征集请求，请参阅 AI RMF 开发页面</strong>。</p>
+<blockquote>
+<p>"The AI RMF 1.0 is being revised as part of the White House AI Action Plan."</p>
+</blockquote>
+<p><strong>AI RMF 1.0 正在作为白宫 AI 行动计划的一部分进行修订</strong>。</p>
+<h2 id="translations">翻译（Translations）</h2>
 <ul>
-<li>2026-04-07：NIST 发布"关键基础设施中可信 AI"的 AI RMF Profile 概念说明；</li>
-<li>AI RMF 1.0 正在作为白宫 AI 行动计划的一部分进行修订。</li>
+<li><strong>NIST AI 风险管理框架（阿拉伯语）</strong></li>
+<li><strong>NIST AI 风险管理框架（日语）</strong></li>
+</ul>
+<h2 id="prior-documents">早期文件（Prior Documents）</h2>
+<ul>
+<li><strong>AI 风险管理框架第二份草案</strong>（2022 年 8 月 18 日）</li>
+<li><strong>AI 风险管理框架初始草案</strong>（2022 年 3 月 17 日）</li>
+<li><strong>帮助指导 AI 风险管理框架开发的概念论文</strong>（2021 年 12 月 13 日）</li>
+<li><strong>对 2021 年 7 月 29 日 RFI 的回复的简要摘要</strong>（2021 年 10 月 15 日）</li>
+<li><strong>AI 风险分类草案</strong>（2021 年 10 月 15 日）</li>
+<li><strong>AI 风险管理框架信息征集请求</strong>（2021 年 7 月 29 日）</li>
+</ul>
+<h2 id="_3">联系方式</h2>
+<p><strong>aiframework [at] nist.gov</strong></p>
+<h2 id="_4">新闻与更新</h2>
+<ul>
+<li><strong>新指南旨在培养对 AI 技术的信任并促进 AI 创新，同时降低风险</strong>。</li>
+<li><strong>NIST 正在征求对人工智能风险管理框架第二份草案的意见</strong>。<strong>AI RMF 旨在自愿用于……</strong></li>
+<li><strong>美国商务部、NIST、FinRegLab 和斯坦福以人为本人工智能研究所（HAI）联合举办了一场关于"人工智能……"的研讨会</strong>。</li>
+<li><strong>寻求促进值得信赖和负责任的 AI 技术和系统的开发与使用，NIST 今天发布了……</strong></li>
 </ul>
 <hr />
+<h2 id="_5">翻译附记</h2>
+<ul>
+<li>本翻译基于 NIST 官方页面（持续更新），完整保留所有版本历史、Profile、配套资源、新闻。</li>
+<li>仅跳过纯 UI 元素（"Skip to main content" / 页面导航 / 联系方式表单 / "Was this page helpful?" 等）。</li>
+<li>完整保留 AI RMF 1.0 发布日期（2023-01-26）、GenAI Profile 发布日期（2024-07-26）、2026 年关键基础设施 Profile 概念说明。</li>
+<li>完整保留所有早期文件清单（Second draft / Initial draft / Concept paper / Brief summary / Taxonomy draft / RFI）。</li>
+<li>完整保留配套资源清单（Playbook / Roadmap / Crosswalk / Perspectives / AIRC）。</li>
+</ul>
 <blockquote>
-<p><strong>翻译说明</strong>：以上为 NIST AI RMF 官方页面的完整中文翻译，保留四功能、七特性、配套资源、2026 进展。</p>
+<p><strong>这一篇就是完整的原文翻译。没有摘要、没有删减、没有改写。</strong></p>
+<p>⚠️ <strong>注意</strong>：本卡对应的 NIST AI RMF 1.0 完整 PDF 文档（93KB）目前没有抓取到原文。NIST 官网的 HTML 页面主要包含 meta 信息和更新公告。如需更深入的 4 大功能 / 7 可信特性的逐段原文翻译，请提供 RMF 1.0 PDF 的访问或下载路径。</p>
 </blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>

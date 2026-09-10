@@ -380,380 +380,95 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">E6</span><span class="reading-time">📖 Palantir + OpenAI + Anthropic</span></div><h1 id="e6-fde-palantir-openai-anthropic">E6 · FDE 三原厂官方定义（Palantir + OpenAI + Anthropic）</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">E6</span><span class="reading-time">📖 Palantir + OpenAI + Anthropic</span></div><h1 id="e6-palantir-architecture-center">E6 · Palantir Architecture Center —— 完整中文全文翻译</h1>
 <blockquote>
-<p><strong>类型</strong>：一手权威 · FDE 角色定义<br />
-<strong>来源</strong>：Palantir 官方文档 + OpenAI 官方业务页 + Anthropic 招聘 JD<br />
-<strong>中文卡版本</strong>：基于 dsh 调研 R2 整理 · 2026-09-10</p>
+<p><strong>原文标题</strong>：Integrated platforms: AIP, Foundry, and Apollo<br />
+<strong>来源</strong>：Palantir 官方文档 · Architecture Center<br />
+<strong>链接</strong>：https://www.palantir.com/docs/foundry/architecture-center/platforms<br />
+<strong>翻译说明</strong>：以下为 Palantir 官方架构中心文档完整中文翻译，保留所有章节、平台定义、Ontology 概念、统一安全架构。仅跳过页面 UI 元素（如产品导航、Footer 等）。</p>
 </blockquote>
-<h2 id="_1">一、定位</h2>
-<p>这张卡<strong>强化 A1（Anthropic FDE 博客）</strong>——把"FDE 是哪三家原厂定义的"一次性说清。<br />
-见客户 / 写方案 / 做分享时，这是<strong>最能立权威</strong>的一手源。</p>
-<h2 id="palantir-fde">二、Palantir —— FDE 的发明者</h2>
-<p><strong>Palantir 官方文档</strong>对 FDE 的定义（来自 palantir.com/docs/foundry/architecture-center/platforms）：</p>
-<blockquote>
-<p><strong>"Product development paradigm... human equivalent of backpropagation"</strong><br />
-（产品开发范式……人类版的反向传播）</p>
-</blockquote>
-<p><strong>FDE = 把现场反馈传回产品</strong>——这是 FDE 这个角色最原初的含义。</p>
-<blockquote>
-<p>https://www.palantir.com/docs/foundry/architecture-center/platforms</p>
-</blockquote>
-<h2 id="openai-2025-the-openai-deployment-company">三、OpenAI —— 2025 成立 The OpenAI Deployment Company</h2>
-<p><strong>OpenAI 官方业务页</strong>（openai.com/business/the-openai-deployment-company/）：</p>
-<blockquote>
-<p><strong>"FDE is how OpenAI brings AI into production for complex, real-world use cases"</strong><br />
-（FDE 是 OpenAI 把 AI 带到真实生产用例的方式）</p>
-</blockquote>
-<p><strong>关键动作</strong>：2025 年 OpenAI 专门成立 <strong>The OpenAI Deployment Company</strong>——把 FDE 业务独立成公司，<strong>这是 FDE 在 AI 时代被最大化的标志</strong>。</p>
-<blockquote>
-<p>https://openai.com/business/the-openai-deployment-company/</p>
-</blockquote>
-<h2 id="anthropic-applied-ai-fde">四、Anthropic —— Applied AI 团队的 FDE 岗位</h2>
-<p><strong>Anthropic 官方招聘 JD</strong>（anthropic.com/careers/jobs/5302966008）：</p>
-<blockquote>
-<p><strong>"Embed directly with strategic customers to drive transformational AI adoption"</strong><br />
-（直接嵌入战略客户，推动变革性 AI 采用）</p>
-</blockquote>
-<p><strong>JD 关键词</strong>（原厂共识）：<br />
-- <strong>MCP servers</strong>（Model Context Protocol 服务）<br />
-- <strong>sub-agents</strong>（子智能体）<br />
-- <strong>agent skills</strong>（智能体技能）<br />
-- <strong>agentic systems</strong>（智能体系统）</p>
-<blockquote>
-<p>https://www.anthropic.com/careers/jobs/5302966008</p>
-</blockquote>
-<h2 id="3">五、3 家交付物形态对比</h2>
-<table>
-<thead>
-<tr>
-<th>厂商</th>
-<th>交付物形态</th>
-<th>核心能力</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Palantir</strong></td>
-<td>本体模型（Ontology） + 数据集成</td>
-<td>业务实体建模 + 数据接入</td>
-</tr>
-<tr>
-<td><strong>OpenAI</strong></td>
-<td>部署公司 + Assistants API</td>
-<td>AI 能力产品化</td>
-</tr>
-<tr>
-<td><strong>Anthropic</strong></td>
-<td>Claude API + MCP + Skills</td>
-<td>Agent 工程化基础设施</td>
-</tr>
-</tbody>
-</table>
-<p><strong>共同点</strong>：都是"驻场 + 端到端 + 对业务结果负责"——这正是 FDE 的核心定义。</p>
-<h2 id="fde-3">六、FDE ≠ 售前/咨询/外包的 3 大区别</h2>
-<table>
-<thead>
-<tr>
-<th>角色</th>
-<th>写代码</th>
-<th>交付终点</th>
-<th>收费</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>售前</strong></td>
-<td>偶尔 demo</td>
-<td>拿到单</td>
-<td>项目比例</td>
-</tr>
-<tr>
-<td><strong>咨询</strong></td>
-<td>不写</td>
-<td>报告 + 建议</td>
-<td>人月计费</td>
-</tr>
-<tr>
-<td><strong>外包</strong></td>
-<td>写</td>
-<td>客户验收单</td>
-<td>人月计费</td>
-</tr>
-<tr>
-<td><strong>FDE</strong></td>
-<td>写生产代码</td>
-<td>客户团队改变工作方式</td>
-<td>结果/阶段收费</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>FDE = 写的是生产环境代码 + 终点是组织改变 + 按结果/阶段收费。</p>
-</blockquote>
-<h2 id="_2">七、与本知识库的映射</h2>
-<table>
-<thead>
-<tr>
-<th>本知识库位置</th>
-<th>关联本文哪条</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>08-权威支撑/A1-Anthropic-FDE博客.md</code></td>
-<td>整篇互补（本文补 Palantir + OpenAI 官方）</td>
-</tr>
-<tr>
-<td><code>08-权威支撑/D3-OpenAI-Agent-Best-Practices.md</code></td>
-<td>论点 三（OpenAI 业务页）</td>
-</tr>
-<tr>
-<td><code>08-权威支撑/D1-Google-Agent-Design-Framework.md</code></td>
-<td>论点 一（FDE 趋势）</td>
-</tr>
-<tr>
-<td><code>02-知识库/01-企业AI落地·接单武器.md</code> FDE 簇</td>
-<td>论点 五（3 大区别）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-03-FDE 入企交付方向.md</code></td>
-<td>论点 六（收费模式）</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_3">八、客户引用话术</h2>
-<blockquote>
-<p>"FDE 这个角色不是我们自创的——<br />
-Palantir 是发明者，OpenAI 2025 年专门成立 The OpenAI Deployment Company，Anthropic 设 Applied AI 团队全员 FDE。<br />
-<strong>三家原厂都在用 FDE 这套打法</strong>——这说明 FDE 是 AI 时代的最优交付模式，不是某家偏好。<br />
-我们做的就是按原厂标准做的 FDE。"</p>
-</blockquote>
-<h2 id="_4">九、回查与延伸</h2>
-<ul>
-<li><strong>Palantir FDE / Ontology</strong>：https://www.palantir.com/docs/foundry/architecture-center/platforms</li>
-<li><strong>OpenAI Deployment Company</strong>：https://openai.com/business/the-openai-deployment-company/</li>
-<li><strong>Anthropic FDE JD</strong>：https://www.anthropic.com/careers/jobs/5302966008</li>
-<li><strong>A1（Anthropic FDE 博客中文卡）</strong>：A1-Anthropic-FDE博客.md</li>
-<li><strong>延伸阅读</strong>：A1 / D3 / D1 三张卡</li>
-</ul>
-<h2 id="3-fde">十一、3 家 FDE 详细对比</h2>
-<h3 id="palantir-fde_1">Palantir FDE</h3>
-<ul>
-<li><strong>历史</strong>：FDE 这个词的发源地（2008+）</li>
-<li><strong>核心交付物</strong>：Ontology + Foundry 平台</li>
-<li><strong>典型客户</strong>：政府 / 国防 / 大型金融</li>
-<li><strong>FDE 特点</strong>：技术深度高 / 项目周期长（6-18 月）</li>
-<li><strong>薪酬</strong>：$200K-$500K USD/年</li>
-<li><strong>适合你接的客户类型</strong>：大型政企 / 长周期项目</li>
-</ul>
-<h3 id="openai-fde">OpenAI FDE</h3>
-<ul>
-<li><strong>历史</strong>：2023 年起 / 2025 年成立 The OpenAI Deployment Company</li>
-<li><strong>核心交付物</strong>：Assistants API + Custom GPT + Agent SDK</li>
-<li><strong>典型客户</strong>：中型企业 / 互联网公司</li>
-<li><strong>FDE 特点</strong>：产品化思维 / 标准化交付 / 周期短（4-8 周）</li>
-<li><strong>薪酬</strong>：$150K-$300K USD/年</li>
-<li><strong>适合你接的客户类型</strong>：中型企业 / AI 转型项目</li>
-</ul>
-<h3 id="anthropic-fde">Anthropic FDE</h3>
-<ul>
-<li><strong>历史</strong>：2024 年起 / Applied AI 团队</li>
-<li><strong>核心交付物</strong>：Claude API + MCP + Skills</li>
-<li><strong>典型客户</strong>：科技公司 / 研究机构</li>
-<li><strong>FDE 特点</strong>：技术前沿 / 强调 Agent 工程化</li>
-<li><strong>薪酬</strong>：$200K-$400K USD/年</li>
-<li><strong>适合你接的客户类型</strong>：技术驱动型 / AI 创新项目</li>
-</ul>
-<h2 id="3-fde_1">十二、3 个共性（所有 FDE 都必须做）</h2>
-<h3 id="1">共性 1：驻场</h3>
-<p>不是远程写代码，是到客户现场（线上或线下）。</p>
-<h3 id="2">共性 2：对业务结果负责</h3>
-<p>不是"代码上线"，是"客户业务改变"。</p>
-<h3 id="3_1">共性 3：沉淀可复用资产</h3>
-<p>每一次交付都为下一次交付修路。</p>
-<h2 id="3_2">十三、3 个反模式</h2>
-<h3 id="1_1">反模式 1：照搬某一家</h3>
-<p><strong>症状</strong>：完全按 Palantir 模式做（重平台重定制）。<br />
-<strong>风险</strong>：不适合中小客户。<br />
-<strong>正解</strong>：按客户规模 / 行业选模式。</p>
-<h3 id="2fde">反模式 2：FDE = 高级外包</h3>
-<p><strong>症状</strong>：FDE 按工时计费。<br />
-<strong>风险</strong>：客户把你当外包。<br />
-<strong>正解</strong>：按结果 / 阶段收费。</p>
-<h3 id="3_3">反模式 3：不沉淀</h3>
-<p><strong>症状</strong>：每个客户从零开始。<br />
-<strong>风险</strong>：没有复利。<br />
-<strong>正解</strong>：沉淀 Skill / 模板 / 组件库。</p>
 <hr />
-<h2 id="palantir-foundry-openai-deployment-company">十一、原文核心（Palantir Foundry 官方 + OpenAI Deployment Company 官方）</h2>
-<blockquote>
-<p>来源：https://www.palantir.com/docs/foundry/architecture-center/platforms</p>
-</blockquote>
-<h3 id="1-palantir-foundry-ontology">1. Palantir Foundry 的 Ontology 概念（原文）</h3>
-<p>Palantir 把企业的"对象 + 链接 + 动作"建为<strong>本体（Ontology）</strong>：</p>
-<blockquote>
-<p>"The Ontology is the foundation of Foundry. It models your business as objects, links, functions, and actions.<br />
-Objects represent real-world entities. Links represent relationships between objects.<br />
-Functions represent computations on objects. Actions represent changes to objects."</p>
-</blockquote>
-<p><strong>翻译</strong>：Ontology 把业务建模为：<br />
-- <strong>Objects（对象）</strong>：现实世界实体（订单、客户、设备）<br />
-- <strong>Links（链接）</strong>：对象之间的关系<br />
-- <strong>Functions（函数）</strong>：基于对象的计算<br />
-- <strong>Actions（动作）</strong>：对对象的修改</p>
-<h3 id="2-fde-palantir">2. FDE 在 Palantir 的角色（原文）</h3>
-<blockquote>
-<p>"Forward Deployed Engineers embed with strategic customers to deliver production-grade<br />
-data and analytics capabilities. They serve as the technical interface between<br />
-Palantir's platform and customer business needs."</p>
-</blockquote>
-<p><strong>关键</strong>：FDE 是<strong>平台（Palantir Foundry）和客户业务</strong>之间的<strong>技术接口</strong>。</p>
-<h3 id="3-ontology-ddd">3. Ontology 与 DDD 的关系</h3>
-<table>
-<thead>
-<tr>
-<th>Palantir Ontology</th>
-<th>DDD 概念</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Objects</td>
-<td>Entities / Aggregates</td>
-</tr>
-<tr>
-<td>Links</td>
-<td>Relationships</td>
-</tr>
-<tr>
-<td>Functions</td>
-<td>Domain Services</td>
-</tr>
-<tr>
-<td>Actions</td>
-<td>Aggregates / Commands</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>"Palantir 的 Ontology 本质是 DDD 的工程化实现 —— 把领域建模变成可视化平台"</p>
-</blockquote>
-<h3 id="4-openai-deployment-company2025">4. OpenAI Deployment Company（2025 年成立）</h3>
-<p><strong>官方页面核心</strong>：</p>
-<blockquote>
-<p>"FDE is how OpenAI brings AI into production for complex, real-world use cases.<br />
-The OpenAI Deployment Company exists to scale this practice globally."</p>
-</blockquote>
-<p><strong>关键动作</strong>：<br />
-- 2025 年 OpenAI 独立成立 <strong>The OpenAI Deployment Company</strong><br />
-- 专门负责 FDE 业务<br />
-- 把 FDE 从"部门职能"升级为"独立公司"</p>
-<p><strong>为什么</strong>：<br />
-- 标志 FDE 模式在 AI 时代被最大认可<br />
-- 客户愿意为 FDE 服务付高价<br />
-- 行业其他公司（Anthropic / 各大咨询公司）跟随</p>
-<h3 id="5">5. 三原厂核心对比</h3>
-<table>
-<thead>
-<tr>
-<th>维度</th>
-<th>Palantir</th>
-<th>OpenAI</th>
-<th>Anthropic</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>创立时间</strong></td>
-<td>2008</td>
-<td>2023</td>
-<td>2024</td>
-</tr>
-<tr>
-<td><strong>FDE 核心交付</strong></td>
-<td>Ontology / Foundry</td>
-<td>Assistants API / Agent SDK</td>
-<td>Claude / MCP / Skills</td>
-</tr>
-<tr>
-<td><strong>典型客户</strong></td>
-<td>政府 / 国防 / 大型金融</td>
-<td>中型企业 / 互联网</td>
-<td>科技公司 / 研究</td>
-</tr>
-<tr>
-<td><strong>FDE 特点</strong></td>
-<td>深度定制 / 周期长</td>
-<td>标准化 / 周期短</td>
-<td>工程化 / Agent 化</td>
-</tr>
-<tr>
-<td><strong>薪酬</strong></td>
-<td>$200-500K</td>
-<td>$150-300K</td>
-<td>$200-400K</td>
-</tr>
-</tbody>
-</table>
-<h3 id="6-fde">6. 共同点（所有 FDE 都必须做）</h3>
-<ul>
-<li><strong>驻场</strong>：线上或线下</li>
-<li><strong>对业务结果负责</strong>：不是代码上线</li>
-<li><strong>沉淀可复用资产</strong>：每次交付为下次修路</li>
-<li><strong>风险分级</strong>：高危动作必有人工接管</li>
-</ul>
-<h2 id="_5">十二、原文链接</h2>
-<ul>
-<li>Palantir Foundry：https://www.palantir.com/docs/foundry/architecture-center/platforms</li>
-<li>OpenAI Deployment Company：https://openai.com/business/the-openai-deployment-company/</li>
-<li>Anthropic FDE JD：https://anthropic.com/careers/</li>
-<li>行业讨论：a16z, Y Combinator, Stratechery 等</li>
-</ul>
-<hr />
-<h1 id="_6">📖 完整中文全文翻译</h1>
-<blockquote>
-<p><strong>原文</strong>：AIP, Foundry, and Apollo（Palantir 官方架构中心）<br />
-<strong>来源</strong>：https://www.palantir.com/docs/foundry/architecture-center/platforms</p>
-</blockquote>
 <h2 id="aipfoundryapollo">集成平台：AIP、Foundry、Apollo</h2>
-<p>标准的 Palantir 架构由<strong>三个集成平台</strong>组成：AIP、Foundry、Apollo。</p>
-<ul>
-<li><strong>Apollo</strong> 是持续交付平台，管理承载 Foundry 和 AIP 服务的底层基础设施。Apollo 能<strong>每天跨数百个服务和资产编排数千次零停机升级</strong>。</li>
-<li><strong>Foundry</strong> 是基础数据运营平台，提供数据管理、逻辑编写、Ontology 开发、分析、工作流开发的核心能力。</li>
-<li><strong>AIP</strong> 是生成式 AI 平台，通过 "k-LLM" 范式提供与大语言模型的<strong>安全连接</strong>、构建智能体和自动化的<strong>开发工具链</strong>、一系列 AI 赋能的终端用户应用、以及一个用于治理生产 AI 工作流的<strong>综合 Evals 框架</strong>。</li>
-</ul>
-<h2 id="aip-foundry-apollo">AIP + Foundry + Apollo：企业操作系统</h2>
-<p>集成的 AIP + Foundry + Apollo 架构被设计为<strong>企业操作系统（Enterprise Operating System）</strong>。</p>
-<p>合在一起，AIP + Foundry 可以从概念上映射为<strong>九个能力集</strong>：<br />
-1. <strong>Ontology 系统</strong>：Ontology Language + Ontology Engine + Ontology Toolchain；<br />
-2. <strong>数据/逻辑/工作流服务</strong>：Data Services + Logic Services + Workflow Services，为 Ontology 系统提供动力；<br />
-3. <strong>分析应用 + 自动化 + 产品交付工具链</strong>：Analytics &amp; Applications + Automations + Product Delivery toolchain。</p>
-<p>这九个能力集整体性地利用<strong>六个网格级组件</strong>：Storage、Compute、Networking、Security、Governance、Workspace——全部由 Apollo 驱动。</p>
-<h2 id="ontology-palantir">Ontology（本体）—— Palantir 的核心概念</h2>
 <blockquote>
-<p>"The Ontology is the foundation of Foundry. It models your business as objects, links, functions, and actions."</p>
+<p>"The standard Palantir architecture consists of three integrated platforms: AIP, Foundry, and Apollo."</p>
 </blockquote>
-<p><strong>Ontology 是 Foundry 的基础</strong>。它把你的业务建模为：<br />
-- <strong>Objects（对象）</strong>：代表现实世界实体；<br />
-- <strong>Links（链接）</strong>：代表对象之间的关系；<br />
-- <strong>Functions（函数）</strong>：代表对对象的计算；<br />
-- <strong>Actions（动作）</strong>：代表对对象的修改。</p>
-<h2 id="_7">统一安全架构</h2>
-<p>统一安全架构横跨三个平台（AIP、Foundry、Apollo），涵盖<strong>三个主要领域</strong>：基础设施安全、平台安全、企业安全。</p>
-<p><strong>基础设施层面</strong>：Palantir 服务网格中的每个组件都采用 <strong>zero trust（零信任）</strong> 运行——所有元素都基于身份、设备健康、验证进行访问门控，并预期会有敌意攻击、需要自主执行（如通过 Apollo 强制的加密、防火墙、运行时配置）。</p>
-<p><strong>平台层面</strong>：Foundry 和 AIP 都提供实现可信协作所需的完整控制，包括<strong>严格强制人类和智能体的访问范围</strong>、细粒度的基于角色/标记/目的的访问控制，连接自动化血缘和审计，以及一系列平台内应用。</p>
-<p><strong>企业安全层面</strong>：加密、审计日志、授权、认证配置能<strong>深度集成到组织现有的身份提供商、信息安全工具和架构模式</strong>中。</p>
-<h2 id="_8">实际应用场景</h2>
-<p>这套架构为以下场景提供动力：<br />
-- 大型医院系统的 AI 赋能护理运营；<br />
-- 大型航空公司的集成网络规划；<br />
-- 美国最大公用事业公司的电力运营和野火响应；<br />
-- 美国及其盟国的全频谱军事行动；<br />
-- 数千个其它用例。</p>
-<hr />
+<p><strong>标准的 Palantir 架构由三个集成的平台组成</strong>：<strong>AIP、Foundry、Apollo</strong>。</p>
 <blockquote>
-<p><strong>翻译说明</strong>：以上为 Palantir 官方架构中心文档的完整中文翻译，保留三平台架构、Ontology 概念、统一安全架构、实际应用场景。</p>
+<p>"Apollo is the continuous delivery platform that manages the underlying infrastructure that hosts both Foundry and AIP services. Apollo enables the orchestration of thousands of zero-downtime upgrades across hundreds of services and assets every day."</p>
+</blockquote>
+<p><strong>Apollo 是持续交付平台</strong>，<strong>管理承载 Foundry 和 AIP 服务的基础设施</strong>。<strong>Apollo 能够每天跨数百个服务和资产编排数千次零停机升级</strong>。</p>
+<blockquote>
+<p>"Foundry is the foundational data operations platform, which provides the core capabilities for data management, logic authoring, Ontology development, analytics, and workflow development."</p>
+</blockquote>
+<p><strong>Foundry 是基础数据运营平台</strong>，<strong>提供数据管理、逻辑编写、Ontology 开发、分析和工作流开发的核心能力</strong>。</p>
+<blockquote>
+<p>"AIP is the generative AI platform, which provides secure connectivity to large language models through the 'k-LLM' paradigm, a development toolchain for building agents and automations, an array of AI-enabled end user applications, a comprehensive Evals framework for governing AI workflows in production, and more."</p>
+</blockquote>
+<p><strong>AIP 是生成式 AI 平台</strong>，<strong>通过 "k-LLM" 范式提供与大语言模型的安全连接</strong>，<strong>用于构建智能体和自动化的开发工具链</strong>，<strong>一系列 AI 赋能的终端用户应用程序</strong>，<strong>用于治理生产 AI 工作流的综合 Evals 框架</strong>，<strong>等等</strong>。</p>
+<h2 id="aipfoundry-apollo">AIP、Foundry 和 Apollo：企业操作系统</h2>
+<blockquote>
+<p>"The integrated AIP + Foundry + Apollo architecture is designed to function as an Enterprise Operating System."</p>
+</blockquote>
+<p><strong>集成的 AIP + Foundry + Apollo 架构被设计为充当企业操作系统</strong>。</p>
+<blockquote>
+<p>"When taken together, AIP + Foundry can be conceptually mapped into nine capability sets, as shown in the diagram below"</p>
+</blockquote>
+<p><strong>当合在一起时，AIP + Foundry 可以在概念上映射为九个能力集</strong>，<strong>如下图所示</strong></p>
+<blockquote>
+<p>"The Ontology Language, Ontology Engine, and Ontology Toolchain, which collectively constitute the Ontology system;"</p>
+</blockquote>
+<p><strong>Ontology Language、Ontology Engine 和 Ontology Toolchain</strong>，<strong>共同构成 Ontology 系统</strong>；</p>
+<blockquote>
+<p>"The Data Services, Logic Services, and Workflow Services that power the Ontology system;"</p>
+</blockquote>
+<p><strong>为 Ontology 系统提供动力的数据服务、逻辑服务和工作流服务</strong>；</p>
+<blockquote>
+<p>"The Analytics &amp; Applications, Automations, and a Product Delivery toolchain which users can wield to achieve their goals."</p>
+</blockquote>
+<p><strong>用户可以用来实现其目标的分析与应用程序、自动化和产品交付工具链</strong>。</p>
+<blockquote>
+<p>"Each of these nine capability sets holistically leverage six mesh-wide components: Storage, Compute, Networking, Security, Governance, and the Workspace. All of these components are powered by Apollo."</p>
+</blockquote>
+<p><strong>这九个能力集每一个都整体性地利用六个网格级组件</strong>：<strong>存储、计算、网络、安全、治理和工作区</strong>。<strong>所有这些组件都由 Apollo 提供支持</strong>。</p>
+<blockquote>
+<p>"This comprehensive architecture powers AI-enabled care operations at major hospital systems, integrated network planning for major airlines, electric operations and wildfire response for America's largest utilities, full spectrum military operations across the United States and allied nations, and thousands of other use cases."</p>
+</blockquote>
+<p><strong>这一综合架构为以下场景提供动力</strong>：<strong>主要医院系统的 AI 赋能护理运营</strong>，<strong>主要航空公司的集成网络规划</strong>，<strong>美国最大公用事业公司的电力运营和野火响应</strong>，<strong>美国及其盟国的全频谱军事行动</strong>，<strong>以及数千个其他用例</strong>。</p>
+<blockquote>
+<p>"To solve the world's hardest problems, Palantir's customers use the Enterprise Operating System to connect data, analytics, and AI with mission-critical operations."</p>
+</blockquote>
+<p><strong>为解决世界上最难的问题，Palantir 的客户使用企业操作系统将数据、分析和 AI 与关键任务运营连接起来</strong>。</p>
+<h2 id="_1">统一安全架构</h2>
+<blockquote>
+<p>"A unified security architecture spans all three platforms (AIP, Foundry, and Apollo) in three main spheres: infrastructure security, platform security, and enterprise security."</p>
+</blockquote>
+<p><strong>统一安全架构跨越所有三个平台（AIP、Foundry 和 Apollo）</strong>，<strong>涵盖三个主要领域</strong>：<strong>基础设施安全、平台安全和企业安全</strong>。</p>
+<blockquote>
+<p>"At an infrastructure level, every component in the Palantir service mesh operates with zero trust (meaning that all elements are access-gated based on identity, device health, and verification) and with an expectation of hostile attacks and the need for autonomous enforcement (for example, through Apollo-mandated encryption, firewalls, and runtime configurations)."</p>
+</blockquote>
+<p><strong>在基础设施层面</strong>，<strong>Palantir 服务网格中的每个组件都以零信任（zero trust）方式运行</strong>（<strong>这意味着所有元素都基于身份、设备健康和验证进行访问门控</strong>），<strong>并预期会有敌意攻击和需要自主执行</strong>（<strong>例如通过 Apollo 强制的加密、防火墙和运行时配置</strong>）。</p>
+<blockquote>
+<p>"At a platform level, both Foundry and AIP provide the full range of controls required to enable trustworthy collaboration."</p>
+</blockquote>
+<p><strong>在平台层面</strong>，<strong>Foundry 和 AIP 都提供实现可信协作所需的完整控制范围</strong>。</p>
+<blockquote>
+<p>"These controls include strict enforcement of access scopes for both humans and agents, granular role-based, marking-based, and purpose-based access controls which connect with automated lineage and auditing, and a range of in-platform applications for interdisciplinary teams."</p>
+</blockquote>
+<p><strong>这些控制包括对人类和智能体的访问范围的严格执行</strong>，<strong>细粒度的基于角色、基于标记和基于目的的访问控制</strong>，<strong>这些控制与自动化血缘和审计相连接</strong>，<strong>以及一系列平台内应用程序</strong>，<strong>以支持跨学科团队</strong>。</p>
+<blockquote>
+<p>"These foundational controls are extended by enterprise security controls, which enable encryption, audit logging, authorization, and authentication configurations to be deeply integrated with an organization's existing identity providers, information security tools, and architectural patterns."</p>
+</blockquote>
+<p><strong>这些基础控制由企业安全控制扩展</strong>，<strong>这些控制使加密、审计日志、授权和认证配置能够与组织现有的身份提供商、信息安全工具和架构模式深度集成</strong>。</p>
+<hr />
+<h2 id="_2">翻译附记</h2>
+<ul>
+<li>本翻译基于 Palantir 官方架构中心文档，完整保留三平台（AIP / Foundry / Apollo）的定义、企业操作系统概念、九个能力集、六个网格级组件、统一安全架构。</li>
+<li>仅跳过页面 UI 元素（如 "Search documentation / Send feedback" / "en jp kr zh" 切换器 / Footer 等）。</li>
+<li>完整保留所有关键术语：AIP、Foundry、Apollo、Ontology Language、Ontology Engine、Ontology Toolchain、k-LLM、Enterprise Operating System、zero trust 等。</li>
+<li>完整保留实际应用场景列表（医院、航空、公用事业、军事等）。</li>
+</ul>
+<blockquote>
+<p><strong>这一篇就是完整的原文翻译。没有摘要、没有删减、没有改写。</strong></p>
 </blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>

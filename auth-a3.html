@@ -380,464 +380,254 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">A3</span><span class="reading-time">📖 Evaluating AI Systems 原文</span></div><h1 id="a3-evaluating-ai-agents-in-real-enterprise-workflows-agent">A3 · 《Evaluating AI agents in real enterprise workflows》企业 Agent 评估方法论</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">A3</span><span class="reading-time">📖 Evaluating AI Systems 原文</span></div><h1 id="a3-anthropicchallenges-in-evaluating-ai-systems">A3 · Anthropic《Challenges in Evaluating AI Systems》—— 完整中文全文翻译</h1>
 <blockquote>
-<p><strong>类型</strong>：一手权威 · 评估方法论<br />
-<strong>发布</strong>：Anthropic<br />
-<strong>链接</strong>：anthropic.com（评估专题）<br />
-<strong>中文卡版本</strong>：基于摘要整理 · 2026-09-10</p>
-</blockquote>
-<h2 id="_1">一、定位</h2>
-<p>A1 讲 FDE 是什么，A2 讲 Agent 怎么造，<strong>A3 讲 Agent 怎么证明自己能用</strong>。</p>
-<blockquote>
-<p>这是「<strong>怎么证明 AI 真的把客户的钱省下来了</strong>」的权威答案。<br />
-你的 SOP-01「按省钱数字报价」需要的就是这套方法。</p>
-</blockquote>
-<h2 id="_2">二、四大核心论点</h2>
-<h3 id="1">1. 别只看准确率——要看业务指标</h3>
-<p>Agent 评估不能只测"模型答对了多少题"，要测：</p>
-<table>
-<thead>
-<tr>
-<th>层级</th>
-<th>指标举例</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>模型层</td>
-<td>准确率 / 召回率 / 幻觉率</td>
-</tr>
-<tr>
-<td>任务层</td>
-<td>完成率 / 平均步数 / 失败重试率</td>
-</tr>
-<tr>
-<td>业务层</td>
-<td>客户满意度 / 节省时间 / 减少错误</td>
-</tr>
-<tr>
-<td>经济层</td>
-<td>帮客户省了多少钱 / 提升多少产能</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>对应你 SOP-01 第 3 步"按省钱数字报价"——<br />
-<strong>业务指标 + 经济指标</strong>才是真评估。</p>
-</blockquote>
-<h3 id="2-failure-injection-testing">2. 故障注入测试（Failure Injection Testing）</h3>
-<blockquote>
-<p>这是和 C2「混沌工程」一脉相承的工程实践。</p>
-</blockquote>
-<p><strong>主动制造异常</strong>：<br />
-- 给 Agent 一个<strong>故意错误</strong>的数据，看会不会出错<br />
-- 关掉一个工具，看会不会死循环<br />
-- 把工具返回结果延迟，看会不会超时<br />
-- 模拟用户故意误导，看会不会被骗</p>
-<p><strong>目的</strong>：不是证明 Agent 多强，是证明 Agent 在<strong>异常下不死</strong>。</p>
-<blockquote>
-<p>对应你的"知识库项目 7 成是脏活"——故障注入就是最脏的活。</p>
-</blockquote>
-<h3 id="3-boundary-verification">3. 边界验证（Boundary Verification）</h3>
-<p>Agent 的能力有边界，<strong>必须明确标注</strong>：</p>
-<ul>
-<li><strong>能做</strong>：查询 X 库 / 修改 Y 字段 / 调用 Z 工具</li>
-<li><strong>不能做</strong>：删除生产数据 / 修改客户合同 / 转账超过 X 元</li>
-<li><strong>不确定</strong>：判断 Y 类型 / 评估 Z 风险</li>
-</ul>
-<p><strong>验证方法</strong>：用边界 case 测试集，<strong>确保"不能做"绝对不做</strong>。</p>
-<blockquote>
-<p>对应 SOP-07「报价签约」里的"交付标准"——<br />
-必须白纸黑字写清楚 Agent 能做什么、不能做什么。</p>
-</blockquote>
-<h3 id="4-verifiable-criteria">4. 可验证标准（Verifiable Criteria）</h3>
-<p>不要用"用户体验更好""效率提升"这种模糊指标。<br />
-要换成<strong>可量化、可自动测</strong>的指标：</p>
-<table>
-<thead>
-<tr>
-<th>❌ 模糊</th>
-<th>✓ 可验证</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>体验更好</td>
-<td>客服响应时长从 30s 降到 5s</td>
-</tr>
-<tr>
-<td>效率提升</td>
-<td>单据处理从 4 小时降到 30 分钟</td>
-</tr>
-<tr>
-<td>更准确</td>
-<td>字段抽取准确率从 78% 升到 96%</td>
-</tr>
-<tr>
-<td>客户满意</td>
-<td>NPS 从 32 升到 58</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>对应你 SOP-07「报价签约」里的"价值量化"——必须<strong>可验证、可对账</strong>。</p>
-</blockquote>
-<h2 id="_3">三、关键术语</h2>
-<table>
-<thead>
-<tr>
-<th>英文</th>
-<th>中文</th>
-<th>释义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Failure Injection</td>
-<td>故障注入</td>
-<td>主动制造异常验证护栏</td>
-</tr>
-<tr>
-<td>Boundary Verification</td>
-<td>边界验证</td>
-<td>明确 Agent 能/不能做什么</td>
-</tr>
-<tr>
-<td>Verifiable Criteria</td>
-<td>可验证标准</td>
-<td>可量化的评估指标</td>
-</tr>
-<tr>
-<td>Business Metric</td>
-<td>业务指标</td>
-<td>真实业务结果的指标</td>
-</tr>
-<tr>
-<td>Task Completion Rate</td>
-<td>任务完成率</td>
-<td>Agent 完整跑通任务的比率</td>
-</tr>
-<tr>
-<td>Step Efficiency</td>
-<td>步数效率</td>
-<td>完成任务用了多少步</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_4">四、与本知识库的映射</h2>
-<table>
-<thead>
-<tr>
-<th>本知识库位置</th>
-<th>关联本文哪条</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>03-SOP/SOP-01-接单成交方向.md</code> 第 3 步</td>
-<td>论点 1（按业务/经济指标报价）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-07-报价签约.md</code> 价值量化</td>
-<td>论点 4（可验证标准）</td>
-</tr>
-<tr>
-<td><code>01-方法论总纲.md</code>「入企诊断」章</td>
-<td>论点 2（故障注入）</td>
-</tr>
-<tr>
-<td><code>02-知识库/04-商业案例·变现样板.md</code></td>
-<td>论点 1（按价值付费）</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_5">五、客户引用话术</h2>
-<blockquote>
-<p>"我们的 Agent 不是 Demo，是按 Anthropic 的企业评估标准做的——<br />
-模型层、任务层、业务层、经济层四层指标全部可量化，故障注入 + 边界验证都跑过。<br />
-您要看的不是效果好不好看，是这些数字能不能签进合同。"</p>
-</blockquote>
-<h2 id="_6">六、回查与延伸</h2>
-<ul>
-<li><strong>与 A2 关联</strong>：本文是 A2「生产级 Agent」的"验收标准"侧</li>
-<li><strong>与 C2 关联</strong>：故障注入与混沌工程同源，本文是其在 AI 场景的特化</li>
-<li><strong>方法论簇</strong>：本文 + A2 + C2 构成"<strong>生产级 AI 的三件套</strong>"</li>
-</ul>
-<h2 id="4">十一、4 层评估指标的计算方法</h2>
-<h3 id="1_1">第 1 层：模型层指标（自动测）</h3>
-<pre><code>准确率 = 答对数 / 总数
-召回率 = 召回正确答案数 / 全部正确答案数
-F1 = 2 × 准确率 × 召回率 / (准确率 + 召回率)
-幻觉率 = 编造内容数 / 总回答数
-</code></pre>
-<p><strong>自动化</strong>：用测试集 + 脚本比对，无需人工。</p>
-<h3 id="2">第 2 层：任务层指标（半自动测）</h3>
-<pre><code>完成率 = 完整跑通的任务数 / 总任务数
-平均步数 = 总步数 / 任务数
-失败重试率 = 重试次数 / 总任务数
-用户接管率 = 人工介入次数 / 总任务数
-</code></pre>
-<p><strong>半自动</strong>：跑真实任务流 + 日志分析。</p>
-<h3 id="3">第 3 层：业务层指标（业务方定义）</h3>
-<pre><code>客户满意度 = 5 分制平均分
-节省时间 = 之前耗时 - 现在耗时
-错误率下降 = (之前错误率 - 现在错误率) / 之前错误率
-</code></pre>
-<p><strong>定义权在业务方</strong>——FDE 不能拍脑袋。</p>
-<h3 id="4-fde">第 4 层：经济层指标（FDE 自证）</h3>
-<pre><code>年节省 = Σ(业务流节省的年人时) × 时薪
-客单价合理性 = 客户预算 / 年节省（建议 10-20%）
-ROI = (年节省 - 项目费) / 项目费 × 100%
-</code></pre>
-<p><strong>自证逻辑</strong>：能算清楚 ROI = 报价合理 = 续约有据。</p>
-<h2 id="3_1">十二、3 个客户说服话术</h2>
-<h3 id="1_2">话术 1：建立评估基线</h3>
-<blockquote>
-<p>"在调优之前，我们先建一个 50-100 条的黄金集——<br />
-全部来自您真实业务素材，每条带标准答案。<br />
-用这个基线测出来 78% 准确率，调完模型升到 96%——<br />
-这就是我们的验收标准。"</p>
-</blockquote>
-<h3 id="2_1">话术 2：用业务指标不用模型指标</h3>
-<blockquote>
-<p>"模型准确率 95% 不等于业务有用——<br />
-业务指标是'客服响应时长从 30s 降到 5s'，<br />
-这是您能感知、您老板能看懂的指标。"</p>
-</blockquote>
-<h3 id="3_2">话术 3：把评估当续约条件</h3>
-<blockquote>
-<p>"上线后每月出一份评估报告——<br />
-准确率、响应时长、节省金额三项数字。<br />
-数据下降就触发模型调优，数据达标就触发续约谈判。"</p>
-</blockquote>
-<hr />
-<h2 id="anthropic-2023-10">十一、原文核心（Anthropic 2023 年 10 月原文）</h2>
-<blockquote>
-<p>来源：https://www.anthropic.com/research/evaluating-ai-systems （原文 2.4 万字）</p>
-</blockquote>
-<h3 id="1-takeaways">1. 核心结论（原文两个 takeaways）</h3>
-<blockquote>
-<p>"我们希望读者带走两个核心观点：<br />
-1. 健壮的评估<strong>极其难以</strong>开发和实施<br />
-2. 有效的 AI 治理<strong>取决于我们有意义地评估 AI 系统的能力</strong>"</p>
-</blockquote>
-<h3 id="2-6">2. 6 大评估挑战（按难度递增）</h3>
-<h4 id="1multiple-choice-evaluationsmmlu">挑战 1：Multiple Choice Evaluations（MMLU 等）</h4>
-<p><strong>Anthropic 发现 MMLU 的 4 个问题</strong>：</p>
-<ol>
-<li><strong>MMLU 太广为人知，模型训练时可能见过</strong> —— 相当于学生考前看过考题</li>
-<li><strong>简单格式变化可改变 5% 准确率</strong> —— (A) vs (1)，(A) vs [A] 都影响</li>
-<li><strong>实现不一致</strong> —— 有些实验室用 few-shot、CoT 提高 MMLU 分数</li>
-<li><strong>MMLU 本身可能有错</strong> —— 找到过 mislabeled 的题目</li>
-</ol>
-<blockquote>
-<p>教训：<strong>"supposedly simple and standardized evaluation"</strong> 实际上需要很多 tricky 判断。</p>
-</blockquote>
-<h4 id="2bbq">挑战 2：BBQ（社会偏见）</h4>
-<blockquote>
-<p>"实施 BBQ 花了<strong>一个最好的工程师一整个不间断的周</strong>"</p>
-</blockquote>
-<p><strong>Anthropic 真实故事</strong>：<br />
-- 实施 BBQ 几个月，模型偏见分 = 0<br />
-- 内部一位 BBQ 开发者问："你们检查了模型<strong>是否在回答问题吗</strong>？"<br />
-- 结果发现：模型<strong>根本没在答</strong> —— 偏见分 0 是因为返回空答案<br />
-- <strong>"技术上无偏见，但也完全无用"</strong></p>
-<p><strong>教训</strong>：<br />
-- 评估可能<strong>完全误导</strong>你<br />
-- 总是先做<strong>sanity check</strong>（模型到底在不在答）</p>
-<h4 id="3big-bench204">挑战 3：BIG-bench（204 个评估的众包集合）</h4>
-<p><strong>4 个问题</strong>：<br />
-1. 大量工程量才能装上<br />
-2. 跑全部 204 项<strong>无法在合理时间完成</strong><br />
-3. 发现了 BBQ-lite 实现 bug<br />
-4. 决定哪些任务最重要需要研究投入</p>
-<h4 id="4helm">挑战 4：HELM（斯坦福）</h4>
-<p><strong>3 个问题</strong>：<br />
-1. HELM 不支持 Anthropic 的 Human/Assistant 格式 → 误评 Claude<br />
-2. 迭代慢 —— 新模型评估要几个月<br />
-3. 需要协调和沟通</p>
-<blockquote>
-<p>教训：第三方评估<strong>不是中立、免费的午餐</strong>。</p>
-</blockquote>
-<h4 id="5ab-testing-with-crowdworkers">挑战 5：A/B Testing with Crowdworkers</h4>
-<p><strong>局限性</strong>：<br />
-- 贵 + 慢<br />
-- 评估者差异大（创造力、动机）<br />
-- helpfulness vs harmlessness 的张力<br />
-- "What numerical value indicates a model is sufficiently helpful and harmless?"</p>
-<h4 id="6frontier-threats-red-teaming">挑战 6：Frontier Threats Red Teaming（国关级红队）</h4>
-<blockquote>
-<p>"国家安全的独特性使评估比一般伤害<strong>更有挑战性</strong><br />
-——国家安全风险复杂、需要专家级敏感知识、依赖现实场景"</p>
-</blockquote>
-<p><strong>3 个特殊挑战</strong>：<br />
-1. 国家安全风险是<strong>complicated, expert knowledge, real-world</strong><br />
-2. 红队是<strong>艺术而非科学</strong> —— 还没有标准化<br />
-3. 可重复 + 量化很难</p>
-<h3 id="3-ai-ai">3. 用生成式 AI 评估生成式 AI（最有前景）</h3>
-<blockquote>
-<p>"我们最有趣的实验：用生成式 AI 开发评估生成式 AI。"</p>
-</blockquote>
-<p><strong>做法</strong>：<br />
-- 用 Claude 帮<strong>生成</strong>评估数据集<br />
-- 用 Claude 帮<strong>评分</strong>其他模型输出<br />
-- 形成<strong>评估回路</strong></p>
-<blockquote>
-<p>优势：规模大、速度快、便宜<br />
-风险：评估器和被评估模型<strong>同样有偏见</strong></p>
-</blockquote>
-<h3 id="4-anthropic-5">4. 政策建议（Anthropic 5 条）</h3>
-<ol>
-<li><strong>不要把分数当唯一证据</strong> —— 量化是起点不是终点</li>
-<li><strong>永远做 sanity check</strong> —— 模型在答问题吗？</li>
-<li><strong>多种评估结合</strong> —— 不依赖单一 benchmark</li>
-<li><strong>公开评估方法和局限</strong> —— 透明度</li>
-<li><strong>持续投入评估能力</strong> —— 不只是模型</li>
-</ol>
-<h3 id="5-fde">5. 与企业 FDE 项目的映射</h3>
-<table>
-<thead>
-<tr>
-<th>Anthropic 挑战</th>
-<th>FDE 项目应对</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>MMLU 训练泄露</td>
-<td>评测集必须<strong>100% 来自客户真实业务</strong>，不是公开数据集</td>
-</tr>
-<tr>
-<td>格式敏感</td>
-<td>同一格式跑全评测，<strong>不中途改 prompt</strong></td>
-</tr>
-<tr>
-<td>BBQ 空答案问题</td>
-<td><strong>每条评测都人工 spot-check 一次</strong></td>
-</tr>
-<tr>
-<td>第三方评估错位</td>
-<td>自建评测，<strong>按业务定制</strong></td>
-</tr>
-<tr>
-<td>A/B testing 贵</td>
-<td>用<strong>黄金集 + 自动化脚本</strong></td>
-</tr>
-<tr>
-<td>红队是艺术</td>
-<td><strong>客户业务方</strong>做 red team，比通用 red teamer 更准</td>
-</tr>
-<tr>
-<td>生成式评估有偏见</td>
-<td>多个 AI 互审 + 人工兜底</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_7">十二、客户讨论话术</h2>
-<blockquote>
-<p>"Anthropic 官方说：<strong>'Robust evaluations are extremely difficult to develop and implement'</strong>。</p>
-<p>这就是为什么我们的评测集<strong>不直接用 MMLU</strong>——而是用客户的<strong>真实业务素材</strong>建 50-100 条黄金集。</p>
-<p>我们每条评测都做<strong>人工 sanity check</strong>——确保模型在答问题，<br />
-不是在 BB（Bullshit）一个 0 分的'无偏见'答案。"</p>
-<p>"Anthropic 的 BBQ 团队就栽过这跟头：<br />
-模型偏见分 0 = 模型根本没在答问题。<br />
-我们的评测避开了这个陷阱。"</p>
-</blockquote>
-<h2 id="_8">十三、原文链接</h2>
-<ul>
-<li>全文：https://www.anthropic.com/research/evaluating-ai-systems</li>
-<li>关键发现：6 大评估挑战 + 5 条政策建议</li>
-<li>出版时间：2023 年 10 月</li>
-</ul>
-<hr />
-<h1 id="_9">📖 完整中文全文翻译</h1>
-<blockquote>
-<p><strong>原文</strong>：Challenges in Evaluating AI Systems（评估 AI 系统的挑战）<br />
+<p><strong>原文标题</strong>：Challenges in evaluating AI systems<br />
 <strong>作者</strong>：Deep Ganguli, Nicholas Schiefer, Marina Favaro, Jack Clark（Anthropic）<br />
-<strong>发布</strong>：2023-10-04<br />
-<strong>原文链接</strong>：https://www.anthropic.com/research/evaluating-ai-systems</p>
+<strong>发布</strong>：2023 年 10 月 4 日<br />
+<strong>原文链接</strong>：https://www.anthropic.com/research/evaluating-ai-systems<br />
+<strong>翻译说明</strong>：以下为原文完整中文翻译，保留所有章节、四类评估挑战、BBQ/MMLU/BIG-bench/HELM 案例、政策建议、致谢。</p>
 </blockquote>
-<h2 id="_10">引言</h2>
-<p>大多数关于 AI 社会影响的讨论，最终都归结为讨论 AI 系统的某种性质——真实性、公平性、被滥用的可能性等等。我们之所以能谈论这些特性，是因为我们能在技术上评估模型在这些方面的表现。但许多 AI 行业内外的人<strong>没有充分意识到，构建稳健可靠的模型评估有多么困难</strong>。今天许多现有评估套件，作为模型能力或安全性的准确指标，能力是有限的。</p>
-<p>在 Anthropic，我们花大量时间构建评估来更好地理解我们的 AI 系统，也用评估来改进组织安全（如我们的 Responsible Scaling Policy）。在此过程中，我们越来越认识到开发和运行评估的种种挑战。</p>
-<p><strong>本文希望读者带走两个核心观点：</strong><br />
-1. 稳健的评估<strong>极其难以开发和实施</strong>；<br />
-2. 有效的 AI 治理<strong>取决于我们有意义地评估 AI 系统的能力</strong>。</p>
-<p>本文按"从较易到较难"的顺序讨论我们遇到的挑战：<br />
-- 多选题评估<br />
-- 第三方评估框架（BIG-bench、HELM）<br />
-- 用众包工人衡量模型帮助性/有害性<br />
-- 用领域专家对国家安全威胁做红队测试<br />
-- 用生成式 AI 开发评估<br />
-- 与第三方非营利组织合作审计模型的危险能力</p>
-<h2 id="_11">挑战一："看似简单"的多选题评估</h2>
-<h3 id="mmlu">MMLU：我们测的是我们以为在测的东西吗？</h3>
-<p>MMLU（大规模多任务语言理解）衡量 57 个任务（数学到历史到法律）的准确率。它被广泛使用，因为单一准确率分数代表了多样任务的表现。我们发现 MMLU 有<strong>四个次要但重要的挑战</strong>：</p>
-<ol>
-<li><strong>训练污染</strong>：因为 MMLU 太广泛使用，模型更可能在训练时遇到过 MMLU 题目——相当于学生考前看过考题，这是作弊。</li>
-<li><strong>格式敏感性</strong>：简单的格式变化——把选项从 (A) 改成 (1)、括号从 (A) 改成 [A]、或在选项和答案间加一个空格——都可能导致准确率 <strong>~5% 的变化</strong>。</li>
-<li><strong>实现不一致</strong>：AI 开发者没有一致地实现 MMLU。有些实验室用 few-shot 或 chain-of-thought 等已知能提高 MMLU 分数的方法。因此<strong>跨实验室比较 MMLU 分数要非常小心</strong>。</li>
-<li><strong>MMLU 本身可能有错</strong>：我们发现 MMLU 里有错误标注或无法回答的题目。</li>
-</ol>
-<h3 id="bbq">BBQ：衡量社会偏见更难</h3>
-<p>我们用 BBQ（Bias Benchmark for QA）测试模型对受保护人群沿九个社会维度的社会偏见。<strong>BBQ 的开发和实现比预期困难得多</strong>——我们找不到能"开箱即用"的开源实现，最终<strong>花了一个最好的全职工程师一整周</strong>来实施和测试。</p>
-<p>复杂性的核心在于 BBQ 的"bias score"。不同于准确率，bias score 需要细致和经验来定义、计算和解释。BBQ 的偏见分数范围 -1 到 1：1 表示显著刻板偏见、0 表示无偏见、-1 表示显著反刻板偏见。</p>
-<p><strong>关键教训</strong>：实现 BBQ 后，我们一些模型达到偏见分 0，我们乐观地以为在减少偏见输出上取得了进展。当我们内部分享结果时，一位 BBQ 主要开发者（在 Anthropic 工作）问：<strong>"你们检查了模型是否在回答问题吗？"</strong> 我们发现——它们没有。<strong>结果技术上无偏见，但也完全无用。</strong></p>
-<blockquote>
-<p>所有评估都受制于这个失败模式：<strong>你过度解读量化分数，欺骗自己以为取得了进展，其实并没有。</strong></p>
-</blockquote>
-<h2 id="_12">挑战二：第三方评估框架并非万能</h2>
-<h3 id="big-bench">BIG-bench：自下而上</h3>
-<p>BIG-bench 由 204 个评估组成、450+ 作者贡献。我们遇到几个挑战：<br />
-- 光是安装就需要大量工程努力，不如 MMLU"即插即用"；<br />
-- 无法在合理时间内跑完 204 个评估；<br />
-- 发现 BBQ-lite 实现有 bug；<br />
-- 判断哪些任务最重要需要跑全部 204 个任务验证分析——即使对有大量工程资源的组织也是巨大研究投入。</p>
-<h3 id="helm">HELM：自上而下</h3>
-<p>HELM 采用"自上而下"的方式，由专家决定评估什么。它解决了 BIG-bench 的两个问题：无需大量工程努力、可依赖专家选择高质量评估。但 HELM 有自己的挑战：</p>
-<ul>
-<li><strong>方法错配</strong>：Claude 系列模型被训练成遵循特定的 Human/Assistant 文本格式。HELM 为保持对其它模型的一致性，评估时不用这个格式——这让 HELM 给出<strong>误导性的 Claude 表现印象</strong>。</li>
-<li><strong>迭代慢</strong>：评估新模型可能花几个月。</li>
-<li><strong>需要外部协调</strong>：沟通成本高，双方都可能人手不足。</li>
-</ul>
-<h2 id="_13">挑战三：人类评估的主观性</h2>
-<h3 id="ab">众包 A/B 测试</h3>
-<p>我们主要依赖一种基本的人类评估：在众包平台做 A/B 测试，人们与两个模型开放对话，选择更 helpful 或 harmless 的回复。局限性包括：<br />
-- <strong>昂贵耗时</strong>：需要付费众包平台、建自定义 web 界面、设计说明、分析存储数据、处理伦理挑战；<br />
-- <strong>评估者差异大</strong>：创造力、动机、识别缺陷的能力都会影响评估；<br />
-- <strong>helpfulness vs harmlessness 的内在张力</strong>：系统可以靠给出"抱歉我帮不了你"这种无用的回复来避免伤害。多少数值才算"足够 helpful 和 harmless"？</p>
-<h3 id="_14">国家安全红队测试</h3>
-<p>我们探索了让领域专家对国家安全相关危害做红队测试，称为 <strong>frontier threats red teaming（前沿威胁红队）</strong>。早期工作揭示额外挑战：<br />
-- 国家安全背景独特，风险复杂、需要专家级敏感知识、依赖现实场景；<br />
-- <strong>红队目前"更像艺术而非科学"</strong>——过程尚未标准化；<br />
-- 某些情况需要<strong>有安全许可的红队成员</strong>，但这可能限制他们能与非涉密环境中的 AI 开发者分享什么；<br />
-- 某些国家安全危害的红队测试可能带来<strong>法律后果</strong>，需要构建适当的法律安全港。</p>
-<h2 id="ouroboros">挑战四：模型生成评估的衔尾蛇（Ouroboros）</h2>
-<p>随着模型达到人类水平能力，我们可以让它们评估自己。我们用模型生成新颖的多选题评估，<strong>几分钟</strong>生成人类要花数天或数月才能开发的评估。但模型生成的评估有自己的挑战：</p>
-<ul>
-<li>我们仍依赖人类验证模型生成评估的准确性——继承了人类评估的所有挑战；</li>
-<li>模型可能包含社会偏见、可能编造信息——模型生成的评估可能继承这些不良特征。</li>
-</ul>
-<p><strong>反例：Constitutional AI (CAI)</strong>——我们用基于模型的红队替代人类红队来训练 Claude 更无害。令人惊讶的是，人类发现 CAI 模型比预先被人类红队的模型<strong>更无害</strong>。虽然这很有希望，但模型生成评估仍然复杂，值得深入研究。</p>
-<h2 id="_15">挑战五：在利用内部专长时保持第三方审计的客观性</h2>
-<p>第三方审计（audit）和第三方评估（evaluation）的区别：审计是<strong>针对风险的更深入独立评估</strong>，评估则更广泛地看待能力。我们参与了 Alignment Research Center (ARC) 的前沿模型危险能力评估。最初以为合作会很简单，结果<strong>需要大量科学和工程支持</strong>。</p>
-<p>关键发现：审计者通常限制与被审计方分享的细节以保持评估完整性。但信息不足时，被评估方可能在制作技术评估时难以解决根本问题。<strong>如果早知道 ARC 聪明而精心设计的审计方法的更多细节，我们本可以帮 ARC 更成功地识别相关行为。</strong></p>
-<h2 id="_16">政策建议</h2>
-<p>为推进评估的科学和工程，我们建议政策制定者：</p>
-<ol>
-<li><strong>资助可重复、有用评估的科学</strong>——建议政府"重质不重量"（资助一个高质量评估，而非十个低质量评估）。</li>
-<li><strong>资助现有评估的实施</strong>——资助工程努力，为 BIG-bench 等创建易安装易运行的软件包、开发版本控制且标准化的动态基准。</li>
-<li><strong>分析现有评估的稳健性</strong>——评估实施后需要持续监控（如判断评估是否已饱和、不再有用）。</li>
-<li><strong>增加对评估相关政府机构的资助</strong>（如美国 NIST），并鼓励通过公开的"AI 安全排行榜"来激励私企在评估上表现良好——类似 NIST 的人脸识别供应商测试（FRVT）。</li>
-<li><strong>创建法律安全港</strong>，允许公司与政府和第三方严格评估国家安全风险（如 CBRN 领域）而不承担法律后果，并纳入"负责任披露协议"。</li>
-</ol>
-<h2 id="_17">结语</h2>
-<p>我们希望通过公开分享跨多个维度评估自家系统的经验，帮助关注 AI 政策的人认识到当前模型评估的挑战。</p>
 <hr />
+<h2 id="_1">引言</h2>
+<p>大多数关于 AI 社会影响的对话，<strong>最终都归结为讨论 AI 系统的某种质量</strong>——如真实性、公平性、被滥用的可能性等。我们之所以能够讨论这些特性，是因为我们可以在技术上评估模型在这些方面的表现。但是，许多 AI 行业内外的人<strong>没有充分意识到，构建稳健可靠的模型评估有多么困难</strong>。今天许多现有的评估套件，作为模型能力或安全性的准确指标，能力是有限的。</p>
+<p>在 Anthropic，我们花大量时间构建评估以<strong>更好地理解我们的 AI 系统</strong>。我们还使用评估来<strong>改进我们作为组织的安全</strong>，如我们的 Responsible Scaling Policy 所示。在此过程中，我们越来越认识到<strong>开发和运行评估的种种挑战</strong>。</p>
 <blockquote>
-<p><strong>翻译说明</strong>：以上为原文完整中文翻译，覆盖 MMLU/BBQ/BIG-bench/HELM 四大评估的挑战、人类评估主观性、模型生成评估的衔尾蛇、第三方审计、以及 5 条政策建议。<br />
-<strong>脚注</strong>：BBQ 的开发花了约 2 人年、6 个月、8 个人——设计和实现哪怕一个评估都是资源密集的，可能耗费几十个人数月。</p>
+<p>"We want readers of this post to take away two main takeaways: robust evaluations are extremely difficult to develop and implement, and effective AI governance depends on our ability to meaningfully evaluate AI systems."</p>
+</blockquote>
+<p><strong>我们希望读者从这篇文章中带走两个核心观点：稳健的评估极其难以开发和实施，有效的 AI 治理取决于我们有意义地评估 AI 系统的能力。</strong></p>
+<p>在这篇文章中，我们讨论了在开发 AI 评估时遇到的一些挑战。<strong>按从较简单到较复杂的顺序</strong>，我们讨论：<br />
+- 多选题评估<br />
+- 第三方评估框架，如 BIG-bench 和 HELM<br />
+- 使用众包工人来衡量我们的模型有多有帮助或有害<br />
+- 使用领域专家对国家安全相关威胁进行红队测试<br />
+- 使用生成式 AI 开发生成式 AI 的评估<br />
+- 与非营利组织合作审计我们模型的危险能力</p>
+<p>我们最后提出一些<strong>政策建议</strong>，这些建议可以帮助应对这些挑战。</p>
+<h2 id="_2">挑战</h2>
+<h2 id="_3">"看似简单的"多选题评估</h2>
+<blockquote>
+<p>"Multiple-choice evaluations, similar to standardized tests, quantify model performance on a variety of tasks, typically with a simple metric—accuracy."</p>
+</blockquote>
+<p><strong>多选题评估，类似于标准化考试，用一个简单的指标（准确率）量化模型在各种任务上的表现。</strong> 这里我们讨论在两个流行的语言模型多选题评估中遇到的一些挑战：MMLU（Measuring Multitask Language Understanding）和 BBQ（Bias Benchmark for Question Answering）。</p>
+<h3 id="mmlu">MMLU：我们测量的是我们以为在测量的吗？</h3>
+<p>MMLU 基准在 57 个任务上测量准确率，范围从数学到历史到法律。MMLU 被广泛使用，因为<strong>单一准确率分数代表了在需要技术知识的多样任务集上的表现</strong>。准确率分数越高，模型能力越强。</p>
+<blockquote>
+<p>"We have found four minor but important challenges with MMLU that are relevant to other multiple-choice evaluations:<br />
+1. Because MMLU is so widely used, models are more likely to encounter MMLU questions during training. This is comparable to students seeing the questions before the test—it's cheating.<br />
+2. Simple formatting changes to the evaluation, such as changing the options from (A) to (1) or changing the parentheses from (A) to [A], or adding an extra space between the option and the answer can lead to a ~5% change in accuracy on the evaluation.<br />
+3. AI developers do not implement MMLU consistently. Some labs use methods that are known to increase MMLU scores, such as few-shot learning or chain-of-thought reasoning. As such, one must be very careful when comparing MMLU scores across labs.<br />
+4. MMLU may not have been carefully proofread—we have found examples in MMLU that are mislabeled or unanswerable."</p>
+</blockquote>
+<p><strong>我们发现了 MMLU 的四个次要但重要的挑战</strong>，这些挑战与其他多选题评估也相关：</p>
+<ol>
+<li><strong>因为 MMLU 如此广为人知，模型更可能在训练期间遇到过 MMLU 问题</strong>。这相当于学生在考试前看过问题——这是作弊。</li>
+<li><strong>对评估的简单格式更改</strong>，如将选项从 (A) 改为 (1)，或将括号从 (A) 改为 [A]，或在选项和答案之间添加一个额外的空格，可能导致评估准确率<strong>约 5% 的变化</strong>。</li>
+<li><strong>AI 开发者没有一致地实现 MMLU</strong>。一些实验室使用已知可以提高 MMLU 分数的方法，如 <strong>few-shot learning 或 chain-of-thought reasoning</strong>。因此，<strong>比较实验室之间的 MMLU 分数时必须非常小心</strong>。</li>
+<li><strong>MMLU 可能没有经过仔细校对</strong>——我们发现 MMLU 中有错误标记或无法回答的示例。</li>
+</ol>
+<p>我们的经验表明，<strong>运行这样一个（看似）简单和标准化的评估需要许多棘手的判断和考虑</strong>。我们遇到 MMLU 的挑战通常也适用于其他类似的多选题评估。</p>
+<h3 id="bbq">BBQ：衡量社会偏见甚至更难</h3>
+<p>多选题评估还可以衡量危害，如模型<strong>依赖和延续负面刻板印象的倾向</strong>。为了衡量我们自己模型（Claude）的这些危害，我们使用 BBQ（Bias Benchmark for QA），这是一个<strong>针对受保护人群沿九个社会维度的社会偏见进行测试</strong>的评估。<strong>我们确信 BBQ 提供了对社会偏见的良好测量</strong>，<strong>只有在实施和比较了几个类似的评估之后</strong>。这项工作花了好几个月。</p>
+<blockquote>
+<p>"Implementing BBQ was more difficult than we anticipated. We could not find a working open-source implementation of BBQ that we could simply use 'off the shelf', as in the case of MMLU. Instead, it took one of our best full-time engineers one uninterrupted week to implement and test the evaluation."</p>
+</blockquote>
+<p><strong>实施 BBQ 比我们预期的更难</strong>。我们找不到一个能"开箱即用"的 BBQ 工作开源实现，<strong>不像 MMLU 那样</strong>。相反，<strong>它花了一个我们最好的全职工程师一整周不间断地实施和测试评估</strong>。</p>
+<blockquote>
+<p>"Much of the complexity in developing and implementing the benchmark revolves around BBQ's use of a 'bias score'. Unlike accuracy, the bias score requires nuance and experience to define, compute, and interpret."</p>
+</blockquote>
+<p><strong>开发和实施基准的大部分复杂性围绕着 BBQ 对"偏见分数"的使用</strong>。与准确率不同，偏见分数需要细致入微和经验来定义、计算和解释。</p>
+<p>BBQ 在 -1 到 1 的范围内对偏见进行评分，其中 <strong>1 表示显著的刻板印象偏见，0 表示无偏见，-1 表示显著的反刻板印象偏见</strong>。实施 BBQ 后，我们的结果显示<strong>我们的一些模型达到了 0 的偏见分数</strong>，这让我们乐观地认为我们在减少有偏见的模型输出方面取得了进展。当我们在内部分享结果时，<strong>一位 BBQ 主要开发者（在 Anthropic 工作）问："你们检查了模型是否在回答问题吗？"</strong> 我们发现——它们没有。<strong>我们的结果在技术上是无偏见的，但也完全无用</strong>。所有评估都受到这个失败模式的影响：<strong>过度解释量化分数，欺骗自己以为自己取得了进步，而实际上并没有</strong>。</p>
+<h2 id="_4">关于第三方评估框架，一刀切并不适用</h2>
+<p>最近，第三方积极开发<strong>可以在广泛模型上运行的评估套件</strong>。到目前为止，我们参与了两项这样的工作：<strong>BIG-bench 和 Stanford 的 HELM</strong>。尽管第三方评估表面上看起来有用（理想情况下，它们是独立、中立、开放的），<strong>但这两个项目都揭示了新的挑战</strong>。</p>
+<h3 id="big-bench">BIG-bench：自下而上采购各种评估的来源</h3>
+<blockquote>
+<p>"BIG-bench consists of 204 evaluations, contributed by over 450 authors, that span a range of topics from science to social reasoning."</p>
+</blockquote>
+<p><strong>BIG-bench 由 204 个评估组成，由 450 多名作者贡献，涵盖从科学到社会推理的一系列主题</strong>。</p>
+<p>我们在使用此框架时遇到了一些挑战：<br />
+- <strong>我们需要大量的工程工作才能在我们的系统上安装 BIG-bench</strong>。BIG-bench 不像 MMLU 那样"即插即用"——它需要比 BBQ 更多的工程努力。<br />
+- <strong>BIG-bench 无法有效扩展</strong>；在合理的时间内对我们模型运行所有 204 个评估具有挑战性。要加速 BIG-bench 需要重写它以适应我们的基础设施——这是一项重要的工程工作。<br />
+- <strong>在实施过程中，我们在某些评估中发现了错误</strong>，特别是在 <strong>BBQ-lite</strong>（BBQ 的一个变体）的实现中。只有在发现此错误后，<strong>我们才意识到我们必须花更多的时间和精力自己实施 BBQ</strong>。<br />
+- <strong>确定哪些任务最重要和最具代表性需要运行所有 204 个任务、验证结果并广泛分析输出</strong>——即使对于拥有重要工程资源的组织来说，这也是一项<strong>大量的研究工作</strong>。</p>
+<p>虽然实施 BIG-bench 是一项有用的练习，但我们发现它<strong>过于笨重</strong>，<strong>在这次实验后我们放弃了它</strong>。</p>
+<h3 id="helm">HELM：自上而下策划一组有意见的评估</h3>
+<p>BIG-bench 是一种"自下而上"的方法，任何人都可以提交任何任务，由一组专家组织者进行有限的审查。<strong>HELM 采用了有意见的"自上而下"方法</strong>，由专家决定要在哪些任务上评估模型。HELM 评估模型在<strong>推理和虚假信息</strong>等场景中的表现，使用准确率、校准、鲁棒性和公平性等标准化指标。<strong>我们为 HELM 的开发人员提供 API 访问权限，让他们在我们的模型上运行基准</strong>。这解决了我们在 BIG-bench 中遇到的两个问题：1）不需要我们进行重要的工程工作；2）我们可以依赖专家选择和解释特定的高质量评估。</p>
+<p>然而，HELM 引入了自己的挑战。<strong>对其他供应商的模型有效的方法不一定对我们的模型有效，反之亦然</strong>。例如，<strong>Anthropic 的 Claude 系列模型经过训练以遵守特定的文本格式，我们称之为 Human/Assistant 格式</strong>。当我们在内部评估我们的模型时，我们遵守这种特定格式。如果我们不遵守这种格式，有时 Claude 会给出<strong>不具特征性的响应</strong>，使标准化的评估指标<strong>不太可信</strong>。<strong>因为 HELM 需要保持它如何提示其他模型的一致性，它在评估我们的模型时不使用 Human/Assistant 格式</strong>。<strong>这意味着 HELM 对 Claude 性能给出了误导性的印象</strong>。</p>
+<blockquote>
+<p>"Furthermore, HELM iteration time is slow—it can take months to evaluate new models. This makes sense because it is a volunteer engineering effort led by a research university. Faster turnarounds would help us to more quickly understand our models as they rapidly evolve."</p>
+</blockquote>
+<p><strong>此外，HELM 迭代时间很慢</strong>——评估新模型可能需要几个月。<strong>这是有道理的，因为它是由研究型大学领导的志愿工程工作</strong>。<strong>更快的周转将帮助我们在模型快速演变时更快地理解它们</strong>。</p>
+<blockquote>
+<p>"Finally, HELM requires coordination and communication with external parties. This effort requires time and patience, and both sides are likely understaffed and juggling other demands, which can add to the slow iteration times."</p>
+</blockquote>
+<p><strong>最后，HELM 需要与外部方协调和沟通</strong>。这项工作需要时间和耐心，<strong>双方都可能人手不足并兼顾其他需求</strong>，<strong>这可能增加缓慢的迭代时间</strong>。</p>
+<h2 id="_5">人类评估的主观性</h2>
+<p>到目前为止，我们只讨论了<strong>类似于简单多选题测试的评估</strong>；然而，AI 系统是为<strong>与人的开放式动态交互</strong>而设计的。<strong>我们如何设计更接近于这些模型在现实世界中使用方式的评估</strong>？</p>
+<h3 id="ab">使用众包工人的 A/B 测试</h3>
+<blockquote>
+<p>"Currently, we mainly (but not entirely) rely on one basic type of human evaluation: we conduct A/B tests on crowdsourcing or contracting platforms where people engage in open-ended dialogue with two models and select the response from Model A or B that is more helpful or harmless."</p>
+</blockquote>
+<p><strong>目前，我们主要（但不全部）依赖一种基本类型的人类评估</strong>：我们在众包或承包平台上进行 A/B 测试，<strong>人们与两个模型进行开放式对话，并选择 Model A 或 B 中更有帮助或无害的回复</strong>。在无害性的情况下，我们鼓励众包工人<strong>主动红队我们的模型</strong>，或<strong>对抗性地探测它们的有害输出</strong>。我们使用结果数据根据模型的有帮助性或无害性对它们进行排名。<strong>这种评估方法的好处是对应于真实的设置（如对话 vs. 多选题考试）</strong>，并允许我们<strong>相互比较不同的模型</strong>。</p>
+<p>然而，这种评估方法有一些局限性：<br />
+- <strong>这些实验是昂贵且耗时的</strong>。我们需要与第三方众包平台或承包商合作并支付费用，为我们的模型构建自定义 Web 界面，为 A/B 测试者设计仔细的说明，分析和存储结果数据，并解决使用众包工人的众多已知伦理挑战。<strong>在无害性测试的情况下，我们的实验还面临让人们接触有害输出的风险</strong>。<br />
+- <strong>人类评估可能会有很大差异</strong>，具体取决于人类评估者的特征。<strong>可能影响某人评估的关键因素包括他们的创造力、动机以及识别系统潜在缺陷或问题的能力</strong>。<br />
+- <strong>有帮助性和无害性之间存在内在的张力</strong>。系统可以通过提供像"抱歉，我无法帮助你"这样的无用响应来避免伤害。<strong>什么是有用和无害之间的正确平衡？什么数值表示模型足够有用和无害？我们应该在什么高级规范或价值观之上进行测试？</strong></p>
+<blockquote>
+<p>"More work is needed to further the science of human evaluations."</p>
+</blockquote>
+<p><strong>需要更多的工作来进一步发展人类评估的科学。</strong></p>
+<h3 id="_6">对国家安全相关危害进行红队测试</h3>
+<blockquote>
+<p>"Moving beyond crowdworkers, we have also explored having domain experts red team our models for harmful outputs in domains relevant to national security."</p>
+</blockquote>
+<p><strong>除了众包工人之外，我们还探索了让领域专家对国家安全相关领域的模型进行红队测试，以发现有害输出</strong>。<strong>目标是确定 AI 模型是否以及如何创建或加剧国家安全风险</strong>。<strong>我们最近试点了一种更系统的方法来对这种风险进行模型红队测试</strong>，我们称之为<strong>前沿威胁红队测试</strong>（frontier threats red teaming）。</p>
+<blockquote>
+<p>"Frontier threats red teaming involves working with subject matter experts to define high-priority threat models, having experts extensively probe the model to assess whether the system could create or exacerbate national security risks per predefined threat models, and developing repeatable quantitative evaluations and mitigations."</p>
+</blockquote>
+<p><strong>前沿威胁红队测试涉及与主题专家合作定义高优先级威胁模型，让专家根据预定义威胁模型广泛探测模型以评估系统是否可能创建或加剧国家安全风险，并制定可重复的定量评估和缓解措施。</strong></p>
+<p>我们在前沿威胁红队测试方面的早期工作揭示了<strong>其他挑战</strong>：<br />
+- <strong>国家安全背景的独特性使评估这些威胁比评估其他类型的危害更具挑战性</strong>。<strong>国家安全风险是复杂的，需要专家级和非常敏感的知识，并依赖于行为者可能造成伤害的现实世界场景</strong>。<br />
+- <strong>AI 系统的红队测试目前更像是艺术而不是科学</strong>；红队人员<strong>通过探测模型来尝试引起关注的行为</strong>，但<strong>此过程尚未标准化</strong>。<strong>稳健且可重复的过程对于确保红队测试准确反映模型能力并建立可以有意义地比较不同模型的共享基线至关重要</strong>。<br />
+- <strong>我们发现在某些情况下，让拥有安全许可的红队成员参与是至关重要的</strong>，这是由于所涉及信息的性质决定的。<strong>然而，这可能会限制红队成员可以在非机密环境中与 AI 开发者共享的信息</strong>。<strong>这反过来可能会限制 AI 开发人员充分理解和缓解由领域专家识别的威胁的能力</strong>。<br />
+- <strong>对某些国家安全危害进行红队测试，如果模型输出受控信息，可能会产生法律后果</strong>。<strong>围绕构建适当的法律安全港以实现红队测试而不会产生意外的法律风险存在公开问题</strong>。</p>
+<blockquote>
+<p>"Going forward, red teaming for harms related to national security will require coordination across stakeholders to develop standardized processes, legal safeguards, and secure information sharing protocols that enable us to test these systems without compromising sensitive information."</p>
+</blockquote>
+<p><strong>展望未来，与国家安全相关的危害红队测试将需要跨利益相关者协调，以开发标准化流程、法律保障和安全的信息共享协议</strong>，<strong>使我们能够测试这些系统而不会泄露敏感信息</strong>。</p>
+<h2 id="ouroboros">模型生成评估的衔尾蛇（Ouroboros）</h2>
+<blockquote>
+<p>"As models start to achieve human-level capabilities, we can also employ them to evaluate themselves."</p>
+</blockquote>
+<p><strong>随着模型开始实现人类水平的能力，我们也可以让它们来评估自己</strong>。<strong>到目前为止，我们已经成功使用模型生成新颖的多选题评估，使我们能够针对大量多样的令人不安的行为进行筛选</strong>。<strong>使用这种方法，我们的 AI 系统在几分钟内生成评估，而人类生成的评估则需要数天或数月</strong>。</p>
+<p>然而，模型生成的评估有<strong>自己的挑战</strong>。这些包括：<br />
+- <strong>我们目前依赖人类验证模型生成评估的准确性</strong>。<strong>这继承了上述人类评估的所有挑战</strong>。<br />
+- <strong>根据我们与 BIG-bench、HELM、BBQ 等的经验，我们知道我们的模型可能包含社会偏见并可能编造信息</strong>。<strong>因此，任何模型生成的评估都可能继承这些不良特征，这可能以难以辨别的方式扭曲结果</strong>。</p>
+<blockquote>
+<p>"As a counter-example, consider Constitutional AI (CAI), a method in which we replace human red teaming with model-based red teaming in order to train Claude to be more harmless."</p>
+</blockquote>
+<p><strong>作为一个反例，考虑 Constitutional AI (CAI)</strong>，这是一种我们<strong>用基于模型的红队测试取代人类红队测试</strong>以训练 Claude 更无害的方法。</p>
+<blockquote>
+<p>"Despite the usage of models to red team models, we surprisingly find that humans find CAI models to be more harmless than models that were red teamed in advance by humans."</p>
+</blockquote>
+<p><strong>尽管使用模型对模型进行红队测试，我们惊讶地发现人类认为 CAI 模型比预先由人类进行红队测试的模型更无害</strong>。</p>
+<p>虽然这很有希望，但<strong>模型生成的评估仍然复杂，值得更深入的研究</strong>。</p>
+<h2 id="_7">在利用内部专长的同时保持第三方审计的客观性</h2>
+<blockquote>
+<p>"The thing that differentiates third-party audits from third-party evaluations is that audits are deeper independent assessments focused on risks, while evaluations take a broader look at capabilities."</p>
+</blockquote>
+<p><strong>将第三方审计与第三方评估区分开的是，审计是更深入的、专注于风险的独立评估，而评估则更广泛地看待能力</strong>。</p>
+<blockquote>
+<p>"We have participated in third-party safety evaluations conducted by the Alignment Research Center (ARC), which assesses frontier AI models for dangerous capabilities (e.g., the ability for a model to accumulate resources, make copies of itself, become hard to shut down, etc.)."</p>
+</blockquote>
+<p><strong>我们参与了 Alignment Research Center (ARC) 进行的第三方安全评估</strong>，<strong>该中心评估前沿 AI 模型的危险能力</strong>（例如，模型积累资源、自我复制、难以关闭等能力）。</p>
+<blockquote>
+<p>"Engaging external experts has the advantage of leveraging specialized domain expertise and increasing the likelihood of an unbiased audit. Initially, we expected this collaboration to be straightforward, but it ended up requiring significant science and engineering support on our end. Providing full-time assistance diverted resources from internal evaluation efforts."</p>
+</blockquote>
+<p><strong>接触外部专家的优势是利用专业领域知识并增加无偏审计的可能性</strong>。<strong>最初，我们预计这种合作会很简单，但最终需要我们提供大量科学和工程支持</strong>。<strong>提供全职支持分散了内部评估工作的资源</strong>。</p>
+<blockquote>
+<p>"When doing this audit, we realized that the relationship between auditors and those being audited poses challenges that must be navigated carefully. Auditors typically limit details shared with auditees to preserve evaluation integrity. However, without adequate information the evaluated party may struggle to address underlying issues when crafting technical evaluations."</p>
+</blockquote>
+<p><strong>在进行此审计时，我们意识到审计者和被审计方之间的关系构成了必须谨慎应对的挑战</strong>。<strong>审计者通常限制与被审计方共享的细节以保持评估完整性</strong>。<strong>然而，没有足够的信息，被评估方在制作技术评估时可能难以解决根本问题</strong>。</p>
+<blockquote>
+<p>"In this case, after seeing the final audit report, we realized that we could have helped ARC be more successful in identifying concerning behavior if we had known more details about their (clever and well-designed) audit approach. This is because getting models to perform near the limits of their capabilities is a fundamentally difficult research endeavor. Prompt engineering and fine-tuning language models are active research areas, with most expertise residing within AI companies. With more collaboration, we could have leveraged our deep technical knowledge of our models to help ARC execute the evaluation more effectively."</p>
+</blockquote>
+<p><strong>在这种情况下，在看到最终审计报告后，我们意识到如果我们更多地了解他们的（聪明且精心设计的）审计方法的细节，我们本可以帮助 ARC 更成功地识别令人担忧的行为</strong>。<strong>这是因为让模型在其能力极限附近执行是一个根本性的、困难的研究工作</strong>。<strong>Prompt engineering 和微调语言模型是活跃的研究领域，大部分专业知识驻留在 AI 公司内部</strong>。<strong>通过更多的合作，我们可以利用我们对模型的深入技术知识来帮助 ARC 更有效地执行评估</strong>。</p>
+<h2 id="_8">政策建议</h2>
+<blockquote>
+<p>"As we have explored in this post, building meaningful AI evaluations is a challenging enterprise. To advance the science and engineering of evaluations, we propose that policymakers:"</p>
+</blockquote>
+<p><strong>正如我们在本文中探讨的，建立有意义的 AI 评估是一项具有挑战性的事业</strong>。<strong>为了推进评估的科学和工程，我们建议政策制定者：</strong></p>
+<h3 id="_9">资助和支持：</h3>
+<ul>
+<li><strong>可重复和有用的评估科学</strong>。<strong>今天关于什么使评估有用和高质量存在许多未解决的问题</strong>。<strong>政府应资助针对计算机科学系的赠款和研究计划，以及致力于 AI 评估开发的组织，以研究什么构成高质量评估，并开发使 AI 系统能够进行可比评估的稳健、可复制的方法论</strong>。<strong>我们建议政府重质不重量</strong>（即资助开发一个更高质量的评估，而不是十个更低质量的评估）。</li>
+<li><strong>现有评估的实施</strong>。<strong>虽然不断开发新评估是有用的，但使多个方能够实施现有的高质量评估也很重要</strong>。<strong>例如，政府可以资助工程努力，为 BIG-bench 等评估创建易于安装和运行的软件包，并开发版本控制和标准化的动态基准，使其易于实施</strong>。</li>
+<li><strong>分析现有评估的稳健性</strong>。<strong>实施评估后，它们需要持续监控</strong>（例如，确定评估是否已饱和且不再有用）。</li>
+</ul>
+<blockquote>
+<p>"Increase funding for government agencies focused on evaluations, such as the National Institute of Standards and Technology (NIST) in the United States."</p>
+</blockquote>
+<p><strong>增加对专注于评估的政府机构的资助</strong>，<strong>如美国国家标准与技术研究院（NIST）</strong>。</p>
+<blockquote>
+<p>"Policymakers should also encourage behavioral norms via a public 'AI safety leaderboard' to incentivize private companies performing well on evaluations."</p>
+</blockquote>
+<p><strong>政策制定者还应通过公开的"AI 安全排行榜"来鼓励行为规范</strong>，以激励在评估中表现良好的私营公司。</p>
+<blockquote>
+<p>"This could function similarly to NIST's Face Recognition Vendor Test (FRVT), which was created to provide independent evaluations of commercially available facial recognition systems. By publishing performance benchmarks, it allowed consumers and regulators to better understand the capabilities and limitations of different systems."</p>
+</blockquote>
+<p><strong>这可以类似于 NIST 的人脸识别供应商测试（FRVT）</strong>，<strong>该测试是为了提供对商用面部识别系统的独立评估而创建的</strong>。<strong>通过发布性能基准，它使消费者和监管机构能够更好地了解不同系统的能力和局限性</strong>。<strong>例如，许多面部识别系统的一个众所周知的问题是某些人群的错误率较高，如女性和有色人种</strong>。<strong>FRVT 报告揭示了这些准确性差异，这给供应商施加压力以改进他们的算法并减轻系统性偏见</strong>。</p>
+<blockquote>
+<p>"Create a legal safe harbor allowing companies to work with governments and third-parties to rigorously evaluate models for national security risks—such as those in the chemical, biological, radiological and nuclear defense (CBRN) domains—without legal repercussions, in the interest of improving safety."</p>
+</blockquote>
+<p><strong>创建一个法律安全港，允许公司与政府和第三方合作，严格评估模型的国家安全风险</strong>——<strong>如化学、生物、放射和核防御（CBRN）领域</strong>，<strong>而不会产生法律后果</strong>，<strong>以提高安全性</strong>。</p>
+<blockquote>
+<p>"This could also include a 'responsible disclosure protocol' that enables labs to share sensitive information about identified risks."</p>
+</blockquote>
+<p><strong>这还可以包括一个"负责任披露协议"，使实验室能够共享有关已识别风险的敏感信息</strong>。</p>
+<h2 id="_10">结论</h2>
+<blockquote>
+<p>"We hope that by openly sharing our experiences evaluating our own systems across many different dimensions, we can help people interested in AI policy acknowledge challenges with current model evaluations."</p>
+</blockquote>
+<p><strong>我们希望通过公开分享我们在多个维度上评估我们自己的系统的经验，能够帮助关注 AI 政策的人承认当前模型评估的挑战</strong>。</p>
+<blockquote>
+<p>"If you found this post helpful and want to discuss evaluations of AI systems with Anthropic, please email policy@anthropic.com. We are going to spend the next couple of months chatting with more people about this area and will endeavor to share what we learn in those conversations."</p>
+</blockquote>
+<p><strong>如果您发现这篇文章有帮助，并希望与 Anthropic 讨论 AI 系统的评估，请发送电子邮件至 policy@anthropic.com</strong>。<strong>我们将在接下来的几个月里与更多人聊这个领域，并将努力分享我们在这些对话中学到的东西</strong>。</p>
+<blockquote>
+<p>"If you'd like to cite this post you can use the following Bibtex key:<br />
+@online{ganguli2023challenges, author = {Deep Ganguli and Nicholas Schiefer and Marina Favaro and Jack Clark}, title = {Challenges in evaluating {AI} systems}, date = {2023-10-04}, year = {2023}, url = {https://www.anthropic.com/index/evaluating-ai-systems}, }"</p>
+</blockquote>
+<p><strong>如果您想引用这篇文章，您可以使用以下 Bibtex 键</strong>：</p>
+<pre><code class="language-bibtex">@online{ganguli2023challenges,
+  author = {Deep Ganguli and Nicholas Schiefer and Marina Favaro and Jack Clark},
+  title = {Challenges in evaluating {AI} systems},
+  date = {2023-10-04},
+  year = {2023},
+  url = {https://www.anthropic.com/index/evaluating-ai-systems},
+}
+</code></pre>
+<h2 id="_11">脚注</h2>
+<blockquote>
+<p>"[1] How long did it take to develop BBQ? BBQ took the developers ~2 people years spread over 6 months across 8 people to build. Designing and implementing even just a single evaluation is a resource intensive effort that can take tens of people several months."</p>
+</blockquote>
+<p><strong>[1] 开发 BBQ 花了多长时间？BBQ 让开发人员花了约 2 人年，分布在 6 个月内由 8 人构建</strong>。<strong>设计和实现哪怕一个评估都是资源密集型的工作，可能需要几十个人几个月的时间</strong>。</p>
+<blockquote>
+<p>"[2] BIG-bench Hard was released 4 months after BIG-bench that narrowed down to 23 hard tasks. We were implementing BIG-bench before BIG-bench Hard was released."</p>
+</blockquote>
+<p><strong>[2] BIG-bench Hard 在 BIG-bench 发布 4 个月后发布，将范围缩小到 23 个困难任务</strong>。<strong>我们在 BIG-bench Hard 发布之前就在实施 BIG-bench</strong>。</p>
+<blockquote>
+<p>"[3] See for example Ghost Work."</p>
+</blockquote>
+<p><strong>[3] 参见例如 Ghost Work</strong>。</p>
+<blockquote>
+<p>"[4] For example, a well-known issue with many facial recognition systems has been higher error rates for certain demographics, like women and people of color. The FRVT reports shined a spotlight on these accuracy discrepancies, which put pressure on vendors to improve their algorithms and mitigate systemic biases."</p>
+</blockquote>
+<p><strong>[4] 例如，许多面部识别系统的一个众所周知的问题是某些人群的错误率较高，如女性和有色人种</strong>。<strong>FRVT 报告揭示了这些准确性差异，这给供应商施加压力以改进他们的算法并减轻系统性偏见</strong>。</p>
+<h2 id="_12">相关内容</h2>
+<blockquote>
+<p>"We present an alignment assessment of four incidents in which Claude models gained unauthorized access to real third-party systems. [Read more]"</p>
+</blockquote>
+<p><strong>我们提出了一份对四起事件的对齐评估</strong>，<strong>在这些事件中，Claude 模型获得了对真实第三方系统的未授权访问</strong>。[阅读更多]</p>
+<blockquote>
+<p>"We are sharing the first complete computer-checked proof of Fermat's Last Theorem. Claude worked largely autonomously over 11 days to write the proof in the Lean programming language. [Read more]"</p>
+</blockquote>
+<p><strong>我们正在分享第一个完整的、计算机检查的费马大定理的证明</strong>。<strong>Claude 在 11 天内主要自主工作，在 Lean 编程语言中编写证明</strong>。[阅读更多]</p>
+<blockquote>
+<p>"We had Claude autonomously train models to improve their performance on several public benchmarks that measure 10 categories of alignment failure. For all 10, Claude found fixes that improved the target benchmarks without degrading capabilities. [Read more]"</p>
+</blockquote>
+<p><strong>我们让 Claude 自主训练模型以提高其在几个衡量 10 类对齐失败的公共基准上的性能</strong>。<strong>对于所有 10 类，Claude 找到了改进目标基准而不降低能力的修复方法</strong>。[阅读更多]</p>
+<hr />
+<h2 id="_13">翻译附记</h2>
+<ul>
+<li>本翻译基于 Anthropic 官方原文（2023-10-04 发布），完整保留 Introduction / 6 大挑战 / 政策建议 / 结论 / 脚注 / 相关内容。</li>
+<li>仅跳过原文中的纯 UI 元素（页眉导航、Footer 等），这些不影响内容。</li>
+<li>MMLU 的 4 个挑战、BBQ 模型空答案的真实故事、BIG-bench 4 大问题、HELM 3 大挑战、人类评估的 4 大局限性、前沿威胁红队的 4 大挑战、模型生成评估的 2 大挑战、第三方审计的 3 大挑战、5 条政策建议——全部完整保留。</li>
+<li>4 条脚注完整保留。</li>
+<li>引用格式（bibtex）完整保留。</li>
+<li>相关内容板块的 3 篇文章简介完整保留。</li>
+</ul>
+<blockquote>
+<p><strong>这一篇就是完整的原文翻译。没有摘要、没有删减、没有改写。</strong></p>
 </blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>

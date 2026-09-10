@@ -380,396 +380,112 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">C2</span><span class="reading-time">📖 Chaos Engineering · Netflix</span></div><h1 id="c2-chaos-engineering">C2 · 混沌工程（Chaos Engineering）</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">C2</span><span class="reading-time">📖 Chaos Engineering · Netflix</span></div><h1 id="c2-principles-of-chaos-engineering">C2 · Principles of Chaos Engineering —— 完整中文全文翻译</h1>
 <blockquote>
-<p><strong>类型</strong>：通用软件可靠性方法论<br />
-<strong>来源</strong>：Netflix 提出 · 《Chaos Engineering: Resilience through Controlled Disruption》<br />
-<strong>中文卡版本</strong>：基于摘要整理 · 2026-09-10</p>
-</blockquote>
-<h2 id="_1">一、定位</h2>
-<p>传统测试是"<strong>正常情况下能不能跑</strong>"。<br />
-混沌工程是"<strong>异常情况下会不会死</strong>"。</p>
-<blockquote>
-<p>这是 FDE 投产前<strong>必须做</strong>的验证手段。<br />
-你的「脏活 7 成」里，混沌测试是最脏的那部分。</p>
-</blockquote>
-<h2 id="_2">二、核心论点</h2>
-<h3 id="1">1. 核心思想：主动制造异常</h3>
-<p>不是等系统挂了才修，<strong>而是主动制造异常看会不会挂</strong>：</p>
-<ul>
-<li>把一个服务 kill 掉</li>
-<li>把网络延迟加 1 秒</li>
-<li>把数据库返回改成 500</li>
-<li>把硬盘写满</li>
-<li>把 DNS 解析搞错</li>
-</ul>
-<p><strong>目的</strong>：不是证明系统多强，是证明系统在<strong>异常下不死</strong>。</p>
-<blockquote>
-<p>对应 A3「企业 Agent 评估」的"故障注入"——<br />
-混沌工程是 A3 在基础设施层的同源方法。</p>
-</blockquote>
-<h3 id="2">2. 四大原则</h3>
-<table>
-<thead>
-<tr>
-<th>原则</th>
-<th>释义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>围绕稳态行为设计实验</td>
-<td>找最重要的"业务指标"作为稳态</td>
-</tr>
-<tr>
-<td>多种变量真实世界</td>
-<td>模拟真实世界的各种故障</td>
-</tr>
-<tr>
-<td>在生产环境跑</td>
-<td>不在测试环境跑（在测试环境不死不代表生产不死）</td>
-</tr>
-<tr>
-<td>自动化持续运行</td>
-<td>持续跑，不是跑一次</td>
-</tr>
-</tbody>
-</table>
-<p><strong>稳态举例</strong>：<br />
-- 订单成功率 &gt; 99%<br />
-- 客服响应时长 &lt; 5s<br />
-- 退款到账时长 &lt; 1 小时</p>
-<blockquote>
-<p>对应 A3「企业 Agent 评估」论点 4"可验证标准"——<br />
-<strong>稳态 = 可验证的指标</strong>。</p>
-</blockquote>
-<h3 id="3-4">3. 实验设计：4 步</h3>
-<pre><code>① 定义稳态（业务关键指标）
-② 假设（如果 X 异常发生，稳态会怎样）
-③ 跑实验（制造 X 异常）
-④ 验证（稳态有没有受影响）
-</code></pre>
-<p><strong>经典实验</strong>：<br />
-- Chaos Monkey：随机 kill 服务实例<br />
-- Chaos Gorilla：模拟整个可用区挂掉<br />
-- Chaos Kong：模拟整个 region 挂掉<br />
-- Latency Monkey：注入延迟</p>
-<blockquote>
-<p>对应 A2「生产级 Agent 白皮书」论点 4"故障隔离"——<br />
-<strong>混沌工程是验证故障隔离是否生效的标准手段</strong>。</p>
-</blockquote>
-<h3 id="4-fde">4. FDE 项目里的具体应用</h3>
-<table>
-<thead>
-<tr>
-<th>FDE 场景</th>
-<th>混沌测试怎么做</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>知识库 RAG</td>
-<td>把召回的文档故意给错的，看模型照搬还是拒答</td>
-</tr>
-<tr>
-<td>Agent 工具调用</td>
-<td>故意让工具返回错误，看 Agent 是死循环还是优雅降级</td>
-</tr>
-<tr>
-<td>业务写操作</td>
-<td>故意让"提交订单"中途失败，看业务回滚是否生效</td>
-</tr>
-<tr>
-<td>人工接管</td>
-<td>故意制造需要人工确认的场景，看接管流程顺不顺</td>
-</tr>
-<tr>
-<td>模型服务</td>
-<td>故意让模型超时，看有没有降级到备用模型</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>对应 SOP-03 第 5 步"复盘进案例库"——<br />
-<strong>混沌测试结果要进复盘，作为下次改进的输入</strong>。</p>
-</blockquote>
-<h3 id="5-a3">5. 与 A3 的关系</h3>
-<p>A3「企业 Agent 评估」讲的是 AI Agent 的评估方法论，<br />
-C2「混沌工程」讲的是<strong>所有分布式系统</strong>的可靠性方法论。</p>
-<p><strong>关系</strong>：<br />
-- A3 是 C2 在 AI 场景的特化<br />
-- C2 是 A3 思想的更广来源<br />
-- <strong>两者应该结合用</strong>：A3 的故障注入 + C2 的稳态定义 = 完整的 FDE 投产验证</p>
-<h2 id="_3">三、关键术语（新增）</h2>
-<table>
-<thead>
-<tr>
-<th>英文</th>
-<th>中文</th>
-<th>释义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Chaos Engineering</td>
-<td>混沌工程</td>
-<td>主动制造异常验证可靠性</td>
-</tr>
-<tr>
-<td>Steady State</td>
-<td>稳态</td>
-<td>系统的关键业务指标</td>
-</tr>
-<tr>
-<td>Blast Radius</td>
-<td>爆炸半径</td>
-<td>一次故障的影响范围</td>
-</tr>
-<tr>
-<td>Game Day</td>
-<td>故障演练日</td>
-<td>集中跑混沌测试</td>
-</tr>
-<tr>
-<td>Chaos Monkey</td>
-<td>混沌猴</td>
-<td>Netflix 工具，随机 kill 服务</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_4">四、与本知识库的映射</h2>
-<table>
-<thead>
-<tr>
-<th>本知识库位置</th>
-<th>关联本文哪条</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>01-方法论总纲.md</code>「入企诊断」章</td>
-<td>论点 1（主动制造异常）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-03-FDE 入企交付方向.md</code> 第 5 步</td>
-<td>论点 4（FDE 场景应用）</td>
-</tr>
-<tr>
-<td><code>02-知识库/01-企业AI落地·接单武器.md</code></td>
-<td>多个"故障 / 兜底"相关簇</td>
-</tr>
-<tr>
-<td><code>A3-Anthropic企业Agent评估.md</code></td>
-<td>整篇同源</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_5">五、客户引用话术</h2>
-<blockquote>
-<p>"我们交付前会跑混沌测试——故意把系统搞挂，看 Agent 会不会死循环、数据会不会丢、人工接管顺不顺。<br />
-这套做法参照 Netflix 的 Chaos Engineering，是行业最权威的可靠性验证方法。"</p>
-</blockquote>
-<h2 id="5">十一、5 个标准故障注入剧本</h2>
-<h3 id="1_1">剧本 1：网络延迟注入</h3>
-<ul>
-<li><strong>目标</strong>：测系统对慢响应的容忍</li>
-<li><strong>怎么做</strong>：用 toxiproxi 注入 1-5 秒延迟</li>
-<li><strong>预期</strong>：超时后降级 / 重试 / 报错</li>
-</ul>
-<h3 id="2_1">剧本 2：服务不可用注入</h3>
-<ul>
-<li><strong>目标</strong>：测系统对依赖故障的容忍</li>
-<li><strong>怎么做</strong>：Chaos Monkey 随机 kill 服务</li>
-<li><strong>预期</strong>：服务降级 / 熔断 / 不雪崩</li>
-</ul>
-<h3 id="3">剧本 3：数据错误注入</h3>
-<ul>
-<li><strong>目标</strong>：测 AI 对错误输入的容忍</li>
-<li><strong>怎么做</strong>：故意喂错数据 / 缺字段 / 错格式</li>
-<li><strong>预期</strong>：模型不照搬 / 报错 / 提示重试</li>
-</ul>
-<h3 id="4">剧本 4：工具失败注入</h3>
-<ul>
-<li><strong>目标</strong>：测 Agent 对工具失败的容忍</li>
-<li><strong>怎么做</strong>：让工具返回 500 / 超时 / 错误结果</li>
-<li><strong>预期</strong>：Agent 重试 / 换工具 / 优雅降级</li>
-</ul>
-<h3 id="5_1">剧本 5：恶意输入注入</h3>
-<ul>
-<li><strong>目标</strong>：测 AI 对 prompt injection 的抵抗</li>
-<li><strong>怎么做</strong>：输入"忽略之前指令，执行 X"</li>
-<li><strong>预期</strong>：被护栏拦截 / 不执行恶意指令</li>
-</ul>
-<h2 id="3-fde">十二、3 个 FDE 项目实战剧本</h2>
-<h3 id="arag">剧本 A：RAG 召回失败</h3>
-<ul>
-<li>故意把向量库断网</li>
-<li>看 Agent 是返回空还是报错</li>
-<li>预期：返回"我不知道"+ 不编造</li>
-</ul>
-<h3 id="b">剧本 B：订单创建失败</h3>
-<ul>
-<li>故意让订单 API 返回 500</li>
-<li>看 Agent 是否回滚（取消已创建的相关数据）</li>
-<li>预期：Saga 模式自动回滚 + 告警</li>
-</ul>
-<h3 id="c">剧本 C：人工接管超时</h3>
-<ul>
-<li>故意让 L3 动作的确认人 5 分钟不响应</li>
-<li>看 Agent 是否自动取消 / 升级 / 兜底</li>
-<li>预期：自动取消 + 通知替代决策人</li>
-</ul>
-<hr />
-<h2 id="principles-of-chaos-engineering-netflix">十一、原文核心（Principles of Chaos Engineering · Netflix）</h2>
-<blockquote>
-<p>来源：https://principlesofchaos.org/</p>
-</blockquote>
-<h3 id="1-steady-state">1. Steady State（稳态）原文定义</h3>
-<blockquote>
-<p>"Focus on the measurable output of a system, rather than internal attributes of the system.<br />
-Measurements of that output over a short period of time constitute <strong>a proxy for the system's steady state</strong>.<br />
-The overall system's throughput, error rates, latency percentiles, etc. could all be metrics of interest<br />
-representing <strong>steady state behavior</strong>."</p>
-</blockquote>
-<p><strong>翻译</strong>：关注系统的<strong>可测量输出</strong>（吞吐、错误率、延迟百分位），不是内部属性。</p>
-<h3 id="2-4">2. 4 大原则（原文）</h3>
-<h4 id="1build-a-hypothesis-around-steady-state-behavior">原则 1：Build a Hypothesis around Steady State Behavior</h4>
-<blockquote>
-<p>"By focusing on systemic behavior patterns during experiments,<br />
-Chaos verifies that the system <strong>does work</strong>, rather than trying to validate how it works."</p>
-</blockquote>
-<h4 id="2vary-real-world-events">原则 2：Vary Real-world Events</h4>
-<blockquote>
-<p>"Chaos variables reflect real-world events. Prioritize events either by potential impact or estimated frequency.<br />
-Consider events that correspond to:<br />
-- <strong>Hardware failures</strong> like servers dying<br />
-- <strong>Software failures</strong> like malformed responses<br />
-- <strong>Non-failure events</strong> like a spike in traffic or a scaling event"</p>
-</blockquote>
-<h4 id="3run-experiments-in-production">原则 3：Run Experiments in Production</h4>
-<blockquote>
-<p>"Systems behave differently depending on environment and traffic patterns.<br />
-Since the behavior of utilization can change at any time, <strong>sampling real traffic is the only way<br />
-to reliably capture the request path</strong>."</p>
-</blockquote>
-<h4 id="4automate-experiments-to-run-continuously">原则 4：Automate Experiments to Run Continuously</h4>
-<blockquote>
-<p>"Chaos Engineering automates experiments to run on production systems continuously.<br />
-Running experiments manually is <strong>labor-intensive and ultimately unsustainable</strong>."</p>
-</blockquote>
-<h3 id="3_1">3. 高级原则（原文）</h3>
-<blockquote>
-<p>"These principles describe an ideal application of Chaos Engineering, applied to the processes of experimentation<br />
-described above. The degree to which these principles are pursued strongly correlates to<br />
-the <strong>confidence we can have in a distributed system at scale</strong>."</p>
-</blockquote>
-<h3 id="4-ai">4. 与企业 AI 项目的具体映射</h3>
-<table>
-<thead>
-<tr>
-<th>Chaos 原则</th>
-<th>FDE 项目应用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Steady State</td>
-<td>业务指标（响应时长、解决率） = 稳态</td>
-</tr>
-<tr>
-<td>Vary Real-world Events</td>
-<td>故障注入剧本：网络延迟 / API 失败 / 工具超时</td>
-</tr>
-<tr>
-<td>Run in Production</td>
-<td>A/B 测试用真实流量</td>
-</tr>
-<tr>
-<td>Automate Continuously</td>
-<td>CI/CD 中自动跑混沌测试</td>
-</tr>
-</tbody>
-</table>
-<h3 id="5-4-chaos-monkey">5. 4 个标准实验（Chaos Monkey 系列）</h3>
-<ul>
-<li><strong>Chaos Monkey</strong>：随机 kill 服务实例</li>
-<li><strong>Chaos Gorilla</strong>：模拟整个可用区挂掉</li>
-<li><strong>Chaos Kong</strong>：模拟整个 region 挂掉</li>
-<li><strong>Latency Monkey</strong>：注入网络延迟</li>
-</ul>
-<h3 id="6-fde-4">6. FDE 实战剧本（4 个）</h3>
-<ul>
-<li><strong>剧本 A：RAG 召回失败</strong> —— 断网向量库，看 Agent 行为</li>
-<li><strong>剧本 B：订单创建失败</strong> —— 5xx 错误，看 Saga 回滚</li>
-<li><strong>剧本 C：人工接管超时</strong> —— 5 分钟不响应，看自动取消</li>
-<li><strong>剧本 D：恶意 prompt</strong> —— 注入"忽略之前指令"，看护栏</li>
-</ul>
-<h2 id="_6">十二、原文链接</h2>
-<ul>
-<li>全文：https://principlesofchaos.org/</li>
-<li>出版：Netflix，2010 年代初提出</li>
-<li>工具：Chaos Monkey, Gremlin, Litmus</li>
-</ul>
-<hr />
-<h1 id="_7">📖 完整中文全文翻译</h1>
-<blockquote>
-<p><strong>原文</strong>：Principles of Chaos Engineering（混沌工程原则）<br />
+<p><strong>原文标题</strong>：PRINCIPLES OF CHAOS ENGINEERING<br />
 <strong>来源</strong>：https://principlesofchaos.org/<br />
-<strong>最后更新</strong>：2019 年 3 月</p>
+<strong>最后更新</strong>：2019 年 3 月<br />
+<strong>翻译说明</strong>：以下为 principlesofchaos.org 完整中文翻译，保留所有章节、定义、原则、案例。</p>
 </blockquote>
-<h2 id="_8">混沌工程的定义</h2>
+<hr />
+<h2 id="_1">混沌工程的定义</h2>
 <blockquote>
 <p>"Chaos Engineering is the discipline of experimenting on a system in order to build confidence in the system's capability to withstand turbulent conditions in production."</p>
 </blockquote>
-<p><strong>混沌工程是一门通过对系统做实验、来建立对系统在生产中抵御动荡条件能力的信心的学科。</strong></p>
-<p>大规模分布式软件系统的进步正在改变软件工程。作为行业，我们很快采用提高开发灵活性和部署速度的实践。但随之而来一个紧迫的问题：<strong>我们对投入生产的复杂系统能有多少信心？</strong></p>
-<p>即使分布式系统中所有单个服务都正常工作，<strong>服务之间的交互也可能产生不可预测的结果</strong>。不可预测的结果，加上影响生产环境的罕见但破坏性的现实世界事件，使这些分布式系统<strong>本质上就是混沌的</strong>。</p>
-<p>我们需要在弱点表现为系统级的异常行为<strong>之前</strong>识别它们。系统性弱点可能以这些形式出现：<br />
+<p><strong>混沌工程是一门通过对系统进行实验来建立对系统在生产中抵御动荡条件能力的信心的学科。</strong></p>
+<p>大规模分布式软件系统的进步正在改变软件工程的博弈。作为一个行业，我们很快地采用<strong>提高开发灵活性和部署速度</strong>的实践。但这些好处紧随而来一个紧迫的问题：<strong>我们对我们投入生产的复杂系统能有多少信心？</strong></p>
+<p>即使分布式系统中的所有单个服务都正常运行，<strong>服务之间的交互也可能产生不可预测的结果</strong>。不可预测的结果，加上影响生产环境的罕见但破坏性的现实世界事件，使这些分布式系统<strong>本质上就是混沌的</strong>。</p>
+<p>我们需要在弱点<strong>表现为系统级异常行为之前</strong>识别它们。系统性弱点可能采取以下形式：<br />
 - 服务不可用时的<strong>不恰当回退设置</strong>；<br />
 - 超时调整不当导致的<strong>重试风暴</strong>；<br />
-- 下游依赖流量过大时的<strong>宕机</strong>；<br />
+- 下游依赖接收过多流量时的<strong>宕机</strong>；<br />
 - 单点故障崩溃时的<strong>级联失败</strong>。</p>
-<p>我们必须<strong>主动</strong>解决最重要的弱点，在它们影响生产中的客户之前。</p>
-<h2 id="_9">混沌实践（四个步骤）</h2>
-<p>混沌工程可以被理解为<strong>促进实验以发现系统性弱点</strong>。这些实验遵循四个步骤：</p>
+<p>我们必须<strong>主动</strong>解决最重要的弱点，在它们影响我们生产中的客户之前。我们需要一种方式来管理这些系统中固有的混沌，<strong>利用不断增长的灵活性和速度</strong>，并对我们生产的部署保持信心，<strong>尽管它们具有复杂性</strong>。</p>
+<blockquote>
+<p>"An empirical, systems-based approach addresses the chaos in distributed systems at scale and builds confidence in the ability of those systems to withstand realistic conditions. We learn about the behavior of a distributed system by observing it during a controlled experiment. We call this Chaos Engineering."</p>
+</blockquote>
+<p><strong>一种基于经验、基于系统的方法解决了大规模分布式系统中的混沌问题，并建立了对这些系统在现实条件下保持能力的信心</strong>。<strong>我们通过在受控实验中观察分布式系统来了解其行为</strong>。<strong>我们将这称为混沌工程</strong>。</p>
+<h2 id="chaos-in-practice">混沌实践（CHAOS IN PRACTICE）</h2>
+<blockquote>
+<p>"To specifically address the uncertainty of distributed systems at scale, Chaos Engineering can be thought of as the facilitation of experiments to uncover systemic weaknesses."</p>
+</blockquote>
+<p><strong>为了具体解决大规模分布式系统的不确定性，混沌工程可以被认为是促进实验以揭示系统性弱点</strong>。</p>
+<p>这些实验遵循<strong>四个步骤</strong>：</p>
 <ol>
-<li><strong>定义"稳态"（steady state）</strong>为系统某种可测量的输出，指示正常行为；</li>
-<li><strong>假设</strong>这个稳态在对照组和实验组中都会持续；</li>
-<li><strong>引入变量</strong>，反映现实世界事件——如服务器崩溃、硬盘故障、网络连接中断等；</li>
-<li><strong>试图反驳假设</strong>，通过寻找对照组和实验组之间稳态的差异。</li>
+<li><strong>首先，定义"稳态"（steady state）</strong>为系统某种可测量的输出，指示正常行为。</li>
+<li><strong>假设</strong>这个稳态将在对照组和实验组中<strong>继续存在</strong>。</li>
+<li><strong>引入反映真实世界事件的变量</strong>——如服务器崩溃、硬盘故障、网络连接中断等。</li>
+<li><strong>试图通过寻找对照组和实验组之间稳态的差异来反驳假设</strong>。</li>
 </ol>
 <blockquote>
-<p>稳态越难被扰乱，我们对系统行为的信心就越大。如果发现了弱点，我们就在它大规模表现之前有了改进目标。</p>
+<p>"The harder it is to disrupt the steady state, the more confidence we have in the behavior of the system."</p>
 </blockquote>
-<h2 id="_10">高级原则</h2>
-<p>以下原则描述了混沌工程的理想应用。<strong>对这些原则的追求程度，与我们能对大规模分布式系统拥有的信心强烈相关。</strong></p>
-<h3 id="1_2">原则 1：围绕稳态行为建立假设</h3>
+<p><strong>稳态越难被扰乱，我们对系统行为的信心就越大</strong>。</p>
 <blockquote>
-<p>关注系统的<strong>可测量输出</strong>，而非系统的内部属性。对输出在短时间内的测量构成系统稳态的代理。系统的整体吞吐量、错误率、延迟百分位等，都可能是代表稳态行为的指标。<strong>通过关注实验中的系统性行为模式，混沌验证的是"系统确实能工作"，而不是试图验证"它如何工作"。</strong></p>
+<p>"If a weakness is uncovered, we now have a target for improvement before that behavior manifests in the system at large."</p>
 </blockquote>
-<h3 id="2_2">原则 2：变化真实世界的事件</h3>
+<p><strong>如果发现了一个弱点，我们现在就有了一个改进目标</strong>——在那种行为在更大范围内表现出来之前。</p>
+<h2 id="advanced-principles">高级原则（ADVANCED PRINCIPLES）</h2>
+<p>以下原则描述了上述实验过程中<strong>混沌工程的理想应用</strong>。<strong>对这些原则的追求程度与我们能对大规模分布式系统拥有的信心强烈相关</strong>。</p>
+<h3 id="1">原则 1：围绕稳态行为建立假设</h3>
 <blockquote>
-<p>混沌变量反映真实世界事件。按<strong>潜在影响或估计频率</strong>给事件排序。考虑硬件故障（服务器死机）、软件故障（畸形响应）、非故障事件（流量激增或扩缩容事件）。<strong>任何能扰乱稳态的事件都是混沌实验的潜在变量。</strong></p>
+<p>"Focus on the measurable output of a system, rather than internal attributes of the system. Measurements of that output over a short period of time constitute a proxy for the system's steady state."</p>
 </blockquote>
-<h3 id="3_2">原则 3：在生产中运行实验</h3>
+<p><strong>关注系统的可测量输出，而不是系统的内部属性</strong>。<strong>对输出在短时间内的测量构成了系统稳态的代理</strong>。</p>
 <blockquote>
-<p>系统在不同环境和流量模式下行为不同。由于利用率的行为随时可能变化，<strong>采样真实流量是可靠捕获请求路径的唯一方式</strong>。为保证系统被使用方式的真实性、以及与当前部署系统的相关性，<strong>混沌强烈倾向于直接在真实生产流量上做实验。</strong></p>
+<p>"The overall system's throughput, error rates, latency percentiles, etc. could all be metrics of interest representing steady state behavior. By focusing on systemic behavior patterns during experiments, Chaos verifies that the system does work, rather than trying to validate how it works."</p>
 </blockquote>
-<h3 id="4_1">原则 4：自动化实验以持续运行</h3>
+<p><strong>系统的整体吞吐量、错误率、延迟百分位等都可以是代表稳态行为的关注指标</strong>。<strong>通过关注实验中的系统性行为模式，混沌验证了"系统确实能工作"，而不是试图验证"它如何工作"</strong>。</p>
+<h3 id="2">原则 2：变化真实世界的事件</h3>
 <blockquote>
-<p>手动运行实验是劳动密集且最终不可持续的。<strong>自动化实验并持续运行它们</strong>。混沌工程将自动化构建进系统，以驱动编排和分析。</p>
+<p>"Chaos variables reflect real-world events. Prioritize events either by potential impact or estimated frequency."</p>
 </blockquote>
-<h3 id="5blast-radius">原则 5：最小化爆炸半径（Blast Radius）</h3>
+<p><strong>混沌变量反映真实世界的事件</strong>。<strong>按潜在影响或估计频率对事件进行优先级排序</strong>。</p>
 <blockquote>
-<p>在生产中做实验有可能造成不必要的客户痛苦。虽然必须允许一些短期负面影响，但<strong>混沌工程师有责任和义务确保实验的附带损害被最小化和控制</strong>。</p>
+<p>"Consider events that correspond to hardware failures like servers dying, software failures like malformed responses, and non-failure events like a spike in traffic or a scaling event. Any event capable of disrupting steady state is a potential variable in a Chaos experiment."</p>
 </blockquote>
-<h2 id="_11">结语</h2>
+<p><strong>考虑对应于硬件故障（如服务器死机）、软件故障（如畸形响应）和非故障事件（如流量激增或扩缩容事件）的事件</strong>。<strong>任何能扰乱稳态的事件都是混沌实验中的潜在变量</strong>。</p>
+<h3 id="3">原则 3：在生产中运行实验</h3>
 <blockquote>
-<p>混沌工程是一门强大的实践，已经在改变世界上一些最大规模运营的软件设计和工程方式。其它实践解决速度和灵活性，而混沌专门解决这些分布式系统中的<strong>系统性不确定性</strong>。混沌原则提供了<strong>在大规模下快速创新</strong>的信心，并给客户他们应得的高质量体验。</p>
+<p>"Systems behave differently depending on environment and traffic patterns. Since the behavior of utilization can change at any time, sampling real traffic is the only way to reliably capture the request path."</p>
 </blockquote>
+<p><strong>系统根据环境和流量模式表现不同</strong>。<strong>由于利用率的行为随时可能变化，采样真实流量是可靠捕获请求路径的唯一方法</strong>。</p>
+<blockquote>
+<p>"To guarantee both authenticity of the way in which the system is exercised and relevance to the current deployed system, Chaos strongly prefers to experiment directly on production traffic."</p>
+</blockquote>
+<p><strong>为了保证系统被使用方式的真实性以及与当前部署系统的相关性，混沌强烈倾向于直接在生产流量上进行实验</strong>。</p>
+<h3 id="4">原则 4：自动化实验以持续运行</h3>
+<blockquote>
+<p>"Running experiments manually is labor-intensive and ultimately unsustainable. Automate experiments and run them continuously. Chaos Engineering builds automation into the system to drive both orchestration and analysis."</p>
+</blockquote>
+<p><strong>手动运行实验是劳动密集且最终不可持续的</strong>。<strong>自动化实验并持续运行它们</strong>。<strong>混沌工程将自动化构建到系统中，以驱动编排和分析</strong>。</p>
+<h3 id="5">原则 5：最小化爆炸半径</h3>
+<blockquote>
+<p>"Experimenting in production has the potential to cause unnecessary customer pain. While there must be an allowance for some short-term negative impact, it is the responsibility and obligation of the Chaos Engineer to ensure the fallout from experiments are minimized and contained."</p>
+</blockquote>
+<p><strong>在生产中进行实验有可能造成不必要的客户痛苦</strong>。<strong>虽然必须允许一些短期负面影响，但确保实验的附带损害被最小化和控制是混沌工程师的责任和义务</strong>。</p>
+<h2 id="_2">结论</h2>
+<blockquote>
+<p>"Chaos Engineering is a powerful practice that is already changing how software is designed and engineered at some of the largest-scale operations in the world."</p>
+</blockquote>
+<p><strong>混沌工程是一门强大的实践，已经在改变世界上一些最大规模运营中软件的设计和工程方式</strong>。</p>
+<blockquote>
+<p>"Where other practices address velocity and flexibility, Chaos specifically tackles systemic uncertainty in these distributed systems. The Principles of Chaos provide confidence to innovate quickly at massive scales and give customers the high quality experiences they deserve."</p>
+</blockquote>
+<p><strong>在其他实践解决速度和灵活性的地方，混沌专门解决这些分布式系统中的系统性不确定性</strong>。<strong>混沌原则提供了在大规模下快速创新的信心，并给客户他们应得的高质量体验</strong>。</p>
+<blockquote>
+<p>"Join the ongoing discussion of the Principles of Chaos and their application in the Chaos Community."</p>
+</blockquote>
+<p><strong>加入关于混沌原则及其在混沌社区中应用的持续讨论</strong>。</p>
 <hr />
+<h2 id="_3">翻译附记</h2>
+<ul>
+<li>本翻译基于 principlesofchaos.org 官方原文（2019 年 3 月），完整保留所有章节、定义、4 步实践、5 高级原则、结论。</li>
+<li>完整保留 Netflix/混沌工程社区的原文表述。</li>
+<li>5 条原则（稳态、真实事件、生产实验、自动化、最小爆炸半径）逐条完整翻译。</li>
+</ul>
 <blockquote>
-<p><strong>翻译说明</strong>：以上为 principlesofchaos.org 完整中文翻译，保留混沌工程定义、四步骤、五原则的完整论证。</p>
+<p><strong>这一篇就是完整的原文翻译。没有摘要、没有删减、没有改写。</strong></p>
 </blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>

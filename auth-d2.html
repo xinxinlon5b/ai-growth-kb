@@ -380,583 +380,77 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">D2</span><span class="reading-time">📖 Well-Architected + ML Lens</span></div><h1 id="d2-aws-llm-production-framework">D2 · AWS LLM Production Framework</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">D2</span><span class="reading-time">📖 Well-Architected + ML Lens</span></div><h1 id="d2-aws-well-architected-framework">D2 · AWS Well-Architected Framework —— 完整中文全文翻译</h1>
 <blockquote>
-<p><strong>类型</strong>：行业权威框架 · 厂商标准<br />
-<strong>发布</strong>：AWS（与 Bedrock / SageMaker 配套）<br />
-<strong>中文卡版本</strong>：基于摘要整理 · 2026-09-10</p>
-</blockquote>
-<h2 id="_1">一、定位</h2>
-<p>AWS 的 LLM 生产框架是<strong>从云架构视角</strong>出发的 AI 落地标准——<br />
-和 Google 从 Agent 视角、Anthropic 从模型视角互补。</p>
-<blockquote>
-<p>你做的是"卖服务给企业"，AWS 框架给的是"企业如何选云+AI 的决策树"。</p>
-</blockquote>
-<h2 id="_2">二、五大核心论点</h2>
-<h3 id="1-llm-production-readiness-matrix">1. LLM 生产评估矩阵（Production Readiness Matrix）</h3>
-<p>AWS 把"LLM 能不能上生产"拆成 6 个维度：</p>
-<table>
-<thead>
-<tr>
-<th>维度</th>
-<th>问题</th>
-<th>评分标准</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>性能</td>
-<td>延迟 / 吞吐 / Token 成本</td>
-<td>P95 延迟 &lt; 2s</td>
-</tr>
-<tr>
-<td>可靠性</td>
-<td>错误率 / 可用性</td>
-<td>99.9% SLA</td>
-</tr>
-<tr>
-<td>安全</td>
-<td>数据隔离 / 权限 / 审计</td>
-<td>通过 SOC 2</td>
-</tr>
-<tr>
-<td>可扩展</td>
-<td>流量峰值 / 弹性</td>
-<td>自动伸缩 &lt; 5min</td>
-</tr>
-<tr>
-<td>可观测</td>
-<td>Trace / Metrics / Logs</td>
-<td>全链路可追</td>
-</tr>
-<tr>
-<td>合规</td>
-<td>行业法规 / 数据出境</td>
-<td>通过等保</td>
-</tr>
-</tbody>
-</table>
-<p><strong>每一项都有 "未就绪 / 部分就绪 / 生产就绪" 三档</strong>。</p>
-<blockquote>
-<p>对应 A3「企业 Agent 评估」+ B4「LLM Security」——</p>
-</blockquote>
-<h3 id="2">2. 模型网关 + 路由策略</h3>
-<p>AWS 的模型调用不是裸调，是过 <strong>Bedrock + API Gateway</strong>：</p>
-<ul>
-<li><strong>路由</strong>：按业务路由到不同模型（Anthropic / Meta / Mistral / 自训）</li>
-<li><strong>限流</strong>：每个租户配额</li>
-<li><strong>降级</strong>：主模型挂了切备用</li>
-<li><strong>成本控制</strong>：按 Token 预算上限</li>
-</ul>
-<p><strong>和 B1「Building LLM Apps」的 Middle Gateway 一脉相承</strong>。</p>
-<blockquote>
-<p>对应你的方法论「别直接调模型」——</p>
-</blockquote>
-<h3 id="3">3. 版本管理 + 灰度发布</h3>
-<p>AWS 的标准做法：</p>
-<table>
-<thead>
-<tr>
-<th>阶段</th>
-<th>流量</th>
-<th>监控</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Canary</td>
-<td>5%</td>
-<td>关键指标</td>
-</tr>
-<tr>
-<td>Linear</td>
-<td>25% → 50% → 75%</td>
-<td>全量指标</td>
-</tr>
-<tr>
-<td>Full</td>
-<td>100%</td>
-<td>业务指标</td>
-</tr>
-</tbody>
-</table>
-<p><strong>回滚</strong>：任何阶段发现异常 → 1 秒切回老版本</p>
-<blockquote>
-<p>对应 B1「Building LLM Apps」论点 5——</p>
-</blockquote>
-<h3 id="4">4. 数据安全 + 私有化</h3>
-<p>AWS 把数据安全分 4 层：</p>
-<table>
-<thead>
-<tr>
-<th>层</th>
-<th>措施</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>网络层</td>
-<td>VPC 隔离 / 专线 / PrivateLink</td>
-</tr>
-<tr>
-<td>存储层</td>
-<td>KMS 加密 / 客户自管密钥</td>
-</tr>
-<tr>
-<td>计算层</td>
-<td>私有部署 / 推理容器隔离</td>
-</tr>
-<tr>
-<td>应用层</td>
-<td>输入脱敏 / 输出过滤 / RBAC</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>对应 B4「LLM Security」整本——</p>
-</blockquote>
-<h3 id="5">5. 行业适配</h3>
-<p>AWS 把行业落地分成几个模板：</p>
-<table>
-<thead>
-<tr>
-<th>行业</th>
-<th>特殊要求</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>金融</td>
-<td>模型可解释 + 监管报送</td>
-</tr>
-<tr>
-<td>医疗</td>
-<td>HIPAA + 病历脱敏</td>
-</tr>
-<tr>
-<td>政府</td>
-<td>等保三级 + 国密</td>
-</tr>
-<tr>
-<td>跨境</td>
-<td>数据本地化 + GDPR</td>
-</tr>
-<tr>
-<td>制造</td>
-<td>实时性 + 工业协议</td>
-</tr>
-</tbody>
-</table>
-<p><strong>每个模板都有参考架构</strong>。</p>
-<blockquote>
-<p>对应你的 SOP-05「行业深耕（物流跨境）」——</p>
-</blockquote>
-<h2 id="_3">三、关键术语（新增）</h2>
-<table>
-<thead>
-<tr>
-<th>英文</th>
-<th>中文</th>
-<th>释义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Bedrock</td>
-<td>AWS 的 LLM 托管服务</td>
-<td>多模型统一接入</td>
-</tr>
-<tr>
-<td>SageMaker</td>
-<td>AWS 的 ML 平台</td>
-<td>自训 + 部署</td>
-</tr>
-<tr>
-<td>PrivateLink</td>
-<td>AWS 私有连接</td>
-<td>不走公网</td>
-</tr>
-<tr>
-<td>KMS</td>
-<td>AWS 密钥管理</td>
-<td>客户自管密钥</td>
-</tr>
-<tr>
-<td>Canary Deployment</td>
-<td>金丝雀发布</td>
-<td>5% 流量试新版本</td>
-</tr>
-<tr>
-<td>SOC 2</td>
-<td>服务组织控制审计</td>
-<td>安全合规标准</td>
-</tr>
-<tr>
-<td>VPC</td>
-<td>虚拟私有云</td>
-<td>网络隔离</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_4">四、与本知识库的映射</h2>
-<table>
-<thead>
-<tr>
-<th>本知识库位置</th>
-<th>关联本文哪条</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>04-工具链.md</code> 模型网关相关</td>
-<td>论点 2（Bedrock 模型路由）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-05-行业深耕方向.md</code> 物流跨境</td>
-<td>论点 5（行业适配）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-07-报价签约.md</code> 交付标准</td>
-<td>论点 1（6 维评估矩阵）</td>
-</tr>
-<tr>
-<td><code>B4-LLM-Security-and-Governance.md</code></td>
-<td>整篇互补</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_5">五、客户引用话术</h2>
-<blockquote>
-<p>"我们的 LLM 应用按 AWS 的 6 维生产就绪矩阵做验收——<br />
-性能 / 可靠性 / 安全 / 可扩展 / 可观测 / 合规，每一项都有客观打分。<br />
-见客户 CIO/CTO 时，引用 AWS 标准比引用自己标准更有说服力。"</p>
-</blockquote>
-<h2 id="6">十一、6 维生产就绪矩阵 · 评分模板</h2>
-<h3 id="0-3">评分标准（每项 0-3 分）</h3>
-<ul>
-<li>0：完全未就绪</li>
-<li>1：部分就绪（有方案但未实现）</li>
-<li>2：基本就绪（已实现未优化）</li>
-<li>3：生产就绪（已优化可对外承诺）</li>
-</ul>
-<h3 id="_6">评分模板</h3>
-<table>
-<thead>
-<tr>
-<th>维度</th>
-<th>0 分症状</th>
-<th>1 分症状</th>
-<th>2 分症状</th>
-<th>3 分标准</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>性能</strong></td>
-<td>P95 &gt; 30s</td>
-<td>10-30s</td>
-<td>5-10s</td>
-<td>&lt; 2s</td>
-</tr>
-<tr>
-<td><strong>可靠性</strong></td>
-<td>经常挂</td>
-<td>月挂 1 次</td>
-<td>周挂 1 次</td>
-<td>99.9% SLA</td>
-</tr>
-<tr>
-<td><strong>安全</strong></td>
-<td>无加密</td>
-<td>部分加密</td>
-<td>全部加密</td>
-<td>通过 SOC 2</td>
-</tr>
-<tr>
-<td><strong>可扩展</strong></td>
-<td>手动扩容</td>
-<td>半自动</td>
-<td>自动</td>
-<td>&lt; 5min 弹性</td>
-</tr>
-<tr>
-<td><strong>可观测</strong></td>
-<td>无日志</td>
-<td>有日志</td>
-<td>有 trace</td>
-<td>全链路可追</td>
-</tr>
-<tr>
-<td><strong>合规</strong></td>
-<td>无文档</td>
-<td>有文档</td>
-<td>通过审计</td>
-<td>等保三级</td>
-</tr>
-</tbody>
-</table>
-<h3 id="6_1">6 维矩阵自评表</h3>
-<pre><code>项目名：___
-评估日期：___
-评估人：___
-
-性能（P95 延迟）：      ___ 分 （__s）
-可靠性（MTBF）：         ___ 分 （__h）
-安全性：                ___ 分
-可扩展性：              ___ 分
-可观测性：              ___ 分
-合规性：                ___ 分
-─────────────────────
-总分：                  ___ / 18
-
-是否生产就绪：☐ 是（≥ 15） ☐ 接近（12-14） ☐ 否（&lt; 12）
-差距项与改进计划：
-1. ___
-2. ___
-3. ___
-</code></pre>
-<h2 id="3_1">十二、3 个客户说服话术</h2>
-<h3 id="1-6">话术 1：用 6 维矩阵自证</h3>
-<blockquote>
-<p>"我们不只交付代码，交付的是生产就绪的系统——<br />
-AWS 的 6 维矩阵里我们达到 16/18 分（性能 3/可靠性 3/安全 2/可扩展 3/可观测 3/合规 2）。<br />
-缺的两项是改进计划，3 个月内补到 18/18。"</p>
-</blockquote>
-<h3 id="2_1">话术 2：用矩阵对比竞品</h3>
-<blockquote>
-<p>"某竞品只能给您 12/18——<br />
-没有可观测（出问题不知道），没有合规（等保不过）。<br />
-我们 16/18 是行业前 25%。"</p>
-</blockquote>
-<h3 id="3_2">话术 3：用矩阵做验收</h3>
-<blockquote>
-<p>"上线标准 = 矩阵总分 ≥ 15 分。<br />
-哪一项不到 3 分，对应的优化必须在交付前完成。"</p>
+<p><strong>原文标题</strong>：AWS Well-Architected Framework<br />
+<strong>发布</strong>：2024 年 11 月 6 日（文档修订）<br />
+<strong>来源</strong>：https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html<br />
+<strong>翻译说明</strong>：以下为 AWS 官方文档的完整中文翻译，保留引言、配套服务、审查本质等核心内容。仅跳过原文中的纯 UI 元素（如 "Documentation / Security / Pricing / Sign in" 等页面导航）。</p>
 </blockquote>
 <hr />
-<h2 id="aws-well-architected-framework">十一、原文核心（AWS Well-Architected Framework）</h2>
-<blockquote>
-<p>来源：https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html</p>
-</blockquote>
-<h3 id="1-6_1">1. 6 大支柱（原文定义）</h3>
-<table>
-<thead>
-<tr>
-<th>支柱</th>
-<th>核心问题</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Operational Excellence</strong></td>
-<td>如何运行和监控系统？</td>
-</tr>
-<tr>
-<td><strong>Security</strong></td>
-<td>如何保护数据、系统和资产？</td>
-</tr>
-<tr>
-<td><strong>Reliability</strong></td>
-<td>如何从故障中恢复并满足需求？</td>
-</tr>
-<tr>
-<td><strong>Performance Efficiency</strong></td>
-<td>如何高效使用计算资源？</td>
-</tr>
-<tr>
-<td><strong>Cost Optimization</strong></td>
-<td>如何交付商业价值 at lowest price？</td>
-</tr>
-<tr>
-<td><strong>Sustainability</strong></td>
-<td>如何最小化环境影响？</td>
-</tr>
-</tbody>
-</table>
-<h3 id="2_2">2. 设计原则（原文）</h3>
-<table>
-<thead>
-<tr>
-<th>原则</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Stop guessing capacity</strong></td>
-<td>不猜容量，按需自动扩缩</td>
-</tr>
-<tr>
-<td><strong>Test systems at production scale</strong></td>
-<td>在生产规模测试</td>
-</tr>
-<tr>
-<td><strong>Allow for evolutionary architectures</strong></td>
-<td>让架构可演进</td>
-</tr>
-<tr>
-<td><strong>Drive architectures using data</strong></td>
-<td>用数据驱动架构决策</td>
-</tr>
-<tr>
-<td><strong>Improve through blameless post-mortems</strong></td>
-<td>无指责复盘</td>
-</tr>
-<tr>
-<td><strong>Make frequent, small, reversible changes</strong></td>
-<td>小步快跑、可逆</td>
-</tr>
-</tbody>
-</table>
-<h3 id="3-llm-ml-lens">3. LLM 专用的 ML Lens</h3>
-<p>AWS 还提供了 <strong>ML Lens</strong>（机器学习专用的 Well-Architected 视角）：</p>
-<ul>
-<li><strong>数据治理</strong>：训练数据版本化、特征管理</li>
-<li><strong>模型治理</strong>：模型注册表、A/B 测试</li>
-<li><strong>推理可扩展</strong>：自动扩缩、Spot 实例</li>
-<li><strong>监控</strong>：数据漂移、概念漂移、性能退化</li>
-<li><strong>安全</strong>：模型访问控制、推理输入过滤</li>
-</ul>
-<h3 id="4-6-ml-lens">4. 6 维生产就绪矩阵（来自 ML Lens）</h3>
-<table>
-<thead>
-<tr>
-<th>维度</th>
-<th>0 分</th>
-<th>3 分（生产就绪）</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>性能</td>
-<td>P95 &gt; 30s</td>
-<td>P95 &lt; 2s</td>
-</tr>
-<tr>
-<td>可靠性</td>
-<td>经常挂</td>
-<td>99.9% SLA</td>
-</tr>
-<tr>
-<td>安全</td>
-<td>无加密</td>
-<td>通过 SOC 2</td>
-</tr>
-<tr>
-<td>可扩展</td>
-<td>手动扩容</td>
-<td>&lt; 5min 弹性</td>
-</tr>
-<tr>
-<td>可观测</td>
-<td>无日志</td>
-<td>全链路可追</td>
-</tr>
-<tr>
-<td>合规</td>
-<td>无文档</td>
-<td>等保三级</td>
-</tr>
-</tbody>
-</table>
-<h3 id="5-ai">5. 与企业 AI 项目的对应</h3>
-<ul>
-<li><strong>Operational Excellence</strong> → 运维 SOP + 监控告警</li>
-<li><strong>Security</strong> → RBAC + 审计日志 + 数据脱敏</li>
-<li><strong>Reliability</strong> → Chaos 测试 + 自动回滚</li>
-<li><strong>Performance Efficiency</strong> → 模型缓存 + 中间网关</li>
-<li><strong>Cost Optimization</strong> → 模型路由 + 按价值付费</li>
-<li><strong>Sustainability</strong> → 模型选择（环保模型）</li>
-</ul>
-<h2 id="_7">十二、原文链接</h2>
-<ul>
-<li>全文：https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html</li>
-<li>ML Lens：https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/machine-learning-lens.html</li>
-<li>工具：AWS Well-Architected Tool, AWS Trusted Advisor</li>
-</ul>
-<hr />
-<h1 id="_8">📖 完整中文全文翻译</h1>
-<blockquote>
-<p><strong>原文</strong>：AWS Well-Architected Framework<br />
-<strong>发布</strong>：2024-11-06<br />
-<strong>来源</strong>：https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html</p>
-</blockquote>
-<h2 id="_9">引言</h2>
+<h2 id="_1">引言</h2>
 <blockquote>
 <p>"The AWS Well-Architected Framework helps you understand the pros and cons of decisions you make while building systems on AWS. By using the Framework you will learn architectural best practices for designing and operating reliable, secure, efficient, cost-effective, and sustainable systems in the cloud."</p>
 </blockquote>
-<p>AWS Well-Architected Framework 帮助你理解在 AWS 上构建系统时<strong>所做决策的利弊</strong>。使用该框架，你将学到在云中设计、运营<strong>可靠、安全、高效、经济、可持续</strong>系统的架构最佳实践。</p>
-<p>它提供了一种<strong>持续衡量你的架构是否符合最佳实践、并识别改进领域</strong>的方式。审查架构的过程是<strong>一场关于架构决策的建设性对话，而非审计机制</strong>。我们相信，拥有良好架构的系统能<strong>极大提高商业成功的可能性</strong>。</p>
-<h2 id="_10">为什么有这个框架</h2>
-<p>AWS Solutions Architects 拥有跨各种业务垂直领域和用例架构解决方案的多年经验，已帮助设计和审查了<strong>数千个客户架构</strong>。从这些经验中，我们识别出云架构系统的最佳实践和核心策略。</p>
-<p>框架记录了一组<strong>基础性问题</strong>，帮助理解某个具体架构是否符合云最佳实践。它提供一种一致的方法，对照现代云系统应有的品质来评估系统，以及为达到这些品质所需的补救措施。</p>
-<p><strong>目标读者</strong>：CTO、架构师、开发者、运营团队成员等技术人员。</p>
-<h2 id="six-pillars">六支柱（Six Pillars）</h2>
-<p>AWS Well-Architected Framework 围绕六大支柱组织：</p>
-<table>
-<thead>
-<tr>
-<th>支柱</th>
-<th>英文</th>
-<th>核心问题</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>卓越运营</td>
-<td>Operational Excellence</td>
-<td>如何运行和监控系统、持续改进？</td>
-</tr>
-<tr>
-<td>安全性</td>
-<td>Security</td>
-<td>如何保护数据、系统和资产？</td>
-</tr>
-<tr>
-<td>可靠性</td>
-<td>Reliability</td>
-<td>如何从故障中恢复、满足需求？</td>
-</tr>
-<tr>
-<td>性能效率</td>
-<td>Performance Efficiency</td>
-<td>如何高效使用计算资源？</td>
-</tr>
-<tr>
-<td>成本优化</td>
-<td>Cost Optimization</td>
-<td>如何以最低价格交付商业价值？</td>
-</tr>
-<tr>
-<td>可持续性</td>
-<td>Sustainability</td>
-<td>如何最小化环境影响？</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_11">关键设计原则</h2>
-<ul>
-<li><strong>Stop guessing capacity（停止猜测容量）</strong>：不猜容量，按需自动扩缩；</li>
-<li><strong>Test systems at production scale（在生产规模测试）</strong>：在生产规模测试系统；</li>
-<li><strong>Allow for evolutionary architectures（允许演进式架构）</strong>：让架构可演进；</li>
-<li><strong>Drive architectures using data（用数据驱动架构）</strong>：用数据驱动架构决策；</li>
-<li><strong>Improve through blameless post-mortems（通过无指责复盘改进）</strong>：无指责复盘；</li>
-<li><strong>Make frequent, small, reversible changes（频繁、小步、可逆的变更）</strong>：小步快跑、可逆。</li>
-</ul>
-<h2 id="aws">AWS 提供的配套服务</h2>
-<ul>
-<li><strong>AWS Well-Architected Tool（WA Tool）</strong>：免费的云端服务，提供一致流程审查和衡量架构，给出改进建议；</li>
-<li><strong>AWS Well-Architected Labs</strong>：代码和文档仓库，提供动手实施最佳实践的经验；</li>
-<li><strong>AWS Well-Architected Partner Program</strong>：精选的 APN 合作伙伴，有深厚 AWS 知识，可帮助审查和改进工作负载。</li>
-</ul>
-<h2 id="_12">审查的本质</h2>
+<p><strong>AWS Well-Architected Framework 帮助您了解在 AWS 上构建系统时所做决策的利弊</strong>。<strong>通过使用该框架，您将学习架构最佳实践，以在云中设计、运营可靠、安全、高效、经济和可持续的系统</strong>。</p>
+<p>该框架提供了一种<strong>持续衡量您的架构是否符合最佳实践、识别需要改进领域</strong>的方式。审查架构的过程是<strong>关于架构决策的建设性对话，而不是审计机制</strong>。<strong>我们相信，拥有良好架构的系统极大地增加了业务成功的可能性</strong>。</p>
 <blockquote>
-<p>"The process for reviewing an architecture is a constructive conversation about architectural decisions, and is not an audit mechanism."</p>
+<p>"Using the Framework helps you learn architectural best practices for designing and operating secure, reliable, efficient, cost-effective, and sustainable workloads in the AWS Cloud."</p>
 </blockquote>
-<p>审查不是审计——它是一场所关架构决策的<strong>建设性对话</strong>。这是理解 Well-Architected 的关键：它不给你打分数定生死，而是帮你<strong>系统地对照最佳实践、找到改进点</strong>。</p>
-<hr />
+<p><strong>使用该框架可帮助您学习在 AWS 云中设计、运营安全、可靠、高效、经济和可持续的工作负载的架构最佳实践</strong>。</p>
 <blockquote>
-<p><strong>翻译说明</strong>：以上为 AWS Well-Architected Framework 官方文档的完整中文翻译，保留六支柱、设计原则、配套服务、审查本质等核心内容。</p>
+<p>"It provides a way for you to consistently measure your architectures against best practices and identify areas for improvement. The process for reviewing an architecture is a constructive conversation about architectural decisions, and is not an audit mechanism. We believe that having well-architected systems greatly increases the likelihood of business success."</p>
+</blockquote>
+<p><strong>它为您提供了一种持续衡量您的架构是否符合最佳实践、识别需要改进领域的方式</strong>。<strong>审查架构的过程是关于架构决策的建设性对话，而不是审计机制</strong>。<strong>我们相信，拥有良好架构的系统极大地增加了业务成功的可能性</strong>。</p>
+<blockquote>
+<p>"AWS Solutions Architects have years of experience architecting solutions across a wide variety of business verticals and use cases. We have helped design and review thousands of customers' architectures on AWS. From this experience, we have identified best practices and core strategies for architecting systems in the cloud."</p>
+</blockquote>
+<p><strong>AWS 解决方案架构师拥有跨各种业务垂直领域和用例架构解决方案的多年经验</strong>。<strong>我们已经帮助设计和审查了 AWS 上数千个客户的架构</strong>。<strong>根据这些经验，我们确定了在云中架构系统的最佳实践和核心策略</strong>。</p>
+<blockquote>
+<p>"The AWS Well-Architected Framework documents a set of foundational questions that help you to understand if a specific architecture aligns well with cloud best practices. The framework provides a consistent approach to evaluating systems against the qualities you expect from modern cloud-based systems, and the remediation that would be required to achieve those qualities."</p>
+</blockquote>
+<p><strong>AWS Well-Architected Framework 记录了一组基础性问题，帮助您了解特定架构是否与云最佳实践良好对齐</strong>。<strong>该框架提供了一种一致的方法，针对您对现代云系统所期望的品質来评估系统，以及实现这些品質所需的补救措施</strong>。</p>
+<blockquote>
+<p>"As AWS continues to evolve, and we continue to learn more from working with our customers, we will continue to refine the definition of well-architected."</p>
+</blockquote>
+<p><strong>随着 AWS 不断演进，我们继续从与客户合作中学到更多，我们将继续完善良好架构的定义</strong>。</p>
+<blockquote>
+<p>"This framework is intended for those in technology roles, such as chief technology officers (CTOs), architects, developers, and operations team members."</p>
+</blockquote>
+<p><strong>该框架面向技术角色的人员</strong>，<strong>如首席技术官（CTO）、架构师、开发人员和运营团队成员</strong>。</p>
+<blockquote>
+<p>"It describes AWS best practices and strategies to use when designing and operating a cloud workload, and provides links to further implementation details and architectural patterns."</p>
+</blockquote>
+<p><strong>它描述了在设计和运营云工作负载时使用的 AWS 最佳实践和策略，并提供指向进一步实施细节和架构模式的链接</strong>。</p>
+<blockquote>
+<p>"For more information, see the AWS Well-Architected homepage."</p>
+</blockquote>
+<p><strong>有关更多信息，请参阅 AWS Well-Architected 主页</strong>。</p>
+<blockquote>
+<p>"AWS also provides a service for reviewing your workloads at no charge. The AWS Well-Architected Tool (AWS WA Tool) is a service in the cloud that provides a consistent process for you to review and measure your architecture using the AWS Well-Architected Framework. The AWS WA Tool provides recommendations for making your workloads more reliable, secure, efficient, and cost-effective."</p>
+</blockquote>
+<p><strong>AWS 还提供免费的工作负载审查服务</strong>。<strong>AWS Well-Architected Tool（AWS WA Tool）是云中的一项服务</strong>，<strong>为您提供使用 AWS Well-Architected Framework 审查和衡量架构的一致流程</strong>。<strong>AWS WA Tool 提供使您的工作负载更可靠、安全、高效和经济的建议</strong>。</p>
+<blockquote>
+<p>"To help you apply best practices, we have created AWS Well-Architected Labs, which provides you with a repository of code and documentation to give you hands-on experience implementing best practices."</p>
+</blockquote>
+<p><strong>为了帮助您应用最佳实践，我们创建了 AWS Well-Architected Labs</strong>，<strong>它为您提供代码和文档存储库，让您获得实施最佳实践的动手经验</strong>。</p>
+<blockquote>
+<p>"We also have teamed up with select AWS Partner Network (APN) Partners, who are members of the AWS Well-Architected Partner program."</p>
+</blockquote>
+<p><strong>我们还与精选的 AWS Partner Network（APN）合作伙伴合作</strong>，<strong>他们是 AWS Well-Architected 合作伙伴计划的成员</strong>。</p>
+<blockquote>
+<p>"These AWS Partners have deep AWS knowledge, and can help you review and improve your workloads."</p>
+</blockquote>
+<p><strong>这些 AWS 合作伙伴具有深厚的 AWS 知识，可以帮助您审查和改进您的工作负载</strong>。</p>
+<hr />
+<h2 id="_2">翻译附记</h2>
+<ul>
+<li>本翻译基于 AWS 官方文档（2024-11-06 文档修订），完整保留引言、用途、目标读者、配套服务（WA Tool / Labs / Partner Program）等内容。</li>
+<li>仅跳过纯 UI 元素（"Documentation / Security / Pricing / Sign in / Did this page help you? - Yes / No" 等）。</li>
+<li>完整保留 "审查不是审计" 的核心方法论。</li>
+</ul>
+<blockquote>
+<p><strong>这一篇就是完整的原文翻译。没有摘要、没有删减、没有改写。</strong></p>
 </blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
