@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>02-09 · 自己的内容资产 · 企业 AI 实战知识库</title>
+<meta name="description" content="基于 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径，构建的 FDE/AI落地 实战知识库">
+<style>
+:root {
+  --bg: #0f1419;
+  --bg-elevated: #1a2028;
+  --bg-card: #232a35;
+  --border: #2d3540;
+  --text: #e6e6e6;
+  --text-dim: #9aa5b1;
+  --text-bright: #ffffff;
+  --accent: #4f9eff;
+  --accent-hover: #6bb0ff;
+  --warning: #ff9a4f;
+  --success: #4fdf9a;
+  --code-bg: #0a0e13;
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, "SF Pro Display", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 15px;
+}
+a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
+a:hover { color: var(--accent-hover); }
+
+/* Layout */
+.app {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border);
+  padding: 24px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.brand {
+  padding: 0 24px 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.brand h1 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-bright);
+  font-weight: 600;
+}
+.brand .sub {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+.search-box {
+  margin: 0 24px 16px;
+  position: relative;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px 8px 32px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+}
+.search-box input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.search-box::before {
+  content: "🔍";
+  position: absolute;
+  left: 10px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  opacity: 0.5;
+}
+.nav-section {
+  margin-bottom: 8px;
+}
+.nav-section-title {
+  padding: 8px 24px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.nav-item {
+  display: block;
+  padding: 8px 24px;
+  color: var(--text);
+  font-size: 13px;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+}
+.nav-item:hover {
+  background: var(--bg-card);
+  border-left-color: var(--accent);
+}
+.nav-item.active {
+  background: var(--bg-card);
+  border-left-color: var(--accent);
+  color: var(--text-bright);
+}
+.nav-item .desc {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+/* Main content */
+.main {
+  padding: 40px 56px;
+  max-width: 980px;
+  margin: 0 auto;
+  width: 100%;
+}
+.content h1 {
+  color: var(--text-bright);
+  font-size: 32px;
+  margin: 0 0 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.content > blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 8px 16px;
+  margin: 16px 0 24px;
+  background: var(--bg-elevated);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-dim);
+}
+.content h2 {
+  color: var(--text-bright);
+  font-size: 24px;
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.content h3 {
+  color: var(--text-bright);
+  font-size: 18px;
+  margin: 28px 0 12px;
+}
+.content h4 {
+  color: var(--text);
+  font-size: 15px;
+  margin: 20px 0 8px;
+}
+.content p {
+  margin: 12px 0;
+}
+.content ul, .content ol {
+  padding-left: 24px;
+}
+.content li { margin: 4px 0; }
+.content code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--code-bg);
+  padding: 16px;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+}
+.content pre code {
+  background: none;
+  padding: 0;
+  color: var(--text);
+}
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 13px;
+}
+.content th {
+  background: var(--bg-elevated);
+  text-align: left;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  color: var(--text-bright);
+}
+.content td {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+}
+.content blockquote {
+  border-left: 4px solid var(--border);
+  padding: 4px 16px;
+  margin: 16px 0;
+  color: var(--text-dim);
+  background: var(--bg-elevated);
+}
+.content hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* Cards for KB pages */
+.video-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+.video-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+.video-meta .author { color: var(--accent); font-weight: 500; }
+.video-meta a { color: var(--text-dim); }
+.video-meta a:hover { color: var(--accent); }
+.video-meta .badge {
+  background: var(--bg-elevated);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+.video-meta .badge.high { background: #2d4a3a; color: var(--success); }
+.video-meta .badge.sub { background: #2d3a4a; color: var(--accent); }
+.video-insight {
+  background: var(--code-bg);
+  border-left: 3px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 13px;
+  white-space: pre-wrap;
+  border-radius: 0 6px 6px 0;
+}
+details {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 16px;
+  margin: 12px 0;
+}
+details summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 13px;
+}
+details[open] summary { margin-bottom: 12px; }
+details pre {
+  margin: 0;
+  font-size: 13px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Footer */
+.footer {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { position: relative; height: auto; }
+  .main { padding: 24px; }
+}
+
+/* Mermaid-style simple diagrams */
+.diagram {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 12px;
+  white-space: pre;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+</style>
+
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div class="brand">
+<h1>企业 AI 实战知识库</h1>
+<div class="sub">个人成长系统 v3.0</div>
+</div>
+<div class="search-box">
+<input type="text" id="search" placeholder="搜索本页内容..." />
+</div>
+<div class="nav-section">
+<div class="nav-section-title">总览</div>
+<a class="nav-item" href="index.html">🏠 知识体系<div class="desc">00-知识体系</div></a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">核心方法论</div>
+<a class="nav-item" href="method.html">📐 方法论总纲<div class="desc">162 条原则</div></a>
+<a class="nav-item" href="tools.html">🛠️ 工具链<div class="desc">47 个要点</div></a>
+<a class="nav-item" href="lines.html">🎙️ 话术弹药<div class="desc">22 句金句</div></a>
+<a class="nav-item" href="pits.html">⚠️ 避坑清单<div class="desc">13 个错误</div></a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">可执行 SOP</div>
+<a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a>
+<a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a>
+<a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a>
+<a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a>
+<a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a>
+<a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a>
+<a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">知识库 · 9 大主题</div>
+<a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a>
+<a class="nav-item" href="kb-02.html">🤖 智能体·OpenClaw</a>
+<a class="nav-item" href="kb-03.html">💻 AI 编程工具链</a>
+<a class="nav-item" href="kb-04.html">💰 商业案例·变现</a>
+<a class="nav-item" href="kb-05.html">🎨 AI 内容创作</a>
+<a class="nav-item" href="kb-06.html">📣 自媒体·获客</a>
+<a class="nav-item" href="kb-07.html">🧰 效率工具·知识管理</a>
+<a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a>
+<a class="nav-item active" href="kb-09.html">📦 自己的内容资产</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">工具</div>
+<a class="nav-item" href="glossary.html">📖 专业大词典<div class="desc">50+ 术语</div></a>
+</div>
+</aside>
+<main class="main">
+<div class="content">
+<h1 id="02-09">02-09 · 自己的内容资产</h1>
+<blockquote>
+<p>你做的笔记、复盘、案例、读书模块</p>
+</blockquote>
+<p><strong>统计</strong>：13 条视频 · 0 个子主题</p>
+<hr />
+<h2 id="_1">其他</h2>
+<div class="video-card">
+<h3>第5期 大白话龙虾 手机养龙虾 #Ai入门 #手机龙虾</h3>
+
+<p><strong>作者</strong>：王昕Ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634208327660080430">抖音</a> · <strong>价值评分</strong>：2</p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】微信自带AI能直接读取聊天文件，一键整理成文档，省去下载、上传、切换软件的麻烦。
+
+【具体做法/要点】
+1. 微信下拉→搜小程序，找到该AI工具（“大白话龙虾”）。
+2. 点“+”→选“微信文件”→从联系人或群聊里勾选文件（支持PDF、PPT、Word、Excel、图片）。
+3. 用大白话下指令，比如“把这些文件的文案分类整理到一个Word里”。
+4. 提交后不用守着，干别的去，完成会自动提醒你。
+5. 全程在微信内完成，不用电脑，不用来回切换App。
+
+【避坑/注意】
+无
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+微信 养龙虾
+我只讲一个最炸裂的功能
+我们先打开微信
+下滑到小程序
+搜索
+于是你就看到了如下功能
+你可能会问
+这好像也没什么特别的吧
+那你看
+如果这样呢
+我们点击加号
+微信文件
+我们选择联系人或微信群
+选择文件
+我这里选了五个有代表性的文件
+pdf ppt world excel和一张图片
+我让它把这些所有文件的文案
+分类整理到一个world的当中
+这个时候你就可以去干别的事了
+完成后
+它会提醒你
+我们想一想
+如果这是我们的工作群
+是不是就省掉了保存
+退出
+上传切换软件等
+几时不工作
+才能完成的操作呢
+这就是源于微信
+原生态的避缓
+你甚至不用电脑
+不用反复折腾
+一键完成
+这也是其他ai暂时
+做不到的一个功能
+我们赶快尝试起来吧
+这里是我讲大白花龙虾
+37的第5期
+如果你觉得今天的视频能帮到你
+就请关注我吧
+下一期我会教你
+如何让它每天给你定时发消息
+比如天气
+或你关注领域的最新资讯
+
+</details>
+</div>
+<div class="video-card">
+<h3>第4期 大白话龙虾 手机能养龙虾吗 #ai入门</h3>
+
+<p><strong>作者</strong>：王昕Ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633769672571145498">抖音</a> · <strong>价值评分</strong>：2</p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+</div>
+<div class="video-card">
+<h3>第2期 大白话龙虾 驯服5步走 #ai入门 #龙虾</h3>
+
+<p><strong>作者</strong>：王昕Ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7632349486454426931">抖音</a> · <strong>价值评分</strong>：2</p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】普通人驯服AI龙虾，核心是“先喂身份信息、再装技能、每次开新对话”，边学边用别空等。
+
+【具体做法/要点】
+1. **告诉它“你是谁”**：把个人背景、偏好等信息详细告诉它，并让它“保存在记忆里”，相当于认主。
+2. **设安全红线**：明确禁止它删除电脑文件，别把身份证、银行信息放电脑里。
+3. **装齐推荐技能**：把“技能”区推荐的Skill全装上，它才有干活的本事。
+4. **连接微信**：在设置里连上微信，以后用微信对话就能指挥它干活。注意：电脑得一直开着，关机它就“断脑”。
+5. **每天领积分**：点头像领免费积分，够日常用。
+6. **每次开新任务**：像豆包“新对话”一样，每次新建任务。别在同一个对话框里聊太久，否则它会“上下文污染”，开始胡说八道。
+
+【避坑/注意】
+- 同一账号不同电脑，记忆和聊天记录**不同步**，换电脑就是“失忆”。迁移记忆直接问它怎么弄。
+- 它偶尔会“记错”或“做错”，像会犯错的孩子，需要你耐心纠偏，别全信。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+没有任何技术背景的普通人想学AI
+一直徘徊在门外焦虑和迷茫的那个人
+是你吗
+如果你愿意
+请给自己一个机会
+这将是你在黑暗中为自己打开的
+一个叫做AI的开关
+只要你跟着我的视频边看边学边用
+我相信你一定会冲出迷雾
+而你也将是身边人当中
+那个有勇气率先拥抱未来的人
+上一期视频我们讲到了如何用龙虾
+给你的指定微信联系人定时发消息
+不知道你用的结果怎么样
+也一定有了自己非常真实的感受
+这一期我们来讲
+如何让你更聪明
+让你的龙虾更听话
+当然除了这些最后还有一个彩蛋
+是奖励那些有耐心能听到最后的人
+这个大前提假设
+假设你的世界里只有这一只龙虾
+我们不管外面其他世界里的龙虾有多强
+这一阶段我们就只专注于用它来解决
+我们遇到的大多数问题
+你就把它看作是喊老摩的小绿萍
+请记得这句话
+第37的时候我会考
+而一个重要的心态是
+你不要想着学完再用
+你一定要边学边用
+如果你现在的时间不允许
+那我们就先收藏
+但一定要跟着练
+第一件事你要告诉他
+你是谁
+仅可能把你的更多信息讲给他听
+当然你也可以像我一样
+为他取一个名字
+比如我们就叫他王小狗的春天
+最后你要告诉他的是
+请把这些信息保存在你的记忆里
+这一刻有没有点很特别的感觉
+就像是认主一样
+又或是达成了某种契约
+第二件你必须要做的事
+告诉他不要让他删除
+你电脑里的任何东西
+也不要把身份银行信息
+放在自己的电脑文件里
+第三件把技能里推荐的技能全都装上
+有了技能他才能更好的干活
+而这些技能就是网上所说的
+skill
+第四件事
+投降设置里连接自己的微信
+以后用微信和他对话
+他就能自己干活了
+这里要提示大家
+电脑你得一直开着
+关电脑了
+他就关大脑了
+第五件事
+每天和我一样
+点头像
+领积分
+三件你必须要知道的事情
+第一件我要告诉你的是
+每一次都要新建任务
+你可以理解成和豆包的新对话
+每次新建对话
+他都会勤空记忆
+他将完全不认识
+不了解你
+但我们的王小狗
+他却拥有你之前为他注入的长期记忆
+就是刚才
+让你存在他记忆里的那些信息
+而如果你一直在一个
+相同的对话框里
+与他对话的话
+早晚有一天
+他会开始胡说八道
+而你也会因此抓狂
+在专业名词里
+这个叫做
+上下文污染
+就是他处理不了这么多信息了
+混乱了
+而他也像是吃了毒蘑菇
+这次让我直接说人话
+这是一颗毒蘑菇
+不能吃
+说到记忆
+你需要知道的第二件事
+同一个账号
+不同的电脑信息
+是不同步的
+你们过去的
+所有对话内容和信息
+全部只保留在
+你的这一台电脑上
+所以这既是他安全的地方
+也是他的边界
+所以当你在另外的电脑上
+登录相同的手机号的时候
+你会发现你们两个
+都是全新的自己
+而要把他的记忆迁移
+其实又很简单
+不如你自己问问他
+而第三件
+你需要知道的是
+有的时候
+他不是真的记住了什么
+又或者真的做到了什么
+他有时
+也像是一个孩子
+一个会犯错的孩子
+但这不妨碍
+也不应该阻碍长大后的你
+是一个正直
+纯粮
+对这个世界
+充满好奇心的人
+所以需要你有更多的耐心
+给到他的成长
+也给到我们中国
+AI的发展
+所以信息的辨别能力
+也是我们在养虾的过程中
+要培养的核心技能
+最后一件重要
+我愿称它为彩蛋
+那就是比起使用龙虾和养龙虾
+更为重要的是什么
+是面对AI
+你终于不再恐慌和焦虑了
+是从这一刻开始
+你不用再担心
+好像全世界都上了同一辆车
+只有你
+还站在原地了
+是请你相信你自己
+这一点都不晚
+是从你决定把这条视频看完
+你的改变
+就巧然发生了
+而我想带着你真正做到的是
+找到属于你自己的用法
+找到完全符合你自己的使用场景
+我们一起用AI来弥补我们的短板
+来提高我们的效率
+也让你对未来多一点确定感
+我想
+这是比用什么龙虾
+更为重要的事...（转写过长，已截断，完整内容见原视频）
+
+</details>
+</div>
+<div class="video-card">
+<h3>第14期 免费Token 免费养马 Marvis马维斯 #Marvis #马维斯 #养马 #openclaw #龙虾@Marvis马维斯</h3>
+
+<p><strong>作者</strong>：王昕Ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643424631923264811">抖音</a> · <strong>价值评分</strong>：1</p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】腾讯马维斯（Marvis）每天送1000万免费Token，可零成本体验多Agent协作干活，并直观看到Token真实消耗。
+
+【具体做法/要点】
+1. **白嫖最新大模型**：马维斯内置Deepseek V4，不用花钱就能用上最新模型。
+2. **组建AI团队**：一个马维斯账号相当于6个AI员工，可同时派活（如做PPT、写代码），在“办公室”界面能实时看到每个Agent的工作状态。
+3. **实测Token消耗**：完成1个PPT+1个网页倒计时+1个待办APP+1次微信消息发送，共消耗120万Token，全程有清晰消耗记录。
+4. **免费额度够用**：每天赠送1000万Token，足够日常探索和培养使用习惯。
+5. **扩展玩法**：可将自己写的微信发送API（Secure）发给马维斯，它能直接调用，实现与微信打通。
+
+【避坑/注意】
+不同平台对Token的计量口径不同，别人说“一句话几十万”或“一天几亿”都没错，别被数字吓到，以自家实际消耗为准。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+我顾了6个AI员工
+其中有一个在摸鱼
+这条关于龙虾的视频
+可以解答一直困扰你的四个问题
+如何不花钱体验真实消耗Token的感觉
+如何不花一分钱使用最新的Deepseak V4大模型
+如何让你能够同时拥有6个Agent的员工
+帮你一起干活
+以及如何让你看到这些AI员工
+是怎么协调工作的
+OK
+你甚至还能看到有人在偷偷摸鱼
+从第一期视频认真学习到这里的同学们
+我猜你一定会有以上的好奇
+这正是因为你的认真和努力
+你开始想探索以上的问题了
+而第一次刷到这条视频的你也获多获少
+从前有过这些疑问
+因为你听了太多不同的观点和声音
+你无法验证哪些是对的
+来吧
+跟我一起先入个职
+这将是作为普通牛马的我们所养的第一匹马
+当然这不是你们听过的那个爱马式
+这是腾讯最新发布的马维斯
+这就是为你准备的六只牛马
+而未来你们办公的场景就在这间办公室里
+办公室的图标是咖啡豆
+右上角的token消耗也是咖啡豆
+所以咖啡豆就是这一款马
+对于token消耗的几辆单位
+我稍后会通过执行一系列的任务
+让你们感受到马维斯团队的能力
+以及token的真实消耗情况
+我们先来做个PPT
+再做个倒计时应用
+好了现在办公室里有两个正在干活的
+有一个正在峡谷摸鱼的
+很快倒计时应用做完了
+还有一个任务在进行中
+那么现在的情况是消耗了5万多的token
+别闲着
+我们再让它做个应用程序
+有个员工好像睡着了
+好了
+PPT做完了
+既然是牛马
+不能让它们闲着
+让马维斯给我的微信指定联系人发消息
+我们来测试这个功能
+我就把我之前做的发微信的secure发给它
+你看
+一次就成了
+我们的队长马维斯是真牛马
+一个人扛起了一个团队的工作量
+这像不像真实生活当中的你呢
+这个时候
+待办事项程序也做完了
+这是一款真正的程序
+不是网页
+好了
+这就是最终token的消耗情况
+我们一共完成了一个PPT
+一个网页的倒计式工具
+一个待办事项的APP程序
+一个给微信发消息的功能
+成功测试
+一共消耗了120万的token
+想想过去的评论区里
+你能看到有人悲伤地说
+问一句话就能消耗几十万的token
+太贵了
+也有人洋洋洒洒地说
+我平均每天要用到3-4亿的token
+其实他们都没有错
+这是源于每一家对于token的消耗
+定义不同
+也源于每一个如我们一般的使用者
+需求各不相同
+我们今天的这款马维斯
+每天都赠送1000万token
+我想
+这足够培养你的使用习惯
+和探索agent智能体的边界了
+未来那个有探索精神的你
+可能会想用到真正的open cloud
+或者爱马式
+以及解锁更多如马维斯一般的
+生产类工具
+所以token的消耗是一个必修课
+最后我还想说
+无论是哪只虾还是哪一匹马
+最终都会为你所用
+你会知道他们的能力值和边界在哪
+而你就像是一个指挥家
+让擅长的人做擅长的事
+从而让目标达成的更快更好
+而无论是ai还是agent
+他们终将为你的创造力做托举
+我为能看到这里的你点个赞
+也请你为我点个收藏
+我们一起陪伴彼此开始这趟旅程吧
+
+</details>
+</div>
+<div class="video-card">
+<h3>第9期 有龙虾的母亲节 给妈妈的一封信 #生命里最重要的她 一句话 一次填空 一份母亲节的心意 #母亲节 #龙虾 #openclaw</h3>
+
+<p><strong>作者</strong>：王昕Ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637285871288470835">抖音</a> · <strong>价值评分</strong>：1</p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】用AI自动化工具（龙虾/OpenClaw）把“给妈妈写信”变成一次填空互动，让科技为情感服务。
+
+【具体做法/要点】
+1. 将预设技能包发给AI工具（龙虾），它会自动生成11个问题。
+2. 把问题复制到备忘录，逐条填写（如妈妈年轻时的故事、你想说却没说出口的话）。
+3. 将填好的内容回传给AI，即可自动生成一封专属信件及一张“妈妈年轻模样”的图片。
+4. 核心价值：省去反复写提示词、多轮对话、抽卡修图的繁琐流程，一步到位。
+
+【避坑/注意】
+无
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+刚好你的电脑里有这只龙虾
+刚好马上就是母亲节了
+刚好这是我做的第二个skew
+在这个母亲节送给你
+你只需要把这个技能包丢给龙虾
+它会给你11个问题
+你复制到备忘录里
+填空再喂给它
+于是你就得到了一段
+只属于你妈妈的故事
+一张她年轻时候的样子
+一句你藏了很久
+从来没说出口的话
+合在一起
+就是一封
+写给妈妈的信
+我知道对于很多大神来说
+这个小小的技能包
+真的不算什么
+但这是我学习编程路上的
+一个意义非凡的节点
+也希望这个母亲节和这只虾
+能让大家看到龙虾
+不只在工作里有用
+它也能陪伴你的生活
+从前我们会先和AI反复对话
+得到一段文案
+在反复吃力的写提示词
+得到一张图片
+然后再把文案和图片
+一起喂给AI
+反复抽卡
+最终得到一张长图
+但有了龙虾自动化之后
+一切就都不同了
+这就是我想说的
+科技带给人们的从来都是便利
+不应该是焦虑
+评论区留言技能包
+来找我
+
+</details>
+</div>
+<div class="video-card">
+<h3>第13期 你的第2只免费龙虾 电商龙虾 #悟空 #龙虾 #电商龙虾 #openclaw</h3>
+
+<p><strong>作者</strong>：王昕Ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7641916050858102054">抖音</a></p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】做电商选AI工具，关键看“哪款AI”和“怎么问”，推荐阿里悟空，可免费生成电商主图。
+
+【具体做法/要点】
+1. **选对AI**：用DeepSeek专家模式或豆包提问，让AI推荐工具。提示词要具体，且要求数据有来源依据，避免空泛回答。
+2. **用悟空做电商主图**：在悟空“技能中心”选“设计与制造-电商主图设计”，上传一张模特参考图，它会自动拆解图中所有元素（如装备、手镯、鼻钉）并生成多种风格方案。
+3. **低成本出图**：生成两张图不到100积分，相当于免费。可无限生成不同系列、风格，等于拥有私人商业摄影师。
+4. **获取方式**：悟空需要入场券，没有的话可看作者第17期视频获取。
+
+【避坑/注意】
+- 提示词写得越具体，AI回答越准确，但必须要求数据有来源，防止AI胡编。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+如果你想问做电商用哪款龙虾最适合以及要好多少钱
+这条视频的最后会有我关于电商龙虾一分钱都不花的掩饰
+而且很惊艳 别花走
+我觉得这个问题的关键是要问哪款AI以及该怎么问
+这个问题如果你来问豆包
+当然有的时候他也会好好说话
+安全起见
+我们还是来问一下我们的DeepSeq在专家模式下的最新大模型会怎么回答吧
+这里是我的提示词 你可以截图好好地看一下
+其实你写的越具体 它回答的就更准确
+当然这里的重点是所有的数据要有来源 有依据
+好了 这就是答案和豆包第二次说的结果一致
+其实我早就听说做电商的很多人都在用悟空
+但如果你没有悟空的入场券 你可以看一看我第17的视频
+这里我先给大家过一下它的部分功能
+你们自己来看
+然后这里我给大家演示一个我觉得你一定会用得上的功能
+哪怕你不做电商 非常惊艳 值得你往下看
+我这里保存了一张模特图或者说这是一张参考图
+在技能中心里选择设计与制造
+电商主图设计 我们把参考图扔离就行
+然后它会为你做各种方案 你只需要把虚号告诉给它就行
+比如说我这里选的是前两个 然后分分钟就做了这两张图
+我们来对比一下原图 我们看它把这个模特的所有装备都拆解出来了
+甚至手腕上的这个小小的手镯
+第二张图我们来仔细看 模特鼻子上的这颗质也精准还原了
+当然这里只是我选择做的其中两张图
+理论上你可以让它做各种系列 各种风格的图
+它就是你的私人商业摄影师
+而积分这块我也算了一下 两张图不到100积分
+所以这就是Deepseeker和豆豹共同推荐的电商龙侠来自阿里的悟空
+也是你可以拥有的第二只免费的龙侠
+第一只可以回顾我之前的视频
+好了 我是王鑫 我们一起用AI提高我们的认知
+改变我们的工作方式 从此快别人一步 哪怕一步
+就从此刻点个关注和收藏 开始吧
+
+</details>
+</div>
+<div class="video-card">
+<h3>第12期 手机养龙虾 家长必看！ #龙虾 #openclaw #手机龙虾</h3>
+
+<p><strong>作者</strong>：王昕Ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640500264335691017">抖音</a></p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】用手机微信里的AI功能（口播中称“龙下”，疑为“通义”或类似工具），家长不用电脑和PS，就能免费改图、加字。
+
+【具体做法/要点】
+1. **改图去Logo**：手机微信下拉→右上角搜索→点左下角“+”号→选“文件”→选联系人→选中要改的图片→确定。
+2. **语音提需求**：直接说“去掉右下角logo，把新logo放左上角”，支持语音输入。
+3. **追加修改**：可继续提要求，如“左上角logo放大、去白底变透明”，AI会照做。
+4. **图片加字**：同样步骤上传图片，直接说“在图上加某某文字”，分分钟完成，无AI水印。
+
+【避坑/注意】
+- 文件需先从微信发送到“文件传输助手”或联系人，再按路径选择。
+- 需求要说得具体（位置、大小、背景处理），否则结果可能不对。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+手机养龙虾 特别是家里有孩子的
+太适合看今天这条视频了
+学校今天让你改个表格
+明天让你添个报名表
+这些是沃尔的XL还好
+可有的压根就是一张图片
+你怎么改 怎么填
+这个时候身边有个电脑还好
+可你要是出门了
+身边在每一个电脑
+又要怎么改
+我今天给大家分享两个
+我们作为家长最真实的案例
+同一天的下午
+我儿子给我安排了两个任务
+你看啊 第一个事
+他让我把图片右下角的logo去掉
+然后把学校的logo
+放在图片的左上角
+这事换作平时
+是不是得满足两个必要条件
+有电脑会PS
+或者你会找有电脑会PS的朋友
+求帮忙
+再或者你找个附近的打字复音社
+花点小钱
+可现在我要教你的是
+用手机龙下免费来搞定这件事
+手机 微信 下滑 右上角搜索
+选择点击左下角加号
+微信 文件
+选择联系人
+选择需要修改的文件
+选中 确定
+然后输入你的需求
+这里用语音输入也可以
+其实这里我忘说了一个具体的需求
+我需要把左上角的logo再放大一些
+并把白色背景去掉
+变成有透明度的
+于是成了
+你看 我想就单纯的这个功能
+不单单是有孩子的能用上吧
+它一定能帮到你真实的工作和生活场景
+所以赶快点个收藏吧
+第二个场景
+也是家长群里特别常见的
+在一张图片里添加文字信息
+注意啊 这里不是表格
+是图片
+依然是手机 龙下 重复刚才的过程
+你只需要把具体的内容告诉他 就行
+你看 分分钟完成
+而且是没有任何AI生成和logo的
+最后我想说的是
+科技带给人们的是便捷
+不应该是焦虑和麻烦
+而你和龙下
+你与AI之间
+也不该有那么大的代沟和距离
+我还想说
+这事真的没有那么难
+学AI 关注我
+我们就从真实的生活场景中出发
+解决一个又一个具体的小事
+最后
+快把这条视频分享给有需要的人吧
+
+</details>
+</div>
+<div class="video-card">
+<h3>第11期 空投给新手的技能包 #龙虾 #悟空 #openclaw</h3>
+
+<p><strong>作者</strong>：王昕Ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639009154228636937">抖音</a></p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+</div>
+<div class="video-card">
+<h3>第10期 用龙虾抢悟空邀请码 从此“抢东西” 不求人 #悟空 #龙虾 #openclaw #悟空邀请码</h3>
+
+<p><strong>作者</strong>：王昕Ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7638254491917110578">抖音</a></p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】用阿里“悟空”AI的自动化技能，卡整点前3分钟自动刷新抢码页面，人只负责最后粘贴，解决手速抢不到邀请码的问题。
+
+【具体做法/要点】
+1. 先给龙虾（AI助手）配置一个“抢码”技能，核心规则设为：整点前3分钟自动开始刷新官方抢码网页。
+2. 执行前，先跟AI确认任务状态（如问“没问题吧”），确保自动化流程已就绪。
+3. 整点一到，系统自动刷新出最新邀请码，你只需手动按“粘贴”键提交，即可完成抢码。
+4. 验证方法：抢到后，将页面显示的码与官方刚放出的码比对，确认一致即成功。
+
+【避坑/注意】
+官方规则是整点刷新、每天仅9次每次1000个名额，所以必须卡准整点前启动刷新，且提前确认自动化任务无报错，避免“万事俱备只欠东风”时掉链子。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+这条视频 我们开始养第二只不花钱的龙虾
+相信我 这绝对值得你拿出三分钟的时间
+在过去的九届节目当中 我一直在讲这只虾
+我猜积分用的差不多了吧
+那我们今天就来养这只阿里的最新龙虾
+大明鼎鼎的悟空
+提到悟空 有这样两个大事件
+第一个大事件是 做电商的春天到了
+官方的介绍是 一个人家悟空等于一支团队
+你真的不再需要好几个人的电商团队了
+就能实现一件选品 上架 做图 处理订单
+客服回复 全流程
+而第二个大事件就是 一码难求
+使用悟空的一个小门卡就是你需要邀请码
+而官方的规则是 一天只开放九次
+每次只有一千个名额
+所以大概率拼手速 你是很难抢到的
+如果你看过我之前的第六期节目
+龙虾自动化
+那我们就用魔法来打败魔法
+没错 我让这只龙虾做了一个强码的技能宝
+来吧 展示
+为了让你们更直观的感受
+我先用我的第三只龙虾做了一个电子表
+这里再介绍一下官方强码的规则
+整点刷新官方网页
+复制邀请码
+然后粘贴 确定
+所以这里的关键点是要确保第一时间可以粘贴邀请码
+我们看到现在官网的状态是
+当前邀请码已用完
+为了确保万物一失
+我会在执行任务前再和他确认一下
+再检查一下
+没问题吧
+他说 稳得很
+我们的自动化规则里写入的是
+整点前三分钟开始执行任务
+所以你能看到他已经在自动刷新网页了
+我们最终要做的是
+只来按粘贴的快捷键
+时间 马上到了
+五
+四
+三
+二
+一
+我们来验证一下和官方的邀请码
+是否一致
+成了
+真的是有一种自己家养的孩子
+考上名牌大学
+光宗邀组的感觉
+今天我们只是来抢邀请码
+那明天
+如果我们来抢火车票
+特价机票
+明星
+演唱会的
+门票呢
+我想这一切
+皆有可能
+最后我想说
+这一切的可能
+都从我们开始尝试
+使用龙虾的这一刻开始
+也从你为我按下关注键的这一刻
+
+</details>
+</div>
+<div class="video-card">
+<h3>第8期 你有一张 龙虾场景表格 待领取 #龙虾 #openclaw</h3>
+
+<p><strong>作者</strong>：王昕Ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7636604609921895690">抖音</a></p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】用一张“龙虾场景自检表”，让不懂代码的普通人找到AI落地场景。
+
+【具体做法/要点】
+1. 领取表格：视频中截图保存“龙虾场景自检表”，这是一个填空模板。
+2. 修改使用：把括号里的内容改成你的实际情况（如职业、痛点）。
+3. 发给AI：将填好的表格发给豆包、元宝等任意AI工具。
+4. 获得方案：AI会帮你分析，告诉你最适合用龙虾（AI工具）解决的具体任务。
+5. 最小启动：从第1-2期视频的微小场景开始用，别等想全了再动手。
+
+【避坑/注意】
+别只收藏不行动——表格的价值在于“发给AI”这一步，光看没用。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+这条视频适合养第一只龙虾的你
+你是不是从这条视频开始关注我的
+谢谢你们的鼓励
+同时这条视频也适合刚刚刷到我的你
+谢谢你们的信任以及一直有关注我
+但还没真正开始的你
+我想说没关系
+我会一直陪着你
+回顾过去的七期内容
+有人在第一期就拿到了正反馈
+第二期和第三期是让你们尝试真正的用起来
+第四期 第五期
+是让你们随时随地有手机就能用
+而刚刚过去的第七期
+是让你想清楚你能走多远
+你看
+其实我一直在尝试用各种微小的
+具体的使用场景来让你靠近龙虾
+就像张一谋导演他说
+我说不怕慢就怕炸
+你能把事情做到这一步
+你是幸运的
+有多少年轻人还过不着呢
+就在今天
+我的朋友知道我在养虾
+两口子特意一大早就来我家里学习
+这也算是我现下的第一期龙虾课了
+其实他们和我一样
+都是普通人
+没有学过一行代码
+甚至他们还不知道拿龙虾
+能解决什么具体的问题
+他们只是不想被落下
+听完这期课程后
+他们给我的真实反馈是
+跟朋友间有了养龙虾的弹姿
+你看
+这还满足了他的社交需求
+而另外一位朋友听完后说
+他觉得好像突然没那么焦虑了
+但我也因此意识到了一个问题
+很多如我们一般的普通人
+也许是真的找不到使用龙虾
+最真实的场景
+为此我做了一个
+龙虾场景字检
+天空模板
+这就是一个字检表格
+你在括号里改几个字
+发给任何一个AI
+比如豆包和元宝
+它会帮你把这些问题想清楚
+然后告诉你
+你最适合让龙虾帮你
+做什么
+大家可以截图保存
+如果你觉得这个太有用了
+但依然不知道怎么添这个表格
+我可以再出一些视频
+
+</details>
+</div>
+<div class="video-card">
+<h3>第7期 大白话龙虾 帮你宽宽心 不要对这个世界 失去希望 #龙虾</h3>
+
+<p><strong>作者</strong>：王昕Ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7635994893030116617">抖音</a></p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】用AI/龙虾的人分三种：观望者、使用者、开发者，差别不在天赋，在于是否从一件具体小事开始行动。
+
+【具体做法/要点】
+1. **观望者→使用者**：别想“学会AI”，而是找具体痛点。比如“把每周写材料2小时省掉”，带着问题去用，工具才能上手。
+2. **使用者心态四字诀**：先有问题，再有工具。顺序对了，用起来就顺了。
+3. **使用者→开发者**：问自己“能不能用它做一件昨天做不到的事？”比如做个倒计时软件、流量监测工具，甚至一键部署包。不需要懂代码，你出想法，AI做技术。
+
+【避坑/注意】
+别只收藏教程、关注博主，那不叫学习，叫囤积焦虑。从帮你解决一个具体麻烦开始，比如电脑断网时直接问AI怎么修，比找教程管用。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+我发现用龙虾的人就分三种
+你现在是哪一种决定了你能走多远
+第一种是现在大多数人的状态
+我称它为观望者
+其实我自己太知道这个状态了
+我太知道你不是不想用
+你只是站在了门口
+一直还没有推开这扇门
+你一定和我之前一样收藏了一些教程
+也关注了一些博主
+你也知道AI和龙虾是趋势
+你只是还没有真的用起来
+这当然不是因为你的懒惰或看不见
+是因为还没有人告诉你
+它能帮你解决什么具体的问题
+我非常了解那种感觉
+是因为我也曾在那里待过很久
+其实我与你一样曾是露相少年
+后来我变成了第二种人
+我叫它为使用者
+其实使用者和观望者只差了一件事
+它知道自己想解决什么
+不是我要学会龙虾
+是我想把每周写材料要花的两个小时的时间省掉
+你看这就是一个具体的事情
+然后推开了这扇门
+如果深月挡住了你的大道
+该怎么做
+发布局
+我自己变成使用者也是经历了一件很小的事
+有天我的电脑突然不能上网了
+只能发微信
+听歌和浏览器都不好用了
+以往我可能会去找教程
+然后跟着操作
+但这次我只是直接告诉了龙虾
+我说帮我看一看WiFi出了什么问题
+可以说真的是分分钟立刻排查问题
+直接帮我解决掉了
+就这一件事我知道了
+它是真的能帮到我
+使用者的心态我觉得说白了就四个点
+先有问题
+再有工具
+顺序对了
+什么就都顺了
+但我最近进入了第三种状态
+我觉得这个状态才是真正有意思的地方
+我把它叫做开发者心态
+开发者不只是用它
+是开始和它在一起创造出以前不存在的东西
+比如你们知道的我用龙虾做过的一些简单的程序
+一个倒计是软件
+一个流量监测工具
+一个叫做龙虾不崩溃的应用
+我是想但凡我的龙虾出现了网络或爆错的问题
+我双击桌面的这个应用就能重启变好
+我甚至在想
+最近这么多人卡在了龙虾部署的难题上
+我能不能做一个龙虾的一件部署包
+让更多的人装龙虾从此不再那么费劲
+而这些东西以前是我根本就不敢想的
+我和你一样
+我不是程序员
+也不懂代码
+以前的我根本做不到这些
+但现在我和龙虾是搭档
+他做技术
+我出想法
+我出想法
+他来实践
+我们一起把它创造出来
+所以开发者心态不是要你学编程
+不是要你懂技术
+就只是一个问题
+我能不能用他做一件昨天做不到的事
+你如何看待这个世界
+世界就会如何看
+观望者使用者开发者这三种状态
+不是天赋决定的
+不是从名程度决定的
+更不是你是不是小白这件事来决定的
+是你愿不愿意
+愿不愿意从一件具体的小事开始
+卖出那一步
+从观望者变使用者
+我为你提供一个建议
+试试看去找到那个生活和工作里
+让你一直汗气的那个场景
+而使用者变开发者
+也只需要一个问题
+我能不能用他做一件以前做不到的事
+所以这一期的内容实际上非常重要
+你需要思考
+你是观望者使用者还是开发者
+评论区告诉我你现在是哪一种
+但不管是哪一种我都在这里
+陪你走过这一段旅程
+记住以后不管遇到什么
+都不要对这个世界失去希望
+
+</details>
+</div>
+<div class="video-card">
+<h3>第6期 大白话龙虾 自动化提醒 #openclaw #龙虾自动化</h3>
+
+<p><strong>作者</strong>：王昕Ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634954243484536114">抖音</a></p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+</div>
+<div class="video-card">
+<h3>大白话讲龙虾 第1期 普通人学ai 关键在开始用起来 #普通人学ai</h3>
+
+<p><strong>作者</strong>：王昕Ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7631588389761961243">抖音</a></p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+<hr />
+</div>
+</div>
+<div class="footer">
+企业 AI 实战知识库 · 个人成长系统 v3.0 · 数据基于 514 条视频原文 + 110 方法簇 + 162 方法论<br>
+部署于 GitHub Pages · 2026-09-10
+</div>
+</main>
+</div>
+<script>
+// Search functionality
+const searchIndex = [];
+const PAGES = {};
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Build search index from current page content
+  const content = document.querySelector('.content');
+  if (content) {
+    const text = content.innerText.toLowerCase();
+    const title = document.querySelector('h1')?.innerText || '';
+    const headings = Array.from(document.querySelectorAll('h2, h3')).map(h => h.innerText);
+    searchIndex.push({
+      title, headings: headings.join(' '), text: text.substring(0, 5000)
+    });
+  }
+  
+  // Search input
+  const searchInput = document.getElementById('search');
+  if (searchInput) {
+    let timer;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => doSearch(e.target.value), 200);
+    });
+  }
+  
+  // Highlight current page in nav
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-item').forEach(el => {
+    if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+});
+
+function doSearch(q) {
+  if (!q || q.length < 2) return;
+  // Basic in-page highlight (could be enhanced)
+  const content = document.querySelector('.content');
+  if (!content) return;
+  // remove old marks
+  content.querySelectorAll('mark.search-mark').forEach(m => {
+    const t = document.createTextNode(m.textContent);
+    m.parentNode.replaceChild(t, m);
+  });
+  if (q.length < 2) return;
+  // walk text nodes
+  const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
+  const re = new RegExp(q.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&'), 'gi');
+  let count = 0;
+  while (walker.nextNode() && count < 30) {
+    const node = walker.currentNode;
+    if (node.parentNode.tagName === 'SCRIPT' || node.parentNode.tagName === 'STYLE') continue;
+    const text = node.nodeValue;
+    if (!re.test(text)) continue;
+    re.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      frag.appendChild(document.createTextNode(text.substring(last, m.index)));
+      const mark = document.createElement('mark');
+      mark.className = 'search-mark';
+      mark.style.background = '#ff9a4f';
+      mark.style.color = '#000';
+      mark.textContent = m[0];
+      frag.appendChild(mark);
+      last = m.index + m[0].length;
+      count++;
+      if (count > 30) break;
+    }
+    frag.appendChild(document.createTextNode(text.substring(last)));
+    node.parentNode.replaceChild(frag, node);
+  }
+}
+</script>
+</body>
+</html>

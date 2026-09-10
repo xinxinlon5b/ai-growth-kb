@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>07 · 专业大词典（术语速查） · 企业 AI 实战知识库</title>
+<meta name="description" content="基于 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径，构建的 FDE/AI落地 实战知识库">
+<style>
+:root {
+  --bg: #0f1419;
+  --bg-elevated: #1a2028;
+  --bg-card: #232a35;
+  --border: #2d3540;
+  --text: #e6e6e6;
+  --text-dim: #9aa5b1;
+  --text-bright: #ffffff;
+  --accent: #4f9eff;
+  --accent-hover: #6bb0ff;
+  --warning: #ff9a4f;
+  --success: #4fdf9a;
+  --code-bg: #0a0e13;
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, "SF Pro Display", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 15px;
+}
+a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
+a:hover { color: var(--accent-hover); }
+
+/* Layout */
+.app {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border);
+  padding: 24px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.brand {
+  padding: 0 24px 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.brand h1 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-bright);
+  font-weight: 600;
+}
+.brand .sub {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+.search-box {
+  margin: 0 24px 16px;
+  position: relative;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px 8px 32px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+}
+.search-box input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.search-box::before {
+  content: "🔍";
+  position: absolute;
+  left: 10px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  opacity: 0.5;
+}
+.nav-section {
+  margin-bottom: 8px;
+}
+.nav-section-title {
+  padding: 8px 24px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.nav-item {
+  display: block;
+  padding: 8px 24px;
+  color: var(--text);
+  font-size: 13px;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+}
+.nav-item:hover {
+  background: var(--bg-card);
+  border-left-color: var(--accent);
+}
+.nav-item.active {
+  background: var(--bg-card);
+  border-left-color: var(--accent);
+  color: var(--text-bright);
+}
+.nav-item .desc {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+/* Main content */
+.main {
+  padding: 40px 56px;
+  max-width: 980px;
+  margin: 0 auto;
+  width: 100%;
+}
+.content h1 {
+  color: var(--text-bright);
+  font-size: 32px;
+  margin: 0 0 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.content > blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 8px 16px;
+  margin: 16px 0 24px;
+  background: var(--bg-elevated);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-dim);
+}
+.content h2 {
+  color: var(--text-bright);
+  font-size: 24px;
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.content h3 {
+  color: var(--text-bright);
+  font-size: 18px;
+  margin: 28px 0 12px;
+}
+.content h4 {
+  color: var(--text);
+  font-size: 15px;
+  margin: 20px 0 8px;
+}
+.content p {
+  margin: 12px 0;
+}
+.content ul, .content ol {
+  padding-left: 24px;
+}
+.content li { margin: 4px 0; }
+.content code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--code-bg);
+  padding: 16px;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+}
+.content pre code {
+  background: none;
+  padding: 0;
+  color: var(--text);
+}
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 13px;
+}
+.content th {
+  background: var(--bg-elevated);
+  text-align: left;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  color: var(--text-bright);
+}
+.content td {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+}
+.content blockquote {
+  border-left: 4px solid var(--border);
+  padding: 4px 16px;
+  margin: 16px 0;
+  color: var(--text-dim);
+  background: var(--bg-elevated);
+}
+.content hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* Cards for KB pages */
+.video-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+.video-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+.video-meta .author { color: var(--accent); font-weight: 500; }
+.video-meta a { color: var(--text-dim); }
+.video-meta a:hover { color: var(--accent); }
+.video-meta .badge {
+  background: var(--bg-elevated);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+.video-meta .badge.high { background: #2d4a3a; color: var(--success); }
+.video-meta .badge.sub { background: #2d3a4a; color: var(--accent); }
+.video-insight {
+  background: var(--code-bg);
+  border-left: 3px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 13px;
+  white-space: pre-wrap;
+  border-radius: 0 6px 6px 0;
+}
+details {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 16px;
+  margin: 12px 0;
+}
+details summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 13px;
+}
+details[open] summary { margin-bottom: 12px; }
+details pre {
+  margin: 0;
+  font-size: 13px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Footer */
+.footer {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { position: relative; height: auto; }
+  .main { padding: 24px; }
+}
+
+/* Mermaid-style simple diagrams */
+.diagram {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 12px;
+  white-space: pre;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+</style>
+
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div class="brand">
+<h1>企业 AI 实战知识库</h1>
+<div class="sub">个人成长系统 v3.0</div>
+</div>
+<div class="search-box">
+<input type="text" id="search" placeholder="搜索本页内容..." />
+</div>
+<div class="nav-section">
+<div class="nav-section-title">总览</div>
+<a class="nav-item" href="index.html">🏠 知识体系<div class="desc">00-知识体系</div></a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">核心方法论</div>
+<a class="nav-item" href="method.html">📐 方法论总纲<div class="desc">162 条原则</div></a>
+<a class="nav-item" href="tools.html">🛠️ 工具链<div class="desc">47 个要点</div></a>
+<a class="nav-item" href="lines.html">🎙️ 话术弹药<div class="desc">22 句金句</div></a>
+<a class="nav-item" href="pits.html">⚠️ 避坑清单<div class="desc">13 个错误</div></a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">可执行 SOP</div>
+<a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a>
+<a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a>
+<a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a>
+<a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a>
+<a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a>
+<a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a>
+<a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">知识库 · 9 大主题</div>
+<a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a>
+<a class="nav-item" href="kb-02.html">🤖 智能体·OpenClaw</a>
+<a class="nav-item" href="kb-03.html">💻 AI 编程工具链</a>
+<a class="nav-item" href="kb-04.html">💰 商业案例·变现</a>
+<a class="nav-item" href="kb-05.html">🎨 AI 内容创作</a>
+<a class="nav-item" href="kb-06.html">📣 自媒体·获客</a>
+<a class="nav-item" href="kb-07.html">🧰 效率工具·知识管理</a>
+<a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a>
+<a class="nav-item" href="kb-09.html">📦 自己的内容资产</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">工具</div>
+<a class="nav-item active" href="glossary.html">📖 专业大词典<div class="desc">50+ 术语</div></a>
+</div>
+</aside>
+<main class="main">
+<div class="content">
+<h1 id="07">07 · 专业大词典（术语速查）</h1>
+<blockquote>
+<p>学习路径中反复出现但容易混淆 / 新人才接触的术语，按字母序排列。<br />
+词条解释 = 该术语在企业 AI / FDE / 自媒体语境下的常见用法 + 1-2 句出处。</p>
+</blockquote>
+<hr />
+<h2 id="a">A</h2>
+<h3 id="agent">Agent / 智能体</h3>
+<p>能自主感知环境、做决策、执行动作的 AI 程序。在企业落地里，常见形态是「接业务系统 API + 调用工具 + 沉淀记忆」。</p>
+<blockquote>
+<p>来自旭东AI：FDE 把业务问题翻译成 AI 能执行的规则，靠 Agent 落地到员工天天用的场景。</p>
+</blockquote>
+<h3 id="ai">AI 焦虑</h3>
+<p>老板「听说 AI 很厉害但不知道能干嘛」的心理状态。是 FDE 接单的真实切入点——别上来推大方案，先缓解焦虑再上系统。</p>
+<blockquote>
+<p>来自皮皮：客户一个月 8 万出三个月，看你能不能解决 AI 焦虑。</p>
+</blockquote>
+<h3 id="api">API（应用程序接口）</h3>
+<p>让两个软件互相调用对方能力的标准。在 FDE 项目里，第一步永远是问"数据有没有 API"，没 API 就只能靠人肉复制，等于玩具。</p>
+<blockquote>
+<p>来自清华鑫哥：数据靠人肉复制喂 AI=玩具。</p>
+</blockquote>
+<h3 id="ai-ai-transformation">AI 转型（AI Transformation）</h3>
+<p>企业用 AI 重构业务流程、组织架构、数据资产的过程。注意：不是装几个 Agent，是"组织升级"。</p>
+<blockquote>
+<p>来自曾鸣：未来组织就做两件事——运营自动化 + 战略决策高质量化。</p>
+</blockquote>
+<hr />
+<h2 id="b">B</h2>
+<h3 id="benchmark">Benchmark（基准对比）</h3>
+<p>把客户现有的"人工作业流程"和"AI 工作流"放一起比较，算产出率提升的幅度。是报价的依据。</p>
+<blockquote>
+<p>来自 zionisreal：选 5 个业务流做 Benchmark，算一年省多少。</p>
+</blockquote>
+<h3 id="fine-tuning">半监督 / 微调（Fine-tuning）</h3>
+<p>用客户自己的数据训练模型，让模型更懂行业话术。常见于知识库项目，但只有数据够多才有意义。</p>
+<blockquote>
+<p>来自视频库「AI编程工具链」分类，多条提到。</p>
+</blockquote>
+<hr />
+<h2 id="c">C</h2>
+<h3 id="chatgpt-claude-kimi-deepseek">ChatGPT / Claude / Kimi / DeepSeek</h3>
+<p>常见大语言模型。ChatGPT 综合强、Claude 长上下文与代码能力强、Kimi 长文本处理强、DeepSeek 性价比高。</p>
+<blockquote>
+<p>见「AI 编程工具链」类 34 簇。</p>
+</blockquote>
+<h3 id="cpscost-per-sale">CPS（Cost Per Sale / 销售分成）</h3>
+<p>按成交结果分成的收费模式。AI 项目里常用于"按帮客户省的钱分几成"。</p>
+<blockquote>
+<p>来自皮皮：帮他省了多少钱分几成。</p>
+</blockquote>
+<hr />
+<h2 id="d">D</h2>
+<h3 id="demo">Demo（最小可用原型）</h3>
+<p>MVP 的更轻量版本。客户不在意你的代码好不好看，只看 Demo 跑得通跑不通。</p>
+<blockquote>
+<p>来自旭东AI：先切一个最痛的小环节做 Demo。</p>
+</blockquote>
+<h3 id="end-to-end">端到端（End-to-End）</h3>
+<p>从用户输入到最终业务结果全程打通的状态。FDE 项目的目标不是做 Demo，而是做"端到端的业务流程自动化"。</p>
+<blockquote>
+<p>来自旭东AI / 清华鑫哥多处。</p>
+</blockquote>
+<h3 id="dxy">DXY（滴鑫盈？待确认）</h3>
+<p>见原视频库，暂未明确中文释义。建议回查原视频。</p>
+<hr />
+<h2 id="e">E</h2>
+<h3 id="erp">ERP（企业资源计划）</h3>
+<p>管理企业核心业务（订单、库存、采购、财务）的系统。是 FDE 找数据的第一站——ERP 里通常有最干净的订单/客户数据。</p>
+<blockquote>
+<p>来自旭东AI：ERP 里面的一些订单。</p>
+</blockquote>
+<h3 id="elo-expert-loop">ELO / Expert Loop / 专家回路</h3>
+<p>企业把"老法师经验"显性化、AI 化的过程。是企业 AI 落地里最值钱但最难做的事。</p>
+<blockquote>
+<p>来自清华鑫哥："把人的经验说清楚"。</p>
+</blockquote>
+<hr />
+<h2 id="f">F</h2>
+<h3 id="fdeforward-deployed-engineer">FDE（Forward Deployed Engineer / 前线部署工程师）</h3>
+<p>驻场到客户企业、负责把 AI 方案真正落地的工程师。<strong>不是</strong>远程写代码外包，而是"和销售一起跑客户、和老板一起开会"。</p>
+<blockquote>
+<p>来自小智：把客户的"工业时代组织"改造成"AI时代组织"。</p>
+</blockquote>
+<h3 id="fde">FDE 轻量落地流程</h3>
+<p>5 步：① 业务诊断 → ② Demo 验证 → ③ 落地实施 → ④ 运行优化 → ⑤ 培训迭代。</p>
+<blockquote>
+<p>来自旭东AI 第 27 集。</p>
+</blockquote>
+<h3 id="fde_1">FDE 红利期</h3>
+<p>行业普遍认为 FDE 在中国只有 3-5 年的窗口期（2025-2030）。过了之后要么规模化、要么被标准化产品取代。</p>
+<blockquote>
+<p>来自 learning_paths p3。</p>
+</blockquote>
+<hr />
+<h2 id="g">G</h2>
+<h3 id="_1">刚性自动化</h3>
+<p>涉及真金白银 / 安全风险的环节，先把专家经验写成"固定代码规则"（if 湿度 &lt; 阈值 then 浇水），AI 只做交互层。</p>
+<blockquote>
+<p>来自智慧农业落地：AI 只做降门槛，核心执行用确定性规则。</p>
+</blockquote>
+<h3 id="gpts-gpt-store">GPTs / GPT Store</h3>
+<p>OpenAI 的"应用商店"，可以发布定制 GPT。在中国对应"扣子 / Coze"。</p>
+<blockquote>
+<p>见「AI 编程工具链」相关簇。</p>
+</blockquote>
+<hr />
+<h2 id="h">H</h2>
+<h3 id="hermes">Hermes（神使 / 智能体框架）</h3>
+<p>见 OpenClaw / Hermes 相关 23 簇。</p>
+<hr />
+<h2 id="i">I</h2>
+<h3 id="insight">Insight（洞察）</h3>
+<p>从视频转写里抽出的结构化要点。原网站给你打了 337 条 insight，是知识库的精华。</p>
+<blockquote>
+<p>来自 growth-panel-online 数据结构。</p>
+</blockquote>
+<h3 id="it">IT 部门</h3>
+<p>FDE 项目的常见阻力来源——IT 牵头 AI 项目容易被业务部门卡（数据共享、权限）。需要老板拍板才能打通。</p>
+<blockquote>
+<p>来自董俊豪：IT 牵头做 AI，销售总监不愿意交数据。</p>
+</blockquote>
+<hr />
+<h2 id="k">K</h2>
+<h3 id="kpi">KPI（关键绩效指标）</h3>
+<p>AI 项目要量化效果时必谈。常见 KPI：响应时长缩短 X%、人力节省 X 人月、订单转化率提升 X%。</p>
+<blockquote>
+<p>见 zionisreal 报价方法论。</p>
+</blockquote>
+<h3 id="coze">扣子（Coze）</h3>
+<p>字节出品的 Agent 搭建平台。国内最常用的"无代码搭 Agent"工具之一。</p>
+<blockquote>
+<p>见视频库「智能体」分类。</p>
+</blockquote>
+<hr />
+<h2 id="l">L</h2>
+<h3 id="llm-large-language-model">LLM（大语言模型 / Large Language Model）</h3>
+<p>如 GPT-4 / Claude / Kimi / DeepSeek 等。是所有 Agent、知识库、文案工具的底座。</p>
+<blockquote>
+<p>通用概念。</p>
+</blockquote>
+<h3 id="_2">落地最优单元</h3>
+<p>企业 AI 落地时最适合作为第一个项目的"最小业务切片"——通常选"重复 + 有数据 + 可校验"的工作。</p>
+<blockquote>
+<p>来自董俊豪 / DD讲AI。</p>
+</blockquote>
+<hr />
+<h2 id="m">M</h2>
+<h3 id="mvpminimum-viable-product">MVP（Minimum Viable Product / 最小可用产品）</h3>
+<p>比 Demo 更进一步，可以接真实业务数据的产品形态。是"试点→规模化"的中间形态。</p>
+<blockquote>
+<p>来自旭东AI 27 集。</p>
+</blockquote>
+<h3 id="mcpmodel-context-protocol">MCP（Model Context Protocol）</h3>
+<p>让 AI 模型调用外部工具（API / 数据库 / 文件）的协议标准。是 2025 年最重要的 Agent 互通协议之一。</p>
+<blockquote>
+<p>见视频库「智能体」分类。</p>
+</blockquote>
+<h3 id="mc">MC 公司</h3>
+<p>MCN / Multi-Channel Network 的缩写，在小智的案例里指一家 8000 人规模的代运营/内容公司。</p>
+<blockquote>
+<p>来自小智案例。</p>
+</blockquote>
+<h3 id="_3">盲签合同</h3>
+<p>没有经过诊断就签合同的接单方式——FDE 项目里的大忌，因为需求不清就交付必烂尾。</p>
+<blockquote>
+<p>来自清华鑫哥多处。</p>
+</blockquote>
+<hr />
+<h2 id="n">N</h2>
+<h3 id="nlp">NLP（自然语言处理）</h3>
+<p>让机器理解人类语言的技术。LLM 时代 NLP 能力已被 LLM 主导，但垂直场景（如合同审查、客服分流）仍需定制。</p>
+<blockquote>
+<p>通用概念。</p>
+</blockquote>
+<h3 id="1">1 号位</h3>
+<p>企业里"最终拍板的那个人"——通常是创始人或 CEO。FDE 项目里必须搞定 1 号位，否则跨部门推不动。</p>
+<blockquote>
+<p>来自旭东AI：跟创始人（1 号位）挖痛点。</p>
+</blockquote>
+<hr />
+<h2 id="o">O</h2>
+<h3 id="opcone-person-company">OPC（One Person Company / 一人公司）</h3>
+<p>个人独立创业者。AI 时代 OPC 越来越多，靠 AI 杠杆做原本需要团队才能做的事。</p>
+<blockquote>
+<p>来自皮皮：现在很多 OPC 都是产品技术运营出身。</p>
+</blockquote>
+<h3 id="openclaw">OpenClaw</h3>
+<p>你常用的一个 AI Agent 平台（详见你视频库的「智能体·OpenClaw·Hermes」分类，23 簇）。</p>
+<h3 id="omoonline-merge-offline">OMO（Online-Merge-Offline）</h3>
+<p>线上线下融合。在 AI 落地场景里，指"AI 把线上数据和线下流程打通"。</p>
+<blockquote>
+<p>来自多个商业案例。</p>
+</blockquote>
+<hr />
+<h2 id="p">P</h2>
+<h3 id="prompt">Prompt（提示词）</h3>
+<p>你给 AI 的指令。在 FDE 项目里，"把业务问题翻译成 AI 能执行的规则"= 把业务流程写成 Prompt / 工作流配置。</p>
+<blockquote>
+<p>通用概念。</p>
+</blockquote>
+<h3 id="pmfproduct-market-fit">PMF（Product-Market Fit / 产品市场匹配）</h3>
+<p>产品真的被市场需要的那个临界点。FDE 项目做完 MVP 后要尽快验证 PMF。</p>
+<blockquote>
+<p>通用概念。</p>
+</blockquote>
+<hr />
+<h2 id="q">Q</h2>
+<h3 id="4">4 阶段落地法</h3>
+<p>AI 转型分四阶段走：① 导入期（建认知）→ ② 典范期（试点）→ ③ 扩展期（复制）→ ④ 生化期（建 AI 文化 + 数据平台）。</p>
+<blockquote>
+<p>来自旭东AI 第 15 集。</p>
+</blockquote>
+<h3 id="q1-q2-q3-q4">Q1 / Q2 / Q3 / Q4</h3>
+<p>季度。原视频里多用来讨论"上半年做什么、下半年做什么"的节奏。</p>
+<hr />
+<h2 id="r">R</h2>
+<h3 id="roi">ROI（投资回报率）</h3>
+<p>FDE 项目报价的核心论证——"花 20 万换 100 万效率提升，ROI = 5x"。</p>
+<blockquote>
+<p>来自 zionisreal。</p>
+</blockquote>
+<h3 id="rpa">RPA（机器人流程自动化）</h3>
+<p>让软件机器人模拟人操作电脑的传统自动化工具。AI 时代的 RPA 升级为"AI Agent + RPA"，AI 做判断，RPA 做执行。</p>
+<blockquote>
+<p>见视频库「效率工具」分类。</p>
+</blockquote>
+<hr />
+<h2 id="s">S</h2>
+<h3 id="skill">Skill（技能包）</h3>
+<p>OpenClaw / Coze 等平台里"打包好的可复用工作流"。你工作台里"按岗位设计"就是把工作流固化成 Skill。</p>
+<blockquote>
+<p>来自刘小排 / 你工作台的方法论。</p>
+</blockquote>
+<h3 id="sop">SOP（标准操作流程）</h3>
+<p>把一项工作拆成可重复执行的步骤。本知识库的核心产物之一。</p>
+<blockquote>
+<p>通用概念。</p>
+</blockquote>
+<h3 id="saassoftware-as-a-service">SaaS（Software as a Service）</h3>
+<p>按订阅付费的软件。AI 项目里很多服务商在做"AI SaaS"，但 FDE 的"项目制 + 结果分成"模式更主流。</p>
+<blockquote>
+<p>通用概念。</p>
+</blockquote>
+<hr />
+<h2 id="t">T</h2>
+<h3 id="token">Token（模型计费单位）</h3>
+<p>大模型按 Token 计费。1 个汉字 ≈ 1.5-2 个 Token。Token 成本是 Agent 自用的核心成本。</p>
+<blockquote>
+<p>来自龙虾系列。</p>
+</blockquote>
+<h3 id="roi_1">投产比（ROI 别名）</h3>
+<p>见 ROI 词条。</p>
+<hr />
+<h2 id="v">V</h2>
+<h3 id="vibe-coding">Vibe Coding</h3>
+<p>"凭感觉写代码"，让 AI 主导大部分编码工作、你只做关键判断。是 Cursor / Claude Code 时代的标志性工作方式。</p>
+<blockquote>
+<p>见「AI 编程工具链」分类。</p>
+</blockquote>
+<h3 id="vlm">VLM（视觉语言模型）</h3>
+<p>能"看图说话"的多模态模型，如 GPT-4V / Qwen-VL / Claude 3.5 Sonnet。常用在截图分析、文档识别。</p>
+<blockquote>
+<p>见视频库多个相关视频。</p>
+</blockquote>
+<hr />
+<h2 id="w">W</h2>
+<h3 id="workflow">Workflow / 工作流</h3>
+<p>把多个步骤串起来的自动化流程。Coze / Dify / n8n 是常见的可视化工作流平台。</p>
+<blockquote>
+<p>通用概念。</p>
+</blockquote>
+<hr />
+<h2 id="x">X</h2>
+<h3 id="ai_1">信息化 → 数字化 → AI 化</h3>
+<p>企业进化的三阶段：<br />
+- <strong>信息化</strong>：用软件管流程（ERP / OA / CRM）<br />
+- <strong>数字化</strong>：数据可采集、可分析<br />
+- <strong>AI 化</strong>：用模型自动决策 / 执行</p>
+<blockquote>
+<p>来自旭东14：没数字化就没 AI 化。</p>
+</blockquote>
+<hr />
+<h2 id="y">Y</h2>
+<h3 id="y-combinatoryc">Y Combinator（YC）</h3>
+<p>全球最知名的创业加速器。在 AI 时代是 FDE / AI 应用创业的重要风向标。</p>
+<blockquote>
+<p>见视频库「AI 认知」分类相关访谈。</p>
+</blockquote>
+<h3 id="_4">验收 / 交付</h3>
+<p>项目做完的标准——不是"代码 push 完"，而是"客户业务跑通 + 培训完成 + 文档沉淀"。</p>
+<blockquote>
+<p>来自清华鑫哥多处。</p>
+</blockquote>
+<hr />
+<h2 id="z">Z</h2>
+<h3 id="knowledge-base">知识库（Knowledge Base）</h3>
+<p>把企业里"散落在员工脑子里的经验 + 文档 + 历史数据"沉淀成可被 AI 检索的结构化资产。FDE 项目里 7 成工作量在知识库。</p>
+<blockquote>
+<p>来自清华鑫哥 / 王总/实操。</p>
+</blockquote>
+<h3 id="_5">智能体</h3>
+<p>见 Agent。</p>
+<h3 id="_6">自媒体获客</h3>
+<p>靠内容（短视频 / 公众号 / 知乎）吸引潜在客户主动找上门。FDE 时代"一个视频=24小时销售"。</p>
+<blockquote>
+<p>来自清华鑫哥。</p>
+</blockquote>
+<h3 id="_7">组织升级</h3>
+<p>把"工业时代的科层制组织"改成"AI 时代的扁平化 + 自动化组织"。这是 FDE 服务的真正卖点，不是装 Agent。</p>
+<blockquote>
+<p>来自小智 / 曾鸣。</p>
+</blockquote>
+<hr />
+<h2 id="_8">数字 / 符号</h2>
+<h3 id="1_1">1 号位</h3>
+<p>见 N 类。</p>
+<h3 id="4_1">4 阶段落地法</h3>
+<p>见 Q 类。</p>
+<h3 id="4_2">4 象限筛需求法</h3>
+<p>把需求分成「战略 / 策略 / 底线 / 优化」四类，优先做"策略"类（影响增长），忍住不做"优化"类（体感强但没用）。</p>
+<blockquote>
+<p>来自光羽。</p>
+</blockquote>
+<h3 id="5">5 步报价法</h3>
+<p>① 选 5 个业务流 → ② 做 SOP Benchmark → ③ 算省钱数字 → ④ 按价值报 → ⑤ 结果导向合同。</p>
+<blockquote>
+<p>来自 zionisreal。</p>
+</blockquote>
+<h3 id="10x">10x 杠杆</h3>
+<p>AI 让你"一个人干原来 10 个人的活"的杠杆效应。是 OPC 时代的核心叙事。</p>
+<blockquote>
+<p>见多个访谈类视频。</p>
+</blockquote>
+<hr />
+<blockquote>
+<p><strong>词条总数</strong>：50+。<br />
+<strong>维护原则</strong>：每次你学到新术语，加一行；每次和老 FDE 沟通时遇到听不懂的词，补一行。</p>
+</blockquote>
+</div>
+<div class="footer">
+企业 AI 实战知识库 · 个人成长系统 v3.0 · 数据基于 514 条视频原文 + 110 方法簇 + 162 方法论<br>
+部署于 GitHub Pages · 2026-09-10
+</div>
+</main>
+</div>
+<script>
+// Search functionality
+const searchIndex = [];
+const PAGES = {};
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Build search index from current page content
+  const content = document.querySelector('.content');
+  if (content) {
+    const text = content.innerText.toLowerCase();
+    const title = document.querySelector('h1')?.innerText || '';
+    const headings = Array.from(document.querySelectorAll('h2, h3')).map(h => h.innerText);
+    searchIndex.push({
+      title, headings: headings.join(' '), text: text.substring(0, 5000)
+    });
+  }
+  
+  // Search input
+  const searchInput = document.getElementById('search');
+  if (searchInput) {
+    let timer;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => doSearch(e.target.value), 200);
+    });
+  }
+  
+  // Highlight current page in nav
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-item').forEach(el => {
+    if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+});
+
+function doSearch(q) {
+  if (!q || q.length < 2) return;
+  // Basic in-page highlight (could be enhanced)
+  const content = document.querySelector('.content');
+  if (!content) return;
+  // remove old marks
+  content.querySelectorAll('mark.search-mark').forEach(m => {
+    const t = document.createTextNode(m.textContent);
+    m.parentNode.replaceChild(t, m);
+  });
+  if (q.length < 2) return;
+  // walk text nodes
+  const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
+  const re = new RegExp(q.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&'), 'gi');
+  let count = 0;
+  while (walker.nextNode() && count < 30) {
+    const node = walker.currentNode;
+    if (node.parentNode.tagName === 'SCRIPT' || node.parentNode.tagName === 'STYLE') continue;
+    const text = node.nodeValue;
+    if (!re.test(text)) continue;
+    re.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      frag.appendChild(document.createTextNode(text.substring(last, m.index)));
+      const mark = document.createElement('mark');
+      mark.className = 'search-mark';
+      mark.style.background = '#ff9a4f';
+      mark.style.color = '#000';
+      mark.textContent = m[0];
+      frag.appendChild(mark);
+      last = m.index + m[0].length;
+      count++;
+      if (count > 30) break;
+    }
+    frag.appendChild(document.createTextNode(text.substring(last)));
+    node.parentNode.replaceChild(frag, node);
+  }
+}
+</script>
+</body>
+</html>

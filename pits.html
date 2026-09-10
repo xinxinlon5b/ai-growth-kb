@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06 · 避坑清单（13 个常见错误） · 企业 AI 实战知识库</title>
+<meta name="description" content="基于 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径，构建的 FDE/AI落地 实战知识库">
+<style>
+:root {
+  --bg: #0f1419;
+  --bg-elevated: #1a2028;
+  --bg-card: #232a35;
+  --border: #2d3540;
+  --text: #e6e6e6;
+  --text-dim: #9aa5b1;
+  --text-bright: #ffffff;
+  --accent: #4f9eff;
+  --accent-hover: #6bb0ff;
+  --warning: #ff9a4f;
+  --success: #4fdf9a;
+  --code-bg: #0a0e13;
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, "SF Pro Display", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 15px;
+}
+a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
+a:hover { color: var(--accent-hover); }
+
+/* Layout */
+.app {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border);
+  padding: 24px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.brand {
+  padding: 0 24px 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.brand h1 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-bright);
+  font-weight: 600;
+}
+.brand .sub {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+.search-box {
+  margin: 0 24px 16px;
+  position: relative;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px 8px 32px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+}
+.search-box input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.search-box::before {
+  content: "🔍";
+  position: absolute;
+  left: 10px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  opacity: 0.5;
+}
+.nav-section {
+  margin-bottom: 8px;
+}
+.nav-section-title {
+  padding: 8px 24px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.nav-item {
+  display: block;
+  padding: 8px 24px;
+  color: var(--text);
+  font-size: 13px;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+}
+.nav-item:hover {
+  background: var(--bg-card);
+  border-left-color: var(--accent);
+}
+.nav-item.active {
+  background: var(--bg-card);
+  border-left-color: var(--accent);
+  color: var(--text-bright);
+}
+.nav-item .desc {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+/* Main content */
+.main {
+  padding: 40px 56px;
+  max-width: 980px;
+  margin: 0 auto;
+  width: 100%;
+}
+.content h1 {
+  color: var(--text-bright);
+  font-size: 32px;
+  margin: 0 0 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.content > blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 8px 16px;
+  margin: 16px 0 24px;
+  background: var(--bg-elevated);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-dim);
+}
+.content h2 {
+  color: var(--text-bright);
+  font-size: 24px;
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.content h3 {
+  color: var(--text-bright);
+  font-size: 18px;
+  margin: 28px 0 12px;
+}
+.content h4 {
+  color: var(--text);
+  font-size: 15px;
+  margin: 20px 0 8px;
+}
+.content p {
+  margin: 12px 0;
+}
+.content ul, .content ol {
+  padding-left: 24px;
+}
+.content li { margin: 4px 0; }
+.content code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--code-bg);
+  padding: 16px;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+}
+.content pre code {
+  background: none;
+  padding: 0;
+  color: var(--text);
+}
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 13px;
+}
+.content th {
+  background: var(--bg-elevated);
+  text-align: left;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  color: var(--text-bright);
+}
+.content td {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+}
+.content blockquote {
+  border-left: 4px solid var(--border);
+  padding: 4px 16px;
+  margin: 16px 0;
+  color: var(--text-dim);
+  background: var(--bg-elevated);
+}
+.content hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* Cards for KB pages */
+.video-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+.video-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+.video-meta .author { color: var(--accent); font-weight: 500; }
+.video-meta a { color: var(--text-dim); }
+.video-meta a:hover { color: var(--accent); }
+.video-meta .badge {
+  background: var(--bg-elevated);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+.video-meta .badge.high { background: #2d4a3a; color: var(--success); }
+.video-meta .badge.sub { background: #2d3a4a; color: var(--accent); }
+.video-insight {
+  background: var(--code-bg);
+  border-left: 3px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 13px;
+  white-space: pre-wrap;
+  border-radius: 0 6px 6px 0;
+}
+details {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 16px;
+  margin: 12px 0;
+}
+details summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 13px;
+}
+details[open] summary { margin-bottom: 12px; }
+details pre {
+  margin: 0;
+  font-size: 13px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Footer */
+.footer {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { position: relative; height: auto; }
+  .main { padding: 24px; }
+}
+
+/* Mermaid-style simple diagrams */
+.diagram {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 12px;
+  white-space: pre;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+</style>
+
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div class="brand">
+<h1>企业 AI 实战知识库</h1>
+<div class="sub">个人成长系统 v3.0</div>
+</div>
+<div class="search-box">
+<input type="text" id="search" placeholder="搜索本页内容..." />
+</div>
+<div class="nav-section">
+<div class="nav-section-title">总览</div>
+<a class="nav-item" href="index.html">🏠 知识体系<div class="desc">00-知识体系</div></a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">核心方法论</div>
+<a class="nav-item" href="method.html">📐 方法论总纲<div class="desc">162 条原则</div></a>
+<a class="nav-item" href="tools.html">🛠️ 工具链<div class="desc">47 个要点</div></a>
+<a class="nav-item" href="lines.html">🎙️ 话术弹药<div class="desc">22 句金句</div></a>
+<a class="nav-item active" href="pits.html">⚠️ 避坑清单<div class="desc">13 个错误</div></a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">可执行 SOP</div>
+<a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a>
+<a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a>
+<a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a>
+<a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a>
+<a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a>
+<a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a>
+<a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">知识库 · 9 大主题</div>
+<a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a>
+<a class="nav-item" href="kb-02.html">🤖 智能体·OpenClaw</a>
+<a class="nav-item" href="kb-03.html">💻 AI 编程工具链</a>
+<a class="nav-item" href="kb-04.html">💰 商业案例·变现</a>
+<a class="nav-item" href="kb-05.html">🎨 AI 内容创作</a>
+<a class="nav-item" href="kb-06.html">📣 自媒体·获客</a>
+<a class="nav-item" href="kb-07.html">🧰 效率工具·知识管理</a>
+<a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a>
+<a class="nav-item" href="kb-09.html">📦 自己的内容资产</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">工具</div>
+<a class="nav-item" href="glossary.html">📖 专业大词典<div class="desc">50+ 术语</div></a>
+</div>
+</aside>
+<main class="main">
+<div class="content">
+<h1 id="06-13">06 · 避坑清单（13 个常见错误）</h1>
+<blockquote>
+<p>客户给的坑 + 你应该相信的真相 + 谁说的。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>客户/自己常踩的坑</th>
+<th>真相</th>
+<th>出处</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>客户花30万, 3个月没人用</td>
+<td>没有真实+重复+有数据的业务前提</td>
+<td>董俊豪</td>
+</tr>
+<tr>
+<td>按Agent数报价</td>
+<td>卖工具不是做转型</td>
+<td>制造业AI落地官</td>
+</tr>
+<tr>
+<td>企业没数据就上AI</td>
+<td>AI前提是数据, 先补数字化课</td>
+<td>旭东14</td>
+</tr>
+<tr>
+<td>以为AI=自动上链接</td>
+<td>电商自动化早靠RPA, AI只是增强</td>
+<td>时来</td>
+</tr>
+<tr>
+<td>一个平台跑通以为能复制</td>
+<td>每平台要重建脚本</td>
+<td>芒果林奇</td>
+</tr>
+<tr>
+<td>FDE当终身职业</td>
+<td>只有3-5年红利期, 要产品化</td>
+<td>曲率出逃</td>
+</tr>
+<tr>
+<td>学AI工具以为能赚钱</td>
+<td>工具不赚钱, 稀缺能力才赚钱</td>
+<td>徐兆猛</td>
+</tr>
+<tr>
+<td>AI生成视频就完事</td>
+<td>不拆内容结构=没有壁垒</td>
+<td>光羽</td>
+</tr>
+<tr>
+<td>给AI的规则太松，它找最省力路糊弄你(装假Hermes)</td>
+<td>写两条硬规则:失败透明+真品验证</td>
+<td>阿森AI实战笔记</td>
+</tr>
+<tr>
+<td>只派一次性任务，不设岗位</td>
+<td>像招实习生一样写岗位说明书(SOP)再让AI跑</td>
+<td>刘小排</td>
+</tr>
+<tr>
+<td>以为AI全能，什么都让它干</td>
+<td>拍板/物理世界/微决策三类AI干不了，先讲清边界</td>
+<td>王总/实操</td>
+</tr>
+<tr>
+<td>收藏一堆工具教程=会了</td>
+<td>关键在开始用，先跑通一件小事拿到正反馈</td>
+<td>大白话龙虾</td>
+</tr>
+<tr>
+<td>付费工具用不起/怕贵</td>
+<td>先白嫖免费额度跑通流程，问题贵到值得再升级付费</td>
+<td>大白话龙虾</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_1">重要补充（来自方法论各章）</h2>
+<h3 id="1">1. 两大条件, 不具备别花钱</h3>
+<p>①业务里有真实+重复+能留下数据的工作 ②AI做完人能较快判断对错。反例: 客户花30万上AI, 3个月只有行政写周报——不是工具不行, 是前提没搞清。</p>
+<blockquote>
+<p>出处：董俊豪</p>
+</blockquote>
+<h3 id="2">2. 接单前先验证两大前提</h3>
+<p>客户想上AI，先确认两个条件是否满足：①业务里有没有真实、重复、且能留下数据的工作；②AI做完后，人能不能较快判断对错。两者缺一就别让他花钱，先帮他找那块'重复+有数据+可校验'的业务再谈，别推大而全的方案。</p>
+<blockquote>
+<p>出处：引3条: 王总/实操、董俊豪、旭东AI</p>
+</blockquote>
+<h3 id="3-1">3. 跟1号位挖真痛点，不问他想要啥</h3>
+<p>别问老板'你想用AI干啥'，要问：哪个环节最浪费时间？哪个部门天天重复劳动？哪个流程卡交付成交？跟创始人或业务一把手聊，他拍板的事才是真需求。同时花几天时间全链路访谈关键人（销售、运营、财务），画出业务地图，找到真正影响增长或成本的点。</p>
+<blockquote>
+<p>出处：引3条: 旭东AI、光羽、王总/实操</p>
+</blockquote>
+<h3 id="4">4. 用四象限筛需求，别被体感痛带偏</h3>
+<p>把访谈收集的问题分成战略、策略、底线、优化四类。优化问题（如滑稿、剪辑麻烦）体感强但对增长无用，要忍住先不优化。优先做能推动增长的'策略问题'，比如内容公司的选题预判、制造企业的交付瓶颈。找到P0级需求再动手。</p>
+<blockquote>
+<p>出处：引1条: 光羽</p>
+</blockquote>
+<h3 id="5-agent">5. 按'省钱数字'报价，不按Agent数或天数</h3>
+<p>先选5个业务流做Benchmark：把部门人员工作做成SOP，对比AI工作流，算出产出率提升和一年能省多少钱（比如省100万，月省8.3万）。合同按结果导向，用降本增效的分成或对赌来报价。目标客户画像是500人规模、用Word/Excel、微信传文件、要啥有啥但不顶尖的传统制造或贸易企业，客单价10-15万，别报太高。</p>
+<blockquote>
+<p>出处：引2条: zionisreal、清华鑫哥</p>
+</blockquote>
+<h3 id="6">6. 留人工兜底验收，别交付即跑路</h3>
+<p>AI做的活必须有人兜底验收，加人工确认按钮，项目出问题的概率会小很多。交付时培训企业内部负责人，沉淀方法论文档，让他能长期迭代。外部顾问赋能+内部培训赋能，人走了系统还能跑，避免'交付即停滞'。</p>
+<blockquote>
+<p>出处：引2条: 清华鑫哥、旭东AI</p>
+</blockquote>
+<h3 id="7">7. 用'组织升级'包装服务，别卖工具</h3>
+<p>客户问'一个Agent多少钱'时，说明他还在买工具思维。你要卖的是'把工业时代组织架构改造成AI时代组织'——未来组织只做两件事：运营自动化和战略决策高质量化。用'诊断+方案+落地'报价，而不是按Agent数量。参考市场价：FDE入企服务客单价20万，2人1周可交付。</p>
+<blockquote>
+<p>出处：引3条: 小智、曾鸣、制造业AI落地官</p>
+</blockquote>
+<h3 id="8">8. 诊断的是流程不是嘴</h3>
+<p>FDE深入业务流程, 挖高价值场景/真痛点——不是客户嘴上说的那个。</p>
+<blockquote>
+<p>出处：旭东27</p>
+</blockquote>
+<h3 id="9-agent">9. 按业务复杂度报价不按Agent数</h3>
+<p>客户问价时别急着报，先让他看到业务现场的真实复杂度——一个售后Agent要接产品型号/技术手册版本/保修政策/历史记录/配件返修流程，远不是把SOP写成提示词。按『诊断+方案+落地』报价而不是按Agent数量，敢按Agent数量报价的服务商=还在卖工具。</p>
+<blockquote>
+<p>出处：引1条: 制造业AI落地官</p>
+</blockquote>
+<h3 id="10-agent">10. 大忌: 按Agent数量报价</h3>
+<p>采购问一个Agent多少钱 → 敢按数量报价=卖工具, 不是做转型。</p>
+<blockquote>
+<p>出处：制造业AI落地官</p>
+</blockquote>
+<h3 id="11-ai">11. 先盘业务资产再谈AI，别推大而全</h3>
+<p>客户想上AI时，先别急着报价或讲方案。先帮他找到业务里『真实+重复+能留下数据+AI做完人能较快判断对错』的具体工作，比如售后问答、报表汇总。数据只是第一步，真正难的是把人的经验说清楚，所以要把这块业务的经验梳理成规则。不具备这两个条件，就劝客户先别花钱。</p>
+<blockquote>
+<p>出处：引2条: 王总/实操、DD讲AI</p>
+</blockquote>
+<h3 id="12-agent">12. 报价按省钱的账算，不按Agent个数算</h3>
+<p>别按Agent数量或人天报价，那是卖工具。先选5个业务流做Benchmark，把部门人员工作做成SOP，对比AI工作流，算出产出率提升。然后按实际业务量量化，比如帮企业一年省100万，就按这个省钱数字报价。合同可以按结果导向来签，比如降本增效结果分成或对赌。市场平均客单价10-15万，目标客户是500人规模、用传统办公软件、微信传文件、急需降本增效的中小制造或贸易企业。</p>
+<blockquote>
+<p>出处：引2条: zionisreal、制造业AI落地官</p>
+</blockquote>
+<h3 id="13-ai">13. AI能力边界鉴别法</h3>
+<p>看到炫酷3D/交互动效网页，先默认是专业团队作品别轻信'AI一键生成'。用截图反向搜图或查网站版权信息确认原始创作者。评论区有人煞有介事教步骤多是引流话术。多关注AI真实应用案例（如Claude写代码、做简单页面）建立合理预期。</p>
+<blockquote>
+<p>出处：引1条: 王总/实操</p>
+</blockquote>
+<h3 id="14-codexcomputer-use">14. Codex剪视频正确姿势：直接处理素材+插件，别用computer use</h3>
+<p>别让Codex操控剪映界面（computer use模式），又慢又费token。正确做法：让Codex直接处理素材、分析内容、完成剪辑并导出，实测30秒口播素材全程13分钟，token花费不到8毛。提前装好剪辑插件，打开'自动审核'和'完全访问权限'减少确认弹窗。</p>
+<blockquote>
+<p>出处：引20条: 王总/实操</p>
+</blockquote>
+<h3 id="15">15. 博主不聊模型, 聊模型能替咱干什么</h3>
+<p>1400条视频分析: 全年最热tag=副业变现/AI编程/智能体; 模型本身几乎没人提(DeepSeek全年才15次)。你的内容要讲价值场景, 不讲工具参数。</p>
+<blockquote>
+<p>出处：徐兆猛</p>
+</blockquote>
+<h3 id="16">16. 卖稀缺能力, 不卖会用工具</h3>
+<p>学AI工具≠赚钱(教课的人赚的是上课的钱)。像20年前Word/Excel人人会, 能赚钱的是用Word写报告、用Excel发现数据问题的人。你要卖拿AI解决业务问题的能力。</p>
+<blockquote>
+<p>出处：徐兆猛</p>
+</blockquote>
+<h3 id="17-ai">17. AI生图避坑提示词法</h3>
+<p>删掉'游戏、护士帽'等强联想污染词，只描述画面可见元素。想拉近镜头就堆细节，想俯拍就写俯拍时可见元素（头顶、肩膀），用'肩宽腰窄'代替'八块腹肌'。否定词无效，别跟AI讲逻辑，顺着它的词块理解方式写。</p>
+<blockquote>
+<p>出处：引7条: 王总/实操</p>
+</blockquote>
+<h3 id="18">18. 讲清前提</h3>
+<p>「没有数字化就没有全面的AI智能化」</p>
+<blockquote>
+<p>出处：旭东AI</p>
+</blockquote>
+<h3 id="19-ai">19. AI落地两前提筛查</h3>
+<p>客户想上AI，先别急着报价。先判断他业务里有没有『真实+重复+能留下数据』的工作，以及AI做完人能否较快判断对错。两个条件缺一个，就劝他先别花钱，先补数据或流程。</p>
+<blockquote>
+<p>出处：引3条: 王总/董俊豪/旭东</p>
+</blockquote>
+</div>
+<div class="footer">
+企业 AI 实战知识库 · 个人成长系统 v3.0 · 数据基于 514 条视频原文 + 110 方法簇 + 162 方法论<br>
+部署于 GitHub Pages · 2026-09-10
+</div>
+</main>
+</div>
+<script>
+// Search functionality
+const searchIndex = [];
+const PAGES = {};
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Build search index from current page content
+  const content = document.querySelector('.content');
+  if (content) {
+    const text = content.innerText.toLowerCase();
+    const title = document.querySelector('h1')?.innerText || '';
+    const headings = Array.from(document.querySelectorAll('h2, h3')).map(h => h.innerText);
+    searchIndex.push({
+      title, headings: headings.join(' '), text: text.substring(0, 5000)
+    });
+  }
+  
+  // Search input
+  const searchInput = document.getElementById('search');
+  if (searchInput) {
+    let timer;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => doSearch(e.target.value), 200);
+    });
+  }
+  
+  // Highlight current page in nav
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-item').forEach(el => {
+    if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+});
+
+function doSearch(q) {
+  if (!q || q.length < 2) return;
+  // Basic in-page highlight (could be enhanced)
+  const content = document.querySelector('.content');
+  if (!content) return;
+  // remove old marks
+  content.querySelectorAll('mark.search-mark').forEach(m => {
+    const t = document.createTextNode(m.textContent);
+    m.parentNode.replaceChild(t, m);
+  });
+  if (q.length < 2) return;
+  // walk text nodes
+  const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
+  const re = new RegExp(q.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&'), 'gi');
+  let count = 0;
+  while (walker.nextNode() && count < 30) {
+    const node = walker.currentNode;
+    if (node.parentNode.tagName === 'SCRIPT' || node.parentNode.tagName === 'STYLE') continue;
+    const text = node.nodeValue;
+    if (!re.test(text)) continue;
+    re.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      frag.appendChild(document.createTextNode(text.substring(last, m.index)));
+      const mark = document.createElement('mark');
+      mark.className = 'search-mark';
+      mark.style.background = '#ff9a4f';
+      mark.style.color = '#000';
+      mark.textContent = m[0];
+      frag.appendChild(mark);
+      last = m.index + m[0].length;
+      count++;
+      if (count > 30) break;
+    }
+    frag.appendChild(document.createTextNode(text.substring(last)));
+    node.parentNode.replaceChild(frag, node);
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>02-07 · 效率工具·知识管理 · 企业 AI 实战知识库</title>
+<meta name="description" content="基于 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径，构建的 FDE/AI落地 实战知识库">
+<style>
+:root {
+  --bg: #0f1419;
+  --bg-elevated: #1a2028;
+  --bg-card: #232a35;
+  --border: #2d3540;
+  --text: #e6e6e6;
+  --text-dim: #9aa5b1;
+  --text-bright: #ffffff;
+  --accent: #4f9eff;
+  --accent-hover: #6bb0ff;
+  --warning: #ff9a4f;
+  --success: #4fdf9a;
+  --code-bg: #0a0e13;
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, "SF Pro Display", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 15px;
+}
+a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
+a:hover { color: var(--accent-hover); }
+
+/* Layout */
+.app {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border);
+  padding: 24px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.brand {
+  padding: 0 24px 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.brand h1 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-bright);
+  font-weight: 600;
+}
+.brand .sub {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+.search-box {
+  margin: 0 24px 16px;
+  position: relative;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px 8px 32px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+}
+.search-box input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.search-box::before {
+  content: "🔍";
+  position: absolute;
+  left: 10px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  opacity: 0.5;
+}
+.nav-section {
+  margin-bottom: 8px;
+}
+.nav-section-title {
+  padding: 8px 24px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.nav-item {
+  display: block;
+  padding: 8px 24px;
+  color: var(--text);
+  font-size: 13px;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+}
+.nav-item:hover {
+  background: var(--bg-card);
+  border-left-color: var(--accent);
+}
+.nav-item.active {
+  background: var(--bg-card);
+  border-left-color: var(--accent);
+  color: var(--text-bright);
+}
+.nav-item .desc {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+/* Main content */
+.main {
+  padding: 40px 56px;
+  max-width: 980px;
+  margin: 0 auto;
+  width: 100%;
+}
+.content h1 {
+  color: var(--text-bright);
+  font-size: 32px;
+  margin: 0 0 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.content > blockquote {
+  border-left: 4px solid var(--accent);
+  padding: 8px 16px;
+  margin: 16px 0 24px;
+  background: var(--bg-elevated);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-dim);
+}
+.content h2 {
+  color: var(--text-bright);
+  font-size: 24px;
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.content h3 {
+  color: var(--text-bright);
+  font-size: 18px;
+  margin: 28px 0 12px;
+}
+.content h4 {
+  color: var(--text);
+  font-size: 15px;
+  margin: 20px 0 8px;
+}
+.content p {
+  margin: 12px 0;
+}
+.content ul, .content ol {
+  padding-left: 24px;
+}
+.content li { margin: 4px 0; }
+.content code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 13px;
+  color: var(--accent);
+}
+.content pre {
+  background: var(--code-bg);
+  padding: 16px;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+}
+.content pre code {
+  background: none;
+  padding: 0;
+  color: var(--text);
+}
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 13px;
+}
+.content th {
+  background: var(--bg-elevated);
+  text-align: left;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  color: var(--text-bright);
+}
+.content td {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+}
+.content blockquote {
+  border-left: 4px solid var(--border);
+  padding: 4px 16px;
+  margin: 16px 0;
+  color: var(--text-dim);
+  background: var(--bg-elevated);
+}
+.content hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* Cards for KB pages */
+.video-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+.video-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+.video-meta .author { color: var(--accent); font-weight: 500; }
+.video-meta a { color: var(--text-dim); }
+.video-meta a:hover { color: var(--accent); }
+.video-meta .badge {
+  background: var(--bg-elevated);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+.video-meta .badge.high { background: #2d4a3a; color: var(--success); }
+.video-meta .badge.sub { background: #2d3a4a; color: var(--accent); }
+.video-insight {
+  background: var(--code-bg);
+  border-left: 3px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 13px;
+  white-space: pre-wrap;
+  border-radius: 0 6px 6px 0;
+}
+details {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 16px;
+  margin: 12px 0;
+}
+details summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 13px;
+}
+details[open] summary { margin-bottom: 12px; }
+details pre {
+  margin: 0;
+  font-size: 13px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Footer */
+.footer {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { position: relative; height: auto; }
+  .main { padding: 24px; }
+}
+
+/* Mermaid-style simple diagrams */
+.diagram {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 12px;
+  white-space: pre;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+</style>
+
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div class="brand">
+<h1>企业 AI 实战知识库</h1>
+<div class="sub">个人成长系统 v3.0</div>
+</div>
+<div class="search-box">
+<input type="text" id="search" placeholder="搜索本页内容..." />
+</div>
+<div class="nav-section">
+<div class="nav-section-title">总览</div>
+<a class="nav-item" href="index.html">🏠 知识体系<div class="desc">00-知识体系</div></a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">核心方法论</div>
+<a class="nav-item" href="method.html">📐 方法论总纲<div class="desc">162 条原则</div></a>
+<a class="nav-item" href="tools.html">🛠️ 工具链<div class="desc">47 个要点</div></a>
+<a class="nav-item" href="lines.html">🎙️ 话术弹药<div class="desc">22 句金句</div></a>
+<a class="nav-item" href="pits.html">⚠️ 避坑清单<div class="desc">13 个错误</div></a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">可执行 SOP</div>
+<a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a>
+<a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a>
+<a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a>
+<a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a>
+<a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a>
+<a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a>
+<a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">知识库 · 9 大主题</div>
+<a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a>
+<a class="nav-item" href="kb-02.html">🤖 智能体·OpenClaw</a>
+<a class="nav-item" href="kb-03.html">💻 AI 编程工具链</a>
+<a class="nav-item" href="kb-04.html">💰 商业案例·变现</a>
+<a class="nav-item" href="kb-05.html">🎨 AI 内容创作</a>
+<a class="nav-item" href="kb-06.html">📣 自媒体·获客</a>
+<a class="nav-item active" href="kb-07.html">🧰 效率工具·知识管理</a>
+<a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a>
+<a class="nav-item" href="kb-09.html">📦 自己的内容资产</a>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">工具</div>
+<a class="nav-item" href="glossary.html">📖 专业大词典<div class="desc">50+ 术语</div></a>
+</div>
+</aside>
+<main class="main">
+<div class="content">
+<h1 id="02-07">02-07 · 效率工具·知识管理</h1>
+<blockquote>
+<p>Obsidian / Notion / Skill / 本地知识库 / 工作流</p>
+</blockquote>
+<p><strong>统计</strong>：26 条视频 · 0 个子主题</p>
+<hr />
+<h2 id="_1">其他</h2>
+<div class="video-card">
+<h3>这个流程它每天晚上 12 点都会自动跑一次，保存到我的 Obsidian 里</h3>
+
+<p><strong>作者</strong>：瑶瑶 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646621905500467667">抖音</a> · <strong>价值评分</strong>：3</p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+每天AI都會自動把當天我跟Cloud Code和Codex的聊天記錄
+沉澱成這麼一份文檔
+包含有哪些方法或者是工作流值得被沉澱的
+第二個我有哪些判斷和原則是值得被沉澱的
+第三個根據當天的聊天記錄我可以出什麼樣子的內容和選題
+比如說IP幅畫的時代結束了
+知識庫根本不是給人看的而是給AI看的
+35歲以上的人在AI時代更值錢最後一個是有哪些
+他可以變成工具和skill再去長期的附用
+就是你每天做這樣子的事情會讓你的AI越來越聰明
+越來越懂你然後你能夠自動化的東西越來越多
+
+</details>
+</div>
+<div class="video-card">
+<h3>全网内容一键归档到 Obsidian，从零搭建教程 收藏了等于没收藏？转发了再也找不到？ 每个平台都在阻止你把内容带走。 这期视频用一个入口 + 一个 Obsidian 插件， 打通全网内容的采集、AI 转录、自动同步。…</h3>
+
+<p><strong>作者</strong>：光头obsidian教学 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642998876140239860">抖音</a> · <strong>价值评分</strong>：3</p>
+<p><strong>简介</strong>：全网内容一键归档到 Obsidian，从零搭建教程 收藏了等于没收藏？转发了再也找不到？ 每个平台都在阻止你把内容带走。 这期视频用一个入口 + 一个 Obsidian 插件， 打通全网内容的采集、AI 转录、自动同步。 从零搭建，看完就能用。    #obsidian #知识管理 #笔记同步助手 #个人知识管理 #Obsidian插件</p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】用“笔记同步助手”一个入口，把全平台内容转发进去，AI自动处理后同步到Obsidian，实现私有化归档。
+
+【具体做法/要点】
+1. **搭建入口**：搜索“笔记同步助手”（认准官网），绑定账号后获取专属密钥和插件。将下载的插件文件夹拖入Obsidian第三方插件目录并启用，填入密钥（有7天全功能试用）。
+2. **日常采集**：把文章、聊天记录、语音直接转发到信息入口；视频只能分享链接。AI会自动提取视频字幕截图、图文OCR，甚至处理公开评论。
+3. **省AI技巧**：转发时备注“NO”可只存链接不处理。或在插件“云空间内容处理设置”中，把某平台域名加入白名单，该平台内容永久只存链接。
+4. **自动化同步**：插件开启“启动时同步”，周期设300秒。消息合并选“仅合并消息”（只合并语音口述，其他独立），排序选“时间降序”。
+5. **分类管理**：设置“消息文件夹”（存灵感）和“文章文件夹”（存素材）可分开目录；附件文件夹与文章文件夹同目录，AI才处理文章内容。
+6. **进阶设置**：图片可下载本地、保留链接或不加载；支持图床自动上传防失效。可开启日记链接，把内容集中到每日日记回顾。
+
+【避坑/注意】
+- 消息合并别选“全部合并”或“不合并”，前者内容挤成一团，后者产生大量零散笔记。
+- 模板修改时，冒号前是属性名，后是属性值，改完需分别粘贴到“前置元数据模板”和“文章模板”。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+所有平台都在阻止你把他们的内容变成你的私有财产
+今天我们从零开始
+用一个入口将全平台的内容收入进Obsidian
+我是光头老赵,我们现在开始
+首先我们搜索笔记同步助手
+虽然它叫同步助手
+但是它与笔记同步没有一毛钱关系
+它专注的只是将你分享的内容同步至你的Obsidian
+认准这个笔记同步的域名
+点击进入,点击开始使用
+然后根据这里的操作,绑定账号
+绑定好后,点击左下角的开始使用
+点击使用Obsidian,就会弹出插件工具以及绑定信息
+我们按照图片指引绑定自己的专属信息入口
+接下来为了方便操作,我们回到电脑端
+点击这里进行插件下载
+下载并解压好后,会显示NOT HELP文件夹
+我们回到Obsidian,打开设置中的第三方插件
+点击这里,打开插件文件夹
+将解压好的NOT HELP文件夹拖拐进去
+回到Obsidian,点击刷新
+此时我们就能看到笔记同步助手的插件了
+我们点击进入插件的设置界面
+在这里我们可以看到一个密钥
+天鞋刚刚返回给我们的密钥信息
+新人会有7天的全部功能适用权限
+我们可以大胆的测试它的功能
+现在我们向信息入口发一条消息
+这条消息就会先传递到云端服务器进行AI处理
+出现功端完成的通知后
+就可以回到Obsidian
+点击左侧功能栏中的同步按钮
+拉取云端信息到Obsidian中
+我们日常生活中的语音输入
+聊天记录和密转发
+文章分享都可以直接转发到信息入口
+某种情况下文章会经过AI处理
+将原文保存到Obsidian中
+如果是一些特殊场景的视频
+就只能通过分享链接的方式
+将视频文案转入到Obsidian中
+优质的问答和博客
+也都可以通过这种方式转入到Obsidian
+经过AI转入的视频音频
+它会自动的进行视频截图与字幕提取
+经过AI转入的图文
+它会自动进行OCR文字识别
+有意思的是AI还会把公开的评论一并处理好
+如果我们不想触发AI的额外消耗
+只想保存一个链接
+就可以在转发的时候背住一个NO
+告诉服务器这条信息不要进行AI处理
+如果某个平台的内容
+你永远是想保存链接
+回到Obsidian插件
+打开云空间内容处理设置
+输入密要验证
+验证成功后
+在域名白名单中加入对应平台的更域名
+此后该平台下的所有内容
+都只会保存链接不触发AI转入
+接下来设置自定义模板
+回到插件设置
+拉到最底部找到高级选项
+点击再现调试模板
+按照自己的笔记习惯
+修改属性名称和辨量硬设
+帽号前面是属性名
+后面是属性值
+文章内容部分同样可以自定义
+支持引用标注等马克档语法
+修改完成后
+将模板分别复制粘贴到
+前置原数据模板和文章模板中
+第二种情况
+搭建自动化的工作流
+首先在插件中开启
+启动时同步
+周期设置为300秒
+我们C定保持开启时
+就会自动拉取信息入口的内容
+这里的消息合并
+指的就是我们通过语音或文字
+输入到信息入口中的聊天记录
+消息合并
+推荐选择紧合并消息
+它只把你的语音和口述领感
+合并在一起
+其他转发的内容各自独立
+不合并会产生大量的零散笔记
+全部合并又会挤成一团
+都不使用
+消息排序选择时间降血
+新的内容始终在最前面
+这里的消息文件夹
+我们需要与文章文件夹一起看
+如果你希望所有的内容
+都存放在一个文件夹中
+那么我们将这两个文件夹
+都设置在同一个目录下就可以了
+如果想把领感随笔
+和收入素材分开管理
+就可以单独设置
+领感放在领感文件夹
+文章和视频
+按照卡巴西的规则
+放在肉文件夹
+PLF、PPT等附件
+如果也需要AI处理
+就将附件文件夹与文章文件夹
+设为同一个目录
+这样的话
+AI就只会处理肉文件夹中的内容
+不会触碰领感随笔
+在图片处理模式中
+你可以根据需求选择三种方式
+下载到本地
+保...（转写过长，已截断，完整内容见原视频）
+
+</details>
+</div>
+<div class="video-card">
+<h3>专属本地个人知识库，零基础手把手入门教程 Obsidian快速上手，一个就能学会！ #Obsidian #个人知识库</h3>
+
+<p><strong>作者</strong>：蓝好好 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7626661081670274344">抖音</a> · <strong>价值评分</strong>：3</p>
+<p><strong>简介</strong>：专属本地个人知识库，零基础手把手入门教程 Obsidian快速上手，一个就能学会！</p>
+<h1 id="obsidian">Obsidian #个人知识库</h1>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】把Obsidian当“笔记阅读器”，先学会新建笔记和日记，别被复杂功能劝退。
+
+【具体做法/要点】
+1. **建仓库**：仓库就是一个主文件夹。打开软件点“新建仓库”，起名后选存放位置（如桌面）即可。
+2. **新建笔记**：在左侧文件夹区右键或点“新建笔记”，顶部输入标题（如“3月2日思考”），正文直接写灵感、读书笔记等，先不做分类和标签。
+3. **写日记**：点左侧“打开今天的日记”图标，会自动生成以当天日期为标题的文档，直接记录即可。
+4. **心态放平**：别纠结布局、插件等高级功能，先用最基础的“扔进去、找得到”满足需求，后续再慢慢加模板（如复盘、今日收获）等。
+
+【避坑/注意】
+- 别一开始就研究复杂功能或插件，容易因学习成本过高而放弃，先跑通“新建笔记”这个最小闭环。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+哈囉大家,不知道大家會不會跟我一樣的煩惱
+非常需要找個地方
+可以把自己隨時隨地有的靈感
+還有一些讀書的筆記、各種筆記
+要有一些有用的知識
+一些值得沉澱的方法論
+又或者說是我寫過的一些工作號文章
+一些視頻腳本這些東西
+如果有一個地方
+我可以隨時把東西放進去
+不用說我到底是放在備忘錄
+還是放在文件傳輸助手
+有一個這樣的地方
+它能讓我很快把東西扔進去
+然後用得很快地找到
+而且還能讓這些知識碎片
+能互相產生聯繫
+今天你就會獲得這樣一個個人知識庫
+好下面我們就開始了
+那首先打開Obsidian就會有一個初始的算之框
+這裡面有一個新建倉庫
+或者是打開本地倉庫
+倉庫是什麼意思呢
+其實它就是一個文件夾
+因為在這個Obsidian裡面
+它一個倉庫下
+你可以放很多東西
+可以放很多個紫文件夾
+也可以放很多筆記
+它就是非常形象地把這些很多個文件夾
+以及很多筆記去存放的這個地方
+把它稱之為倉庫
+所以倉庫其實也就是一個大文件夾
+或者主文件夾的意思
+那我們現在可以新建一個倉庫
+點擊創建之後倉庫名稱
+我們可以隨便先選一個
+然後把這個倉庫的位置就放在桌面上了
+那選好位置之後我們點擊創建
+好 創建好
+我們進來這樣一個界面之後
+我想要把它換成淺色
+好看 這樣好展示一點
+好 你不要看它好像很複雜
+其實我們要用到的就是
+這邊是用來打字
+這邊是可以同步看的
+我們可以先把關係圖補這一塊刪掉
+這個就是筆記
+其實這裡面就是筆記
+左邊的這一塊呢
+它就是相當於是你的文件夾的目錄
+我們就把Obsidian當成是一個
+就像看PDF的一個PDF閱讀器
+或者是看圖片的一個圖片閱讀器
+它就是一個看筆記的筆記閱讀器
+今天視頻的任務就是
+新建一個筆記
+點右鍵 新建筆記
+或者是點這個鍵 新建筆記都可以
+上面這個我們可以打一下
+比如說今天是三月
+三月二日的思考
+那這個它就會自動的同步到筆記的標題
+我們就可以隨便寫什麼東西都可以
+比如說我們當天有一些什麼樣的想法
+什麼樣的靈感
+我們可以直接都把它放進去就可以了
+我們前面先不要打什麼標籤
+什麼複雜的分類都不要做
+因為其實Obsidian它的一些功能是非常強大的
+但是我也刷到一些帖子
+那些帖子它會吐槽說
+Obsidian太難上手了
+太複雜了
+是因為它是一個非常厲害的筆記本軟件
+所以它能實現的功能非常多
+我等一下也會給大家展示一下
+它能實現一些什麼樣的功能
+就是因為它太強大了
+我們一旦關注太多它的什麼布局
+什麼功能什麼插件上面
+那我們就是把我們的重心放在了樹
+但是很多時候
+你越關注樹你就會越膽小
+你就會越賣不開那一波
+所以我們學東西其實更多關注的是道
+你要知道你用這個軟件的初衷是什麼
+我們要以最小的成本去實現我們的目的
+其中學習成本時間成本它也是一個成本
+所以我們這一期只需要非常簡單的功能
+新建筆記就ok了
+除了右鍵新建筆記這一塊
+其實在左邊還有這些方格
+我們現在要學的就是打開抗鍵今天的日記
+點一下它就會自動生成一個
+以今天日期為標題的一個文檔
+那我們也是一樣的
+也是想要寫什麼就寫什麼
+那以我1月8號的這一篇筆記為例
+我在當天我就因為我在用AI
+所以我就把我用AI的一些記錄記下來
+今日記錄
+到時候就可以弄一些模板裡面
+比如說可以加一個進入副盤
+今天學到了什麼好用的pram
+今天解決了什麼爆錯
+今天有什麼感悟啊
+那還有一些比如說有什麼靈感
+突然你有什麼想法
+你就可以用很快速的方式去實現
+去把它記錄下來
+再自己後面回去歸道
+這個是之後可以慢慢再實現的
+這些都是Obsidian能實現的功能
+好那剛剛的演示之後
+其實我們就把Obsidian包括創建倉庫
+新建筆記以及創建日記
+這三個最...（转写过长，已截断，完整内容见原视频）
+
+</details>
+</div>
+<div class="video-card">
+<h3>本地知识库喂饭级搭建教程！有手就会！ 用Obsidian接入本地DeepSeek来搭建本地知识库 完全免费，不用联网 无缝融入你的笔记工作流中 体验爽到飞起 保姆级！有手就会！ #AI #跟我学AI #本地知识库 #AI…</h3>
+
+<p><strong>作者</strong>：Xuan酱 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7493177260720082210">抖音</a> · <strong>价值评分</strong>：3</p>
+<p><strong>简介</strong>：本地知识库喂饭级搭建教程！有手就会！ 用Obsidian接入本地DeepSeek来搭建本地知识库 <br />
+完全免费，不用联网 <br />
+无缝融入你的笔记工作流中<br />
+体验爽到飞起 保姆级！有手就会！</p>
+<h1 id="ai-ai-ai-obsidian">AI #跟我学AI #本地知识库 #AI工具 #Obsidian</h1>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】用Obsidian+Ollama+DeepSeek，免费搭建本地知识库，让AI基于你的笔记精准问答。
+
+【具体做法/要点】
+1. **装工具**：官网下载安装Obsidian（免费）；下载Ollama客户端（Intel芯片选优化版），解压后点“Start Ollama.bat”启动。
+2. **下模型**：在Ollama终端输入`ollama run deepseek-r1:14b`下载对话模型（想更快可换7b）；再输入`ollama run bge-m3`下载嵌入模型（用于把笔记向量化，实现RAG检索）。
+3. **配插件**：Obsidian装Copilot插件，在设置里添加模型——聊天模型填DeepSeek，提供商选Ollama，点Verify验证；嵌入模型填bge-m3。
+4. **设默认**：在Copilot基础设置里，把默认问答模型和嵌入模型都改成刚添加的本地模型。
+5. **开用**：在Copilot对话框提问，AI会检索你所有笔记内容作答，笔记越多越懂你。
+
+【避坑/注意】无
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+本地知識庫可能是現在最值得嘗試的 AI 工具之一
+你要 AI 教學的時候
+知識庫能夠基於你所有的文件資料
+搜索和提示詞相關的內容一起給到 AI 大模型
+讓 AI 給你更精準 更個性化的答案
+那體驗會比在網上和大模型對話更好
+讓它幫你寫適合你自己的文案
+寫日報 寫週報 體驗很不錯
+它能夠幫你輕鬆的管理
+成百上千的合同文件
+大量的法律文書 各種參考資料
+讓你精準的搜索這些資料裡面的內容
+讓你的工作流更絲滑
+真的是用了就回不去了
+那今天我就教大家用非常強大的筆記軟件
+Obsidian 進入本地 DeepSeq 來搭建本地知識庫
+這套方案非常簡單 完全免費
+不連網也可以用 AI 也不用擔心你敢數據洩漏
+話不多說 讓我們開始吧
+我們選擇用 Obsidian 來搭建本地知識庫
+那它是最強大的開源本地 Markdown 筆記工具
+有強大的插件生態
+幾乎可以滿足你所有的筆記需求
+安裝非常簡單
+在官網這裡下載 安裝即可
+免費的哈
+在 Obsidian 中
+我們只需要做兩個操作
+就可以完成知識庫的搭建
+那先是部署 DeepSeq
+然後配置向來簽入模型就完成了
+那弄好之後
+你就可以針對所有的筆記內容進行提問
+實現知識庫的溫達
+隨著你筆記內容的增多
+這個知識庫會越來越懂你 越來越好用
+而且它也可以安裝各種插件
+來拓展各種功能
+幫你搞定各種各性化的需求
+進入 DeepSeq 很簡單
+就兩步
+第一步 安裝模型管理工具 Olama
+那這裡我們可以在模大社區
+下載針對 Intel CoreX Ultra 處理器
+ARC 核顯優化的 Olama 客戶端
+它集成了 IPX LLM 這個加速庫
+方便在 Intel 新片上跑大圓模型
+模大社區是國內的 AI 社區哈
+訪問不用模法
+解壓下載的 ZIP 文件
+點擊 Start Olama.bed 文件
+就可以免安裝運行 Olama 了
+彈出來這個窗口
+ Olama 就啟動了
+沒有任何難度
+第二步 下載 DeepSeq 模型
+那這裡我們選擇 14B 的版本哈
+我們接著進入到剛剛解壓的文件
+右鍵在中端裡面打開
+在這裡輸入 Olama Round DeepSeq R1 14B
+那它就開始下載 14B 的 DeepSeq 的模型了
+這個進度條泡完
+這裡顯示 Success 就下載好了
+可以直接在這個窗口和大模型開始對話
+比如說我們讓 DeepSeq 來回答一個問題
+它就開始在做打了
+那現在你就成功的
+安裝了一個完全本地的大模型
+那可以看到
+14B 的運行速度已經很不錯了
+每秒是 9個 Token
+那這個速度已經可以滿足多數的離線問答
+和寫作的輔助需求
+那想更快的話
+可以用參數量更小的 7B
+那每秒可以達到 18 個 Token 很撕滑
+但現在 AI 直動通用知識
+要讓它能夠根據你的筆記問答
+就需要前路模型
+所以我們接下來安裝 BGE M3
+它能夠把你的筆記內容轉化為知識點
+也就是相量化
+讓你的 Obsidian 擁有了 RAG 的能力
+那什麼是 RAG 呢?
+RAG 全程是減索增強生成
+簡單理解就是把參考資料全部揮給大模型
+讓它來開圈考試
+那根據這些參考資料來回答你的問題
+而不僅僅是依賴模型自身的通用知識
+安裝 BGE M3 就有一個操作
+在命令窗口輸入命令
+OLAMA ROM BGE M3
+回車
+然後等它安裝完成就行了
+那到這樣就是安裝成功了
+那最後一步
+把剛剛的 DeepSeq BGE M3
+在 Obsidian 裡面配置好就可以開始用了
+我們打開 Obsidian
+Copilot 插件的設置頁面
+打開 Models 選項卡
+在聊天模型下點擊添...（转写过长，已截断，完整内容见原视频）
+
+</details>
+</div>
+<div class="video-card">
+<h3>第74集 open design所有设计能力的总和 如果只推荐一款设计应用，我只能选择Open design 可以从figma 到原型 到所有的UI/UX 没有人能够替代Open Design，除了它自己。 #AI #d…</h3>
+
+<p><strong>作者</strong>：哈工大AI 工程师 Peter · <strong>链接</strong>：<a href="https://www.douyin.com/video/7657915706993855770">抖音</a> · <strong>价值评分</strong>：2</p>
+<p><strong>简介</strong>：第74集 open design所有设计能力的总和 如果只推荐一款设计应用，我只能选择Open design<br />
+可以从figma 到原型 到所有的UI/UX<br />
+没有人能够替代Open Design，除了它自己。</p>
+<h1 id="ai-design">AI #design #设计 #原型</h1>
+<h1 id="deepseekminimaxglmkimi">DeepSeek#Minimax#GLM#Kimi</h1>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+</div>
+<div class="video-card">
+<h3>别再瞎折腾，Obsidian更适合这类人！ AI 越来越强，Claude 能总结资料，Notion、飞书也能记笔记，那普通人还需要 Obsidian 吗？ 这期聊聊：什么样的人适合继续用 Obsidian，为什么别再把它…</h3>
+
+<p><strong>作者</strong>：Kiven大汉堡 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644608213127646518">抖音</a> · <strong>价值评分</strong>：2</p>
+<p><strong>简介</strong>：别再瞎折腾，Obsidian更适合这类人！ AI 越来越强，Claude 能总结资料，Notion、飞书也能记笔记，那普通人还需要 Obsidian 吗？<br />
+这期聊聊：什么样的人适合继续用 Obsidian，为什么别再把它当高级收藏夹，以及如何让它真正成为承载项目、思考和行动上下文的工作现场。#obsidian #notion #claude #ai #知识库</p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】Obsidian的真正价值不是收藏整理资料，而是通过双链建立“上下文”，让笔记服务于你当下的行动和思考，这是AI无法替代的。
+
+【具体做法/要点】
+1. **别折腾工具，直接记**：不要花时间调主题、找插件。打开空白页，写下想法，顺手加个双链（`[[关键词]]`）就算完成。核心是“记下来”，不是“弄好看”。
+2. **用双链连接“上下文”**：写新笔记时，主动问自己：这条内容跟我过去的哪个项目、想法或问题有关？插入双链就是在梳理关系，让孤立的笔记串联起来，共同服务于一个目标。
+3. **把Obsidian当“工作现场”**：将笔记内容（含你的思考脉络）直接丢给Claude Code或Codex等AI，让它基于你的“上下文”互动，而不是去网上找通用答案。这样得到的回复是为你量身定制的。
+4. **利用本地纯文本优势**：笔记是本地Markdown文件，AI能直接读取，且数据永远属于你，不被云平台绑架，可随时迁移和调用。
+
+【避坑/注意】
+- 如果你只想囤资料、以后能搜到，用Notion或飞书加AI就够了，没必要用Obsidian。
+- 别陷入“研究笔记系统”的陷阱，比如纠结PARA或Luhmann法，最终用的还是那几个文件。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+有了AI还需要用Obsidian吗?
+能够记录笔记的软件那么多,
+为什么我们需要使用它?
+同时向Notion飞说IMA都支持AI,
+为什么Obsidian又会成为当下最适合AI的工具呢?
+那么看完这期视频,
+你能够更加清楚地知道一件事情,
+你是否应该继续使用Obsidian,
+以及Obsidian的真正价值是什么?
+我现在越来越觉得,
+很多人虽然在使用Obsidian,
+但是真的用错了,
+他们使用Obsidian的时候是从折腾开始的,
+首先会花大量的时间找插件,
+调主题,包括Page CSS,
+界面越来越好看了,
+但是真正打开它的次组并不多,
+还在拼命的囤积信息,
+大件知识库,
+出发点是希望以后能够真正的用到,
+但结果是要写东西或者说做决定的时候,
+还是会从零开始。
+同时会去研究笔记系统的大件,
+比如说Parallel或者像LM Vicky,
+可到头来最终用的还是那几个零食的文件。
+当我认真去看这三个场景的时候,
+会发现它背后都对应着一个问题,
+它的出发点是处理好信息而不是行动,
+收藏资料这件事情其实现在已经不是很难了,
+像现在资料的保存,整理以及检索都可以完全的交给AI,
+当你把一篇文章丢给Cloud,
+几秒钟时间就可以整理出重点,
+包括像一堆散软的文件丢给Cloud Code,
+它也能够帮你进行对比,
+归纳找出共性最终进行分类。
+如果说你的需求只是说以后能够找到,
+那么像Notion飞书甚至一些普通的文件夹加上AI,
+都可以能够实现了。
+可是现在为什么还需要去研究Obsidian呢?
+我认为笔记系统的最重要的价值,
+从来不是收藏或者说整理,
+现在真正稀缺的已经不是信息了而是剩小文,
+因为AI能够帮你去分类、打标签、建立目录,
+但是有些问题它没办法帮你去回答。
+比如说这条资料能不能真正推进你当下正在做的项目,
+或者说它能否改变你对于某个问题的判断,
+以及它与你之前写过的某一个想法之间是否有冲突。
+这些问题的答案其实不在于你的资料,
+而是在于你当下的处境。
+当AI看到文字,它不能看到这段文字背后,
+你的生活的位置是哪里,
+也不知道你处在一个什么样的场景和挑战当中。
+当你把一篇新的笔记,
+然后进行关联,
+或者说记录到你官网的笔记的时候呢,
+那么才是真正的把剩下文建立起来了。
+这里面的重点就是说,
+你要去尽可能多的去建立一层连接。
+再多的笔记,
+如果说他们没有这一层连接,
+只是一个数据。
+而当你在使用Obsidian的时候呢,
+就可以去做这一件事情,
+而且它功能的边界非常高,
+你完全可以使用Cloud Core的加Obsidian方式呢,
+不断的去进行完善和优化。
+你不需要等待笔记软件的更新,
+你只需要去不断的学习AI的使用方法。
+这样呢,Obsidian就可以成为你的一个工作现场。
+所谓的工作现场呢,
+就是你打开这个笔记,
+然后把剩下文给AI去进行一个更加顺入的互动。
+这也是为什么Obsidian会有那么多人开始去使用了,
+因为它能够实现一些其他软件没办法代替的,
+比如说第一个是本地的markdown,
+这样呢,可以随时去进行签议你的笔记呢,
+不是某一个平台的数据仓库里面的页面,
+而是你在电脑上的重文本文件。
+看起来呢,它再普通不过了,
+但是当你去使用AI就会发现,
+这件事情比以前更加的重要,
+因为越来越多的笔记工具呢,
+开始接入AI,你的内容呢是放在云上面,
+它会被模型去进行训练,
+同时你无法进行签议,
+或者说你要付费才能够签议。
+而Obsidian呢,在这一点上面做的很好,
+因为你写下来的东西仍然属于你,
+因为它是保存在本地的,
+不会被任何平台...（转写过长，已截断，完整内容见原视频）
+
+</details>
+</div>
+<div class="video-card">
+<h3>开发了个桌面整理大师哈哈 #电脑使用小技巧 #桌面整理</h3>
+
+<p><strong>作者</strong>：奇怪宝宝 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644972021215044937">抖音</a> · <strong>价值评分</strong>：2</p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+</div>
+<div class="video-card">
+<h3>Ai大模型智能时间读取器！#实用电脑软件 #电脑技巧</h3>
+
+<p><strong>作者</strong>：彩虹-远程修机 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642104877946922235">抖音</a> · <strong>价值评分</strong>：2</p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+</div>
+<div class="video-card">
+<h3>如何用豆包学会任何领域？ 给大家分享几个小技巧！ #人类对豆包的开发不足百分之一 #三分钟生成PPT #豆包也太会写了 #豆包 #AI新星计划</h3>
+
+<p><strong>作者</strong>：林亦LYi · <strong>链接</strong>：<a href="https://www.douyin.com/video/7631802120253033734">抖音</a> · <strong>价值评分</strong>：2</p>
+<p><strong>简介</strong>：如何用豆包学会任何领域？ 给大家分享几个小技巧！</p>
+<h1 id="ppt-ai">人类对豆包的开发不足百分之一  #三分钟生成PPT  #豆包也太会写了 #豆包 #AI新星计划</h1>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】用豆包PC版，从“提问-溯源-梳理-输出”四步，几小时摸透任何新概念。
+
+【具体做法/要点】
+1. **专家模式提问**：打开豆包PC版“专家模式”问“XX是什么”，回答有资料印证，不易瞎编。
+2. **溯源+总结**：让豆包指出概念出处，用浏览器“温豆包”一键总结原文，30秒抓核心。
+3. **生成脑图+划词解释**：让豆包生成思维导图梳理逻辑，遇到不懂的词（如Agent）直接划词让它用大白话解释。
+4. **输出倒逼输入**：先让豆包生成PPT大纲（明确主题、受众、风格），确认后再一键生成完整PPT。
+5. **套用模板**：直接上传公司祖传PPT模板，豆包会自动套用排版；或上传网上好看的PPT截图，让它解构配色排版。
+6. **细节优化**：一键换字体、点图提要求换图、上传表格自动生成动态图表，最后导出无水印PPTX/PDF。
+
+【避坑/注意】
+生成PPT别只说“帮我做个PPT”，太笼统，必须先定大纲。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+说真的
+今年AI更新的速度
+我追的有点累了
+刚弄懂一个新词
+刷一会手机又炸出一个新概念
+不是不想学
+是真学不完
+但是这种高强度的折磨
+反倒让我学会了一下重要技能
+怎么在几个小时内摸透一个新概念
+说出来也不神秘
+用的就是人人都有的豆包
+豆包能玩的花样
+我觉得大家都还没摸到边
+在这个信息爆炸的时代
+接触AI快速了解一个概念
+懂得一个行业的迹象
+我觉得每个人都值得学一学
+今天就来和大家分享一下
+我是怎么从发现一个陌生概念
+到真正搞懂它
+再到做出能展示
+能讲给别人听的内容
+让我们开始吧
+前阵子
+Skills这个AI概念就很有讨论度
+比如率先出圈的同事点Skills
+就是通过AI
+把一个人的专业技能
+工作习惯实话风格
+乃至性格特质自动提取出来
+复刻成AI可以一键调用的技能插件
+浓缩出一个数字打工人
+甚至这个玩法
+还出现了老板点Skills
+前阵点Skills
+甚至为了反抗这种
+把人变成Skills的现象
+还有人整出了反征留点Skills
+但是看了很多例子
+很多人对Skills到底是个啥呢
+可能还是迷于乎乎的
+Skills
+今天我们就拿它当例子
+看看怎么用豆包快速搞懂Skills
+这里我们直接打开豆包PC版的专家模式
+提问说AI圈的Skills是什么
+用专家模式的好处
+是它不会自己瞎编
+回的消息都是有资料印证的
+根据豆包的回答
+我们对Skills有了个基础认识
+它是一套专门给AI定制的
+标准化技能规则包
+明确了特定任务的执行逻辑
+操作流程配套工具和输出规范
+能够一件复用
+让AI稳定完成对应工作
+比如总是不知道老板在说什么
+我们就可以把老板的形式风格
+写成专属的Skills
+AI就会精准复刻老板的说话方式
+出示风格
+还能顺带弄明白老板脑子里到底在想啥
+有了初步的印象之后
+我们就要更深一步了
+前面豆包告诉我们Skills这个词
+是Anselopic支架公司先整出来的
+那我们就追根溯源
+看看Skills的原始出书是怎么写的
+这个文档看起来老复杂了
+里面一堆代码数语
+遇到这种长文也不用应读
+直接点豆包浏览器右上方的温温豆包
+选总结全文
+30秒就能生成精减摘要
+快速抓住Skills的核心
+比如它为啥能火
+能帮咱们解决啥问题
+比自己读半小时高效多了
+了解了Skills的前置知识
+我们就得将这些碎片画的知识
+统筹整理成有条理的内容
+点击生成脑图
+豆包会自动把Skills的相关介绍
+排成一张清爽的思维稻图
+这里可能会有一些我们看不懂的名词
+比如Agent
+我们直接画词点击解释
+豆包就会用大白画告诉我们Agent
+是会干活的助理
+Skills是助理的具体技能
+比如助理会写周报做PTT
+这俩就是两个不同的Skills
+Agent可以同时拥有多个Skills
+帮我们完成更复杂的工作
+到这一步
+我们没有啃一篇长文档
+没有进一个复杂数语
+只用了豆包的基础功能
+就大概了解了Skills这个新概念
+不过光听懂还不算真正学会
+根据费卖学习法
+最好的学习就是输出
+只有把知识疏理清楚讲明白
+才算真正消化吸收
+所以接下来我们就用PTT生成的方式
+把刚刚学到的内容可实化整理
+通过输出复权
+彻底掌握Skills的概念
+很多人用AI做PTT都停留在了第一阶段
+上来就是一句帮我做个PTT
+这句好比你直接对着皇上说
+我想当官儿一样
+太龙统 太直白了
+容易被直接发配凝固塔
+所以在生成PTT之前
+我们先生成大纲
+把刚学到的Skills知识点
+进行输理
+用输出倒逼自己消化理解
+操作起来特别简单
+打开豆包专家模式
+精准输入需求
+明确主题受众风格这些核心信息
+让豆包生成Mark當格式的GT大纲
+豆包生成的大纲
+会严...（转写过长，已截断，完整内容见原视频）
+
+</details>
+</div>
+<div class="video-card">
+<h3>这个网站360行提示词全免费！不用登录一键复制 #ai创作潮计划 #提示词生成器 #AI提示词 #效率工具 #AI新星计划</h3>
+
+<p><strong>作者</strong>：大卫自媒体（AI赋能版） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7630833471162973114">抖音</a> · <strong>价值评分</strong>：2</p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+再也不用抽血提示词
+这个网站直接封神
+它收起了全球大神的顶级提示词
+覆盖360行全场景
+技术、写作、教育、职场
+全都能找到极用的模板
+几十种实用场景分类整理好
+想要啥一键复制
+不用在到处求人找词
+最良心的是不用登录
+完全免费
+自媒体人直接焊死在收藏家
+
+</details>
+</div>
+<div class="video-card">
+<h3>行走编程第11天！ 全网第一个deepseek harness手机端使用者！你会用harness吗？#deepseek #harness #远程编程 #deepseekharness #AI</h3>
+
+<p><strong>作者</strong>：天宇玩AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7673828574016621833">抖音</a> · <strong>价值评分</strong>：1</p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】DeepSeek Harness是新一代AI编程工具，可脱离电脑端限制，在手机端直接使用，实现随时随地的智能体任务派发。
+
+【具体做法/要点】
+1. 手机端改造：通过蓝猫APP将原本仅支持电脑端的Harness封装为手机端应用，实现移动化操作。
+2. 远程派活：利用智能体通知功能，直接向平台发送指令（如“发通知报在线”），验证手机端可实时控制任务。
+3. 模型灵活切换：支持本地算力设备或云端模型自由切换，适配不同场景需求。
+4. 核心优势：相比传统AI工具需学习固定框架，Harness由AI自主组装流程，降低使用门槛，提升编程效率。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+行走变成了第十一天
+这个Harness正式上线了
+然后我们现在应该是
+全网唯一的一个手机端的一个Deepseak Harness
+我是直接利用蓝猫APP
+我把它做成了一个手机端
+因为它原本是指示纸电脑端的
+我直接做到手机端里面支持来了
+然后它还可以有一些这么特别酷的事情呢
+它本质是一个智能体对不对
+我给它发一个通知
+你给我发一个通知
+给我的平台发一个通知
+你就说你在线
+你看到没有
+我现在直接是手机里面给它派活了
+最新上线的一个项目
+二的四小时都没有到
+我就已经把它做到了一个手机端
+那么为什么要用这个Harness呢
+因为它是一个提前工具
+它是一个圆数据
+它是一个圆AI变成的一个概念
+因为以前的那些AI工具
+它变成的时候
+都是要求你学会
+它们自己的那一套框架
+但是今天这个Deepseak Harness的话
+它是可以自己全部由自己来组装
+你看到吗
+我现在甚至把它做到了一个手机端的一个体验
+它是可以直接切换的
+如果你们需要本地的散力
+你们可以配合你自己的一个散力设备
+它背后的这个模型
+都是可以手中切换的
+接下来想要做一些代码上面的一个工作
+我要看一下它的能力到底有多强
+那么感兴趣的老板
+评论是扣1
+然后我们继续来玩一下
+最新发布的Deepseak Harness
+
+</details>
+</div>
+<div class="video-card">
+<h3>reasonix国产开发 Harness 之光 专门为 Deepseek 适配的！虽然不是官方的 harness，但是已经非常非常棒了。 刚出来的时候就在用，但是最近其他家公司发的东西有点多，所以就没太关注。但是这次心血…</h3>
+
+<p><strong>作者</strong>：艺峰学长 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7670496973892128699">抖音</a> · <strong>价值评分</strong>：1</p>
+<p><strong>简介</strong>：reasonix国产开发 Harness 之光 专门为 Deepseek 适配的！虽然不是官方的 harness，但是已经非常非常棒了。 刚出来的时候就在用，但是最近其他家公司发的东西有点多，所以就没太关注。但是这次心血来潮更新了一下，发现真的不得了，跟原来完全是两个产品。#herness #reasonix</p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】Reasonix 是当前适配 DeepSeek 的国产 Harness 工具中完成度最高、最值得优先尝试的选择，尤其在智能体开发场景下命中率极高。
+
+【具体做法/要点】
+1. 优先用 Reasonix 做 DeepSeek 适配开发，实测“疯狂开发一天”命中率“高得可怕”，适合高频迭代场景。
+2. 工具内置自治能体（Agent）功能，操作简单，无需复杂配置即可上手，适合快速验证想法。
+3. 官网生态健全、更新快，功能覆盖全面，但建议先专注用熟核心功能，不必同时追其他同类新品。
+4. 若已用 CRI（可能指其他 Harness 或框架），效率也不错，但当前阶段 Reasonix 体验更优；可等 DeepSeek 官方 Harness 发布后再对比迁移。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+强烈推荐大家啊
+用这个
+Drummer with DeepSeek
+这个做适配的
+我太猛了
+我今天这么一顿干
+玩了一天
+一顿疯狂的开发
+干了多少头肝
+这个命中率高的可怕
+然后
+这个真的非常棒
+然后推荐给大家
+你看还可以这个
+自治能体啊
+然后
+就是
+太舒服了
+各种功能其实都有
+然后而且操作也非常的简单
+然后呢
+他这个网站
+现在也非常的健全
+什么都有
+然后更新的非常快
+真的
+然后
+伙伴如果问我
+这全部权威
+我觉得我还必定权威
+反正
+啥都用
+大家看我这些东西
+啊我都用
+都用过
+但是我是觉得
+就是
+这个啊
+不能讲
+这个
+这个
+还有这个
+别的暂时可以再等一等
+这这几个真的是
+非常棒
+然后如果
+用CRI的话
+其实效率也很高
+推荐大家啊
+非常棒非常棒
+那DeepSync
+自己的这个
+Harness出来以后
+再
+观察一下到底怎么样
+但目前来讲
+我觉得这个真的是
+YYDS
+YYDS
+
+</details>
+</div>
+<div class="video-card">
+<h3>把喜欢的小说做成游戏也太好玩了！#人类对豆包的开发不足百分之一 #遇事不决问豆包 #古月方源 #游戏制作 #豆包生产力的神</h3>
+
+<p><strong>作者</strong>：困告羊 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7665299652660463306">抖音</a> · <strong>价值评分</strong>：1</p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】用豆包电脑版，输入指定指令，就能把整本小说自动生成可玩的游戏。
+
+【具体做法/要点】
+1. 在豆包电脑版中找到“新办公任务”功能，输入特定质量指令（口播未给出完整指令词，需自行探索或参考相关教程）。
+2. 豆包会读取你提供的整本小说内容，自动解析剧情、角色和世界观。
+3. 生成游戏后，可体验小说中的核心情节，如抓宠、战斗招式（如“仙道沙招”）、打副本等互动玩法。
+4. 注意：生成内容可能不完全符合原著细节（如招式设定），需后期手动调整或接受AI改编。
+
+（注：口播中未提供具体指令文本，实际使用时需自行查找或测试触发词。）
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+豆包电脑版有一个新办公任务
+给大家输入这段质量
+他就会看你整本小说
+然后把你的小说给你做成游戏
+太好玩了做出来
+已经三转终结
+马上三转电包
+看我现在抓的这个骨虫
+然后还有仙道沙招
+但是这个仙道沙招没有符合援助
+好玩
+然后还有
+还能打副本
+
+</details>
+</div>
+<div class="video-card">
+<h3>滑动变祖器，滑到梁圣！！！ #AI教育 #deepseek #高中物理 #物理网课</h3>
+
+<p><strong>作者</strong>：酷学物理赵老师-海淀版 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7674179051652840356">抖音</a></p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】用DeepSeek Pro开发了一个物理网课同步教学工具，让学生强制跟随教师视角实时画图做题，并支持双向页面跳转。
+
+【具体做法/要点】
+1. 教师端控制“强制跟随”：所有学生画面同步教师操作，教师翻页、画图、做题，学生端实时可见。
+2. 学生可反向操作：学生能在自己屏幕上画图、写思路，教师端也能看到；若学生翻到某页，可一键让教师跳转到该页。
+3. 多学生并行支持：多个学生可同时操作，互不干扰，适合课堂互动。
+4. 大文件处理能力：200多页课件直接导入不卡顿，支持书签跳转，批注内容可导出保存。
+
+（注：口播中“work body/codex”为转写误差，实际指其他AI工具，不影响核心方法提炼。）
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+好 这个玩意儿 这个功能
+DeepSake真的给我戳出来了
+昨天晚上戳了一十个小时一晚上
+之前用work body 用codex都没做完事
+然后DeepSake给我做出来了
+这是什么呢
+这可以让学生在这强制跟随所有的学生
+然后学生强制跟随我的视角
+然后在这画图 作题
+学生都直接在自己的电脑上
+在自己的一面上就能够看见
+而且如果学生需要在这
+他有什么思考 他有什么想法
+他可以直接在这
+他也可以自己在这里画
+在这种 我这里也能够看见
+如果我翻页了
+如果我在这翻页了 翻了很多很多页
+然后可以让他直接跳转到我这个页面来
+如果学生在这 找找找到这个页面
+他也可以直接让我跳转到他这个地方来
+而且很多个放在一起都是可以的
+这也可以
+然后这也可以
+然后还有更爽的就这么一个功能
+哇 做了好久好久
+做了十天 用了work body
+然后今天 终于Deep Sake Pro 做出来了
+他跑了多久 跑了13轮
+然后用了291分钟
+这么长时间 总共时间是631分钟
+做了10个小时
+哇去 终于做好了
+然后现在这个东西部署在我的服务器上
+可以直接给你用一分钟
+现在这个奖劫
+200多页的奖劫倒进去完全不会卡
+然后也可以在这 选书签
+选书签
+然后让学生一跳转
+学生一跳转到这来
+所有的学生都跟着跳转
+然后学生选书 also 可以写什么
+哇 接下来
+今天所有的网科学生送给手机板
+终于可以看到你们怎么想怎么做的
+哇 你们也在这给我写
+也在这给我写 给我画
+然后标准完了之后
+还可以把这个标准好了之后再倒出
+哎 然后再倒出就可以了
+哇去 太爽了
+
+</details>
+</div>
+<div class="video-card">
+<h3>果然用obsidian做知识库还是太权威了 #obsidian #知识库搭建</h3>
+
+<p><strong>作者</strong>：陈语寥聊 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640149467819548654">抖音</a></p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+给你们看一下知识是怎么演化的
+那这是演化的瞬间
+就像细胞分裂一样
+一个一个的产生
+可以看到它的颜色是不一样的
+这些红色的全部都是我自己收集
+或者是写的一些内容
+然后这个蓝色的基本上都是我自己的一些项目
+这些绿色的话就是标签
+它会把每一个文件的打上标签
+你想到标签标签
+然后这些黄色的话就是产出的一些内容
+而且它是可以拖的
+哇是不是很悬枯
+你可以很轻轻的看到每一个知识的观点
+
+</details>
+</div>
+<div class="video-card">
+<h3>彻底告别纯文本，V4.1实现真正的模型共鸣 #deepseek #大模型 #AI #算力</h3>
+
+<p><strong>作者</strong>：大计算算力炼丹炉 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7645263548771257635">抖音</a></p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+Lipstick V4.1 终于要在6月来了
+这次升级彻底解决了
+V4越南版只能聊纯稳本的遗憾
+但最炸裂的不是它能看能听
+而是它终于学会了干活
+V4.1最大的杀手锏
+是原生支持MCP协议
+以前的AI只能陪你聊天
+现在的V4.1能直接连接你的数据库
+ERP和CRM系统
+它能调用外部数据操作各种工具
+你携手画个产品操图
+再哼唱一段旋律
+它不仅能领会你的情绪
+还能直接深层完整的落地执行方案 甚至自动调用设计软件出图 感知不再是孤岛 协作 惨真正开始
+从能聊天 进化到 能干活
+Dipstick V4.1的不只是多摩太能力
+更是AI与人类沟通的共同语言
+
+</details>
+</div>
+<div class="video-card">
+<h3>豆包编程开箱即用，对小白也太友好了！ 要是我能早知道这些就好了哇 #豆包ai #豆包电脑版 #人工智能 #ai #科技</h3>
+
+<p><strong>作者</strong>：公子龙 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7484120071208520996">抖音</a></p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】豆包电脑版内置AI编程功能，小白不用写代码、不用配环境，就能直接生成并运行小游戏、图表和完整项目。
+
+【具体做法/要点】
+1. **做小游戏**：打开豆包电脑版，点左侧“AI编程”，输入提示词（如“实现一个勒扎实际考试小游戏”），它直接用HTML生成，右侧能立即预览效果，不用复制到本地。
+2. **改代码靠对话**：对生成效果不满意，直接打字告诉它怎么改，它会生成新版本文件，你可以在多个版本间切换选择。
+3. **画图表**：让它“绘制图表”，代码生成后点右上角“运行”按钮，几秒出结果，想调整就继续对话。
+4. **生成完整项目**：输入如“生成一个健身打卡系统”，它能给出前端+后端代码，支持一键下载到本地修改，省去搭框架的时间。
+
+【避坑/注意】提示词要具体，比如说明游戏类型或图表样式，结果会更精准。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+哇 我发现豆包在编程这一块
+开箱几轮对小白太优好了
+想玩一致小游戏没问题
+让它生成了勒扎实际考试
+轻松遍别
+谁是真粉还是假粉
+想绘制图表交给它
+你看统情练练分布的品砖图
+几秒钟搞定
+再大拦一点
+甚至它还能帮我生成一个完整项目
+前端后端代码拖有
+利欧P
+买1分钟用教会里
+如何去去使用豆包更新的编程能力
+超级好用
+打开豆包电脑板
+点击左侧AI编程
+输入提示词让它实现一个勒扎实际考试小游戏
+我们的提示词非常惨
+你看它通过html实现了所有的逻辑
+而且生成结束之后
+我们可以直接看到网易端的预览效果
+以往在各类对话工具中
+我们需要把代码复制到本地运行再看效果
+而新赖兰有了豆包类质的刷箱运行环境
+可以所见其所得
+而且我们可以通过不断的对话去调整代码效果
+知道满意为止
+这也太翻变了
+代码栏豆包绘制个图表
+代码生成后
+点击右上角运行按钮
+瞬间拿到运行结果
+如果想要修改
+可以对话告诉它
+这时候就会生成新版本的代码文件
+你可以选择任意一个版本
+继续进行对话
+甚至我们还可以让豆包直接生成
+完整的项目代码
+比如说让它生成一个健身打卡系统
+输入提示词
+你看它很快就生成了前端后端代码
+可以点击下载到本地进行修改
+能够节省不少的框架拿件时间
+做个demo是做过优势的
+通天下来沙盒变成环境的引入
+让豆包变成了体验
+又上了一个胆词
+妥妥提效神器
+赶紧搜豆包电脑版运起来吧
+
+</details>
+</div>
+<div class="video-card">
+<h3>挑战用豆包两分钟开发一个软件 #人类对豆包的开发不足百分之一 #遇事不决问豆包</h3>
+
+<p><strong>作者</strong>：英雄哪里出来 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7619961394124836132">抖音</a></p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】用豆包AI，普通人也能按“需求→审核→编码→美化”四步，零基础做出自己的时间规划软件。
+
+【具体做法/要点】
+1. **写需求**：豆包选“帮我写作”专家模式，明确告诉它“我是谁、要做什么工具”，生成详细需求文档，省去自己构思。
+2. **砍需求**：下载文档（选Markdown格式），用编辑器打开（乱码就换UTF-8编码）。只留核心功能，砍掉登录、隐私等复杂项，避免代码太臃肿。
+3. **写代码**：复制精简后的需求，切到豆包“编程”模式，粘贴并补一句“请用XX语言开发”，等几分钟即可得到能跑的初版程序。
+4. **优化界面**：对初版不满意，直接输入“优化界面，让它更好看”等指令，调整细节后下载到本地，双击即可使用。
+
+【避坑/注意】
+- 工具定位要“轻量刚需”，功能贪多会导致生成代码复杂难改。
+- 需求文档下载后若乱码，记得切换编码为UTF-8。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+最近收到很多大人粉丝私信
+说自己对未来特别迷茫
+每天混和饿不知道干嘛
+其实迷茫的根源就是没有把时间规划做好
+所以今天我就教他做一个时间规划工具
+邻居处也能上手了
+第一步就是需求收集
+我用豆包来演示一下
+选择这个专家模式
+因为接下来我们要写需求文档
+所以选择帮我写作
+把我的需求告诉他
+这个是告诉他身份
+这个是告诉他要做什么
+这样就能更加精准的帮我干活了
+剪辑发送就可以了
+这样需求文档我就不用自己写了
+这里给大家说个关键闭坑技巧
+大学生用的工具
+轻量好用刚需才核心
+所以一开始不要贪多
+不然生成代码太复杂
+字节也改不了
+OK好了我们来验收一下
+他把每个功能交互逻辑都标得清清楚楚
+比如刻表导入
+支持手动输入还是图片识别
+番茄专注计时有没有白噪音
+这些细节都不用自己想
+第二步 需求审核
+先把文档下载下来
+选择markdown的形式
+点击立即查看
+这时候可能乱码了
+解决方法也很简单
+点击右下角的编码
+选择reopen within coding
+换成utf8就可以了
+但是这些需求太多了
+很多事我完全不需要
+因为我自己用
+我不需要这些安全隐私乱七八糟的东西
+注册登录我也不要
+把白噪音也换成系统自带的道计时提示音
+差不多就可以了 保存一下
+第三步 代码实现
+既然用了豆包
+我就继续用豆包帮我写代码
+先把这个需求复制一下
+这个页面关掉
+帮我写作关掉
+点击编程
+粘贴刚才的需求
+再补一句明确的开发指令发给豆包
+同样是明确身份和指派需求
+然后点击发送
+接下来就是等待的过程
+它会去深度思考
+先想一想具体要做哪些功能
+想完之后就开始写代码了
+这代码如果你不想看
+你大可以不看
+你可以去干点其他事情
+大概等了几分钟左右
+就可以拿到一个出版的程序
+核心功能都能跑
+能用 就借面可能朴素点
+没关系 我们接着优化
+第四步 借面优化
+最后一步我们给它改头换面
+让这个借面看起来又好看又好用
+输入借面优化的提示词就行了
+提示词可以这么说
+优化好以后细节再调整一下
+我们把它下载到本地
+双击打开
+这时候一个属于你的时间规划软件
+就彻底做好了
+课程管理 任务规划
+任务还可以点击完成
+目标管理
+阶段性目标也可以点击完成
+以及专注模式
+告别迷茫就靠它了
+全程用到提示词
+我都给大家整理好了
+直接收藏保存
+跟着步骤一步步来
+零基础也能做出属于自己的时间规划软件
+
+</details>
+</div>
+<div class="video-card">
+<h3>提示词越狱#AI #豆包 #杂谈</h3>
+
+<p><strong>作者</strong>：Ai玩家老陈 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7632951436023811347">抖音</a></p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+</div>
+<div class="video-card">
+<h3>《当我试图驯服AI》 #ai #搞笑 #内容过于真实 #豆包 #精神状态belike</h3>
+
+<p><strong>作者</strong>：小何同学【梗王】 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644863076093344753">抖音</a></p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+你好,ChaiGbT,请把我们的衣服都变成黑色
+两个都要变黑
+不,不是,把我们变回中国人
+不是,清朝,你这是刻板印象
+刚才的操作指令全都给我去掉
+算了,重新来吧,把我们变回一开始的样子
+
+</details>
+</div>
+<div class="video-card">
+<h3>实用软件 #电脑软件 #实用工具 #windows</h3>
+
+<p><strong>作者</strong>：福哥办公 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642276222194710505">抖音</a></p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+</div>
+<div class="video-card">
+<h3>我和我的傻包#豆包</h3>
+
+<p><strong>作者</strong>：-17 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642530702404650917">抖音</a></p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+</div>
+<div class="video-card">
+<h3>智能翻译工具 #编程</h3>
+
+<p><strong>作者</strong>：傻了吧唧 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640805674095671546">抖音</a></p>
+<blockquote>
+<p>暂无结构化 insight，参考简介与转写。</p>
+</blockquote>
+</div>
+<div class="video-card">
+<h3>腾讯最新的 ai软件马维斯不得不说确实有点东西 #马维斯 #marvis</h3>
+
+<p><strong>作者</strong>：陈语寥聊 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642569978260835529">抖音</a></p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】腾讯Marvis AI智能体办公软件，完成度高于同类产品Workbody，但缺第三方API调用接口。
+
+【具体做法/要点】
+1. 内置6个分工明确的AI智能体（主管分配任务、文档管理、APP操作专员等），模拟真实办公室协作场景。
+2. 智能体有拟人化行为设计（摸鱼、睡觉、打游戏），增强交互趣味性。
+3. 可直接控制电脑本地应用和文件，操作流畅度高。
+4. 提供“技能广场”，支持技能库一键编排调用。
+5. 双模式运行：效率模式（调用腾讯云端AI）和隐私模式（调用本地部署大模型，需高硬件配置）。
+
+【避坑/注意】
+隐私模式需本地部署大模型，对电脑硬件要求较高，普通用户建议先用效率模式。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+看腾讯最新的AI软件
+马维斯
+很有意思
+他这有个办公室里面有很多的智能体
+全是小码
+这一个是他的主管
+他负责分配任务
+然后这一个正在这锻炼身体的
+他可以管理本地的文档
+然后这一个跑这来拉屎的
+这一个是什么
+APP
+还有软件的一个操作专员
+然后他们平时的工位就在这
+一共有6个智能体
+然后没事的时候
+他就会来摸鱼
+来这锻炼身体
+他刚锻炼完身体
+现在要回他自己的工位了
+跑挺快
+跑这来干嘛呢
+跑这来睡觉了
+这家伙竟然在这打游戏
+我打的还是英雄雷蒙
+这给拉完屎吧
+也要回工位了
+他们还有聊天
+你看
+可以
+那做的还是真的挺细的
+他这个软件我试了一下
+我发现他这个软件整个的一个流畅度
+还有完成度
+都比现在他的同类型的软件
+workbody要更好用
+而且做的完成度真的很高
+还可以控制自己电脑上的一些应用
+还有电脑的一些文件
+然后他的技能广场
+可以看到做的也还是蛮不错的
+然后这个技能库可以直接一件偏僵
+但他现在有一个问题是什么呢
+是他的AI接入只有两种方式
+这个效率模式的话
+他直接调用腾讯的AI来给你操作
+然后隐私模式
+他会直接调用你本地的大模型
+需要你自己本地部署
+这个要求的硬件配置就比较高了
+我觉得他现在缺了一个东西就是什么呢
+他如果能加一个第三方API的一个调用
+这个软件基本上会全面超越workbody
+估计使用量会在短时间内倍增
+
+</details>
+</div>
+<div class="video-card">
+<h3>2026年了，个人知识库到底有没有标准答案? #AI #大模型 #gpt #gemini #claude</h3>
+
+<p><strong>作者</strong>：布鲁歇一歇 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639008890583010594">抖音</a></p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】2026年个人知识库没有标准答案，按需选型：在线工具够用就别折腾，追求长期沉淀再看LLM Wiki，技术大牛才考虑自建系统。
+
+【具体做法/要点】
+1. **先明确三个核心需求**：资料能否快速找回、内容能否被AI理解总结、长期关注领域能否沉淀成体系。三者不必用一个工具全解决。
+2. **普通人首选在线知识库**（Notebook LM、Perplexity Spaces）：零代码上传即用，AI基于你的资料回答并自动标出处。适合内容创作者整理选题、学生梳理知识点、产品经理对比竞品分析。
+3. **进阶选LLM Wiki路线**：让AI提前把原始资料整理成结构化Wiki页面（用Obsidian管理文件+Claude Code维护），查询时不再翻原文。适合更新慢、追求长期沉淀的场景。
+4. **技术大牛可参考Gbring思路**：结合向量检索+知识图谱+Agent Skills，深度整合个人数据流，但需TypeScript/Docker等技术能力，普通用户不建议照搬。
+
+【避坑/注意】
+- LLM Wiki不省token，只是把查询消耗转为写入消耗；更新频繁时成本更高。
+- Wiki一旦写错会长期污染知识体系，需定期校验。
+- 在线方案有隐私风险、检索逻辑不可改、文档数量受限，不适合强隐私或工程化场景。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+最近啊,后台有不少小伙伴问我,个人知识库到底该怎么搭?
+是直接用Notebook LM,还是自己搞一套Rack,还是用卡帕西提出的LM Wiki?
+面对这些问题,我想先抛出一个观点。
+个人知识库不是越复杂越好,并且在2026年的今天,知识库也没有所谓的标准答案。
+那个人知识库真正要解决的问题其实很简单。
+第一,我看过的资料之后能不能快速地找回来。
+第二,我收藏的内容能不能被AI理解和总结。
+第三,我长期关注的领域能不能慢慢成变成自己的知识体系。
+而且,不是说一个知识库能解决所有的问题。
+你可以根据不同的场景,不同的需求去构建多个知识库。
+那今天我就围绕这三个问题,给大家分享下个人知识库的方法论和工具。
+最后也会有个人的时间案例。
+先说个适合普通人的方案,个人的在线知识库。
+代表工具就是Notebook LM和Perplexity Spaces。
+这类工具的核心特点非常简单,你上传文档AI基于你的资料回答问题,并且自动标准出处。
+不用写代码,不用部署,不用搭数据库,也不用理解什么Invending、相量检索、Chunking。
+你只要把PDF、文章、课程资料、回记录等等上传进去,它就可以帮你回答总结起点重点。
+对于大多数个人用户来说,这已经非常够用了。
+比如你是一位内容创作者,你可以把自己收集的资料上传进去,让AI帮你起点选题。
+你是一个学生,可以把论文、教材、课程笔记上传进去,让它帮你输理知识点。
+你是一个产品经理,可以把进品分析、需求文档、用户反馈放进去,让它帮你总结合对比。
+这就是在线知识库的最大优势,零代码、零部署上传即用。
+当然在线方案也有缺点,第一,数据要上传到第三方服务器。
+第二,检索逻辑不能自己改。
+第三,不能深度集成自己的产品和工作流。
+第四,文档数量和项目规模通常都有上线。
+所以说,它更适合清亮的个人使用,不适合强隐私、高定质、长期工程化的场景。
+如果你只是想要管理自己的资料,那就可以先从在线方案开始,通常是最省事的。
+那如果你不满足于上传文档回答,而是想把知识库长期沉淀成自己的体系,那就可以看第二条路线。
+LLM Wiki,这个概念是上个月有卡帕西提出来的,也是非常的火,思路非常有意思。
+传统的RAG是什么?你提问的时候,系统才去原始文档里面检索相关的片段,然后丢给大模型回答。
+而LLM Wiki反过来,它不是每次提问都去翻原文,而是提前让大模型把原始资料整理化成结构化的Wiki页面。
+以后你要问问题的时候,AI不一定每次都要读原文,而是优先读自己已经整理好的Wiki页面。
+你可以这样理解,RAG是查询式处理,LLM Wiki是写入式处理。
+RAG像是每次考试都翻书,而LLM Wiki像是提前把书整理成复起的笔记。
+这个方案对个人知识管理很有吸引力,因为它的基础设施非常的轻。
+你可以用Obsidian管Marketon文件,再用Cloud Code或者Codex这类智能体帮你读取资料,整理页面,维护交叉引用,甚至不一定需要用到相量数据库。
+它的结果也很符合个人知识管理的习惯。
+原始资料还在,Wiki页面负责总结和组织,AI帮你维护知识之间的关系。
+听到这儿,你是不是觉得这个就是个人知识库的最终答案了?
+并不是,其实这套方案的坑也不少。
+第一个坑也是最反直觉的点,LLM Wiki并没有真正的审token,而是把token从查询时变成了写入式。
+RAG是每次问的时候消耗,LLM Wiki是每次新增资料、更新资料的时候消耗。
+如果你知识库更新很慢,但会被反复的查询,那LLM Wiki很香。
+第二个坑是,Wiki一旦写错,错误就会长期...（转写过长，已截断，完整内容见原视频）
+
+</details>
+</div>
+<div class="video-card">
+<h3>我给 DeepSeek 做了一套专属武装，它更完美了！ #ai #deepseek #openhanako</h3>
+
+<p><strong>作者</strong>：liliMozi · <strong>链接</strong>：<a href="https://www.douyin.com/video/7635986003542560041">抖音</a></p>
+<p><strong>核心 insight</strong>（结构化提炼）：</p>
+<pre><code>【核心观点】给DeepSeek V4补齐思考模式、视觉、长上下文短板，并封装成好用的AI Agent平台。
+
+【具体做法/要点】
+1. **修复思考模式报错**：API开启思考模式后，需把上一轮思考过程（即使为空）原样传回，否则报400错误。客户端需保留空字段，避免对话中断。
+2. **缓存优化省钱**：利用DeepSeek的KV Cache（缓存命中价仅为原价1%），把系统指令等不变内容放前面，时间、记忆等易变内容放后面，提高缓存命中率。
+3. **外接视觉方案**：用其他多模态模型识图，将结果转为“坐标锚点”格式（如“对象+位置坐标”），再交给DeepSeek Pro推理，空间关系更准确。此方案适用于任何无视觉能力的模型。
+4. **Agent环境感知**：给助手配置“花名册和记忆系统”，让不同Agent知道彼此专长（如谁擅长创意、谁擅长数学），可主动协作或拉群互聊，减少幻觉。
+
+【避坑/注意】官方多模态版本是“小号模型”，看图与聪明二选一；外接视觉方案可让Pro同时具备两者能力。
+</code></pre>
+<details><summary>📝 完整转写（点击展开）</summary>
+
+我给DeepSick v4量身定做了一套衣服
+现在它不仅完本适配Max思考模式
+还能让纯纹本的大号模型也拥有视觉能力
+另外操作电脑、编辑文件、连接社交平台这些都不在话下
+这只小鲸鱼发布已经一周多了
+网友实测,它重回开源第一
+甚至能更贵几十倍的对手
+这只小鲸鱼发布已经一周多了
+网友实测,它重回开源第一
+甚至能更贵几十倍的对手,白白手腕
+但随之而来的是争论
+这个天才好像有点偏科
+视觉和聪明二选一
+API介入频频抱错,配置麻烦
+这好比你可以花五百块买一个新款iPhone
+想要正常使用,却得折腾一番
+所以过去一周,我给DeepSick做了超多的优化
+补齐了短板
+这个视频就给大家分享分享我这几天都做了什么
+也许你还记得
+去年梁老板手动做工美股
+DeepSick R1能打出那个声量
+思考模式是最大的功臣
+V4把这个能力又往前推了一步
+新的Max思考模式变得更聪明了
+可是打开官网并没有这个开关
+要用只能接API
+但是API的思考格式特别难伺候
+Cloud Code,龙虾动不动就抛400错误
+社区里一堆人在问怎么回事
+原因在于,开了思考模式之后
+每轮对话都要把上一次的思考过程
+远方不动发回去
+哪怕是空的也得发
+但大部分客户端,会把空的直接扔掉
+导致爆错,对话断掉
+有人错过
+复限概率最高能到59%
+这些问题我这几天在Open Henneco里
+基本都处理好了
+现在接上API
+就能直接用上最聪明的小鲸鱼
+这次DeepSig官方主打的另一个更新
+是100万的长上下文
+就算聊很久
+他都不会忘记你说了什么
+不过上下文一长
+钱就花得更快了
+业界普遍会用一个技术,叫KVCash
+原理很简单
+钱问不便的部分,不需要重新计算
+一般缓存价格不到正常输入的1/5
+而DeepSig做得更狠
+缓存命中只要原价的1%
+几乎是白送了
+所以我也对Henneco做了缓存优化
+把不怎么变得系统指令放前面
+容易变得时间、记忆
+到后面保证命中率
+配合DeepSig使用
+效果最佳
+开头说了
+DeepSig V4发布之初
+视觉是最大的短板
+在大家人均多魔态能看图的精甜
+确实影响绑一这个名号
+前几天
+我为了让DeepSig看见
+给它开发了一个辅助视觉的功能
+原理是用别的多魔态模型试图
+再把结果喂给DeepSig Pro去推理
+调整几天
+终于稳定跑起来了
+思考链合输出结果
+都很像原生的多魔态模型
+结果官方直接上了多魔态版本
+还发了个论文
+那我这周岂不是白干了
+什么
+并没有白干
+而且很有意义
+官方的多魔态
+走的是小号模型
+看图和聪明只能二选一
+而在Henneco里
+Pro也能借助外置视觉看图
+而且我读了那篇论文之后
+捞到了一个很好的思路
+很多外接视觉方案
+本质上是先把图片
+当成文字再去推理
+说左边那个
+中间偏上
+说着说着
+自己都指不清了
+论文的做法
+是把对象和位置
+变成坐标毛点
+让模型指着坐标去想
+我就把这个思路
+用到了外接视觉方案里
+让石图模型按坐标格式
+输出关键区域
+再交给Pro推理
+空间关系理得更清楚
+这也是我觉得开源社区
+最有价值的地方
+成果一发布
+立刻就能给别人
+新的工程启发
+这套方案
+也不只是给Deep Sieg用
+任何没有视觉能力的模型
+接上就能看图
+到这里
+思考模式拉满了
+百万上下文也跑通了
+视觉补伤了
+这只小鲸鱼
+在Open Hanako平台上
+基本没有端版了
+那问题来了
+旧的模型要怎么处理呢
+爱怎么处理怎么处理
+说到这
+我也想跟大家分享一下
+Open Hanako这个软件本身
+除了给Deep Sieg扩展性能之外
+我觉得它可能是东半球
+最适合中国宝宝的AI Agent
+在开发过程中我发现
+一...（转写过长，已截断，完整内容见原视频）
+
+</details>
+
+<hr />
+</div>
+</div>
+<div class="footer">
+企业 AI 实战知识库 · 个人成长系统 v3.0 · 数据基于 514 条视频原文 + 110 方法簇 + 162 方法论<br>
+部署于 GitHub Pages · 2026-09-10
+</div>
+</main>
+</div>
+<script>
+// Search functionality
+const searchIndex = [];
+const PAGES = {};
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Build search index from current page content
+  const content = document.querySelector('.content');
+  if (content) {
+    const text = content.innerText.toLowerCase();
+    const title = document.querySelector('h1')?.innerText || '';
+    const headings = Array.from(document.querySelectorAll('h2, h3')).map(h => h.innerText);
+    searchIndex.push({
+      title, headings: headings.join(' '), text: text.substring(0, 5000)
+    });
+  }
+  
+  // Search input
+  const searchInput = document.getElementById('search');
+  if (searchInput) {
+    let timer;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => doSearch(e.target.value), 200);
+    });
+  }
+  
+  // Highlight current page in nav
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-item').forEach(el => {
+    if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+});
+
+function doSearch(q) {
+  if (!q || q.length < 2) return;
+  // Basic in-page highlight (could be enhanced)
+  const content = document.querySelector('.content');
+  if (!content) return;
+  // remove old marks
+  content.querySelectorAll('mark.search-mark').forEach(m => {
+    const t = document.createTextNode(m.textContent);
+    m.parentNode.replaceChild(t, m);
+  });
+  if (q.length < 2) return;
+  // walk text nodes
+  const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
+  const re = new RegExp(q.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&'), 'gi');
+  let count = 0;
+  while (walker.nextNode() && count < 30) {
+    const node = walker.currentNode;
+    if (node.parentNode.tagName === 'SCRIPT' || node.parentNode.tagName === 'STYLE') continue;
+    const text = node.nodeValue;
+    if (!re.test(text)) continue;
+    re.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      frag.appendChild(document.createTextNode(text.substring(last, m.index)));
+      const mark = document.createElement('mark');
+      mark.className = 'search-mark';
+      mark.style.background = '#ff9a4f';
+      mark.style.color = '#000';
+      mark.textContent = m[0];
+      frag.appendChild(mark);
+      last = m.index + m[0].length;
+      count++;
+      if (count > 30) break;
+    }
+    frag.appendChild(document.createTextNode(text.substring(last)));
+    node.parentNode.replaceChild(frag, node);
+  }
+}
+</script>
+</body>
+</html>
