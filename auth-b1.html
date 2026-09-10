@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOP · 🏗️ FDE 入企交付方向(做深做重) · 企业 AI 实战知识库</title>
+<title>B1 · 《Building LLM Applications for Production》Pete Hunt · 企业 AI 实战知识库</title>
 <meta name="description" content="基于 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径，构建的 FDE/AI落地 实战知识库">
 <style>
 :root {
@@ -335,7 +335,7 @@ details pre {
 <div class="nav-section-title">可执行 SOP</div>
 <a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a>
 <a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a>
-<a class="nav-item active" href="sop-03.html">🏗️ FDE 入企 SOP</a>
+<a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a>
 <a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a>
 <a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a>
 <a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a>
@@ -363,7 +363,7 @@ details pre {
 <a class="nav-item" href="auth-a1.html">A1 · Anthropic FDE 博客<div class="desc">一手权威</div></a>
 <a class="nav-item" href="auth-a2.html">A2 · Anthropic Agent 白皮书<div class="desc">Harness/护栏</div></a>
 <a class="nav-item" href="auth-a3.html">A3 · Anthropic Agent 评估<div class="desc">可验证标准</div></a>
-<a class="nav-item" href="auth-b1.html">B1 · LLM 应用生产化<div class="desc">Pete Hunt</div></a>
+<a class="nav-item active" href="auth-b1.html">B1 · LLM 应用生产化<div class="desc">Pete Hunt</div></a>
 <a class="nav-item" href="auth-b2.html">B2 · Agentic Systems<div class="desc">O'Reilly</div></a>
 <a class="nav-item" href="auth-b3.html">B3 · RAG in Action<div class="desc">知识库工程</div></a>
 <a class="nav-item" href="auth-b4.html">B4 · LLM Security<div class="desc">安全与合规</div></a>
@@ -377,39 +377,193 @@ details pre {
 </aside>
 <main class="main">
 <div class="content">
-<h1 id="sop-fde">SOP · 🏗️ FDE 入企交付方向(做深做重)</h1>
+<h1 id="b1-building-llm-applications-for-productionpete-hunt">B1 · 《Building LLM Applications for Production》Pete Hunt</h1>
 <blockquote>
-<p><strong>方向标签</strong>：下场把项目做扎实</p>
+<p><strong>类型</strong>：工程技术书 · Hugging Face 核心工程师<br />
+<strong>链接</strong>：Hugging Face / O'Reilly 渠道可查<br />
+<strong>中文卡版本</strong>：基于摘要整理 · 2026-09-10</p>
 </blockquote>
-<h2 id="_1">一、为什么这条路径</h2>
-<p>当接单进入交付阶段, 真正的价值在「脏活」——知识库项目七成是帮客户梳理乱文档。FDE 只有 3-5 年红利期, 现在练正是窗口。我的判断: 你不需要立刻专职做这个, 但接到的单子要用 FDE 标准交付, 为以后产品化攒案例。</p>
-<h2 id="_2">二、适合谁</h2>
-<p>适合已有 1-2 个真实项目正在交付/即将交付的人; 目标 = 按 FDE 标准跑完一个项目并复盘。</p>
-<h2 id="sop5">三、执行 SOP（5 步）</h2>
-<h3 id="1">步骤 1：进厂先找数据</h3>
-<p>驻场/远程都行, 但一定要摸到真实业务数据与流程; 数据靠人肉复制=玩具, 先问 API/ERP 在哪。</p>
-<h3 id="2-1">步骤 2：挖 1 号位的真痛点</h3>
-<p>跟决策者聊, 不聊功能聊省钱; 诊断的是流程不是嘴。</p>
-<h3 id="3-ai">步骤 3：立刚性规则再谈 AI</h3>
-<p>涉及真金白银/安全的环节先把专家经验写成固定代码规则, AI 只做交互+预审, 保留一键手动兜底(刚性自动化优先)。</p>
-<h3 id="4demo">步骤 4：交付=Demo→落地→优化→培训</h3>
-<p>每一步留下文档; 目标是「人走了系统还能跑」, 交付即停滞=最大失败。</p>
-<h3 id="5">步骤 5：复盘进案例库</h3>
-<p>每单做完写复盘(什么环节耗时长/客户最关心什么), 喂给下一次接单和内容。</p>
-<h2 id="_3">四、避坑（重要）</h2>
-<p>别接没有数字化基础的企业硬上 AI(没数字化就没AI化); 脏活别外包别嫌烦, 那是壁垒。</p>
-<h2 id="_4">五、相关资料索引</h2>
-<p>总纲: diag/deliver/scale; 课程: 范冰 FDE 书; 15 数据体系</p>
-<h2 id="08-">六、权威依据（来自 08-权威支撑 层）</h2>
+<h2 id="_1">一、定位</h2>
+<p>Pete Hunt 是 React 早期核心贡献者 + Hugging Face 团队负责人。<br />
+这本书讲的是 <strong>从原型到生产的最后一公里</strong>——</p>
+<blockquote>
+<p>"原型能跑 ≠ 生产能用"<br />
+这本书就是解决这个 gap 的工程手册。</p>
+</blockquote>
+<h2 id="_2">二、五大核心论点</h2>
+<h3 id="1-rag">1. 什么时候上 RAG，什么时候不用</h3>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>推荐</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>知识频繁更新</td>
+<td>✓ RAG</td>
+<td>模型重训成本高</td>
+</tr>
+<tr>
+<td>数据是公司私有</td>
+<td>✓ RAG</td>
+<td>不能喂给基础模型</td>
+</tr>
+<tr>
+<td>答案必须可追溯</td>
+<td>✓ RAG</td>
+<td>能引用原文</td>
+</tr>
+<tr>
+<td>通用知识问答</td>
+<td>✗ 不需要 RAG</td>
+<td>模型本身够</td>
+</tr>
+<tr>
+<td>实时信息查询</td>
+<td>✗ 不建议 RAG</td>
+<td>用搜索 API 更准</td>
+</tr>
+<tr>
+<td>计算密集任务</td>
+<td>✗ 不需要 RAG</td>
+<td>直接调工具</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>对应你 SOP-07「报价签约」里的"知识库项目 7 成是脏活"——<br />
+<strong>脏活的本质就是 RAG 的数据准备</strong>。</p>
+</blockquote>
+<h3 id="2-middle-gateway">2. 模型网关（Middle Gateway）架构</h3>
+<p>不是每个业务都直接调 OpenAI API，是调<strong>模型网关</strong>。网关负责：</p>
 <ul>
-<li><strong><a href="../08-权威支撑/A1-Anthropic-FDE博客.md">A1-Anthropic-FDE博客.md</a></strong> — FDE 的官方定义：驻场 + 对业务结果负责 + 现场迭代 + 经验反向沉淀</li>
-<li><strong><a href="../08-权威支撑/A2-Anthropic生产级Agent白皮书.md">A2-Anthropic生产级Agent白皮书.md</a></strong> — Harness / 护栏 / 风险分级 / 业务回滚</li>
-<li><strong><a href="../08-权威支撑/A3-Anthropic企业Agent评估.md">A3-Anthropic企业Agent评估.md</a></strong> — 故障注入 + 边界验证 + 可验证标准</li>
-<li><strong><a href="../08-权威支撑/C3-Domain-Driven-Design.md">C3-Domain-Driven-Design.md</a></strong> — 业务实体 / 聚合根 / 限界上下文（VDNA 业务地图的祖宗）</li>
-<li><strong><a href="../08-权威支撑/C2-Chaos-Engineering.md">C2-Chaos-Engineering.md</a></strong> — 主动制造异常验证可靠性（投产前必做）</li>
+<li><strong>路由</strong>：哪个请求走哪个模型（GPT-4 / Claude / 本地模型）</li>
+<li><strong>限流</strong>：防刷、防滥用、配额管理</li>
+<li><strong>鉴权</strong>：API Key 管理、用户级别权限</li>
+<li><strong>缓存</strong>：相同问题直接返回缓存，省钱</li>
+<li><strong>降级</strong>：主模型挂了切备用</li>
+<li><strong>日志</strong>：所有调用留痕，可观测</li>
 </ul>
 <blockquote>
-<p>见客户时引用：<strong>"我们的 FDE 流程参照 Anthropic 官方定义 + DDD 业务建模 + 混沌工程投产验证"</strong>。</p>
+<p>对应你方法论「工具链」章 47 条中的多个相关原则——<br />
+<strong>别直接调模型，加一层网关是基本工程素养</strong>。</p>
+</blockquote>
+<h3 id="3">3. 评估策略 + 风险分级</h3>
+<p><strong>评估</strong>不是"感觉不错"，是分层的：</p>
+<ul>
+<li><strong>离线评估</strong>：测试集跑分（准确率 / BLEU / 业务指标）</li>
+<li><strong>在线评估</strong>：A/B 测试，线上对比</li>
+<li><strong>人工评估</strong>：专家打分，定期抽检</li>
+<li><strong>用户反馈</strong>：👍👎 一键反馈</li>
+</ul>
+<p><strong>风险分级</strong>（和 A2 一脉相承）：<br />
+- L0 只读：模型随便调<br />
+- L1 低危写：限频 + 日志<br />
+- L2 高危写：人工抽样审核<br />
+- L3 不可逆：必须人工 + 二次确认</p>
+<h3 id="4-observability-trace">4. 可观测（Observability）+ Trace + 日志</h3>
+<p>生产环境的 LLM 应用<strong>必须能回答</strong>：</p>
+<ul>
+<li>这个请求走了哪条路径？</li>
+<li>调了哪个模型？花了多少 token？</li>
+<li>每个工具调用花了多长时间？</li>
+<li>哪一步出错了？错在哪？</li>
+</ul>
+<p><strong>Trace（链路追踪）</strong> 是核心工具——把一个请求从入口到出口的全链路画出来。</p>
+<blockquote>
+<p>对应你 SOP-03「FDE 入企交付」第 4 步"留文档"——<br />
+Trace 就是"让系统能被人看懂"。</p>
+</blockquote>
+<h3 id="5">5. 灰度发布 + 版本管理 + 模型回滚</h3>
+<p><strong>别一次切换 100% 流量</strong>：<br />
+- 5% 流量试新版本 → 看指标 → 没问题<br />
+- 25% → 50% → 100%<br />
+- 出问题 1 秒切回老版本</p>
+<p><strong>模型版本管理</strong>：<br />
+- 每个模型版本有明确 ID + 备注<br />
+- 不同业务用不同版本（金丝雀）<br />
+- 出问题立刻知道是哪个版本</p>
+<blockquote>
+<p>对应你 SOP-04「Agent 工具链自用」第 3 步"给 AI 立硬规则"——<br />
+<strong>agents.md 写的版本/回滚规则就是这套思想</strong>。</p>
+</blockquote>
+<h2 id="_3">三、关键术语（新增）</h2>
+<table>
+<thead>
+<tr>
+<th>英文</th>
+<th>中文</th>
+<th>释义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model Gateway</td>
+<td>模型网关</td>
+<td>包裹模型调用的中间层</td>
+</tr>
+<tr>
+<td>Middle Layer</td>
+<td>中间层</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>Observability</td>
+<td>可观测</td>
+<td>看清系统内部状态</td>
+</tr>
+<tr>
+<td>Trace</td>
+<td>链路追踪</td>
+<td>单个请求的全路径记录</td>
+</tr>
+<tr>
+<td>Canary Deployment</td>
+<td>金丝雀发布</td>
+<td>小流量试新版本</td>
+</tr>
+<tr>
+<td>A/B Test</td>
+<td>A/B 测试</td>
+<td>两个版本对比</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">四、与本知识库的映射</h2>
+<table>
+<thead>
+<tr>
+<th>本知识库位置</th>
+<th>关联本文哪条</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>04-工具链.md</code> 工具链相关</td>
+<td>论点 2（模型网关）+ 论点 4（可观测）</td>
+</tr>
+<tr>
+<td><code>03-SOP/SOP-04-Agent 工具链方向.md</code> 第 3 步</td>
+<td>论点 5（版本管理 + 回滚）</td>
+</tr>
+<tr>
+<td><code>03-SOP/SOP-07-报价签约.md</code> 交付标准</td>
+<td>论点 3（评估分层）+ 论点 1（RAG 决策）</td>
+</tr>
+<tr>
+<td><code>02-知识库/03-AI编程工具链.md</code></td>
+<td>多个工具使用簇</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_5">五、客户引用话术</h2>
+<blockquote>
+<p>"我们的 LLM 应用不是裸调模型，是经过模型网关 + 链路追踪 + 灰度发布这一整套生产化工程的。<br />
+出问题能 1 秒回滚，每个调用都有 trace 可查。<br />
+这套做法参照 Pete Hunt 那本《Building LLM Applications for Production》。"</p>
 </blockquote>
 </div>
 <div class="footer">

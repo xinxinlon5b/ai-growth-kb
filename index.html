@@ -357,6 +357,23 @@ details pre {
 <div class="nav-section-title">工具</div>
 <a class="nav-item" href="glossary.html">📖 专业大词典<div class="desc">50+ 术语</div></a>
 </div>
+<div class="nav-section">
+<div class="nav-section-title">权威支撑（新增）</div>
+<a class="nav-item" href="auth-index.html">📚 权威支撑总览<div class="desc">12 个来源</div></a>
+<a class="nav-item" href="auth-a1.html">A1 · Anthropic FDE 博客<div class="desc">一手权威</div></a>
+<a class="nav-item" href="auth-a2.html">A2 · Anthropic Agent 白皮书<div class="desc">Harness/护栏</div></a>
+<a class="nav-item" href="auth-a3.html">A3 · Anthropic Agent 评估<div class="desc">可验证标准</div></a>
+<a class="nav-item" href="auth-b1.html">B1 · LLM 应用生产化<div class="desc">Pete Hunt</div></a>
+<a class="nav-item" href="auth-b2.html">B2 · Agentic Systems<div class="desc">O'Reilly</div></a>
+<a class="nav-item" href="auth-b3.html">B3 · RAG in Action<div class="desc">知识库工程</div></a>
+<a class="nav-item" href="auth-b4.html">B4 · LLM Security<div class="desc">安全与合规</div></a>
+<a class="nav-item" href="auth-c1.html">C1 · 风险驱动架构<div class="desc">方法论</div></a>
+<a class="nav-item" href="auth-c2.html">C2 · 混沌工程<div class="desc">Netflix</div></a>
+<a class="nav-item" href="auth-c3.html">C3 · DDD 领域驱动<div class="desc">Eric Evans</div></a>
+<a class="nav-item" href="auth-d1.html">D1 · Google Agent<div class="desc">厂商框架</div></a>
+<a class="nav-item" href="auth-d2.html">D2 · AWS LLM 框架<div class="desc">厂商框架</div></a>
+<a class="nav-item" href="auth-d3.html">D3 · OpenAI Agent<div class="desc">厂商框架</div></a>
+</div>
 </aside>
 <main class="main">
 <div class="content">
@@ -614,6 +631,102 @@ details pre {
 <p><strong>核心提醒</strong>：你正在 <strong>多线并行</strong> 阶段，路径 1 和 3 是现金流来源，<br />
 路径 2 是流量入口，路径 4 是加速器，路径 5 是护城河，路径 6 是天花板。<br />
 任何一条跑通都会反哺其他几条——这是一个闭环，不是 6 条平行赛道。</p>
+</blockquote>
+<hr />
+<h2 id="from-whom">六、权威支撑层（From Whom）：每一招都有出处</h2>
+<blockquote>
+<p>上面的实战经验解决 <strong>"怎么做"</strong>。<br />
+这一层解决 <strong>"为什么这样做，权威依据是什么"</strong> —— 见客户时最有说服力的弹药。</p>
+</blockquote>
+<h3 id="4-12">4 大类，12 个一手 + 经典来源</h3>
+<pre><code>A. 一手权威（厂商官方）
+  ├─ A1 · Anthropic《Forward Deployed Engineering》(2024)        ── FDE 的祖师爷定义
+  ├─ A2 · Anthropic《Building agents for production》            ── Harness / 护栏 / 风险分级
+  └─ A3 · Anthropic《Evaluating AI agents in real workflows》    ── 故障注入 / 边界验证 / 可验证标准
+
+B. 大模型 / Agent 工程书
+  ├─ B1 · Pete Hunt《Building LLM Applications for Production》  ── 模型网关 / 灰度 / 可观测
+  ├─ B2 · Adele Lin《Designing Agentic Systems》(O'Reilly)        ── Agent 架构圣经
+  ├─ B3 · 《RAG in Action》                                       ── 知识库 7 成脏活的工程化
+  └─ B4 · 《LLM Security and Governance》                          ── 权限 / 审计 / 合规
+
+C. 通用软件工程方法论
+  ├─ C1 · 风险驱动架构 (Risk-Driven Architecture)                  ── 工具是 0，业务才是 1
+  ├─ C2 · 混沌工程 (Chaos Engineering, Netflix)                   ── 主动制造异常验证可靠性
+  └─ C3 · 领域驱动设计 DDD (Eric Evans)                           ── FDE 进厂画业务地图的祖宗
+
+D. 行业权威框架
+  ├─ D1 · Google Agent Design Framework                          ── 白名单工具 / 风险分级
+  ├─ D2 · AWS LLM Production Framework                           ── 6 维生产就绪矩阵
+  └─ D3 · OpenAI Agent Best Practices                            ── Function Calling / 实用主义
+</code></pre>
+<h3 id="_2">三大厂商方法论横向对比</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Anthropic</th>
+<th>Google</th>
+<th>OpenAI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>核心抽象</td>
+<td>Harness</td>
+<td>白名单工具</td>
+<td>Function Calling</td>
+</tr>
+<tr>
+<td>风险分级</td>
+<td>L0-L4 (5级)</td>
+<td>Low-Crit (4级)</td>
+<td>只读/写本/写外 (3级)</td>
+</tr>
+<tr>
+<td>护栏</td>
+<td>业务护栏</td>
+<td>Guardrail</td>
+<td>Moderation + 硬过滤</td>
+</tr>
+<tr>
+<td>风格</td>
+<td>学院派工程</td>
+<td>平台化</td>
+<td>实用主义</td>
+</tr>
+<tr>
+<td><strong>对你的意义</strong></td>
+<td>见技术客户</td>
+<td>见云客户</td>
+<td>见所有客户</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>最有价值的洞察</strong>：三家头部厂商的方法论<strong>收敛到同一套</strong>——<br />
+差异只在术语。说明这套方法论不是某家偏好，是<strong>行业共识</strong>。<br />
+见客户时引用哪一家，取决于客户的技术背景。</p>
+</blockquote>
+<h3 id="_3">与其他层的连接</h3>
+<pre><code>实战经验（视频 514 条）
+  ↓ 提炼
+方法论 / SOP（怎么做）
+  ↓ 解释为什么
+权威支撑（Anthropic / Google / AWS / OpenAI）
+  ↓ 定义术语
+专业大词典（Harness / 护栏 / VDNA / 混沌工程...）
+</code></pre>
+<h3 id="_4">详细中文卡位置</h3>
+<ul>
+<li>一手权威 → <a href="./08-权威支撑/A1-Anthropic-FDE博客.md">08-权威支撑/A1-Anthropic-FDE博客.md</a> 等</li>
+<li>工程书 → <a href="./08-权威支撑/B1-Building-LLM-Apps.md">08-权威支撑/B1-Building-LLM-Apps.md</a> 等</li>
+<li>方法论 → <a href="./08-权威支撑/C1-Risk-Driven-Architecture.md">08-权威支撑/C1-Risk-Driven-Architecture.md</a> 等</li>
+<li>行业框架 → <a href="./08-权威支撑/D1-Google-Agent-Design-Framework.md">08-权威支撑/D1-Google-Agent-Design-Framework.md</a> 等</li>
+</ul>
+<blockquote>
+<p><strong>诚实声明</strong>：所有权威卡基于摘要 + 通用知识扩展整理，<br />
+<strong>未完整阅读原书原文</strong>。每张卡都标了出处链接，方便你回查原文核实。</p>
 </blockquote>
 </div>
 <div class="footer">

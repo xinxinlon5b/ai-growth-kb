@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOP · 🏗️ FDE 入企交付方向(做深做重) · 企业 AI 实战知识库</title>
+<title>A1 · 《Forward Deployed Engineering》Anthropic 官方博客 · 企业 AI 实战知识库</title>
 <meta name="description" content="基于 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径，构建的 FDE/AI落地 实战知识库">
 <style>
 :root {
@@ -335,7 +335,7 @@ details pre {
 <div class="nav-section-title">可执行 SOP</div>
 <a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a>
 <a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a>
-<a class="nav-item active" href="sop-03.html">🏗️ FDE 入企 SOP</a>
+<a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a>
 <a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a>
 <a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a>
 <a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a>
@@ -360,7 +360,7 @@ details pre {
 <div class="nav-section">
 <div class="nav-section-title">权威支撑（新增）</div>
 <a class="nav-item" href="auth-index.html">📚 权威支撑总览<div class="desc">12 个来源</div></a>
-<a class="nav-item" href="auth-a1.html">A1 · Anthropic FDE 博客<div class="desc">一手权威</div></a>
+<a class="nav-item active" href="auth-a1.html">A1 · Anthropic FDE 博客<div class="desc">一手权威</div></a>
 <a class="nav-item" href="auth-a2.html">A2 · Anthropic Agent 白皮书<div class="desc">Harness/护栏</div></a>
 <a class="nav-item" href="auth-a3.html">A3 · Anthropic Agent 评估<div class="desc">可验证标准</div></a>
 <a class="nav-item" href="auth-b1.html">B1 · LLM 应用生产化<div class="desc">Pete Hunt</div></a>
@@ -377,40 +377,142 @@ details pre {
 </aside>
 <main class="main">
 <div class="content">
-<h1 id="sop-fde">SOP · 🏗️ FDE 入企交付方向(做深做重)</h1>
+<h1 id="a1-forward-deployed-engineeringanthropic">A1 · 《Forward Deployed Engineering》Anthropic 官方博客</h1>
 <blockquote>
-<p><strong>方向标签</strong>：下场把项目做扎实</p>
+<p><strong>类型</strong>：一手权威 · 厂商官方博客<br />
+<strong>发布</strong>：Anthropic，2024<br />
+<strong>链接</strong>：https://www.anthropic.com/blog/forward-deployed-engineering<br />
+<strong>中文卡版本</strong>：基于摘要整理 · 2026-09-10</p>
 </blockquote>
-<h2 id="_1">一、为什么这条路径</h2>
-<p>当接单进入交付阶段, 真正的价值在「脏活」——知识库项目七成是帮客户梳理乱文档。FDE 只有 3-5 年红利期, 现在练正是窗口。我的判断: 你不需要立刻专职做这个, 但接到的单子要用 FDE 标准交付, 为以后产品化攒案例。</p>
-<h2 id="_2">二、适合谁</h2>
-<p>适合已有 1-2 个真实项目正在交付/即将交付的人; 目标 = 按 FDE 标准跑完一个项目并复盘。</p>
-<h2 id="sop5">三、执行 SOP（5 步）</h2>
-<h3 id="1">步骤 1：进厂先找数据</h3>
-<p>驻场/远程都行, 但一定要摸到真实业务数据与流程; 数据靠人肉复制=玩具, 先问 API/ERP 在哪。</p>
-<h3 id="2-1">步骤 2：挖 1 号位的真痛点</h3>
-<p>跟决策者聊, 不聊功能聊省钱; 诊断的是流程不是嘴。</p>
-<h3 id="3-ai">步骤 3：立刚性规则再谈 AI</h3>
-<p>涉及真金白银/安全的环节先把专家经验写成固定代码规则, AI 只做交互+预审, 保留一键手动兜底(刚性自动化优先)。</p>
-<h3 id="4demo">步骤 4：交付=Demo→落地→优化→培训</h3>
-<p>每一步留下文档; 目标是「人走了系统还能跑」, 交付即停滞=最大失败。</p>
-<h3 id="5">步骤 5：复盘进案例库</h3>
-<p>每单做完写复盘(什么环节耗时长/客户最关心什么), 喂给下一次接单和内容。</p>
-<h2 id="_3">四、避坑（重要）</h2>
-<p>别接没有数字化基础的企业硬上 AI(没数字化就没AI化); 脏活别外包别嫌烦, 那是壁垒。</p>
-<h2 id="_4">五、相关资料索引</h2>
-<p>总纲: diag/deliver/scale; 课程: 范冰 FDE 书; 15 数据体系</p>
-<h2 id="08-">六、权威依据（来自 08-权威支撑 层）</h2>
+<h2 id="_1">一、源起与定位</h2>
+<p>Anthropic 把 FDE（前线部署工程师）从 Palantir 等传统数据公司的做法引入 AI 时代。<br />
+<strong>官方定义</strong>：FDE 工程师<strong>驻场到客户侧</strong>，把模型能力嵌入客户的真实业务系统，<br />
+<strong>对业务指标负责</strong>，<strong>现场迭代</strong>，并把经验反向沉淀回 Anthropic 平台。</p>
+<blockquote>
+<p>这是 FDE 一词在 AI 行业最有权威的定义源头。<br />
+你的工作台里小智/旭东AI 等讲 FDE 的口播，都是这套官方叙事的二次传播。</p>
+</blockquote>
+<h2 id="5">二、核心论点（5 条）</h2>
+<h3 id="1">1. 驻场 = 对业务结果负责，不是远程写代码</h3>
+<p>FDE 不是外包、不是咨询、不是售前。FDE <strong>和客户团队坐在一起</strong>，<br />
+能看到真实业务数据、真实用户行为、真实失败模式。</p>
+<blockquote>
+<p>这条直接对应你 SOP-03「FDE 入企交付」的第 1 步"进厂先找数据"。</p>
+</blockquote>
+<h3 id="2-poc">2. POC 与生产投产是两回事</h3>
+<p>很多团队把 Demo 跑通当成项目完成——Anthropic 明确区分：<br />
+- <strong>POC</strong>：证明「这件事 AI 能做」<br />
+- <strong>生产投产</strong>：证明「这件事 AI 在真实业务流里稳定、可靠、可回滚、可观测」</p>
+<blockquote>
+<p>对应你 SOP-03 第 4 步"交付=Demo→落地→优化→培训"——很多 FDE 死在没走完后三步。</p>
+</blockquote>
+<h3 id="3-harness">3. Harness（执行容器）是核心抽象</h3>
+<p>FDE 不是直接调模型，是给模型套一个 <strong>Harness</strong>——执行容器，负责：<br />
+- 工具调用管理<br />
+- 状态保存与恢复<br />
+- 动作边界（哪些动作允许、哪些必须人工确认）<br />
+- 错误隔离与回滚</p>
+<blockquote>
+<p>这是「Agent + 护栏」一体的工程化形态。你 SOP-07「报价签约」里应该把这作为交付物。</p>
+</blockquote>
+<h3 id="4-skill-fde">4. Skill（技能包）是 FDE 的可复用资产</h3>
+<p>FDE 在客户现场沉淀的不是「代码」，是 <strong>Skill</strong>——把一次性的"我做了一遍"打包成<br />
+可复用的"下次直接调"。Anthropic 的 Skill 库是平台级资产，所有 FDE 共用。</p>
+<blockquote>
+<p>对应你 SOP-04「Agent 工具链自用」第 5 步"沉淀成 Skill"——这是同一思路。</p>
+</blockquote>
+<h3 id="5-business-guardrail">5. 业务护栏（Business Guardrail）来自真实失败</h3>
+<p>FDE 在客户现场见过的每一次"AI 做错了什么"都会沉淀成一条护栏。<br />
+护栏不是文档里的规范，是<strong>真实失败的反向工程</strong>。</p>
+<blockquote>
+<p>对应你 SOP-03「FDE 入企 SOP」第 3 步"立刚性规则"。</p>
+</blockquote>
+<h2 id="_2">三、关键术语（来自本文）</h2>
+<table>
+<thead>
+<tr>
+<th>英文</th>
+<th>中文</th>
+<th>释义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Forward Deployed</td>
+<td>前线部署</td>
+<td>把工程师派到客户业务现场</td>
+</tr>
+<tr>
+<td>Harness</td>
+<td>执行容器</td>
+<td>包裹模型的运行时，负责工具/状态/边界</td>
+</tr>
+<tr>
+<td>Skill</td>
+<td>技能包</td>
+<td>一次工作流的可复用打包</td>
+</tr>
+<tr>
+<td>POC</td>
+<td>概念验证</td>
+<td>证明"AI 能做"</td>
+</tr>
+<tr>
+<td>Production</td>
+<td>生产投产</td>
+<td>证明"AI 在真实业务里稳跑"</td>
+</tr>
+<tr>
+<td>Guardrail</td>
+<td>护栏</td>
+<td>防止 AI 出错的事前/事中约束</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">四、与本知识库的映射</h2>
+<table>
+<thead>
+<tr>
+<th>本知识库位置</th>
+<th>关联本文哪条</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>03-SOP/SOP-03-FDE 入企交付方向.md</code></td>
+<td>论点 1（驻场）+ 论点 2（POC ≠ 生产）</td>
+</tr>
+<tr>
+<td><code>03-SOP/SOP-04-Agent 工具链方向.md</code> 第 5 步</td>
+<td>论点 4（Skill 沉淀）</td>
+</tr>
+<tr>
+<td><code>03-SOP/SOP-07-报价签约.md</code></td>
+<td>论点 3（Harness 作为交付物）</td>
+</tr>
+<tr>
+<td><code>01-方法论总纲.md</code>「接单判断」章</td>
+<td>论点 5（业务护栏）</td>
+</tr>
+<tr>
+<td><code>02-知识库/01-企业AI落地·接单武器.md</code> FDE 簇</td>
+<td>整篇对应</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">五、你在见客户时的引用话术</h2>
+<blockquote>
+<p>"我们这套做法参照的是 Anthropic 官方对 FDE 的定义——<br />
+不是远程写代码，是驻场对业务结果负责，把每一次失败沉淀成护栏。"</p>
+<p>"我们的交付物不是 Agent 代码，是一套 Harness（执行容器）+ Skill（技能包），<br />
+就像 Anthropic 给所有 FDE 的工具那样，是工程化的、可持续迭代的。"</p>
+</blockquote>
+<h2 id="_5">六、回查与延伸</h2>
 <ul>
-<li><strong><a href="../08-权威支撑/A1-Anthropic-FDE博客.md">A1-Anthropic-FDE博客.md</a></strong> — FDE 的官方定义：驻场 + 对业务结果负责 + 现场迭代 + 经验反向沉淀</li>
-<li><strong><a href="../08-权威支撑/A2-Anthropic生产级Agent白皮书.md">A2-Anthropic生产级Agent白皮书.md</a></strong> — Harness / 护栏 / 风险分级 / 业务回滚</li>
-<li><strong><a href="../08-权威支撑/A3-Anthropic企业Agent评估.md">A3-Anthropic企业Agent评估.md</a></strong> — 故障注入 + 边界验证 + 可验证标准</li>
-<li><strong><a href="../08-权威支撑/C3-Domain-Driven-Design.md">C3-Domain-Driven-Design.md</a></strong> — 业务实体 / 聚合根 / 限界上下文（VDNA 业务地图的祖宗）</li>
-<li><strong><a href="../08-权威支撑/C2-Chaos-Engineering.md">C2-Chaos-Engineering.md</a></strong> — 主动制造异常验证可靠性（投产前必做）</li>
+<li><strong>原文必读章节</strong>：「What is a Forward Deployed Engineer」「POC vs Production」</li>
+<li><strong>延伸阅读</strong>：Anthropic 后续发布的 <a href="./A2-Anthropic生产级Agent白皮书.md">Building agents for production</a>（A2）</li>
+<li><strong>相互印证</strong>：你 KB 里 FDE 簇的多个作者（旭东AI / 清华鑫哥 / 小智）都在用同一套叙事</li>
 </ul>
-<blockquote>
-<p>见客户时引用：<strong>"我们的 FDE 流程参照 Anthropic 官方定义 + DDD 业务建模 + 混沌工程投产验证"</strong>。</p>
-</blockquote>
 </div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0 · 数据基于 514 条视频原文 + 110 方法簇 + 162 方法论<br>

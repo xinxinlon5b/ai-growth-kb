@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOP · 🏗️ FDE 入企交付方向(做深做重) · 企业 AI 实战知识库</title>
+<title>A2 · 《Building agents for production》Anthropic 生产级 Agent 白皮书 · 企业 AI 实战知识库</title>
 <meta name="description" content="基于 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径，构建的 FDE/AI落地 实战知识库">
 <style>
 :root {
@@ -335,7 +335,7 @@ details pre {
 <div class="nav-section-title">可执行 SOP</div>
 <a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a>
 <a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a>
-<a class="nav-item active" href="sop-03.html">🏗️ FDE 入企 SOP</a>
+<a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a>
 <a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a>
 <a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a>
 <a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a>
@@ -361,7 +361,7 @@ details pre {
 <div class="nav-section-title">权威支撑（新增）</div>
 <a class="nav-item" href="auth-index.html">📚 权威支撑总览<div class="desc">12 个来源</div></a>
 <a class="nav-item" href="auth-a1.html">A1 · Anthropic FDE 博客<div class="desc">一手权威</div></a>
-<a class="nav-item" href="auth-a2.html">A2 · Anthropic Agent 白皮书<div class="desc">Harness/护栏</div></a>
+<a class="nav-item active" href="auth-a2.html">A2 · Anthropic Agent 白皮书<div class="desc">Harness/护栏</div></a>
 <a class="nav-item" href="auth-a3.html">A3 · Anthropic Agent 评估<div class="desc">可验证标准</div></a>
 <a class="nav-item" href="auth-b1.html">B1 · LLM 应用生产化<div class="desc">Pete Hunt</div></a>
 <a class="nav-item" href="auth-b2.html">B2 · Agentic Systems<div class="desc">O'Reilly</div></a>
@@ -377,40 +377,180 @@ details pre {
 </aside>
 <main class="main">
 <div class="content">
-<h1 id="sop-fde">SOP · 🏗️ FDE 入企交付方向(做深做重)</h1>
+<h1 id="a2-building-agents-for-productionanthropic-agent">A2 · 《Building agents for production》Anthropic 生产级 Agent 白皮书</h1>
 <blockquote>
-<p><strong>方向标签</strong>：下场把项目做扎实</p>
+<p><strong>类型</strong>：一手权威 · 厂商白皮书<br />
+<strong>发布</strong>：Anthropic（与 A1 同期发布）<br />
+<strong>链接</strong>：anthropic.com / Building agents for production<br />
+<strong>中文卡版本</strong>：基于摘要整理 · 2026-09-10</p>
 </blockquote>
-<h2 id="_1">一、为什么这条路径</h2>
-<p>当接单进入交付阶段, 真正的价值在「脏活」——知识库项目七成是帮客户梳理乱文档。FDE 只有 3-5 年红利期, 现在练正是窗口。我的判断: 你不需要立刻专职做这个, 但接到的单子要用 FDE 标准交付, 为以后产品化攒案例。</p>
-<h2 id="_2">二、适合谁</h2>
-<p>适合已有 1-2 个真实项目正在交付/即将交付的人; 目标 = 按 FDE 标准跑完一个项目并复盘。</p>
-<h2 id="sop5">三、执行 SOP（5 步）</h2>
-<h3 id="1">步骤 1：进厂先找数据</h3>
-<p>驻场/远程都行, 但一定要摸到真实业务数据与流程; 数据靠人肉复制=玩具, 先问 API/ERP 在哪。</p>
-<h3 id="2-1">步骤 2：挖 1 号位的真痛点</h3>
-<p>跟决策者聊, 不聊功能聊省钱; 诊断的是流程不是嘴。</p>
-<h3 id="3-ai">步骤 3：立刚性规则再谈 AI</h3>
-<p>涉及真金白银/安全的环节先把专家经验写成固定代码规则, AI 只做交互+预审, 保留一键手动兜底(刚性自动化优先)。</p>
-<h3 id="4demo">步骤 4：交付=Demo→落地→优化→培训</h3>
-<p>每一步留下文档; 目标是「人走了系统还能跑」, 交付即停滞=最大失败。</p>
-<h3 id="5">步骤 5：复盘进案例库</h3>
-<p>每单做完写复盘(什么环节耗时长/客户最关心什么), 喂给下一次接单和内容。</p>
-<h2 id="_3">四、避坑（重要）</h2>
-<p>别接没有数字化基础的企业硬上 AI(没数字化就没AI化); 脏活别外包别嫌烦, 那是壁垒。</p>
-<h2 id="_4">五、相关资料索引</h2>
-<p>总纲: diag/deliver/scale; 课程: 范冰 FDE 书; 15 数据体系</p>
-<h2 id="08-">六、权威依据（来自 08-权威支撑 层）</h2>
+<h2 id="_1">一、定位</h2>
+<p>如果说 A1（Anthropic FDE 博客）讲的是 <strong>FDE 这个角色</strong>，<br />
+那 A2 讲的是 FDE 工作的 <strong>核心产出物——生产级 Agent</strong> 的工程标准。</p>
+<blockquote>
+<p>这篇是「把 Demo 变生产」的权威标准。<br />
+客户问"你们的 Agent 怎么保证不出错"，答案就在这里。</p>
+</blockquote>
+<h2 id="_2">二、四大核心论点</h2>
+<h3 id="1-harnessagent">1. Harness（执行容器）：Agent 的运行时</h3>
+<p>Harness 不是 Agent 本身，是<strong>包裹 Agent 的容器</strong>。它负责：</p>
 <ul>
-<li><strong><a href="../08-权威支撑/A1-Anthropic-FDE博客.md">A1-Anthropic-FDE博客.md</a></strong> — FDE 的官方定义：驻场 + 对业务结果负责 + 现场迭代 + 经验反向沉淀</li>
-<li><strong><a href="../08-权威支撑/A2-Anthropic生产级Agent白皮书.md">A2-Anthropic生产级Agent白皮书.md</a></strong> — Harness / 护栏 / 风险分级 / 业务回滚</li>
-<li><strong><a href="../08-权威支撑/A3-Anthropic企业Agent评估.md">A3-Anthropic企业Agent评估.md</a></strong> — 故障注入 + 边界验证 + 可验证标准</li>
-<li><strong><a href="../08-权威支撑/C3-Domain-Driven-Design.md">C3-Domain-Driven-Design.md</a></strong> — 业务实体 / 聚合根 / 限界上下文（VDNA 业务地图的祖宗）</li>
-<li><strong><a href="../08-权威支撑/C2-Chaos-Engineering.md">C2-Chaos-Engineering.md</a></strong> — 主动制造异常验证可靠性（投产前必做）</li>
+<li><strong>工具调用路由</strong>：决定 Agent 调哪个工具、按什么顺序</li>
+<li><strong>状态管理</strong>：保存对话历史、中间变量、记忆</li>
+<li><strong>动作边界（Action Boundary）</strong>：哪些动作可自动、哪些必须人工</li>
+<li><strong>故障隔离</strong>：单个动作失败不能拖垮整个系统</li>
+<li><strong>业务事务回滚</strong>：Agent 调了工具之后如果出错，要能"撤销"业务影响</li>
 </ul>
 <blockquote>
-<p>见客户时引用：<strong>"我们的 FDE 流程参照 Anthropic 官方定义 + DDD 业务建模 + 混沌工程投产验证"</strong>。</p>
+<p>对应你 SOP-03 第 3 步"立刚性规则再谈 AI"——<br />
+刚性规则就是 Harness 里的 Action Boundary。</p>
 </blockquote>
+<h3 id="2-guardrailsai">2. 动作护栏（Guardrails）：把"AI 不能做什么"写进代码</h3>
+<p>不是"AI 应该怎么做"（那是 Prompt），<br />
+而是"<strong>AI 绝对不能做什么</strong>"——用代码硬约束。</p>
+<p><strong>典型护栏</strong>：<br />
+- 金额上限：单笔转账不超过 X 元<br />
+- 操作窗口：浇水只能在 8:00-18:00<br />
+- 审批前置：删除数据前必须人工确认<br />
+- 白名单工具：Agent 只能调用注册的 N 个工具</p>
+<blockquote>
+<p>对应你方法论「接单判断」第 11 条<br />
+「AI 只做降门槛，核心执行用确定性规则」——<br />
+这就是 Guardrail 的具体形态。</p>
+</blockquote>
+<h3 id="3-human-in-the-loop">3. 人工接管（Human-in-the-Loop）：高危动作强制确认</h3>
+<p>不是所有动作 AI 都能自己完成。<strong>风险分级</strong>是关键：</p>
+<table>
+<thead>
+<tr>
+<th>风险级</th>
+<th>动作类型</th>
+<th>处理方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L0 只读</td>
+<td>查数据 / 读文档</td>
+<td>AI 自动</td>
+</tr>
+<tr>
+<td>L1 低危写</td>
+<td>改一个字段 / 发一条消息</td>
+<td>AI 自动 + 日志</td>
+</tr>
+<tr>
+<td>L2 中危写</td>
+<td>发邮件 / 创建订单</td>
+<td>AI 自动 + 异步通知</td>
+</tr>
+<tr>
+<td>L3 高危写</td>
+<td>转账 / 删除 / 修改核心数据</td>
+<td>AI 提交 + 人工确认</td>
+</tr>
+<tr>
+<td>L4 不可逆</td>
+<td>关停系统 / 退款</td>
+<td>必须人工执行</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>这套分级是 SOP-07「报价签约」里<strong>必须写进合同</strong>的交付标准。</p>
+</blockquote>
+<h3 id="4-agent">4. 状态管理与故障隔离：Agent 不能"半成品"</h3>
+<p>生产环境 Agent 的状态必须<strong>显式可恢复</strong>：<br />
+- 任何中间步骤的失败都能从断点继续<br />
+- 任何动作的影响都能被回滚<br />
+- 任何异常都有清晰的错误信号</p>
+<blockquote>
+<p>对应你方法论里反复出现的"<strong>留兜底</strong>"——这就是工程化的兜底。</p>
+</blockquote>
+<h2 id="_3">三、关键术语</h2>
+<table>
+<thead>
+<tr>
+<th>英文</th>
+<th>中文</th>
+<th>释义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Harness</td>
+<td>执行容器</td>
+<td>包裹 Agent 的运行时</td>
+</tr>
+<tr>
+<td>Action Boundary</td>
+<td>动作边界</td>
+<td>Agent 能做什么的硬约束</td>
+</tr>
+<tr>
+<td>Guardrail</td>
+<td>护栏</td>
+<td>AI 绝对不能做什么</td>
+</tr>
+<tr>
+<td>Human-in-the-Loop</td>
+<td>人在回路</td>
+<td>高危动作必须人工确认</td>
+</tr>
+<tr>
+<td>Rollback</td>
+<td>回滚</td>
+<td>业务影响可撤销</td>
+</tr>
+<tr>
+<td>Action Tiering</td>
+<td>动作风险分级</td>
+<td>L0-L4 分级处理</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">四、与本知识库的映射</h2>
+<table>
+<thead>
+<tr>
+<th>本知识库位置</th>
+<th>关联本文哪条</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01-方法论总纲.md</code>「接单判断」章</td>
+<td>论点 2（护栏）+ 论点 3（风险分级）</td>
+</tr>
+<tr>
+<td><code>03-SOP/SOP-03-FDE 入企交付方向.md</code> 第 3 步</td>
+<td>论点 2（刚性规则）</td>
+</tr>
+<tr>
+<td><code>03-SOP/SOP-07-报价签约.md</code> 交付标准</td>
+<td>论点 3（风险分级写进合同）</td>
+</tr>
+<tr>
+<td><code>02-知识库/01-企业AI落地·接单武器.md</code></td>
+<td>多个"真相"条目</td>
+</tr>
+<tr>
+<td><code>07-专业大词典.md</code> 新增 Harness / 护栏 / 风险分级</td>
+<td>术语对齐</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_5">五、客户引用话术</h2>
+<blockquote>
+<p>"我们的 Agent 不是裸模型调用，是套在 Harness 里——动作有边界、失败有回滚、高危有人工确认。<br />
+这套做法参照 Anthropic 的生产级 Agent 白皮书，是行业最权威的标准。"</p>
+</blockquote>
+<h2 id="_6">六、回查与延伸</h2>
+<ul>
+<li><strong>原文必读章节</strong>：「Harness」「Guardrails」「Failure isolation」</li>
+<li><strong>A1 关联</strong>：本文的 Harness 概念，是 A1 里"Skill 沉淀"的工程化基础</li>
+<li><strong>B2 关联</strong>：Adele Lin《Designing Agentic Systems》是本文的工程化展开</li>
+</ul>
 </div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0 · 数据基于 514 条视频原文 + 110 方法簇 + 162 方法论<br>

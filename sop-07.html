@@ -357,6 +357,23 @@ details pre {
 <div class="nav-section-title">工具</div>
 <a class="nav-item" href="glossary.html">📖 专业大词典<div class="desc">50+ 术语</div></a>
 </div>
+<div class="nav-section">
+<div class="nav-section-title">权威支撑（新增）</div>
+<a class="nav-item" href="auth-index.html">📚 权威支撑总览<div class="desc">12 个来源</div></a>
+<a class="nav-item" href="auth-a1.html">A1 · Anthropic FDE 博客<div class="desc">一手权威</div></a>
+<a class="nav-item" href="auth-a2.html">A2 · Anthropic Agent 白皮书<div class="desc">Harness/护栏</div></a>
+<a class="nav-item" href="auth-a3.html">A3 · Anthropic Agent 评估<div class="desc">可验证标准</div></a>
+<a class="nav-item" href="auth-b1.html">B1 · LLM 应用生产化<div class="desc">Pete Hunt</div></a>
+<a class="nav-item" href="auth-b2.html">B2 · Agentic Systems<div class="desc">O'Reilly</div></a>
+<a class="nav-item" href="auth-b3.html">B3 · RAG in Action<div class="desc">知识库工程</div></a>
+<a class="nav-item" href="auth-b4.html">B4 · LLM Security<div class="desc">安全与合规</div></a>
+<a class="nav-item" href="auth-c1.html">C1 · 风险驱动架构<div class="desc">方法论</div></a>
+<a class="nav-item" href="auth-c2.html">C2 · 混沌工程<div class="desc">Netflix</div></a>
+<a class="nav-item" href="auth-c3.html">C3 · DDD 领域驱动<div class="desc">Eric Evans</div></a>
+<a class="nav-item" href="auth-d1.html">D1 · Google Agent<div class="desc">厂商框架</div></a>
+<a class="nav-item" href="auth-d2.html">D2 · AWS LLM 框架<div class="desc">厂商框架</div></a>
+<a class="nav-item" href="auth-d3.html">D3 · OpenAI Agent<div class="desc">厂商框架</div></a>
+</div>
 </aside>
 <main class="main">
 <div class="content">
@@ -483,6 +500,34 @@ details pre {
 - 试点上线：___%
 - 培训完成：___%
 </code></pre>
+<hr />
+<h2 id="08-">七、权威依据（来自 08-权威支撑 层）</h2>
+<p>报价签约是 FDE 流程里<strong>最需要权威背书</strong>的一环——客户会反复问"凭什么这个价""怎么验收"。</p>
+<h3 id="_3">直接相关的权威来源</h3>
+<ul>
+<li><strong><a href="../08-权威支撑/A1-Anthropic-FDE博客.md">A1-Anthropic-FDE博客.md</a></strong> — POC vs Production 区分：报价里要写清"我交付的是生产级，不是 Demo"</li>
+<li><strong><a href="../08-权威支撑/A2-Anthropic生产级Agent白皮书.md">A2-Anthropic生产级Agent白皮书.md</a></strong> — 动作风险分级要写进合同（L0-L4）</li>
+<li><strong><a href="../08-权威支撑/A3-Anthropic企业Agent评估.md">A3-Anthropic企业Agent评估.md</a></strong> — 4 层指标（模型/任务/业务/经济）= 验收标准</li>
+<li><strong><a href="../08-权威支撑/B3-RAG-in-Action.md">B3-RAG-in-Action.md</a></strong> — 知识库验收指标（Recall@K / MRR / Faithfulness）</li>
+<li><strong><a href="../08-权威支撑/C1-Risk-Driven-Architecture.md">C1-Risk-Driven-Architecture.md</a></strong> — 风险驱动：每加一个组件对应消除一个风险，写进合同</li>
+<li><strong><a href="../08-权威支撑/D1-Google-Agent-Design-Framework.md">D1-Google-Agent-Design-Framework.md</a></strong> — Google 风险分级 4 级（Low/Medium/High/Critical）</li>
+<li><strong><a href="../08-权威支撑/D2-AWS-LLM-Production-Framework.md">D2-AWS-LLM-Production-Framework.md</a></strong> — 6 维生产就绪矩阵（性能/可靠性/安全/可扩展/可观测/合规）</li>
+<li><strong><a href="../08-权威支撑/D3-OpenAI-Agent-Best-Practices.md">D3-OpenAI-Agent-Best-Practices.md</a></strong> — OpenAI Function Calling 风险分级（只读/写本/写外）</li>
+</ul>
+<h3 id="_4">见客户时的报价话术（叠权威层）</h3>
+<blockquote>
+<p>"我们的报价不是按 Agent 数量，是按帮您省的钱——这是参照 <strong>Anthropic 企业 Agent 评估白皮书</strong> 的 4 层指标体系 + <strong>AWS 6 维生产就绪矩阵</strong>。<br />
+验收标准分模型层 / 任务层 / 业务层 / 经济层，每一项都有客观数据。<br />
+风险分级参照 <strong>Google Agent Design Framework</strong> 的 4 级处理，<strong>Anthropic</strong> 的 5 级，<strong>OpenAI</strong> 的 3 级——三家头部厂商收敛到同一套，您尽管放心。"</p>
+</blockquote>
+<h3 id="5">合同里<strong>必须写清</strong>的 5 件事</h3>
+<ol>
+<li><strong>交付标准</strong>：生产就绪，不是 POC（参照 A1）</li>
+<li><strong>风险分级动作表</strong>：L0-L4 每级哪些动作（参照 A2 + D1 + D3）</li>
+<li><strong>可验证指标</strong>：响应时长 / 准确率 / 节省金额（参照 A3）</li>
+<li><strong>业务回滚机制</strong>：Agent 出错如何撤销影响（参照 A2 + B2）</li>
+<li><strong>数据安全 + 审计</strong>：保留时长 / 隔离方式（参照 B4 + D2）</li>
+</ol>
 </div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0 · 数据基于 514 条视频原文 + 110 方法簇 + 162 方法论<br>

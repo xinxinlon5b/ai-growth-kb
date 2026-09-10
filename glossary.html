@@ -357,6 +357,23 @@ details pre {
 <div class="nav-section-title">工具</div>
 <a class="nav-item active" href="glossary.html">📖 专业大词典<div class="desc">50+ 术语</div></a>
 </div>
+<div class="nav-section">
+<div class="nav-section-title">权威支撑（新增）</div>
+<a class="nav-item" href="auth-index.html">📚 权威支撑总览<div class="desc">12 个来源</div></a>
+<a class="nav-item" href="auth-a1.html">A1 · Anthropic FDE 博客<div class="desc">一手权威</div></a>
+<a class="nav-item" href="auth-a2.html">A2 · Anthropic Agent 白皮书<div class="desc">Harness/护栏</div></a>
+<a class="nav-item" href="auth-a3.html">A3 · Anthropic Agent 评估<div class="desc">可验证标准</div></a>
+<a class="nav-item" href="auth-b1.html">B1 · LLM 应用生产化<div class="desc">Pete Hunt</div></a>
+<a class="nav-item" href="auth-b2.html">B2 · Agentic Systems<div class="desc">O'Reilly</div></a>
+<a class="nav-item" href="auth-b3.html">B3 · RAG in Action<div class="desc">知识库工程</div></a>
+<a class="nav-item" href="auth-b4.html">B4 · LLM Security<div class="desc">安全与合规</div></a>
+<a class="nav-item" href="auth-c1.html">C1 · 风险驱动架构<div class="desc">方法论</div></a>
+<a class="nav-item" href="auth-c2.html">C2 · 混沌工程<div class="desc">Netflix</div></a>
+<a class="nav-item" href="auth-c3.html">C3 · DDD 领域驱动<div class="desc">Eric Evans</div></a>
+<a class="nav-item" href="auth-d1.html">D1 · Google Agent<div class="desc">厂商框架</div></a>
+<a class="nav-item" href="auth-d2.html">D2 · AWS LLM 框架<div class="desc">厂商框架</div></a>
+<a class="nav-item" href="auth-d3.html">D3 · OpenAI Agent<div class="desc">厂商框架</div></a>
+</div>
 </aside>
 <main class="main">
 <div class="content">
@@ -696,8 +713,401 @@ details pre {
 </blockquote>
 <hr />
 <blockquote>
-<p><strong>词条总数</strong>：50+。<br />
+<p><strong>词条总数</strong>：50+ 实战词 + 30+ 权威词。<br />
 <strong>维护原则</strong>：每次你学到新术语，加一行；每次和老 FDE 沟通时遇到听不懂的词，补一行。</p>
+</blockquote>
+<hr />
+<h1 id="a-d-12">权威术语篇（来自 A-D 12 个权威来源）</h1>
+<blockquote>
+<p>这一部分来自 <a href="./08-权威支撑/README.md">08-权威支撑/</a> 里的 12 个一手 / 经典来源。<br />
+见客户 / 写技术方案 / 参加行业会议时，这些词会高频出现。</p>
+</blockquote>
+<hr />
+<h2 id="h_1">H</h2>
+<h3 id="harness">Harness（执行容器）</h3>
+<p>包裹 Agent 的运行时，负责工具调用、状态管理、动作边界、错误隔离。<br />
+Anthropic 生产级 Agent 体系的核心抽象。</p>
+<blockquote>
+<p>见 <a href="./08-权威支撑/A2-Anthropic生产级Agent白皮书.md">A2-Anthropic生产级Agent白皮书</a>。</p>
+</blockquote>
+<h3 id="human-in-the-loop">Human-in-the-Loop（人在回路）</h3>
+<p>高危动作必须人工确认的机制。不是"AI 自动 + 人工看"，是"AI 提交 + 人工裁决"。</p>
+<blockquote>
+<p>见 A2 / D1 / D3。</p>
+</blockquote>
+<h3 id="human-handoff">Human Handoff（人机交接）</h3>
+<p>Agent 把上下文打包好交给人工执行。交接信息要完整，不能"传一半"。</p>
+<blockquote>
+<p>见 D1 Google 框架。</p>
+</blockquote>
+<hr />
+<h2 id="g_1">G</h2>
+<h3 id="guardrail">Guardrail / 护栏</h3>
+<p>AI 绝对不能做什么的硬约束。和 Prompt（应该做什么）相反。<br />
+<strong>护栏不是文档，是真实失败的反向工程。</strong></p>
+<blockquote>
+<p>见 A1 / A2 / B2 / D1 / D3。</p>
+</blockquote>
+<h3 id="function-calling">Function Calling / 函数调用</h3>
+<p>LLM 调外部工具的标准方式。OpenAI 2023 年提出，现在全行业通用。</p>
+<blockquote>
+<p>见 D3。</p>
+</blockquote>
+<hr />
+<h2 id="a_1">A</h2>
+<h3 id="agentic-workflow">Agentic Workflow（智能体工作流）</h3>
+<p>多步骤、多工具、有状态的工作流，由 Agent 主导执行。</p>
+<blockquote>
+<p>见 B2。</p>
+</blockquote>
+<h3 id="action-boundary">Action Boundary / 动作边界</h3>
+<p>Agent 能做什么的硬约束。用代码限制，不是用 Prompt 建议。</p>
+<blockquote>
+<p>见 A2。</p>
+</blockquote>
+<h3 id="action-tiering">Action Tiering / 动作风险分级</h3>
+<p>按风险把动作分成 L0-L4（Anthropic）或 Low-Critical（Google）或只读/写本/写外（OpenAI），分级处理。<br />
+<strong>三家厂商收敛到同一思想。</strong></p>
+<blockquote>
+<p>见 A2 / D1 / D3。</p>
+</blockquote>
+<h3 id="action-allowlist">Action Allowlist / 动作白名单</h3>
+<p>Agent 在创建时定义"允许调用的工具列表"，不在列表里的工具一律拒绝。</p>
+<blockquote>
+<p>见 D1。</p>
+</blockquote>
+<h3 id="audit-trail">Audit Trail / 审计日志</h3>
+<p>每个 AI 调用都留痕：谁、什么时候、输入、输出、模型、工具、护栏、结果。</p>
+<blockquote>
+<p>见 B4 / D2。</p>
+</blockquote>
+<h3 id="actionability">Actionability（可操作性）</h3>
+<p>方案能被实际执行的程度。FDE 给客户的不是 PPT，是"今天就能做"的步骤。</p>
+<blockquote>
+<p>通用概念。</p>
+</blockquote>
+<hr />
+<h2 id="f_1">F</h2>
+<h3 id="failure-injection">Failure Injection / 故障注入</h3>
+<p>主动制造异常（错误数据 / 工具失败 / 网络延迟）验证系统是否死。</p>
+<blockquote>
+<p>见 A3 + C2。</p>
+</blockquote>
+<h3 id="function">Function（函数 / 工具）</h3>
+<p>Agent 可调用的具体能力。OpenAI 的标准叫 Function Calling。</p>
+<blockquote>
+<p>见 D3。</p>
+</blockquote>
+<hr />
+<h2 id="r_1">R</h2>
+<h3 id="rag">RAG（检索增强生成）</h3>
+<p>"先检索相关文档，再让 LLM 看文档回答"的架构。企业私有知识问答的标准方案。</p>
+<blockquote>
+<p>见 B3。</p>
+</blockquote>
+<h3 id="recallktop-k">Recall@K（Top-K 召回率）</h3>
+<p>前 K 个检索结果里包含正确答案的比例。RAG 核心指标，建议 &gt; 80%。</p>
+<blockquote>
+<p>见 B3。</p>
+</blockquote>
+<h3 id="mrr">MRR（平均倒数排名）</h3>
+<p>正确答案排名的倒数。RAG 另一个核心指标，建议 &gt; 0.7。</p>
+<blockquote>
+<p>见 B3。</p>
+</blockquote>
+<h3 id="faithfulness">Faithfulness（忠实度）</h3>
+<p>答案不偏离原文的程度。RAG 防幻觉的核心指标，建议 &gt; 90%。</p>
+<blockquote>
+<p>见 B3。</p>
+</blockquote>
+<h3 id="rerank">Rerank（重排序）</h3>
+<p>用更精确的模型（如 Cross-Encoder）二次排序召回结果，比单纯向量检索更准。</p>
+<blockquote>
+<p>见 B3。</p>
+</blockquote>
+<h3 id="risk-driven-architecture">Risk-Driven Architecture（风险驱动架构）</h3>
+<p>架构决策由"风险"驱动，不是由"听起来高级"驱动。没风险就不加组件。</p>
+<blockquote>
+<p>见 C1。</p>
+</blockquote>
+<h3 id="rollback">Rollback（回滚）</h3>
+<p><strong>业务回滚</strong> ≠ 模型回滚。业务回滚是撤销 Agent 已经造成的业务影响（取消订单、退款、撤回邮件）。</p>
+<blockquote>
+<p>见 A2 / B2。</p>
+</blockquote>
+<h3 id="rbac">RBAC（基于角色的权限控制）</h3>
+<p>按角色分配权限。Agent 知道"我是谁"，自动应用权限。</p>
+<blockquote>
+<p>见 B4。</p>
+</blockquote>
+<hr />
+<h2 id="e_1">E</h2>
+<h3 id="embedding">Embedding（向量化）</h3>
+<p>把文本转成数字向量，让语义相似度可以计算。是 RAG 的基础。</p>
+<blockquote>
+<p>见 B3。</p>
+</blockquote>
+<hr />
+<h2 id="c_1">C</h2>
+<h3 id="chunking">Chunking（文档切分）</h3>
+<p>把长文档切成适合检索的小段。保留语义边界 + 加 overlap + 加 metadata。<br />
+<strong>RAG 项目 80% 的脏活在 chunking。</strong></p>
+<blockquote>
+<p>见 B3。</p>
+</blockquote>
+<h3 id="chaos-engineering">Chaos Engineering（混沌工程）</h3>
+<p>主动制造异常验证可靠性的方法论。Netflix 提出。<br />
+<strong>不是为了证明系统多强，是为了证明异常下不死。</strong></p>
+<blockquote>
+<p>见 C2。</p>
+</blockquote>
+<h3 id="chaos-monkey">Chaos Monkey（混沌猴）</h3>
+<p>Netflix 工具，随机 kill 服务实例，验证系统弹性。</p>
+<blockquote>
+<p>见 C2。</p>
+</blockquote>
+<h3 id="canary-deployment">Canary Deployment（金丝雀发布）</h3>
+<p>小流量（5%）试新版本 → 没问题 → 25% → 50% → 100%。出问题 1 秒回滚。</p>
+<blockquote>
+<p>见 B1 / D2。</p>
+</blockquote>
+<h3 id="compensating-transaction">Compensating Transaction（补偿事务）</h3>
+<p>业务回滚的具体操作：发出去的邮件撤回、创建的订单取消、转账退款。</p>
+<blockquote>
+<p>见 B2。</p>
+</blockquote>
+<h3 id="content-safety">Content Safety（内容安全）</h3>
+<p>防止违规 / 误导 / 泄露内容。包括输入过滤、输出过滤、黑名单词表。</p>
+<blockquote>
+<p>见 B4。</p>
+</blockquote>
+<h3 id="compliance">Compliance（合规）</h3>
+<p>符合行业法规要求。不同行业不同：金融/医疗/教育/跨境/政府。</p>
+<blockquote>
+<p>见 B4 / D2。</p>
+</blockquote>
+<hr />
+<h2 id="m_1">M</h2>
+<h3 id="model-gateway">Model Gateway（模型网关）</h3>
+<p>包裹 LLM 调用的中间层，负责路由 / 限流 / 鉴权 / 缓存 / 降级 / 日志。</p>
+<blockquote>
+<p>见 B1 / D2。</p>
+</blockquote>
+<h3 id="middle-layer">Middle Layer（中间层）</h3>
+<p>同 Model Gateway，但更强调"在业务和模型之间"的位置。</p>
+<h3 id="moderation-api">Moderation API</h3>
+<p>OpenAI 的内容审核 API，自动检测违规内容。</p>
+<blockquote>
+<p>见 D3。</p>
+</blockquote>
+<h3 id="multi-agent-agent">Multi-Agent（多 Agent）</h3>
+<p>多个 Agent 互相调用 / 协作 / 流水线。适合复杂业务，但工程复杂度高。</p>
+<blockquote>
+<p>见 B2。</p>
+</blockquote>
+<h3 id="mcpmodel-context-protocol_1">MCP（Model Context Protocol）</h3>
+<p>让 AI 模型调用外部工具的协议标准。Anthropic 推动，2025 年成为行业事实标准。</p>
+<blockquote>
+<p>见 <a href="./08-权威支撑/README.md">08-权威支撑/</a> 及各卡。</p>
+</blockquote>
+<hr />
+<h2 id="t_1">T</h2>
+<h3 id="trace">Trace / 链路追踪</h3>
+<p>单个请求从入口到出口的完整调用链。生产环境必备。</p>
+<blockquote>
+<p>见 B1 / D2。</p>
+</blockquote>
+<h3 id="token_1">Token（模型计费单位）</h3>
+<p>大模型按 Token 计费。1 个汉字 ≈ 1.5-2 个 Token。</p>
+<blockquote>
+<p>已在实战词里。</p>
+</blockquote>
+<hr />
+<h2 id="d_1">D</h2>
+<h3 id="ddd">DDD（领域驱动设计）</h3>
+<p>Eric Evans 2003 年的建模方法论。FDE 进客户画业务地图的祖宗。</p>
+<blockquote>
+<p>见 C3。</p>
+</blockquote>
+<h3 id="domain-service">Domain Service（领域服务）</h3>
+<p>跨实体的业务逻辑（如转账、订单取消），单独封装。</p>
+<blockquote>
+<p>见 C3。</p>
+</blockquote>
+<h3 id="data-isolation">Data Isolation（数据隔离）</h3>
+<p>不同客户/业务的数据分开处理。绝对不能让数据串台。</p>
+<blockquote>
+<p>见 B4。</p>
+</blockquote>
+<h3 id="data-desensitization">Data Desensitization（数据脱敏）</h3>
+<p>喂给模型前去掉敏感字段（身份证 / 银行卡 / 商业机密）。</p>
+<blockquote>
+<p>见 B4。</p>
+</blockquote>
+<h3 id="dxy_1">DXY（滴鑫盈？待确认）</h3>
+<p>见原视频库，暂未明确中文释义。</p>
+<hr />
+<h2 id="b_1">B</h2>
+<h3 id="boundary-verification">Boundary Verification（边界验证）</h3>
+<p>明确 Agent 能做什么 / 不能做什么 / 不确定什么，并用边界 case 测试。</p>
+<blockquote>
+<p>见 A3。</p>
+</blockquote>
+<h3 id="bounded-context">Bounded Context（限界上下文）</h3>
+<p>每个部门有自己的数据模型，互不污染。DDD 核心概念。</p>
+<blockquote>
+<p>见 C3。</p>
+</blockquote>
+<h3 id="bedrockaws-llm">Bedrock（AWS LLM 托管服务）</h3>
+<p>AWS 的多模型统一接入平台。</p>
+<blockquote>
+<p>见 D2。</p>
+</blockquote>
+<hr />
+<h2 id="v_1">V</h2>
+<h3 id="vdna">VDNA（业务本体图谱）</h3>
+<p>FDE 圈对 DDD 的可视化延伸——进客户画"业务地图"。</p>
+<blockquote>
+<p>见 C3。</p>
+</blockquote>
+<h3 id="verifiable-criteria">Verifiable Criteria（可验证标准）</h3>
+<p>可量化的评估指标。不是"体验更好"，是"响应时长从 30s 降到 5s"。</p>
+<blockquote>
+<p>见 A3。</p>
+</blockquote>
+<h3 id="value-object">Value Object（值对象）</h3>
+<p>无 ID 的属性集合。DDD 概念。地址、金额、日期等。</p>
+<blockquote>
+<p>见 C3。</p>
+</blockquote>
+<hr />
+<h2 id="e_2">E</h2>
+<h3 id="entity">Entity（实体）</h3>
+<p>有 ID 的领域对象，状态可变。订单、客户、合同。DDD 概念。</p>
+<blockquote>
+<p>见 C3。</p>
+</blockquote>
+<hr />
+<h2 id="s_1">S</h2>
+<h3 id="steady-state">Steady State（稳态）</h3>
+<p>系统的关键业务指标。混沌工程的实验基准。</p>
+<blockquote>
+<p>见 C2。</p>
+</blockquote>
+<h3 id="state-management">State Management（状态管理）</h3>
+<p>Agent 的会话/任务/业务/记忆四层状态必须显式管理。</p>
+<blockquote>
+<p>见 B2。</p>
+</blockquote>
+<h3 id="skill_1">Skill（技能包）</h3>
+<p>Anthropic / OpenClaw 等平台里"打包好的可复用工作流"。</p>
+<blockquote>
+<p>已在实战词里，见 A1。</p>
+</blockquote>
+<h3 id="step-limit">Step Limit（步数限制）</h3>
+<p>Agent 最大执行步数。超过强制停止，防死循环。</p>
+<blockquote>
+<p>见 D3。</p>
+</blockquote>
+<h3 id="soc-2">SOC 2（服务组织控制审计）</h3>
+<p>美国安全合规标准，AI 服务商常引用。</p>
+<blockquote>
+<p>见 D2。</p>
+</blockquote>
+<h3 id="saga-patternsaga">Saga Pattern（Saga 模式）</h3>
+<p>长事务的业务回滚方案。多步操作中失败能优雅撤销。</p>
+<blockquote>
+<p>见 B2。</p>
+</blockquote>
+<hr />
+<h2 id="p_1">P</h2>
+<h3 id="prompt-injection">Prompt Injection（提示词注入）</h3>
+<p>用户用恶意 prompt 让模型做不该做的事。安全威胁之一。</p>
+<blockquote>
+<p>见 B4。</p>
+</blockquote>
+<h3 id="pocproof-of-concept">POC（Proof of Concept / 概念验证）</h3>
+<p>证明"AI 能做这件事"。和"Production（生产投产）"是两回事。</p>
+<blockquote>
+<p>见 A1。</p>
+</blockquote>
+<h3 id="production">Production（生产投产）</h3>
+<p>证明"AI 在真实业务里稳跑"。POC 通过不等于 Production 就绪。</p>
+<blockquote>
+<p>见 A1。</p>
+</blockquote>
+<h3 id="privatelinkaws">PrivateLink（AWS 私有连接）</h3>
+<p>AWS 内网专线，AI 调用不走公网。数据安全标配。</p>
+<blockquote>
+<p>见 D2。</p>
+</blockquote>
+<hr />
+<h2 id="o_1">O</h2>
+<h3 id="orchestration">Orchestration（编排）</h3>
+<p>多个 Agent/工具如何协作。编排方式决定系统复杂度。</p>
+<blockquote>
+<p>见 B2。</p>
+</blockquote>
+<h3 id="observability">Observability（可观测）</h3>
+<p>看清系统内部状态。包含 Trace + Metrics + Logs + Alerts。</p>
+<blockquote>
+<p>见 B1 / D2。</p>
+</blockquote>
+<hr />
+<h2 id="k_1">K</h2>
+<h3 id="kmsaws">KMS（AWS 密钥管理）</h3>
+<p>客户自管加密密钥。AWS 数据安全核心组件。</p>
+<blockquote>
+<p>见 D2。</p>
+</blockquote>
+<hr />
+<h2 id="l_1">L</h2>
+<h3 id="loop-control">Loop Control（循环控制）</h3>
+<p>防 Agent 死循环：最大步数 / 最大时间 / 最大 Token / 重复检测 / 用户中断。</p>
+<blockquote>
+<p>见 D3。</p>
+</blockquote>
+<hr />
+<h2 id="i_1">I</h2>
+<h3 id="in-context-learning">In-Context Learning（上下文学习）</h3>
+<p>LLM 通过 Prompt 里的例子学习任务的能力。RAG 是它的工程化。</p>
+<blockquote>
+<p>通用概念。</p>
+</blockquote>
+<hr />
+<h2 id="a_2">A</h2>
+<h3 id="agent-rag">Agent + RAG</h3>
+<p>不是 RAG 替代 Agent，是 Agent 把 RAG 当成一个工具。<br />
+Agent 决定"要不要查 / 查几次 / 查什么"。</p>
+<blockquote>
+<p>见 D3。</p>
+</blockquote>
+<h3 id="aggregate-root">Aggregate Root（聚合根）</h3>
+<p>聚合的入口实体。要改子实体必须通过聚合根。</p>
+<blockquote>
+<p>见 C3。</p>
+</blockquote>
+<h3 id="aggregate">Aggregate（聚合）</h3>
+<p>一组相关实体的根。订单 = 聚合根 + 订单项 + 地址 + 支付。</p>
+<blockquote>
+<p>见 C3。</p>
+</blockquote>
+<hr />
+<h2 id="_9">数字 / 符号</h2>
+<h3 id="6">6 维生产就绪矩阵</h3>
+<p>AWS 评估 LLM 能不能上生产的 6 维度：性能/可靠性/安全/可扩展/可观测/合规。</p>
+<blockquote>
+<p>见 D2。</p>
+</blockquote>
+<h3 id="l0-l4">L0-L4 风险分级</h3>
+<p>Anthropic 体系：L0 只读 / L1 低危写 / L2 中危写 / L3 高危写 / L4 不可逆。</p>
+<blockquote>
+<p>见 A2。</p>
+</blockquote>
+<h3 id="kiss-yagni">KISS / YAGNI</h3>
+<p>Keep It Simple / You Aren't Gonna Need It。架构简单为先。</p>
+<blockquote>
+<p>见 C1。</p>
 </blockquote>
 </div>
 <div class="footer">

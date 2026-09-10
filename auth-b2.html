@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOP · 🏗️ FDE 入企交付方向(做深做重) · 企业 AI 实战知识库</title>
+<title>B2 · 《Designing Agentic Systems》Adele Lin (O'Reilly) · 企业 AI 实战知识库</title>
 <meta name="description" content="基于 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径，构建的 FDE/AI落地 实战知识库">
 <style>
 :root {
@@ -335,7 +335,7 @@ details pre {
 <div class="nav-section-title">可执行 SOP</div>
 <a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a>
 <a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a>
-<a class="nav-item active" href="sop-03.html">🏗️ FDE 入企 SOP</a>
+<a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a>
 <a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a>
 <a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a>
 <a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a>
@@ -364,7 +364,7 @@ details pre {
 <a class="nav-item" href="auth-a2.html">A2 · Anthropic Agent 白皮书<div class="desc">Harness/护栏</div></a>
 <a class="nav-item" href="auth-a3.html">A3 · Anthropic Agent 评估<div class="desc">可验证标准</div></a>
 <a class="nav-item" href="auth-b1.html">B1 · LLM 应用生产化<div class="desc">Pete Hunt</div></a>
-<a class="nav-item" href="auth-b2.html">B2 · Agentic Systems<div class="desc">O'Reilly</div></a>
+<a class="nav-item active" href="auth-b2.html">B2 · Agentic Systems<div class="desc">O'Reilly</div></a>
 <a class="nav-item" href="auth-b3.html">B3 · RAG in Action<div class="desc">知识库工程</div></a>
 <a class="nav-item" href="auth-b4.html">B4 · LLM Security<div class="desc">安全与合规</div></a>
 <a class="nav-item" href="auth-c1.html">C1 · 风险驱动架构<div class="desc">方法论</div></a>
@@ -377,39 +377,236 @@ details pre {
 </aside>
 <main class="main">
 <div class="content">
-<h1 id="sop-fde">SOP · 🏗️ FDE 入企交付方向(做深做重)</h1>
+<h1 id="b2-designing-agentic-systemsadele-lin-oreilly">B2 · 《Designing Agentic Systems》Adele Lin (O'Reilly)</h1>
 <blockquote>
-<p><strong>方向标签</strong>：下场把项目做扎实</p>
+<p><strong>类型</strong>：工程技术书 · O'Reilly<br />
+<strong>作者</strong>：Adele Lin<br />
+<strong>链接</strong>：O'Reilly 渠道可查<br />
+<strong>中文卡版本</strong>：基于摘要整理 · 2026-09-10</p>
 </blockquote>
-<h2 id="_1">一、为什么这条路径</h2>
-<p>当接单进入交付阶段, 真正的价值在「脏活」——知识库项目七成是帮客户梳理乱文档。FDE 只有 3-5 年红利期, 现在练正是窗口。我的判断: 你不需要立刻专职做这个, 但接到的单子要用 FDE 标准交付, 为以后产品化攒案例。</p>
-<h2 id="_2">二、适合谁</h2>
-<p>适合已有 1-2 个真实项目正在交付/即将交付的人; 目标 = 按 FDE 标准跑完一个项目并复盘。</p>
-<h2 id="sop5">三、执行 SOP（5 步）</h2>
-<h3 id="1">步骤 1：进厂先找数据</h3>
-<p>驻场/远程都行, 但一定要摸到真实业务数据与流程; 数据靠人肉复制=玩具, 先问 API/ERP 在哪。</p>
-<h3 id="2-1">步骤 2：挖 1 号位的真痛点</h3>
-<p>跟决策者聊, 不聊功能聊省钱; 诊断的是流程不是嘴。</p>
-<h3 id="3-ai">步骤 3：立刚性规则再谈 AI</h3>
-<p>涉及真金白银/安全的环节先把专家经验写成固定代码规则, AI 只做交互+预审, 保留一键手动兜底(刚性自动化优先)。</p>
-<h3 id="4demo">步骤 4：交付=Demo→落地→优化→培训</h3>
-<p>每一步留下文档; 目标是「人走了系统还能跑」, 交付即停滞=最大失败。</p>
-<h3 id="5">步骤 5：复盘进案例库</h3>
-<p>每单做完写复盘(什么环节耗时长/客户最关心什么), 喂给下一次接单和内容。</p>
-<h2 id="_3">四、避坑（重要）</h2>
-<p>别接没有数字化基础的企业硬上 AI(没数字化就没AI化); 脏活别外包别嫌烦, 那是壁垒。</p>
-<h2 id="_4">五、相关资料索引</h2>
-<p>总纲: diag/deliver/scale; 课程: 范冰 FDE 书; 15 数据体系</p>
-<h2 id="08-">六、权威依据（来自 08-权威支撑 层）</h2>
+<h2 id="_1">一、定位</h2>
+<p>如果说 B1（Pete Hunt）讲的是 <strong>LLM 应用怎么生产化</strong>，<br />
+那 B2 讲的是 <strong>Agent 系统怎么架构设计</strong>——是 A2（生产级 Agent 白皮书）的工程化展开。</p>
+<blockquote>
+<p>这本是 Agent 架构圣经。<br />
+客户问"你们的 Agent 跟竞品有什么不同"，答案在架构层面。</p>
+</blockquote>
+<h2 id="_2">二、五大核心论点</h2>
+<h3 id="1-agent-orchestration-patterns">1. Agent 编排范式（Orchestration Patterns）</h3>
+<p>不是所有 Agent 都一样，按编排方式分：</p>
+<table>
+<thead>
+<tr>
+<th>范式</th>
+<th>特征</th>
+<th>适合场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单 Agent + 工具</td>
+<td>一个大脑调 N 个工具</td>
+<td>客服 / 简单问答</td>
+</tr>
+<tr>
+<td>多 Agent 流水线</td>
+<td>Agent1 → Agent2 → Agent3</td>
+<td>文档处理 / 多步骤流程</td>
+</tr>
+<tr>
+<td>多 Agent 协作</td>
+<td>多个 Agent 互相调用</td>
+<td>复杂决策 / 模拟场景</td>
+</tr>
+<tr>
+<td>Agent + 人工</td>
+<td>Agent 提议 + 人工确认</td>
+<td>高风险业务</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>对应你 SOP-03 第 3 步"立刚性规则再谈 AI"——<br />
+<strong>风险越高的业务，越要选人机协作范式</strong>。</p>
+</blockquote>
+<h3 id="2-state-management">2. 状态管理（State Management）</h3>
+<p>Agent 是<strong>有状态的</strong>，状态管理是 Agent 系统最难的工程问题：</p>
 <ul>
-<li><strong><a href="../08-权威支撑/A1-Anthropic-FDE博客.md">A1-Anthropic-FDE博客.md</a></strong> — FDE 的官方定义：驻场 + 对业务结果负责 + 现场迭代 + 经验反向沉淀</li>
-<li><strong><a href="../08-权威支撑/A2-Anthropic生产级Agent白皮书.md">A2-Anthropic生产级Agent白皮书.md</a></strong> — Harness / 护栏 / 风险分级 / 业务回滚</li>
-<li><strong><a href="../08-权威支撑/A3-Anthropic企业Agent评估.md">A3-Anthropic企业Agent评估.md</a></strong> — 故障注入 + 边界验证 + 可验证标准</li>
-<li><strong><a href="../08-权威支撑/C3-Domain-Driven-Design.md">C3-Domain-Driven-Design.md</a></strong> — 业务实体 / 聚合根 / 限界上下文（VDNA 业务地图的祖宗）</li>
-<li><strong><a href="../08-权威支撑/C2-Chaos-Engineering.md">C2-Chaos-Engineering.md</a></strong> — 主动制造异常验证可靠性（投产前必做）</li>
+<li><strong>会话状态</strong>：当前对话上下文</li>
+<li><strong>任务状态</strong>：执行到哪一步了</li>
+<li><strong>业务状态</strong>：操作数据库产生的真实数据</li>
+<li><strong>记忆状态</strong>：长期记忆 / 用户偏好</li>
+</ul>
+<p><strong>反模式</strong>：把状态全塞进 Prompt → Token 爆炸 + 性能崩<br />
+<strong>正解</strong>：分层存储 + 摘要 + 外部记忆库</p>
+<blockquote>
+<p>对应你 SOP-04「Agent 工具链」第 3 步"给 AI 立硬规则"——<br />
+<strong>状态要显式管理，不能靠 Prompt 隐性传递</strong>。</p>
+</blockquote>
+<h3 id="3-tool-skill">3. Tool / Skill 的封装、版本、复用</h3>
+<p>Tool 和 Skill 不是"调一个 API 那么简单"，要：</p>
+<ul>
+<li><strong>封装</strong>：统一接口（输入输出 schema）</li>
+<li><strong>版本</strong>：每个 Tool 有版本号，老调用不破坏</li>
+<li><strong>复用</strong>：跨 Agent 共享 Tool 库</li>
+<li><strong>测试</strong>：每个 Tool 独立可测</li>
+<li><strong>监控</strong>：Tool 调用成功率、延迟、成本</li>
 </ul>
 <blockquote>
-<p>见客户时引用：<strong>"我们的 FDE 流程参照 Anthropic 官方定义 + DDD 业务建模 + 混沌工程投产验证"</strong>。</p>
+<p>对应你 SOP-04 第 5 步"沉淀成 Skill"——<br />
+<strong>Skill 不沉淀，Agent 就是一次性玩具</strong>。</p>
+</blockquote>
+<h3 id="4-harness-guardrail-a2">4. Harness / Guardrail / 业务回滚（与 A2 呼应）</h3>
+<p>A2 讲了概念，B2 给了<strong>实现细节</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>实现方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Harness</td>
+<td>一个 Python/TS 类，包裹 Agent 调用</td>
+</tr>
+<tr>
+<td>Guardrail</td>
+<td>输入校验器 + 输出过滤器 + 动作拦截器</td>
+</tr>
+<tr>
+<td>业务回滚</td>
+<td>Saga 模式 / 补偿事务 / 软删除 + 反向操作</td>
+</tr>
+</tbody>
+</table>
+<p><strong>业务回滚 ≠ 模型回滚</strong>：<br />
+- 模型回滚：换回老模型版本<br />
+- 业务回滚：撤销 Agent 已经造成的业务影响（发出去的邮件撤回、创建的订单取消、转账退款）</p>
+<blockquote>
+<p>对应你 SOP-03 第 4 步"留人工兜底验收"——<br />
+<strong>业务回滚是护栏的最后一道防线</strong>。</p>
+</blockquote>
+<h3 id="5">5. 高危动作拦截 + 人工接管</h3>
+<p>按动作风险分级处理：</p>
+<table>
+<thead>
+<tr>
+<th>动作</th>
+<th>风险</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查订单</td>
+<td>L0</td>
+<td>Agent 自动</td>
+</tr>
+<tr>
+<td>改备注</td>
+<td>L1</td>
+<td>Agent 自动 + 日志</td>
+</tr>
+<tr>
+<td>发邮件</td>
+<td>L2</td>
+<td>Agent 提交 + 异步通知</td>
+</tr>
+<tr>
+<td>退款 &lt; 1000 元</td>
+<td>L3</td>
+<td>Agent 提交 + 人工确认</td>
+</tr>
+<tr>
+<td>退款 &gt; 1000 元</td>
+<td>L4</td>
+<td>必须人工执行</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>对应你 SOP-07「报价签约」交付标准——<br />
+<strong>风险分级要写进合同</strong>，不能口头约定。</p>
+</blockquote>
+<h2 id="_3">三、关键术语（新增）</h2>
+<table>
+<thead>
+<tr>
+<th>英文</th>
+<th>中文</th>
+<th>释义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Orchestration</td>
+<td>编排</td>
+<td>多个 Agent/工具如何协作</td>
+</tr>
+<tr>
+<td>Multi-Agent</td>
+<td>多 Agent</td>
+<td>多大脑分工</td>
+</tr>
+<tr>
+<td>State Management</td>
+<td>状态管理</td>
+<td>Agent 记忆与会话状态</td>
+</tr>
+<tr>
+<td>Tool Registry</td>
+<td>工具注册表</td>
+<td>集中管理所有可用工具</td>
+</tr>
+<tr>
+<td>Saga Pattern</td>
+<td>Saga 模式</td>
+<td>长事务的业务回滚方案</td>
+</tr>
+<tr>
+<td>Compensating Transaction</td>
+<td>补偿事务</td>
+<td>业务回滚的具体操作</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">四、与本知识库的映射</h2>
+<table>
+<thead>
+<tr>
+<th>本知识库位置</th>
+<th>关联本文哪条</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01-方法论总纲.md</code>「接单判断」第 11 条</td>
+<td>论点 4（风险分级）</td>
+</tr>
+<tr>
+<td><code>03-SOP/SOP-03-FDE 入企交付方向.md</code> 第 4 步</td>
+<td>论点 4（业务回滚）</td>
+</tr>
+<tr>
+<td><code>03-SOP/SOP-04-Agent 工具链方向.md</code> 第 5 步</td>
+<td>论点 3（Tool/Skill 复用）</td>
+</tr>
+<tr>
+<td><code>03-SOP/SOP-07-报价签约.md</code> 交付标准</td>
+<td>论点 5（动作分级写进合同）</td>
+</tr>
+<tr>
+<td><code>02-知识库/02-智能体·OpenClaw·Hermes.md</code></td>
+<td>论点 1-3（编排 / 状态 / 工具）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_5">五、客户引用话术</h2>
+<blockquote>
+<p>"我们的 Agent 系统按 O'Reilly 的《Designing Agentic Systems》架构来——<br />
+多 Agent 编排、显式状态管理、Tool 库复用、业务回滚闭环。<br />
+这不是脚本，是工程化的 Agent 系统。"</p>
 </blockquote>
 </div>
 <div class="footer">
