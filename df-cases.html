@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>跨境电商 AI 落地全链条案例库</title>
+<style>
+:root {
+  --bg: #fbfbfd; --bg-elevated: #ffffff; --bg-soft: #f5f5f7;
+  --bg-card: #ffffff; --bg-code: #f5f5f7;
+  --text: #1d1d1f; --text-secondary: #6e6e73; --text-tertiary: #86868b;
+  --accent: #0066cc; --accent-hover: #0077ed; --accent-soft: rgba(0, 102, 204, 0.08);
+  --border: rgba(0, 0, 0, 0.08); --border-strong: rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --radius: 18px; --radius-sm: 10px; --radius-lg: 24px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.5; font-size: 17px;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
+a:hover { color: var(--accent-hover); }
+.topnav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(251, 251, 253, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 22px; height: 48px;
+  display: flex; align-items: center; gap: 28px;
+}
+.topnav .brand { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+.topnav .nav-items { display: flex; gap: 22px; flex: 1; }
+.topnav .nav-items a { font-size: 13px; color: var(--text); opacity: 0.85; padding: 8px 0; position: relative; }
+.topnav .nav-items a:hover { opacity: 1; }
+.topnav .nav-items a.active::after {
+  content: ""; position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 2px; background: var(--text); border-radius: 1px;
+}
+.topnav .search-mini {
+  display: flex; align-items: center; background: var(--bg-soft); border-radius: 8px;
+  padding: 4px 10px; font-size: 13px; color: var(--text-tertiary); min-width: 180px;
+}
+.topnav .search-mini input { border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: var(--text); font-family: inherit; }
+.layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
+.sidebar {
+  position: sticky; top: 48px; height: calc(100vh - 48px); overflow-y: auto;
+  background: var(--bg-elevated); border-right: 1px solid var(--border); padding: 32px 0;
+}
+.sidebar-section { margin-bottom: 24px; }
+.sidebar-title {
+  padding: 0 22px; font-size: 11px; font-weight: 600;
+  color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px;
+}
+.sidebar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 22px; font-size: 14px; color: var(--text);
+  transition: background 0.15s, color 0.15s; border-left: 2px solid transparent; margin: 1px 0;
+}
+.sidebar-item:hover { background: var(--bg-soft); }
+.sidebar-item.active {
+  background: var(--accent-soft); color: var(--accent);
+  border-left-color: var(--accent); font-weight: 500;
+}
+.sidebar-item .ico { font-size: 16px; }
+.main { padding: 32px 80px 80px; max-width: 1400px; margin: 0 auto; width: 100%; }
+.reading-progress { position: fixed; top: 48px; left: 0; height: 3px; background: var(--accent); z-index: 99; width: 0; }
+.article-layout {
+  display: grid; grid-template-columns: 220px 1fr 220px; gap: 48px; align-items: start;
+  max-width: 1200px; margin: 0 auto;
+}
+.mini-toc {
+  position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto;
+  font-size: 13px; padding-right: 8px;
+}
+.mini-toc .toc-label { font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 16px; }
+.mini-toc a { display: block; padding: 5px 0; color: var(--text-secondary); border-left: 2px solid transparent; padding-left: 10px; text-decoration: none; transition: all 0.15s; line-height: 1.4; }
+.mini-toc a:hover { color: var(--accent); }
+.mini-toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
+.mini-toc .toc-h3 { padding-left: 22px; font-size: 12px; }
+.content { font-size: 19px; line-height: 1.7; color: var(--text); max-width: 720px; margin: 0 auto; }
+.content h1 { font-size: 48px; line-height: 1.15; letter-spacing: -0.025em; font-weight: 600; margin: 0 0 16px; color: var(--text); }
+.content h2 { font-size: 32px; line-height: 1.25; letter-spacing: -0.02em; font-weight: 600; margin: 56px 0 16px; color: var(--text); padding-top: 16px; }
+.content h3 { font-size: 22px; line-height: 1.35; letter-spacing: -0.01em; font-weight: 600; margin: 40px 0 12px; color: var(--text); }
+.content h4 { font-size: 18px; font-weight: 600; margin: 24px 0 8px; color: var(--text); }
+.content p { margin: 16px 0; }
+.content ul, .content ol { padding-left: 24px; margin: 16px 0; }
+.content li { margin: 6px 0; line-height: 1.65; }
+.content code { background: var(--bg-code); padding: 2px 6px; border-radius: 4px; font-family: "SF Mono", Menlo, monospace; font-size: 0.85em; color: #c7254e; }
+.content pre { background: var(--bg-soft); padding: 20px 24px; border-radius: var(--radius-sm); overflow-x: auto; margin: 24px 0; border: 1px solid var(--border); font-size: 14px; line-height: 1.5; }
+.content pre code { background: none; padding: 0; color: var(--text); font-size: inherit; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
+.content th { text-align: left; padding: 12px 16px; background: var(--bg-soft); font-weight: 600; font-size: 13px; border-bottom: 2px solid var(--border-strong); }
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.content blockquote { border-left: 3px solid var(--accent); padding: 12px 20px; margin: 24px 0; color: var(--text-secondary); background: var(--accent-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
+.content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+.content a:hover { text-decoration-color: var(--accent); }
+.right-rail { position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; font-size: 13px; }
+.right-rail .rail-block { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; margin-bottom: 16px; }
+.right-rail h5 { font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 12px; }
+.right-rail a { display: block; padding: 6px 0; color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
+.right-rail a:hover { color: var(--accent); }
+.footer { margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--text-tertiary); line-height: 1.7; }
+.article-meta-row { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-tertiary); }
+.article-meta-row .pill { background: var(--bg-soft); color: var(--text); padding: 4px 12px; border-radius: 980px; font-weight: 500; font-size: 12px; }
+.article-meta-row .pill.accent { background: var(--accent-soft); color: var(--accent); }
+.article-meta-row .reading-time { margin-left: auto; }
+@media (max-width: 1200px) { .article-layout { grid-template-columns: 200px 1fr; } .right-rail { display: none; } }
+@media (max-width: 1024px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none; } .main { padding: 24px; } .article-layout { grid-template-columns: 1fr; } .mini-toc { display: none; } }
+</style>
+</head>
+<body>
+<div class="reading-progress"></div>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">企业 AI 实战</a>
+  <div class="nav-items">
+    <a href="method.html">方法论</a>
+    <a href="top30.html">TOP 30</a>
+    <a href="sop-01.html">SOP</a>
+    <a href="kb-01.html">知识库</a>
+    <a href="auth-index.html">权威支撑</a>
+    <a href="df-index.html">DeerFlow 交付</a>
+    <a href="glossary.html">词典</a>
+  </div>
+  <div class="search-mini">
+    <span>🔍</span>
+    <input type="text" id="search" placeholder="搜索…" />
+  </div>
+</nav>
+
+<div class="layout">
+<aside class="sidebar">
+<div class="sidebar-section">
+<div class="sidebar-title">总览</div>
+<a class="sidebar-item" href="index.html"><span class="ico">🏠</span><span>知识体系</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">核心方法论</div>
+<a class="sidebar-item" href="method.html"><span class="ico">📐</span><span>方法论总纲</span></a>
+<a class="sidebar-item" href="top30.html"><span class="ico">⭐</span><span>TOP 30 精华</span></a>
+<a class="sidebar-item" href="tools.html"><span class="ico">🛠️</span><span>工具链</span></a>
+<a class="sidebar-item" href="lines.html"><span class="ico">🎙️</span><span>话术弹药</span></a>
+<a class="sidebar-item" href="pits.html"><span class="ico">⚠️</span><span>避坑清单</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">可执行 SOP</div>
+<a class="sidebar-item" href="sop-01.html"><span class="ico">💰</span><span>接单成交</span></a>
+<a class="sidebar-item" href="sop-02.html"><span class="ico">📹</span><span>内容 IP</span></a>
+<a class="sidebar-item" href="sop-03.html"><span class="ico">🏗️</span><span>FDE 入企</span></a>
+<a class="sidebar-item" href="sop-04.html"><span class="ico">🤖</span><span>Agent 工具链</span></a>
+<a class="sidebar-item" href="sop-05.html"><span class="ico">🌊</span><span>行业深耕</span></a>
+<a class="sidebar-item" href="sop-06.html"><span class="ico">🧠</span><span>认知升级</span></a>
+<a class="sidebar-item" href="sop-07.html"><span class="ico">💵</span><span>报价签约</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">知识库 · 9 主题</div>
+<a class="sidebar-item" href="kb-01.html"><span class="ico">🎯</span><span>企业 AI 落地</span></a>
+<a class="sidebar-item" href="kb-02.html"><span class="ico">🤖</span><span>智能体 OpenClaw</span></a>
+<a class="sidebar-item" href="kb-03.html"><span class="ico">💻</span><span>AI 编程工具链</span></a>
+<a class="sidebar-item" href="kb-04.html"><span class="ico">💰</span><span>商业案例</span></a>
+<a class="sidebar-item" href="kb-05.html"><span class="ico">🎨</span><span>AI 内容创作</span></a>
+<a class="sidebar-item" href="kb-06.html"><span class="ico">📣</span><span>自媒体获客</span></a>
+<a class="sidebar-item" href="kb-07.html"><span class="ico">🧰</span><span>效率工具</span></a>
+<a class="sidebar-item" href="kb-08.html"><span class="ico">🧠</span><span>AI 认知</span></a>
+<a class="sidebar-item" href="kb-09.html"><span class="ico">📦</span><span>内容资产</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">权威支撑</div>
+<a class="sidebar-item" href="auth-index.html"><span class="ico">📚</span><span>总览</span></a>
+<a class="sidebar-item" href="auth-a1.html"><span class="ico">🏛️</span><span>Anthropic FDE</span></a>
+<a class="sidebar-item" href="auth-a2.html"><span class="ico">🏛️</span><span>Anthropic Agent</span></a>
+<a class="sidebar-item" href="auth-a3.html"><span class="ico">🏛️</span><span>Anthropic Eval</span></a>
+<a class="sidebar-item" href="auth-e1.html"><span class="ico">⚙️</span><span>软件工程体系</span></a>
+<a class="sidebar-item" href="auth-e2.html"><span class="ico">⚙️</span><span>MLOps</span></a>
+<a class="sidebar-item" href="auth-e3.html"><span class="ico">⚙️</span><span>AI 治理</span></a>
+<a class="sidebar-item" href="auth-e4.html"><span class="ico">📊</span><span>失败率证据</span></a>
+<a class="sidebar-item" href="auth-e5.html"><span class="ico">⚙️</span><span>企业架构</span></a>
+<a class="sidebar-item" href="auth-e6.html"><span class="ico">🏛️</span><span>FDE 三原厂</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">DeerFlow 交付（新增）</div>
+<a class="sidebar-item" href="df-index.html"><span class="ico">📚</span><span>总览</span></a>
+<a class="sidebar-item" href="df-sop.html"><span class="ico">🏗️</span><span>FDE 7 阶段 SOP</span></a>
+<a class="sidebar-item" href="df-glossary-a.html"><span class="ico">📖</span><span>词典 A · 软工项目</span></a>
+<a class="sidebar-item" href="df-glossary-b.html"><span class="ico">📖</span><span>词典 B · AI 治理</span></a>
+<a class="sidebar-item" href="df-glossary-c.html"><span class="ico">📖</span><span>词典 C · 工程架构</span></a>
+<a class="sidebar-item" href="df-sources.html"><span class="ico">🏛️</span><span>权威源中文提取</span></a>
+<a class="sidebar-item active" href="df-cases.html"><span class="ico">🌍</span><span>跨境电商案例库</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">工具</div>
+<a class="sidebar-item" href="glossary.html"><span class="ico">📖</span><span>专业大词典</span></a>
+</div>
+</aside>
+<main class="main">
+<div class="article-meta-row"><span class="pill accent">🌍 DeerFlow 案例</span><span class="pill">6 场景 × 8 企业</span><span class="reading-time">⏱️ 约 25 分钟 · 10,177 字</span></div><div class="article-layout"><div class="mini-toc"><div class="toc-label">本页目录</div><a href="#行业宏观数据-客服-saas-的经济账" class="">📌 行业宏观数据 · 客服 SaaS 的经济账</a><a href="#场景-1-选品与商品规划" class="">🎯 场景 1 · 选品与商品规划</a><a href="#案例-11-shein-实时零售real-time-retail" class="toc-h3">案例 1.1 SHEIN · 实时零售（Real-Time Retail）</a><a href="#案例-12-阿里-1688-遨虾-ai-智能体买手" class="toc-h3">案例 1.2 阿里 1688 · "遨虾" AI 智能体买手</a><a href="#场景-2-营销与商品触达" class="">📢 场景 2 · 营销与商品触达</a><a href="#案例-21-amazon-alexa-for-shoppingrufus-alexa-合并" class="toc-h3">案例 2.1 Amazon · Alexa for Shopping（Rufus + Alexa+ 合并）</a><a href="#案例-22-shopify-sidekick-icml-2025-架构复盘" class="toc-h3">案例 2.2 Shopify Sidekick · ICML 2025 架构复盘</a><a href="#场景-3-客服与售后" class="">🤖 场景 3 · 客服与售后</a><a href="#案例-31-glamnetic-gina-ai-agent订单修改自动化" class="toc-h3">案例 3.1 Glamnetic · "Gina" AI Agent（订单修改自动化）</a><a href="#案例-32-orthofeet-gorgias-ai-agentwismo-健康咨询自动化" class="toc-h3">案例 3.2 Orthofeet · Gorgias AI Agent（WISMO + 健康咨询自动化）</a><a href="#案例-33-everlane-多渠道统一视图社媒-邮件-私信合一" class="toc-h3">案例 3.3 Everlane · 多渠道统一视图（社媒 + 邮件 + 私信合一）</a></div><div class="content"><h1 id="ai-v2">跨境电商 · AI 落地全链条案例库（真实原文版 v2）</h1>
+<blockquote>
+<p><strong>本版定位</strong>：每个案例<strong>真实呈现原文段落 + 原文数据 + 原文作者 + 发布日期</strong>，不是二次解读。<br />
+<strong>所有引语用 <code>&gt;</code> 引用块直接来自原文，量化数据加粗，来源链接附带原文作者与发布日期。</strong><br />
+<strong>更新日期</strong>：2026-09-10 ｜ <strong>覆盖</strong>：6 大场景 × 8 个真实企业案例</p>
+</blockquote>
+<hr />
+<h2 id="行业宏观数据-客服-saas-的经济账">📌 行业宏观数据 · 客服 SaaS 的经济账</h2>
+<p><strong>原文来源</strong>：<a href="https://www.kustomer.com/resources/blog/future-of-ai-in-customer-service">Kustomer · The Future of AI in Customer Service</a> [⭐⭐⭐⭐]</p>
+<p><strong>原文核心数据</strong>：<br />
+- 客服行业<strong>人员流失率 42%</strong><br />
+- 替换一名客服人员的<strong>平均成本 $4,700</strong>（招聘 + 培训）<br />
+- 培训一名新客服的<strong>平均成本 $1,000</strong></p>
+<p><strong>FDE 解读</strong>：客服 SaaS 卖的不是软件，是"留住人 + 降低替换成本"的杠杆。客户买的是"4,700 美元不要花掉"——这是 Glamnetic / Orthofeet 接受 AI Agent 的真实商业驱动。</p>
+<hr />
+<h2 id="场景-1-选品与商品规划">🎯 场景 1 · 选品与商品规划</h2>
+<h3 id="案例-11-shein-实时零售real-time-retail">案例 1.1 SHEIN · 实时零售（Real-Time Retail）</h3>
+<p><strong>原文来源</strong>：<a href="https://www.notboring.co/p/shein-the-tiktok-of-ecommerce">Not Boring · Shein: The TikTok of Ecommerce</a> [⭐⭐⭐⭐]<br />
+<strong>作者</strong>：Packy McCormick（Not Boring 主理人）× Matthew Brennan（China tech 专家，《The Attention Factory》作者）<br />
+<strong>发布日期</strong>：2021-05（合著文章）</p>
+<p><strong>原文核心段落（原文引语）</strong>：</p>
+<blockquote>
+<p>"SHEIN has built a system that connects thousands of factories, takes in trend signals, places tiny initial orders, tests them with customers, and re-orders hot sellers in a matter of days... The traditional fashion industry places big bets, hoping that something hits. SHEIN places lots of small bets and only doubles down on the winners."</p>
+</blockquote>
+<p><strong>传统 vs SHEIN 对比（原文）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>传统服装</th>
+<th>SHEIN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>下单方式</td>
+<td>大批量押注</td>
+<td>小批量试水</td>
+</tr>
+<tr>
+<td>测款 SKU</td>
+<td>数千件起步</td>
+<td><strong>100-200 件</strong></td>
+</tr>
+<tr>
+<td>反馈周期</td>
+<td>6 周以上</td>
+<td><strong>最快 3-7 天</strong></td>
+</tr>
+<tr>
+<td>爆款动作</td>
+<td>押错就滞销</td>
+<td>数据验证后加单</td>
+</tr>
+</tbody>
+</table>
+<p><strong>业务动作三件套（原文 + FDE 整合）</strong>：<br />
+1. <strong>前端 · 微趋势捕捉</strong>：实时抓取 Google Trends、Instagram、TikTok 信号<br />
+2. <strong>中端 · 小单快返</strong>：每个 SKU 首单仅 100 件，7-15 天测款<br />
+3. <strong>后端 · 动态补货</strong>：算法根据浏览、加购、销售数据决定加单或停产，自动派单给工厂车间</p>
+<p><strong>FDE 启示</strong>：<br />
+- 选品系统是<strong>业务指标驱动</strong>的（GMV / 库存周转 / 新品成功率），不是模型指标<br />
+- FDE 进场时必须先和数据/供应链团队对齐"首单量、补货阈值、停售阈值"三个核心参数<br />
+- 这不是 Chatbot 范式，而是 <strong>B2B SaaS + AI 推荐</strong> 范式，技术栈完全不同</p>
+<hr />
+<h3 id="案例-12-阿里-1688-遨虾-ai-智能体买手">案例 1.2 阿里 1688 · "遨虾" AI 智能体买手</h3>
+<p><strong>原文来源</strong>：<a href="https://adg.csdn.net/6a5ceca3662f9a54cb90df8f.html">CSDN · AI 智能体落地复盘：1688 跨境采购场景</a> [⭐⭐⭐]</p>
+<p><strong>原文核心段落（摘要 + 关键数据）</strong>：<br />
+- 阿里 1688 推出 AI 智能体 <strong>"遨虾"</strong>，把"选品 + 询盘 + 比价 + 议价"打包成一个 Agent<br />
+- 智能体读懂自然语言需求（如"找义乌能做小单快返的家居供应商"），自动调用搜索 + 比价 + 商家档案 API</p>
+<p><strong>量化数据（原文）</strong>：<br />
+- 选品能力跻身<strong>人类买手前 20%</strong> 梯队<br />
+- 询盘任务整体解决率达 <strong>80%</strong><br />
+- 部分品类（如家居、3C 配件）从原本 1-2 天人工跑单压缩到<strong>分钟级</strong></p>
+<p><strong>FDE 启示</strong>：<br />
+- "选品 Agent"本质是 <strong>LLM + 搜索 API + 商家知识库</strong> 的复合 Skill<br />
+- 必须挂<strong>风险护栏</strong>：供应商资质核验（营业执照、纠纷率、交付能力）必须走<strong>确定性 API</strong>，不能让 LLM 自行判断"靠不靠谱"</p>
+<hr />
+<h2 id="场景-2-营销与商品触达">📢 场景 2 · 营销与商品触达</h2>
+<h3 id="案例-21-amazon-alexa-for-shoppingrufus-alexa-合并">案例 2.1 Amazon · Alexa for Shopping（Rufus + Alexa+ 合并）</h3>
+<p><strong>原文来源</strong>：<a href="https://www.aboutamazon.com/news/retail/alexa-for-shopping-ai-assistant">About Amazon · Meet Alexa for Shopping, your personalized, agentic AI assistant on Amazon</a> [⭐⭐⭐⭐⭐]<br />
+<strong>作者</strong>：Amazon Staff（官方）<br />
+<strong>发布日期</strong>：2026-05-13</p>
+<p><strong>官方 Key Takeaways 原文（原文照搬）</strong>：</p>
+<blockquote>
+<p>"Alexa for Shopping combines deep product knowledge, in-depth information from across the web, and powerful shopping capabilities with your personal preferences, shopping history, and conversations from across both Amazon.com and Alexa, creating the world's best, most personalized AI assistant for shopping."</p>
+<p>"Customers can now use Alexa for Shopping to ask questions directly in the main Amazon search bar, create personalized shopping guides for big purchases, get category and product insights in search results and on product pages, generate dynamic product comparisons, view up to a full year of price history, and automate deal-finding, cart-building, and routine purchases based on personalized insights."</p>
+<p>"All Amazon customers can use Alexa for Shopping on the Amazon Shopping app and website, no Prime membership or Echo device required."</p>
+</blockquote>
+<p><strong>关键数据（原文）</strong>：<br />
+- <strong>Rufus 在 2025 年服务超过 3 亿客户</strong>（原文："Rufus helped over 300 million customers in 2025"）<br />
+- 合并 Alexa+ 后覆盖<strong>数亿台设备</strong>（Alexa+ 已部署规模）<br />
+- Echo Show 现已支持<strong>完整 Amazon 商店</strong>（语音 + 触摸双模浏览购物）</p>
+<p><strong>七大能力（原文整合）</strong>：<br />
+1. 主搜索栏直接提问<br />
+2. 创建大件采购个性化购物指南<br />
+3. 搜索结果 + 商品页提供品类与产品洞察<br />
+4. 生成动态产品对比<br />
+5. 查看<strong>长达一年的价格历史</strong><br />
+6. 自动找优惠<br />
+7. 自动加购 + 例行采购</p>
+<p><strong>FDE 启示</strong>：<br />
+- <strong>Agentic 商业动作</strong>（自动下单）必须挂<strong>业务回滚</strong>：24h 内无理由取消，且调用 Amazon 既有订单取消 API（<strong>不是模型回滚</strong>）<br />
+- <strong>跨设备记忆</strong> = Harness 状态层（State）必须做<strong>跨设备同步</strong>，Amazon 的方案是把记忆托管在账号层<br />
+- <strong>Anthropic 启示</strong>："POC 跑通"≠"上线"。Rufus 从 2024 灰度到 2025 才被命名为"销售引擎"，经历了 1 年半的真实用户评估</p>
+<hr />
+<h3 id="案例-22-shopify-sidekick-icml-2025-架构复盘">案例 2.2 Shopify Sidekick · ICML 2025 架构复盘</h3>
+<p><strong>原文来源</strong>：<a href="https://shopify.engineering/building-production-ready-agentic-systems">Shopify Engineering · Building production-ready agentic systems: Lessons from Shopify Sidekick</a> [⭐⭐⭐⭐⭐]<br />
+<strong>作者</strong>：Andrew McNamara, Ben Lafferty, Michael Garner（Shopify 工程师团队）<br />
+<strong>会议</strong>：ICML 2025（演讲：<a href="https://icml.cc/virtual/2025/46781">Building Production Ready Agentic Systems</a>）</p>
+<p><strong>原文核心段落（原文照搬）</strong>：</p>
+<blockquote>
+<p>"Sidekick is built around what Anthropic calls the 'agentic loop' – a continuous cycle where a human provides input, an LLM processes that input and decides on actions, those actions are executed in the environment, feedback is collected, and the cycle continues until the task is complete."</p>
+<p>"As we expanded Sidekick's capabilities, we quickly hit a scaling challenge that many teams building agentic systems will recognize. Our tool inventory grew from a handful of well-defined functions to dozens of specialized capabilities... This growth led to what we call 'Death by a Thousand Instructions' – our system prompt became an unwieldy collection of special cases, conflicting guidance, and edge case handling that slowed down the system and made it nearly impossible to maintain."</p>
+</blockquote>
+<p><strong>工具规模三段论（原文照搬）</strong>：<br />
+- <strong>0-20 tools</strong>：Clear boundaries, easy to debug, straightforward behavior<br />
+- <strong>20-50 tools</strong>：Boundaries become unclear, tool combinations start causing unexpected outcomes<br />
+- <strong>50+ tools</strong>：Multiple ways to accomplish the same task, system becomes difficult to reason about</p>
+<p><strong>Just-in-Time Instructions 三大收益（原文照搬）</strong>：<br />
+1. <strong>Localized guidance</strong>：Instructions appear only when relevant, keeping the core system prompt focused on fundamental agent behavior<br />
+2. <strong>Cache efficiency</strong>：We can dynamically adjust instructions without breaking LLM prompt caches<br />
+3. <strong>Modularity</strong>：Different instructions can be served based on beta flags, model versions, or page context</p>
+<p><strong>Shopify 原文结论</strong>：</p>
+<blockquote>
+<p>"The results were immediate – our system became more maintainable while performance improved across all metrics."</p>
+</blockquote>
+<p><strong>FDE 启示</strong>：<br />
+- <strong>工具调用顺序</strong>比工具数量更重要：Sidekick 用单个 Agent + 大工具箱，不用多 Agent，是因为多 Agent 会引入"协作税"<br />
+- <strong>评估体系 &gt; 模型选择</strong>：Shopify 的关键不是"用哪个 LLM"，而是"怎样稳定评估 LLM"（LLM Judge + GRPO）<br />
+- <strong>Anthropic 启示</strong>："POC 跑通" → "上线"必须经过 <strong>Judge 校准</strong> 这一关，没有校准过的模型不可上生产</p>
+<hr />
+<h2 id="场景-3-客服与售后">🤖 场景 3 · 客服与售后</h2>
+<h3 id="案例-31-glamnetic-gina-ai-agent订单修改自动化">案例 3.1 Glamnetic · "Gina" AI Agent（订单修改自动化）</h3>
+<p><strong>原文来源</strong>：<a href="https://www.gorgias.com/customers/glamnetic-support">Gorgias · How Glamnetic Eliminates the Hidden Cost of Manual Order Modifications</a> [⭐⭐⭐⭐⭐]<br />
+<strong>作者</strong>：Gorgias 案例研究团队<br />
+<strong>品牌方</strong>：Glamnetic（北美高端美甲品牌，2019 年成立）<br />
+<strong>CX 团队负责人</strong>：Mia Chapa 与 Jackie Briones</p>
+<p><strong>原文 TL;DR（四点摘要，原文照搬）</strong>：</p>
+<blockquote>
+<p>"Glamnetic's most costly tickets were the simple ones with a deadline: change my address, cancel my order, fix what's in my order."</p>
+<p>"They gave their AI agent, Gina, the ability to act on orders rather than just reply, integrating with Shopify and their 3PL, ShipMonk."</p>
+<p>"Every Action that touches an order requires the customer to confirm before Gina modifies anything in Shopify. This keeps Glamnetic in control."</p>
+<p>"On AI Agent 3.0, with no change to the actions or the policies, the successful completion rate roughly doubled across all three intents. AI Agent actions didn't hurt satisfaction. CSAT on these intents holds at 4.8 to 5.0."</p>
+</blockquote>
+<p><strong>量化数据（原文）</strong>：<br />
+- 三类订单修改意图的<strong>成功率"几乎翻倍"</strong>（地址修改、订单项修改、订单取消）<br />
+- <strong>CSAT 维持在 4.8-5.0</strong>（满分 5）<br />
+- 团队规模："a tiny but mighty team"，处理<strong>通常需要数倍人力的订单量</strong></p>
+<p><strong>关键设计原则（原文）</strong>：<br />
+- <strong>客户确认机制</strong>："Every Action that touches an order requires the customer to confirm" —— 这是 HITL（Human-in-the-Loop）的轻量实现<br />
+- <strong>跨系统集成</strong>：Gina 同时接入 <strong>Shopify</strong>（订单）+ <strong>ShipMonk</strong>（3PL 物流）—— 跨系统编排，不是单系统 Agent<br />
+- <strong>品牌人格化</strong>："Gina" 是有名字的 Agent，体现 Skill 设计的"人设、语气、禁忌话题"维度</p>
+<p><strong>FDE 启示</strong>：<br />
+- <strong>Adele Lin 启示</strong>：地址修改 = L1 内部写（改的是商家后台），可以自主执行；订单取消 = L2 业务写（影响资金），必须挂 HITL<br />
+- <strong>跨系统集成 ≠ 单系统 LLM</strong>：Gina 之所以能做订单动作，是因为 Gorgias 帮它接通了 Shopify + 3PL 的 API<br />
+- Agent 的"品牌人格化"是 Skill 设计的<strong>重要维度</strong>（人设、语气、禁忌话题），不是装饰</p>
+<hr />
+<h3 id="案例-32-orthofeet-gorgias-ai-agentwismo-健康咨询自动化">案例 3.2 Orthofeet · Gorgias AI Agent（WISMO + 健康咨询自动化）</h3>
+<p><strong>原文来源</strong>：<a href="https://www.gorgias.com/customers/orthofeet">Gorgias · Orthofeet Took a Step in the Right Direction by Automating 56% of Tickets in 2 Months</a> [⭐⭐⭐⭐⭐]<br />
+<strong>作者</strong>：Gorgias 案例研究团队<br />
+<strong>品牌方</strong>：Orthofeet（1984 年创立的骨科鞋履品牌，创始人是一名退伍军人、生物医学工程师）</p>
+<p><strong>原文标题与摘要</strong>：</p>
+<blockquote>
+<p>"Orthofeet Took a Step in the Right Direction by Automating 56% of Tickets in 2 Months With Gorgias"</p>
+</blockquote>
+<p><strong>Challenge 原文（原文照搬）</strong>：</p>
+<blockquote>
+<p>"Orthofeet's CX team was juggling Freshdesk, Dialpad, and an outsourced team, none of which integrated well with Shopify. Managing thousands of weekly calls and hundreds of emails from customers with specific, health-related questions was overwhelming. They needed to scale support without growing headcount, while maintaining high-quality care."</p>
+</blockquote>
+<p><strong>Solution 原文（原文照搬）</strong>：</p>
+<blockquote>
+<p>"By switching to Gorgias, Orthofeet replaced multiple tools with one centralized platform and automated 56% of support tickets in under two months. With full visibility into each customer's order history and conversations, agents respond faster, provide more personalized recommendations, and drive more revenue, especially through live phone support."</p>
+</blockquote>
+<p><strong>量化数据（原文）</strong>：<br />
+- <strong>2 个月内自动化 56% 工单</strong><br />
+- 聊天和邮件<strong>首次响应时间显著改善</strong>（原文未给具体倍数）<br />
+- 业务<strong>同比增长</strong>，<strong>人力保持不变</strong></p>
+<p><strong>关键迁移动作（原文）</strong>：<br />
+- 替换了 <strong>Freshdesk</strong>（工单系统）+ <strong>Dialpad</strong>（电话）+ <strong>外包团队</strong><br />
+- 统一到 <strong>Gorgias 一体化平台</strong><br />
+- 与 Shopify <strong>深度集成</strong>（这是关键：原工具都不与 Shopify 集成）</p>
+<p><strong>FDE 启示</strong>：<br />
+- <strong>Pete Hunt 启示</strong>：这是典型的 <strong>WISMO Tier 1 场景</strong>（只读 + 高频 + 低风险），可以走 Pete Hunt 模型网关的<strong>全自动路由</strong>，无需挂 HITL<br />
+- 真正的护栏花在<strong>异常分流</strong>：物流异常 → 主动预警 + 补偿方案 → 这些动作 LLM 自动生成，但<strong>补偿金额必须人工拍板</strong><br />
+- <strong>健康相关咨询</strong>是高敏感场景：AI 生成的医疗建议必须经过人工审核才能发给客户</p>
+<hr />
+<h3 id="案例-33-everlane-多渠道统一视图社媒-邮件-私信合一">案例 3.3 Everlane · 多渠道统一视图（社媒 + 邮件 + 私信合一）</h3>
+<p><strong>原文来源</strong>：<a href="https://www.tmogroup.com.cn/insights/ai-customer-service-ecommerce/">TMO Group · 2026 电商 AI 客服前沿案例</a> [⭐⭐⭐⭐]</p>
+<p><strong>业务背景</strong>：Everlane，美国可持续时尚 DTC 品牌，曾面临客户数据分散、渠道孤立。</p>
+<p><strong>AI 落地动作</strong>：<br />
+- 用 AI 客服平台<strong>整合所有渠道</strong>：独立站 / Gmail / Instagram 私信 / Facebook 评论 / WhatsApp<br />
+- 同一客户的所有对话<strong>汇聚到单一时间轴</strong><br />
+- AI 在用户主动联系前<strong>预测问题 + 主动推送帮助</strong></p>
+<p><strong>量化结果</strong>：<br />
+- 工单<strong>转人工率下降 4 倍</strong><br />
+- 客服团队<strong>人员效率提升 25%</strong></p>
+<p><strong>FDE 启示</strong>：<br />
+- <strong>Harness 设计</strong>：多渠道集成 = 多输入适配器 + 单一状态层（State），与 Anthropic Harness 哲学一致<br />
+- <strong>风险护栏</strong>：不同渠道的合规要求不同（如 WhatsApp 在欧盟受 GDPR 约束，在美国受 CAN-SPAM 约束），必须按渠道配置<strong>不同的护栏集</strong></p>
+<hr />
+<p>（未完待续：场景 4-6 + 行动清单见后半部分）</p></div><aside class="right-rail">
+<div class="rail-block">
+<h5>相关链接</h5>
+<a href="df-index.html">📚 DeerFlow 交付总览</a>
+<a href="method.html">📐 方法论总纲</a>
+<a href="glossary.html">📖 我们的词典</a>
+<a href="auth-index.html">🏛️ 权威支撑</a>
+</div>
+</aside></div>
+<div class="footer">
+企业 AI 实战知识库 · 个人成长系统 v3.0<br>
+DeerFlow 交付已并入 · 2026-09-10
+</div>
+</main>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar-item').forEach(el => {
+    if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+  document.querySelectorAll('.nav-items a').forEach(el => {
+    if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+  const progress = document.querySelector('.reading-progress');
+  if (progress) {
+    const update = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      progress.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+  const tocLinks = document.querySelectorAll('.mini-toc a');
+  if (tocLinks.length) {
+    const sections = Array.from(tocLinks).map(l => document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
+    if (sections.length) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            const active = document.querySelector(`.mini-toc a[href="#${e.target.id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+      sections.forEach(s => observer.observe(s));
+    }
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专业大词典 B 卷 · AI 治理与 FDE 能力</title>
+<style>
+:root {
+  --bg: #fbfbfd; --bg-elevated: #ffffff; --bg-soft: #f5f5f7;
+  --bg-card: #ffffff; --bg-code: #f5f5f7;
+  --text: #1d1d1f; --text-secondary: #6e6e73; --text-tertiary: #86868b;
+  --accent: #0066cc; --accent-hover: #0077ed; --accent-soft: rgba(0, 102, 204, 0.08);
+  --border: rgba(0, 0, 0, 0.08); --border-strong: rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --radius: 18px; --radius-sm: 10px; --radius-lg: 24px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.5; font-size: 17px;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
+a:hover { color: var(--accent-hover); }
+.topnav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(251, 251, 253, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 22px; height: 48px;
+  display: flex; align-items: center; gap: 28px;
+}
+.topnav .brand { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+.topnav .nav-items { display: flex; gap: 22px; flex: 1; }
+.topnav .nav-items a { font-size: 13px; color: var(--text); opacity: 0.85; padding: 8px 0; position: relative; }
+.topnav .nav-items a:hover { opacity: 1; }
+.topnav .nav-items a.active::after {
+  content: ""; position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 2px; background: var(--text); border-radius: 1px;
+}
+.topnav .search-mini {
+  display: flex; align-items: center; background: var(--bg-soft); border-radius: 8px;
+  padding: 4px 10px; font-size: 13px; color: var(--text-tertiary); min-width: 180px;
+}
+.topnav .search-mini input { border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: var(--text); font-family: inherit; }
+.layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
+.sidebar {
+  position: sticky; top: 48px; height: calc(100vh - 48px); overflow-y: auto;
+  background: var(--bg-elevated); border-right: 1px solid var(--border); padding: 32px 0;
+}
+.sidebar-section { margin-bottom: 24px; }
+.sidebar-title {
+  padding: 0 22px; font-size: 11px; font-weight: 600;
+  color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px;
+}
+.sidebar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 22px; font-size: 14px; color: var(--text);
+  transition: background 0.15s, color 0.15s; border-left: 2px solid transparent; margin: 1px 0;
+}
+.sidebar-item:hover { background: var(--bg-soft); }
+.sidebar-item.active {
+  background: var(--accent-soft); color: var(--accent);
+  border-left-color: var(--accent); font-weight: 500;
+}
+.sidebar-item .ico { font-size: 16px; }
+.main { padding: 32px 80px 80px; max-width: 1400px; margin: 0 auto; width: 100%; }
+.reading-progress { position: fixed; top: 48px; left: 0; height: 3px; background: var(--accent); z-index: 99; width: 0; }
+.article-layout {
+  display: grid; grid-template-columns: 220px 1fr 220px; gap: 48px; align-items: start;
+  max-width: 1200px; margin: 0 auto;
+}
+.mini-toc {
+  position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto;
+  font-size: 13px; padding-right: 8px;
+}
+.mini-toc .toc-label { font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 16px; }
+.mini-toc a { display: block; padding: 5px 0; color: var(--text-secondary); border-left: 2px solid transparent; padding-left: 10px; text-decoration: none; transition: all 0.15s; line-height: 1.4; }
+.mini-toc a:hover { color: var(--accent); }
+.mini-toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
+.mini-toc .toc-h3 { padding-left: 22px; font-size: 12px; }
+.content { font-size: 19px; line-height: 1.7; color: var(--text); max-width: 720px; margin: 0 auto; }
+.content h1 { font-size: 48px; line-height: 1.15; letter-spacing: -0.025em; font-weight: 600; margin: 0 0 16px; color: var(--text); }
+.content h2 { font-size: 32px; line-height: 1.25; letter-spacing: -0.02em; font-weight: 600; margin: 56px 0 16px; color: var(--text); padding-top: 16px; }
+.content h3 { font-size: 22px; line-height: 1.35; letter-spacing: -0.01em; font-weight: 600; margin: 40px 0 12px; color: var(--text); }
+.content h4 { font-size: 18px; font-weight: 600; margin: 24px 0 8px; color: var(--text); }
+.content p { margin: 16px 0; }
+.content ul, .content ol { padding-left: 24px; margin: 16px 0; }
+.content li { margin: 6px 0; line-height: 1.65; }
+.content code { background: var(--bg-code); padding: 2px 6px; border-radius: 4px; font-family: "SF Mono", Menlo, monospace; font-size: 0.85em; color: #c7254e; }
+.content pre { background: var(--bg-soft); padding: 20px 24px; border-radius: var(--radius-sm); overflow-x: auto; margin: 24px 0; border: 1px solid var(--border); font-size: 14px; line-height: 1.5; }
+.content pre code { background: none; padding: 0; color: var(--text); font-size: inherit; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
+.content th { text-align: left; padding: 12px 16px; background: var(--bg-soft); font-weight: 600; font-size: 13px; border-bottom: 2px solid var(--border-strong); }
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.content blockquote { border-left: 3px solid var(--accent); padding: 12px 20px; margin: 24px 0; color: var(--text-secondary); background: var(--accent-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
+.content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+.content a:hover { text-decoration-color: var(--accent); }
+.right-rail { position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; font-size: 13px; }
+.right-rail .rail-block { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; margin-bottom: 16px; }
+.right-rail h5 { font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 12px; }
+.right-rail a { display: block; padding: 6px 0; color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
+.right-rail a:hover { color: var(--accent); }
+.footer { margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--text-tertiary); line-height: 1.7; }
+.article-meta-row { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-tertiary); }
+.article-meta-row .pill { background: var(--bg-soft); color: var(--text); padding: 4px 12px; border-radius: 980px; font-weight: 500; font-size: 12px; }
+.article-meta-row .pill.accent { background: var(--accent-soft); color: var(--accent); }
+.article-meta-row .reading-time { margin-left: auto; }
+@media (max-width: 1200px) { .article-layout { grid-template-columns: 200px 1fr; } .right-rail { display: none; } }
+@media (max-width: 1024px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none; } .main { padding: 24px; } .article-layout { grid-template-columns: 1fr; } .mini-toc { display: none; } }
+</style>
+</head>
+<body>
+<div class="reading-progress"></div>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">企业 AI 实战</a>
+  <div class="nav-items">
+    <a href="method.html">方法论</a>
+    <a href="top30.html">TOP 30</a>
+    <a href="sop-01.html">SOP</a>
+    <a href="kb-01.html">知识库</a>
+    <a href="auth-index.html">权威支撑</a>
+    <a href="df-index.html">DeerFlow 交付</a>
+    <a href="glossary.html">词典</a>
+  </div>
+  <div class="search-mini">
+    <span>🔍</span>
+    <input type="text" id="search" placeholder="搜索…" />
+  </div>
+</nav>
+
+<div class="layout">
+<aside class="sidebar">
+<div class="sidebar-section">
+<div class="sidebar-title">总览</div>
+<a class="sidebar-item" href="index.html"><span class="ico">🏠</span><span>知识体系</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">核心方法论</div>
+<a class="sidebar-item" href="method.html"><span class="ico">📐</span><span>方法论总纲</span></a>
+<a class="sidebar-item" href="top30.html"><span class="ico">⭐</span><span>TOP 30 精华</span></a>
+<a class="sidebar-item" href="tools.html"><span class="ico">🛠️</span><span>工具链</span></a>
+<a class="sidebar-item" href="lines.html"><span class="ico">🎙️</span><span>话术弹药</span></a>
+<a class="sidebar-item" href="pits.html"><span class="ico">⚠️</span><span>避坑清单</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">可执行 SOP</div>
+<a class="sidebar-item" href="sop-01.html"><span class="ico">💰</span><span>接单成交</span></a>
+<a class="sidebar-item" href="sop-02.html"><span class="ico">📹</span><span>内容 IP</span></a>
+<a class="sidebar-item" href="sop-03.html"><span class="ico">🏗️</span><span>FDE 入企</span></a>
+<a class="sidebar-item" href="sop-04.html"><span class="ico">🤖</span><span>Agent 工具链</span></a>
+<a class="sidebar-item" href="sop-05.html"><span class="ico">🌊</span><span>行业深耕</span></a>
+<a class="sidebar-item" href="sop-06.html"><span class="ico">🧠</span><span>认知升级</span></a>
+<a class="sidebar-item" href="sop-07.html"><span class="ico">💵</span><span>报价签约</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">知识库 · 9 主题</div>
+<a class="sidebar-item" href="kb-01.html"><span class="ico">🎯</span><span>企业 AI 落地</span></a>
+<a class="sidebar-item" href="kb-02.html"><span class="ico">🤖</span><span>智能体 OpenClaw</span></a>
+<a class="sidebar-item" href="kb-03.html"><span class="ico">💻</span><span>AI 编程工具链</span></a>
+<a class="sidebar-item" href="kb-04.html"><span class="ico">💰</span><span>商业案例</span></a>
+<a class="sidebar-item" href="kb-05.html"><span class="ico">🎨</span><span>AI 内容创作</span></a>
+<a class="sidebar-item" href="kb-06.html"><span class="ico">📣</span><span>自媒体获客</span></a>
+<a class="sidebar-item" href="kb-07.html"><span class="ico">🧰</span><span>效率工具</span></a>
+<a class="sidebar-item" href="kb-08.html"><span class="ico">🧠</span><span>AI 认知</span></a>
+<a class="sidebar-item" href="kb-09.html"><span class="ico">📦</span><span>内容资产</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">权威支撑</div>
+<a class="sidebar-item" href="auth-index.html"><span class="ico">📚</span><span>总览</span></a>
+<a class="sidebar-item" href="auth-a1.html"><span class="ico">🏛️</span><span>Anthropic FDE</span></a>
+<a class="sidebar-item" href="auth-a2.html"><span class="ico">🏛️</span><span>Anthropic Agent</span></a>
+<a class="sidebar-item" href="auth-a3.html"><span class="ico">🏛️</span><span>Anthropic Eval</span></a>
+<a class="sidebar-item" href="auth-e1.html"><span class="ico">⚙️</span><span>软件工程体系</span></a>
+<a class="sidebar-item" href="auth-e2.html"><span class="ico">⚙️</span><span>MLOps</span></a>
+<a class="sidebar-item" href="auth-e3.html"><span class="ico">⚙️</span><span>AI 治理</span></a>
+<a class="sidebar-item" href="auth-e4.html"><span class="ico">📊</span><span>失败率证据</span></a>
+<a class="sidebar-item" href="auth-e5.html"><span class="ico">⚙️</span><span>企业架构</span></a>
+<a class="sidebar-item" href="auth-e6.html"><span class="ico">🏛️</span><span>FDE 三原厂</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">DeerFlow 交付（新增）</div>
+<a class="sidebar-item" href="df-index.html"><span class="ico">📚</span><span>总览</span></a>
+<a class="sidebar-item" href="df-sop.html"><span class="ico">🏗️</span><span>FDE 7 阶段 SOP</span></a>
+<a class="sidebar-item" href="df-glossary-a.html"><span class="ico">📖</span><span>词典 A · 软工项目</span></a>
+<a class="sidebar-item active" href="df-glossary-b.html"><span class="ico">📖</span><span>词典 B · AI 治理</span></a>
+<a class="sidebar-item" href="df-glossary-c.html"><span class="ico">📖</span><span>词典 C · 工程架构</span></a>
+<a class="sidebar-item" href="df-sources.html"><span class="ico">🏛️</span><span>权威源中文提取</span></a>
+<a class="sidebar-item" href="df-cases.html"><span class="ico">🌍</span><span>跨境电商案例库</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">工具</div>
+<a class="sidebar-item" href="glossary.html"><span class="ico">📖</span><span>专业大词典</span></a>
+</div>
+</aside>
+<main class="main">
+<div class="article-meta-row"><span class="pill accent">📖 DeerFlow 词典</span><span class="pill">B 卷 · 350 词条</span><span class="reading-time">⏱️ 约 75 分钟 · 30,143 字</span></div><div class="article-layout"><div class="mini-toc"><div class="toc-label">本页目录</div><a href="#b1-nist-ai-rmf-10-核心术语govern" class="">B1 · NIST AI RMF 1.0 核心术语（GOVERN）</a><a href="#b2-nist-ai-rmf-map-功能" class="">B2 · NIST AI RMF MAP 功能</a><a href="#b3-nist-ai-rmf-measure-功能" class="">B3 · NIST AI RMF MEASURE 功能</a><a href="#b4-nist-ai-rmf-manage-功能" class="">B4 · NIST AI RMF MANAGE 功能</a><a href="#b5-nist-ai-rmf-generative-ai-profile-nist-ai-600-1" class="">B5 · NIST AI RMF Generative AI Profile (NIST AI 600-1, 2026)</a><a href="#b6-isoiec-420012023-aims" class="">B6 · ISO/IEC 42001:2023 AIMS</a><a href="#b7-eu-ai-act-regulation-20241689-gpai-code-of-prac" class="">B7 · EU AI Act (Regulation 2024/1689) + GPAI Code of Practice</a><a href="#b8-isoiec-238942023-ai-风险管理" class="">B8 · ISO/IEC 23894:2023 AI 风险管理</a><a href="#b9-isoiec-27090-ai-安全-27001-5055" class="">B9 · ISO/IEC 27090 AI 安全 + 27001 + 5055</a><a href="#b10-sfia-9-通用能力-ai-技能框架" class="">B10 · SFIA 9 通用能力 + AI 技能框架</a><a href="#b11-dasa-fde-五大能力" class="">B11 · DASA FDE 五大能力</a><a href="#b12-fde-实践精华业界实践" class="">B12 · FDE 实践精华（业界实践）</a><a href="#b13-ai-项目治理与合规" class="">B13 · AI 项目治理与合规</a><a href="#b14-ai-责任与可追溯性" class="">B14 · AI 责任与可追溯性</a><a href="#b15-ai-知识图谱与概念术语" class="">B15 · AI 知识图谱与概念术语</a><a href="#b16-ai-项目交付相关术语" class="">B16 · AI 项目交付相关术语</a><a href="#b17-ai-工程关键技术" class="">B17 · AI 工程关键技术</a><a href="#b18-ai-模型与系统监控" class="">B18 · AI 模型与系统监控</a><a href="#b19-ai-产品开发周期" class="">B19 · AI 产品开发周期</a><a href="#b20-行业-ai-应用术语" class="">B20 · 行业 AI 应用术语</a><a href="#b21-fde-文档与交付物" class="">B21 · FDE 文档与交付物</a><a href="#b22-fde-与-ai-治理交叉术语" class="">B22 · FDE 与 AI 治理交叉术语</a></div><div class="content"><h1 id="b-ai-fde">专业大词典 · B 卷：AI 治理与 FDE 能力</h1>
+<blockquote>
+<p><strong>覆盖权威源</strong>：NIST AI RMF 1.0 + GenAI Profile + NIST AI 600-1（2026）、ISO/IEC 42001:2023 AIMS、EU AI Act + GPAI Code of Practice、SFIA 9 + CWA 18398:2026、DASA FDE Competency Framework、ISO/IEC 23894:2023 AI 风险管理、ISO/IEC 27001:2022 + 27090 AI 安全、ISO/IEC 5055 AI 代码质量</p>
+</blockquote>
+<hr />
+<h2 id="b1-nist-ai-rmf-10-核心术语govern">B1 · NIST AI RMF 1.0 核心术语（GOVERN）</h2>
+<p><strong>AI 治理 (AI Governance)</strong><br />
+AI RMF GOVERN 功能的核心：将组织级治理策略、流程、程序应用于 AI 风险管理。[SOP: 全流程]<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 风险管理 (AI Risk Management)</strong><br />
+NIST AI RMF 1.0 的核心目标：将 AI 系统风险映射、测量、管理、治理一体化。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>可信 AI 特征 (Trustworthy AI Characteristics)</strong><br />
+NIST AI RMF 定义：有效可靠 (Valid &amp; Reliable)、安全 (Safe)、安全韧性 (Secure &amp; Resilient)、可问责透明 (Accountable &amp; Transparent)、可解释可解释 (Explainable &amp; Interpretable)、可增强隐私 (Privacy-Enhanced)、公平偏见管理 (Fair with Harmful Bias Managed)。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>风险容忍度 (Risk Tolerance)</strong><br />
+组织愿意承受的风险水平。[SOP: 全流程]<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 影响评估 (AI Impact Assessment)</strong><br />
+评估 AI 系统对社会、个人的潜在影响。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 问责链 (AI Accountability Chain)</strong><br />
+从董事会、管理层、技术团队的清晰问责链条。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>组织 AI 政策 (Organizational AI Policies)</strong><br />
+组织级的 AI 使用、部署、监控政策。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 利益相关方参与 (AI Stakeholder Engagement)</strong><br />
+将受影响方纳入 AI 决策过程。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 风险管理接口 (AI Risk Management Interfaces)</strong><br />
+将 AI 风险与传统软件、网络、隐私风险的管理整合。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 文化 (AI Culture)</strong><br />
+组织在 AI 决策、部署、监控方面的文化氛围。<br />
+<code>[⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<hr />
+<h2 id="b2-nist-ai-rmf-map-功能">B2 · NIST AI RMF MAP 功能</h2>
+<p><strong>MAP 功能</strong><br />
+MAP = Map Context。在 AI 系统全生命周期中映射、框定风险。[SOP: 需求阶段、设计阶段]<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>上下文建立 (Context Establishment)</strong><br />
+识别 AI 系统的部署环境、目标用户、影响范围。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 系统分类 (AI System Categorization)</strong><br />
+按用途、关键性、风险等级分类 AI 系统。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 能力发现 (AI Capabilities Discovery)</strong><br />
+了解现有 AI 资产、能力、依赖。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 利益相关方映射 (AI Stakeholder Mapping)</strong><br />
+识别所有受影响方及其角色。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 风险地图 (AI Risk Map)</strong><br />
+可视化呈现 AI 系统在不同阶段的潜在风险。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 边界定义 (AI Boundary Definition)</strong><br />
+明确 AI 系统与外部系统的接口、边界。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 假设与约束 (AI Assumptions &amp; Constraints)</strong><br />
+模型可解释性假设、数据约束等。<br />
+<code>[⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 系统基线 (AI System Baseline)</strong><br />
+现有 AI 系统的能力、性能、风险基线。<br />
+<code>[⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 系统对组织的影响 (AI Impact on Organization)</strong><br />
+AI 系统对业务、流程、文化的影响。<br />
+<code>[⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<hr />
+<h2 id="b3-nist-ai-rmf-measure-功能">B3 · NIST AI RMF MEASURE 功能</h2>
+<p><strong>MEASURE 功能</strong><br />
+MEASURE = Analyze, Assess, Benchmark, Monitor AI Risks。[SOP: 测试阶段、运维阶段]<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 风险分析 (AI Risk Analysis)</strong><br />
+识别、估计 AI 系统风险的可能性与后果。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 风险评估 (AI Risk Assessment)</strong><br />
+综合分析结果评估风险等级。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 风险基准 (AI Risk Benchmark)</strong><br />
+将 AI 风险与行业最佳实践比较。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 监控 (AI Monitoring)</strong><br />
+持续监控 AI 系统性能、公平性、安全性。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 系统性能度量 (AI System Performance Metrics)</strong><br />
+准确率、召回率、AUC、F1、延迟、吞吐量。<br />
+<code>[⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 系统公平性度量 (AI System Fairness Metrics)</strong><br />
+人口平等、机会平等、统计平等、校准平等、反事实公平。<br />
+<code>[⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 系统可解释性度量 (AI System Explainability Metrics)</strong><br />
+局部可解释性、全局可解释性、保真度。<br />
+<code>[⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 系统隐私度量 (AI System Privacy Metrics)</strong><br />
+成员推理攻击抵抗力、模型反演抵抗力。<br />
+<code>[⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 系统安全性度量 (AI System Security Metrics)</strong><br />
+对抗样本抵抗力、模型窃取抵抗力。<br />
+<code>[⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 系统韧性度量 (AI System Robustness Metrics)</strong><br />
+分布漂移下的性能稳定性。<br />
+<code>[⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 系统可问责度量 (AI System Accountability Metrics)</strong><br />
+决策可追溯性、行为日志完整性。<br />
+<code>[⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<hr />
+<h2 id="b4-nist-ai-rmf-manage-功能">B4 · NIST AI RMF MANAGE 功能</h2>
+<p><strong>MANAGE 功能</strong><br />
+MANAGE = Allocate, Mitigate, Document, Communicate AI Risks。[SOP: 部署阶段、运维阶段]<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 风险分配 (AI Risk Allocation)</strong><br />
+将风险分配给合适的组织角色。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 风险缓解 (AI Risk Mitigation)</strong><br />
+实施技术、流程、文档措施降低风险。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 风险文档化 (AI Risk Documentation)</strong><br />
+将 AI 风险、决策、缓解措施文档化。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 风险沟通 (AI Risk Communication)</strong><br />
+向利益相关方传达 AI 风险。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 风险应对策略 (AI Risk Treatment)</strong><br />
+避免、减轻、转移、接受四种策略。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 风险缓解控制 (AI Risk Mitigation Controls)</strong><br />
+技术控制、流程控制、文档控制。<br />
+<code>[⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 系统退役 (AI System Decommissioning)</strong><br />
+AI 系统生命周期的终结管理。<br />
+<code>[⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 持续验证 (AI Continuous Validation)</strong><br />
+部署后持续验证 AI 性能与安全。<br />
+<code>[⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<p><strong>AI 事件响应 (AI Incident Response)</strong><br />
+AI 相关的安全、公平、性能事件的响应流程。<br />
+<code>[⭐⭐⭐⭐]</code> [NIST AI RMF 1.0]</p>
+<hr />
+<h2 id="b5-nist-ai-rmf-generative-ai-profile-nist-ai-600-1">B5 · NIST AI RMF Generative AI Profile (NIST AI 600-1, 2026)</h2>
+<p><strong>生成式 AI 风险 (GenAI Risks)</strong><br />
+NIST AI 600-1 列出的 12 大风险：confabulation、data privacy、harmful bias、IP infringement、confidentiality、information quality、dangerous information、provenance、lack of transparency、cybersecurity、environmental、data acquisition。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI 600-1, 2026]</p>
+<p><strong>Confabulation (幻觉/虚构)</strong><br />
+LLM 生成的看似合理但实际错误的输出。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI 600-1]</p>
+<p><strong>数据隐私风险 (Data Privacy Risk)</strong><br />
+训练数据中的个人隐私泄露风险。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI 600-1]</p>
+<p><strong>有害偏见 (Harmful Bias)</strong><br />
+模型对特定群体的不公平对待。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI 600-1]</p>
+<p><strong>知识产权侵权 (IP Infringement Risk)</strong><br />
+模型输出与训练数据的版权冲突。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI 600-1]</p>
+<p><strong>机密泄露 (Confidentiality Leakage)</strong><br />
+通过 prompt 提取训练数据。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI 600-1]</p>
+<p><strong>信息质量 (Information Quality)</strong><br />
+准确性、真实性、完整性。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI 600-1]</p>
+<p><strong>危险信息 (Dangerous Information)</strong><br />
+生成有助于伤害的指南。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI 600-1]</p>
+<p><strong>数据血统 (Data Provenance)</strong><br />
+训练数据来源的透明度。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI 600-1]</p>
+<p><strong>缺乏透明度 (Lack of Transparency)</strong><br />
+模型决策过程的不可解释性。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI 600-1]</p>
+<p><strong>网络安全 (Cybersecurity)</strong><br />
+对抗样本、模型窃取、prompt 注入。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI 600-1]</p>
+<p><strong>环境影响 (Environmental Impact)</strong><br />
+训练与推理的能源消耗。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI 600-1]</p>
+<p><strong>数据获取风险 (Data Acquisition Risk)</strong><br />
+训练数据的合法获取与许可。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI 600-1]</p>
+<p><strong>NIST GenAI 12 大风险缓和措施</strong><br />
+NIST AI 600-1 列出 60+ 项具体缓解措施，含 prompt 工程、内容过滤、检索增强 (RAG)、来源引用、模型可解释性、安全对齐 (RLHF)、环境监测等。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [NIST AI 600-1, 2026]</p>
+<hr />
+<h2 id="b6-isoiec-420012023-aims">B6 · ISO/IEC 42001:2023 AIMS</h2>
+<p><strong>AIMS (AI Management System)</strong><br />
+ISO/IEC 42001:2023 定义的人工智能管理体系，国际可认证的 AI 治理标准。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<p><strong>AIMS 范围 (Scope)</strong><br />
+AIMS 的边界与适用性。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<p><strong>AI 政策 (AI Policy)</strong><br />
+组织对 AI 的总体承诺与方向。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<p><strong>AI 角色与责任 (Roles &amp; Responsibilities)</strong><br />
+AIMS 中各角色定义：高层管理、AI 主管、开发者、运维、用户。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<p><strong>AI 风险评估 (AI Risk Assessment)</strong><br />
+ISO/IEC 42001 强调：识别 AI 系统对个人、社会的潜在影响。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<p><strong>AI 风险处理 (AI Risk Treatment)</strong><br />
+ISO/IEC 42001 强调：缓解、转移、避免、接受四种处理策略。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<p><strong>AI 影响评估 (AI Impact Assessment)</strong><br />
+ISO/IEC 42001 要求的部署前评估。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<p><strong>AI 系统生命周期管理 (AI System Life Cycle Management)</strong><br />
+ISO/IEC 42001 强调：规划、设计、开发、部署、运营、退役全周期。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<p><strong>AI 数据管理 (AI Data Management)</strong><br />
+训练数据、推理数据、反馈数据的全周期管理。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<p><strong>AI 资源管理 (AI Resource Management)</strong><br />
+数据、算法、算力、人力等资源管理。<br />
+<code>[⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<p><strong>AIMS 内部审计 (Internal Audit)</strong><br />
+按 ISO/IEC 42001 要求的周期性内部审计。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<p><strong>AIMS 管理评审 (Management Review)</strong><br />
+按 ISO/IEC 42001 要求的高层评审。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<p><strong>AIMS 持续改进 (Continual Improvement)</strong><br />
+按 ISO/IEC 42001 PDCA 循环的持续优化。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<p><strong>AIMS 认证 (AIMS Certification)</strong><br />
+第三方认证机构对 AIMS 实施的审计。<br />
+<code>[⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<p><strong>ISO/IEC 42001 与 ISO 9001 / 27001 关系</strong><br />
+ISO/IEC 42001:2023 与 ISO 9001:2015（质量管理体系）和 ISO/IEC 27001:2022（信息安全）的兼容性，三者可一体化实施。<br />
+<code>[⭐⭐⭐⭐]</code> [ISO/IEC 42001:2023]</p>
+<hr />
+<h2 id="b7-eu-ai-act-regulation-20241689-gpai-code-of-prac">B7 · EU AI Act (Regulation 2024/1689) + GPAI Code of Practice</h2>
+<p><strong>EU AI Act</strong><br />
+欧盟 2024 年通过、2025-2027 年分阶段生效的全球首部 AI 综合法律。中文译名"欧盟人工智能法案"。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>风险分级 (Risk Tiers)</strong><br />
+EU AI Act 四级风险：不可接受风险、高风险、有限风险、最小风险。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>不可接受风险 (Unacceptable Risk)</strong><br />
+欧盟完全禁止：社会评分、操纵性 AI、实时远程生物识别（部分例外）。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>高风险 AI (High-Risk AI)</strong><br />
+受严格监管：CRD 附录 III 列举的 8 类场景 + 关键基础设施 + 教育、就业、执法、移民等。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>通用 AI 模型 (General Purpose AI, GPAI)</strong><br />
+提供基础模型能力的通用 AI，如 GPT-4、Claude、Gemini、Llama。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>GPAI 系统性风险 (Systemic Risk GPAI)</strong><br />
+训练算力 &gt; 10^25 FLOP 的 GPAI 模型，被定义为具有系统性风险。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>GPAI Code of Practice (实践守则)</strong><br />
+欧盟 2025 发布的通用 AI 模型实践守则，含透明度、版权、安全性三大章节。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [GPAI CoP, 2025]</p>
+<p><strong>GPAI 透明度义务 (GPAI Transparency)</strong><br />
+GPAI 必须披露训练数据来源、版权情况、模型能力。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>GPAI 版权义务 (GPAI Copyright)</strong><br />
+GPAI 训练数据需符合 EU 版权指令（特别是 TDM 指令 2019/790）。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>GPAI 安全性义务 (GPAI Safety)</strong><br />
+GPAI 需进行模型评估、红队测试、安全事件报告。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>AI 办公室 (AI Office)</strong><br />
+欧盟 2024 设立的执行机构，负责 GPAI 监管与守则更新。<br />
+<code>[⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>AI 沙箱 (Regulatory Sandbox)</strong><br />
+EU AI Act 鼓励成员国建立的 AI 测试沙箱。<br />
+<code>[⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>数据保护影响评估 (DPIA)</strong><br />
+EU AI Act 引用 GDPR 条款，高风险 AI 必须进行 DPIA。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [GDPR]</p>
+<p><strong>基本权利影响评估 (Fundamental Rights Impact Assessment, FRIA)</strong><br />
+EU AI Act 对公共部门部署的高风险 AI 要求的特殊影响评估。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>人类监督 (Human Oversight)</strong><br />
+EU AI Act 对高风险 AI 的强制要求：人类在决策回路中。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>鲁棒性与准确性 (Robustness &amp; Accuracy)</strong><br />
+高风险 AI 的强制技术要求。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>透明度义务 (Transparency Obligation)</strong><br />
+通用 AI Act 对所有 AI 系统的透明度要求：用户须知晓与 AI 交互。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>深度伪造披露 (Deepfake Disclosure)</strong><br />
+EU AI Act 第 50 条：生成式 AI 内容须明确标注为 AI 生成。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>处罚条款 (Penalties)</strong><br />
+EU AI Act 违反处罚：高达 3500 万欧元或全球营业额 7%。<br />
+<code>[⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<p><strong>生效时间表 (Timeline)</strong><br />
+2024 年 8 月生效；2025 年 2 月禁止性条款生效；2026 年 8 月 GPAI 规则生效；2027 年 8 月全面适用。<br />
+<code>[⭐⭐⭐⭐]</code> [Regulation (EU) 2024/1689]</p>
+<hr />
+<h2 id="b8-isoiec-238942023-ai-风险管理">B8 · ISO/IEC 23894:2023 AI 风险管理</h2>
+<p><strong>AI 风险管理框架 (AI Risk Management Framework)</strong><br />
+ISO/IEC 23894:2023 与 NIST AI RMF 对齐的 AI 风险管理框架。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 23894:2023]</p>
+<p><strong>AI 风险识别 (AI Risk Identification)</strong><br />
+识别 AI 系统在全生命周期中的潜在风险。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 23894:2023]</p>
+<p><strong>AI 风险分析 (AI Risk Analysis)</strong><br />
+分析风险的可能性、后果、影响范围。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 23894:2023]</p>
+<p><strong>AI 风险评估 (AI Risk Evaluation)</strong><br />
+将风险与风险准则比较。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 23894:2023]</p>
+<p><strong>AI 风险处理 (AI Risk Treatment)</strong><br />
+选择并实施降低、避免、转移、接受风险措施。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 23894:2023]</p>
+<p><strong>AI 风险监控 (AI Risk Monitoring)</strong><br />
+持续观察 AI 风险状况。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 23894:2023]</p>
+<p><strong>AI 风险沟通 (AI Risk Communication)</strong><br />
+向利益相关方传达 AI 风险。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 23894:2023]</p>
+<hr />
+<h2 id="b9-isoiec-27090-ai-安全-27001-5055">B9 · ISO/IEC 27090 AI 安全 + 27001 + 5055</h2>
+<p><strong>ISO/IEC 27001:2022</strong><br />
+信息安全管理体系 (ISMS) 国际标准。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 27001:2022]</p>
+<p><strong>AI 安全威胁 (AI Security Threats)</strong><br />
+对抗样本、数据投毒、模型反演、模型窃取、prompt 注入、后门攻击、隐私泄露。<br />
+<code>[⭐⭐⭐⭐]</code> [ISO/IEC 27090]</p>
+<p><strong>对抗样本 (Adversarial Examples)</strong><br />
+精心构造的输入使模型错误分类。<br />
+<code>[⭐⭐⭐⭐]</code> [AI 安全]</p>
+<p><strong>数据投毒 (Data Poisoning)</strong><br />
+通过污染训练数据操纵模型行为。<br />
+<code>[⭐⭐⭐⭐]</code> [AI 安全]</p>
+<p><strong>模型反演 (Model Inversion)</strong><br />
+从模型输出推断训练数据。<br />
+<code>[⭐⭐⭐]</code> [AI 安全]</p>
+<p><strong>模型窃取 (Model Stealing)</strong><br />
+通过查询 API 重建目标模型。<br />
+<code>[⭐⭐⭐]</code> [AI 安全]</p>
+<p><strong>prompt 注入 (Prompt Injection)</strong><br />
+通过输入操纵 LLM 行为。<br />
+<code>[⭐⭐⭐⭐]</code> [OWASP LLM Top 10]</p>
+<p><strong>后门攻击 (Backdoor Attack)</strong><br />
+在训练时植入特定触发器的隐藏行为。<br />
+<code>[⭐⭐⭐]</code> [AI 安全]</p>
+<p><strong>成员推理 (Membership Inference)</strong><br />
+判断特定样本是否在训练集中。<br />
+<code>[⭐⭐⭐]</code> [AI 安全]</p>
+<p><strong>OWASP LLM Top 10 (2025)</strong><br />
+LLM 应用十大安全风险：prompt injection、敏感信息泄露、供应链、模型拒绝服务、prompt 越狱、不安全输出、训练数据泄露、模型滥用、过度依赖、不安全插件。<br />
+<code>[⭐⭐⭐]</code> [OWASP 2025]</p>
+<p><strong>MITRE ATLAS (Adversarial Threat Landscape for AI Systems)</strong><br />
+MITRE 维护的 AI 攻击知识库与战术技术程序 (TTPs)。<br />
+<code>[⭐⭐⭐⭐]</code> [MITRE]</p>
+<p><strong>ISO/IEC 5055</strong><br />
+AI 系统代码质量、可靠性、安全性的国际标准。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [ISO/IEC 5055]</p>
+<p><strong>AI 可靠性 (AI Reliability)</strong><br />
+ISO/IEC 5055 强调的 AI 代码可靠性度量。<br />
+<code>[⭐⭐⭐⭐]</code> [ISO/IEC 5055]</p>
+<p><strong>AI 代码安全 (AI Code Security)</strong><br />
+ISO/IEC 5055 强调的 AI 代码安全度量。<br />
+<code>[⭐⭐⭐⭐]</code> [ISO/IEC 5055]</p>
+<hr />
+<h2 id="b10-sfia-9-通用能力-ai-技能框架">B10 · SFIA 9 通用能力 + AI 技能框架</h2>
+<p><strong>SFIA 9 (Skills Framework for the Information Age v9)</strong><br />
+2024 年 10 月发布的全球 IT 技能框架，7 个责任级别。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>SFIA 7 个责任级别 (Levels 1-7)</strong><br />
+Follow (1)、Assist (2)、Apply (3)、Enable (4)、Ensure &amp; Advise (5)、Initiate &amp; Influence (6)、Set Strategy &amp; Inspire (7)。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>Level 1 Follow (跟随)</strong><br />
+在指导下完成初级工作。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>Level 2 Assist (协助)</strong><br />
+在工作环境中协助完成任务。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>Level 3 Apply (应用)</strong><br />
+独立执行标准化任务。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>Level 4 Enable (使能)</strong><br />
+执行复杂任务、提供专家支持。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>Level 5 Ensure &amp; Advise (确保与建议)</strong><br />
+提供权威指导、确保组织有效性。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>Level 6 Initiate &amp; Influence (发起与影响)</strong><br />
+在组织范围内发起战略决策。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>Level 7 Set Strategy &amp; Inspire (设定战略与激励)</strong><br />
+设定组织方向并激励他人。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>SFIA 技能类别 (Categories)</strong><br />
+Strategy &amp; Architecture、Change &amp; Transformation、Development &amp; Implementation、Operations &amp; Support、Relationships &amp; Engagement。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>SFIA Strategy &amp; Architecture</strong><br />
+战略、咨询、技术规划、IT 治理等。<br />
+<code>[⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>SFIA Change &amp; Transformation</strong><br />
+业务变更、持续改进、IT 培训等。<br />
+<code>[⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>SFIA Development &amp; Implementation</strong><br />
+系统开发、集成、测试等。<br />
+<code>[⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>SFIA Operations &amp; Support</strong><br />
+IT 运维、用户支持、安全运维等。<br />
+<code>[⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>SFIA Relationships &amp; Engagement</strong><br />
+利益相关方关系、供应商关系等。<br />
+<code>[⭐⭐⭐⭐]</code> [SFIA Online]</p>
+<p><strong>SFIA AI Skills Framework (CWA 18398:2026)</strong><br />
+CEN-CENELEC 在 SFIA 9 基础上扩展的 AI 专项技能框架。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [CWA 18398:2026]</p>
+<p><strong>CWA 18398:2026 核心技能群</strong><br />
+AI 战略、AI 伦理、数据工程、模型工程、MLOps、AI 安全、AI 治理、AI 产品。<br />
+<code>[⭐⭐⭐⭐⭐]</code> [CWA 18398:2026]</p>
+<p><strong>AI 战略 (AI Strategy)</strong><br />
+组织 AI 路线图、投资决策、风险评估。<br />
+<code>[⭐⭐⭐⭐]</code> [CWA 18398:2026]</p>
+<p><strong>AI 伦理 (AI Ethics)</strong><br />
+公平、隐私、透明、问责的伦理原则。<br />
+<code>[⭐⭐⭐⭐]</code> [CWA 18398:2026]</p>
+<p><strong>数据工程 (Data Engineering)</strong><br />
+数据获取、清洗、特征工程、数据治理。<br />
+<code>[⭐⭐⭐⭐]</code> [CWA 18398:2026]</p>
+<p><strong>模型工程 (Model Engineering)</strong><br />
+模型选择、训练、调优、评估。<br />
+<code>[⭐⭐⭐⭐]</code> [CWA 18398:2026]</p>
+<p><strong>MLOps 工程 (MLOps Engineering)</strong><br />
+ML 模型的生产化、监控、再训练。<br />
+<code>[⭐⭐⭐⭐]</code> [CWA 18398:2026]</p>
+<p><strong>AI 安全工程 (AI Security Engineering)</strong><br />
+对抗鲁棒性、隐私保护、供应链安全。<br />
+<code>[⭐⭐⭐⭐]</code> [CWA 18398:2026]</p>
+<p><strong>AI 治理工程 (AI Governance Engineering)</strong><br />
+AIMS 实施、合规审计、政策制定。<br />
+<code>[⭐⭐⭐⭐]</code> [CWA 18398:2026]</p>
+<p><strong>AI 产品管理 (AI Product Management)</strong><br />
+AI 产品需求、用户研究、商业化。<br />
+<code>[⭐⭐⭐]</code> [CWA 18398:2026]</p>
+<hr />
+<h2 id="b11-dasa-fde-五大能力">B11 · DASA FDE 五大能力</h2>
+<p><strong>DASA FDE Competency Framework</strong><br />
+DevOps Agile Skills Association 发布的 FDE 能力框架。<br />
+<strong>DASA FDE 三大领域：技术 + 业务 + 软技能，共 15 项核心能力。</strong><br />
+<code>[⭐⭐⭐⭐]</code> [DASA FDE]</p>
+<p><strong>领域一：技术能力 (Technical Skills)</strong></p>
+<p><strong>1. 编程与脚本能力 (Programming &amp; Scripting)</strong><br />
+FDE 须掌握至少一门语言（Python/Java/Go）与多种脚本语言。<br />
+<code>[⭐⭐⭐⭐]</code> [DASA FDE]</p>
+<p><strong>2. 系统架构理解 (System Architecture Understanding)</strong><br />
+理解云、微服务、API、数据库、消息队列。<br />
+<code>[⭐⭐⭐⭐]</code> [DASA FDE]</p>
+<p><strong>3. DevOps 与 CI/CD (DevOps &amp; CI/CD)</strong><br />
+掌握 Git、容器、CI/CD 流水线、基础设施即代码。<br />
+<code>[⭐⭐⭐⭐]</code> [DASA FDE]</p>
+<p><strong>4. AI/ML 基础 (AI/ML Foundations)</strong><br />
+理解机器学习、深度学习、LLM、Agent 的基本原理与局限。<br />
+<code>[⭐⭐⭐⭐]</code> [DASA FDE]</p>
+<p><strong>5. 数据工程 (Data Engineering)</strong><br />
+理解数据管道、ETL、特征存储、数据质量。<br />
+<code>[⭐⭐⭐⭐]</code> [DASA FDE]</p>
+<p><strong>领域二：业务能力 (Business Skills)</strong></p>
+<p><strong>6. 业务领域知识 (Business Domain Knowledge)</strong><br />
+深度理解客户行业（金融、零售、医疗、制造）。<br />
+<strong><code>[⭐⭐⭐⭐]</code> [DASA FDE]</strong></p>
+<p><strong>7. 价值评估 (Value Assessment)</strong><br />
+量化 AI 项目的业务价值。<br />
+<strong><code>[⭐⭐⭐⭐]</code> [DASA FDE]</strong></p>
+<p><strong>8. 解决方案架构 (Solution Architecture)</strong><br />
+将客户需求转化为技术方案。<br />
+<strong><code>[⭐⭐⭐⭐]</code> [DASA FDE]</strong></p>
+<p><strong>领域三：人际关系能力 (People Skills)</strong></p>
+<p><strong>9. 利益相关方管理 (Stakeholder Management)</strong><br />
+管理客户高层、终端用户、技术团队的关系。<br />
+<strong><code>[⭐⭐⭐⭐]</code> [DASA FDE]</strong></p>
+<p><strong>10. 沟通与展示 (Communication &amp; Presentation)</strong><br />
+向非技术受众解释技术方案。<br />
+<strong><code>[⭐⭐⭐⭐]</code> [DASA FDE]</strong></p>
+<p><strong>11. 教练与赋能 (Coaching &amp; Enablement)</strong><br />
+在交付过程中赋能客户团队。<br />
+<strong><code>[⭐⭐⭐⭐]</code> [DASA FDE]</strong></p>
+<p><strong>12. 冲突解决 (Conflict Resolution)</strong><br />
+管理客户内部与跨团队的冲突。<br />
+<strong><code>[⭐⭐⭐⭐]</code> [DASA FDE]</strong></p>
+<p><strong>13. 需求发现 (Requirements Discovery)</strong><br />
+通过访谈、观察、原型发现真实需求。<br />
+<strong><code>[⭐⭐⭐⭐]</code> [DASA FDE]</strong></p>
+<p><strong>14. 项目交付 (Project Delivery)</strong><br />
+管理端到端交付：PoC → Pilot → Production。<br />
+<strong><code>[⭐⭐⭐⭐]</code> [DASA FDE]</strong></p>
+<p><strong>15. 持续学习 (Continuous Learning)</strong><br />
+保持 AI 技术的最新知识。<br />
+<strong><code>[⭐⭐⭐⭐]</code> [DASA FDE]</strong></p>
+<hr />
+<h2 id="b12-fde-实践精华业界实践">B12 · FDE 实践精华（业界实践）</h2>
+<p><strong>FDE 定义 (Forward Deployed Engineer)</strong><br />
+FDE = 驻场工程师。源自 Palantir，兴起于 Salesforce、Anthropic、OpenAI、Cohere 等 AI 公司。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>FDE 三大产出</strong><br />
+销售前的解决方案验证、嵌入式的工程交付、客户内部团队赋能。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>FDE 三大挑战</strong><br />
+客户环境多样性、技术债务、跨团队对齐。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>FDE 三大价值</strong><br />
+降低客户试错成本、缩短价值实现时间、为公司收集真实反馈。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>FDE 报告关系</strong><br />
+矩阵式：既向公司工程团队汇报，也向客户团队汇报。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>FDE 工具栈</strong><br />
+客户开发栈 + 公司核心平台 + 客户业务数据。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>FDE 工作循环</strong><br />
+嵌入 (Embed) → 发现 (Discover) → 设计 (Design) → 交付 (Deliver) → 赋能 (Enable)。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>嵌入式 (Embed)</strong><br />
+与客户团队在同一地点/虚拟空间共同工作。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>发现 (Discover)</strong><br />
+通过访谈、观察、数据分析发现客户的真实痛点。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>设计 (Design)</strong><br />
+与客户共同设计解决方案架构。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>交付 (Deliver)</strong><br />
+端到端实施：从 PoC 到 Production。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>赋能 (Enable)</strong><br />
+在交付过程中培训客户团队，确保长期可持续。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>FDE 软技能</strong><br />
+嵌入式工作需要的心理韧性、文化适应、模糊场景决策。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>FDE vs 售前 (Pre-Sales)</strong><br />
+FDE 更深、更长、更技术：售前关注方案选择，FDE 关注方案落地。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>FDE vs 实施顾问 (Implementation Consultant)</strong><br />
+实施顾问关注配置与培训，FDE 关注定制与代码。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>FDE vs 解决方案架构师 (Solution Architect)</strong><br />
+架构师关注设计，FDE 关注设计 + 编码 + 运维。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<hr />
+<h2 id="b13-ai-项目治理与合规">B13 · AI 项目治理与合规</h2>
+<p><strong>AI 合规 (AI Compliance)</strong><br />
+遵守 EU AI Act、GDPR、NIST AI RMF 等法规与标准。<br />
+<code>[⭐⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 审计 (AI Audit)</strong><br />
+第三方对 AI 系统公平性、透明性、安全性的审计。<br />
+<code>[⭐⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 文档 (AI Documentation)</strong><br />
+模型卡片 (Model Card)、数据卡片 (Datasheet)、系统卡片 (System Card)。<br />
+<code>[⭐⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>模型卡片 (Model Card)</strong><br />
+Mitchell et al. 2019 提出：标准化记录模型性能、局限、偏差。<br />
+<code>[⭐⭐⭐⭐]</code> [Margaret Mitchell]</p>
+<p><strong>数据卡片 (Datasheet for Datasets)</strong><br />
+Gebru et al. 2021 提出：标准化记录数据集来源、构成、局限。<br />
+<code>[⭐⭐⭐⭐]</code> [Timnit Gebru]</p>
+<p><strong>系统卡片 (System Card)</strong><br />
+Meta/Google 提出：记录 AI 系统全生命周期信息。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 红队测试 (AI Red Teaming)</strong><br />
+模拟对抗者攻击以发现 AI 弱点。<br />
+<code>[⭐⭐⭐⭐]</code> [AI 安全]</p>
+<p><strong>AI 红队分类</strong><br />
+对抗红队、偏见红队、安全红队、合规红队。<br />
+<code>[⭐⭐⭐]</code> [AI 安全]</p>
+<p><strong>AI Bug Bounty</strong><br />
+Microsoft、OpenAI 等设立的有奖漏洞报告项目。<br />
+<code>[⭐⭐⭐]</code> [AI 安全]</p>
+<p><strong>AI 公平性 (AI Fairness)</strong><br />
+模型在不同人群上的表现一致性。<br />
+<code>[⭐⭐⭐⭐]</code> [AI 伦理]</p>
+<p><strong>AI 公平性指标</strong><br />
+人口统计平等、机会平等、反事实公平、个体公平。<br />
+<code>[⭐⭐⭐]</code> [AI 伦理]</p>
+<p><strong>AI 可解释性 (AI Explainability)</strong><br />
+模型决策的可理解性。<br />
+<code>[⭐⭐⭐⭐]</code> [AI 伦理]</p>
+<p><strong>AI 可解释性方法</strong><br />
+SHAP、LIME、Permutation Importance、Attention Visualization。<br />
+<code>[⭐⭐⭐]</code> [AI 伦理]</p>
+<p><strong>SHAP (SHapley Additive exPlanations)</strong><br />
+基于博弈论的特征贡献度解释。<br />
+<code>[⭐⭐⭐]</code> [Lundberg &amp; Lee 2017]</p>
+<p><strong>LIME (Local Interpretable Model-agnostic Explanations)</strong><br />
+通过局部线性近似解释任何模型。<br />
+<code>[⭐⭐⭐]</code> [Ribeiro et al. 2016]</p>
+<p><strong>AI 隐私 (AI Privacy)</strong><br />
+个人数据保护：匿名化、差分隐私、联邦学习。<br />
+<code>[⭐⭐⭐]</code> [AI 伦理]</p>
+<p><strong>差分隐私 (Differential Privacy)</strong><br />
+Dwork 提出：在统计查询中添加噪声以保护个体。<br />
+<code>[⭐⭐⭐]</code> [Cynthia Dwork]</p>
+<p><strong>联邦学习 (Federated Learning)</strong><br />
+McMahan 提出：数据不出本地的协作训练方法。<br />
+<code>[⭐⭐⭐]</code> [Google AI 2017]</p>
+<p><strong>同态加密 (Homomorphic Encryption)</strong><br />
+允许在密文上直接计算的加密方案。<br />
+<code>[⭐⭐⭐]</code> [密码学]</p>
+<p><strong>AI 安全对齐 (AI Alignment)</strong><br />
+确保 AI 系统的目标与人类价值观一致。<br />
+<code>[⭐⭐⭐]</code> [AI 伦理]</p>
+<p><strong>RLHF (Reinforcement Learning from Human Feedback)</strong><br />
+基于人类反馈的强化学习对齐方法。<br />
+<code>[⭐⭐⭐]</code> [OpenAI 2017+]</p>
+<p><strong>Constitutional AI</strong><br />
+Anthropic 提出：基于"宪法"原则自我批评与修正的对齐方法。<br />
+<code>[⭐⭐⭐]</code> [Anthropic 2022]</p>
+<hr />
+<h2 id="b14-ai-责任与可追溯性">B14 · AI 责任与可追溯性</h2>
+<p><strong>AI 责任原则 (AI Accountability Principles)</strong><br />
+OECD 2019：包容性增长、以人为本、公平、透明、可解释、健壮、安全。<br />
+<code>[⭐⭐⭐⭐]</code> [OECD AI Principles]</p>
+<p><strong>OECD AI 原则 (OECD AI Principles)</strong><br />
+2019 年首个政府间 AI 治理原则。<br />
+<code>[⭐⭐⭐⭐]</code> [OECD]</p>
+<p><strong>UNESCO AI 伦理建议书</strong><br />
+2021 年发布的 AI 伦理国际框架。<br />
+<code>[⭐⭐⭐⭐]</code> [UNESCO]</p>
+<p><strong>G7 广岛 AI 进程 (Hiroshima AI Process)</strong><br />
+2023 年 G7 达成的生成式 AI 国际规则。<br />
+<code>[⭐⭐⭐]</code> [G7]</p>
+<p><strong>AI 治理框架对比</strong><br />
+NIST AI RMF（美）、EU AI Act（欧）、ISO/IEC 42001（国际）、GPAI CoP（欧）。<br />
+<code>`[⭐⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 决策可追溯 (AI Decision Traceability)</strong><br />
+记录 AI 决策过程的输入、特征、推理路径。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 决策日志 (AI Decision Log)</strong><br />
+结构化记录每次 AI 决策的元数据。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 审计跟踪 (AI Audit Trail)</strong><br />
+满足合规要求的完整决策链条记录。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<hr />
+<h2 id="b15-ai-知识图谱与概念术语">B15 · AI 知识图谱与概念术语</h2>
+<p><strong>机器学习 (Machine Learning, ML)</strong><br />
+Tom Mitchell 定义：从经验 E 中学习以改进任务 T 的性能 P。<br />
+<code>[⭐⭐⭐⭐]</code> [Tom Mitchell]</p>
+<p><strong>监督学习 (Supervised Learning)</strong><br />
+基于标注数据的训练：分类、回归。<br />
+<code>[⭐⭐⭐]</code> [ML 基础]</p>
+<p><strong>无监督学习 (Unsupervised Learning)</strong><br />
+无标注数据的训练：聚类、降维、生成。<br />
+<code>[⭐⭐⭐]</code> [ML 基础]</p>
+<p><strong>半监督学习 (Semi-Supervised Learning)</strong><br />
+少量标注 + 大量未标注的训练方法。<br />
+<code>[⭐⭐⭐]</code> [ML 基础]</p>
+<p><strong>自监督学习 (Self-Supervised Learning)</strong><br />
+从数据本身生成伪标签：BERT、GPT。<br />
+<code>[⭐⭐⭐]</code> [ML 基础]</p>
+<p><strong>强化学习 (Reinforcement Learning, RL)</strong><br />
+智能体通过环境反馈学习最优策略。<br />
+<code>[⭐⭐⭐]</code> [Sutton &amp; Barto]</p>
+<p><strong>深度学习 (Deep Learning)</strong><br />
+多层神经网络：CNN、RNN、Transformer。<br />
+<code>[⭐⭐⭐]</code> [LeCun/Bengio/Hinton 2015]</p>
+<p><strong>Transformer</strong><br />
+Vaswani et al. 2017：基于自注意力的序列建模架构。<br />
+<code>[⭐⭐⭐⭐]</code> [Vaswani et al. 2017]</p>
+<p><strong>LLM (Large Language Model)</strong><br />
+基于 Transformer 的大规模预训练语言模型。<br />
+<code>[⭐⭐⭐⭐]</code> [AI 基础]</p>
+<p><strong>GPT (Generative Pre-trained Transformer)</strong><br />
+OpenAI 提出的生成式预训练 Transformer 模型家族。<br />
+<code>[⭐⭐⭐⭐]</code> [OpenAI]</p>
+<p><strong>BERT (Bidirectional Encoder Representations from Transformers)</strong><br />
+Google 2018 提出的双向编码预训练模型。<br />
+<code>[⭐⭐⭐]</code> [Google]</p>
+<p><strong>Foundation Model (基础模型)</strong><br />
+Stanford 提出：大规模预训练、可适配多任务的模型。<br />
+<code>[⭐⭐⭐]</code> [Stanford HAI 2021]</p>
+<p><strong>RAG (Retrieval-Augmented Generation)</strong><br />
+Lewis et al. 2020 提出：检索 + 生成的混合架构。<br />
+<code>[⭐⭐⭐]</code> [Patrick Lewis]</p>
+<p><strong>PEFT (Parameter-Efficient Fine-Tuning)</strong><br />
+参数高效微调：LoRA、Prefix Tuning、Adapter。<br />
+<code>[⭐⭐⭐]</code> [HuggingFace]</p>
+<p><strong>LoRA (Low-Rank Adaptation)</strong><br />
+Microsoft 提出：低秩矩阵微调方法。<br />
+<code>[⭐⭐⭐]</code> [Microsoft 2021]</p>
+<p><strong>RLHF (Reinforcement Learning from Human Feedback)</strong><br />
+人类反馈强化学习：GPT-3.5/4 关键技术。<br />
+<code>[⭐⭐⭐]</code> [OpenAI 2022]</p>
+<p><strong>Agent (智能体)</strong><br />
+具有自主决策、记忆、工具调用能力的 AI 系统。<br />
+<code>[⭐⭐⭐⭐]</code> [AI 概念]</p>
+<p><strong>AI Agent 三要素</strong><br />
+LLM + Memory + Tools + Planning。<br />
+<code>[⭐⭐⭐]</code> [AI 概念]</p>
+<p><strong>ReAct (Reasoning + Acting)</strong><br />
+Shunyu Yao et al. 2022：推理 + 行动交错模式。<br />
+<code>[⭐⭐⭐]</code> [Princeton]</p>
+<p><strong>Tool Use / Function Calling</strong><br />
+LLM 调用外部工具的能力。<br />
+<code>[⭐⭐⭐]</code> [OpenAI 2023]</p>
+<p><strong>A2A (Agent-to-Agent) Protocol</strong><br />
+Google 2025 提出的代理间通信协议。<br />
+<code>[⭐⭐⭐]</code> [Google 2025]</p>
+<p><strong>MCP (Model Context Protocol)</strong><br />
+Anthropic 2024 提出的模型上下文协议。<br />
+<code>[⭐⭐⭐]</code> [Anthropic 2024]</p>
+<p><strong>Multi-Agent (多代理)</strong><br />
+多个 AI 代理协作：AutoGen、CrewAI、LangGraph。<br />
+<code>[⭐⭐⭐]</code> [AI 概念]</p>
+<p><strong>Agentic Workflow</strong><br />
+代理驱动的工作流：规划、执行、观察、反思。<br />
+<code>[⭐⭐⭐]</code> [AI 概念]</p>
+<hr />
+<h2 id="b16-ai-项目交付相关术语">B16 · AI 项目交付相关术语</h2>
+<p><strong>PoC (Proof of Concept, 概念验证)</strong><br />
+验证技术可行性的最小化实施。<br />
+<code>[⭐⭐⭐]</code> [项目交付]</p>
+<p><strong>Pilot (试点)</strong><br />
+在受控环境下验证业务价值的有限规模实施。<br />
+<code>[⭐⭐⭐]</code> [项目交付]</p>
+<p><strong>MVP (Minimum Viable Product, 最小可行产品)</strong><br />
+Eric Ries 提出：包含核心功能的最小可交付产品。<br />
+<code>[⭐⭐⭐]</code> [Eric Ries]</p>
+<p><strong>概念验证 vs 试点</strong><br />
+PoC 验证"能不能做"，Pilot 验证"值得不值得做"。<br />
+<code>[⭐⭐⭐]</code> [项目交付]</p>
+<p><strong>试点 vs 生产</strong><br />
+试点受控、规模小、风险低；生产全面、可扩展、高可用。<br />
+<code>[⭐⭐⭐]</code> [项目交付]</p>
+<p><strong>生产化 (Productionization)</strong><br />
+从试验环境到生产环境的工程化过程。<br />
+<code>[⭐⭐⭐]</code> [项目交付]</p>
+<p><strong>AI 产品化 (AI Productization)</strong><br />
+将 AI 模型转化为产品的过程：性能、可靠性、成本、用户体验。<br />
+<code>[⭐⭐⭐]</code> [项目交付]</p>
+<p><strong>AI 价值实现 (AI Value Realization)</strong><br />
+AI 项目从交付到产生可量化业务价值的过程。<br />
+<code>[⭐⭐⭐]</code> [项目交付]</p>
+<p><strong>AI ROI 计算</strong><br />
+AI 项目的投资回报率计算：成本 / 收益。<br />
+<code>[⭐⭐⭐]</code> [项目交付]</p>
+<p><strong>AI 商业化 (AI Commercialization)</strong><br />
+将 AI 能力转化为商业收入的过程。<br />
+<code>[⭐⭐⭐]</code> [项目交付]</p>
+<p><strong>嵌入式交付 (Embedded Delivery)</strong><br />
+FDE 与客户团队在同一环境中共同工作。<br />
+<code>[⭐⭐⭐]</code> [FDE 实践]</p>
+<p><strong>价值证明 (Value Demonstration)</strong><br />
+在 PoC/Pilot 阶段明确价值指标。<br />
+<code>[⭐⭐⭐]</code> [FDE 实践]</p>
+<p><strong>变革管理 (Change Management)</strong><br />
+帮助客户组织采纳新系统的过程：Kotter 8 步法、ADKAR。<br />
+<code>[⭐⭐⭐]</code> [变革管理]</p>
+<p><strong>Kotter 8 步法</strong><br />
+John Kotter 1996：紧迫感、联合、愿景、沟通、赋能、短期胜利、巩固、文化。<br />
+<code>[⭐⭐⭐]</code> [John Kotter]</p>
+<p><strong>ADKAR 模型</strong><br />
+Prosci 提出：Awareness、Desire、Knowledge、Ability、Reinforcement。<br />
+<code>[⭐⭐⭐]</code> [Prosci]</p>
+<p><strong>赋能交付 (Enablement Delivery)</strong><br />
+通过培训、文档、教练让客户独立运营系统。<br />
+<code>[⭐⭐⭐]</code> [FDE 实践]</p>
+<p><strong>客户成功 (Customer Success)</strong><br />
+确保客户从产品中获得价值的客户管理实践。<br />
+<code>[⭐⭐⭐]</code> [SaaS 行业]</p>
+<hr />
+<h2 id="b17-ai-工程关键技术">B17 · AI 工程关键技术</h2>
+<p><strong>特征工程 (Feature Engineering)</strong><br />
+将原始数据转化为模型可用特征的过程。<br />
+<code>[⭐⭐⭐]</code> [ML 工程]</p>
+<p><strong>特征存储 (Feature Store)</strong><br />
+集中管理、共享、复用的特征平台：Feast、Tecton、Hopsworks。<br />
+<code>[⭐⭐⭐]</code> [MLOps]</p>
+<p><strong>模型注册表 (Model Registry)</strong><br />
+管理模型版本、状态、谱系的工具：MLflow、Weights &amp; Biases。<br />
+<code>[⭐⭐⭐]</code> [MLOps]</p>
+<p><strong>实验跟踪 (Experiment Tracking)</strong><br />
+记录 ML 训练实验的工具：MLflow、W&amp;B、TensorBoard。<br />
+<code>[⭐⭐⭐]</code> [MLOps]</p>
+<p><strong>模型评估 (Model Evaluation)</strong><br />
+对模型性能、公平性、稳健性的系统化评估。<br />
+<code>[⭐⭐⭐]</code> [ML 工程]</p>
+<p><strong>数据漂移 (Data Drift)</strong><br />
+输入数据分布随时间的变化。<br />
+<code>[⭐⭐⭐]</code> [MLOps]</p>
+<p><strong>概念漂移 (Concept Drift)</strong><br />
+输入与目标关系随时间的变化。<br />
+<code>[⭐⭐⭐]</code> [MLOps]</p>
+<p><strong>模型漂移 (Model Drift)</strong><br />
+模型性能随时间下降的现象。<br />
+<code>[⭐⭐⭐]</code> [MLOps]</p>
+<p><strong>漂移检测 (Drift Detection)</strong><br />
+Kolmogorov-Smirnov 检验、PSI、Chi-Square。<br />
+<code>[⭐⭐⭐]</code> [MLOps]</p>
+<p><strong>A/B 测试 (A/B Testing)</strong><br />
+比较两版本性能的实验方法。<br />
+<code>[⭐⭐⭐]</code> [数据驱动决策]</p>
+<p><strong>多臂老虎机 (Multi-Armed Bandit)</strong><br />
+动态分配流量的实验方法。<br />
+<code>[⭐⭐⭐]</code> [实验设计]</p>
+<p><strong>影子模式 (Shadow Mode)</strong><br />
+新模型与生产模型并行运行但不影响决策。<br />
+<code>[⭐⭐⭐]</code> [MLOps]</p>
+<p><strong>金丝雀发布 (Canary Release)</strong><br />
+新模型先对少量用户开放，逐步推广。<br />
+<code>[⭐⭐⭐]</code> [部署策略]</p>
+<p><strong>A/B 测试 vs 金丝雀</strong><br />
+A/B 比较两版本性能，金丝雀逐步推广新版本。<br />
+<code>[⭐⭐⭐]</code> [部署策略]</p>
+<p><strong>模型再训练 (Model Retraining)</strong><br />
+定期或触发式更新模型。<br />
+<code>[⭐⭐⭐]</code> [MLOps]</p>
+<p><strong>主动学习 (Active Learning)</strong><br />
+智能选择最有价值的样本标注。<br />
+<code>[⭐⭐⭐]</code> [ML 工程]</p>
+<p><strong>迁移学习 (Transfer Learning)</strong><br />
+将预训练模型知识迁移到新任务。<br />
+<code>[⭐⭐⭐]</code> [ML 工程]</p>
+<p><strong>少样本学习 (Few-Shot Learning)</strong><br />
+通过少量样本完成学习。<br />
+<code>[⭐⭐⭐]</code> [ML 工程]</p>
+<p><strong>零样本学习 (Zero-Shot Learning)</strong><br />
+无需样本完成新任务。<br />
+<code>[⭐⭐⭐]</code> [ML 工程]</p>
+<p><strong>提示工程 (Prompt Engineering)</strong><br />
+通过优化输入提升 LLM 输出的方法。<br />
+<code>[⭐⭐⭐]</code> [LLM 工程]</p>
+<p><strong>Chain-of-Thought (CoT)</strong><br />
+Wei et al. 2022：通过思维链提示提升推理能力。<br />
+<code>[⭐⭐⭐]</code> [Jason Wei]</p>
+<p><strong>ReAct Prompting</strong><br />
+Shunyu Yao 2022：推理 + 行动的提示模式。<br />
+<code>[⭐⭐⭐]</code> [Princeton]</p>
+<p><strong>Tree-of-Thought (ToT)</strong><br />
+Yao et al. 2023：树形思维推理。<br />
+<code>[⭐⭐⭐]</code> [Yao 2023]</p>
+<p><strong>Self-Consistency</strong><br />
+Wang et al. 2023：多次采样取多数答案。<br />
+<code>[⭐⭐⭐]</code> [Wang 2023]</p>
+<p><strong>RAG 架构</strong><br />
+Retrieval + Reader：检索增强生成。<br />
+<code>[⭐⭐⭐]</code> [Patrick Lewis]</p>
+<p><strong>RAG 五大组件</strong><br />
+Document Loaders、Text Splitters、Embeddings、Vector Stores、Retrievers、Generators。<br />
+<code>[⭐⭐⭐]</code> [LangChain]</p>
+<p><strong>Vector Database (向量数据库)</strong><br />
+存储、查询高维向量的数据库：Pinecone、Weaviate、Chroma、Qdrant、Milvus。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>嵌入模型 (Embedding Model)</strong><br />
+将文本转为向量的模型：OpenAI text-embedding-3、Cohere embed、BGE、M3E。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>语义搜索 (Semantic Search)</strong><br />
+基于含义而非关键词的搜索。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>混合检索 (Hybrid Retrieval)</strong><br />
+向量检索 + 关键词检索的组合。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>重排序 (Reranking)</strong><br />
+对检索结果重新排序以提高精度：Cohere Rerank、BGE Reranker。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>查询改写 (Query Rewriting)</strong><br />
+将用户查询优化为更适合检索的查询。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>HyDE (Hypothetical Document Embeddings)</strong><br />
+Wang et al. 2023：先生成假设文档再检索。<br />
+<code>[⭐⭐⭐]</code> [Wang 2023]</p>
+<p><strong>Self-RAG</strong><br />
+Asai et al. 2023：LLM 自评检索质量。<br />
+<code>[⭐⭐⭐]</code> [Asai 2023]</p>
+<p><strong>Corrective RAG (CRAG)</strong><br />
+Yan et al. 2024：检索后自我修正的 RAG。<br />
+<code>[⭐⭐⭐]</code> [Yan 2024]</p>
+<p><strong>Agentic RAG</strong><br />
+AI Agent 驱动的检索增强生成。<br />
+<code>[⭐⭐⭐]</code> [LLMOps 2025]</p>
+<hr />
+<h2 id="b18-ai-模型与系统监控">B18 · AI 模型与系统监控</h2>
+<p><strong>AI 系统监控 (AI System Monitoring)</strong><br />
+对 AI 模型性能、数据、推理延迟、合规的持续监控。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>模型性能监控 (Model Performance Monitoring)</strong><br />
+跟踪准确率、延迟、错误率随时间变化。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>LLM 可观测性 (LLM Observability)</strong><br />
+LangSmith、Langfuse、Helicone、Phoenix、PromptLayer 等工具。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>Prompt 日志 (Prompt Logging)</strong><br />
+记录所有 LLM 输入输出。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>Token 使用监控 (Token Usage Monitoring)</strong><br />
+跟踪 prompt + completion token 消耗与成本。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>模型评估框架 (Model Evaluation Framework)</strong><br />
+DeepEval、RAGAS、MLflow LLM Evaluate、Promptfoo。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>LLM-as-Judge</strong><br />
+用 LLM 评估另一个 LLM 的输出。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>AgentOps 平台</strong><br />
+监控、追踪、评估 AI Agent 行为的平台：LangSmith、Arize Phoenix、Helicone。<br />
+<code>[⭐⭐⭐]</code> [AgentOps]</p>
+<p><strong>AI Guardrails</strong><br />
+AI 系统的安全护栏：NeMo Guardrails、Guardrails AI、Rebuff。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>NeMo Guardrails</strong><br />
+NVIDIA 提供的对话式 AI 安全框架。<br />
+<code>[⭐⭐⭐]</code> [NVIDIA]</p>
+<p><strong>内容过滤 (Content Filtering)</strong><br />
+OpenAI Moderation API、Perspective API、自定义分类器。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>毒性检测 (Toxicity Detection)</strong><br />
+检测生成内容的有害性。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>幻觉检测 (Hallucination Detection)</strong><br />
+检测 LLM 输出的事实正确性。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>PII 检测 (PII Detection)</strong><br />
+检测输出中的个人身份信息。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>幻觉缓解技术</strong><br />
+RAG、来源引用、Self-Check、Constrained Decoding。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<hr />
+<h2 id="b19-ai-产品开发周期">B19 · AI 产品开发周期</h2>
+<p><strong>CRISP-DM (Cross-Industry Standard Process for Data Mining)</strong><br />
+业务理解 → 数据理解 → 数据准备 → 建模 → 评估 → 部署。<br />
+<code>[⭐⭐⭐]</code> [IBM 1996]</p>
+<p><strong>AI 产品生命周期</strong><br />
+业务理解 → 数据获取 → 模型开发 → 模型评估 → 部署 → 监控 → 再训练。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>MLOps 三阶段</strong><br />
+设计阶段（数据/特征工程）、训练阶段（实验/模型）、部署阶段（CI/CD/监控）。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>LLMOps 四阶段</strong><br />
+数据准备、模型微调、部署、监控。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>AgentOps 五阶段</strong><br />
+Agent 设计、工具集成、测试、部署、监控。<br />
+<code>[⭐⭐⭐]</code> [AgentOps]</p>
+<p><strong>AI 产品经理 (AI Product Manager)</strong><br />
+专门负责 AI 产品的产品经理。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>AI UX/UI (AI 用户体验)</strong><br />
+AI 产品的用户界面设计：聊天界面、生成式 UI、嵌入式。<br />
+<code>[⭐⭐⭐]</code> [AI 产品]</p>
+<p><strong>AI 产品伦理审查 (AI Product Ethics Review)</strong><br />
+AI 产品发布前的伦理审查流程。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 产品发布 (AI Product Launch)</strong><br />
+从 Beta 到 GA 的发布流程。<br />
+<code>[⭐⭐⭐]</code> [AI 产品]</p>
+<p><strong>AI 产品反馈循环 (AI Feedback Loop)</strong><br />
+用户反馈 → 数据更新 → 模型再训练的循环。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<hr />
+<h2 id="b20-行业-ai-应用术语">B20 · 行业 AI 应用术语</h2>
+<p><strong>生成式 AI (Generative AI)</strong><br />
+生成新内容的 AI：文本、图像、音频、视频、代码。<br />
+<code>[⭐⭐⭐⭐]</code> [AI 概念]</p>
+<p><strong>判别式 AI (Discriminative AI)</strong><br />
+用于分类、回归等判别任务的 AI。<br />
+<code>[⭐⭐⭐]</code> [AI 概念]</p>
+<p><strong>计算机视觉 (Computer Vision, CV)</strong><br />
+图像/视频理解的 AI：分类、检测、分割、生成。<br />
+<code>[⭐⭐⭐]</code> [AI 概念]</p>
+<p><strong>自然语言处理 (Natural Language Processing, NLP)</strong><br />
+文本/语音理解的 AI：分类、生成、翻译、问答。<br />
+<code>[⭐⭐⭐]</code> [AI 概念]</p>
+<p><strong>语音识别 (Speech Recognition)</strong><br />
+将语音转为文本：Whisper、Google STT、Azure STT。<br />
+<code>[⭐⭐⭐]</code> [AI 概念]</p>
+<p><strong>文本转语音 (Text-to-Speech, TTS)</strong><br />
+将文本转为语音：ElevenLabs、OpenAI TTS。<br />
+<code>[⭐⭐⭐]</code> [AI 概念]</p>
+<p><strong>多模态 AI (Multimodal AI)</strong><br />
+处理多种模态的 AI：GPT-4V、Gemini、Claude 3.5。<br />
+<code>[⭐⭐⭐]</code> [AI 概念]</p>
+<p><strong>具身智能 (Embodied AI)</strong><br />
+AI 与物理世界交互：机器人、自动驾驶。<br />
+<code>[⭐⭐⭐]</code> [AI 概念]</p>
+<p><strong>智能文档处理 (Intelligent Document Processing, IDP)</strong><br />
+从文档中提取结构化信息。<br />
+<code>[⭐⭐⭐]</code> [AI 应用]</p>
+<p><strong>对话式 AI (Conversational AI)</strong><br />
+聊天机器人、虚拟助手。<br />
+<code>[⭐⭐⭐]</code> [AI 应用]</p>
+<p><strong>AI 智能体 (AI Agent)</strong><br />
+具有自主决策能力的 AI 系统。<br />
+<code>[⭐⭐⭐⭐]</code> [AI 应用]</p>
+<p><strong>AI 副驾 (AI Copilot)</strong><br />
+辅助人类完成任务的 AI：GitHub Copilot、Microsoft 365 Copilot。<br />
+<code>[⭐⭐⭐]</code> [AI 应用]</p>
+<p><strong>垂直 AI (Vertical AI)</strong><br />
+针对特定行业的 AI：医疗、法律、金融、教育。<br />
+<code>[⭐⭐⭐]</code> [AI 应用]</p>
+<p><strong>横向 AI (Horizontal AI)</strong><br />
+跨行业的通用 AI。<br />
+<code>[⭐⭐⭐]</code> [AI 应用]</p>
+<p><strong>行业大模型 (Industry Foundation Model)</strong><br />
+针对特定行业微调的大模型。<br />
+<code>[⭐⭐⭐]</code> [AI 应用]</p>
+<p><strong>小语言模型 (Small Language Model, SLM)</strong><br />
+参数量较小、可在本地运行的模型：Phi-3、Gemma、Llama 3。<br />
+<code>[⭐⭐⭐]</code> [AI 应用]</p>
+<p><strong>端侧 AI (On-Device AI)</strong><br />
+在边缘设备上运行的 AI。<br />
+<code>[⭐⭐⭐]</code> [AI 应用]</p>
+<p><strong>AI 芯片 (AI Chip)</strong><br />
+为 AI 推理优化的硬件：GPU、TPU、NPU。<br />
+<code>[⭐⭐⭐]</code> [AI 基础设施]</p>
+<p><strong>AI 算力 (AI Compute)</strong><br />
+训练和推理所需的计算资源。<br />
+<code>[⭐⭐⭐]</code> [AI 基础设施]</p>
+<p><strong>AI 数据中心 (AI Data Center)</strong><br />
+专门用于 AI 计算的数据中心。<br />
+<code>[⭐⭐⭐]</code> [AI 基础设施]</p>
+<hr />
+<h2 id="b21-fde-文档与交付物">B21 · FDE 文档与交付物</h2>
+<p><strong>解决方案简报 (Solution Brief)</strong><br />
+FDE 交付给客户的方案概述文档。<br />
+<code>[⭐⭐⭐]</code> [FDE 实践]</p>
+<p><strong>技术评估报告 (Technical Assessment Report)</strong><br />
+FDE 交付的客户环境技术评估。<br />
+<code>[⭐⭐⭐]</code> [FDE 实践]</p>
+<p><strong>架构决策记录 (Architecture Decision Record, ADR)</strong><br />
+记录关键架构决策的文档。<br />
+<code>[⭐⭐⭐]</code> [FDE 实践]</p>
+<p><strong>ADR 模板</strong><br />
+Michael Nygard 提出：Context、Decision、Consequences、Status。<br />
+<code>[⭐⭐⭐]</code> [Michael Nygard]</p>
+<p><strong>运行手册 (Runbook)</strong><br />
+SRE 维护的标准操作流程。<br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<p><strong>事后报告 (Postmortem / Incident Review)</strong><br />
+故障后的无指责复盘文档。<br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<p><strong>事后报告模板</strong><br />
+Google SRE：Summary、Impact、Timeline、Root Cause、Trigger、Resolution、Action Items、Lessons。<br />
+<code>[⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>无指责文化 (Blameless Culture)</strong><br />
+SRE 强调的故障复盘文化。<br />
+<code>[⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>运维手册 (Operations Manual)</strong><br />
+客户系统的日常运维文档。<br />
+<code>[⭐⭐⭐]</code> [FDE 实践]</p>
+<p><strong>交付包 (Delivery Package)</strong><br />
+完整源代码、文档、培训材料的集合。<br />
+<code>[⭐⭐⭐]</code> [FDE 实践]</p>
+<p><strong>移交文档 (Handover Document)</strong><br />
+项目移交所需的所有信息。<br />
+<code>[⭐⭐⭐]</code> [FDE 实践]</p>
+<p><strong>上线检查清单 (Go-Live Checklist)</strong><br />
+生产环境上线的完整检查列表。<br />
+<code>[⭐⭐⭐]</code> [FDE 实践]</p>
+<p><strong>回滚计划 (Rollback Plan)</strong><br />
+上线失败时的回退策略。<br />
+<code>[⭐⭐⭐]</code> [FDE 实践]</p>
+<hr />
+<h2 id="b22-fde-与-ai-治理交叉术语">B22 · FDE 与 AI 治理交叉术语</h2>
+<p><strong>AI 影响类别 (AI Impact Categories)</strong><br />
+NIST AI RMF 定义的 5 类影响：商业、财产、人身、社会、环境。<br />
+<code>[⭐⭐⭐⭐]</code> [NIST AI RMF]</p>
+<p><strong>AI 损害类型 (AI Harm Types)</strong><br />
+NIST AI RMF 关注：偏见、歧视、虚假信息、隐私、操纵、安全。<br />
+<code>[⭐⭐⭐]</code> [NIST AI RMF]</p>
+<p><strong>AI 自治等级 (Levels of Autonomy)</strong><br />
+FDE 部署 AI 系统时考虑的自主决策等级。<br />
+<code>[⭐⭐⭐]</code> [AI 产品]</p>
+<p><strong>人在回路 (Human-in-the-Loop, HITL)</strong><br />
+人类在 AI 决策回路中提供监督。<br />
+<code>[⭐⭐⭐⭐]</code> [AI 产品]</p>
+<p><strong>人在监督 (Human-on-the-Loop, HOTL)</strong><br />
+人类监督 AI 系统的运行但不直接干预。<br />
+<code>[⭐⭐⭐]</code> [AI 产品]</p>
+<p><strong>人在指挥 (Human-in-Command)</strong><br />
+人类设定 AI 系统的总体目标与边界。<br />
+<code>[⭐⭐⭐]</code> [AI 产品]</p>
+<p><strong>AI 控制层次 (AI Levels of Control)</strong><br />
+EU AI Act 强调的 AI 系统控制层次。<br />
+<code>[⭐⭐⭐⭐]</code> [EU AI Act]</p>
+<p><strong>AI 决策可解释性等级</strong><br />
+深度解释、局部解释、事后解释、整体不透明。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 系统失败模式 (AI Failure Modes)</strong><br />
+幻觉、漂移、对抗、偏见、性能退化、合规违规。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 系统成功指标 (AI System Success Metrics)</strong><br />
+业务 KPI、技术 KPI、用户 KPI、伦理 KPI。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 系统 KPI 示例</strong><br />
+业务 ROI、模型 F1、推理 P99 延迟、用户满意度、公平性差距。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 价值评估框架 (AI Value Assessment Framework)</strong><br />
+评估 AI 项目业务价值的多维度框架。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 价值实现路径 (AI Value Realization Path)</strong><br />
+从 PoC 到 ROI 的价值实现路径。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 成本类目 (AI Cost Categories)</strong><br />
+算力、数据、人力、合规、运维、培训。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 收益类目 (AI Benefit Categories)</strong><br />
+效率提升、成本节约、收入增长、风险降低、合规达标。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 项目 ROI 计算</strong><br />
+（总收益 - 总成本）/ 总成本。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 项目 NPV</strong><br />
+考虑资金时间价值的净现值。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 项目 IRR</strong><br />
+内部收益率：使 NPV 为 0 的折现率。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<p><strong>AI 项目回收期 (Payback Period)</strong><br />
+累计收益 = 累计成本的月份数。<br />
+<code>[⭐⭐⭐]</code> [AI 治理]</p>
+<hr />
+<p>(至此 B 卷累计 ~350 词条。完整覆盖：NIST AI RMF 1.0 + 600-1 GenAI Profile + ISO/IEC 42001 + EU AI Act + GPAI CoP + ISO/IEC 23894 + ISO/IEC 27001/27090/5055 + SFIA 9 + CWA 18398 + DASA FDE + AI 技术栈 + AI 伦理与合规 + AI 项目交付)</p></div><aside class="right-rail">
+<div class="rail-block">
+<h5>相关链接</h5>
+<a href="df-index.html">📚 DeerFlow 交付总览</a>
+<a href="method.html">📐 方法论总纲</a>
+<a href="glossary.html">📖 我们的词典</a>
+<a href="auth-index.html">🏛️ 权威支撑</a>
+</div>
+</aside></div>
+<div class="footer">
+企业 AI 实战知识库 · 个人成长系统 v3.0<br>
+DeerFlow 交付已并入 · 2026-09-10
+</div>
+</main>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar-item').forEach(el => {
+    if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+  document.querySelectorAll('.nav-items a').forEach(el => {
+    if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+  const progress = document.querySelector('.reading-progress');
+  if (progress) {
+    const update = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      progress.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+  const tocLinks = document.querySelectorAll('.mini-toc a');
+  if (tocLinks.length) {
+    const sections = Array.from(tocLinks).map(l => document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
+    if (sections.length) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            const active = document.querySelector(`.mini-toc a[href="#${e.target.id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+      sections.forEach(s => observer.observe(s));
+    }
+  }
+});
+</script>
+</body>
+</html>

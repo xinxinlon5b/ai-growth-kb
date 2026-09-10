@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专业大词典 C 卷 · 工程实践与架构</title>
+<style>
+:root {
+  --bg: #fbfbfd; --bg-elevated: #ffffff; --bg-soft: #f5f5f7;
+  --bg-card: #ffffff; --bg-code: #f5f5f7;
+  --text: #1d1d1f; --text-secondary: #6e6e73; --text-tertiary: #86868b;
+  --accent: #0066cc; --accent-hover: #0077ed; --accent-soft: rgba(0, 102, 204, 0.08);
+  --border: rgba(0, 0, 0, 0.08); --border-strong: rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --radius: 18px; --radius-sm: 10px; --radius-lg: 24px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.5; font-size: 17px;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
+a:hover { color: var(--accent-hover); }
+.topnav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(251, 251, 253, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 22px; height: 48px;
+  display: flex; align-items: center; gap: 28px;
+}
+.topnav .brand { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+.topnav .nav-items { display: flex; gap: 22px; flex: 1; }
+.topnav .nav-items a { font-size: 13px; color: var(--text); opacity: 0.85; padding: 8px 0; position: relative; }
+.topnav .nav-items a:hover { opacity: 1; }
+.topnav .nav-items a.active::after {
+  content: ""; position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 2px; background: var(--text); border-radius: 1px;
+}
+.topnav .search-mini {
+  display: flex; align-items: center; background: var(--bg-soft); border-radius: 8px;
+  padding: 4px 10px; font-size: 13px; color: var(--text-tertiary); min-width: 180px;
+}
+.topnav .search-mini input { border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: var(--text); font-family: inherit; }
+.layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
+.sidebar {
+  position: sticky; top: 48px; height: calc(100vh - 48px); overflow-y: auto;
+  background: var(--bg-elevated); border-right: 1px solid var(--border); padding: 32px 0;
+}
+.sidebar-section { margin-bottom: 24px; }
+.sidebar-title {
+  padding: 0 22px; font-size: 11px; font-weight: 600;
+  color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px;
+}
+.sidebar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 22px; font-size: 14px; color: var(--text);
+  transition: background 0.15s, color 0.15s; border-left: 2px solid transparent; margin: 1px 0;
+}
+.sidebar-item:hover { background: var(--bg-soft); }
+.sidebar-item.active {
+  background: var(--accent-soft); color: var(--accent);
+  border-left-color: var(--accent); font-weight: 500;
+}
+.sidebar-item .ico { font-size: 16px; }
+.main { padding: 32px 80px 80px; max-width: 1400px; margin: 0 auto; width: 100%; }
+.reading-progress { position: fixed; top: 48px; left: 0; height: 3px; background: var(--accent); z-index: 99; width: 0; }
+.article-layout {
+  display: grid; grid-template-columns: 220px 1fr 220px; gap: 48px; align-items: start;
+  max-width: 1200px; margin: 0 auto;
+}
+.mini-toc {
+  position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto;
+  font-size: 13px; padding-right: 8px;
+}
+.mini-toc .toc-label { font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 16px; }
+.mini-toc a { display: block; padding: 5px 0; color: var(--text-secondary); border-left: 2px solid transparent; padding-left: 10px; text-decoration: none; transition: all 0.15s; line-height: 1.4; }
+.mini-toc a:hover { color: var(--accent); }
+.mini-toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
+.mini-toc .toc-h3 { padding-left: 22px; font-size: 12px; }
+.content { font-size: 19px; line-height: 1.7; color: var(--text); max-width: 720px; margin: 0 auto; }
+.content h1 { font-size: 48px; line-height: 1.15; letter-spacing: -0.025em; font-weight: 600; margin: 0 0 16px; color: var(--text); }
+.content h2 { font-size: 32px; line-height: 1.25; letter-spacing: -0.02em; font-weight: 600; margin: 56px 0 16px; color: var(--text); padding-top: 16px; }
+.content h3 { font-size: 22px; line-height: 1.35; letter-spacing: -0.01em; font-weight: 600; margin: 40px 0 12px; color: var(--text); }
+.content h4 { font-size: 18px; font-weight: 600; margin: 24px 0 8px; color: var(--text); }
+.content p { margin: 16px 0; }
+.content ul, .content ol { padding-left: 24px; margin: 16px 0; }
+.content li { margin: 6px 0; line-height: 1.65; }
+.content code { background: var(--bg-code); padding: 2px 6px; border-radius: 4px; font-family: "SF Mono", Menlo, monospace; font-size: 0.85em; color: #c7254e; }
+.content pre { background: var(--bg-soft); padding: 20px 24px; border-radius: var(--radius-sm); overflow-x: auto; margin: 24px 0; border: 1px solid var(--border); font-size: 14px; line-height: 1.5; }
+.content pre code { background: none; padding: 0; color: var(--text); font-size: inherit; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
+.content th { text-align: left; padding: 12px 16px; background: var(--bg-soft); font-weight: 600; font-size: 13px; border-bottom: 2px solid var(--border-strong); }
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.content blockquote { border-left: 3px solid var(--accent); padding: 12px 20px; margin: 24px 0; color: var(--text-secondary); background: var(--accent-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
+.content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+.content a:hover { text-decoration-color: var(--accent); }
+.right-rail { position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; font-size: 13px; }
+.right-rail .rail-block { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; margin-bottom: 16px; }
+.right-rail h5 { font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 12px; }
+.right-rail a { display: block; padding: 6px 0; color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
+.right-rail a:hover { color: var(--accent); }
+.footer { margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--text-tertiary); line-height: 1.7; }
+.article-meta-row { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-tertiary); }
+.article-meta-row .pill { background: var(--bg-soft); color: var(--text); padding: 4px 12px; border-radius: 980px; font-weight: 500; font-size: 12px; }
+.article-meta-row .pill.accent { background: var(--accent-soft); color: var(--accent); }
+.article-meta-row .reading-time { margin-left: auto; }
+@media (max-width: 1200px) { .article-layout { grid-template-columns: 200px 1fr; } .right-rail { display: none; } }
+@media (max-width: 1024px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none; } .main { padding: 24px; } .article-layout { grid-template-columns: 1fr; } .mini-toc { display: none; } }
+</style>
+</head>
+<body>
+<div class="reading-progress"></div>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">企业 AI 实战</a>
+  <div class="nav-items">
+    <a href="method.html">方法论</a>
+    <a href="top30.html">TOP 30</a>
+    <a href="sop-01.html">SOP</a>
+    <a href="kb-01.html">知识库</a>
+    <a href="auth-index.html">权威支撑</a>
+    <a href="df-index.html">DeerFlow 交付</a>
+    <a href="glossary.html">词典</a>
+  </div>
+  <div class="search-mini">
+    <span>🔍</span>
+    <input type="text" id="search" placeholder="搜索…" />
+  </div>
+</nav>
+
+<div class="layout">
+<aside class="sidebar">
+<div class="sidebar-section">
+<div class="sidebar-title">总览</div>
+<a class="sidebar-item" href="index.html"><span class="ico">🏠</span><span>知识体系</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">核心方法论</div>
+<a class="sidebar-item" href="method.html"><span class="ico">📐</span><span>方法论总纲</span></a>
+<a class="sidebar-item" href="top30.html"><span class="ico">⭐</span><span>TOP 30 精华</span></a>
+<a class="sidebar-item" href="tools.html"><span class="ico">🛠️</span><span>工具链</span></a>
+<a class="sidebar-item" href="lines.html"><span class="ico">🎙️</span><span>话术弹药</span></a>
+<a class="sidebar-item" href="pits.html"><span class="ico">⚠️</span><span>避坑清单</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">可执行 SOP</div>
+<a class="sidebar-item" href="sop-01.html"><span class="ico">💰</span><span>接单成交</span></a>
+<a class="sidebar-item" href="sop-02.html"><span class="ico">📹</span><span>内容 IP</span></a>
+<a class="sidebar-item" href="sop-03.html"><span class="ico">🏗️</span><span>FDE 入企</span></a>
+<a class="sidebar-item" href="sop-04.html"><span class="ico">🤖</span><span>Agent 工具链</span></a>
+<a class="sidebar-item" href="sop-05.html"><span class="ico">🌊</span><span>行业深耕</span></a>
+<a class="sidebar-item" href="sop-06.html"><span class="ico">🧠</span><span>认知升级</span></a>
+<a class="sidebar-item" href="sop-07.html"><span class="ico">💵</span><span>报价签约</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">知识库 · 9 主题</div>
+<a class="sidebar-item" href="kb-01.html"><span class="ico">🎯</span><span>企业 AI 落地</span></a>
+<a class="sidebar-item" href="kb-02.html"><span class="ico">🤖</span><span>智能体 OpenClaw</span></a>
+<a class="sidebar-item" href="kb-03.html"><span class="ico">💻</span><span>AI 编程工具链</span></a>
+<a class="sidebar-item" href="kb-04.html"><span class="ico">💰</span><span>商业案例</span></a>
+<a class="sidebar-item" href="kb-05.html"><span class="ico">🎨</span><span>AI 内容创作</span></a>
+<a class="sidebar-item" href="kb-06.html"><span class="ico">📣</span><span>自媒体获客</span></a>
+<a class="sidebar-item" href="kb-07.html"><span class="ico">🧰</span><span>效率工具</span></a>
+<a class="sidebar-item" href="kb-08.html"><span class="ico">🧠</span><span>AI 认知</span></a>
+<a class="sidebar-item" href="kb-09.html"><span class="ico">📦</span><span>内容资产</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">权威支撑</div>
+<a class="sidebar-item" href="auth-index.html"><span class="ico">📚</span><span>总览</span></a>
+<a class="sidebar-item" href="auth-a1.html"><span class="ico">🏛️</span><span>Anthropic FDE</span></a>
+<a class="sidebar-item" href="auth-a2.html"><span class="ico">🏛️</span><span>Anthropic Agent</span></a>
+<a class="sidebar-item" href="auth-a3.html"><span class="ico">🏛️</span><span>Anthropic Eval</span></a>
+<a class="sidebar-item" href="auth-e1.html"><span class="ico">⚙️</span><span>软件工程体系</span></a>
+<a class="sidebar-item" href="auth-e2.html"><span class="ico">⚙️</span><span>MLOps</span></a>
+<a class="sidebar-item" href="auth-e3.html"><span class="ico">⚙️</span><span>AI 治理</span></a>
+<a class="sidebar-item" href="auth-e4.html"><span class="ico">📊</span><span>失败率证据</span></a>
+<a class="sidebar-item" href="auth-e5.html"><span class="ico">⚙️</span><span>企业架构</span></a>
+<a class="sidebar-item" href="auth-e6.html"><span class="ico">🏛️</span><span>FDE 三原厂</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">DeerFlow 交付（新增）</div>
+<a class="sidebar-item" href="df-index.html"><span class="ico">📚</span><span>总览</span></a>
+<a class="sidebar-item" href="df-sop.html"><span class="ico">🏗️</span><span>FDE 7 阶段 SOP</span></a>
+<a class="sidebar-item" href="df-glossary-a.html"><span class="ico">📖</span><span>词典 A · 软工项目</span></a>
+<a class="sidebar-item" href="df-glossary-b.html"><span class="ico">📖</span><span>词典 B · AI 治理</span></a>
+<a class="sidebar-item active" href="df-glossary-c.html"><span class="ico">📖</span><span>词典 C · 工程架构</span></a>
+<a class="sidebar-item" href="df-sources.html"><span class="ico">🏛️</span><span>权威源中文提取</span></a>
+<a class="sidebar-item" href="df-cases.html"><span class="ico">🌍</span><span>跨境电商案例库</span></a>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-title">工具</div>
+<a class="sidebar-item" href="glossary.html"><span class="ico">📖</span><span>专业大词典</span></a>
+</div>
+</aside>
+<main class="main">
+<div class="article-meta-row"><span class="pill accent">📖 DeerFlow 词典</span><span class="pill">C 卷 · 300 词条</span><span class="reading-time">⏱️ 约 77 分钟 · 30,957 字</span></div><div class="article-layout"><div class="mini-toc"><div class="toc-label">本页目录</div><a href="#c1-mlops-成熟度模型" class="">C1 · MLOps 成熟度模型</a><a href="#c2-llmops-工具链" class="">C2 · LLMOps 工具链</a><a href="#c3-rag-系统工程" class="">C3 · RAG 系统工程</a><a href="#c4-agentops-与智能体工程" class="">C4 · AgentOps 与智能体工程</a><a href="#c5-togaf-10-adm-阶段" class="">C5 · TOGAF 10 ADM 阶段</a><a href="#c6-archimate-32" class="">C6 · ArchiMate 3.2</a><a href="#c7-google-sre-核心术语" class="">C7 · Google SRE 核心术语</a><a href="#c8-itil-4-服务价值系统" class="">C8 · ITIL 4 服务价值系统</a><a href="#c9-devops-与云原生工程" class="">C9 · DevOps 与云原生工程</a><a href="#c10-软件架构关键模式" class="">C10 · 软件架构关键模式</a><a href="#c11-数据库与数据工程" class="">C11 · 数据库与数据工程</a><a href="#c12-安全工程" class="">C12 · 安全工程</a><a href="#c13-质量工程与测试" class="">C13 · 质量工程与测试</a><a href="#c14-性能工程" class="">C14 · 性能工程</a><a href="#c15-可靠性工程关键概念" class="">C15 · 可靠性工程关键概念</a><a href="#c16-可观测性与运维" class="">C16 · 可观测性与运维</a></div><div class="content"><h1 id="c">专业大词典 · C 卷：工程实践与架构</h1>
+<blockquote>
+<p><strong>覆盖权威源</strong>：CDSO MLOps Maturity Model 0-5、LLMOps 工具链（LangChain/LlamaIndex/RAG/Guardrails/Evals）、AgentOps（可观测性/记忆/工具调用/A2A/MCP）、TOGAF 10 ADM + ArchiMate 3.2、Google SRE Book、ITIL 4 服务价值系统（34 实践）</p>
+</blockquote>
+<hr />
+<h2 id="c1-mlops-成熟度模型">C1 · MLOps 成熟度模型</h2>
+<p><strong>MLOps 定义 (Machine Learning Operations)</strong><br />
+将 DevOps 原则应用于机器学习系统的工程实践。[SOP: 部署阶段、运维阶段、迭代阶段]<br />
+<code>[⭐⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>CDSO MLOps 成熟度模型</strong><br />
+Microsoft Azure 团队提出的 0-5 级 MLOps 成熟度模型。<br />
+<code>[⭐⭐⭐⭐]</code> [Microsoft CDSO]</p>
+<p><strong>MLOps Level 0 (无 MLOps)</strong><br />
+Jupyter Notebook + 手工部署，无自动化。适合早期实验。<br />
+<code>[⭐⭐⭐]</code> [Microsoft CDSO]</p>
+<p><strong>MLOps Level 1 (DevOps 但无 ML)</strong><br />
+有 CI/CD 流水线但模型仍手工管理。<br />
+<code>[⭐⭐⭐]</code> [Microsoft CDSO]</p>
+<p><strong>MLOps Level 2 (自动化训练)</strong><br />
+训练流水线自动化，模型可重现。<br />
+<code>[⭐⭐⭐]</code> [Microsoft CDSO]</p>
+<p><strong>MLOps Level 3 (模型部署自动化)</strong><br />
+模型可自动部署到多环境。<br />
+<code>[⭐⭐⭐]</code> [Microsoft CDSO]</p>
+<p><strong>MLOps Level 4 (全 MLOps)</strong><br />
+CI/CD + CT（Continuous Training），自动再训练。<br />
+<code>[⭐⭐⭐]</code> [Microsoft CDSO]</p>
+<p><strong>MLOps Level 5 (智能 MLOps)</strong><br />
+含 AIOps 与元学习的高级阶段。<br />
+<code>[⭐⭐⭐]</code> [Microsoft CDSO]</p>
+<p><strong>MLOps 三大支柱</strong><br />
+数据工程、模型工程、运维工程。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>CT (Continuous Training, 持续训练)</strong><br />
+MLOps 特有：基于新数据自动触发模型再训练。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>CT vs CI/CD</strong><br />
+CI/CD 关注代码变更，CT 关注数据变更与性能漂移。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>MLOps 流水线工具</strong><br />
+Kubeflow、MLflow、TFX、Airflow、Metaflow、ZenML、BentoML。<br />
+<code>[⭐⭐⭐]</code> [MLOps]</p>
+<p><strong>MLflow</strong><br />
+Databricks 开源的 ML 生命周期管理平台，含 Tracking、Projects、Models、Registry。<br />
+<code>[⭐⭐⭐]</code> [Databricks]</p>
+<p><strong>Kubeflow</strong><br />
+Kubernetes 之上的 ML 工作流平台。<br />
+<code>[⭐⭐⭐]</code> [CNCF]</p>
+<p><strong>TFX (TensorFlow Extended)</strong><br />
+Google 端到端 ML 流水线框架。<br />
+<code>[⭐⭐⭐]</code> [Google]</p>
+<p><strong>Feast (Feature Store)</strong><br />
+Linux Foundation 的开源特征存储。<br />
+<code>[⭐⭐⭐]</code> [Linux Foundation]</p>
+<p><strong>BentoML</strong><br />
+模型打包与服务化框架。<br />
+<code>[⭐⭐⭐]</code> [Yelp]</p>
+<p><strong>模型打包 (Model Packaging)</strong><br />
+将模型 + 依赖打包为可部署单元：Docker、SavedModel、ONNX。<br />
+<code>[⭐⭐⭐]</code> [MLOps]</p>
+<p><strong>模型服务化 (Model Serving)</strong><br />
+将模型部署为可调用的服务：REST、gRPC、批处理、流式。<br />
+<code>[⭐⭐⭐]</code> [MLOps]</p>
+<p><strong>模型推理模式 (Inference Modes)</strong><br />
+在线推理（同步）、离线推理（批）、流式推理。<br />
+<code>[⭐⭐⭐]</code> [MLOps]</p>
+<p><strong>模型监控 (Model Monitoring)</strong><br />
+对模型的输入分布、输出分布、性能、漂移的持续监控。<br />
+<code>[⭐⭐⭐]</code> [MLOps]</p>
+<hr />
+<h2 id="c2-llmops-工具链">C2 · LLMOps 工具链</h2>
+<p><strong>LLMOps 定义</strong><br />
+将 MLOps 原则应用于 LLM 应用生命周期的工程实践。<br />
+<code>[⭐⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>LLM 应用开发框架</strong><br />
+LangChain、LlamaIndex、Haystack、Semantic Kernel、AutoGen、CrewAI。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>LangChain</strong><br />
+Harrison Chase 2022 开源的 LLM 应用开发框架，组件化、链式、代理。<br />
+<code>[⭐⭐⭐]</code> [LangChain 2022]</p>
+<p><strong>LangChain 核心组件</strong><br />
+Models、Prompts、Chains、Agents、Memory、Indexes、Retrievers、Output Parsers。<br />
+<code>[⭐⭐⭐]</code> [LangChain]</p>
+<p><strong>LangGraph</strong><br />
+LangChain 团队的状态图 Agent 编排框架。<br />
+<code>[⭐⭐⭐]</code> [LangChain 2024]</p>
+<p><strong>LangSmith</strong><br />
+LangChain 团队的 LLM 应用调试、测试、监控平台。<br />
+<code>[⭐⭐⭐]</code> [LangChain]</p>
+<p><strong>LlamaIndex</strong><br />
+Jerry Liu 2022 开源的 RAG 优先框架。<br />
+<code>[⭐⭐⭐]</code> [LlamaIndex]</p>
+<p><strong>LlamaIndex 核心组件</strong><br />
+Data Connectors、Indexes、Retrievers、Query Engines、Agents。<br />
+<code>[⭐⭐⭐]</code> [LlamaIndex]</p>
+<p><strong>Haystack</strong><br />
+deepset 开源的企业级 NLP 框架。<br />
+<code>[⭐⭐⭐]</code> [deepset]</p>
+<p><strong>Semantic Kernel</strong><br />
+Microsoft 2023 开源的 LLM 编排 SDK（.NET/Python/Java）。<br />
+<code>[⭐⭐⭐]</code> [Microsoft]</p>
+<p><strong>AutoGen</strong><br />
+Microsoft 2023 开源的多 Agent 协作框架。<br />
+<code>[⭐⭐⭐]</code> [Microsoft Research]</p>
+<p><strong>CrewAI</strong><br />
+多 Agent 角色化协作框架。<br />
+<code>[⭐⭐⭐]</code> [CrewAI]</p>
+<p><strong>DSPy</strong><br />
+Stanford 提出的程序化 LLM 提示优化框架。<br />
+<code>[⭐⭐⭐]</code> [Stanford 2024]</p>
+<p><strong>PromptFoo</strong><br />
+LLM 提示评估与红队测试工具。<br />
+<code>[⭐⭐⭐]</code> [Promptfoo]</p>
+<p><strong>RAGAS (RAG Assessment)</strong><br />
+RAG 应用评估框架。<br />
+<code>[⭐⭐⭐]</code> [RAGAS]</p>
+<p><strong>DeepEval</strong><br />
+LLM 应用评估框架。<br />
+<code>[⭐⭐⭐]</code> [DeepEval]</p>
+<p><strong>Phoenix (Arize)</strong><br />
+开源 LLM 可观测性与评估平台。<br />
+<code>[⭐⭐⭐]</code> [Arize AI]</p>
+<p><strong>Langfuse</strong><br />
+开源 LLM 可观测性平台。<br />
+<code>[⭐⭐⭐]</code> [Langfuse]</p>
+<p><strong>Helicone</strong><br />
+LLM 可观测性 SaaS 平台。<br />
+<code>[⭐⭐⭐]</code> [Helicone]</p>
+<p><strong>Guardrails AI</strong><br />
+LLM 输出验证与保护框架。<br />
+<code>[⭐⭐⭐]</code> [Guardrails AI]</p>
+<p><strong>NeMo Guardrails</strong><br />
+NVIDIA 对话式 AI 安全护栏框架。<br />
+<code>[⭐⭐⭐]</code> [NVIDIA]</p>
+<p><strong>Rebuff</strong><br />
+Prompt 注入检测工具。<br />
+<code>[⭐⭐⭐]</code> [Rebuff]</p>
+<hr />
+<h2 id="c3-rag-系统工程">C3 · RAG 系统工程</h2>
+<p><strong>RAG 完整生命周期</strong><br />
+数据准备 → 索引构建 → 查询处理 → 检索 → 重排 → 生成 → 评估 → 监控。<br />
+<code>[⭐⭐⭐]</code> [RAG 工程]</p>
+<p><strong>文档加载 (Document Loading)</strong><br />
+从 PDF、Word、HTML、Markdown、Notion、Slack 等加载数据。<br />
+<code>[⭐⭐⭐]</code> [LangChain]</p>
+<p><strong>文档解析 (Document Parsing)</strong><br />
+将原始文档解析为结构化内容：Unstructured.io、LlamaParse。<br />
+<code>[⭐⭐⭐]</code> [RAG 工程]</p>
+<p><strong>文本分块 (Text Chunking)</strong><br />
+将长文档拆分为适合嵌入的小段：固定大小、句子、段落、语义、递归。<br />
+<code>[⭐⭐⭐]</code> [LangChain]</p>
+<p><strong>Chunk 大小选择</strong><br />
+权衡：太大精度低、检索召回少；太小语义不完整。<br />
+<code>[⭐⭐⭐]</code> [RAG 工程]</p>
+<p><strong>Chunk 重叠 (Chunk Overlap)</strong><br />
+相邻 chunk 重叠部分文本以保留上下文。<br />
+<code>[⭐⭐⭐]</code> [RAG 工程]</p>
+<p><strong>嵌入生成 (Embedding Generation)</strong><br />
+使用 Embedding 模型将 chunk 转为向量。<br />
+<code>[⭐⭐⭐]</code> [RAG 工程]</p>
+<p><strong>向量索引 (Vector Index)</strong><br />
+将向量组织为可高效查询的结构：HNSW、IVF、Flat。<br />
+<code>[⭐⭐⭐]</code> [RAG 工程]</p>
+<p><strong>相似度度量 (Similarity Metrics)</strong><br />
+余弦相似度、欧氏距离、点积、曼哈顿距离。<br />
+<code>[⭐⭐⭐]</code> [RAG 工程]</p>
+<p><strong>top-k 检索 (Top-K Retrieval)</strong><br />
+返回相似度最高的 k 个结果。<br />
+<code>[⭐⭐⭐]</code> [RAG 工程]</p>
+<p><strong>MMR (Maximal Marginal Relevance)</strong><br />
+Carbonell &amp; Goldstein 1998：相关性 + 多样性的检索结果排序。<br />
+<code>[⭐⭐⭐]</code> [RAG 工程]</p>
+<p><strong>元数据过滤 (Metadata Filtering)</strong><br />
+基于文档元数据（时间、作者、类型）的预过滤。<br />
+<code>[⭐⭐⭐]</code> [RAG 工程]</p>
+<p><strong>混合搜索 (Hybrid Search)</strong><br />
+向量搜索 + BM25 关键词搜索的加权融合。<br />
+<code>[⭐⭐⭐]</code> [RAG 工程]</p>
+<p><strong>Cross-Encoder Reranking</strong><br />
+使用 Cross-Encoder 对候选文档重新排序：Cohere Rerank、BGE Reranker。<br />
+<code>[⭐⭐⭐]</code> [RAG 工程]</p>
+<p><strong>Cohere Rerank 3</strong><br />
+Cohere 2024 发布的商用重排序模型。<br />
+<code>[⭐⭐⭐]</code> [Cohere]</p>
+<p><strong>查询理解 (Query Understanding)</strong><br />
+意图识别、实体提取、查询改写、HyDE。<br />
+<code>[⭐⭐⭐]</code> [RAG 工程]</p>
+<p><strong>上下文压缩 (Contextual Compression)</strong><br />
+对检索结果进行压缩以节省 token：LLMLingua、LongLLMLingua。<br />
+<code>[⭐⭐⭐]</code> [RAG 工程]</p>
+<p><strong>RAG 评估指标 (RAG Metrics)</strong><br />
+Context Precision、Context Recall、Faithfulness、Answer Relevancy。<br />
+<code>[⭐⭐⭐]</code> [RAGAS]</p>
+<p><strong>Faithfulness (忠实度)</strong><br />
+生成答案基于检索上下文的程度。<br />
+<code>[⭐⭐⭐]</code> [RAGAS]</p>
+<p><strong>Answer Relevancy (答案相关性)</strong><br />
+生成答案与问题的相关程度。<br />
+<code>[⭐⭐⭐]</code> [RAGAS]</p>
+<p><strong>Context Precision (上下文精度)</strong><br />
+检索结果中相关文档的比例。<br />
+<code>[⭐⭐⭐]</code> [RAGAS]</p>
+<p><strong>Context Recall (上下文召回率)</strong><br />
+所有相关文档被检索到的比例。<br />
+<code>[⭐⭐⭐]</code> [RAGAS]</p>
+<hr />
+<h2 id="c4-agentops-与智能体工程">C4 · AgentOps 与智能体工程</h2>
+<p><strong>AgentOps 定义</strong><br />
+将 DevOps/MLOps 原则应用于 AI Agent 的工程实践。<br />
+<code>[⭐⭐⭐]</code> [AgentOps 2025]</p>
+<p><strong>AgentOps vs MLOps/LLMOps</strong><br />
+AgentOps 关注规划循环、工具调用、多 Agent 协作，MLOps 关注模型训练与部署。<br />
+<code>[⭐⭐⭐]</code> [AgentOps]</p>
+<p><strong>AI Agent 三大能力</strong><br />
+感知（Perception）、决策（Cognition）、行动（Action）。<br />
+<code>[⭐⭐⭐]</code> [AI 概念]</p>
+<p><strong>Agent 四大组件</strong><br />
+LLM、Memory、Tools、Planning。<br />
+<code>[⭐⭐⭐]</code> [AI 概念]</p>
+<p><strong>Agent 短期记忆 (Short-term Memory)</strong><br />
+当前会话的上下文窗口。<br />
+<code>[⭐⭐⭐]</code> [AI Agent]</p>
+<p><strong>Agent 长期记忆 (Long-term Memory)</strong><br />
+跨会话持久化的记忆：向量数据库、知识图谱。<br />
+<code>[⭐⭐⭐]</code> [AI Agent]</p>
+<p><strong>Agent 工具调用 (Tool Use)</strong><br />
+Agent 调用外部 API、函数、数据库的能力。<br />
+<code>[⭐⭐⭐]</code> [AI Agent]</p>
+<p><strong>Agent 规划 (Planning)</strong><br />
+Agent 分解复杂任务为子任务的能力。<br />
+<code>[⭐⭐⭐]</code> [AI Agent]</p>
+<p><strong>Agent 反思 (Reflection)</strong><br />
+Agent 对自身输出进行评估与修正的能力。<br />
+<code>[⭐⭐⭐]</code> [AI Agent]</p>
+<p><strong>Agent 工具设计原则</strong><br />
+原子性、可组合、可发现、有错误处理、有超时控制。<br />
+<code>[⭐⭐⭐]</code> [AgentOps]</p>
+<p><strong>Agent Function Calling</strong><br />
+LLM 以结构化方式调用预定义函数。<br />
+<code>[⭐⭐⭐]</code> [OpenAI 2023]</p>
+<p><strong>Agent ReAct 循环</strong><br />
+Reason → Act → Observe → Reason 循环。<br />
+<code>[⭐⭐⭐]</code> [Princeton]</p>
+<p><strong>Agent Plan-and-Execute</strong><br />
+先规划完整计划、再逐步执行。<br />
+<code>[⭐⭐⭐]</code> [AI Agent]</p>
+<p><strong>Multi-Agent 协作模式</strong><br />
+Supervisor（监督者）、Peer（对等）、Hierarchical（层级）、Network（网络）。<br />
+<code>[⭐⭐⭐]</code> [Multi-Agent]</p>
+<p><strong>AutoGen 多 Agent 框架</strong><br />
+Microsoft 2023：基于对话的多 Agent 协作。<br />
+<code>[⭐⭐⭐]</code> [Microsoft Research]</p>
+<p><strong>CrewAI</strong><br />
+基于角色与任务的多 Agent 框架。<br />
+<code>[⭐⭐⭐]</code> [CrewAI]</p>
+<p><strong>LangGraph Multi-Agent</strong><br />
+基于状态图的多 Agent 编排。<br />
+<code>[⭐⭐⭐]</code> [LangChain 2024]</p>
+<p><strong>Agent-to-Agent (A2A) Protocol</strong><br />
+Google 2025 提出的 Agent 间通信标准协议。<br />
+<code>[⭐⭐⭐]</code> [Google A2A]</p>
+<p><strong>A2A 核心特性</strong><br />
+Agent Card、能力发现、任务委派、安全认证、流式响应。<br />
+<code>[⭐⭐⭐]</code> [Google A2A]</p>
+<p><strong>Model Context Protocol (MCP)</strong><br />
+Anthropic 2024 提出的模型上下文协议。<br />
+<code>[⭐⭐⭐]</code> [Anthropic MCP]</p>
+<p><strong>MCP vs A2A</strong><br />
+MCP 关注 LLM 与工具的连接，A2A 关注 Agent 与 Agent 的协作。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>MCP 三大原语</strong><br />
+Resources、Prompts、Tools。<br />
+<code>[⭐⭐⭐]</code> [Anthropic MCP]</p>
+<p><strong>AgentBench / ToolBench</strong><br />
+Agent 性能评估基准。<br />
+<code>[⭐⭐⭐]</code> [学术界]</p>
+<p><strong>SWE-bench</strong><br />
+软件工程任务上的 LLM 基准。<br />
+<code>[⭐⭐⭐]</code> [Princeton 2024]</p>
+<p><strong>GAIA</strong><br />
+通用 AI 助手基准测试。<br />
+<code>[⭐⭐⭐]</code> [Meta/HuggingFace 2023]</p>
+<p><strong>Agent 失败模式</strong><br />
+循环卡死、错误传播、工具滥用、安全越狱、成本失控、上下文泄漏。<br />
+<code>[⭐⭐⭐]</code> [AgentOps]</p>
+<p><strong>Agent 安全 (Agent Safety)</strong><br />
+防止 Agent 执行危险操作：权限沙箱、用户确认、操作审计。<br />
+<code>[⭐⭐⭐]</code> [AgentOps]</p>
+<p><strong>Agent 限流 (Agent Rate Limiting)</strong><br />
+防止 Agent 无限调用 API 造成成本失控。<br />
+<code>[⭐⭐⭐]</code> [AgentOps]</p>
+<p><strong>Agent 评估 (Agent Evaluation)</strong><br />
+对 Agent 完成任务的成功率、效率、成本、安全的综合评估。<br />
+<code>[⭐⭐⭐]</code> [AgentOps]</p>
+<p><strong>Agent Observability (Agent 可观测性)</strong><br />
+LangSmith、Langfuse、Helicone、Arize Phoenix。<br />
+<code>[⭐⭐⭐]</code> [AgentOps]</p>
+<hr />
+<h2 id="c5-togaf-10-adm-阶段">C5 · TOGAF 10 ADM 阶段</h2>
+<p><strong>TOGAF (The Open Group Architecture Framework)</strong><br />
+The Open Group 维护的企业架构框架，最新版本 10（2024）。<br />
+<code>[⭐⭐⭐⭐]</code> [The Open Group]</p>
+<p><strong>TOGAF 10 (2024)</strong><br />
+TOGAF 第 10 版，2024 年发布，强调敏捷、可持续、AI。<br />
+<code>[⭐⭐⭐⭐]</code> [The Open Group]</p>
+<p><strong>ADM (Architecture Development Method)</strong><br />
+TOGAF 的核心方法论，10 个迭代阶段。<br />
+<code>[⭐⭐⭐⭐]</code> [The Open Group]</p>
+<p><strong>预备阶段 (Preliminary Phase)</strong><br />
+建立架构能力框架、原则、治理。<br />
+<code>[⭐⭐⭐⭐]</code> [TOGAF ADM]</p>
+<p><strong>阶段 A：架构愿景 (Architecture Vision)</strong><br />
+定义架构工作范围、利益相关方、愿景。<br />
+<code>[⭐⭐⭐⭐]</code> [TOGAF ADM]</p>
+<p><strong>阶段 B：业务架构 (Business Architecture)</strong><br />
+开发业务能力、流程、组织、功能的架构。<br />
+<code>[⭐⭐⭐⭐]</code> [TOGAF ADM]</p>
+<p><strong>阶段 C：信息系统架构 (Information Systems Architectures)</strong><br />
+包括数据架构与应用架构两个子阶段。<br />
+<code>[⭐⭐⭐⭐]</code> [TOGAF ADM]</p>
+<p><strong>阶段 C1：数据架构 (Data Architecture)</strong><br />
+定义企业数据资产、结构和治理。<br />
+<code>[⭐⭐⭐⭐]</code> [TOGAF ADM]</p>
+<p><strong>阶段 C2：应用架构 (Application Architecture)</strong><br />
+定义应用系统蓝图与交互。<br />
+<code>[⭐⭐⭐⭐]</code> [TOGAF ADM]</p>
+<p><strong>阶段 D：技术架构 (Technology Architecture)</strong><br />
+定义基础设施、中间件、网络的架构。<br />
+<code>[⭐⭐⭐⭐]</code> [TOGAF ADM]</p>
+<p><strong>阶段 E：机会与解决方案 (Opportunities &amp; Solutions)</strong><br />
+识别实施项目、估算工作量、排序。<br />
+<code>[⭐⭐⭐]</code> [TOGAF ADM]</p>
+<p><strong>阶段 F：迁移规划 (Migration Planning)</strong><br />
+制定详细的迁移路线图。<br />
+<code>[⭐⭐⭐]</code> [TOGAF ADM]</p>
+<p><strong>阶段 G：实施治理 (Implementation Governance)</strong><br />
+治理实施过程确保符合架构。<br />
+<code>[⭐⭐⭐]</code> [TOGAF ADM]</p>
+<p><strong>阶段 H：架构变更管理 (Architecture Change Management)</strong><br />
+持续监控变更并启动新 ADM 周期。<br />
+<code>[⭐⭐⭐]</code> [TOGAF ADM]</p>
+<p><strong>ADM 需求管理 (Requirements Management)</strong><br />
+贯穿 ADM 全过程的横切阶段。<br />
+<code>[⭐⭐⭐]</code> [TOGAF ADM]</p>
+<p><strong>架构治理 (Architecture Governance)</strong><br />
+对架构工作的治理框架、流程、合规。<br />
+<code>[⭐⭐⭐⭐]</code> [TOGAF]</p>
+<p><strong>架构原则 (Architecture Principles)</strong><br />
+指导架构决策的高层准则。<br />
+<code>[⭐⭐⭐]</code> [TOGAF]</p>
+<p><strong>架构仓库 (Architecture Repository)</strong><br />
+存储架构工件、参考模型、标准。<br />
+<code>[⭐⭐⭐]</code> [TOGAF]</p>
+<p><strong>架构视图 (Architecture Views)</strong><br />
+为不同利益相关方呈现的不同视角。<br />
+<code>[⭐⭐⭐]</code> [TOGAF]</p>
+<p><strong>架构工件 (Architecture Artifacts)</strong><br />
+目录、矩阵、图：能力目录、应用矩阵、技术图。<br />
+<code>[⭐⭐⭐]</code> [TOGAF]</p>
+<hr />
+<h2 id="c6-archimate-32">C6 · ArchiMate 3.2</h2>
+<p><strong>ArchiMate 3.2</strong><br />
+The Open Group 维护的企业架构建模语言。<br />
+<code>[⭐⭐⭐⭐]</code> [The Open Group]</p>
+<p><strong>ArchiMate 三层结构</strong><br />
+业务层、应用层、技术层。<br />
+<code>[⭐⭐⭐⭐]</code> [ArchiMate]</p>
+<p><strong>ArchiMate 业务层 (Business Layer)</strong><br />
+业务参与者、业务流程、业务对象、业务事件。<br />
+<code>[⭐⭐⭐]</code> [ArchiMate]</p>
+<p><strong>ArchiMate 应用层 (Application Layer)</strong><br />
+应用组件、应用接口、应用服务、数据对象。<br />
+<code>[⭐⭐⭐]</code> [ArchiMate]</p>
+<p><strong>ArchiMate 技术层 (Technology Layer)</strong><br />
+技术节点、技术设备、系统软件、技术服务。<br />
+<code>[⭐⭐⭐]</code> [ArchiMate]</p>
+<p><strong>ArchiMate 三类元素</strong><br />
+主动结构（Actor）、行为结构（Behavior）、被动结构（Passive）。<br />
+<code>[⭐⭐⭐]</code> [ArchiMate]</p>
+<p><strong>ArchiMate 关系 (Relationships)</strong><br />
+组合、聚合、分配、实现、触发、流、访问、服务、影响、关联、专精化。<br />
+<code>[⭐⭐⭐]</code> [ArchiMate]</p>
+<p><strong>ArchiMate 视图 (Viewpoints)</strong><br />
+预定义视角：组织、业务流程、应用结构、基础设施、信息结构等。<br />
+<code>[⭐⭐⭐]</code> [ArchiMate]</p>
+<p><strong>ArchiMate 与 BPMN 关系</strong><br />
+ArchiMate 高层概览，BPMN 详细流程建模。<br />
+<code>[⭐⭐⭐]</code> [ArchiMate]</p>
+<p><strong>ArchiMate 与 UML 关系</strong><br />
+ArchiMate 关注企业级抽象，UML 关注软件级详细设计。<br />
+<code>[⭐⭐⭐]</code> [ArchiMate]</p>
+<p><strong>ArchiMate 与 TOGAF 关系</strong><br />
+TOGAF 提供方法论，ArchiMate 提供建模语言。<br />
+<code>[⭐⭐⭐]</code> [ArchiMate]</p>
+<hr />
+<h2 id="c7-google-sre-核心术语">C7 · Google SRE 核心术语</h2>
+<p><strong>SRE (Site Reliability Engineering, 站点可靠性工程)</strong><br />
+Google 提出：将软件工程方法应用于运维的实践。<br />
+<strong>SRE 核心：可靠性是工程问题，不是运气问题。</strong><br />
+<code>[⭐⭐⭐⭐]</code> [Google SRE Book]</p>
+<p><strong>SRE 三本书</strong><br />
+Google SRE Book (2016)、SRE Workbook (2018)、SRE Book 2.0 (2025)。<br />
+<code>[⭐⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>SLI (Service Level Indicator, 服务等级指标)</strong><br />
+衡量服务质量的量化指标：可用性、延迟、吞吐量、错误率。<br />
+<code>[⭐⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>SLO (Service Level Objective, 服务等级目标)</strong><br />
+SLI 的目标值：如 P99 延迟 &lt; 200ms。<br />
+<code>[⭐⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>SLA (Service Level Agreement, 服务等级协议)</strong><br />
+与客户的合同承诺，含未达标的处罚条款。<br />
+<code>[⭐⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>SLI vs SLO vs SLA</strong><br />
+SLI 测量什么、SLO 目标是什么、SLA 承诺给客户什么。<br />
+<code>[⭐⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>Error Budget (错误预算)</strong><br />
+(1 - SLO) × 时间窗口内的可容忍故障量。<br />
+<code>[⭐⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>错误预算政策 (Error Budget Policy)</strong><br />
+当预算耗尽时的应对：停止变更、回滚功能、聚焦可靠性。<br />
+<code>[⭐⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>Burn Rate (燃烧率)</strong><br />
+错误预算消耗速度；1.0 = 预算耗尽速度，2.0 = 两倍速度。<br />
+<code>[⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>可用性数学</strong><br />
+"3 个 9" = 99.9% = 8.76 小时/年停机。<br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<p><strong>"四个 9" = 99.99% = 52.6 分钟/年停机。</strong><br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<p><strong>"五个 9" = 99.999% = 5.26 分钟/年停机。</strong><br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<p><strong>Toil (运维琐事)</strong><br />
+手动、重复、可自动化、战术性、无持久价值的工作。<br />
+<code>[⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>SRE 50% 法则</strong><br />
+SRE 工程师最多 50% 时间用于运维，其余用于工程项目。<br />
+<code>[⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>SRE 工程师画像</strong><br />
+50% 运维 + 50% 工程，追求自动化消除 Toil。<br />
+<code>[⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>监控三黄金信号 (Golden Signals)</strong><br />
+延迟 (Latency)、流量 (Traffic)、错误 (Errors)、饱和度 (Saturation)。<br />
+<code>[⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>RED 方法 (Weaveworks)</strong><br />
+Rate、Errors、Duration。<br />
+<code>[⭐⭐⭐]</code> [Weaveworks]</p>
+<p><strong>USE 方法 (Brendan Gregg)</strong><br />
+Utilization、Saturation、Errors。<br />
+<code>[⭐⭐⭐]</code> [Brendan Gregg]</p>
+<p><strong>监控 vs 可观测性</strong><br />
+监控关注"已知的未知"，可观测性关注"未知的未知"。<br />
+<code>[⭐⭐⭐]</code> [可观测性]</p>
+<p><strong>可观测性三大支柱 (Three Pillars)</strong><br />
+Logs（日志）、Metrics（指标）、Traces（链路追踪）。<br />
+<code>[⭐⭐⭐]</code> [可观测性]</p>
+<p><strong>OpenTelemetry (OTel)</strong><br />
+CNCF 主导的可观测性数据采集标准。<br />
+<code>[⭐⭐⭐]</code> [CNCF]</p>
+<p><strong>OTel 三大组件</strong><br />
+API、SDK、Collector。<br />
+<code>[⭐⭐⭐]</code> [CNCF]</p>
+<p><strong>OTel vs OpenTracing vs OpenCensus</strong><br />
+OTel 是 OpenTracing + OpenCensus 的合并。<br />
+<code>[⭐⭐⭐]</code> [CNCF]</p>
+<p><strong>Prometheus</strong><br />
+CNCF 的开源监控系统。<br />
+<code>[⭐⭐⭐]</code> [CNCF]</p>
+<p><strong>Grafana</strong><br />
+开源可视化与仪表盘工具。<br />
+<code>[⭐⭐⭐]</code> [Grafana]</p>
+<p><strong>Jaeger</strong><br />
+Uber 开源的分布式链路追踪系统。<br />
+<code>[⭐⭐⭐]</code> [Jaeger]</p>
+<p><strong>Zipkin</strong><br />
+Twitter 开源的分布式链路追踪系统。<br />
+<code>[⭐⭐⭐]</code> [Zipkin]</p>
+<p><strong>ELK / EFK</strong><br />
+Elasticsearch + Logstash + Kibana / Fluentd 的日志栈。<br />
+<code>[⭐⭐⭐]</code> [开源生态]</p>
+<p><strong>PagerDuty / Opsgenie</strong><br />
+事件响应与告警平台。<br />
+<code>[⭐⭐⭐]</code> [运维]</p>
+<p><strong>事故响应 (Incident Response)</strong><br />
+检测 → 通报 → 缓解 → 修复 → 复盘的全过程。<br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<p><strong>事故指挥 (Incident Command)</strong><br />
+IC（指挥员）、Comms（通讯员）、Ops（操作员）、Planning（规划员）。<br />
+<code>[⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>事故分级 (Incident Severity)</strong><br />
+Sev1（最高，全业务中断）、Sev2、Sev3、Sev4。<br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<p><strong>事故复盘 (Postmortem / Incident Review)</strong><br />
+无指责、聚焦系统、时间线、根因、行动项。<br />
+<code>[⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>无指责复盘 (Blameless Postmortem)</strong><br />
+聚焦"为什么系统允许"而非"谁犯了错"。<br />
+<code>[⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>事故演练 (Chaos Engineering)</strong><br />
+Netflix Chaos Monkey 起的故障演练实践。<br />
+<code>[⭐⭐⭐]</code> [Netflix]</p>
+<p><strong>Chaos Monkey</strong><br />
+Netflix 起的故障注入工具，2011 年开源。<br />
+<code>[⭐⭐⭐]</code> [Netflix]</p>
+<p><strong>Chaos Engineering 原则</strong><br />
+建立稳态假设、注入故障、最小爆炸半径、持续演练。<br />
+<code>[⭐⭐⭐]</code> [Principles of Chaos]</p>
+<p><strong>故障注入测试 (Fault Injection Testing)</strong><br />
+Gremlin、Chaos Monkey、LitmusChaos。<br />
+<code>[⭐⭐⭐]</code> [混沌工程]</p>
+<p><strong>游戏日 (GameDay)</strong><br />
+SRE 团队模拟真实故障进行演练。<br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<p><strong>生产就绪评审 (Production Readiness Review, PRR)</strong><br />
+Google SRE 的发布前评审：可靠性、可扩展性、监控、应急。<br />
+<code>[⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>消除琐事 (Eliminating Toil)</strong><br />
+识别、量化、自动化 Toil 的过程。<br />
+<code>[⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>运维手册 (Runbook)</strong><br />
+记录标准操作步骤的文档。<br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<p><strong>on-call 值班</strong><br />
+运维人员的轮值响应机制。<br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<hr />
+<h2 id="c8-itil-4-服务价值系统">C8 · ITIL 4 服务价值系统</h2>
+<p><strong>ITIL 4 (Information Technology Infrastructure Library v4)</strong><br />
+2019 年发布的 IT 服务管理框架。<br />
+<code>[⭐⭐⭐⭐]</code> [Axelos]</p>
+<p><strong>ITIL 4 服务价值系统 (SVS)</strong><br />
+ITIL 4 的核心概念：机会/需求 → 价值。<br />
+<code>[⭐⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>ITIL 4 五大组件</strong><br />
+价值链活动、实践、技术、组织、价值。</p>
+<p><strong>ITIL 价值链 (Service Value Chain)</strong><br />
+参与、计划、设计与转换、获取/构建、交付与支持、改进。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>ITIL 4 34 项实践</strong><br />
+分为三类：一般管理实践、服务管理实践、技术管理实践。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>一般管理实践 (14 项)</strong><br />
+架构管理、持续改进、信息安全管理、知识管理、度量与报告、组织变更管理、组合管理、项目管理、关系管理、风险管理、服务财务管理、战略管理、供应商管理、工作负载管理。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>服务管理实践 (17 项)</strong><br />
+可用性管理、业务分析、容量与绩效管理、变更管理、事件管理、问题管理、服务请求管理、服务中心、服务连续性、服务设计、服务目录、服务级别管理、服务验证与测试、部署管理、基础设施与平台管理、监控与事件管理、发布管理。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>技术管理实践 (3 项)</strong><br />
+部署管理、基础设施与平台管理、软件开发与管理。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>变更管理 (Change Management)</strong><br />
+评估、批准、实施变更的流程：CAB、紧急变更、标准变更。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>CAB (Change Advisory Board)</strong><br />
+变更咨询委员会，评估变更风险。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>标准变更 vs 正常变更 vs 紧急变更</strong><br />
+标准变更预授权、正常变更需 CAB、紧急变更事后审批。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>事件管理 (Incident Management)</strong><br />
+检测、记录、分类、解决事件的流程。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>事件优先级 (Incident Priority)</strong><br />
+影响 × 紧迫度 = 优先级。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>SLA 时限 (SLA Targets)</strong><br />
+按优先级定义响应与解决时限。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>问题管理 (Problem Management)</strong><br />
+识别、分类、解决根本原因的实践。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>已知错误 (Known Error)</strong><br />
+已识别根本原因但未永久解决的问题。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>问题 vs 事件</strong><br />
+事件是症状，问题是要解决的根因。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>服务请求管理 (Service Request Management)</strong><br />
+处理用户主动请求的实践。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>服务目录 (Service Catalog)</strong><br />
+提供服务的可见目录。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>服务级别管理 (Service Level Management)</strong><br />
+定义、协商、监控、报告 SLAs。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>可用性管理 (Availability Management)</strong><br />
+确保服务达到可用性目标。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>容量与绩效管理 (Capacity &amp; Performance Management)</strong><br />
+确保服务有足够容量满足性能。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>服务连续性管理 (Service Continuity Management)</strong><br />
+应对重大故障的业务连续性。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>部署管理 (Deployment Management)</strong><br />
+将新版本/变更移入生产环境。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>发布管理 (Release Management)</strong><br />
+打包、测试、部署新版本的实践。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>监控与事件管理 (Monitoring &amp; Event Management)</strong><br />
+系统化的监控与告警处理。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>持续改进 (Continual Improvement)</strong><br />
+CSI 模型：What is the vision？Where are we now？Where do we want to be？How do we get there？Did we get there？How do we keep the momentum？<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>风险管理 (Risk Management)</strong><br />
+识别、评估、应对风险的实践。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>ITIL 4 与 DevOps</strong><br />
+ITIL 4 强调与敏捷、DevOps、Lean 的对齐。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<p><strong>ITIL 4 与 SRE</strong><br />
+ITIL 4 提供治理框架，SRE 提供工程实践。<br />
+<code>[⭐⭐⭐]</code> [ITIL 4]</p>
+<hr />
+<h2 id="c9-devops-与云原生工程">C9 · DevOps 与云原生工程</h2>
+<p><strong>DevOps 三步法</strong><br />
+Flow（流）、Feedback（反馈）、Continual Learning（持续学习）。<br />
+<code>[⭐⭐⭐]</code> [Gene Kim]</p>
+<p><strong>DevOps 核心指标 DORA</strong><br />
+部署频率 (DF)、变更前置时间 (LT)、变更失败率 (CFR)、恢复时间 (MTTR)。<br />
+<code>[⭐⭐⭐]</code> [DORA/Google Cloud]</p>
+<p><strong>DORA 四个等级</strong><br />
+精英、高、中、低。<br />
+<code>[⭐⭐⭐]</code> [DORA]</p>
+<p><strong>DORA 精英表现</strong><br />
+按需多次部署、P99 变更前置时间 &lt; 1 小时、变更失败率 0-15%、MTTR &lt; 1 小时。<br />
+<code>[⭐⭐⭐]</code> [DORA]</p>
+<p><strong>SPACE 框架</strong><br />
+Satisfaction（满意度）、Performance（性能）、Activity（活动）、Communication（沟通）、Efficiency（效率）。开发者生产力多维度量。<br />
+<code>[⭐⭐⭐]</code> [Microsoft Research]</p>
+<p><strong>DevOps 文化</strong><br />
+CALMS：Culture（文化）、Automation（自动化）、Lean（精益）、Measurement（度量）、Sharing（分享）。<br />
+<code>[⭐⭐⭐]</code> [Damon Edwards]</p>
+<p><strong>持续集成 (CI, Continuous Integration)</strong><br />
+频繁合并代码到主干，自动构建测试。<br />
+<code>[⭐⭐⭐]</code> [DevOps]</p>
+<p><strong>持续交付 (CD, Continuous Delivery)</strong><br />
+自动将通过测试的代码部署到生产等价环境。<br />
+<code>[⭐⭐⭐]</code> [DevOps]</p>
+<p><strong>持续部署 (CD, Continuous Deployment)</strong><br />
+自动将通过测试的代码直接部署到生产。<br />
+<code>[⭐⭐⭐]</code> [DevOps]</p>
+<p><strong>CI 与 CD 的区别</strong><br />
+CI 自动化构建测试，CD 自动化部署。<br />
+<code>[⭐⭐⭐]</code> [DevOps]</p>
+<p><strong>Blue-Green 部署</strong><br />
+并行运行两套环境，切换流量。<br />
+<code>[⭐⭐⭐]</code> [部署策略]</p>
+<p><strong>金丝雀部署</strong><br />
+逐步推广新版本到小流量。<br />
+<code>[⭐⭐⭐]</code> [部署策略]</p>
+<p><strong>滚动部署 (Rolling Deployment)</strong><br />
+逐步替换实例的部署策略。<br />
+<code>[⭐⭐⭐]</code> [部署策略]</p>
+<p><strong>特性开关 (Feature Flag)</strong><br />
+LaunchDarkly、Unleash、Flagsmith。<br />
+<code>[⭐⭐⭐]</code> [DevOps]</p>
+<p><strong>GitOps</strong><br />
+以 Git 为唯一真相源的运维模式：ArgoCD、Flux。<br />
+<code>[⭐⭐⭐]</code> [Weaveworks]</p>
+<p><strong>基础设施即代码 (IaC)</strong><br />
+Terraform、Pulumi、CloudFormation、Crossplane。<br />
+<code>[⭐⭐⭐]</code> [DevOps]</p>
+<p><strong>Terraform</strong><br />
+HashiCorp 的多云 IaC 工具。<br />
+<code>[⭐⭐⭐]</code> [HashiCorp]</p>
+<p><strong>Pulumi</strong><br />
+支持通用编程语言的 IaC 工具。<br />
+<code>[⭐⭐⭐]</code> [Pulumi]</p>
+<p><strong>云原生 (Cloud Native)</strong><br />
+CNCF 定义：容器化、自动化管理、面向微服务。<br />
+<code>[⭐⭐⭐]</code> [CNCF]</p>
+<p><strong>CNCF (Cloud Native Computing Foundation)</strong><br />
+Linux Foundation 下的云原生基金会。<br />
+<code>[⭐⭐⭐]</code> [CNCF]</p>
+<p><strong>Kubernetes (K8s)</strong><br />
+Google 开源的容器编排系统，CNCF 旗舰项目。<br />
+<code>[⭐⭐⭐]</code> [CNCF]</p>
+<p><strong>容器 (Container)</strong><br />
+Docker、containerd、CRI-O、Podman。<br />
+<code>[⭐⭐⭐]</code> [容器]</p>
+<p><strong>微服务 (Microservices)</strong><br />
+Martin Fowler 2014 提出：独立部署的小型服务集合。<br />
+<code>[⭐⭐⭐]</code> [Martin Fowler]</p>
+<p><strong>微服务 vs 单体 (Monolith)</strong><br />
+微服务独立部署、技术异构、可扩展；单体简单、调试易、运维集中。<br />
+<code>[⭐⭐⭐]</code> [Martin Fowler]</p>
+<p><strong>API 网关 (API Gateway)</strong><br />
+Kong、Ambassador、Tyk、AWS API Gateway、Azure APIM。<br />
+<code>[⭐⭐⭐]</code> [云原生]</p>
+<p><strong>服务网格 (Service Mesh)</strong><br />
+Istio、Linkerd、Consul Connect、Cilium。<br />
+<code>[⭐⭐⭐]</code> [云原生]</p>
+<p><strong>Sidecar 模式</strong><br />
+将辅助功能（如代理、日志）作为独立进程与主应用一起部署。<br />
+<code>[⭐⭐⭐]</code> [云原生]</p>
+<p><strong>Serverless / FaaS</strong><br />
+AWS Lambda、Azure Functions、Google Cloud Functions。<br />
+<code>[⭐⭐⭐]</code> [云原生]</p>
+<p><strong>BaaS (Backend as a Service)</strong><br />
+Firebase、Supabase、AWS Amplify。<br />
+<code>[⭐⭐⭐]</code> [云原生]</p>
+<p><strong>无服务器计算 (Serverless Computing)</strong><br />
+无需管理服务器的计算模式。<br />
+<code>[⭐⭐⭐]</code> [云原生]</p>
+<p><strong>冷启动 (Cold Start)</strong><br />
+Serverless 函数首次调用时的初始化延迟。<br />
+<code>[⭐⭐⭐]</code> [Serverless]</p>
+<p><strong>Knative</strong><br />
+Kubernetes 之上的 Serverless 平台。<br />
+<code>[⭐⭐⭐]</code> [CNCF]</p>
+<p><strong>12-Factor App</strong><br />
+Heroku 2012 提出的云原生应用方法论。<br />
+<code>[⭐⭐⭐]</code> [Heroku]</p>
+<p><strong>Beyond 12-Factor App</strong><br />
+Kevin Hoffmann 2019 对 12-Factor 的扩展，专为云原生微服务。<br />
+<code>[⭐⭐⭐]</code> [Kevin Hoffmann]</p>
+<hr />
+<h2 id="c10-软件架构关键模式">C10 · 软件架构关键模式</h2>
+<p><strong>客户端-服务器 (Client-Server)</strong><br />
+传统两层架构：客户端发起请求，服务器响应。<br />
+<code>[⭐⭐⭐]</code> [软件架构]</p>
+<p><strong>三层架构 (3-Tier)</strong><br />
+表现层、业务层、数据层。<br />
+<code>[⭐⭐⭐]</code> [软件架构]</p>
+<p><strong>MVC (Model-View-Controller)</strong><br />
+Trygve Reenskaug 1979：模型、视图、控制器分离。<br />
+<code>[⭐⭐⭐]</code> [软件架构]</p>
+<p><strong>MVP (Model-View-Presenter)</strong><br />
+MVC 的变体，Presenter 处理 UI 逻辑。<br />
+<code>[⭐⭐⭐]</code> [软件架构]</p>
+<p><strong>MVVM (Model-View-ViewModel)</strong><br />
+微软提出：ViewModel 暴露可绑定数据。<br />
+<code>[⭐⭐⭐]</code> [软件架构]</p>
+<p><strong>微服务架构 (Microservices Architecture)</strong><br />
+独立部署的小服务集合。<br />
+<code>[⭐⭐⭐]</code> [软件架构]</p>
+<p><strong>事件驱动架构 (EDA, Event-Driven Architecture)</strong><br />
+通过事件发布订阅进行通信。<br />
+<code>[⭐⭐⭐]</code> [软件架构]</p>
+<p><strong>发布-订阅 (Pub/Sub)</strong><br />
+Kafka、RabbitMQ、Pulsar、Redis Pub/Sub。<br />
+<code>[⭐⭐⭐]</code> [消息系统]</p>
+<p><strong>CQRS (Command Query Responsibility Segregation)</strong><br />
+读写分离的架构模式：Greg Young 提出。<br />
+<code>[⭐⭐⭐]</code> [软件架构]</p>
+<p><strong>事件溯源 (Event Sourcing)</strong><br />
+用事件日志作为唯一真相源。<br />
+<code>[⭐⭐⭐]</code> [软件架构]</p>
+<p><strong>Saga 模式</strong><br />
+分布式事务的协调模式：编排式 vs 编舞式。<br />
+<code>[⭐⭐⭐]</code> [软件架构]</p>
+<p><strong>六边形架构 (Hexagonal Architecture / Ports &amp; Adapters)</strong><br />
+Alistair Cockburn：业务核心与适配器分离。<br />
+<code>[⭐⭐⭐]</code> [Alistair Cockburn]</p>
+<p><strong>洋葱架构 (Onion Architecture)</strong><br />
+Jeffrey Palermo：依赖向内的分层架构。<br />
+<code>[⭐⭐⭐]</code>[Jeffrey Palermo]</p>
+<p><strong>Clean Architecture (整洁架构)</strong><br />
+Robert C. Martin：Entities、Use Cases、Interface Adapters、Frameworks。<br />
+<code>[⭐⭐⭐]</code> [Robert C. Martin]</p>
+<p><strong>Clean Architecture 与 Hexagonal 关系</strong><br />
+都是关注点分离 + 依赖反转，名称不同。<br />
+<code>[⭐⭐⭐]</code> [软件架构]</p>
+<p><strong>分层架构 (Layered Architecture)</strong><br />
+表现层、业务层、持久化层、数据库层。<br />
+<code>[⭐⭐⭐]</code> [软件架构]</p>
+<p><strong>SOA (Service-Oriented Architecture)</strong><br />
+面向服务的架构：ESB、WSDL、SOAP。<br />
+<code>[⭐⭐⭐]</code> [软件架构]</p>
+<p><strong>API First 设计</strong><br />
+OpenAPI/Swagger 优先于实现的设计方法。<br />
+<code>[⭐⭐⭐]</code> [API 设计]</p>
+<p><strong>REST 约束 (REST Constraints)</strong><br />
+Roy Fielding 2000：客户端-服务器、无状态、可缓存、统一接口、分层、按需代码。<br />
+<code>[⭐⭐⭐⭐]</code> [Roy Fielding]</p>
+<p><strong>RESTful API 设计</strong><br />
+资源导向、HTTP 动词、状态码、HATEOAS。<br />
+<code>[⭐⭐⭐]</code> [REST]</p>
+<p><strong>HATEOAS (Hypermedia as the Engine of Application State)</strong><br />
+REST 约束之一：响应中包含链接引导客户端。<br />
+<code>[⭐⭐⭐]</code> [REST]</p>
+<p><strong>GraphQL</strong><br />
+Facebook 2015：按需查询的 API 查询语言。<br />
+<code>[⭐⭐⭐]</code> [Facebook]</p>
+<p><strong>gRPC</strong><br />
+Google 高性能 RPC 框架，基于 HTTP/2 + Protobuf。<br />
+<code>[⭐⭐⭐]</code> [Google]</p>
+<p><strong>Protobuf (Protocol Buffers)</strong><br />
+Google 的高效序列化格式。<br />
+<code>[⭐⭐⭐]</code> [Google]</p>
+<p><strong>WebSocket</strong><br />
+全双工通信协议：Socket.IO、ws。<br />
+<code>[⭐⭐⭐]</code> [网络协议]</p>
+<p><strong>Webhook</strong><br />
+HTTP 回调通知模式。<br />
+<code>[⭐⭐⭐]</code> [API 设计]</p>
+<p><strong>Webhook vs API 轮询</strong><br />
+Webhook 推送、低延迟；轮询简单、可靠。<br />
+<code>[⭐⭐⭐]</code> [API 设计]</p>
+<hr />
+<h2 id="c11-数据库与数据工程">C11 · 数据库与数据工程</h2>
+<p><strong>关系型数据库 (RDBMS)</strong><br />
+基于关系模型的数据库：PostgreSQL、MySQL、Oracle、SQL Server。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>NoSQL 数据库</strong><br />
+非关系型数据库：文档（MongoDB）、键值（Redis）、列族（Cassandra）、图（Neo4j）。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>NewSQL 数据库</strong><br />
+兼具关系型与水平扩展：TiDB、CockroachDB、YugabyteDB、Spanner。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>CAP 定理</strong><br />
+Eric Brewer 2000：一致性、可用性、分区容错性三者只能取其二。<br />
+<code>[⭐⭐⭐]</code> [Eric Brewer]</p>
+<p><strong>BASE vs ACID</strong><br />
+BASE（Basically Available, Soft state, Eventually consistent）vs ACID（Atomicity, Consistency, Isolation, Durability）。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>OLTP vs OLAP</strong><br />
+OLTP 事务处理，OLAP 分析处理。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>数据仓库 (Data Warehouse)</strong><br />
+面向分析的数据存储：Snowflake、BigQuery、Redshift、Databricks。<br />
+<code>[⭐⭐⭐]</code> [数据工程]</p>
+<p><strong>数据湖 (Data Lake)</strong><br />
+存储原始结构化/非结构化数据。<br />
+<code>[⭐⭐⭐]</code> [数据工程]</p>
+<p><strong>Lakehouse (湖仓一体)</strong><br />
+Databricks 提出：兼具数据湖灵活性与数据仓库性能。<br />
+<code>[⭐⭐⭐]</code> [Databricks]</p>
+<p><strong>Apache Iceberg / Delta Lake / Apache Hudi</strong><br />
+开放表格式：事务、模式演进、隐藏分区。<br />
+<code>[⭐⭐⭐]</code> [数据工程]</p>
+<p><strong>数据网格 (Data Mesh)</strong><br />
+Zhamak Dehghani 2019：领域驱动的去中心化数据架构。<br />
+<code>[⭐⭐⭐]</code> [Zhamak Dehghani]</p>
+<p><strong>数据契约 (Data Contract)</strong><br />
+数据生产者与消费者之间的契约。<br />
+<code>[⭐⭐⭐]</code> [数据工程]</p>
+<p><strong>数据可观测性 (Data Observability)</strong><br />
+Monte Carlo、Great Expectations、 Soda。<br />
+<code>[⭐⭐⭐]</code> [数据工程]</p>
+<p><strong>DataOps</strong><br />
+将 DevOps 原则应用于数据流水线。<br />
+<code>[⭐⭐⭐]</code> [数据工程]</p>
+<p><strong>ETL vs ELT</strong><br />
+ETL 先转换再加载，ELT 先加载再转换（云数仓时代主流）。<br />
+<code>[⭐⭐⭐]</code> [数据工程]</p>
+<p><strong>dbt (data build tool)</strong><br />
+Analytics Engineering 工具，SQL 优先的转换。<br />
+<code>[⭐⭐⭐]</code> [dbt Labs]</p>
+<p><strong>Airflow</strong><br />
+Apache 的工作流调度平台。<br />
+<code>[⭐⭐⭐]</code> [Apache]</p>
+<p><strong>Dagster</strong><br />
+数据资产为中心的现代编排工具。<br />
+<code>[⭐⭐⭐]</code> [Dagster]</p>
+<p><strong>Prefect</strong><br />
+现代化的数据流编排平台。<br />
+<code>[⭐⭐⭐]</code> [Prefect]</p>
+<p><strong>CDC (Change Data Capture)</strong><br />
+捕获数据变更：Debezium、Maxwell、AWS DMS。<br />
+<code>[⭐⭐⭐]</code> [数据工程]</p>
+<p><strong>向量数据库</strong><br />
+存储与查询高维向量：Pinecone、Weaviate、Chroma、Qdrant、Milvus、pgvector。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>pgvector</strong><br />
+PostgreSQL 的向量扩展。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>图数据库 (Graph Database)</strong><br />
+Neo4j、ArangoDB、JanusGraph、Neptune、TigerGraph。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>时序数据库 (TSDB)</strong><br />
+InfluxDB、TimescaleDB、Prometheus、QuestDB。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>缓存 (Cache)</strong><br />
+Redis、Memcached、Hazelcast。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>缓存击穿 / 雪崩 / 穿透</strong><br />
+热点 key 失效、批量过期、查询不存在。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>缓存策略 (Caching Strategies)</strong><br />
+Cache-Aside、Write-Through、Write-Behind、Read-Through。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>分布式锁 (Distributed Lock)</strong><br />
+Redis Redlock、Zookeeper、etcd。<br />
+<code>[⭐⭐⭐]</code> [分布式系统]</p>
+<p><strong>最终一致性 (Eventual Consistency)</strong><br />
+系统在无新写入后最终达到一致。<br />
+<code>[⭐⭐⭐]</code> [CAP]</p>
+<p><strong>强一致性 vs 最终一致性</strong><br />
+强一致性能保证读到最新；最终一致允许短延迟后一致。<br />
+<code>[⭐⭐⭐]</code> [CAP]</p>
+<hr />
+<h2 id="c12-安全工程">C12 · 安全工程</h2>
+<p><strong>CIA 三元组 (CIA Triad)</strong><br />
+机密性 (Confidentiality)、完整性 (Integrity)、可用性 (Availability)。<br />
+<code>[⭐⭐⭐⭐]</code> [信息安全]</p>
+<p><strong>零信任 (Zero Trust)</strong><br />
+"从不信任、始终验证"的安全模型：NIST SP 800-207。<br />
+<code>[⭐⭐⭐⭐]</code> [NIST]</p>
+<p><strong>纵深防御 (Defense in Depth)</strong><br />
+多层防御策略。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>最小特权原则 (Principle of Least Privilege)</strong><br />
+只授予完成任务所需的最小权限。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>STRIDE 威胁建模</strong><br />
+Microsoft 提出：Spoofing、Tampering、Repudiation、Information Disclosure、Denial of Service、Elevation of Privilege。<br />
+<code>[⭐⭐⭐]</code> [Microsoft]</p>
+<p><strong>PASTA 威胁建模</strong><br />
+Process for Attack Simulation and Threat Analysis：7 阶段风险中心方法。<br />
+<code>[⭐⭐⭐]</code> [Tony UcedaVélez]</p>
+<p><strong>OWASP Top 10</strong><br />
+Web 应用最常见 10 大安全风险。<br />
+<code>[⭐⭐⭐⭐]</code> [OWASP]</p>
+<p><strong>OWASP API Security Top 10</strong><br />
+API 安全的 10 大风险。<br />
+<code>[⭐⭐⭐]</code> [OWASP]</p>
+<p><strong>OWASP LLM Top 10 (2025)</strong><br />
+LLM 应用 10 大风险：Prompt 注入、不安全输出处理、训练数据中毒等。<br />
+<code>[⭐⭐⭐⭐]</code> [OWASP 2025]</p>
+<p><strong>Prompt 注入 (Prompt Injection)</strong><br />
+通过恶意输入操纵 LLM 行为：直接注入 vs 间接注入。<br />
+<code>[⭐⭐⭐⭐]</code> [OWASP]</p>
+<p><strong>越狱 (Jailbreak)</strong><br />
+绕过 LLM 安全限制：DAN、角色扮演、Token 替换。<br />
+<code>[⭐⭐⭐]</code> [AI 安全]</p>
+<p><strong>输入验证 (Input Validation)</strong><br />
+防止 SQL 注入、XSS、命令注入的基础防护。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>输出编码 (Output Encoding)</strong><br />
+防止 XSS 的输出处理。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>参数化查询 (Parameterized Query)</strong><br />
+防止 SQL 注入的标准做法。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>WAF (Web Application Firewall)</strong><br />
+Web 应用防火墙：ModSecurity、Cloudflare WAF、AWS WAF。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>DDoS 防护</strong><br />
+Cloudflare、Akamai、AWS Shield。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>渗透测试 (Penetration Testing)</strong><br />
+模拟攻击发现漏洞：黑盒、白盒、灰盒。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>红队 (Red Team)</strong><br />
+模拟真实攻击者的对抗性测试。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>蓝队 (Blue Team)</strong><br />
+防御方团队。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>紫队 (Purple Team)</strong><br />
+红蓝协作的攻击-防御演练。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>Bug Bounty</strong><br />
+公开邀请外部研究人员报告漏洞的奖励计划。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>CVE (Common Vulnerabilities and Exposures)</strong><br />
+公开漏洞编号系统。<br />
+<code>[⭐⭐⭐]</code> [MITRE]</p>
+<p><strong>CVSS (Common Vulnerability Scoring System)</strong><br />
+漏洞严重性评分：0-10。<br />
+<code>[⭐⭐⭐]</code> [FIRST]</p>
+<p><strong>CWE (Common Weakness Enumeration)</strong><br />
+通用缺陷枚举。<br />
+<code>[⭐⭐⭐]</code> [MITRE]</p>
+<p><strong>NVD (National Vulnerability Database)</strong><br />
+美国国家漏洞数据库。<br />
+<code>[⭐⭐⭐]</code> [NIST]</p>
+<p><strong>SSO (Single Sign-On)</strong><br />
+单点登录：SAML、OIDC、Kerberos。<br />
+<code>[⭐⭐⭐]</code> [认证]</p>
+<p><strong>MFA (Multi-Factor Authentication)</strong><br />
+多因素认证：知识、持有、生物。<br />
+<code>[⭐⭐⭐]</code> [认证]</p>
+<p><strong>OAuth 2.0 / OIDC</strong><br />
+授权框架与身份层。<br />
+<code>[⭐⭐⭐]</code> [IETF]</p>
+<p><strong>JWT (JSON Web Token)</strong><br />
+无状态令牌：Header、Payload、Signature。<br />
+<code>[⭐⭐⭐]</code> [IETF]</p>
+<p><strong>密钥管理 (Secrets Management)</strong><br />
+HashiCorp Vault、AWS Secrets Manager、Azure Key Vault。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>mTLS (Mutual TLS)</strong><br />
+双向 TLS 认证。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>CSP (Content Security Policy)</strong><br />
+防止 XSS 的浏览器安全策略。<br />
+<code>[⭐⭐⭐]</code> [Web 安全]</p>
+<p><strong>CORS (Cross-Origin Resource Sharing)</strong><br />
+跨域资源共享机制。<br />
+<code>[⭐⭐⭐]</code> [Web 安全]</p>
+<p><strong>CSRF (Cross-Site Request Forgery)</strong><br />
+跨站请求伪造：Synchronizer Token Pattern。<br />
+<code>[⭐⭐⭐]</code> [Web 安全]</p>
+<p><strong>XSS (Cross-Site Scripting)</strong><br />
+跨站脚本：反射型、存储型、DOM 型。<br />
+<code>[⭐⭐⭐]</code> [Web 安全]</p>
+<p><strong>SSRF (Server-Side Request Forgery)</strong><br />
+服务端请求伪造。<br />
+<code>[⭐⭐⭐]</code> [Web 安全]</p>
+<p><strong>供应链攻击 (Supply Chain Attack)</strong><br />
+通过第三方依赖攻击：SolarWinds、Log4Shell、xz-utils。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<p><strong>SBOM (Software Bill of Materials)</strong><br />
+软件物料清单：依赖透明度。<br />
+<code>[⭐⭐⭐]</code> [NIST]</p>
+<p><strong>SLSA (Supply-chain Levels for Software Artifacts)</strong><br />
+Google 提出的供应链安全等级。<br />
+<code>[⭐⭐⭐]</code> [Google]</p>
+<p><strong>Sigstore</strong><br />
+Cosign、Rekor、 Fulcio 的签名工具栈。<br />
+<code>[⭐⭐⭐]</code> [CNCF]</p>
+<p><strong>机密计算 (Confidential Computing)</strong><br />
+TEE（可信执行环境）、Intel SGX、AMD SEV。<br />
+<code>[⭐⭐⭐]</code> [安全]</p>
+<hr />
+<h2 id="c13-质量工程与测试">C13 · 质量工程与测试</h2>
+<p><strong>测试金字塔</strong><br />
+Mike Cohn：底层单元测试、中层集成测试、顶层 E2E 测试。<br />
+<code>[⭐⭐⭐]</code> [Mike Cohn]</p>
+<p><strong>测试金字塔 vs 测试冰激凌</strong><br />
+冰激凌反模式：E2E 多、单元少，导致不稳定。<br />
+<code>[⭐⭐⭐]</code> [测试]</p>
+<p><strong>单元测试 (Unit Test)</strong><br />
+测试最小代码单元：函数、方法。<br />
+<code>[⭐⭐⭐]</code> [测试]</p>
+<p><strong>集成测试 (Integration Test)</strong><br />
+测试模块间交互。<br />
+<code>[⭐⭐⭐]</code> [测试]</p>
+<p><strong>端到端测试 (E2E Test)</strong><br />
+测试完整业务流程：Selenium、Playwright、Cypress、Puppeteer。<br />
+<code>[⭐⭐⭐]</code> [测试]</p>
+<p><strong>契约测试 (Contract Testing)</strong><br />
+验证服务间契约：Pact、Spring Cloud Contract。<br />
+<code>[⭐⭐⭐]</code> [测试]</p>
+<p><strong>冒烟测试 (Smoke Test)</strong><br />
+部署后的快速验证。<br />
+<code>[⭐⭐⭐]</code> [测试]</p>
+<p><strong>回归测试 (Regression Test)</strong><br />
+验证新代码未破坏现有功能。<br />
+<code>[⭐⭐⭐]</code> [测试]</p>
+<p><strong>验收测试 (Acceptance Test)</strong><br />
+从用户角度验证功能：UAT、Cucumber、BDD。<br />
+<code>[⭐⭐⭐]</code> [测试]</p>
+<p><strong>测试驱动开发 (TDD)</strong><br />
+Kent Beck：红 → 绿 → 重构循环。<br />
+<code>[⭐⭐⭐]</code> [Kent Beck]</p>
+<p><strong>行为驱动开发 (BDD)</strong><br />
+Cucumber、JBehave、SpecFlow。<br />
+<code>[⭐⭐⭐]</code> [Dan North]</p>
+<p><strong>验收测试驱动开发 (ATDD)</strong><br />
+测试先行的需求沟通。<br />
+<code>[⭐⭐⭐]</code> [测试]</p>
+<p><strong>探索性测试 (Exploratory Testing)</strong><br />
+Cem Kaner：边探索边学习的测试。<br />
+<code>[⭐⭐⭐]</code> [Cem Kaner]</p>
+<p><strong>基于风险的测试 (Risk-Based Testing)</strong><br />
+按风险优先级分配测试资源。<br />
+<code>[⭐⭐⭐]</code> [测试]</p>
+<p><strong>变异测试 (Mutation Testing)</strong><br />
+PIT、Stryker：通过代码变异验证测试质量。<br />
+<code>[⭐⭐⭐]</code> [测试]</p>
+<p><strong>代码覆盖率 (Code Coverage)</strong><br />
+语句、分支、路径覆盖率。<br />
+<code>[⭐⭐⭐]</code> [测试]</p>
+<p><strong>测试替身 (Test Doubles)</strong><br />
+Dummy、Stub、Mock、Spy、Fake：Gerard Meszaros《xUnit Test Patterns》。<br />
+<code>[⭐⭐⭐]</code> [Gerard Meszaros]</p>
+<p><strong>Mock vs Stub</strong><br />
+Mock 验证行为，Stub 提供预设响应。<br />
+<code>[⭐⭐⭐]</code> [测试]</p>
+<p><strong>测试驱动 AI 应用</strong><br />
+PromptFoo、DeepEval、RAGAS、LangSmith Evals。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>LLM 评估方法</strong><br />
+人工评估、LLM-as-Judge、自动指标、A/B 测试。<br />
+<code>[⭐⭐⭐]</code> [LLMOps]</p>
+<p><strong>AI 红队 (AI Red Team)</strong><br />
+Microsoft、OWASP、NIST 都强调的 AI 安全测试实践。<br />
+<code>[⭐⭐⭐⭐]</code> [Microsoft AI Red Team]</p>
+<p><strong>LLM 评测基准</strong><br />
+MMLU、HellaSwag、ARC、TruthfulQA、HumanEval、GSM8K、Big-Bench。<br />
+<code>[⭐⭐⭐]</code> [学术界]</p>
+<p><strong>MMLU (Massive Multitask Language Understanding)</strong><br />
+57 学科多任务理解基准。<br />
+<code>[⭐⭐⭐]</code> [Hendrycks et al. 2021]</p>
+<p><strong>HumanEval</strong><br />
+代码生成基准，164 个编程问题。<br />
+<code>[⭐⭐⭐]</code> [OpenAI]</p>
+<p><strong>GSM8K</strong><br />
+小学数学推理基准。<br />
+<code>[⭐⭐⭐]</code> [OpenAI]</p>
+<hr />
+<h2 id="c14-性能工程">C14 · 性能工程</h2>
+<p><strong>性能指标</strong><br />
+延迟（Latency）、吞吐量（Throughput）、资源利用率（Utilization）、错误率（Errors）。<br />
+<code>[⭐⭐⭐]</code> [性能工程]</p>
+<p><strong>延迟百分位 (Latency Percentiles)</strong><br />
+P50（中位数）、P95、P99、P99.9。<br />
+<code>[⭐⭐⭐]</code> [性能工程]</p>
+<p><strong>P99 vs P99.9 vs 平均延迟</strong><br />
+P99 覆盖 99% 请求；平均易被极值掩盖。<br />
+<code>[⭐⭐⭐]</code> [性能工程]</p>
+<p><strong>APM (Application Performance Monitoring)</strong><br />
+应用性能监控：Datadog、New Relic、Dynatrace、AppDynamics、Elastic APM。<br />
+<code>[⭐⭐⭐]</code> [性能]</p>
+<p><strong>分布式追踪 (Distributed Tracing)</strong><br />
+跨服务调用追踪：Jaeger、Zipkin、OpenTelemetry。<br />
+<code>[⭐⭐⭐]</code> [可观测性]</p>
+<p><strong>性能剖析 (Profiling)</strong><br />
+火焰图、CPU 剖析、内存剖析。<br />
+<code>[⭐⭐⭐]</code> [性能]</p>
+<p><strong>Brendan Gregg 火焰图</strong><br />
+直观展示 CPU 时间消耗的可视化。<br />
+<code>[⭐⭐⭐]</code> [Brendan Gregg]</p>
+<p><strong>use of resources 法则</strong><br />
+性能优化前先测量，避免过早优化。<br />
+<code>[⭐⭐⭐]</code> [性能]</p>
+<p><strong>缓存层次 (Cache Hierarchy)</strong><br />
+L1/L2/L3 CPU 缓存 → 主存 → SSD → HDD → 网络。<br />
+<code>[⭐⭐⭐]</code> [计算机体系]</p>
+<p><strong>CDN (Content Delivery Network)</strong><br />
+Cloudflare、Akamai、Fastly、CloudFront。<br />
+<code>[⭐⭐⭐]</code> [性能]</p>
+<p><strong>负载均衡 (Load Balancing)</strong><br />
+L4（传输层）、L7（应用层）、DNS、GEO。<br />
+<code>[⭐⭐⭐]</code> [性能]</p>
+<p><strong>负载均衡器</strong><br />
+Nginx、HAProxy、Envoy、AWS ALB、Google GLB。<br />
+<code>[⭐⭐⭐]</code> [性能]</p>
+<p><strong>水平扩展 (Horizontal Scaling)</strong><br />
+增加机器数量：scale out。<br />
+<code>[⭐⭐⭐]</code> [可扩展性]</p>
+<p><strong>垂直扩展 (Vertical Scaling)</strong><br />
+提升单机配置：scale up。<br />
+<code>[⭐⭐⭐]</code> [可扩展性]</p>
+<p><strong>自动扩缩容 (Auto-Scaling)</strong><br />
+基于指标的自动扩缩：HPA、KEDA、Cluster Autoscaler。<br />
+<code>[⭐⭐⭐]</code> [云原生]</p>
+<p><strong>数据库索引 (Database Index)</strong><br />
+B-Tree、Hash、Bitmap、Full-text。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>查询优化 (Query Optimization)</strong><br />
+执行计划分析、索引优化、查询重写。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>N+1 查询问题</strong><br />
+ORM 常见的性能陷阱：用 JOIN 或 include 解决。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>读写分离 (Read-Write Splitting)</strong><br />
+主库写、从库读：ProxySQL、MaxScale。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>分库分表 (Sharding)</strong><br />
+按某字段将数据分布到多库多表。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>连接池 (Connection Pool)</strong><br />
+HikariCP、Druid、c3p0。<br />
+<code>[⭐⭐⭐]</code> [数据库]</p>
+<p><strong>异步处理 (Asynchronous Processing)</strong><br />
+消息队列、事件驱动、回调、Promise/Future。<br />
+<code>[⭐⭐⭐]</code> [性能]</p>
+<p><strong>批处理 (Batch Processing)</strong><br />
+Spark、Flink、Hadoop MapReduce。<br />
+<code>[⭐⭐⭐]</code> [数据处理]</p>
+<p><strong>流处理 (Stream Processing)</strong><br />
+Kafka Streams、Flink、Spark Streaming、Pulsar Functions。<br />
+<code>[⭐⭐⭐]</code> [数据处理]</p>
+<p><strong>Lambda 架构</strong><br />
+批处理层 + 速度层 + 服务层。<br />
+<code>[⭐⭐⭐]</code> [数据架构]</p>
+<p><strong>Kappa 架构</strong><br />
+单一流处理链路，取代 Lambda。<br />
+<code>[⭐⭐⭐]</code> [数据架构]</p>
+<hr />
+<h2 id="c15-可靠性工程关键概念">C15 · 可靠性工程关键概念</h2>
+<p><strong>可靠性 (Reliability)</strong><br />
+系统在指定条件下、规定时间内执行所需功能的能力。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>可用性 (Availability)</strong><br />
+系统可提供服务的时间比例。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>弹性 (Resilience)</strong><br />
+系统在故障后恢复的能力。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>可恢复性 (Recoverability)</strong><br />
+系统恢复所需时间。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>MTBF (Mean Time Between Failures)</strong><br />
+平均故障间隔时间。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>MTTR (Mean Time To Repair)</strong><br />
+平均修复时间。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>MTTR 分类</strong><br />
+MTTD（检测）+ MTTI（识别）+ MTTF（修复）。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>MTTF (Mean Time To Failure)</strong><br />
+不可修复系统的平均寿命。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>故障模式与影响分析 (FMEA)</strong><br />
+识别潜在故障模式、影响、优先级。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>故障树分析 (FTA)</strong><br />
+自顶向下的故障分析。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>根本原因分析 (RCA, Root Cause Analysis)</strong><br />
+5 Why、鱼骨图、Apollo RCA。<br />
+<code>[⭐⭐⭐]</code> [质量管理]</p>
+<p><strong>5 Why 分析</strong><br />
+Toyota：连续追问 5 次"为什么"找到根因。<br />
+<code>[⭐⭐⭐]</code> [Toyota]</p>
+<p><strong>鱼骨图 (Fishbone / Ishikawa)</strong><br />
+质量问题的因果分析工具。<br />
+<code>[⭐⭐⭐]</code> [Kaoru Ishikawa]</p>
+<p><strong>冗余 (Redundancy)</strong><br />
+主动-主动 vs 主动-被动冗余。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>故障转移 (Failover)</strong><br />
+主备切换的机制。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>优雅降级 (Graceful Degradation)</strong><br />
+部分故障时保留核心功能。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>舱壁模式 (Bulkhead)</strong><br />
+Netflix：资源隔离防止级联失败。<br />
+<code>[⭐⭐⭐]</code> [Netflix]</p>
+<p><strong>熔断器 (Circuit Breaker)</strong><br />
+Hystrix、Resilience4j、Sentinel。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>限流 (Rate Limiting)</strong><br />
+令牌桶、漏桶、滑动窗口。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>超时与重试 (Timeout &amp; Retry)</strong><br />
+指数退避、抖动、最大重试次数。<br />
+<code>[⭐⭐⭐]</code> [可靠性]</p>
+<p><strong>幂等性 (Idempotency)</strong><br />
+重复执行产生相同结果。<br />
+<code>[⭐⭐⭐]</code> [分布式系统]</p>
+<p><strong>最终一致性 (Eventual Consistency)</strong><br />
+系统在无新写入后最终达到一致。<br />
+<code>[⭐⭐⭐]</code> [CAP]</p>
+<hr />
+<h2 id="c16-可观测性与运维">C16 · 可观测性与运维</h2>
+<p><strong>可观测性 (Observability)</strong><br />
+从外部输出推断系统内部状态的能力。<br />
+<code>[⭐⭐⭐]</code> [可观测性]</p>
+<p><strong>Logs / Metrics / Traces</strong><br />
+可观测性三大支柱。<br />
+<code>[⭐⭐⭐]</code> [可观测性]</p>
+<p><strong>结构化日志 (Structured Logging)</strong><br />
+JSON、ECS、LTSV 格式的日志。<br />
+<code>[⭐⭐⭐]</code> [可观测性]</p>
+<p><strong>日志级别 (Log Levels)</strong><br />
+TRACE、DEBUG、INFO、WARN、ERROR、FATAL。<br />
+<code>[⭐⭐⭐]</code> [可观测性]</p>
+<p><strong>指标类型 (Metric Types)</strong><br />
+Counter（计数）、Gauge（仪表）、Histogram（直方图）、Summary（摘要）。<br />
+<code>[⭐⭐⭐]</code> [可观测性]</p>
+<p><strong>Prometheus 四种指标</strong><br />
+Counter、Gauge、Histogram、Summary。<br />
+<code>[⭐⭐⭐]</code> [Prometheus]</p>
+<p><strong>PromQL</strong><br />
+Prometheus 的查询语言。<br />
+<code>[⭐⭐⭐]</code> [Prometheus]</p>
+<p><strong>SLO 错误预算告警</strong><br />
+基于燃烧率的多级告警。<br />
+<code>[⭐⭐⭐]</code> [Google SRE]</p>
+<p><strong>告警疲劳 (Alert Fatigue)</strong><br />
+过多告警导致响应麻木的反模式。<br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<p><strong>告警分级</strong><br />
+Critical（立即响应）、Warning（关注）、Info（信息）。<br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<p><strong>值班轮换 (On-Call Rotation)</strong><br />
+PagerDuty 值班计划。<br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<p><strong>值班补偿 (On-Call Compensation)</strong><br />
+值班人员获得的额外补偿。<br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<p><strong>Runbook 自动化</strong><br />
+Standardize, automate, measure。<br />
+<code>[⭐⭐⭐]</code> [SRE]</p>
+<p><strong>部署频率 (Deployment Frequency)</strong><br />
+DORA 指标之一。<br />
+<code>[⭐⭐⭐]</code> [DORA]</p>
+<p><strong>变更前置时间 (Lead Time for Changes)</strong><br />
+DORA 指标之一。<br />
+<code>[⭐⭐⭐]</code> [DORA]</p>
+<p><strong>变更失败率 (Change Failure Rate)</strong><br />
+DORA 指标之一。<br />
+<code>[⭐⭐⭐]</code> [DORA]</p>
+<p><strong>MTTR (Mean Time To Recovery)</strong><br />
+DORA 指标之一。<br />
+<code>[⭐⭐⭐]</code> [DORA]</p>
+<p><strong>工程效能 (Engineering Productivity)</strong><br />
+SPACE、DX、DevEx 框架。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<p><strong>Developer Experience (DX/DevEx)</strong><br />
+Atlassian、Microsoft 推广的开发者体验度量。<br />
+<code>[⭐⭐⭐]</code> [业界实践]</p>
+<hr />
+<p>(至此 C 卷累计 ~350 词条。完整覆盖：MLOps/CDSO 0-5 级、LLMOps 工具链、AgentOps + A2A + MCP、TOGAF 10 ADM + ArchiMate 3.2、Google SRE + 监控 + 混沌工程、ITIL 4 服务价值系统 + 34 实践、DevOps + DORA + 云原生、架构模式、数据库、安全工程、测试、性能工程、可靠性工程、可观测性)</p></div><aside class="right-rail">
+<div class="rail-block">
+<h5>相关链接</h5>
+<a href="df-index.html">📚 DeerFlow 交付总览</a>
+<a href="method.html">📐 方法论总纲</a>
+<a href="glossary.html">📖 我们的词典</a>
+<a href="auth-index.html">🏛️ 权威支撑</a>
+</div>
+</aside></div>
+<div class="footer">
+企业 AI 实战知识库 · 个人成长系统 v3.0<br>
+DeerFlow 交付已并入 · 2026-09-10
+</div>
+</main>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.sidebar-item').forEach(el => {
+    if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+  document.querySelectorAll('.nav-items a').forEach(el => {
+    if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+  const progress = document.querySelector('.reading-progress');
+  if (progress) {
+    const update = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      progress.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+  const tocLinks = document.querySelectorAll('.mini-toc a');
+  if (tocLinks.length) {
+    const sections = Array.from(tocLinks).map(l => document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
+    if (sections.length) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            const active = document.querySelector(`.mini-toc a[href="#${e.target.id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+      sections.forEach(s => observer.observe(s));
+    }
+  }
+});
+</script>
+</body>
+</html>
