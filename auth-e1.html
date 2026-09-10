@@ -1,0 +1,277 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>E1 · 软件工程知识体系 · 企业 AI 实战知识库</title><style>:root{--bg:#0f1419;--bg-elevated:#1a2028;--bg-card:#232a35;--border:#2d3540;--text:#e6e6e6;--text-dim:#9aa5b1;--text-bright:#fff;--accent:#4f9eff;--accent-hover:#6bb0ff;--warning:#ff9a4f;--success:#4fdf9a;--gold:#ffd24f;--silver:#c0c8d0;--bronze:#cd7f32;--code-bg:#0a0e13}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family:-apple-system,"SF Pro Display","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.65;font-size:15px}
+a{color:var(--accent);text-decoration:none;transition:color .15s}a:hover{color:var(--accent-hover)}
+.app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+.sidebar{background:var(--bg-elevated);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{padding:0 24px 24px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.brand h1{margin:0;font-size:18px;color:var(--text-bright);font-weight:600}
+.brand .sub{font-size:12px;color:var(--text-dim);margin-top:4px}
+.nav-section{margin-bottom:8px}
+.nav-section-title{padding:8px 24px;font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em}
+.nav-item{display:block;padding:8px 24px;color:var(--text);font-size:13px;border-left:3px solid transparent;transition:all .15s}
+.nav-item:hover{background:var(--bg-card);border-left-color:var(--accent)}
+.nav-item.active{background:var(--bg-card);border-left-color:var(--accent);color:var(--text-bright)}
+.nav-item .desc{font-size:11px;color:var(--text-dim);margin-top:2px}
+.main{padding:40px 56px;max-width:980px;margin:0 auto;width:100%}
+.content h1{color:var(--text-bright);font-size:32px;margin:0 0 8px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.content>blockquote{border-left:4px solid var(--accent);padding:8px 16px;margin:16px 0 24px;background:var(--bg-elevated);border-radius:0 6px 6px 0;color:var(--text-dim)}
+.content h2{color:var(--text-bright);font-size:24px;margin:40px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.content h3{color:var(--text-bright);font-size:18px;margin:28px 0 12px}
+.content p{margin:12px 0}
+.content ul,.content ol{padding-left:24px}.content li{margin:4px 0}
+.content code{background:var(--code-bg);padding:2px 6px;border-radius:3px;font-family:"SF Mono",Menlo,monospace;font-size:13px;color:var(--accent)}
+.content pre{background:var(--code-bg);padding:16px;border-radius:6px;overflow-x:auto;border:1px solid var(--border)}
+.content pre code{background:none;padding:0;color:var(--text)}
+.content table{border-collapse:collapse;width:100%;margin:16px 0;font-size:13px}
+.content th{background:var(--bg-elevated);text-align:left;padding:8px 12px;border:1px solid var(--border);color:var(--text-bright)}
+.content td{padding:8px 12px;border:1px solid var(--border)}
+.content blockquote{border-left:4px solid var(--border);padding:4px 16px;margin:16px 0;color:var(--text-dim);background:var(--bg-elevated)}
+.content hr{border:0;border-top:1px solid var(--border);margin:32px 0}
+@media (max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.main{padding:24px}}</style></head>
+<body><div class="app"><aside class="sidebar"><div class="brand"><h1>企业 AI 实战知识库</h1><div class="sub">个人成长系统 v3.0</div></div><div class="nav-section"><div class="nav-section-title">总览</div><a class="nav-item" href="index.html">🏠 知识体系</a></div><div class="nav-section"><div class="nav-section-title">核心方法论</div><a class="nav-item" href="method.html">📐 方法论总纲</a><a class="nav-item" href="top30.html">⭐ TOP 30 精华</a><a class="nav-item" href="tools.html">🛠️ 工具链</a><a class="nav-item" href="lines.html">🎙️ 话术弹药</a><a class="nav-item" href="pits.html">⚠️ 避坑清单</a></div><div class="nav-section"><div class="nav-section-title">可执行 SOP</div><a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a><a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a><a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a><a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a><a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a><a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a><a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a></div><div class="nav-section"><div class="nav-section-title">知识库</div><a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a><a class="nav-item" href="kb-02.html">🤖 智能体·OpenClaw</a><a class="nav-item" href="kb-03.html">💻 AI 编程工具链</a><a class="nav-item" href="kb-04.html">💰 商业案例·变现</a><a class="nav-item" href="kb-05.html">🎨 AI 内容创作</a><a class="nav-item" href="kb-06.html">📣 自媒体·获客</a><a class="nav-item" href="kb-07.html">🧰 效率工具·知识管理</a><a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a><a class="nav-item" href="kb-09.html">📦 自己的内容资产</a></div><div class="nav-section"><div class="nav-section-title">权威支撑</div><a class="nav-item" href="auth-index.html">📚 权威支撑总览</a><a class="nav-item" href="auth-a1.html">🏛️ A1 Anthropic FDE</a><a class="nav-item" href="auth-a2.html">🏛️ A2 生产级 Agent</a><a class="nav-item" href="auth-a3.html">🏛️ A3 企业评估</a><a class="nav-item" href="auth-b1.html">📖 B1 LLM Apps</a><a class="nav-item" href="auth-b2.html">📖 B2 Agentic Systems</a><a class="nav-item" href="auth-b3.html">📖 B3 RAG in Action</a><a class="nav-item" href="auth-b4.html">📖 B4 LLM Security</a><a class="nav-item" href="auth-c1.html">🏗️ C1 风险驱动架构</a><a class="nav-item" href="auth-c2.html">🏗️ C2 混沌工程</a><a class="nav-item" href="auth-c3.html">🏗️ C3 领域驱动设计</a><a class="nav-item" href="auth-d1.html">🌐 D1 Google Agent</a><a class="nav-item" href="auth-d2.html">🌐 D2 AWS LLM</a><a class="nav-item" href="auth-d3.html">🌐 D3 OpenAI</a><a class="nav-item" href="auth-e1.html">⚙️ E1 软件工程体系</a><a class="nav-item" href="auth-e2.html">⚙️ E2 MLOps 五层栈</a><a class="nav-item" href="auth-e3.html">⚙️ E3 AI 治理三件套</a><a class="nav-item" href="auth-e4.html">📊 E4 失败率证据</a><a class="nav-item" href="auth-e5.html">⚙️ E5 企业架构标准</a><a class="nav-item" href="auth-e6.html">🏛️ E6 FDE 三原厂</a></div><div class="nav-section"><div class="nav-section-title">工具</div><a class="nav-item" href="glossary.html">📖 专业大词典</a></div></aside>
+<main class="main"><div class="content"><h1 id="e1-swebok-iso-12207-agile-scrum-cmmi-dora">E1 · 软件工程知识体系（SWEBOK + ISO 12207 + Agile + Scrum + CMMI + DORA）</h1>
+<blockquote>
+<p><strong>类型</strong>：通用软件工程方法论 · 权威标准<br />
+<strong>来源</strong>：DeerFlow 调研报告（2026-09-09），原文「软件是如何开发出来的」<br />
+<strong>中文卡版本</strong>：基于 DeerFlow 调研整理 · 2026-09-10<br />
+<strong>链接</strong>：https://xinxinlon5b.github.io/growth-panel-online/obs/成长系统/27_deerflow权威调研报告_软件工程与企业AI落地_v1.md</p>
+</blockquote>
+<h2 id="_1">一、定位</h2>
+<p>这一张是<strong>整个软件工程的"总地图"</strong>——讲清楚「软件从 0 到 1 是怎么被开发出来的」。你的方法论和方法论簇里所有"做事的步骤"，都对应到这套骨架上。</p>
+<blockquote>
+<p>FDE 写的不是"AI 代码"，是"<strong>企业级生产软件</strong>"——必须按这套工程标准做。<br />
+见客户时引用 SWEBOK / ISO 12207 / DORA，比"我做了 10 年"有说服力得多。</p>
+</blockquote>
+<h2 id="_2">二、两大"总地图"</h2>
+<h3 id="swebok-v4">SWEBOK V4（软件工程知识体系）</h3>
+<p><strong>IEEE 计算机学会</strong>发布的《软件工程知识体系指南 V4》，把软件工程知识划分为 <strong>18 个知识领域（KA）</strong>。</p>
+<p><strong>核心 18 个 KA</strong>：<br />
+- 软件需求 / 设计 / 构造 / 测试 / 维护<br />
+- 软件配置管理 / 工程管理 / 工程过程 / 工程模型与方法<br />
+- 软件质量 / 工程专业实践 / 工程经济学<br />
+- 计算基础 / 数学基础 / 工程基础<br />
+- 软件安全（新增）/ 软件操作（新增）</p>
+<blockquote>
+<p>回答"做软件需要哪些知识/工种"——相当于知识地图。</p>
+</blockquote>
+<h3 id="isoiecieee-122072026">ISO/IEC/IEEE 12207:2026（软件生命周期过程）</h3>
+<p><strong>国际标准</strong>，把软件生命周期需要执行的<strong>过程</strong>划分为 <strong>4 大组</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>过程组</th>
+<th>做什么</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>协议过程（Agreement）</strong></td>
+<td>客户/供应商契约</td>
+<td>获取、供应</td>
+</tr>
+<tr>
+<td><strong>组织项目使能过程</strong></td>
+<td>组织级基础设施</td>
+<td>资产管理、人才管理</td>
+</tr>
+<tr>
+<td><strong>技术管理过程</strong></td>
+<td>项目层管理</td>
+<td>规划、评估、风险、决策、配置、质量</td>
+</tr>
+<tr>
+<td><strong>技术过程</strong></td>
+<td>真正造软件</td>
+<td>需求、设计、实现、集成、验证、转移、操作、维护、报废</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>回答"做软件要按什么顺序做什么"——相当于动作地图。<br />
+<strong>SWEBOK + 12207 = 知识全集 + 动作全集 = 软件工程最权威答案</strong></p>
+</blockquote>
+<h2 id="sdlc">三、生命周期模型（SDLC）</h2>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>核心思想</th>
+<th>适用场景</th>
+<th>出处</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>瀑布</strong></td>
+<td>需求→设计→实现→测试→部署 严格线性</td>
+<td>需求稳定、风险低（航天/军工）</td>
+<td>Winston Royce, 1970</td>
+</tr>
+<tr>
+<td><strong>V 模型</strong></td>
+<td>瀑布 + 每阶段对应验证环节</td>
+<td>质量要求高、可追溯</td>
+<td>ISO 12207</td>
+</tr>
+<tr>
+<td><strong>迭代/增量</strong></td>
+<td>分多次循环，每次一个可用增量</td>
+<td>需求演进的中大型</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>螺旋</strong></td>
+<td>每个循环做风险评估</td>
+<td>高风险、创新</td>
+<td>Barry Boehm, 1988</td>
+</tr>
+<tr>
+<td><strong>敏捷（Agile）</strong></td>
+<td>小步快跑、频繁交付、拥抱变化</td>
+<td>互联网/产品类</td>
+<td>2001 敏捷宣言</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-12-2001">敏捷宣言 4 价值观 + 12 原则（2001）</h3>
+<p><strong>4 价值观</strong>：<br />
+1. <strong>个体与互动</strong> &gt; 流程与工具<br />
+2. <strong>可工作的软件</strong> &gt; 详尽的文档<br />
+3. <strong>客户协作</strong> &gt; 合同谈判<br />
+4. <strong>响应变化</strong> &gt; 遵循计划</p>
+<p><strong>12 原则</strong>（节选）：尽早持续交付 / 欢迎需求变化 / 频繁交付 / 业务人员与开发者每天一起工作 / 以可工作的软件为进度度量 / 追求技术卓越 / 简洁 / 团队定期反思调整。</p>
+<blockquote>
+<p>为什么敏捷成为主流：缩短反馈环，把"猜错需求"的成本降到最低。<br />
+https://agilemanifesto.org/</p>
+</blockquote>
+<h2 id="scrum">四、Scrum 框架</h2>
+<p>Scrum Guide 定义了 Scrum 的标准结构：</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>3 角色</strong></td>
+<td>产品负责人（PO）/ Scrum Master / 开发团队</td>
+</tr>
+<tr>
+<td><strong>5 事件</strong></td>
+<td>Sprint / Sprint 计划会 / 每日站会 / Sprint 评审会 / Sprint 回顾会</td>
+</tr>
+<tr>
+<td><strong>3 工件</strong></td>
+<td>产品待办列表 / Sprint 待办列表 / 增量</td>
+</tr>
+</tbody>
+</table>
+<p>https://scrumguides.org/</p>
+<h2 id="cmmi-5">五、CMMI 5 级成熟度</h2>
+<p>组织过程能力的 5 个等级：<br />
+1. <strong>初始级</strong>——靠个人英雄<br />
+2. <strong>已管理级</strong>——项目可重复<br />
+3. <strong>已定义级</strong>——组织级标准化<br />
+4. <strong>定量管理级</strong>——数据驱动<br />
+5. <strong>优化级</strong>——持续改进</p>
+<p>https://cmmiinstitute.com/</p>
+<h2 id="dora-4-devops">六、DORA 4 项关键指标（DevOps 度量）</h2>
+<p>衡量软件交付能力的行业标准：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>衡量什么</th>
+<th>优秀值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>部署频率</strong></td>
+<td>多频繁发布到生产</td>
+<td>随时</td>
+</tr>
+<tr>
+<td><strong>变更前置时间</strong></td>
+<td>提交代码到上线耗时</td>
+<td>&lt; 1 天</td>
+</tr>
+<tr>
+<td><strong>变更失败率</strong></td>
+<td>上线导致故障比例</td>
+<td>&lt; 15%</td>
+</tr>
+<tr>
+<td><strong>恢复时间（MTTR）</strong></td>
+<td>故障后多久恢复</td>
+<td>&lt; 1 小时</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>DORA 是 FDE 报价时<strong>自证能力</strong>的最强武器——告诉客户"我的 DORA 四项是 X / Y / Z / W"。<br />
+https://cloud.google.com/blog/products/devops-sre/using-the-four-keys-to-measure-your-devops-performance</p>
+</blockquote>
+<h2 id="23-gof">七、23 种设计模式（GoF）</h2>
+<p>经典著作《Design Patterns》总结的 <strong>23 种</strong> 模式分三大类：<br />
+- <strong>创建型</strong>（5）——对象如何创建：单例、工厂、建造者...<br />
+- <strong>结构型</strong>（7）——对象如何组合：适配器、装饰器、代理...<br />
+- <strong>行为型</strong>（11）——对象如何协作：观察者、策略、命令...</p>
+<blockquote>
+<p>Agent 工作流编排本质就是行为型模式的应用。</p>
+</blockquote>
+<h2 id="_3">八、与本知识库的映射</h2>
+<table>
+<thead>
+<tr>
+<th>本知识库位置</th>
+<th>关联本文哪条</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>03-SOP/SOP-03-FDE 入企交付方向.md</code></td>
+<td>论点 SWEBOK 18 KA + 12207 4 组（提供工程骨架）</td>
+</tr>
+<tr>
+<td><code>03-SOP/SOP-04-Agent 工具链方向.md</code></td>
+<td>论点 敏捷 4 价值观 + Scrum 5 事件</td>
+</tr>
+<tr>
+<td><code>08-权威支撑/A2-Anthropic生产级Agent白皮书.md</code></td>
+<td>论点 DORA 4 指标（Agent 部署质量度量）</td>
+</tr>
+<tr>
+<td><code>08-权威支撑/C1-Risk-Driven-Architecture.md</code></td>
+<td>论点 12207 技术管理过程（风险管理是横切）</td>
+</tr>
+<tr>
+<td><code>08-权威支撑/C3-Domain-Driven-Design.md</code></td>
+<td>论点 SWEBOK 软件设计 KA（DDD 是设计 KA 的具体方法）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">九、客户引用话术</h2>
+<blockquote>
+<p>"我们的工程实践按 ISO/IEC 12207 国际标准 + IEEE SWEBOK V4 知识体系来做；<br />
+团队用的是 Scrum 框架 + 敏捷宣言 4 价值观；<br />
+交付能力按 DORA 四项关键指标度量（部署频率 / 前置时间 / 失败率 / MTTR）。<br />
+这套做法不是哪家的偏好，是国际标准 + 行业共识。"</p>
+</blockquote>
+<h2 id="_5">十、回查与延伸</h2>
+<ul>
+<li><strong>SWEBOK V4</strong>：https://www.computer.org/education/bodies-of-knowledge/software-engineering</li>
+<li><strong>ISO/IEC/IEEE 12207:2026</strong>：https://www.iso.org/standard/63712.html</li>
+<li><strong>Agile Manifesto</strong>：https://agilemanifesto.org/</li>
+<li><strong>Scrum Guide</strong>：https://scrumguides.org/</li>
+<li><strong>CMMI</strong>：https://cmmiinstitute.com/</li>
+<li><strong>DORA Four Keys</strong>：https://cloud.google.com/blog/products/devops-sre/using-the-four-keys-to-measure-your-devops-performance</li>
+<li><strong>Gang of Four</strong>：https://en.wikipedia.org/wiki/Design_Patterns</li>
+<li><strong>延伸阅读</strong>：原调研报告「27_deerflow权威调研报告」全文</li>
+</ul></div></main></div>
+<script>document.addEventListener('DOMContentLoaded',()=>{const path=window.location.pathname.split('/').pop()||'index.html';document.querySelectorAll('.nav-item').forEach(el=>{if(el.getAttribute('href')===path)el.classList.add('active')})});</script></body></html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>E2 · MLOps / LLMOps 与 AI 五层技术栈 · 企业 AI 实战知识库</title><style>:root{--bg:#0f1419;--bg-elevated:#1a2028;--bg-card:#232a35;--border:#2d3540;--text:#e6e6e6;--text-dim:#9aa5b1;--text-bright:#fff;--accent:#4f9eff;--accent-hover:#6bb0ff;--warning:#ff9a4f;--success:#4fdf9a;--gold:#ffd24f;--silver:#c0c8d0;--bronze:#cd7f32;--code-bg:#0a0e13}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family:-apple-system,"SF Pro Display","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.65;font-size:15px}
+a{color:var(--accent);text-decoration:none;transition:color .15s}a:hover{color:var(--accent-hover)}
+.app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+.sidebar{background:var(--bg-elevated);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{padding:0 24px 24px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.brand h1{margin:0;font-size:18px;color:var(--text-bright);font-weight:600}
+.brand .sub{font-size:12px;color:var(--text-dim);margin-top:4px}
+.nav-section{margin-bottom:8px}
+.nav-section-title{padding:8px 24px;font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em}
+.nav-item{display:block;padding:8px 24px;color:var(--text);font-size:13px;border-left:3px solid transparent;transition:all .15s}
+.nav-item:hover{background:var(--bg-card);border-left-color:var(--accent)}
+.nav-item.active{background:var(--bg-card);border-left-color:var(--accent);color:var(--text-bright)}
+.nav-item .desc{font-size:11px;color:var(--text-dim);margin-top:2px}
+.main{padding:40px 56px;max-width:980px;margin:0 auto;width:100%}
+.content h1{color:var(--text-bright);font-size:32px;margin:0 0 8px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.content>blockquote{border-left:4px solid var(--accent);padding:8px 16px;margin:16px 0 24px;background:var(--bg-elevated);border-radius:0 6px 6px 0;color:var(--text-dim)}
+.content h2{color:var(--text-bright);font-size:24px;margin:40px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.content h3{color:var(--text-bright);font-size:18px;margin:28px 0 12px}
+.content p{margin:12px 0}
+.content ul,.content ol{padding-left:24px}.content li{margin:4px 0}
+.content code{background:var(--code-bg);padding:2px 6px;border-radius:3px;font-family:"SF Mono",Menlo,monospace;font-size:13px;color:var(--accent)}
+.content pre{background:var(--code-bg);padding:16px;border-radius:6px;overflow-x:auto;border:1px solid var(--border)}
+.content pre code{background:none;padding:0;color:var(--text)}
+.content table{border-collapse:collapse;width:100%;margin:16px 0;font-size:13px}
+.content th{background:var(--bg-elevated);text-align:left;padding:8px 12px;border:1px solid var(--border);color:var(--text-bright)}
+.content td{padding:8px 12px;border:1px solid var(--border)}
+.content blockquote{border-left:4px solid var(--border);padding:4px 16px;margin:16px 0;color:var(--text-dim);background:var(--bg-elevated)}
+.content hr{border:0;border-top:1px solid var(--border);margin:32px 0}
+@media (max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.main{padding:24px}}</style></head>
+<body><div class="app"><aside class="sidebar"><div class="brand"><h1>企业 AI 实战知识库</h1><div class="sub">个人成长系统 v3.0</div></div><div class="nav-section"><div class="nav-section-title">总览</div><a class="nav-item" href="index.html">🏠 知识体系</a></div><div class="nav-section"><div class="nav-section-title">核心方法论</div><a class="nav-item" href="method.html">📐 方法论总纲</a><a class="nav-item" href="top30.html">⭐ TOP 30 精华</a><a class="nav-item" href="tools.html">🛠️ 工具链</a><a class="nav-item" href="lines.html">🎙️ 话术弹药</a><a class="nav-item" href="pits.html">⚠️ 避坑清单</a></div><div class="nav-section"><div class="nav-section-title">可执行 SOP</div><a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a><a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a><a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a><a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a><a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a><a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a><a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a></div><div class="nav-section"><div class="nav-section-title">知识库</div><a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a><a class="nav-item" href="kb-02.html">🤖 智能体·OpenClaw</a><a class="nav-item" href="kb-03.html">💻 AI 编程工具链</a><a class="nav-item" href="kb-04.html">💰 商业案例·变现</a><a class="nav-item" href="kb-05.html">🎨 AI 内容创作</a><a class="nav-item" href="kb-06.html">📣 自媒体·获客</a><a class="nav-item" href="kb-07.html">🧰 效率工具·知识管理</a><a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a><a class="nav-item" href="kb-09.html">📦 自己的内容资产</a></div><div class="nav-section"><div class="nav-section-title">权威支撑</div><a class="nav-item" href="auth-index.html">📚 权威支撑总览</a><a class="nav-item" href="auth-a1.html">🏛️ A1 Anthropic FDE</a><a class="nav-item" href="auth-a2.html">🏛️ A2 生产级 Agent</a><a class="nav-item" href="auth-a3.html">🏛️ A3 企业评估</a><a class="nav-item" href="auth-b1.html">📖 B1 LLM Apps</a><a class="nav-item" href="auth-b2.html">📖 B2 Agentic Systems</a><a class="nav-item" href="auth-b3.html">📖 B3 RAG in Action</a><a class="nav-item" href="auth-b4.html">📖 B4 LLM Security</a><a class="nav-item" href="auth-c1.html">🏗️ C1 风险驱动架构</a><a class="nav-item" href="auth-c2.html">🏗️ C2 混沌工程</a><a class="nav-item" href="auth-c3.html">🏗️ C3 领域驱动设计</a><a class="nav-item" href="auth-d1.html">🌐 D1 Google Agent</a><a class="nav-item" href="auth-d2.html">🌐 D2 AWS LLM</a><a class="nav-item" href="auth-d3.html">🌐 D3 OpenAI</a><a class="nav-item" href="auth-e1.html">⚙️ E1 软件工程体系</a><a class="nav-item" href="auth-e2.html">⚙️ E2 MLOps 五层栈</a><a class="nav-item" href="auth-e3.html">⚙️ E3 AI 治理三件套</a><a class="nav-item" href="auth-e4.html">📊 E4 失败率证据</a><a class="nav-item" href="auth-e5.html">⚙️ E5 企业架构标准</a><a class="nav-item" href="auth-e6.html">🏛️ E6 FDE 三原厂</a></div><div class="nav-section"><div class="nav-section-title">工具</div><a class="nav-item" href="glossary.html">📖 专业大词典</a></div></aside>
+<main class="main"><div class="content"><h1 id="e2-mlops-llmops-ai">E2 · MLOps / LLMOps + AI 技术栈五层</h1>
+<blockquote>
+<p><strong>类型</strong>：AI 工程方法论 · 权威标准<br />
+<strong>来源</strong>：DeerFlow 调研报告（2026-09-09） + Google MLOps 实践者指南<br />
+<strong>中文卡版本</strong>：基于 DeerFlow 调研整理 · 2026-09-10</p>
+</blockquote>
+<h2 id="_1">一、定位</h2>
+<p>这一张讲<strong>「企业 AI 落地」和「传统软件开发」有什么不同</strong>——<br />
+把"调一个 LLM API"升级为"一个完整的 AI 系统工程"。</p>
+<blockquote>
+<p>你的方法论「工具是 0，业务才是 1」在这张卡上被进一步具体化：<br />
+AI 不只是"调模型"，是"数据 + 模型 + 编排 + 服务 + 治理"五层缺一不可。</p>
+</blockquote>
+<h2 id="ai">二、AI 技术栈五层</h2>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>做什么</th>
+<th>典型组件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>数据层</strong></td>
+<td>数据采集、清洗、标注、存储、特征工程、向量库</td>
+<td>PostgreSQL、Pinecone、Milvus、Weaviate、FAISS</td>
+</tr>
+<tr>
+<td><strong>模型层</strong></td>
+<td>基础模型、微调、模型注册</td>
+<td>GPT / Claude / Gemini / 开源（Llama、Qwen）/ Hugging Face</td>
+</tr>
+<tr>
+<td><strong>编排层</strong></td>
+<td>提示工程、工作流、Agent 框架、工具调用、RAG 管道</td>
+<td>LangChain、LlamaIndex、OpenAI Assistants、自研 Harness</td>
+</tr>
+<tr>
+<td><strong>服务层</strong></td>
+<td>推理部署、API 网关、扩展、延迟与成本</td>
+<td>FastAPI、vLLM、Kubernetes、云函数</td>
+</tr>
+<tr>
+<td><strong>治理层</strong></td>
+<td>安全、合规、可观测、权限、审计、护栏</td>
+<td>日志/监控、IAM、内容安全、NIST AI RMF 对齐</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>为什么分五层</strong>：企业落地失败的常见原因，正是只做了模型层/服务层，而忽略了数据层与治理层。<br />
+<strong>这就是"7 成脏活在数据层"的工程解释</strong>。</p>
+</blockquote>
+<h2 id="mlops-llmops-google">三、MLOps / LLMOps 流水线（Google 定义）</h2>
+<p><strong>MLOps 实践者指南</strong>（Google Cloud Architecture Center）定义了 AI 落地的标准流水线：</p>
+<ol>
+<li><strong>用例识别与价值定义</strong>——选对场景，明确业务问题 + 衡量指标</li>
+<li><strong>数据工程</strong>——数据采集、清洗、标注、版本化、特征工程、训练/验证/测试切分</li>
+<li><strong>模型开发与实验</strong>——特征选择、训练、超参调优、实验追踪（MLflow 等）</li>
+<li><strong>模型评估</strong>——留出集 + 准确率 / F1 / 业务指标 / 安全公平性</li>
+<li><strong>模型部署</strong>——封装成推理 API</li>
+<li><strong>监控与持续训练</strong>——数据漂移、概念漂移、性能退化 → 触发重训练</li>
+<li><strong>治理与合规</strong>——版本化、文档、审批、访问控制、生命周期追溯</li>
+</ol>
+<blockquote>
+<p>https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning</p>
+</blockquote>
+<h2 id="llmops-vs-mlops">四、LLMOps vs MLOps 的差异</h2>
+<p>大模型（LLM）时代的 LLMOps 在 MLOps 基础上，新增了 5 个关注点：</p>
+<table>
+<thead>
+<tr>
+<th>新增点</th>
+<th>为什么</th>
+<th>你的方法论对应</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>微调（Fine-tuning）</strong> 取代/补充"从零训练"</td>
+<td>基础模型已强，无需从零</td>
+<td>知识库项目基本不需要微调</td>
+</tr>
+<tr>
+<td><strong>实时生成计算</strong>（推理延迟、Token 成本）</td>
+<td>LLM 推理贵，1 个汉字 ≈ 1.5-2 Token</td>
+<td>你方法论「先免费白嫖」</td>
+</tr>
+<tr>
+<td><strong>向量数据库编排</strong>（RAG 检索）</td>
+<td>LLM 没有私有知识</td>
+<td>你的 SOP-03「进厂先找数据」</td>
+</tr>
+<tr>
+<td><strong>提示工程 + Prompt 管理</strong></td>
+<td>提示词是一类新"代码"</td>
+<td>你方法论「AI 时代顶级能力=会提问」</td>
+</tr>
+<tr>
+<td><strong>RAG（检索增强生成）</strong></td>
+<td>私有知识 + 模型 = 不重训也"懂"业务</td>
+<td>知识库项目的标准架构</td>
+</tr>
+</tbody>
+</table>
+<h2 id="gartner-ai-5">五、Gartner AI 成熟度 5 级</h2>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>名称</th>
+<th>特征</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Awareness（意识）</strong></td>
+<td>了解 AI，尚未系统应用</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Active（活跃）</strong></td>
+<td>试点项目，零散应用</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Operational（运营化）</strong></td>
+<td>AI 进入生产，有治理雏形</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Systemic（系统化）</strong></td>
+<td>嵌入多个业务，规模化、标准化</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Transformational（变革级）</strong></td>
+<td>重塑业务模式，创造新价值</td>
+</tr>
+</tbody>
+</table>
+<p><strong>7 个支柱</strong>（每级用这 7 个维度评分）：战略 / 组织 / 人才 / 数据 / 技术 / 治理 / 文化与变革</p>
+<blockquote>
+<p><strong>你的客户大多数在 2-3 级之间</strong>。定位清晰才能谈下一步。</p>
+</blockquote>
+<h2 id="ai-agent-agent">六、AI Agent 架构（单 Agent）</h2>
+<p>一个 AI Agent 不是"一个 LLM"，是<strong>循环系统</strong>：</p>
+<pre><code>┌─ LLM 核心（推理与决策）──┐
+│  ↓                       │
+│  感知 → 思考 → 行动 → 观察（循环）
+│  ↓                       │
+├─ 记忆（短期 + 长期）─────┤
+├─ 工具（搜索/计算/代码/API）─┤
+└─ 规划（ReAct / Plan-and-Execute）─┘
+</code></pre>
+<blockquote>
+<p>这是 Anthropic A2「Harness」的另一种工程化表达。</p>
+</blockquote>
+<h2 id="rag-5">七、RAG 架构（5 步流程）</h2>
+<ol>
+<li><strong>文档切分（Chunking）</strong>——把私有文档切成小片段</li>
+<li><strong>向量化（Embedding）</strong>——用嵌入模型把片段转成向量</li>
+<li><strong>存入向量数据库</strong>——建立可检索索引</li>
+<li><strong>检索（Retrieval）</strong>——用户提问时检索最相关片段</li>
+<li><strong>增强生成（Augmented Generation）</strong>——把片段拼进 Prompt，让 LLM"带资料回答"</li>
+</ol>
+<blockquote>
+<p><strong>RAG 是企业落地最常见架构</strong>——成本低、更新快、可溯源。<br />
+比微调更适合"知识频繁更新 + 要求可解释"的场景。</p>
+</blockquote>
+<h2 id="_2">八、与本知识库的映射</h2>
+<table>
+<thead>
+<tr>
+<th>本知识库位置</th>
+<th>关联本文哪条</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>08-权威支撑/B3-RAG-in-Action.md</code></td>
+<td>论点 七（RAG 五步）</td>
+</tr>
+<tr>
+<td><code>08-权威支撑/A2-Anthropic生产级Agent白皮书.md</code></td>
+<td>论点 六（Agent 架构循环）</td>
+</tr>
+<tr>
+<td><code>08-权威支撑/A3-Anthropic企业Agent评估.md</code></td>
+<td>论点 三（模型评估 + 业务指标）</td>
+</tr>
+<tr>
+<td><code>02-知识库/01-企业AI落地·接单武器.md</code></td>
+<td>论点 二（MLOps 流水线）</td>
+</tr>
+<tr>
+<td><code>02-知识库/07-效率工具·知识管理.md</code></td>
+<td>论点 二（数据层 / 向量库）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">九、客户引用话术</h2>
+<blockquote>
+<p>"我们的 AI 落地按 Google MLOps 实践者指南的 7 步流水线走；<br />
+技术栈分 5 层（数据/模型/编排/服务/治理），每层都有工程标准；<br />
+贵司目前的 AI 成熟度按 Gartner 5 级模型定位在 X 级（一般是 2-3 级）；<br />
+我们的方案是从 X 级升到 Y 级的具体路径。"</p>
+</blockquote>
+<h2 id="_4">十、回查与延伸</h2>
+<ul>
+<li><strong>Google MLOps</strong>：https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning</li>
+<li><strong>Gartner AI Maturity</strong>：https://www.gartner.com/en/topics/artificial-intelligence</li>
+<li><strong>Pinecone RAG</strong>：https://www.pinecone.io/learn/rag/</li>
+<li><strong>AI Agent Architecture</strong>：https://www.techieclues.com/articles/how-ai-agents-work-architecture-components-workflow</li>
+<li><strong>延伸阅读</strong>：DeerFlow 调研报告「27_...v1.md」第二部分</li>
+</ul></div></main></div>
+<script>document.addEventListener('DOMContentLoaded',()=>{const path=window.location.pathname.split('/').pop()||'index.html';document.querySelectorAll('.nav-item').forEach(el=>{if(el.getAttribute('href')===path)el.classList.add('active')})});</script></body></html>
