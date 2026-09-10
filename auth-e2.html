@@ -248,5 +248,62 @@ AI 不只是"调模型"，是"数据 + 模型 + 编排 + 服务 + 治理"五层�
 <li><strong>Pinecone RAG</strong>：https://www.pinecone.io/learn/rag/</li>
 <li><strong>AI Agent Architecture</strong>：https://www.techieclues.com/articles/how-ai-agents-work-architecture-components-workflow</li>
 <li><strong>延伸阅读</strong>：DeerFlow 调研报告「27_...v1.md」第二部分</li>
-</ul></div></main></div>
+</ul>
+<h2 id="mlops-7">十一、MLOps 7 步流水线实战示例</h2>
+<h3 id="ai-7">案例：客服 AI 助手的 7 步</h3>
+<h4 id="1">步骤 1：用例识别</h4>
+<ul>
+<li><strong>场景</strong>：客服响应慢（30 分钟平均）</li>
+<li><strong>目标</strong>：降到 5 分钟</li>
+<li><strong>指标</strong>：响应时长 + 解决率</li>
+</ul>
+<h4 id="2">步骤 2：数据工程</h4>
+<ul>
+<li>历史客服对话：10 万条</li>
+<li>标注：哪些对话被解决 / 没解决</li>
+<li>切分：训练 7 / 验证 1 / 测试 2</li>
+</ul>
+<h4 id="3">步骤 3：模型开发</h4>
+<ul>
+<li>基线：BERT 中文</li>
+<li>优化：GPT-4 微调</li>
+<li>实验：5 个超参组合，MLflow 追踪</li>
+</ul>
+<h4 id="4">步骤 4：模型评估</h4>
+<ul>
+<li>测试集准确率：89%</li>
+<li>业务指标：响应时长模拟降到 4 分钟</li>
+<li>安全：边界测试 100% 通过</li>
+</ul>
+<h4 id="5">步骤 5：模型部署</h4>
+<ul>
+<li>推理服务：FastAPI + vLLM</li>
+<li>网关：Portkey 限流</li>
+<li>弹性：K8s 2-10 副本</li>
+</ul>
+<h4 id="6">步骤 6：监控</h4>
+<ul>
+<li>数据漂移：每周检测</li>
+<li>概念漂移：每月检测</li>
+<li>性能退化：自动告警</li>
+</ul>
+<h4 id="7">步骤 7：治理</h4>
+<ul>
+<li>版本化：每个模型 v1.0 / v1.1</li>
+<li>文档：自动生成</li>
+<li>审计：所有调用留痕</li>
+</ul>
+<h2 id="3_1">十二、3 个反模式</h2>
+<h3 id="1_1">反模式 1：跳过用例识别直接开做</h3>
+<p><strong>症状</strong>：直接选模型 + 训练。<br />
+<strong>风险</strong>：做出来没人用。<br />
+<strong>正解</strong>：从业务问题开始。</p>
+<h3 id="2_1">反模式 2：训练集和测试集分布不一致</h3>
+<p><strong>症状</strong>：训练集用老数据，测试集用新数据。<br />
+<strong>风险</strong>：测试集指标高但生产翻车。<br />
+<strong>正解</strong>：用同一时间窗的数据随机切分。</p>
+<h3 id="3_2">反模式 3：监控只看准确率</h3>
+<p><strong>症状</strong>：只看模型准确率。<br />
+<strong>风险</strong>：业务早变了但模型不知道。<br />
+<strong>正解</strong>：监控业务指标（解决率 / 满意度）。</p></div></main></div>
 <script>document.addEventListener('DOMContentLoaded',()=>{const path=window.location.pathname.split('/').pop()||'index.html';document.querySelectorAll('.nav-item').forEach(el=>{if(el.getAttribute('href')===path)el.classList.add('active')})});</script></body></html>

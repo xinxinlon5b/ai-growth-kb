@@ -1,383 +1,37 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>07 · 专业大词典（术语速查） · 企业 AI 实战知识库</title>
-<meta name="description" content="基于 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径，构建的 FDE/AI落地 实战知识库">
-<style>
-:root {
-  --bg: #0f1419;
-  --bg-elevated: #1a2028;
-  --bg-card: #232a35;
-  --border: #2d3540;
-  --text: #e6e6e6;
-  --text-dim: #9aa5b1;
-  --text-bright: #ffffff;
-  --accent: #4f9eff;
-  --accent-hover: #6bb0ff;
-  --warning: #ff9a4f;
-  --success: #4fdf9a;
-  --code-bg: #0a0e13;
-  --shadow: 0 2px 12px rgba(0,0,0,0.3);
-}
-* { box-sizing: border-box; }
-html, body {
-  margin: 0; padding: 0;
-  font-family: -apple-system, "SF Pro Display", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.65;
-  font-size: 15px;
-}
-a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
-a:hover { color: var(--accent-hover); }
-
-/* Layout */
-.app {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  min-height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  background: var(--bg-elevated);
-  border-right: 1px solid var(--border);
-  padding: 24px 0;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow-y: auto;
-}
-.brand {
-  padding: 0 24px 24px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 16px;
-}
-.brand h1 {
-  margin: 0;
-  font-size: 18px;
-  color: var(--text-bright);
-  font-weight: 600;
-}
-.brand .sub {
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 4px;
-}
-.search-box {
-  margin: 0 24px 16px;
-  position: relative;
-}
-.search-box input {
-  width: 100%;
-  padding: 8px 12px 8px 32px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
-  font-size: 13px;
-}
-.search-box input:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-.search-box::before {
-  content: "🔍";
-  position: absolute;
-  left: 10px; top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  opacity: 0.5;
-}
-.nav-section {
-  margin-bottom: 8px;
-}
-.nav-section-title {
-  padding: 8px 24px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.nav-item {
-  display: block;
-  padding: 8px 24px;
-  color: var(--text);
-  font-size: 13px;
-  border-left: 3px solid transparent;
-  transition: all 0.15s;
-}
-.nav-item:hover {
-  background: var(--bg-card);
-  border-left-color: var(--accent);
-}
-.nav-item.active {
-  background: var(--bg-card);
-  border-left-color: var(--accent);
-  color: var(--text-bright);
-}
-.nav-item .desc {
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-top: 2px;
-}
-
-/* Main content */
-.main {
-  padding: 40px 56px;
-  max-width: 980px;
-  margin: 0 auto;
-  width: 100%;
-}
-.content h1 {
-  color: var(--text-bright);
-  font-size: 32px;
-  margin: 0 0 8px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
-}
-.content > blockquote {
-  border-left: 4px solid var(--accent);
-  padding: 8px 16px;
-  margin: 16px 0 24px;
-  background: var(--bg-elevated);
-  border-radius: 0 6px 6px 0;
-  color: var(--text-dim);
-}
-.content h2 {
-  color: var(--text-bright);
-  font-size: 24px;
-  margin: 40px 0 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-}
-.content h3 {
-  color: var(--text-bright);
-  font-size: 18px;
-  margin: 28px 0 12px;
-}
-.content h4 {
-  color: var(--text);
-  font-size: 15px;
-  margin: 20px 0 8px;
-}
-.content p {
-  margin: 12px 0;
-}
-.content ul, .content ol {
-  padding-left: 24px;
-}
-.content li { margin: 4px 0; }
-.content code {
-  background: var(--code-bg);
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-family: "SF Mono", Menlo, monospace;
-  font-size: 13px;
-  color: var(--accent);
-}
-.content pre {
-  background: var(--code-bg);
-  padding: 16px;
-  border-radius: 6px;
-  overflow-x: auto;
-  border: 1px solid var(--border);
-}
-.content pre code {
-  background: none;
-  padding: 0;
-  color: var(--text);
-}
-.content table {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 16px 0;
-  font-size: 13px;
-}
-.content th {
-  background: var(--bg-elevated);
-  text-align: left;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  color: var(--text-bright);
-}
-.content td {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-}
-.content blockquote {
-  border-left: 4px solid var(--border);
-  padding: 4px 16px;
-  margin: 16px 0;
-  color: var(--text-dim);
-  background: var(--bg-elevated);
-}
-.content hr {
-  border: 0;
-  border-top: 1px solid var(--border);
-  margin: 32px 0;
-}
-
-/* Cards for KB pages */
-.video-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px 20px;
-  margin: 16px 0;
-}
-.video-meta {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 8px;
-}
-.video-meta .author { color: var(--accent); font-weight: 500; }
-.video-meta a { color: var(--text-dim); }
-.video-meta a:hover { color: var(--accent); }
-.video-meta .badge {
-  background: var(--bg-elevated);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-}
-.video-meta .badge.high { background: #2d4a3a; color: var(--success); }
-.video-meta .badge.sub { background: #2d3a4a; color: var(--accent); }
-.video-insight {
-  background: var(--code-bg);
-  border-left: 3px solid var(--accent);
-  padding: 12px 16px;
-  margin: 12px 0;
-  font-size: 13px;
-  white-space: pre-wrap;
-  border-radius: 0 6px 6px 0;
-}
-details {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 16px;
-  margin: 12px 0;
-}
-details summary {
-  cursor: pointer;
-  color: var(--accent);
-  font-size: 13px;
-}
-details[open] summary { margin-bottom: 12px; }
-details pre {
-  margin: 0;
-  font-size: 13px;
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-/* Footer */
-.footer {
-  margin-top: 60px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
-  color: var(--text-dim);
-  font-size: 12px;
-  text-align: center;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; }
-  .sidebar { position: relative; height: auto; }
-  .main { padding: 24px; }
-}
-
-/* Mermaid-style simple diagrams */
-.diagram {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-  margin: 16px 0;
-  font-family: "SF Mono", Menlo, monospace;
-  font-size: 12px;
-  white-space: pre;
-  overflow-x: auto;
-  line-height: 1.5;
-}
-</style>
-
-</head>
-<body>
-<div class="app">
-<aside class="sidebar">
-<div class="brand">
-<h1>企业 AI 实战知识库</h1>
-<div class="sub">个人成长系统 v3.0</div>
-</div>
-<div class="search-box">
-<input type="text" id="search" placeholder="搜索本页内容..." />
-</div>
-<div class="nav-section">
-<div class="nav-section-title">总览</div>
-<a class="nav-item" href="index.html">🏠 知识体系<div class="desc">00-知识体系</div></a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">核心方法论</div>
-<a class="nav-item" href="method.html">📐 方法论总纲<div class="desc">162 条原则</div></a>
-<a class="nav-item" href="tools.html">🛠️ 工具链<div class="desc">47 个要点</div></a>
-<a class="nav-item" href="lines.html">🎙️ 话术弹药<div class="desc">22 句金句</div></a>
-<a class="nav-item" href="pits.html">⚠️ 避坑清单<div class="desc">13 个错误</div></a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">可执行 SOP</div>
-<a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a>
-<a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a>
-<a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a>
-<a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a>
-<a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a>
-<a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a>
-<a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">知识库 · 9 大主题</div>
-<a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a>
-<a class="nav-item" href="kb-02.html">🤖 智能体·OpenClaw</a>
-<a class="nav-item" href="kb-03.html">💻 AI 编程工具链</a>
-<a class="nav-item" href="kb-04.html">💰 商业案例·变现</a>
-<a class="nav-item" href="kb-05.html">🎨 AI 内容创作</a>
-<a class="nav-item" href="kb-06.html">📣 自媒体·获客</a>
-<a class="nav-item" href="kb-07.html">🧰 效率工具·知识管理</a>
-<a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a>
-<a class="nav-item" href="kb-09.html">📦 自己的内容资产</a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">工具</div>
-<a class="nav-item active" href="glossary.html">📖 专业大词典<div class="desc">50+ 术语</div></a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">权威支撑（新增）</div>
-<a class="nav-item" href="auth-index.html">📚 权威支撑总览<div class="desc">12 个来源</div></a>
-<a class="nav-item" href="auth-a1.html">A1 · Anthropic FDE 博客<div class="desc">一手权威</div></a>
-<a class="nav-item" href="auth-a2.html">A2 · Anthropic Agent 白皮书<div class="desc">Harness/护栏</div></a>
-<a class="nav-item" href="auth-a3.html">A3 · Anthropic Agent 评估<div class="desc">可验证标准</div></a>
-<a class="nav-item" href="auth-b1.html">B1 · LLM 应用生产化<div class="desc">Pete Hunt</div></a>
-<a class="nav-item" href="auth-b2.html">B2 · Agentic Systems<div class="desc">O'Reilly</div></a>
-<a class="nav-item" href="auth-b3.html">B3 · RAG in Action<div class="desc">知识库工程</div></a>
-<a class="nav-item" href="auth-b4.html">B4 · LLM Security<div class="desc">安全与合规</div></a>
-<a class="nav-item" href="auth-c1.html">C1 · 风险驱动架构<div class="desc">方法论</div></a>
-<a class="nav-item" href="auth-c2.html">C2 · 混沌工程<div class="desc">Netflix</div></a>
-<a class="nav-item" href="auth-c3.html">C3 · DDD 领域驱动<div class="desc">Eric Evans</div></a>
-<a class="nav-item" href="auth-d1.html">D1 · Google Agent<div class="desc">厂商框架</div></a>
-<a class="nav-item" href="auth-d2.html">D2 · AWS LLM 框架<div class="desc">厂商框架</div></a>
-<a class="nav-item" href="auth-d3.html">D3 · OpenAI Agent<div class="desc">厂商框架</div></a>
-</div>
-</aside>
-<main class="main">
-<div class="content">
-<h1 id="07">07 · 专业大词典（术语速查）</h1>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>专业大词典 · 企业 AI 实战知识库</title><style>:root{--bg:#0f1419;--bg-elevated:#1a2028;--bg-card:#232a35;--border:#2d3540;--text:#e6e6e6;--text-dim:#9aa5b1;--text-bright:#fff;--accent:#4f9eff;--accent-hover:#6bb0ff;--warning:#ff9a4f;--success:#4fdf9a;--gold:#ffd24f;--silver:#c0c8d0;--bronze:#cd7f32;--code-bg:#0a0e13}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family:-apple-system,"SF Pro Display","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.65;font-size:15px}
+a{color:var(--accent);text-decoration:none;transition:color .15s}a:hover{color:var(--accent-hover)}
+.app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+.sidebar{background:var(--bg-elevated);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{padding:0 24px 24px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.brand h1{margin:0;font-size:18px;color:var(--text-bright);font-weight:600}
+.brand .sub{font-size:12px;color:var(--text-dim);margin-top:4px}
+.nav-section{margin-bottom:8px}
+.nav-section-title{padding:8px 24px;font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em}
+.nav-item{display:block;padding:8px 24px;color:var(--text);font-size:13px;border-left:3px solid transparent;transition:all .15s}
+.nav-item:hover{background:var(--bg-card);border-left-color:var(--accent)}
+.nav-item.active{background:var(--bg-card);border-left-color:var(--accent);color:var(--text-bright)}
+.nav-item .desc{font-size:11px;color:var(--text-dim);margin-top:2px}
+.main{padding:40px 56px;max-width:980px;margin:0 auto;width:100%}
+.content h1{color:var(--text-bright);font-size:32px;margin:0 0 8px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.content>blockquote{border-left:4px solid var(--accent);padding:8px 16px;margin:16px 0 24px;background:var(--bg-elevated);border-radius:0 6px 6px 0;color:var(--text-dim)}
+.content h2{color:var(--text-bright);font-size:24px;margin:40px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.content h3{color:var(--text-bright);font-size:18px;margin:28px 0 12px}
+.content p{margin:12px 0}
+.content ul,.content ol{padding-left:24px}.content li{margin:4px 0}
+.content code{background:var(--code-bg);padding:2px 6px;border-radius:3px;font-family:"SF Mono",Menlo,monospace;font-size:13px;color:var(--accent)}
+.content pre{background:var(--code-bg);padding:16px;border-radius:6px;overflow-x:auto;border:1px solid var(--border)}
+.content pre code{background:none;padding:0;color:var(--text)}
+.content table{border-collapse:collapse;width:100%;margin:16px 0;font-size:13px}
+.content th{background:var(--bg-elevated);text-align:left;padding:8px 12px;border:1px solid var(--border);color:var(--text-bright)}
+.content td{padding:8px 12px;border:1px solid var(--border)}
+.content blockquote{border-left:4px solid var(--border);padding:4px 16px;margin:16px 0;color:var(--text-dim);background:var(--bg-elevated)}
+.content hr{border:0;border-top:1px solid var(--border);margin:32px 0}
+@media (max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.main{padding:24px}}</style></head>
+<body><div class="app"><aside class="sidebar"><div class="brand"><h1>企业 AI 实战知识库</h1><div class="sub">个人成长系统 v3.0</div></div><div class="nav-section"><div class="nav-section-title">总览</div><a class="nav-item" href="index.html">🏠 知识体系</a></div><div class="nav-section"><div class="nav-section-title">核心方法论</div><a class="nav-item" href="method.html">📐 方法论总纲</a><a class="nav-item" href="top30.html">⭐ TOP 30 精华</a><a class="nav-item" href="tools.html">🛠️ 工具链</a><a class="nav-item" href="lines.html">🎙️ 话术弹药</a><a class="nav-item" href="pits.html">⚠️ 避坑清单</a></div><div class="nav-section"><div class="nav-section-title">可执行 SOP</div><a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a><a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a><a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a><a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a><a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a><a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a><a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a></div><div class="nav-section"><div class="nav-section-title">知识库</div><a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a><a class="nav-item" href="kb-02.html">🤖 智能体·OpenClaw</a><a class="nav-item" href="kb-03.html">💻 AI 编程工具链</a><a class="nav-item" href="kb-04.html">💰 商业案例·变现</a><a class="nav-item" href="kb-05.html">🎨 AI 内容创作</a><a class="nav-item" href="kb-06.html">📣 自媒体·获客</a><a class="nav-item" href="kb-07.html">🧰 效率工具·知识管理</a><a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a><a class="nav-item" href="kb-09.html">📦 自己的内容资产</a></div><div class="nav-section"><div class="nav-section-title">权威支撑</div><a class="nav-item" href="auth-index.html">📚 权威支撑总览</a><a class="nav-item" href="auth-a1.html">🏛️ A1 Anthropic FDE</a><a class="nav-item" href="auth-a2.html">🏛️ A2 生产级 Agent</a><a class="nav-item" href="auth-a3.html">🏛️ A3 企业评估</a><a class="nav-item" href="auth-b1.html">📖 B1 LLM Apps</a><a class="nav-item" href="auth-b2.html">📖 B2 Agentic Systems</a><a class="nav-item" href="auth-b3.html">📖 B3 RAG in Action</a><a class="nav-item" href="auth-b4.html">📖 B4 LLM Security</a><a class="nav-item" href="auth-c1.html">🏗️ C1 风险驱动架构</a><a class="nav-item" href="auth-c2.html">🏗️ C2 混沌工程</a><a class="nav-item" href="auth-c3.html">🏗️ C3 领域驱动设计</a><a class="nav-item" href="auth-d1.html">🌐 D1 Google Agent</a><a class="nav-item" href="auth-d2.html">🌐 D2 AWS LLM</a><a class="nav-item" href="auth-d3.html">🌐 D3 OpenAI</a><a class="nav-item" href="auth-e1.html">⚙️ E1 软件工程体系</a><a class="nav-item" href="auth-e2.html">⚙️ E2 MLOps 五层栈</a><a class="nav-item" href="auth-e3.html">⚙️ E3 AI 治理三件套</a><a class="nav-item" href="auth-e4.html">📊 E4 失败率证据</a><a class="nav-item" href="auth-e5.html">⚙️ E5 企业架构标准</a><a class="nav-item" href="auth-e6.html">🏛️ E6 FDE 三原厂</a></div><div class="nav-section"><div class="nav-section-title">工具</div><a class="nav-item" href="glossary.html">📖 专业大词典</a></div></aside>
+<main class="main"><div class="content"><h1 id="07">07 · 专业大词典（术语速查）</h1>
 <blockquote>
 <p>学习路径中反复出现但容易混淆 / 新人才接触的术语，按字母序排列。<br />
 词条解释 = 该术语在企业 AI / FDE / 自媒体语境下的常见用法 + 1-2 句出处。</p>
@@ -1109,87 +763,205 @@ Agent 决定"要不要查 / 查几次 / 查什么"。</p>
 <blockquote>
 <p>见 C1。</p>
 </blockquote>
-</div>
-<div class="footer">
-企业 AI 实战知识库 · 个人成长系统 v3.0 · 数据基于 514 条视频原文 + 110 方法簇 + 162 方法论<br>
-部署于 GitHub Pages · 2026-09-10
-</div>
-</main>
-</div>
-<script>
-// Search functionality
-const searchIndex = [];
-const PAGES = {};
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Build search index from current page content
-  const content = document.querySelector('.content');
-  if (content) {
-    const text = content.innerText.toLowerCase();
-    const title = document.querySelector('h1')?.innerText || '';
-    const headings = Array.from(document.querySelectorAll('h2, h3')).map(h => h.innerText);
-    searchIndex.push({
-      title, headings: headings.join(' '), text: text.substring(0, 5000)
-    });
-  }
-  
-  // Search input
-  const searchInput = document.getElementById('search');
-  if (searchInput) {
-    let timer;
-    searchInput.addEventListener('input', (e) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => doSearch(e.target.value), 200);
-    });
-  }
-  
-  // Highlight current page in nav
-  const path = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-item').forEach(el => {
-    if (el.getAttribute('href') === path) el.classList.add('active');
-  });
-});
-
-function doSearch(q) {
-  if (!q || q.length < 2) return;
-  // Basic in-page highlight (could be enhanced)
-  const content = document.querySelector('.content');
-  if (!content) return;
-  // remove old marks
-  content.querySelectorAll('mark.search-mark').forEach(m => {
-    const t = document.createTextNode(m.textContent);
-    m.parentNode.replaceChild(t, m);
-  });
-  if (q.length < 2) return;
-  // walk text nodes
-  const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
-  const re = new RegExp(q.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&'), 'gi');
-  let count = 0;
-  while (walker.nextNode() && count < 30) {
-    const node = walker.currentNode;
-    if (node.parentNode.tagName === 'SCRIPT' || node.parentNode.tagName === 'STYLE') continue;
-    const text = node.nodeValue;
-    if (!re.test(text)) continue;
-    re.lastIndex = 0;
-    const frag = document.createDocumentFragment();
-    let last = 0;
-    let m;
-    while ((m = re.exec(text)) !== null) {
-      frag.appendChild(document.createTextNode(text.substring(last, m.index)));
-      const mark = document.createElement('mark');
-      mark.className = 'search-mark';
-      mark.style.background = '#ff9a4f';
-      mark.style.color = '#000';
-      mark.textContent = m[0];
-      frag.appendChild(mark);
-      last = m.index + m[0].length;
-      count++;
-      if (count > 30) break;
-    }
-    frag.appendChild(document.createTextNode(text.substring(last)));
-    node.parentNode.replaceChild(frag, node);
-  }
-}
-</script>
-</body>
-</html>
+<h2 id="e-deerflow">E 系列术语（DeerFlow 调研新增）</h2>
+<h3 id="swebok">SWEBOK</h3>
+<p>IEEE 计算机学会发布的《软件工程知识体系指南 V4》——18 个知识领域。</p>
+<blockquote>
+<p>见 <a href="../08-权威支撑/E1-软件工程知识体系.md">08-权威支撑/E1</a>。</p>
+</blockquote>
+<h3 id="iso-12207">ISO 12207</h3>
+<p>ISO/IEC/IEEE 12207:2026《系统与软件工程——软件生命周期过程》——4 大过程组。</p>
+<blockquote>
+<p>见 E1。</p>
+</blockquote>
+<h3 id="ai-maturityai">AI Maturity（AI 成熟度）</h3>
+<p>Gartner 5 级：Awareness → Active → Operational → Systemic → Transformational。</p>
+<blockquote>
+<p>见 <a href="../08-权威支撑/E2-AI工程-MLOps与五层技术栈.md">08-权威支撑/E2</a>。</p>
+</blockquote>
+<h3 id="dora-four-keys">DORA Four Keys</h3>
+<p>DevOps 4 指标：部署频率 / 前置时间 / 失败率 / MTTR。</p>
+<blockquote>
+<p>见 E1。</p>
+</blockquote>
+<h3 id="cmmi">CMMI</h3>
+<p>能力成熟度模型集成，5 级。</p>
+<blockquote>
+<p>见 E1。</p>
+</blockquote>
+<h3 id="mlops">MLOps</h3>
+<p>机器学习运维——把 ML 模型从实验推到生产 + 持续监控的工程实践。</p>
+<blockquote>
+<p>见 E2。</p>
+</blockquote>
+<h3 id="llmops">LLMOps</h3>
+<p>LLM 时代的 MLOps——新增微调、提示管理、向量库编排、RAG、成本控制。</p>
+<blockquote>
+<p>见 E2。</p>
+</blockquote>
+<h3 id="rag_1">RAG（检索增强生成）</h3>
+<p>把私有知识通过检索+生成的两段式架构接入 LLM。</p>
+<blockquote>
+<p>见 <a href="../08-权威支撑/B3-RAG-in-Action.md">08-权威支撑/B3</a> + E2。</p>
+</blockquote>
+<h3 id="5_1">5 层技术栈</h3>
+<p>AI 系统分 5 层：数据 / 模型 / 编排 / 服务 / 治理。</p>
+<blockquote>
+<p>见 E2。</p>
+</blockquote>
+<h3 id="nist-ai-rmf">NIST AI RMF</h3>
+<p>美国 NIST 的 AI 风险管理框架，4 功能：Govern / Map / Measure / Manage。</p>
+<blockquote>
+<p>见 <a href="../08-权威支撑/E3-AI治理-NIST与EUAIAct.md">08-权威支撑/E3</a>。</p>
+</blockquote>
+<h3 id="eu-ai-act">EU AI Act</h3>
+<p>欧盟 AI 法案，4 级风险分级监管。</p>
+<blockquote>
+<p>见 E3。</p>
+</blockquote>
+<h3 id="responsible-ai">Responsible AI</h3>
+<p>负责任 AI 五原则：公平 / 可解释 / 隐私 / 安全 / 问责。</p>
+<blockquote>
+<p>见 E3。</p>
+</blockquote>
+<h3 id="togaf">TOGAF</h3>
+<p>The Open Group 企业架构框架——ADM 10 阶段。</p>
+<blockquote>
+<p>见 <a href="../08-权威支撑/E5-企业架构标准-TOGAF-PMBOK-ISO-WAF.md">08-权威支撑/E5</a>。</p>
+</blockquote>
+<h3 id="pmbok">PMBOK</h3>
+<p>PMI 项目管理体系——PMBOK 8 = 7 绩效域。</p>
+<blockquote>
+<p>见 E5。</p>
+</blockquote>
+<h3 id="iso-42001">ISO 42001</h3>
+<p>ISO/IEC 42001:2023——AI 管理国际标准。</p>
+<blockquote>
+<p>见 E5。</p>
+</blockquote>
+<h3 id="wafwell-architected-framework">WAF（Well-Architected Framework）</h3>
+<p>AWS / Azure / GCP 的云架构最佳实践框架——5-6 支柱同构。</p>
+<blockquote>
+<p>见 E5。</p>
+</blockquote>
+<h3 id="skill_2">Skill 沉淀</h3>
+<p>把一次性的"我做了一遍"打包成可复用"下次直接调"——Anthropic 的 FDE 核心实践。</p>
+<blockquote>
+<p>见 <a href="../08-权威支撑/A1-Anthropic-FDE博客.md">08-权威支撑/A1</a> + E6。</p>
+</blockquote>
+<h3 id="fde_2">FDE 三原厂</h3>
+<p>FDE 这个角色的三大权威定义者：Palantir（发明）+ OpenAI（2025 独立成公司）+ Anthropic（Applied AI 团队）。</p>
+<blockquote>
+<p>见 <a href="../08-权威支撑/E6-FDE三原厂官方-Palantir-OpenAI-Anthropic.md">08-权威支撑/E6</a>。</p>
+</blockquote>
+<h3 id="vdna_1">VDNA</h3>
+<p>FDE 进客户画"业务本体图谱"——DDD 的可视化延伸。</p>
+<blockquote>
+<p>见 <a href="../08-权威支撑/C3-Domain-Driven-Design.md">08-权威支撑/C3</a>。</p>
+</blockquote>
+<h3 id="mvd">MVD（最小可行部署）</h3>
+<p>Palantir 训练营的 MVD 三军规：真实数据 / 缩范围不缩价值 / 定死截止时间。</p>
+<blockquote>
+<p>见 <a href="../08-权威支撑/A1-Anthropic-FDE博客.md">08-权威支撑/A1</a>。</p>
+</blockquote>
+<h3 id="psf-">PSF（问题-方案契合）</h3>
+<p>立项阶段的"三关"过滤器：痛点检验 / 经济性检验 / 可行性检验。</p>
+<blockquote>
+<p>见 38 号 FDE 教程。</p>
+</blockquote>
+<h3 id="_10">失败率证据</h3>
+<p>MIT 95% / BCG 74% / Gartner 45%——AI 项目失败率的三家互证。</p>
+<blockquote>
+<p>见 <a href="../08-权威支撑/E4-AI失败率证据-MIT-BCG-Gartner.md">08-权威支撑/E4</a>。</p>
+</blockquote>
+<h2 id="_11">实战术语速查（按场景分组）</h2>
+<h3 id="30">见客户时的核心术语（30 词）</h3>
+<p>FDE / SOP / PSF / MVD / 5 步报价法 / 4 阶段落地 / 知识库 / RAG / Agent / 护栏 / 风险分级 / L0-L4 / POC / MVP / 评测 / 黄金集 / 失效率 / ROI / 客户健康分 / 灯塔客户 / 灯塔战略 / 排期 / 复制 / 沉淀 / Skill / Harness / 业务回滚 / 数据脱敏 / RBAC / 审计日志</p>
+<h3 id="25">写技术方案时的核心术语（25 词）</h3>
+<p>LLM / GPT-4 / Claude / Kimi / DeepSeek / Qwen / Function Calling / Prompt / RAG / Embedding / 向量库 / Pinecone / Milvus / 模型网关 / Middle Gateway / Trace / 可观测 / 灰度发布 / 金丝雀 / 蓝绿 / DORA / 4 项 / MLOps / LLMOps / LLMOps</p>
+<h3 id="20">团队管理时的核心术语（20 词）</h3>
+<p>CMMI / 5 级 / Scrum / 3 角色 / 5 事件 / 3 工件 / DORA / Sprint / 站会 / 评审会 / 回顾会 / 产品待办 / 增量 / 干系人 / 决策矩阵 / 灯塔战略 / 客户健康分 / 续约 / 增量扩展 / 沉淀 / 团队共享</p>
+<h3 id="15">合规 / 法务时的核心术语（15 词）</h3>
+<p>NIST AI RMF / EU AI Act / ISO 42001 / GDPR / 等保 / 2.0 / 3 级 / SOC 2 / 私有部署 / 数据脱敏 / L0-L3 / RBAC / 审计日志 / 监管报送 / 跨境</p>
+<h2 id="_12">数字 / 符号</h2>
+<h3 id="4_3">4 阶段落地法</h3>
+<p>AI 转型 4 阶段：导入 → 典范 → 扩展 → 生化。</p>
+<blockquote>
+<p>见 <a href="../08-权威支撑/E2-AI工程-MLOps与五层技术栈.md">08-权威支撑/E2</a>。</p>
+</blockquote>
+<h3 id="8-fde">8 阶段 FDE 全流程</h3>
+<p>立项选赛道 → 定义结果 → 调研设计 → POC → 企业集成 → 上线 → 守约 → 复盘。</p>
+<blockquote>
+<p>见 <a href="../03-SOP/SOP-03-FDE 入企交付方向.md">03-SOP/SOP-03</a> v2。</p>
+</blockquote>
+<h3 id="5_2">5 步报价法</h3>
+<p>① 选 5 个业务流 → ② 做 SOP Benchmark → ③ 算省钱数字 → ④ 按价值报 → ⑤ 结果导向合同。</p>
+<blockquote>
+<p>见 27 号 deerflow 调研。</p>
+</blockquote>
+<h3 id="6_1">6 维生产就绪矩阵</h3>
+<p>AWS 评估 LLM 能不能上生产：性能 / 可靠性 / 安全 / 可扩展 / 可观测 / 合规。</p>
+<blockquote>
+<p>见 <a href="../08-权威支撑/D2-AWS-LLM-Production-Framework.md">08-权威支撑/D2</a>。</p>
+</blockquote>
+<h3 id="7">7 个支柱</h3>
+<p>Gartner AI 成熟度评分维度：战略 / 组织 / 人才 / 数据 / 技术 / 治理 / 文化。</p>
+<blockquote>
+<p>见 E2。</p>
+</blockquote>
+<h3 id="4_4">4 项关键指标</h3>
+<p>DORA：部署频率 / 前置时间 / 失败率 / MTTR。</p>
+<blockquote>
+<p>见 E1。</p>
+</blockquote>
+<h3 id="8">8 步交付流</h3>
+<p>B 站 FDE 教程：发现问题 → 定义结果 → 调研 → 设计 → POC → 集成 → 上线 → 持续改进。</p>
+<blockquote>
+<p>见 38 号 FDE 教程。</p>
+</blockquote>
+<h3 id="12">12 阶段工程全景</h3>
+<p>软件工程全生命周期 12 阶段：立项 → 建模 → 需求 → 架构 → 实现 → 测试 → 部署 → 运维 → 监控 → 演进 → 退役 → 变更。</p>
+<blockquote>
+<p>见 25 号 deerflow 调研。</p>
+</blockquote>
+<h3 id="5-sop">5 步轻量交付 SOP</h3>
+<p>业务诊断 → Demo → 实施 → 优化 → 培训。</p>
+<blockquote>
+<p>见 27 号 deerflow 调研。</p>
+</blockquote>
+<h3 id="3-mece">3 轨 MECE</h3>
+<p>企业 AI 落地全景 = 卖/交付（FDE）+ 买/治理（Gartner）+ 工程/标准（AWS）。</p>
+<blockquote>
+<p>见 36 号 deerflow 调研。</p>
+</blockquote>
+<h3 id="l0-l4_1">L0-L4 风险分级</h3>
+<p>L0 只读 / L1 低危写 / L2 中危写 / L3 高危写 / L4 不可逆。</p>
+<blockquote>
+<p>见 <a href="../08-权威支撑/A2-Anthropic生产级Agent白皮书.md">08-权威支撑/A2</a>。</p>
+</blockquote>
+<h3 id="5-sop_1">5 步轻量 SOP（接单）</h3>
+<p>选目标客户 → FDE 三问摸底 → 5 步报价法 → MVD 4 周 Demo → 沉淀案例。</p>
+<blockquote>
+<p>见 <a href="../03-SOP/SOP-01-接单成交方向.md">03-SOP/SOP-01</a>。</p>
+</blockquote>
+<h3 id="5-ip">5 步内容 IP</h3>
+<p>定位 → 轻量高频 → 爆款公式 → AI 替你熬夜 → 导流私域。</p>
+<blockquote>
+<p>见 <a href="../03-SOP/SOP-02-内容 IP 方向.md">03-SOP/SOP-02</a>。</p>
+</blockquote>
+<h3 id="5-agent">5 步 Agent 自武装</h3>
+<p>按岗位设计 → 白嫖先跑 → agents.md 硬规则 → 多 AI 互审 → 沉淀 Skill。</p>
+<blockquote>
+<p>见 <a href="../03-SOP/SOP-04-Agent 工具链方向.md">03-SOP/SOP-04</a>。</p>
+</blockquote>
+<h3 id="5_3">5 步行业深耕</h3>
+<p>选最痛环节 → 盘点数据 → 刚性自动化 → 量化对比 → 行业方案。</p>
+<blockquote>
+<p>见 <a href="../03-SOP/SOP-05-行业深耕方向.md">03-SOP/SOP-05</a>。</p>
+</blockquote>
+<h3 id="5_4">5 步认知升级</h3>
+<p>风格库 → 5 段式提问 → 4 遍精读法 → 复盘判断 → 元命题。</p>
+<blockquote>
+<p>见 <a href="../03-SOP/SOP-06-认知升级方向.md">03-SOP/SOP-06</a>。</p>
+</blockquote></div></main></div>
+<script>document.addEventListener('DOMContentLoaded',()=>{const path=window.location.pathname.split('/').pop()||'index.html';document.querySelectorAll('.nav-item').forEach(el=>{if(el.getAttribute('href')===path)el.classList.add('active')})});</script></body></html>

@@ -1,702 +1,372 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>04 · 工具链（47 个要点） · 企业 AI 实战知识库</title>
-<meta name="description" content="基于 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径，构建的 FDE/AI落地 实战知识库">
-<style>
-:root {
-  --bg: #0f1419;
-  --bg-elevated: #1a2028;
-  --bg-card: #232a35;
-  --border: #2d3540;
-  --text: #e6e6e6;
-  --text-dim: #9aa5b1;
-  --text-bright: #ffffff;
-  --accent: #4f9eff;
-  --accent-hover: #6bb0ff;
-  --warning: #ff9a4f;
-  --success: #4fdf9a;
-  --code-bg: #0a0e13;
-  --shadow: 0 2px 12px rgba(0,0,0,0.3);
-}
-* { box-sizing: border-box; }
-html, body {
-  margin: 0; padding: 0;
-  font-family: -apple-system, "SF Pro Display", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.65;
-  font-size: 15px;
-}
-a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
-a:hover { color: var(--accent-hover); }
-
-/* Layout */
-.app {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  min-height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  background: var(--bg-elevated);
-  border-right: 1px solid var(--border);
-  padding: 24px 0;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow-y: auto;
-}
-.brand {
-  padding: 0 24px 24px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 16px;
-}
-.brand h1 {
-  margin: 0;
-  font-size: 18px;
-  color: var(--text-bright);
-  font-weight: 600;
-}
-.brand .sub {
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 4px;
-}
-.search-box {
-  margin: 0 24px 16px;
-  position: relative;
-}
-.search-box input {
-  width: 100%;
-  padding: 8px 12px 8px 32px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
-  font-size: 13px;
-}
-.search-box input:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-.search-box::before {
-  content: "🔍";
-  position: absolute;
-  left: 10px; top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  opacity: 0.5;
-}
-.nav-section {
-  margin-bottom: 8px;
-}
-.nav-section-title {
-  padding: 8px 24px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.nav-item {
-  display: block;
-  padding: 8px 24px;
-  color: var(--text);
-  font-size: 13px;
-  border-left: 3px solid transparent;
-  transition: all 0.15s;
-}
-.nav-item:hover {
-  background: var(--bg-card);
-  border-left-color: var(--accent);
-}
-.nav-item.active {
-  background: var(--bg-card);
-  border-left-color: var(--accent);
-  color: var(--text-bright);
-}
-.nav-item .desc {
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-top: 2px;
-}
-
-/* Main content */
-.main {
-  padding: 40px 56px;
-  max-width: 980px;
-  margin: 0 auto;
-  width: 100%;
-}
-.content h1 {
-  color: var(--text-bright);
-  font-size: 32px;
-  margin: 0 0 8px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
-}
-.content > blockquote {
-  border-left: 4px solid var(--accent);
-  padding: 8px 16px;
-  margin: 16px 0 24px;
-  background: var(--bg-elevated);
-  border-radius: 0 6px 6px 0;
-  color: var(--text-dim);
-}
-.content h2 {
-  color: var(--text-bright);
-  font-size: 24px;
-  margin: 40px 0 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-}
-.content h3 {
-  color: var(--text-bright);
-  font-size: 18px;
-  margin: 28px 0 12px;
-}
-.content h4 {
-  color: var(--text);
-  font-size: 15px;
-  margin: 20px 0 8px;
-}
-.content p {
-  margin: 12px 0;
-}
-.content ul, .content ol {
-  padding-left: 24px;
-}
-.content li { margin: 4px 0; }
-.content code {
-  background: var(--code-bg);
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-family: "SF Mono", Menlo, monospace;
-  font-size: 13px;
-  color: var(--accent);
-}
-.content pre {
-  background: var(--code-bg);
-  padding: 16px;
-  border-radius: 6px;
-  overflow-x: auto;
-  border: 1px solid var(--border);
-}
-.content pre code {
-  background: none;
-  padding: 0;
-  color: var(--text);
-}
-.content table {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 16px 0;
-  font-size: 13px;
-}
-.content th {
-  background: var(--bg-elevated);
-  text-align: left;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  color: var(--text-bright);
-}
-.content td {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-}
-.content blockquote {
-  border-left: 4px solid var(--border);
-  padding: 4px 16px;
-  margin: 16px 0;
-  color: var(--text-dim);
-  background: var(--bg-elevated);
-}
-.content hr {
-  border: 0;
-  border-top: 1px solid var(--border);
-  margin: 32px 0;
-}
-
-/* Cards for KB pages */
-.video-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px 20px;
-  margin: 16px 0;
-}
-.video-meta {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 8px;
-}
-.video-meta .author { color: var(--accent); font-weight: 500; }
-.video-meta a { color: var(--text-dim); }
-.video-meta a:hover { color: var(--accent); }
-.video-meta .badge {
-  background: var(--bg-elevated);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-}
-.video-meta .badge.high { background: #2d4a3a; color: var(--success); }
-.video-meta .badge.sub { background: #2d3a4a; color: var(--accent); }
-.video-insight {
-  background: var(--code-bg);
-  border-left: 3px solid var(--accent);
-  padding: 12px 16px;
-  margin: 12px 0;
-  font-size: 13px;
-  white-space: pre-wrap;
-  border-radius: 0 6px 6px 0;
-}
-details {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 16px;
-  margin: 12px 0;
-}
-details summary {
-  cursor: pointer;
-  color: var(--accent);
-  font-size: 13px;
-}
-details[open] summary { margin-bottom: 12px; }
-details pre {
-  margin: 0;
-  font-size: 13px;
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-/* Footer */
-.footer {
-  margin-top: 60px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
-  color: var(--text-dim);
-  font-size: 12px;
-  text-align: center;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; }
-  .sidebar { position: relative; height: auto; }
-  .main { padding: 24px; }
-}
-
-/* Mermaid-style simple diagrams */
-.diagram {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-  margin: 16px 0;
-  font-family: "SF Mono", Menlo, monospace;
-  font-size: 12px;
-  white-space: pre;
-  overflow-x: auto;
-  line-height: 1.5;
-}
-</style>
-
-</head>
-<body>
-<div class="app">
-<aside class="sidebar">
-<div class="brand">
-<h1>企业 AI 实战知识库</h1>
-<div class="sub">个人成长系统 v3.0</div>
-</div>
-<div class="search-box">
-<input type="text" id="search" placeholder="搜索本页内容..." />
-</div>
-<div class="nav-section">
-<div class="nav-section-title">总览</div>
-<a class="nav-item" href="index.html">🏠 知识体系<div class="desc">00-知识体系</div></a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">核心方法论</div>
-<a class="nav-item" href="method.html">📐 方法论总纲<div class="desc">162 条原则</div></a>
-<a class="nav-item active" href="tools.html">🛠️ 工具链<div class="desc">47 个要点</div></a>
-<a class="nav-item" href="lines.html">🎙️ 话术弹药<div class="desc">22 句金句</div></a>
-<a class="nav-item" href="pits.html">⚠️ 避坑清单<div class="desc">13 个错误</div></a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">可执行 SOP</div>
-<a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a>
-<a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a>
-<a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a>
-<a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a>
-<a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a>
-<a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a>
-<a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">知识库 · 9 大主题</div>
-<a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a>
-<a class="nav-item" href="kb-02.html">🤖 智能体·OpenClaw</a>
-<a class="nav-item" href="kb-03.html">💻 AI 编程工具链</a>
-<a class="nav-item" href="kb-04.html">💰 商业案例·变现</a>
-<a class="nav-item" href="kb-05.html">🎨 AI 内容创作</a>
-<a class="nav-item" href="kb-06.html">📣 自媒体·获客</a>
-<a class="nav-item" href="kb-07.html">🧰 效率工具·知识管理</a>
-<a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a>
-<a class="nav-item" href="kb-09.html">📦 自己的内容资产</a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">工具</div>
-<a class="nav-item" href="glossary.html">📖 专业大词典<div class="desc">50+ 术语</div></a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">权威支撑（新增）</div>
-<a class="nav-item" href="auth-index.html">📚 权威支撑总览<div class="desc">12 个来源</div></a>
-<a class="nav-item" href="auth-a1.html">A1 · Anthropic FDE 博客<div class="desc">一手权威</div></a>
-<a class="nav-item" href="auth-a2.html">A2 · Anthropic Agent 白皮书<div class="desc">Harness/护栏</div></a>
-<a class="nav-item" href="auth-a3.html">A3 · Anthropic Agent 评估<div class="desc">可验证标准</div></a>
-<a class="nav-item" href="auth-b1.html">B1 · LLM 应用生产化<div class="desc">Pete Hunt</div></a>
-<a class="nav-item" href="auth-b2.html">B2 · Agentic Systems<div class="desc">O'Reilly</div></a>
-<a class="nav-item" href="auth-b3.html">B3 · RAG in Action<div class="desc">知识库工程</div></a>
-<a class="nav-item" href="auth-b4.html">B4 · LLM Security<div class="desc">安全与合规</div></a>
-<a class="nav-item" href="auth-c1.html">C1 · 风险驱动架构<div class="desc">方法论</div></a>
-<a class="nav-item" href="auth-c2.html">C2 · 混沌工程<div class="desc">Netflix</div></a>
-<a class="nav-item" href="auth-c3.html">C3 · DDD 领域驱动<div class="desc">Eric Evans</div></a>
-<a class="nav-item" href="auth-d1.html">D1 · Google Agent<div class="desc">厂商框架</div></a>
-<a class="nav-item" href="auth-d2.html">D2 · AWS LLM 框架<div class="desc">厂商框架</div></a>
-<a class="nav-item" href="auth-d3.html">D3 · OpenAI Agent<div class="desc">厂商框架</div></a>
-</div>
-</aside>
-<main class="main">
-<div class="content">
-<h1 id="04-47">04 · 工具链（47 个要点）</h1>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>工具链 · 企业 AI 实战知识库</title><style>:root{--bg:#0f1419;--bg-elevated:#1a2028;--bg-card:#232a35;--border:#2d3540;--text:#e6e6e6;--text-dim:#9aa5b1;--text-bright:#fff;--accent:#4f9eff;--accent-hover:#6bb0ff;--warning:#ff9a4f;--success:#4fdf9a;--gold:#ffd24f;--silver:#c0c8d0;--bronze:#cd7f32;--code-bg:#0a0e13}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family:-apple-system,"SF Pro Display","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.65;font-size:15px}
+a{color:var(--accent);text-decoration:none;transition:color .15s}a:hover{color:var(--accent-hover)}
+.app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+.sidebar{background:var(--bg-elevated);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{padding:0 24px 24px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.brand h1{margin:0;font-size:18px;color:var(--text-bright);font-weight:600}
+.brand .sub{font-size:12px;color:var(--text-dim);margin-top:4px}
+.nav-section{margin-bottom:8px}
+.nav-section-title{padding:8px 24px;font-size:11px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em}
+.nav-item{display:block;padding:8px 24px;color:var(--text);font-size:13px;border-left:3px solid transparent;transition:all .15s}
+.nav-item:hover{background:var(--bg-card);border-left-color:var(--accent)}
+.nav-item.active{background:var(--bg-card);border-left-color:var(--accent);color:var(--text-bright)}
+.nav-item .desc{font-size:11px;color:var(--text-dim);margin-top:2px}
+.main{padding:40px 56px;max-width:980px;margin:0 auto;width:100%}
+.content h1{color:var(--text-bright);font-size:32px;margin:0 0 8px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.content>blockquote{border-left:4px solid var(--accent);padding:8px 16px;margin:16px 0 24px;background:var(--bg-elevated);border-radius:0 6px 6px 0;color:var(--text-dim)}
+.content h2{color:var(--text-bright);font-size:24px;margin:40px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.content h3{color:var(--text-bright);font-size:18px;margin:28px 0 12px}
+.content p{margin:12px 0}
+.content ul,.content ol{padding-left:24px}.content li{margin:4px 0}
+.content code{background:var(--code-bg);padding:2px 6px;border-radius:3px;font-family:"SF Mono",Menlo,monospace;font-size:13px;color:var(--accent)}
+.content pre{background:var(--code-bg);padding:16px;border-radius:6px;overflow-x:auto;border:1px solid var(--border)}
+.content pre code{background:none;padding:0;color:var(--text)}
+.content table{border-collapse:collapse;width:100%;margin:16px 0;font-size:13px}
+.content th{background:var(--bg-elevated);text-align:left;padding:8px 12px;border:1px solid var(--border);color:var(--text-bright)}
+.content td{padding:8px 12px;border:1px solid var(--border)}
+.content blockquote{border-left:4px solid var(--border);padding:4px 16px;margin:16px 0;color:var(--text-dim);background:var(--bg-elevated)}
+.content hr{border:0;border-top:1px solid var(--border);margin:32px 0}
+@media (max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.main{padding:24px}}</style></head>
+<body><div class="app"><aside class="sidebar"><div class="brand"><h1>企业 AI 实战知识库</h1><div class="sub">个人成长系统 v3.0</div></div><div class="nav-section"><div class="nav-section-title">总览</div><a class="nav-item" href="index.html">🏠 知识体系</a></div><div class="nav-section"><div class="nav-section-title">核心方法论</div><a class="nav-item" href="method.html">📐 方法论总纲</a><a class="nav-item" href="top30.html">⭐ TOP 30 精华</a><a class="nav-item" href="tools.html">🛠️ 工具链</a><a class="nav-item" href="lines.html">🎙️ 话术弹药</a><a class="nav-item" href="pits.html">⚠️ 避坑清单</a></div><div class="nav-section"><div class="nav-section-title">可执行 SOP</div><a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a><a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a><a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a><a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a><a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a><a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a><a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a></div><div class="nav-section"><div class="nav-section-title">知识库</div><a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a><a class="nav-item" href="kb-02.html">🤖 智能体·OpenClaw</a><a class="nav-item" href="kb-03.html">💻 AI 编程工具链</a><a class="nav-item" href="kb-04.html">💰 商业案例·变现</a><a class="nav-item" href="kb-05.html">🎨 AI 内容创作</a><a class="nav-item" href="kb-06.html">📣 自媒体·获客</a><a class="nav-item" href="kb-07.html">🧰 效率工具·知识管理</a><a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a><a class="nav-item" href="kb-09.html">📦 自己的内容资产</a></div><div class="nav-section"><div class="nav-section-title">权威支撑</div><a class="nav-item" href="auth-index.html">📚 权威支撑总览</a><a class="nav-item" href="auth-a1.html">🏛️ A1 Anthropic FDE</a><a class="nav-item" href="auth-a2.html">🏛️ A2 生产级 Agent</a><a class="nav-item" href="auth-a3.html">🏛️ A3 企业评估</a><a class="nav-item" href="auth-b1.html">📖 B1 LLM Apps</a><a class="nav-item" href="auth-b2.html">📖 B2 Agentic Systems</a><a class="nav-item" href="auth-b3.html">📖 B3 RAG in Action</a><a class="nav-item" href="auth-b4.html">📖 B4 LLM Security</a><a class="nav-item" href="auth-c1.html">🏗️ C1 风险驱动架构</a><a class="nav-item" href="auth-c2.html">🏗️ C2 混沌工程</a><a class="nav-item" href="auth-c3.html">🏗️ C3 领域驱动设计</a><a class="nav-item" href="auth-d1.html">🌐 D1 Google Agent</a><a class="nav-item" href="auth-d2.html">🌐 D2 AWS LLM</a><a class="nav-item" href="auth-d3.html">🌐 D3 OpenAI</a><a class="nav-item" href="auth-e1.html">⚙️ E1 软件工程体系</a><a class="nav-item" href="auth-e2.html">⚙️ E2 MLOps 五层栈</a><a class="nav-item" href="auth-e3.html">⚙️ E3 AI 治理三件套</a><a class="nav-item" href="auth-e4.html">📊 E4 失败率证据</a><a class="nav-item" href="auth-e5.html">⚙️ E5 企业架构标准</a><a class="nav-item" href="auth-e6.html">🏛️ E6 FDE 三原厂</a></div><div class="nav-section"><div class="nav-section-title">工具</div><a class="nav-item" href="glossary.html">📖 专业大词典</a></div></aside>
+<main class="main"><div class="content"><h1 id="04-47">04 · 工具链（47 个要点 · 实战版）</h1>
 <blockquote>
-<p>武装自己用的工具栈，分场景讲。</p>
+<p>自用工具栈，按场景分。每条标"用 / 不用"判断 + 工具组合 + 入门指南。</p>
 </blockquote>
-<h3 id="01-rpa-ai">01. 自动化真相: RPA是底, AI是增强</h3>
-<p>电商自动化≠AI玄学。后台操作=流水线, 正经公司早用RPA了; AI大幅降低RPA门槛、扩展能力范围。</p>
-<blockquote>
-<p>出处：时来</p>
-</blockquote>
-<h3 id="02-codexplaywright">02. Codex+Playwright 做业务自动化</h3>
-<p>实测2-3天跑通电商自动上架。但每平台页面/逻辑不同要重建脚本(别以为能复制); 现实流程=人工备好产品资料→Codex整理→Playwright上架。破除给张图就自动上架的幻想。</p>
-<blockquote>
-<p>出处：芒果林奇</p>
-</blockquote>
-<h3 id="03-demo">03. 零编程交付demo</h3>
-<p>用Codex把客户的一个手工工作流当场变成工具/App——这是展示AI生产力最强的一击。</p>
-<blockquote>
-<p>出处：才紫哥/木子</p>
-</blockquote>
-<h3 id="04">04. 低成本启动</h3>
-<p>国产模型(DeepSeek/GLM/Kimi)驱动Codex无需OpenAI账号; 交付成本结构能压很低。</p>
-<blockquote>
-<p>出处：马克</p>
-</blockquote>
-<h3 id="05">05. 数据分层</h3>
-<p>原始数据单独建仓→按使用维度清洗→进主库。别把脏乱数据直接丢进知识库。</p>
-<blockquote>
-<p>出处：点力中国</p>
-</blockquote>
-<h3 id="06-aiskill">06. AI自我优化Skill法</h3>
-<p>把模糊需求拆成功能、技术、输出、标准四个维度，并生成验收清单。让AI从抽象程度、约束条件、扮演角色等3-5个维度生成不同侧重点的Prompt，每个Prompt先出第一版，AI自己打分找短板，针对性修改，循环迭代直到达标或跑满5轮。最后对比所有Prompt的迭代结果，选出最优版本交付。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-<h3 id="07-skills">07. 龙虾Skills串联自动化法</h3>
-<p>用3个龙虾skills串联实现全流程自动化：先装播客URL转Markdown的skill提取口播稿；再让龙虾分析对标博主文章提炼风格，结合个人介绍定制写作skill；最后配置公众号AppID和Secret，把电脑IP加入白名单，实现文章自动进入草稿箱。建议先跑通小闭环再持续优化。</p>
-<blockquote>
-<p>出处：引2条: 王总/实操</p>
-</blockquote>
-<h3 id="08">08. 固定脚本防漂移法</h3>
-<p>用PlayWire自动化框架+固定脚本让AI稳定执行操作，通过屏幕识别定位元素（约1秒），比按DOM布局查找更快更轻。核心代码约400行，实现找图片路径、截图辅助、登录、文件定位4个方法。用固定脚本流程不让模型自由发挥，避免操作漂移。</p>
-<blockquote>
-<p>出处：引3条: 王总/实操</p>
-</blockquote>
-<h3 id="09-agent">09. 目标驱动双Agent分工法</h3>
-<p>别只把AI当聊天工具，要接入Agent工作流测试真实能力。用'目标+完成标准'提示词突破输出限制，让两个Agent分工（一个执行、一个检查），实现长时间持续运行。测试任务拆解能力时，给完整目标观察它能否自主检查工具、拆分步骤并基于中间结果持续推进。</p>
-<blockquote>
-<p>出处：引4条: 王总/实操</p>
-</blockquote>
-<h3 id="10-8skill">10. 8个核心Skill开挂法</h3>
-<p>别把OpenClaw当聊天机器人，按顺序装8个核心Skill：先装skillveter安全门卫防恶意代码；用findskills按需求自动匹配技能；装tavilysearch补实时搜索；装agentmemory实现跨对话长期记忆；装agentbrowser操控浏览器；装gog接入办公全家桶；装selfimprovingagent记录错误主动复盘；装summarize做长文档秒级总结。</p>
-<blockquote>
-<p>出处：引10条: 王总/实操</p>
-</blockquote>
-<h3 id="11">11. 源码知识源问答法</h3>
-<p>用豆包编程模式+开源仓库链接解决工具使用问题：打开编程模式点击'使用开源仓库'，粘贴GitHub源码链接添加为知识源，之后所有问题AI都会先翻源码再回答。遇到近期更新导致的异常，AI能检查最近10天提交的代码给出准确原因。务必用'思考'模式而非'快速'模式，快速模式会偷懒检索不彻底。</p>
-<blockquote>
-<p>出处：引11条: 王总/实操</p>
-</blockquote>
-<h3 id="12-cli-anything">12. CLI-Anything专业软件操控法</h3>
-<p>用港大开源CLI-Anything让AI直接操控30多款专业软件（剪视频、修图、做PPT等），突破只能操作浏览器的限制。原理是自动扫描软件源代码生成标准命令行接口，AI通过调用命令行操控软件而非模拟点击。可对接OpenClaw、Cloud Code、Cursor等主流AI工具，GitHub搜索'CLI-Anything'即可获取。</p>
-<blockquote>
-<p>出处：引12条: 王总/实操</p>
-</blockquote>
-<h3 id="13-4skill">13. 4组Skill生产力配置法</h3>
-<p>真正决定AI生产力上限的是Skill配置而非工具本身。装4组跨平台通用Skill：Skill Creator用大白话描述工作流自动生成新Skill；Find Skills直接派任务让Agent自主搜索安装；Superpowers强制红绿重构测试驱动循环，写代码后自动两轮内部审计；Gstack内置23个专家角色，用office hours反问问题、qa命令真开浏览器验证、ship命令自动测试推代码。</p>
-<blockquote>
-<p>出处：引19条: 王总/实操</p>
-</blockquote>
-<h3 id="14-ai">14. 多AI董事会审核法</h3>
-<p>给AI编程工具配多个AI'同事'互相审核代码，大幅减少返工。主AI写完代码后自动触发其他几位AI轮流审核互相挑刺，有分歧继续讨论直到达成一致。配置方法：把配置说明文章丢给任意一个AI让它自动搭建。复杂任务才用这套机制，简单任务直接让一个AI改就行。配置好后可通过手机查看AI们的'开会'进度。</p>
-<blockquote>
-<p>出处：引22条: 王总/实操</p>
-</blockquote>
-<h3 id="15-codex">15. 飞书+Codex办公自动化法</h3>
-<p>用飞书+Codex把调研、文档、表格等重复工作全流程自动化：直接下指令让Codex自动搜索整理成飞书多维表格含品牌、价格、来源链接；基于表格生成图文分析文档自动排版配色；把文档转成HTML网页看板比PPT更直观；把Excel丢给Codex同步到多维表格并自动打优先级（P0/P1/P2）给出跟进建议。半小时干完原来几天的手工活。</p>
-<blockquote>
-<p>出处：引23条: 王总/实操</p>
-</blockquote>
-<h3 id="16-codex">16. Codex权限分级与计划模式法</h3>
-<p>用Codex时分清两种协作模式：项目模式适合长期任务可新建或使用现有文件夹，对话模式适合临时查询。权限分默认（仅访问项目文件）、自动审查（低风险自动放行）、完全控制（需谨慎），新手选默认。计划模式让AI先出方案确认后再执行，避免乱改文件。可在同一项目下开多个对话并行干活，对话中随时补充新要求AI会在下次操作时插入。</p>
-<blockquote>
-<p>出处：引24条: 王总/实操</p>
-</blockquote>
-<h3 id="17">17. 飞书官方插件授权操作法</h3>
-<p>用飞书官方插件让OpenClaw以你的身份操作飞书：先装好OpenClaw，控制台设置开启'弱模式'，把飞书插件配置段复制进配置，权限改为'复'。安装插件后手机飞书扫码自动创建机器人，输入'/飞书OS'批量授权。之后直接用自然语言下指令如'给老板发消息说我请假'，AI会申请权限并代你操作。注意用测试号别在真实公司环境使用。</p>
-<blockquote>
-<p>出处：引25条: 王总/实操</p>
-</blockquote>
-<h3 id="18-codex">18. Codex必装插件与模式选择法</h3>
-<p>用Codex时左侧'能力区'决定能调用啥工具，右侧'工作区'用来对话下指令。必装插件：Computer Use（控制电脑）、Remotion（动画渲染）、Hyperframe（视频生成），Notion、Figma按需装。需求没想清楚选'计划模式'先列步骤，目标明确选'目标模式'自动干到完。新手权限选'默认'关键节点需确认，别选'完全访问'。干活时想到新点子直接打字发送并点'引导'优先响应。</p>
-<blockquote>
-<p>出处：引26条: 王总/实操</p>
-</blockquote>
-<h3 id="19-agent">19. Agent硬规则防翻车法</h3>
-<p>AI Agent部署翻车往往不是能力问题而是规则太松。在agents.md里写两条硬规则：失败透明（出错必须停下报告不许偷偷绕过）和真品验证（部署的必须是真品不许用替代品）。只下总指令给足权限，过程细节全交给AI自己处理。遇到岔子它会主动报错说明原因并给你三个方案选择。别只检查'结果成功'的状态提示，要测试对话反应是否自然判断真伪。</p>
-<blockquote>
-<p>出处：引28条: 王总/实操</p>
-</blockquote>
-<h3 id="20">20. 浏览器底层指纹伪装法</h3>
-<p>与其用易失效的伪装脚本，不如直接修改浏览器底层代码让自动化环境本身看起来就像真实用户。在开源浏览器源码上打49个补丁重新编译，覆盖画布、3D图形、音频、字体、显卡、屏幕、网络地址及加密协议等维度，官方测试可通过30个主流反爬站点。开启人性化开关后鼠标走平滑曲线、按键有随机延迟、滚动模拟真实节奏。适合数据采集、多账号管理、自动化测试。</p>
-<blockquote>
-<p>出处：引29条: 王总/实操</p>
-</blockquote>
-<h3 id="21-hermesuidockeropen-web-ui">21. Hermes装网页UI：Docker+Open Web UI四步法</h3>
-<p>先装Docker并启动Hermes网关，看到'Already Running'即成功；然后在ENV文件里设置一个自定义Service Key，Docker启动Open Web UI时填入完全相同的Key；最后用邮箱注册登录网页界面即可。注意两处Key必须一字不差，否则连不上。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-<h3 id="22-aiai">22. AI编程从'任务'升级到'岗位'：设定完整流程让AI自动交付</h3>
-<p>别让AI只做一次性任务，而是设定完整岗位流程，如'每天8点看资讯→选材→排版→发布'，AI会自动交付。像招实习生一样给AI写岗位说明书(SOP)：写清楚要做什么、怎么做、每一步怎么判断做好了、什么时候需要找你商量、什么时候主动汇报——用业务语言写，别用技术语言，AI能看懂名校实习生能看懂的文档。用手机随时派活，发完就关，等结果即可。开多个群分管不同事务，设置自动触发条件，AI主动汇报进度。注意AI无法触碰物理世界，关键决策仍需人类拍板。</p>
-<blockquote>
-<p>出处：刘小排</p>
-</blockquote>
-<h3 id="23-mvp">23. 零编程做产品四步法：痛点→体验→MVP→验证</h3>
-<p>从自己真实痛点出发（如导出博主文案做分析），先体验4-5个同类工具找它们做不到的事，用Codex做MVP上闲鱼卖，有人买+求定制=需求成立，再正式开发。一个小痛点就够，工具赚钱不用大。</p>
-<blockquote>
-<p>出处：引8条: Alex的实践笔记/实操</p>
-</blockquote>
-<h3 id="24-codex">24. Codex做网页三步法：先问逻辑→参考匹配→丢图分类</h3>
-<p>先让Codex反问你问题完善逻辑，不会答就跳过；给参考网站时别说'照抄'，让它分析视觉语言并结合项目定位重新设计；图片一股脑丢进文件夹，让它自己识别分类匹配。先要带占位符的网页骨架，再填素材。</p>
-<blockquote>
-<p>出处：引9条: 王总/实操</p>
-</blockquote>
-<h3 id="25-codex">25. Codex基础配置清单：免请求+记忆+浏览器操控</h3>
-<p>装好Codex后先做四件事：①选功能模式（编程选第一种，办公选第二种）；②批准策略设'unrequest'，工作区设'workspace right'；③个性化里选'简洁专注和直接'并勾选'启用记忆'；④开启浏览器控制和computer use，让它能操作网页和电脑。其他设置保持默认即可。</p>
-<blockquote>
-<p>出处：引18条: 王总/实操</p>
-</blockquote>
-<h3 id="26-codexcomputer-use">26. Codex剪视频正确姿势：直接处理素材+插件，别用computer use</h3>
-<p>别让Codex操控剪映界面（computer use模式），又慢又费token。正确做法：让Codex直接处理素材、分析内容、完成剪辑并导出，实测30秒口播素材全程13分钟，token花费不到8毛。提前装好剪辑插件，打开'自动审核'和'完全访问权限'减少确认弹窗。</p>
-<blockquote>
-<p>出处：引20条: 王总/实操</p>
-</blockquote>
-<h3 id="27-vibe-codingai">27. Vibe Coding核心心法：先当产品经理，让AI填细节</h3>
-<p>把需求写清楚，让AI预估工期和功能点，诱导它反问你问题。大需求必须分期（一期/二期/三期）并输出设计文档，明确每期'做什么'和'不做什么'。文档分两层：概要设计定技术栈，详细设计定页面/组件/API。架构图和业务流程图必画，提前用测试锁住核心逻辑防回归。</p>
-<blockquote>
-<p>出处：引22条: 王总/实操</p>
-</blockquote>
-<h3 id="28">28. 动手前先过'三问'过滤器：现成方案？时间值多少？能复用吗？</h3>
-<p>动手前先搜现成方案（淘宝/外包/SaaS），有就直接买服务。算清自己时间单价，比如时薪200元，花2小时自己搞=成本400元，远超16元外包费就立刻止损。做出来的东西如果只自己用一次，价值≈0；能复用、能卖钱才值得自己写。</p>
-<blockquote>
-<p>出处：引24条: 王总/实操</p>
-</blockquote>
-<h3 id="29-hyperframesbuilder">29. HyperFrames剪视频：先用Builder逼自己想清楚</h3>
-<p>HyperFrames本质是让AI写代码在浏览器渲染画面逐帧截图合成视频，擅长动效/转场/字幕，做不了实拍。先装HyperFrames插件和VideoSpecBuilder，用Builder五步追问定基本盘/盘素材/激发表达手段/定视觉主题/给参考，输出执行文档后HyperFrames照着执行。前期想得越透，后期返工越少。</p>
-<blockquote>
-<p>出处：引25条: 王总/实操</p>
-</blockquote>
-<h3 id="30-plan-mode">30. 小白提需求模板：Plan Mode+分步开发防失忆</h3>
-<p>首次提需求用模板：①说'我是小白，想做XX软件'；②用大白话描述功能和问题；③描述页面长什么样；④加一句'你先整理需求，不确定就问我，确认后再执行'。开启Plan Mode让AI先梳理需求，用选择题方式回答。告诉AI'别一口气做完，先规划开发步骤，一步步来'，并让它建'开发日志'和'文档'文件夹。</p>
-<blockquote>
-<p>出处：引27条: 王总/实操</p>
-</blockquote>
-<h3 id="31-codexobsidian">31. Codex+Obsidian生图工作流：总控笔记+人物备忘录+量化提示词</h3>
-<p>让Codex读文章生成'配图项目总控笔记'存Obsidian，追问收敛方案并补充'禁止出现'元素。新建'人物一致性备忘录'明确年龄/发型/穿搭/拍摄风格，要求标准照和三视图。新建'场景清单'列出编号/位置/用途/必须禁止元素。提示词要量化，别写'美女、氛围感'，要写'28岁、黑色中长发、米白外套、自然光'。</p>
-<blockquote>
-<p>出处：引32条: 王总/实操</p>
-</blockquote>
-<h3 id="32-codex">32. Codex自媒体运营自动化：底层文档+定期刷新+技能沉淀</h3>
-<p>先让AI读取创作者中心数据，沉淀粉丝画像/账号定位/内容策略三个固定文档。定期让AI重新抓取数据对比旧文档自动刷新策略。基于更新后的策略让AI搜索同行爆款产出选题，沉淀为可调用的skills。拍完导出字幕丢给AI，自动生成封面/标题/描述/标签。每次生成后让AI总结可优化经验，确认后更新进skills库。</p>
-<blockquote>
-<p>出处：引34条: 王总/实操</p>
-</blockquote>
-<h3 id="33-ai">33. AI信息分拣台：收藏夹变知识生产线</h3>
-<p>浏览器插件/手机分享/手动添加，所有信息汇入一个工作台生成待处理任务卡。每条内容先让AI结合你的背景做预分析，判断'跟我有啥关系、值不值得深读、能不能当素材'。有价值的进Obsidian加批注，能当素材的一键转选题，AI按你语气先写1-2分钟脚本。AI定期生成周报/月报推送。注意别让AI替你做价值判断，最终'要不要用'必须自己拍板。</p>
-<blockquote>
-<p>出处：引21条: 王总/实操</p>
-</blockquote>
-<h3 id="34-vibe-coding">34. Vibe Coding雷达选项目法</h3>
-<p>用Vibe Coding雷达网站找第一个AI编程项目，项目分三类：最好玩（炫技演示）、最好用（提升效率）、最好搓（硬件实体），按兴趣选方向。每个项目配四件套：为什么值得做、适合什么新手、效果演示怎么做、一份可直接丢给Codex的开工提示词，提示词里带原项目链接方便复现改造。</p>
-<blockquote>
-<p>出处：引2条: 王总/实操</p>
-</blockquote>
-<h3 id="35-hook">35. Hook强制约束法</h3>
-<p>在Claude Code的对话生命周期节点（session开始/结束、每轮对话开始/结束、工具调用）上挂hook，强制检测关键产出物是否生成，没生成就触发执行。比把要求写进Claude.md或提示词更可靠，大模型不会'忘记'执行。Codex可用Real Cloud SDK的hook系统实现类似功能。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-<h3 id="36-ai">36. AI视频特效分段制作法</h3>
-<p>做AI视频特效选Remotion（按帧控制、生态成熟、个人免费）而非Hyperframes（训练数据少、调试成本高）。开头让AI先转写口播稿并打时间码，分段制作：先只做开头20-30秒样板确认风格，再用720p占位制作，满意后导出4K。把做好的结构沉淀成Skill或模板复用。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-<h3 id="37-ai">37. AI状态自检开场法</h3>
-<p>与AI协作开场时，先问'状态正常吗'引导其用'大脑在线、思维清晰、工具就位、数据完整'回应，再让AI说出你的个性化偏好（如工作节奏、兴趣领域）证明记忆，最后分3点汇报近期学习成果，结尾反问'你最近有啥新发现'把单向汇报变双向交流。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-<h3 id="38-codex">38. 教师用Codex做课件法</h3>
-<p>不会编程的老师，先找ChatGPT/豆包说清'我是XX老师，讲XX课，想要学生能拖动参数看函数变化'，让它生成给Codex的详细提示词。把提示词复制进Codex，口头补充'界面清楚、学生能看懂、老师能操作'，点'追求目标'按钮约10分钟出第一版。不满意直接截图发回用大白话提修改。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-<h3 id="39-vibecoding">39. VibeCoding渐进式开发法</h3>
-<p>不写完整需求再开工，从模糊想法开始用自然语言让AI写代码、改UI、补后端、修交互。整合高频工具（聊天、知识库、快捷启动、数据大屏、真实终端、多Tab）到一个界面减少切换成本。边用边改持续进化，关键模块必须真实可用（终端能执行真实命令），不是摆样子的Demo。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-<h3 id="40-ai">40. AI编程工具换台重构法</h3>
-<p>Claude Code和Codex卡住时别硬扛，定期清理上下文（开新对话或换平台重讲需求）。换平台=强制重构：重讲时会自动过滤废话只留关键判断。别全信AI说'方向对了'，定期自查进展是否有效。越调越差时果断换工具或重开对话。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-<h3 id="41-ppt-skill">41. PPT Skill模板复用法</h3>
-<p>用开源PPT Skill生成PPT，选瑞士国际主义风（简洁重排版）或杂志风（衬线字体有质感），版式均手工调过换差模型也不翻车。在Codex里调用该Skill，用内置GPT-2.0免费生成配图（风格自动匹配主题），截图不美观也让Codex用GPT-2.0美化并调比例。配色内置：杂志主题5种、瑞士主题4种直接选。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-<h3 id="42-pilotdeck">42. PilotDeck工作舱省钱法</h3>
-<p>用PilotDeck按项目建独立工作舱（独立记忆、预算、后台任务），利用双层记忆：用户画像层记长期偏好（代码风格、框架喜好），项目层只存当前任务细节。开启省钱路由：简单问答走便宜模型、复杂推理用Claude等顶级模型。密钥按舱独立配置，成本按舱展示看清哪个模型花钱最多。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-<h3 id="43-ai">43. AI全链路自媒体运营法</h3>
-<p>用开源AI Agent（Hermes）自动下载作品列表建本地数据库，每小时推送关键数据。直接对话AI做环比分析（如完播率低于40%难破10万，10万与百万爆款差距在分享和收藏）。每半小时监控新视频与历史同期比对预测最终播放量级。调用飞书CLI自动生成多维表格和实时仪表盘，自动回复评论可植入'委婉推荐'话术带货。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-<h3 id="44-chat-aiagent">44. Chat AI与Agent分工法</h3>
-<p>分清两类工具：豆包是Chat AI只给建议，Claude Code/Codex是Agent能读写文件、运行命令、执行搜索，把变化真实留在文件里。只需写段话用豆包；想让AI融入工作流（整理文件夹、做PPT）就学用Agent。第一次尝试交给Agent简单任务（如整理电脑文件夹）亲身感受干活过程。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-<h3 id="45-codex">45. Codex定时早报自动化法</h3>
-<p>在Codex新建项目指向Obsidian笔记目录，新建自动化任务写清标题和提示词（如分别总结AI、电力、能源、金融四领域24小时热点）。调用Obsidian相关Skills写入文档（加日期标题、最新资讯置顶），设运行参数：选环境、项目位置、模型，推送时间设每天早9点，先'立即运行一次'测试。开启'防止系统休眠'并在沙盒设置打开读写权限和网络访问。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-<h3 id="46-codex">46. Codex并行模式开启法</h3>
-<p>找到Codex设置里的'并行Codex'开关（默认关闭），打开并允许同时开多个子任务（每个有独立职责和写入范围）。配置后给Codex总目标，它会自己判断哪些活能同时干并分派给多个'分身'并行处理。心态转变：没开并行是'用AI写代码'，开了并行是'带AI团队干活'只管定目标。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-<h3 id="47-ai">47. AI产品轻量赛道选择法</h3>
-<p>不懂编程的普通人用AI做产品，优先选'情绪疗愈+文化'类小工具（塔罗牌、易经决策），需求明确、开发门槛低、海外付费意愿强。出海产品要本地化（支持6国语言）并死磕UI设计。做'AI名人合影'娱乐向工具配合TikTok引流冷启动。做Agent能力市场需预留维护精力，金融类产品合规风险高需谨慎。</p>
-<blockquote>
-<p>出处：引1条: 王总/实操</p>
-</blockquote>
-</div>
-<div class="footer">
-企业 AI 实战知识库 · 个人成长系统 v3.0 · 数据基于 514 条视频原文 + 110 方法簇 + 162 方法论<br>
-部署于 GitHub Pages · 2026-09-10
-</div>
-</main>
-</div>
-<script>
-// Search functionality
-const searchIndex = [];
-const PAGES = {};
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Build search index from current page content
-  const content = document.querySelector('.content');
-  if (content) {
-    const text = content.innerText.toLowerCase();
-    const title = document.querySelector('h1')?.innerText || '';
-    const headings = Array.from(document.querySelectorAll('h2, h3')).map(h => h.innerText);
-    searchIndex.push({
-      title, headings: headings.join(' '), text: text.substring(0, 5000)
-    });
-  }
-  
-  // Search input
-  const searchInput = document.getElementById('search');
-  if (searchInput) {
-    let timer;
-    searchInput.addEventListener('input', (e) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => doSearch(e.target.value), 200);
-    });
-  }
-  
-  // Highlight current page in nav
-  const path = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-item').forEach(el => {
-    if (el.getAttribute('href') === path) el.classList.add('active');
-  });
-});
-
-function doSearch(q) {
-  if (!q || q.length < 2) return;
-  // Basic in-page highlight (could be enhanced)
-  const content = document.querySelector('.content');
-  if (!content) return;
-  // remove old marks
-  content.querySelectorAll('mark.search-mark').forEach(m => {
-    const t = document.createTextNode(m.textContent);
-    m.parentNode.replaceChild(t, m);
-  });
-  if (q.length < 2) return;
-  // walk text nodes
-  const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
-  const re = new RegExp(q.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&'), 'gi');
-  let count = 0;
-  while (walker.nextNode() && count < 30) {
-    const node = walker.currentNode;
-    if (node.parentNode.tagName === 'SCRIPT' || node.parentNode.tagName === 'STYLE') continue;
-    const text = node.nodeValue;
-    if (!re.test(text)) continue;
-    re.lastIndex = 0;
-    const frag = document.createDocumentFragment();
-    let last = 0;
-    let m;
-    while ((m = re.exec(text)) !== null) {
-      frag.appendChild(document.createTextNode(text.substring(last, m.index)));
-      const mark = document.createElement('mark');
-      mark.className = 'search-mark';
-      mark.style.background = '#ff9a4f';
-      mark.style.color = '#000';
-      mark.textContent = m[0];
-      frag.appendChild(mark);
-      last = m.index + m[0].length;
-      count++;
-      if (count > 30) break;
-    }
-    frag.appendChild(document.createTextNode(text.substring(last)));
-    node.parentNode.replaceChild(frag, node);
-  }
-}
-</script>
-</body>
-</html>
+<h2 id="5">一、模型层（5 条）</h2>
+<h3 id="1-claude-anthropic">1. Claude (Anthropic)</h3>
+<ul>
+<li><strong>强项</strong>：长上下文（200K）、代码能力强、推理准确</li>
+<li><strong>弱项</strong>：国内访问慢、价格中高</li>
+<li><strong>何时用</strong>：复杂推理 / 代码 / 长文档分析</li>
+<li><strong>何时不用</strong>：实时性要求高 / 简单任务</li>
+<li><strong>价格</strong>：Sonnet $3/M input，$15/M output</li>
+<li><strong>替代品</strong>：国产替代用 Kimi K2（中文强）</li>
+</ul>
+<h3 id="2-gpt-4-openai">2. GPT-4 (OpenAI)</h3>
+<ul>
+<li><strong>强项</strong>：通用能力平衡、Function Calling 成熟、工具生态丰富</li>
+<li><strong>弱项</strong>：价格高、长上下文不如 Claude</li>
+<li><strong>何时用</strong>：需要 Function Calling / 工具调用标准场景</li>
+<li><strong>何时不用</strong>：长文档 / 纯推理任务</li>
+<li><strong>替代品</strong>：GPT-4o mini（便宜）</li>
+</ul>
+<h3 id="3-kimi-k2-moonshot">3. Kimi K2 (Moonshot)</h3>
+<ul>
+<li><strong>强项</strong>：中文处理优秀、上下文长、价格便宜</li>
+<li><strong>弱项</strong>：英文任务稍弱</li>
+<li><strong>何时用</strong>：中文长文档 / 中文 Agent / 国内业务</li>
+<li><strong>何时不用</strong>：英文 / 复杂代码</li>
+</ul>
+<h3 id="4-deepseek-v3">4. DeepSeek V3</h3>
+<ul>
+<li><strong>强项</strong>：性价比最高、推理能力强、开源</li>
+<li><strong>弱项</strong>：访问偶尔波动</li>
+<li><strong>何时用</strong>：大批量处理 / 成本敏感场景</li>
+<li><strong>何时不用</strong>：对响应延迟要求极严</li>
+</ul>
+<h3 id="5-qwen3">5. Qwen3 (通义千问)</h3>
+<ul>
+<li><strong>强项</strong>：开源可本地跑、阿里生态</li>
+<li><strong>弱项</strong>：通用任务稍弱</li>
+<li><strong>何时用</strong>：私有部署 / 数据敏感 / 中文</li>
+</ul>
+<h2 id="agent-6">二、Agent 平台层（6 条）</h2>
+<h3 id="6-openclaw">6. OpenClaw</h3>
+<ul>
+<li><strong>强项</strong>：多 Agent 协作 / Skill 管理 / Hermes 框架</li>
+<li><strong>弱项</strong>：学习曲线陡</li>
+<li><strong>何时用</strong>：复杂业务流程 / 多角色协作</li>
+<li><strong>替代品</strong>：Coze（更轻量）</li>
+</ul>
+<h3 id="7-coze">7. Coze（扣子）</h3>
+<ul>
+<li><strong>强项</strong>：无代码搭 Agent / 国内生态好 / 上手快</li>
+<li><strong>弱项</strong>：深度定制能力有限</li>
+<li><strong>何时用</strong>：快速验证 / 中小企业 / 非技术团队</li>
+<li><strong>何时不用</strong>：需要深度集成业务系统</li>
+</ul>
+<h3 id="8-dify">8. Dify</h3>
+<ul>
+<li><strong>强项</strong>：工作流编排 / RAG 友好 / 私有化可</li>
+<li><strong>弱项</strong>：学习成本中等</li>
+<li><strong>何时用</strong>：RAG + Agent 一体化需求</li>
+<li><strong>何时不用</strong>：纯对话型 Agent</li>
+</ul>
+<h3 id="9-langchain">9. LangChain</h3>
+<ul>
+<li><strong>强项</strong>：灵活 / 生态全 / Python 友好</li>
+<li><strong>弱项</strong>：抽象层多、新人难</li>
+<li><strong>何时用</strong>：复杂自定义 Agent</li>
+<li><strong>何时不用</strong>：MVP 阶段</li>
+</ul>
+<h3 id="10-llamaindex">10. LlamaIndex</h3>
+<ul>
+<li><strong>强项</strong>：RAG 专注 / 数据连接器丰富</li>
+<li><strong>弱项</strong>：不是全功能 Agent 平台</li>
+<li><strong>何时用</strong>：RAG 为主的项目</li>
+<li><strong>何时不用</strong>：复杂 Agent 流程</li>
+</ul>
+<h3 id="11-n8n">11. n8n</h3>
+<ul>
+<li><strong>强项</strong>：可视化工作流 / 集成多系统</li>
+<li><strong>弱项</strong>：AI 能力需外挂</li>
+<li><strong>何时用</strong>：系统集成 + 简单 AI</li>
+<li><strong>何时不用</strong>：复杂推理</li>
+</ul>
+<h2 id="5_1">三、编程工具层（5 条）</h2>
+<h3 id="12-cursor">12. Cursor</h3>
+<ul>
+<li><strong>强项</strong>：AI 编程 / 多文件编辑 / 上下文理解</li>
+<li><strong>弱项</strong>：订阅费</li>
+<li><strong>何时用</strong>：日常开发 / 改代码 / 学代码</li>
+<li><strong>入门</strong>：5 分钟上手</li>
+</ul>
+<h3 id="13-claude-code">13. Claude Code</h3>
+<ul>
+<li><strong>强项</strong>：命令行 AI 编程 / 长任务</li>
+<li><strong>弱项</strong>：要会用终端</li>
+<li><strong>何时用</strong>：自动化代码任务 / 重构</li>
+</ul>
+<h3 id="14-v0-vercel">14. v0 (Vercel)</h3>
+<ul>
+<li><strong>强项</strong>：UI 组件生成 / Tailwind + React</li>
+<li><strong>弱项</strong>：只做前端</li>
+<li><strong>何时用</strong>：快速搭前端 Demo</li>
+<li><strong>何时不用</strong>：复杂后端逻辑</li>
+</ul>
+<h3 id="15-bolt-stackblitz">15. Bolt (StackBlitz)</h3>
+<ul>
+<li><strong>强项</strong>：全栈 Web App 生成</li>
+<li><strong>弱项</strong>：复杂定制有限</li>
+<li><strong>何时用</strong>：快速验证产品想法</li>
+</ul>
+<h3 id="16-codex-openai">16. Codex (OpenAI)</h3>
+<ul>
+<li><strong>强项</strong>：长任务自动化</li>
+<li><strong>弱项</strong>：需要精细引导</li>
+<li><strong>何时用</strong>：跨多文件的代码任务</li>
+</ul>
+<h2 id="5_2">四、数据 / 存储层（5 条）</h2>
+<h3 id="17-postgresql">17. PostgreSQL</h3>
+<ul>
+<li><strong>强项</strong>：稳定 / 通用 / SQL 强大</li>
+<li><strong>何时用</strong>：业务系统主库</li>
+</ul>
+<h3 id="18-pinecone">18. Pinecone</h3>
+<ul>
+<li><strong>强项</strong>：向量数据库 SaaS / 易用</li>
+<li><strong>弱项</strong>：价格 / 数据出境</li>
+<li><strong>何时用</strong>：MVP 阶段 RAG</li>
+<li><strong>替代品</strong>：Milvus（私有化）</li>
+</ul>
+<h3 id="19-milvus">19. Milvus</h3>
+<ul>
+<li><strong>强项</strong>：开源 / 高性能 / 大规模</li>
+<li><strong>何时用</strong>：大规模 RAG / 私有化</li>
+</ul>
+<h3 id="20-weaviate">20. Weaviate</h3>
+<ul>
+<li><strong>强项</strong>：模块化 / 多模态支持</li>
+<li><strong>何时用</strong>：需要混合检索</li>
+</ul>
+<h3 id="21-faiss">21. FAISS</h3>
+<ul>
+<li><strong>强项</strong>：本地 / 极快</li>
+<li><strong>弱项</strong>：功能少</li>
+<li><strong>何时用</strong>：研究 / 小规模</li>
+</ul>
+<h2 id="4">五、知识管理 / 笔记层（4 条）</h2>
+<h3 id="22-obsidian">22. Obsidian</h3>
+<ul>
+<li><strong>强项</strong>：本地 Markdown / 双链 / 插件多</li>
+<li><strong>何时用</strong>：个人 / 团队知识库</li>
+<li><strong>免费</strong>：基础版</li>
+</ul>
+<h3 id="23-notion">23. Notion</h3>
+<ul>
+<li><strong>强项</strong>：协作 / 数据库 / 模板</li>
+<li><strong>弱项</strong>：本地化弱 / 数据出境</li>
+<li><strong>何时用</strong>：团队协作 / 客户文档</li>
+</ul>
+<h3 id="24-logseq">24. Logseq</h3>
+<ul>
+<li><strong>强项</strong>：本地 / 块级 / 开源</li>
+<li><strong>何时用</strong>：个人知识管理</li>
+</ul>
+<h3 id="25-anki">25. Anki</h3>
+<ul>
+<li><strong>强项</strong>：间隔重复 / 长期记忆</li>
+<li><strong>何时用</strong>：学概念 / 背术语</li>
+</ul>
+<h2 id="4_1">六、监控 / 可观测层（4 条）</h2>
+<h3 id="26-langsmith">26. LangSmith</h3>
+<ul>
+<li><strong>强项</strong>：LangChain 生态 / Trace</li>
+<li><strong>何时用</strong>：LangChain 项目的可观测</li>
+</ul>
+<h3 id="27-langfuse">27. Langfuse</h3>
+<ul>
+<li><strong>强项</strong>：开源 / 多框架支持</li>
+<li><strong>何时用</strong>：自建可观测</li>
+</ul>
+<h3 id="28-portkey">28. Portkey</h3>
+<ul>
+<li><strong>强项</strong>：模型网关 / 成本控制</li>
+<li><strong>何时用</strong>：多模型路由 + 监控</li>
+</ul>
+<h3 id="29-cloudflare-ai-gateway">29. Cloudflare AI Gateway</h3>
+<ul>
+<li><strong>强项</strong>：CDN 级 / 便宜</li>
+<li><strong>何时用</strong>：轻量级监控</li>
+</ul>
+<h2 id="6">七、效率 / 自用层（6 条）</h2>
+<h3 id="30">30. 飞书多维表格</h3>
+<ul>
+<li><strong>强项</strong>：数据管理 + AI 字段</li>
+<li><strong>何时用</strong>：客户档案 / 案例库 / SOP 跟踪</li>
+</ul>
+<h3 id="31-notion-ai">31. Notion AI</h3>
+<ul>
+<li><strong>强项</strong>：文档 + AI 问答</li>
+<li><strong>何时用</strong>：知识库 + AI 检索</li>
+</ul>
+<h3 id="32-raycast">32. Raycast</h3>
+<ul>
+<li><strong>强项</strong>：macOS 效率工具 / AI 命令</li>
+<li><strong>何时用</strong>：macOS 用户的日常效率</li>
+</ul>
+<h3 id="33">33. 剪映</h3>
+<ul>
+<li><strong>强项</strong>：自动字幕 / 简单剪辑</li>
+<li><strong>何时用</strong>：抖音口播剪辑</li>
+</ul>
+<h3 id="34-whisper-openai">34. Whisper (OpenAI)</h3>
+<ul>
+<li><strong>强项</strong>：语音转文字</li>
+<li><strong>何时用</strong>：口播转字幕 / 录音整理</li>
+</ul>
+<h3 id="35-ollama">35. Ollama</h3>
+<ul>
+<li><strong>强项</strong>：本地大模型 / 完全免费 / 隐私</li>
+<li><strong>何时用</strong>：敏感数据 / 离线场景</li>
+</ul>
+<h2 id="4_2">八、自媒体 / 获客层（4 条）</h2>
+<h3 id="36">36. 抖音创作者服务中心</h3>
+<ul>
+<li><strong>强项</strong>：数据 / 热点</li>
+<li><strong>何时用</strong>：抖音运营</li>
+</ul>
+<h3 id="37">37. 小红书蒲公英</h3>
+<ul>
+<li><strong>强项</strong>：品牌合作</li>
+<li><strong>何时用</strong>：品牌接单</li>
+</ul>
+<h3 id="38">38. 剪映 + 必剪</h3>
+<ul>
+<li><strong>强项</strong>：跨平台剪辑</li>
+<li><strong>何时用</strong>：多平台分发</li>
+</ul>
+<h3 id="39-hypefury-typefully">39. Hypefury / Typefully</h3>
+<ul>
+<li><strong>强项</strong>：Twitter 自动化</li>
+<li><strong>何时用</strong>：海外获客</li>
+</ul>
+<h2 id="4_3">九、安全 / 合规层（4 条）</h2>
+<h3 id="40-microsoft-presidio">40. Microsoft Presidio</h3>
+<ul>
+<li><strong>强项</strong>：PII 检测脱敏</li>
+<li><strong>何时用</strong>：客户数据处理</li>
+</ul>
+<h3 id="41-nemo-guardrails">41. NeMo Guardrails</h3>
+<ul>
+<li><strong>强项</strong>：LLM 护栏 / NVIDIA</li>
+<li><strong>何时用</strong>：AI 安全合规</li>
+</ul>
+<h3 id="42-hashicorp-vault">42. HashiCorp Vault</h3>
+<ul>
+<li><strong>强项</strong>：密钥管理</li>
+<li><strong>何时用</strong>：客户敏感凭证</li>
+</ul>
+<h3 id="43-auth0">43. Auth0</h3>
+<ul>
+<li><strong>强项</strong>：身份认证</li>
+<li><strong>何时用</strong>：多租户 SaaS</li>
+</ul>
+<h2 id="cicd-devops-4">十、CI/CD / DevOps 层（4 条）</h2>
+<h3 id="44-github-actions">44. GitHub Actions</h3>
+<ul>
+<li><strong>强项</strong>：免费 / 集成 GitHub</li>
+<li><strong>何时用</strong>：项目 CI/CD</li>
+</ul>
+<h3 id="45-vercel">45. Vercel</h3>
+<ul>
+<li><strong>强项</strong>：前端部署 / Edge</li>
+<li><strong>何时用</strong>：静态站 / Next.js</li>
+</ul>
+<h3 id="46-cloudflare-pages">46. Cloudflare Pages</h3>
+<ul>
+<li><strong>强项</strong>：免费静态站 / CDN</li>
+<li><strong>何时用</strong>：知识库 / 文档站</li>
+</ul>
+<h3 id="47-docker-k8s">47. Docker + K8s</h3>
+<ul>
+<li><strong>强项</strong>：容器化 / 编排</li>
+<li><strong>何时用</strong>：复杂后端部署</li>
+</ul>
+<h2 id="4_4">十一、工具组合推荐（4 套）</h2>
+<h3 id="a-100">组合 A：起步装备（月成本 &lt; 100 元）</h3>
+<ul>
+<li>模型：Kimi K2 + DeepSeek V3 + GPT-4o mini</li>
+<li>Agent：Coze（免费版）</li>
+<li>编程：Cursor（学生版免费）</li>
+<li>笔记：Obsidian（免费）</li>
+<li>部署：Cloudflare Pages（免费）</li>
+<li><strong>总成本</strong>：约 50-100 元/月</li>
+</ul>
+<h3 id="bfde-500-2000">组合 B：FDE 实战装备（月成本 500-2000 元）</h3>
+<ul>
+<li>模型：Claude Sonnet 4 + GPT-4 + Kimi K2</li>
+<li>Agent：OpenClaw / Dify（自托管）</li>
+<li>编程：Cursor + Claude Code</li>
+<li>知识库：Obsidian + Notion</li>
+<li>可观测：Langfuse（自托管）</li>
+<li>部署：Vercel + GitHub Actions</li>
+<li><strong>总成本</strong>：约 500-2000 元/月</li>
+</ul>
+<h3 id="c-1-5">组合 C：企业交付装备（月成本 1-5 万）</h3>
+<ul>
+<li>模型：Claude + GPT-4 + 国产备用</li>
+<li>Agent：Dify 企业版 / 自研</li>
+<li>数据库：PostgreSQL + Pinecone</li>
+<li>安全：Microsoft Presidio + HashiCorp Vault</li>
+<li>监控：Langfuse / Datadog</li>
+<li>部署：Docker + K8s（私有）</li>
+<li><strong>总成本</strong>：约 1-5 万/月</li>
+</ul>
+<h3 id="d-ai-10-50">组合 D：自建 AI 中台装备（一次性 10-50 万）</h3>
+<ul>
+<li>模型：Claude + GPT-4 + Ollama（本地）</li>
+<li>平台：Dify 企业版 / 自研</li>
+<li>存储：PostgreSQL + Milvus</li>
+<li>安全：全套</li>
+<li>监控：Prometheus + Grafana</li>
+<li>部署：自建 K8s 集群</li>
+<li><strong>总成本</strong>：10-50 万（一次性）+ 月运营 2-5 万</li>
+</ul>
+<h2 id="3">十二、3 个反模式</h2>
+<h3 id="1">反模式 1：工具囤积</h3>
+<p><strong>症状</strong>：收藏 47 个工具都用不上。<br />
+<strong>风险</strong>：维护成本高 / 切换疲劳。<br />
+<strong>正解</strong>：从组合 A 起步，按需升级。</p>
+<h3 id="2">反模式 2：只看贵的</h3>
+<p><strong>症状</strong>：直接上 GPT-4 + Claude + 全套企业版。<br />
+<strong>风险</strong>：烧钱 / ROI 不清晰。<br />
+<strong>正解</strong>：先免费 + 国产 + 按价值付费。</p>
+<h3 id="3_1">反模式 3：忽略学习曲线</h3>
+<p><strong>症状</strong>：选最强大的工具但团队不会用。<br />
+<strong>风险</strong>：工具闲置。<br />
+<strong>正解</strong>：选团队能上手的，能力到了再升级。</p></div></main></div>
+<script>document.addEventListener('DOMContentLoaded',()=>{const path=window.location.pathname.split('/').pop()||'index.html';document.querySelectorAll('.nav-item').forEach(el=>{if(el.getAttribute('href')===path)el.classList.add('active')})});</script></body></html>

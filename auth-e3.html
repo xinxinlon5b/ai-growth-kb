@@ -200,5 +200,54 @@ https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai</p>
 <li><strong>NIST AI RMF</strong>：https://www.nist.gov/itl/ai-risk-management-framework</li>
 <li><strong>EU AI Act</strong>：https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai</li>
 <li><strong>延伸阅读</strong>：B4-LLM-Security-and-Governance.md（安全技术层）</li>
-</ul></div></main></div>
+</ul>
+<h2 id="gartner-ai-trism-5">十一、Gartner AI TRiSM 5 支柱实施清单</h2>
+<h3 id="1explainability">支柱 1：可解释性（Explainability）</h3>
+<ul>
+<li>[ ] 每个 AI 输出都能给出"为什么"</li>
+<li>[ ] 关键决策有 trace log</li>
+<li>[ ] 客户能看到答案的来源（引用文档）</li>
+<li>[ ] 工具：LIME / SHAP / Anthropic Citations</li>
+</ul>
+<h3 id="2modelops">支柱 2：ModelOps（模型运维）</h3>
+<ul>
+<li>[ ] 模型版本管理（v1.0 / v1.1）</li>
+<li>[ ] 模型注册表（哪些场景用哪个模型）</li>
+<li>[ ] 自动化训练流水线</li>
+<li>[ ] 工具：MLflow / Weights &amp; Biases</li>
+</ul>
+<h3 id="3">支柱 3：数据保护</h3>
+<ul>
+<li>[ ] 客户数据脱敏（L1-L3 视敏感度）</li>
+<li>[ ] 数据加密存储 + 传输</li>
+<li>[ ] 访问审计日志</li>
+<li>[ ] 工具：KMS / IAM / 审计平台</li>
+</ul>
+<h3 id="4_1">支柱 4：应用安全</h3>
+<ul>
+<li>[ ] Prompt injection 防护</li>
+<li>[ ] 输出过滤（违规 / 敏感）</li>
+<li>[ ] 工具白名单</li>
+<li>[ ] 工具：NeMo Guardrails / Guardrail AI</li>
+</ul>
+<h3 id="5">支柱 5：模型清单</h3>
+<ul>
+<li>[ ] 所有模型登记（用途 / 风险 / 数据）</li>
+<li>[ ] 定期审计（哪些模型该退役）</li>
+<li>[ ] 影子模型追踪</li>
+<li>[ ] 工具：内部模型注册表</li>
+</ul>
+<h2 id="3_1">十二、3 个反模式</h2>
+<h3 id="1-3">反模式 1：只做支柱 3（数据保护）</h3>
+<p><strong>症状</strong>：只关心数据加密，忽略其他 4 项。<br />
+<strong>风险</strong>：模型漂移 / 应用漏洞 / 解释不清。<br />
+<strong>正解</strong>：5 支柱必须全做。</p>
+<h3 id="2">反模式 2：把"可解释"当事后补充</h3>
+<p><strong>症状</strong>：模型上线后才考虑怎么解释。<br />
+<strong>风险</strong>：无法解释 = 客户不信 = 业务失败。<br />
+<strong>正解</strong>：设计阶段就考虑可解释性。</p>
+<h3 id="3_2">反模式 3：模型清单只走形式</h3>
+<p><strong>症状</strong>：登记但不审计不更新。<br />
+<strong>风险</strong>：僵尸模型 / 影子模型失控。<br />
+<strong>正解</strong>：季度审计 + 自动告警。</p></div></main></div>
 <script>document.addEventListener('DOMContentLoaded',()=>{const path=window.location.pathname.split('/').pop()||'index.html';document.querySelectorAll('.nav-item').forEach(el=>{if(el.getAttribute('href')===path)el.classList.add('active')})});</script></body></html>

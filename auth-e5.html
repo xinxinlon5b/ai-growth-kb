@@ -228,5 +228,45 @@ AI 治理对齐 <strong>ISO 42001:2023</strong>（全球第一个 AI 管理国�
 <li><strong>Azure WAF</strong>：https://learn.microsoft.com/en-us/azure/well-architected/</li>
 <li><strong>GCP Architecture Framework</strong>：https://cloud.google.com/architecture/framework</li>
 <li><strong>延伸阅读</strong>：D1-Google-Agent-Design-Framework.md / D2-AWS-LLM-Production-Framework.md</li>
-</ul></div></main></div>
+</ul>
+<h2 id="5">十一、5 个常见选型决策树</h2>
+<h3 id="1-pmbok-scrum">决策 1：项目管理用 PMBOK 还是 Scrum？</h3>
+<pre><code>团队规模 &lt; 5 人 + 业务明确 → Scrum
+团队规模 5-20 人 + 多项目 → PMBOK + 敏捷混合
+团队规模 &gt; 20 人 + 长周期 → PMBOK
+</code></pre>
+<h3 id="2-togaf-zachman">决策 2：企业架构用 TOGAF 还是 Zachman？</h3>
+<pre><code>国际客户 / 大型组织 → TOGAF
+北美传统企业 → Zachman
+中小型 / 互联网 → 不需要正式框架
+</code></pre>
+<h3 id="3ai-iso-42001-nist-rmf">决策 3：AI 治理用 ISO 42001 还是 NIST RMF？</h3>
+<pre><code>欧盟市场 → ISO 42001（合规）
+美国市场 → NIST RMF（事实标准）
+全球 → 两个都做
+</code></pre>
+<h3 id="4-aws-azure-gcp">决策 4：云架构参考 AWS / Azure / GCP 哪一家？</h3>
+<pre><code>AWS 重度 → AWS WAF + ML Lens
+Azure 重度 → Azure WAF + AI Workload
+GCP 重度 → GCP Architecture Framework
+多云 → 三家都参考
+</code></pre>
+<h3 id="5-cmmi-5">决策 5：要不要上 CMMI 5 级？</h3>
+<pre><code>咨询公司 / 上市准备 → 是
+普通产品公司 → 不必
+服务公司 → 选 3 级即可
+</code></pre>
+<h2 id="3">十二、3 个反模式</h2>
+<h3 id="1">反模式 1：全选</h3>
+<p><strong>症状</strong>：PMBOK + TOGAF + ISO 42001 + AWS WAF 全部上。<br />
+<strong>风险</strong>：合规成本超过价值。<br />
+<strong>正解</strong>：根据行业 / 客户 / 规模选 1-2 个。</p>
+<h3 id="2">反模式 2：跟客户标准走</h3>
+<p><strong>症状</strong>：客户用什么你就用什么。<br />
+<strong>风险</strong>：被客户的标准绑架。<br />
+<strong>正解</strong>：用业界主流 + 解释选择理由。</p>
+<h3 id="3_1">反模式 3：忽略国际标准</h3>
+<p><strong>症状</strong>：只用国内标准。<br />
+<strong>风险</strong>：出海 / 跨国客户无法对接。<br />
+<strong>正解</strong>：国际标准做基线 + 国内标准做补充。</p></div></main></div>
 <script>document.addEventListener('DOMContentLoaded',()=>{const path=window.location.pathname.split('/').pop()||'index.html';document.querySelectorAll('.nav-item').forEach(el=>{if(el.getAttribute('href')===path)el.classList.add('active')})});</script></body></html>

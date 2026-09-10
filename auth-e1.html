@@ -273,5 +273,64 @@ https://cloud.google.com/blog/products/devops-sre/using-the-four-keys-to-measure
 <li><strong>DORA Four Keys</strong>：https://cloud.google.com/blog/products/devops-sre/using-the-four-keys-to-measure-your-devops-performance</li>
 <li><strong>Gang of Four</strong>：https://en.wikipedia.org/wiki/Design_Patterns</li>
 <li><strong>延伸阅读</strong>：原调研报告「27_deerflow权威调研报告」全文</li>
-</ul></div></main></div>
+</ul>
+<h2 id="dora-4">十一、DORA 4 指标自测模板</h2>
+<h3 id="_6">自测问题（每月填一次）</h3>
+<pre><code>1. 部署频率
+   - 上个月部署到生产几次？___ 次
+   - 平均多久部署一次？___ 天
+   - 评分：☐ Elite（按需） ☐ High（每周-每天） ☐ Medium（每月-每周） ☐ Low（&gt; 每月）
+
+2. 变更前置时间
+   - 从代码提交到生产部署平均多久？___ 小时
+   - 评分：☐ Elite（&lt; 1 天） ☐ High（1 天-1 周） ☐ Medium（1 周-1 月） ☐ Low（&gt; 1 月）
+
+3. 变更失败率
+   - 上个月导致故障 / 回滚的部署比例？___ %
+   - 评分：☐ Elite（0-15%） ☐ High（16-30%） ☐ Medium（31-45%） ☐ Low（&gt; 46%）
+
+4. 恢复时间（MTTR）
+   - 上个月生产故障平均恢复时间？___ 小时
+   - 评分：☐ Elite（&lt; 1 小时） ☐ High（&lt; 1 天） ☐ Medium（&lt; 1 周） ☐ Low（&gt; 1 周）
+</code></pre>
+<h3 id="_7">改进方向</h3>
+<table>
+<thead>
+<tr>
+<th>弱项</th>
+<th>改进措施</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>部署频率低</td>
+<td>CI/CD 自动化 + 减少审批</td>
+</tr>
+<tr>
+<td>前置时间长</td>
+<td>拆分大变更 + 并行测试</td>
+</tr>
+<tr>
+<td>失败率高</td>
+<td>自动化测试 + 灰度发布</td>
+</tr>
+<tr>
+<td>MTTR 长</td>
+<td>监控告警 + 回滚预案</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3">十二、3 个反模式</h2>
+<h3 id="1-dora-kpi">反模式 1：把 DORA 当 KPI 考核</h3>
+<p><strong>症状</strong>：用 DORA 排名 / 扣奖金。<br />
+<strong>风险</strong>：团队为指标做指标（伪造部署 / 瞒报故障）。<br />
+<strong>正解</strong>：DORA 是改进工具，不是考核工具。</p>
+<h3 id="2">反模式 2：只追一项</h3>
+<p><strong>症状</strong>：只优化部署频率（导致失败率上升）。<br />
+<strong>风险</strong>：速度换质量。<br />
+<strong>正解</strong>：4 项平衡看。</p>
+<h3 id="3_1">反模式 3：不测就改</h3>
+<p><strong>症状</strong>：直接上 CI/CD 不测基线。<br />
+<strong>风险</strong>：改完不知道变好还是变差。<br />
+<strong>正解</strong>：先测 3 个月基线，再定改进目标。</p></div></main></div>
 <script>document.addEventListener('DOMContentLoaded',()=>{const path=window.location.pathname.split('/').pop()||'index.html';document.querySelectorAll('.nav-item').forEach(el=>{if(el.getAttribute('href')===path)el.classList.add('active')})});</script></body></html>
