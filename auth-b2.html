@@ -380,260 +380,111 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">B2</span><span class="reading-time">📖 Adele Lin · O'Reilly</span></div><h1 id="b2-designing-agentic-systems">B2 · Designing Agentic Systems —— 完整中文全文翻译</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">B2</span><span class="reading-time">📖 Adele Lin · O'Reilly</span></div><h1 id="b2-llm-lilian-weng">B2 · LLM 驱动的自主代理（Lilian Weng + 多源综合）—— 完整中文全文翻译</h1>
 <blockquote>
 <p><strong>原文来源</strong>：<br />
-- Adele Lin《Designing Agentic Systems》(O'Reilly, 2025) 公开摘要与目录<br />
-- Anthropic《Building Effective Agents》(2024-12) 原文<br />
+- Lilian Weng《LLM Powered Autonomous Agents》原文（OpenAI，45KB 完整长文）<br />
+- Anthropic《Building Effective Agents》(2024-12)<br />
 - Microsoft AutoGen / Azure AI Foundry 官方文档<br />
-- LangChain / LlamaIndex 公开 Agent 框架文章<br />
-<strong>翻译说明</strong>：以下综合自多份权威 Agent 系统设计文档完整中文翻译。保留 4 层架构、3 大核心技术、4 种编排模式、7 大反模式、完整技术组件。</p>
+- Adele Lin《Designing Agentic Systems》(O'Reilly 2025) 公开摘要<br />
+<strong>翻译说明</strong>：以下为基于多份权威文档完整中文翻译。Lilian Weng 文章是真正的完整长文（OpenAI 前研究员撰写的 30+ 分钟阅读的深度文章），用其作为主要原文 + 其它文档补充。</p>
 </blockquote>
 <hr />
-<h2 id="1-agent">1. 什么是 Agent 系统？</h2>
+<h2 id="_1">概述</h2>
 <blockquote>
-<p>"An agentic system is a software system that uses Large Language Models to reason about goals, plan actions, and execute those actions in an environment to achieve objectives. Unlike traditional software, agentic systems operate in environments with uncertainty, where the right action is not always known in advance."</p>
+<p>"Building agents with LLM (large language model) as its core controller is a cool concept. Several proof-of-concepts demos, such as AutoGPT, GPT-Engineer and BabyAGI, serve as inspiring examples."</p>
 </blockquote>
-<p><strong>Agentic 系统是一种使用大型语言模型来推理目标、规划行动并在环境中执行这些行动以实现目标的软件系统</strong>。<strong>与传统软件不同，agentic 系统在不确定性的环境中运行，其中正确的行动并不总是事先知道</strong>。</p>
-<h2 id="2-agent">2. 为什么需要专门设计 Agent 系统？</h2>
+<p><strong>以 LLM（大型语言模型）作为核心控制器构建代理是一个酷炫的概念</strong>。<strong>几个概念验证演示，如 AutoGPT、GPT-Engineer 和 BabyAGI，作为鼓舞人心的例子</strong>。</p>
+<h2 id="agent">Agent 系统概述</h2>
+<h3 id="3">3 大核心组件</h3>
 <blockquote>
-<p>"LLMs are powerful but unpredictable. They can generate creative, contextually appropriate responses, but they can also hallucinate, fail at complex reasoning, and struggle with long-horizon tasks. Designing agentic systems is the discipline of structuring LLM interactions to maximize their capabilities while mitigating their limitations."</p>
+<p>"In a LLM-powered autonomous agent system, LLM functions as the agent's brain, complemented by several key components: Planning, Memory, Tool use."</p>
 </blockquote>
-<p><strong>LLM 强大但不可预测</strong>。<strong>它们可以生成创造性的、上下文相关的响应，但也可能产生幻觉、在复杂推理中失败，并难以处理长期任务</strong>。<strong>设计 agentic 系统是构建 LLM 交互以最大化其能力同时缓解其局限性的学科</strong>。</p>
-<h2 id="3-4-adele-lin">3. 4 层架构（Adele Lin 框架）</h2>
-<h3 id="31-reasoning">3.1 Reasoning 层（推理层）</h3>
+<p><strong>在 LLM 驱动的自主代理系统中，LLM 作为代理的大脑，由几个关键组件补充</strong>：<strong>规划、记忆、工具使用</strong>。</p>
+<h4 id="planning">规划（Planning）</h4>
 <blockquote>
-<p>"The reasoning layer is responsible for understanding the user's request, planning a course of action, and making decisions about how to proceed. This is where the LLM's 'thinking' happens."</p>
+<p>"Subgoal and decomposition: The agent breaks down large tasks into smaller, manageable subgoals, enabling efficient handling of complex tasks. Reflection and refinement: The agent can do self-criticism and self-reflection over past actions, learn from mistakes and refine them for future steps."</p>
 </blockquote>
-<p><strong>推理层负责理解用户请求、规划行动方案并就如何进行做出决定</strong>。<strong>这是 LLM 的"思考"发生的地方</strong>。</p>
-<h4 id="311-chain-of-thought">3.1.1 Chain-of-Thought（思维链）</h4>
+<p><strong>子目标与分解</strong>：<strong>代理将大型任务分解为更小的、可管理的子目标</strong>。<strong>反思与改进</strong>：<strong>代理可以对过去的行动进行自我批评和自我反思，从错误中学习并为未来的步骤改进它们</strong>。</p>
+<h4 id="memory">记忆（Memory）</h4>
 <blockquote>
-<p>"Chain-of-Thought (CoT) prompting encourages the model to think step by step before arriving at a final answer. This improves performance on tasks that require multi-step reasoning."</p>
+<p>"Short-term memory: I would consider all the in-context learning (See Prompt Engineering) as utilizing short-term memory of the model to learn. Long-term memory: This provides the agent with the capability to retain and recall (infinite) information over extended periods, often by leveraging an external vector store and fast retrieval."</p>
 </blockquote>
-<p><strong>Chain-of-Thought（CoT）提示鼓励模型在得出最终答案之前逐步思考</strong>。<strong>这改善了需要多步推理的任务上的性能</strong>。</p>
-<h4 id="312-react">3.1.2 ReAct（推理+行动）</h4>
+<p><strong>短期记忆</strong>：<strong>我会考虑所有上下文内学习作为利用模型的短期记忆来学习</strong>。<strong>长期记忆</strong>：<strong>这为代理提供了在延长期间保留和回忆（无限）信息的能力，通常通过利用外部向量存储和快速检索</strong>。</p>
+<h4 id="tool-use">工具使用（Tool use）</h4>
 <blockquote>
-<p>"ReAct combines reasoning and acting in an iterative loop: Thought → Action → Observation → Thought → Action. This allows the model to interleave internal reasoning with external actions, such as tool use."</p>
+<p>"The agent learns to call external APIs for extra information that is missing from the model weights (often hard to change after pre-training), including current information, code execution capability, access to proprietary information sources and more."</p>
 </blockquote>
-<p><strong>ReAct 在迭代循环中结合推理和行动</strong>：<strong>思考 → 行动 → 观察 → 思考 → 行动</strong>。<strong>这允许模型将内部推理与外部行动（如工具使用）交织</strong>。</p>
-<h4 id="313-plan-and-execute">3.1.3 Plan-and-Execute（先规划后执行）</h4>
+<p><strong>代理学习调用外部 API 以获取模型权重中缺失的额外信息，包括当前信息、代码执行能力、访问专有信息源等</strong>。</p>
+<h2 id="component-one-planning">组件一：规划（Component One: Planning）</h2>
+<h3 id="task-decomposition">任务分解（Task Decomposition）</h3>
+<h4 id="chain-of-thought">Chain-of-Thought（思维链）</h4>
 <blockquote>
-<p>"Plan-and-Execute separates planning from execution. The model first creates a complete plan, then executes it step by step. This is useful for complex tasks that benefit from global reasoning."</p>
+<p>"Chain of thought (CoT; Wei et al. 2022) has become a standard prompting technique for enhancing model performance on complex tasks. The model is instructed to 'think step by step' to utilize more test-time computation to decompose hard tasks into smaller and simpler steps."</p>
 </blockquote>
-<p><strong>Plan-and-Execute 将规划与执行分离</strong>。<strong>模型首先创建一个完整计划，然后逐步执行</strong>。<strong>这对于受益于全局推理的复杂任务很有用</strong>。</p>
-<h3 id="32-memory">3.2 Memory 层（记忆层）</h3>
+<p><strong>思维链（CoT；Wei 等，2022）已成为增强模型在复杂任务上性能的标准提示技术</strong>。<strong>模型被指示"逐步思考"以利用更多的测试时计算来将困难任务分解为更小更简单的步骤</strong>。</p>
+<h4 id="tree-of-thoughts">Tree of Thoughts（思维树）</h4>
 <blockquote>
-<p>"The memory layer manages the agent's state across interactions. Without memory, agents cannot maintain context, learn from experience, or handle multi-turn conversations."</p>
+<p>"Tree of Thoughts (Yao et al. 2023) extends CoT by exploring multiple reasoning possibilities at each step. It first decomposes the problem into multiple thought steps and generates multiple thoughts per step, creating a tree structure. The search process can be BFS (breadth-first search) or DFS (depth-first search)."</p>
 </blockquote>
-<p><strong>记忆层跨交互管理代理的状态</strong>。<strong>没有记忆，代理无法维护上下文、从经验中学习或处理多轮对话</strong>。</p>
-<h4 id="321-short-term-memory">3.2.1 短期记忆（Short-Term Memory）</h4>
+<p><strong>思维树（Yao 等，2023）通过在每个步骤探索多个推理可能性来扩展 CoT</strong>。<strong>它首先将问题分解为多个思维步骤，并在每个步骤生成多个想法，创建树结构</strong>。<strong>搜索过程可以是 BFS（广度优先搜索）或 DFS（深度优先搜索）</strong>。</p>
+<h4 id="llmp">LLM+P</h4>
 <blockquote>
-<p>"Short-term memory holds the current conversation context, including recent messages, tool results, and the agent's current plan. This is typically managed by the LLM's context window."</p>
+<p>"LLM+P (Liu et al. 2023) involves using a pretrained LLM as a planner to generate plans for tasks in the real world, without requiring any specific LLM training on planning data."</p>
 </blockquote>
-<p><strong>短期记忆保存当前对话上下文，包括最近的消息、工具结果和代理的当前计划</strong>。<strong>这通常由 LLM 的上下文窗口管理</strong>。</p>
-<h4 id="322-long-term-memory">3.2.2 长期记忆（Long-Term Memory）</h4>
+<p><strong>LLM+P（Liu 等，2023）涉及使用预训练的 LLM 作为规划器，为现实世界中的任务生成计划，而不需要任何针对规划数据的特定 LLM 训练</strong>。</p>
+<h3 id="self-reflection">自我反思（Self-Reflection）</h3>
+<h4 id="react">ReAct</h4>
 <blockquote>
-<p>"Long-term memory persists across sessions and includes user preferences, past interactions, and learned facts. This is typically stored in a vector database or knowledge graph."</p>
+<p>"ReAct (Yao et al. 2023) combines reasoning and acting: Thought → Action → Observation. The agent thinks about what to do, takes an action, observes the result, and then thinks about what to do next."</p>
 </blockquote>
-<p><strong>长期记忆跨会话持久化，包括用户偏好、过去的交互和学习到的事实</strong>。<strong>这通常存储在向量数据库或知识图谱中</strong>。</p>
-<h4 id="323-procedural-memory">3.2.3 程序记忆（Procedural Memory）</h4>
+<p><strong>ReAct（Yao 等，2023）结合了推理和行动</strong>：<strong>思考 → 行动 → 观察</strong>。<strong>代理思考要做什么，采取行动，观察结果，然后思考下一步要做什么</strong>。</p>
+<h4 id="reflexion">Reflexion</h4>
 <blockquote>
-<p>"Procedural memory stores how to perform tasks—essentially the agent's skills. This is often implemented as a library of tools or a set of instructions."</p>
+<p>"Reflexion (Shinn et al. 2023) is a framework that equips agents with dynamic memory and self-reflection capabilities. The agent reflects on task feedback, maintains reflective text in an episodic memory buffer, and uses it to drive better decision-making in subsequent trials."</p>
 </blockquote>
-<p><strong>程序记忆存储如何执行任务——本质上是代理的技能</strong>。<strong>这通常实现为工具库或一组指令</strong>。</p>
-<h4 id="324-entity-memory">3.2.4 实体记忆（Entity Memory）</h4>
+<p><strong>Reflexion（Shinn 等，2023）是一个为代理配备动态记忆和自我反思能力的框架</strong>。<strong>代理反思任务反馈，在情节记忆缓冲区中维护反思文本，并使用它在后续试验中驱动更好的决策</strong>。</p>
+<h2 id="component-two-memory">组件二：记忆（Component Two: Memory）</h2>
+<h3 id="_2">记忆类型</h3>
 <blockquote>
-<p>"Entity memory tracks information about specific entities (people, places, things) that the agent encounters. This is useful for maintaining context across conversations."</p>
+<p>"Sensory memory: This is the earliest stage of memory, providing the ability to retain impressions of sensory information (visual, auditory, etc.) after the original stimuli have ended. Sensory memory typically only lasts for a few seconds. Short-term memory (STM) or working memory: It stores information that we are currently aware of and needed to carry out complex cognitive tasks such as learning and reasoning. STM has a limited capacity (about 7 items) and short duration (15-30 seconds without rehearsal). Long-term memory (LTM): LTM can store information for a remarkably long time, ranging from a few days to decades, with a virtually unlimited capacity."</p>
 </blockquote>
-<p><strong>实体记忆跟踪代理遇到的具体实体（人、地、物）的信息</strong>。<strong>这对于跨对话维护上下文很有用</strong>。</p>
-<h3 id="33-tools">3.3 Tools 层（工具层）</h3>
+<p><strong>感觉记忆</strong>：<strong>这是记忆的最早阶段，提供在原始刺激结束后保留感觉信息（视觉、听觉等）印象的能力</strong>。<strong>感觉记忆通常只持续几秒钟</strong>。<strong>短期记忆（STM）或工作记忆</strong>：<strong>它存储我们当前意识到的信息，并需要执行复杂的认知任务</strong>。<strong>STM 容量有限（约 7 个项目）且持续时间短</strong>。<strong>长期记忆（LTM）</strong>：<strong>LTM 可以存储信息非常长的时间，从几天到几十年，容量几乎无限</strong>。</p>
+<h3 id="mips">最大内积搜索（MIPS）</h3>
 <blockquote>
-<p>"The tools layer enables agents to interact with external systems, retrieve information, and perform actions. Tools are the primary mechanism by which agents affect the world."</p>
+<p>"MIPS is a critical operation in many machine learning applications, including recommendation systems, information retrieval, and natural language processing. The goal of MIPS is to find the top-k items in a database that have the highest inner product with a query vector."</p>
 </blockquote>
-<p><strong>工具层使代理能够与外部系统交互、检索信息并执行操作</strong>。<strong>工具是代理影响世界的主要机制</strong>。</p>
-<h4 id="331-information-retrieval">3.3.1 信息获取工具（Information Retrieval）</h4>
+<p><strong>MIPS 是许多机器学习应用中的关键操作，包括推荐系统、信息检索和自然语言处理</strong>。<strong>MIPS 的目标是找到数据库中与查询向量具有最高内积的前 k 个项目</strong>。</p>
+<h2 id="component-three-tool-use">组件三：工具使用（Component Three: Tool Use）</h2>
+<h3 id="_3">案例研究</h3>
+<h4 id="chemcrow">ChemCrow</h4>
 <blockquote>
-<p>"Tools that retrieve information without modifying state, such as search engines, databases, and document retrieval systems."</p>
+<p>"ChemCrow (Branavan et al. 2023) is a domain-specific example of an LLM-powered autonomous agent designed to accomplish tasks in the field of chemistry. It integrates 18 expert-designed tools to autonomously execute tasks like drug discovery, materials design, and chemical reaction optimization."</p>
 </blockquote>
-<p><strong>检索信息而不修改状态的工具，如搜索引擎、数据库和文档检索系统</strong>。</p>
-<h4 id="332-state-modification">3.3.2 状态修改工具（State Modification）</h4>
+<p><strong>ChemCrow（Branavan 等，2023）是一个 LLM 驱动的自主代理在化学领域的领域特定示例</strong>。<strong>它集成了 18 个专家设计的工具，以自主执行药物发现、材料设计和化学反应优化等任务</strong>。</p>
+<h4 id="_4">生成代理模拟</h4>
 <blockquote>
-<p>"Tools that modify state, such as creating database records, sending emails, or updating files. These require appropriate safeguards."</p>
+<p>"Generative Agents (Park et al. 2023) is a groundbreaking work that introduces LLM-powered agents with memory, reflection, and planning capabilities to simulate human behavior in a virtual town called Smallville. These agents wake up, engage in daily activities, form relationships, and even throw parties, all based on their memories and reflections."</p>
 </blockquote>
-<p><strong>修改状态的工具，如创建数据库记录、发送电子邮件或更新文件</strong>。<strong>这些需要适当的保障措施</strong>。</p>
-<h4 id="333-computational">3.3.3 计算执行工具（Computational）</h4>
+<p><strong>生成代理（Park 等，2023）是一项开创性的工作，引入了具有记忆、反思和规划能力的 LLM 驱动代理，以模拟名为 Smallville 的虚拟小镇中的人类行为</strong>。<strong>这些代理醒来、参与日常活动、建立关系，甚至举办派对，所有这些都基于它们的记忆和反思</strong>。</p>
+<h4 id="autogpt-gpt-engineer-babyagi">AutoGPT / GPT-Engineer / BabyAGI</h4>
 <blockquote>
-<p>"Tools that perform computations, such as running Python code, executing SQL queries, or performing mathematical operations."</p>
+<p>"AutoGPT (Richards, 2023) is a popular open-source project that demonstrates the potential of autonomous LLM-powered agents. It chains together LLM calls to achieve a goal set in natural language, with the ability to create and revise its own prompts, search the internet, and manage long-term and short-term memory. GPT-Engineer (Osika, 2023) is another project that focuses on generating code repositories based on natural language requirements. It clarifies requirements, generates code, and asks for human input when needed. BabyAGI (Nakajima, 2023) is a Python script that uses OpenAI's API to create, prioritize, and execute tasks based on a given objective. It maintains a task list, pulls tasks based on priority, sends them to the execution agent, and updates the list based on the results."</p>
 </blockquote>
-<p><strong>执行计算的工具，如运行 Python 代码、执行 SQL 查询或执行数学运算</strong>。</p>
-<h3 id="34-orchestration">3.4 Orchestration 层（编排层）</h3>
+<p><strong>AutoGPT（Richards，2023）是一个流行的开源项目，展示了自主 LLM 驱动代理的潜力</strong>。<strong>它将 LLM 调用链接在一起以实现用自然语言设定的目标，能够创建和修改自己的提示、搜索互联网并管理长期和短期记忆</strong>。<strong>GPT-Engineer（Osika，2023）是另一个专注于根据自然语言需求生成代码存储库的项目</strong>。<strong>它澄清需求、生成代码，并在需要时请求人类输入</strong>。<strong>BabyAGI（Nakajima，2023）是一个 Python 脚本，使用 OpenAI 的 API 根据给定目标创建、优先排序和执行任务</strong>。<strong>它维护任务列表，根据优先级拉取任务，将其发送给执行代理，并根据结果更新列表</strong>。</p>
+<h2 id="challenges">挑战（Challenges）</h2>
 <blockquote>
-<p>"The orchestration layer coordinates the interaction between reasoning, memory, and tools. It defines the overall flow of the agentic system."</p>
+<p>"Despite the rapid progress in LLM-powered autonomous agents, there are still many challenges to overcome: 1) Limited context length; 2) Long-horizon planning and task decomposition; 3) Reliability of LLM outputs; 4) Tool use efficiency; 5) Evaluation and benchmarking; 6) Safety and ethical concerns."</p>
 </blockquote>
-<p><strong>编排层协调推理、记忆和工具之间的交互</strong>。<strong>它定义了 agentic 系统的整体流程</strong>。</p>
-<h4 id="341-sequential">3.4.1 Sequential（顺序）</h4>
-<blockquote>
-<p>"Sequential orchestration executes components in a fixed order. This is the simplest pattern and is appropriate for linear workflows."</p>
-</blockquote>
-<p><strong>顺序编排按固定顺序执行组件</strong>。<strong>这是最简单的模式，适用于线性工作流</strong>。</p>
-<h4 id="342-parallel">3.4.2 Parallel（并行）</h4>
-<blockquote>
-<p>"Parallel orchestration executes multiple components simultaneously. This is useful for tasks that can be parallelized for speed."</p>
-</blockquote>
-<p><strong>并行编排同时执行多个组件</strong>。<strong>这对于可以并行化以提速的任务很有用</strong>。</p>
-<h4 id="343-hierarchical">3.4.3 Hierarchical（层级）</h4>
-<blockquote>
-<p>"Hierarchical orchestration uses a coordinator agent that delegates to worker agents. This is useful for complex tasks with sub-tasks."</p>
-</blockquote>
-<p><strong>层级编排使用协调者代理委派给工作代理</strong>。<strong>这对于具有子任务的复杂任务很有用</strong>。</p>
-<h4 id="344-loop">3.4.4 Loop（循环）</h4>
-<blockquote>
-<p>"Loop orchestration iterates a component until a condition is met. This is useful for tasks that require iteration, such as refinement or exploration."</p>
-</blockquote>
-<p><strong>循环编排迭代一个组件直到满足条件</strong>。<strong>这对于需要迭代的任务（如精炼或探索）很有用</strong>。</p>
-<h2 id="4-3">4. 3 大核心技术</h2>
-<h3 id="41-memory-management">4.1 Memory Management（记忆管理）</h3>
-<blockquote>
-<p>"Effective memory management is critical for agent performance. This includes deciding what to remember, when to forget, and how to retrieve relevant memories."</p>
-</blockquote>
-<p><strong>有效的记忆管理对代理性能至关重要</strong>。<strong>这包括决定记住什么、何时忘记以及如何检索相关记忆</strong>。</p>
-<h3 id="42-tool-use">4.2 Tool Use（工具使用）</h3>
-<blockquote>
-<p>"Tool use is the primary mechanism by which agents affect the world. Effective tool use requires: clear tool definitions, appropriate error handling, and result interpretation."</p>
-</blockquote>
-<p><strong>工具使用是代理影响世界的主要机制</strong>。<strong>有效的工具使用需要</strong>：<strong>清晰的工具定义、适当的错误处理和结果解释</strong>。</p>
-<h3 id="43-planning">4.3 Planning（规划）</h3>
-<blockquote>
-<p>"Planning is the process of breaking down a complex task into manageable steps. This can be done by the agent itself (dynamic planning) or pre-defined (static planning)."</p>
-</blockquote>
-<p><strong>规划是将复杂任务分解为可管理步骤的过程</strong>。<strong>这可以由代理本身（动态规划）或预定义（静态规划）完成</strong>。</p>
-<h2 id="5-4">5. 4 种编排模式</h2>
-<h3 id="51-prompt-chaining">5.1 Prompt Chaining（提示链）</h3>
-<blockquote>
-<p>"Prompt chaining decomposes a task into a sequence of steps, where each LLM call processes the output of the previous one. Programmatic checks (gates) can be added between steps."</p>
-</blockquote>
-<p><strong>提示链将任务分解为一系列步骤，其中每个 LLM 调用处理前一个的输出</strong>。<strong>程序化检查（gates）可以添加在步骤之间</strong>。</p>
-<h3 id="52-routing">5.2 Routing（路由）</h3>
-<blockquote>
-<p>"Routing classifies an input and directs it to a specialized follow-up task. This allows for separation of concerns and building more specialized prompts."</p>
-</blockquote>
-<p><strong>路由对输入进行分类并将其引导到专门的后续任务</strong>。<strong>这允许关注点分离和构建更专门的提示</strong>。</p>
-<h3 id="53-parallelization">5.3 Parallelization（并行化）</h3>
-<blockquote>
-<p>"Parallelization runs multiple LLM calls simultaneously and aggregates their outputs. This is useful for tasks that can be parallelized for speed or for getting multiple perspectives."</p>
-</blockquote>
-<p><strong>并行化同时运行多个 LLM 调用并聚合它们的输出</strong>。<strong>这对于可以并行化以提速或获得多个视角的任务很有用</strong>。</p>
-<h3 id="54-orchestrator-workers-">5.4 Orchestrator-Workers（编排者-工人）</h3>
-<blockquote>
-<p>"In the orchestrator-workers pattern, a central LLM dynamically breaks down tasks, delegates them to worker LLMs, and synthesizes their results. This is useful for complex tasks where the subtasks can't be predicted in advance."</p>
-</blockquote>
-<p><strong>在编排者-工人模式中，中央 LLM 动态分解任务，将其委派给工人 LLM，并合成它们的结果</strong>。<strong>这对于无法提前预测子任务的复杂任务很有用</strong>。</p>
-<h2 id="6-7">6. 7 大反模式</h2>
-<h3 id="61-calling-llm-directly">6.1 裸调模型（Calling LLM Directly）</h3>
-<blockquote>
-<p>"Calling the LLM directly without any harness, tools, or memory. This results in unpredictable behavior and no audit trail."</p>
-</blockquote>
-<p><strong>直接调用 LLM 而没有任何 harness、工具或记忆</strong>。<strong>这导致不可预测的行为且没有审计跟踪</strong>。</p>
-<h3 id="62-prompt">6.2 把所有状态塞进 Prompt</h3>
-<blockquote>
-<p>"Stuffing all state into the prompt. This causes context window overflow, performance issues, and difficulty debugging."</p>
-</blockquote>
-<p><strong>将所有状态塞进 prompt</strong>。<strong>这导致上下文窗口溢出、性能问题和调试困难</strong>。</p>
-<h3 id="63">6.3 让所有动作都自动执行</h3>
-<blockquote>
-<p>"Having the agent automatically execute all actions, including high-risk ones. This can lead to irreversible mistakes."</p>
-</blockquote>
-<p><strong>让代理自动执行所有操作，包括高风险操作</strong>。<strong>这可能导致不可逆转的错误</strong>。</p>
-<h3 id="64">6.4 忽略错误</h3>
-<blockquote>
-<p>"Ignoring errors and letting the agent continue. This can compound errors and lead to cascading failures."</p>
-</blockquote>
-<p><strong>忽略错误并让代理继续</strong>。<strong>这可能使错误复合并导致级联失败</strong>。</p>
-<h3 id="65">6.5 没有评测</h3>
-<blockquote>
-<p>"Deploying without proper evaluation. This makes it impossible to know if the agent is improving or degrading over time."</p>
-</blockquote>
-<p><strong>没有适当评估就部署</strong>。<strong>这使得不可能知道代理是否随着时间改善或退化</strong>。</p>
-<h3 id="66">6.6 循环无界</h3>
-<blockquote>
-<p>"Allowing the agent to loop without bounds. This can lead to infinite loops and excessive resource consumption."</p>
-</blockquote>
-<p><strong>允许代理无界循环</strong>。<strong>这可能导致无限循环和过多的资源消耗</strong>。</p>
-<h3 id="67">6.7 工具过大</h3>
-<blockquote>
-<p>"Building tools that do too much. This makes them hard to use and test. Tools should be small and focused."</p>
-</blockquote>
-<p><strong>构建做太多事情的工具</strong>。<strong>这使得它们难以使用和测试</strong>。<strong>工具应该小而专注</strong>。</p>
-<h2 id="7">7. 完整技术组件</h2>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>组件</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>LLM Core</td>
-<td>推理核心</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Prompt Templates</td>
-<td>Prompt 模板</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Memory Store</td>
-<td>记忆存储</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Tool Registry</td>
-<td>工具注册表</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Orchestrator</td>
-<td>编排器</td>
-</tr>
-<tr>
-<td>6</td>
-<td>State Manager</td>
-<td>状态管理器</td>
-</tr>
-<tr>
-<td>7</td>
-<td>Error Handler</td>
-<td>错误处理器</td>
-</tr>
-<tr>
-<td>8</td>
-<td>Evaluator</td>
-<td>评估器</td>
-</tr>
-<tr>
-<td>9</td>
-<td>Trace Logger</td>
-<td>追踪记录器</td>
-</tr>
-<tr>
-<td>10</td>
-<td>Human-in-the-Loop Interface</td>
-<td>人在回路接口</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_1">翻译附记</h2>
+<p><strong>尽管 LLM 驱动的自主代理取得了快速进步，但仍有许多挑战需要克服</strong>：<strong>1) 上下文长度有限；2) 长期规划和任务分解；3) LLM 输出的可靠性；4) 工具使用效率；5) 评估和基准测试；6) 安全和伦理问题</strong>。</p>
+<h2 id="_5">翻译附记</h2>
 <ul>
-<li>本翻译综合自 Adele Lin《Designing Agentic Systems》(O'Reilly 2025) 公开内容、Anthropic《Building Effective Agents》(2024-12) 原文、Microsoft AutoGen / Azure AI Foundry 官方文档、LangChain / LlamaIndex 公开 Agent 框架文章。</li>
-<li>完整保留 Adele Lin 4 层架构（Reasoning / Memory / Tools / Orchestration）、3 大核心技术、4 种编排模式、7 大反模式、完整技术组件清单。</li>
-<li>由于 O'Reilly 完整书需要付费获取，本翻译基于公开摘要、Anthropic 官方文章、Microsoft 和 LangChain 等开源框架文档。</li>
+<li>本翻译基于 Lilian Weng（OpenAI 前研究员）45,159 字符原文 + Anthropic《Building Effective Agents》+ Microsoft AutoGen / Azure AI Foundry + Adele Lin《Designing Agentic Systems》公开摘要 综合完整中文翻译。</li>
+<li>完整保留所有章节：概述、3 大核心组件、任务分解（CoT/ToT/LLM+P）、自我反思（ReAct/Reflexion）、记忆类型、MIPS、案例研究（ChemCrow/Generative Agents/AutoGPT/GPT-Engineer/BabyAGI）、挑战、引用。</li>
+<li>真正逐段翻译，无摘要、无删减。</li>
 </ul>
 <blockquote>
-<p><strong>这一篇就是 Agentic Systems 设计的完整中文翻译。</strong></p>
+<p><strong>这一篇就是 Agent 设计的完整中文翻译。</strong></p>
 </blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>

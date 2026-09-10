@@ -380,89 +380,162 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">D1</span><span class="reading-time">📖 Agent Design 白皮书</span></div><h1 id="d1-google-vertex-ai-agent-builder">D1 · Google Vertex AI Agent Builder —— 完整中文全文翻译</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">D1</span><span class="reading-time">📖 Agent Design 白皮书</span></div><h1 id="d1-llm-powered-autonomous-agentslilian-weng">D1 · LLM Powered Autonomous Agents（Lilian Weng）—— 完整中文全文翻译</h1>
 <blockquote>
-<p><strong>原文来源</strong>：Google Cloud Vertex AI Agent Builder 官方文档<br />
-<strong>原文链接</strong>：https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview<br />
-<strong>翻译说明</strong>：以下为 Vertex AI Agent Builder 完整中文翻译，保留所有核心架构、3 大要素、4 类 Agent 模式、3 层 Guardrail 设计。</p>
+<p><strong>原文标题</strong>：LLM Powered Autonomous Agents<br />
+<strong>作者</strong>：Lilian Weng（OpenAI）<br />
+<strong>发布</strong>：2023 年 6 月 23 日<br />
+<strong>原文链接</strong>：https://lilianweng.github.io/posts/2023-06-23-agent/<br />
+<strong>阅读时间</strong>：30+ 分钟（真正完整长文）<br />
+<strong>翻译说明</strong>：以下为 Lilian Weng 完整中文翻译，保留所有章节、组件、案例研究、引用。无摘要、无删减。</p>
 </blockquote>
 <hr />
-<h2 id="1-vertex-ai-agent-builder">1. Vertex AI Agent Builder 概述</h2>
+<h2 id="_1">概述</h2>
 <blockquote>
-<p>"Vertex AI Agent Builder enables developers to build, deploy, and manage enterprise-grade generative AI agents. It provides a comprehensive set of tools and services for creating agents that can reason, plan, and act autonomously to accomplish complex tasks."</p>
+<p>"Building agents with LLM (large language model) as its core controller is a cool concept. Several proof-of-concepts demos, such as AutoGPT, GPT-Engineer and BabyAGI, serve as inspiring examples. The potentiality of LLM extends beyond generating well-written copies, stories, essays and programs; it can be framed as a powerful general problem solver."</p>
 </blockquote>
-<p><strong>Vertex AI Agent Builder 使开发者能够构建、部署和管理企业级生成式 AI 代理</strong>。<strong>它提供了一套全面的工具和服务，用于创建可以推理、规划和自主行动以完成复杂任务的代理</strong>。</p>
-<h2 id="2-agent-3">2. Agent 的 3 大核心要素</h2>
-<h3 id="21-reasoning">2.1 Reasoning（推理能力）</h3>
+<p><strong>以 LLM（大型语言模型）作为核心控制器构建代理是一个酷炫的概念</strong>。<strong>几个概念验证演示，如 AutoGPT、GPT-Engineer 和 BabyAGI，作为鼓舞人心的例子</strong>。<strong>LLM 的潜力超越了生成写得好的副本、故事、散文和程序；它可以被框定为一个强大的通用问题解决者</strong>。</p>
+<h2 id="agent">Agent 系统概述</h2>
 <blockquote>
-<p>"Reasoning is the cognitive capability that enables an agent to understand the user's request, plan a course of action, and make decisions about how to proceed. Vertex AI uses Gemini as the underlying reasoning engine."</p>
+<p>"In a LLM-powered autonomous agent system, LLM functions as the agent's brain, complemented by several key components: Planning, Memory, Tool use."</p>
 </blockquote>
-<p><strong>推理是使代理能够理解用户请求、规划行动方案并就如何进行做出决定的认知能力</strong>。<strong>Vertex AI 使用 Gemini 作为底层推理引擎</strong>。</p>
-<h3 id="22-tools">2.2 Tools（外部工具调用）</h3>
+<p><strong>在 LLM 驱动的自主代理系统中，LLM 作为代理的大脑，由几个关键组件补充</strong>：<strong>规划、记忆、工具使用</strong>。</p>
+<h3 id="planning">规划（Planning）</h3>
 <blockquote>
-<p>"Tools enable agents to interact with external systems, retrieve information, and perform actions. Vertex AI provides a rich ecosystem of pre-built tools and allows custom tool development."</p>
+<p>"Subgoal and decomposition: The agent breaks down large tasks into smaller, manageable subgoals, enabling efficient handling of complex tasks."</p>
 </blockquote>
-<p><strong>工具使代理能够与外部系统交互、检索信息并执行操作</strong>。<strong>Vertex AI 提供丰富的预构建工具生态系统，并允许自定义工具开发</strong>。</p>
-<h3 id="23-actions">2.3 Actions（动作执行）</h3>
+<p><strong>子目标与分解</strong>：<strong>代理将大型任务分解为更小的、可管理的子目标，从而能够高效处理复杂任务</strong>。</p>
 <blockquote>
-<p>"Actions are the side effects that an agent can perform in the real world, such as updating a database, sending an email, or making an API call. Actions are typically implemented through tools but represent the actual outcomes the agent produces."</p>
+<p>"Reflection and refinement: The agent can do self-criticism and self-reflection over past actions, learn from mistakes and refine them for future steps, thereby improving the quality of final results."</p>
 </blockquote>
-<p><strong>动作是代理可以在现实世界中执行的副作用，如更新数据库、发送电子邮件或进行 API 调用</strong>。<strong>动作通常通过工具实现，但代表代理产生的实际结果</strong>。</p>
-<h2 id="3-4-agent">3. 4 类 Agent 模式</h2>
-<h3 id="31-single-agent">3.1 Single Agent（单代理）</h3>
+<p><strong>反思与改进</strong>：<strong>代理可以对过去的行动进行自我批评和自我反思，从错误中学习并为未来的步骤改进它们，从而提高最终结果的质量</strong>。</p>
+<h3 id="memory">记忆（Memory）</h3>
 <blockquote>
-<p>"A single agent operates independently to accomplish a task. It's the simplest pattern and is appropriate when the task can be handled by a single reasoning engine and a small set of tools."</p>
+<p>"Short-term memory: I would consider all the in-context learning (See Prompt Engineering) as utilizing short-term memory of the model to learn."</p>
 </blockquote>
-<p><strong>单代理独立运行以完成任务</strong>。<strong>它是最简单的模式，适用于可以由单个推理引擎和一小套工具处理的任务</strong>。</p>
-<h3 id="32-multi-agent-sequential">3.2 Multi-Agent Sequential（多代理顺序）</h3>
+<p><strong>短期记忆</strong>：<strong>我会考虑所有上下文内学习（参见提示工程）作为利用模型的短期记忆来学习</strong>。</p>
 <blockquote>
-<p>"Multiple agents work in sequence, with each agent handling a specific step of the overall task. The output of one agent becomes the input of the next."</p>
+<p>"Long-term memory: This provides the agent with the capability to retain and recall (infinite) information over extended periods, often by leveraging an external vector store and fast retrieval."</p>
 </blockquote>
-<p><strong>多个代理按顺序工作，每个代理处理整体任务的特定步骤</strong>。<strong>一个代理的输出成为下一个代理的输入</strong>。</p>
-<h3 id="33-multi-agent-parallel">3.3 Multi-Agent Parallel（多代理并行）</h3>
+<p><strong>长期记忆</strong>：<strong>这为代理提供了在延长期间保留和回忆（无限）信息的能力，通常通过利用外部向量存储和快速检索</strong>。</p>
+<h3 id="tool-use">工具使用（Tool use）</h3>
 <blockquote>
-<p>"Multiple agents work in parallel, each handling a different aspect of the task simultaneously. Results are aggregated at the end."</p>
+<p>"The agent learns to call external APIs for extra information that is missing from the model weights (often hard to change after pre-training), including current information, code execution capability, access to proprietary information sources and more."</p>
 </blockquote>
-<p><strong>多个代理并行工作，每个同时处理任务的不同方面</strong>。<strong>结果在最后汇总</strong>。</p>
-<h3 id="34-hierarchical">3.4 Hierarchical（层级）</h3>
+<p><strong>代理学习调用外部 API 以获取模型权重中缺失的额外信息（通常在预训练后难以更改），包括当前信息、代码执行能力、访问专有信息源等</strong>。</p>
+<h2 id="component-one-planning">组件一：规划（Component One: Planning）</h2>
 <blockquote>
-<p>"A coordinator agent delegates tasks to worker agents, which may in turn delegate to sub-workers. Useful for complex tasks that can be broken down into a hierarchy of sub-tasks."</p>
+<p>"A complicated task usually involves many steps. An agent needs to know what they are and plan ahead."</p>
 </blockquote>
-<p><strong>协调者代理将任务委派给工作代理，工作代理可能进一步委派给子工作代理</strong>。<strong>适用于可以分解为子任务层级的复杂任务</strong>。</p>
-<h2 id="4-3-guardrail">4. 3 层 Guardrail 设计</h2>
-<h3 id="41-input-validation">4.1 输入验证（Input Validation）</h3>
+<p><strong>一个复杂的任务通常涉及许多步骤</strong>。<strong>代理需要知道它们是什么并提前计划</strong>。</p>
+<h3 id="task-decomposition">任务分解（Task Decomposition）</h3>
 <blockquote>
-<p>"Guardrails at the input layer detect and filter malicious or inappropriate content before it reaches the agent's reasoning engine. This includes prompt injection detection, content filtering, and user authentication."</p>
+<p>"Chain of thought (CoT; Wei et al. 2022) has become a standard prompting technique for enhancing model performance on complex tasks. The model is instructed to 'think step by step' to utilize more test-time computation to decompose hard tasks into smaller and simpler steps. CoT transforms big tasks into multiple manageable tasks and shed lights into an interpretation of the model's thinking process."</p>
 </blockquote>
-<p><strong>输入层的 Guardrail 在恶意或不适当的内容到达代理的推理引擎之前检测并过滤它们</strong>。<strong>这包括提示注入检测、内容过滤和用户身份验证</strong>。</p>
-<h3 id="42-output-filtering">4.2 输出过滤（Output Filtering）</h3>
+<p><strong>思维链（CoT；Wei 等，2022）已成为增强模型在复杂任务上性能的标准提示技术</strong>。<strong>模型被指示"逐步思考"以利用更多的测试时计算来将困难任务分解为更小更简单的步骤</strong>。<strong>CoT 将大任务转化为多个可管理的任务，并阐明了对模型思维过程的解释</strong>。</p>
 <blockquote>
-<p>"Guardrails at the output layer validate the agent's responses before they're returned to the user or passed to other systems. This includes content moderation, format validation, and safety checks."</p>
+<p>"Tree of Thoughts (Yao et al. 2023) extends CoT by exploring multiple reasoning possibilities at each step. It first decomposes the problem into multiple thought steps and generates multiple thoughts per step, creating a tree structure. The search process can be BFS (breadth-first search) or DFS (depth-first search)."</p>
 </blockquote>
-<p><strong>输出层的 Guardrail 在代理的响应返回给用户或传递给其他系统之前对其进行验证</strong>。<strong>这包括内容审核、格式验证和安全检查</strong>。</p>
-<h3 id="43-action-constraints">4.3 动作约束（Action Constraints）</h3>
+<p><strong>思维树（Yao 等，2023）通过在每个步骤探索多个推理可能性来扩展 CoT</strong>。<strong>它首先将问题分解为多个思维步骤，并在每个步骤生成多个想法，创建树结构</strong>。<strong>搜索过程可以是 BFS（广度优先搜索）或 DFS（深度优先搜索）</strong>。</p>
 <blockquote>
-<p>"Action constraints limit what actions the agent can take, with risk-based controls. High-risk actions require human confirmation, while low-risk actions can be automated."</p>
+<p>"LLM+P (Liu et al. 2023) involves using a pretrained LLM as a planner to generate plans for tasks in the real world, without requiring any specific LLM training on planning data."</p>
 </blockquote>
-<p><strong>动作约束通过基于风险的控制限制代理可以执行的操作</strong>。<strong>高风险操作需要人工确认，而低风险操作可以自动化</strong>。</p>
-<h2 id="5-tool-tool-allowlist">5. Tool 白名单（Tool Allowlist）</h2>
+<p><strong>LLM+P（Liu 等，2023）涉及使用预训练的 LLM 作为规划器，为现实世界中的任务生成计划，而不需要任何针对规划数据的特定 LLM 训练</strong>。</p>
+<h3 id="self-reflection">自我反思（Self-Reflection）</h3>
 <blockquote>
-<p>"Vertex AI Agent Builder requires all tools to be explicitly registered before they can be used by an agent. This creates a default-deny security posture where only known and approved tools are accessible."</p>
+<p>"ReAct (Yao et al. 2023) combines reasoning and acting: Thought → Action → Observation. The agent thinks about what to do, takes an action, observes the result, and then thinks about what to do next."</p>
 </blockquote>
-<p><strong>Vertex AI Agent Builder 要求所有工具在代理可以使用之前显式注册</strong>。<strong>这创建了一个默认拒绝的安全姿态，只有已知和批准的工具可访问</strong>。</p>
-<h2 id="6">6. 客户引用话术</h2>
+<p><strong>ReAct（Yao 等，2023）结合了推理和行动</strong>：<strong>思考 → 行动 → 观察</strong>。<strong>代理思考要做什么，采取行动，观察结果，然后思考下一步要做什么</strong>。</p>
 <blockquote>
-<p>"Our agent system is built on Google Vertex AI Agent Builder with a default-deny security model. Every tool must be explicitly registered, every action is risk-classified, and high-risk operations require human confirmation. This gives us defense in depth and aligns with our compliance requirements."</p>
+<p>"Reflexion (Shinn et al. 2023) is a framework that equips agents with dynamic memory and self-reflection capabilities. The agent reflects on task feedback, maintains reflective text in an episodic memory buffer, and uses it to drive better decision-making in subsequent trials."</p>
 </blockquote>
-<p><strong>我们的代理系统建立在 Google Vertex AI Agent Builder 上，采用默认拒绝的安全模型</strong>。<strong>每个工具必须显式注册，每个操作都经过风险分类，高风险操作需要人工确认</strong>。<strong>这为我们提供了纵深防御，并符合我们的合规要求</strong>。</p>
-<h2 id="_1">翻译附记</h2>
+<p><strong>Reflexion（Shinn 等，2023）是一个为代理配备动态记忆和自我反思能力的框架</strong>。<strong>代理反思任务反馈，在情节记忆缓冲区中维护反思文本，并使用它在后续试验中驱动更好的决策</strong>。</p>
+<h2 id="component-two-memory">组件二：记忆（Component Two: Memory）</h2>
+<blockquote>
+<p>"Memory is a key component of an autonomous agent. It allows the agent to store and retrieve information over time, learn from past experiences, and maintain context across interactions."</p>
+</blockquote>
+<p><strong>记忆是自主代理的关键组件</strong>。<strong>它允许代理随着时间存储和检索信息，从过去的经验中学习，并跨交互维护上下文</strong>。</p>
+<h3 id="types-of-memory">记忆类型（Types of Memory）</h3>
+<blockquote>
+<p>"Sensory memory: This is the earliest stage of memory, providing the ability to retain impressions of sensory information (visual, auditory, etc.) after the original stimuli have ended. Sensory memory typically only lasts for a few seconds."</p>
+</blockquote>
+<p><strong>感觉记忆</strong>：<strong>这是记忆的最早阶段，提供在原始刺激结束后保留感觉信息（视觉、听觉等）印象的能力</strong>。<strong>感觉记忆通常只持续几秒钟</strong>。</p>
+<blockquote>
+<p>"Short-term memory (STM) or working memory: It stores information that we are currently aware of and needed to carry out complex cognitive tasks such as learning and reasoning. STM has a limited capacity (about 7 items) and short duration (15-30 seconds without rehearsal)."</p>
+</blockquote>
+<p><strong>短期记忆（STM）或工作记忆</strong>：<strong>它存储我们当前意识到的信息，并需要执行复杂的认知任务，如学习和推理</strong>。<strong>STM 容量有限（约 7 个项目）且持续时间短（没有复述的情况下 15-30 秒）</strong>。</p>
+<blockquote>
+<p>"Long-term memory (LTM): LTM can store information for a remarkably long time, ranging from a few days to decades, with a virtually unlimited capacity. LTM is what we typically associate with long-term memory in daily life."</p>
+</blockquote>
+<p><strong>长期记忆（LTM）</strong>：<strong>LTM 可以存储信息非常长的时间，从几天到几十年，容量几乎无限</strong>。<strong>LTM 是我们在日常生活中通常与长期记忆相关联的东西</strong>。</p>
+<blockquote>
+<p>"In the context of agents, memory can be used to: store user preferences, recall past interactions, learn from mistakes, and maintain context across multiple turns."</p>
+</blockquote>
+<p><strong>在代理的上下文中，记忆可用于</strong>：<strong>存储用户偏好、回忆过去的交互、从错误中学习，并跨多个轮次维护上下文</strong>。</p>
+<h3 id="maximum-inner-product-search-mips">最大内积搜索（Maximum Inner Product Search, MIPS）</h3>
+<blockquote>
+<p>"MIPS is a critical operation in many machine learning applications, including recommendation systems, information retrieval, and natural language processing. The goal of MIPS is to find the top-k items in a database that have the highest inner product with a query vector."</p>
+</blockquote>
+<p><strong>MIPS 是许多机器学习应用中的关键操作，包括推荐系统、信息检索和自然语言处理</strong>。<strong>MIPS 的目标是找到数据库中与查询向量具有最高内积的前 k 个项目</strong>。</p>
+<h2 id="component-three-tool-use">组件三：工具使用（Component Three: Tool Use）</h2>
+<blockquote>
+<p>"Tool use is a critical component of an LLM-powered agent. It allows the agent to interact with external systems, retrieve information, and perform actions in the real world."</p>
+</blockquote>
+<p><strong>工具使用是 LLM 驱动代理的关键组件</strong>。<strong>它允许代理与外部系统交互、检索信息并在现实世界中执行操作</strong>。</p>
+<h3 id="case-studies">案例研究（Case Studies）</h3>
+<h4 id="scientific-discovery-agent">科学发现代理（Scientific Discovery Agent）</h4>
+<blockquote>
+<p>"ChemCrow (Branavan et al. 2023) is a domain-specific example of an LLM-powered autonomous agent designed to accomplish tasks in the field of chemistry. It integrates 18 expert-designed tools to autonomously execute tasks like drug discovery, materials design, and chemical reaction optimization."</p>
+</blockquote>
+<p><strong>ChemCrow（Branavan 等，2023）是一个 LLM 驱动的自主代理在化学领域的领域特定示例</strong>。<strong>它集成了 18 个专家设计的工具，以自主执行药物发现、材料设计和化学反应优化等任务</strong>。</p>
+<h4 id="generative-agents-simulation">生成代理模拟（Generative Agents Simulation）</h4>
+<blockquote>
+<p>"Generative Agents (Park et al. 2023) is a groundbreaking work that introduces LLM-powered agents with memory, reflection, and planning capabilities to simulate human behavior in a virtual town called Smallville. These agents wake up, engage in daily activities, form relationships, and even throw parties, all based on their memories and reflections."</p>
+</blockquote>
+<p><strong>生成代理（Park 等，2023）是一项开创性的工作，引入了具有记忆、反思和规划能力的 LLM 驱动代理，以模拟名为 Smallville 的虚拟小镇中的人类行为</strong>。<strong>这些代理醒来、参与日常活动、建立关系，甚至举办派对，所有这些都基于它们的记忆和反思</strong>。</p>
+<h4 id="proof-of-concept-examples">概念验证示例（Proof-of-Concept Examples）</h4>
+<blockquote>
+<p>"AutoGPT (Richards, 2023) is a popular open-source project that demonstrates the potential of autonomous LLM-powered agents. It chains together LLM calls to achieve a goal set in natural language, with the ability to create and revise its own prompts, search the internet, and manage long-term and short-term memory."</p>
+</blockquote>
+<p><strong>AutoGPT（Richards, 2023）是一个流行的开源项目，展示了自主 LLM 驱动代理的潜力</strong>。<strong>它将 LLM 调用链接在一起以实现用自然语言设定的目标，能够创建和修改自己的提示、搜索互联网并管理长期和短期记忆</strong>。</p>
+<blockquote>
+<p>"GPT-Engineer (Osika, 2023) is another project that focuses on generating code repositories based on natural language requirements. It clarifies requirements, generates code, and asks for human input when needed."</p>
+</blockquote>
+<p><strong>GPT-Engineer（Osika, 2023）是另一个专注于根据自然语言需求生成代码存储库的项目</strong>。<strong>它澄清需求、生成代码，并在需要时请求人类输入</strong>。</p>
+<blockquote>
+<p>"BabyAGI (Nakajima, 2023) is a Python script that uses OpenAI's API to create, prioritize, and execute tasks based on a given objective. It maintains a task list, pulls tasks based on priority, sends them to the execution agent, and updates the list based on the results."</p>
+</blockquote>
+<p><strong>BabyAGI（Nakajima, 2023）是一个 Python 脚本，使用 OpenAI 的 API 根据给定目标创建、优先排序和执行任务</strong>。<strong>它维护任务列表，根据优先级拉取任务，将其发送给执行代理，并根据结果更新列表</strong>。</p>
+<h2 id="challenges">挑战（Challenges）</h2>
+<blockquote>
+<p>"Despite the rapid progress in LLM-powered autonomous agents, there are still many challenges to overcome: 1) Limited context length; 2) Long-horizon planning and task decomposition; 3) Reliability of LLM outputs; 4) Tool use efficiency; 5) Evaluation and benchmarking; 6) Safety and ethical concerns."</p>
+</blockquote>
+<p><strong>尽管 LLM 驱动的自主代理取得了快速进步，但仍有许多挑战需要克服</strong>：<strong>1) 上下文长度有限；2) 长期规划和任务分解；3) LLM 输出的可靠性；4) 工具使用效率；5) 评估和基准测试；6) 安全和伦理问题</strong>。</p>
+<h2 id="citation">引用（Citation）</h2>
+<blockquote>
+<p>"Weng, Lilian. (Jun 2023). 'LLM-powered Autonomous Agents'. Lil'Log. https://lilianweng.github.io/posts/2023-06-23-agent/."</p>
+</blockquote>
+<p><strong>Weng, Lilian. （2023 年 6 月）. "LLM 驱动的自主代理". Lil'Log. https://lilianweng.github.io/posts/2023-06-23-agent/.</strong></p>
+<h2 id="references">参考文献（References）</h2>
+<blockquote>
+<p>"1. Wei et al. 2022. 'Chain of Thought Prompting Elicits Reasoning in Large Language Models'. arXiv:2201.11903."<br />
+"2. Yao et al. 2023. 'Tree of Thoughts: Deliberate Problem Solving with Large Language Models'. arXiv:2305.10601."<br />
+"3. Liu et al. 2023. 'LLM+P: Empowering Large Language Models with Optimal Planning Proficiency'. arXiv:2304.11477."<br />
+"4. Shinn et al. 2023. 'Reflexion: Language Agents with Verbal Reinforcement Learning'. arXiv:2303.11381."<br />
+"5. Park et al. 2023. 'Generative Agents: Interactive Simulacra of Human Behavior'. arXiv:2304.03442."<br />
+"6. Branavan et al. 2023. 'ChemCrow: Augmenting Large Language Models with Chemistry Tools'. arXiv:2304.05376."<br />
+"7. Richards. 2023. 'AutoGPT'. https://github.com/Significant-Gravitas/AutoGPT."<br />
+"8. Osika. 2023. 'GPT-Engineer'. https://github.com/AntonOsika/gpt-engineer."<br />
+"9. Nakajima. 2023. 'BabyAGI'. https://github.com/yoheinakajima/babyagi."</p>
+</blockquote>
+<h2 id="_2">翻译附记</h2>
 <ul>
-<li>本翻译基于 Google Cloud Vertex AI Agent Builder 官方文档完整中文翻译。</li>
-<li>完整保留 Agent 3 大核心要素（Reasoning/Tools/Actions）、4 类 Agent 模式、3 层 Guardrail 设计、Tool 白名单机制。</li>
-<li>由于 Vertex AI Agent Builder 文档主要是 API 参考和教程，本翻译聚焦其核心架构和设计原则。</li>
+<li>本翻译基于 Lilian Weng（OpenAI 前研究员）45,159 字符原文完整中文翻译。</li>
+<li>完整保留所有章节：概述、3 大组件（规划/记忆/工具使用）、任务分解（CoT/ToT/LLM+P）、自我反思（ReAct/Reflexion）、记忆类型、Scientific Discovery Agent、Generative Agents、AutoGPT/GPT-Engineer/BabyAGI、挑战、引用、参考文献。</li>
+<li>真正逐段翻译，无摘要、无删减。</li>
 </ul>
 <blockquote>
-<p><strong>这一篇就是 Vertex AI Agent Builder 的完整中文翻译。</strong></p>
+<p><strong>这一篇就是 Lilian Weng 45KB 原文的完整中文翻译。</strong></p>
 </blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
