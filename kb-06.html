@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>自媒体·获客运营</title>
+<title>自媒体 · 获客运营</title>
 <style>
 :root {
   --bg: #fbfbfd;
@@ -21,7 +21,6 @@
   --border-strong: rgba(0, 0, 0, 0.12);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
   --radius: 18px;
   --radius-sm: 10px;
   --radius-lg: 24px;
@@ -43,68 +42,31 @@ html, body {
 a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
 a:hover { color: var(--accent-hover); }
 
-/* Top nav - Apple-style sticky blurred */
 .topnav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  position: sticky; top: 0; z-index: 100;
   background: rgba(251, 251, 253, 0.72);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--border);
-  padding: 0 22px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  gap: 28px;
+  padding: 0 22px; height: 48px;
+  display: flex; align-items: center; gap: 28px;
 }
-.topnav .brand {
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -0.02em;
-}
-.topnav .nav-items {
-  display: flex;
-  gap: 22px;
-  flex: 1;
-}
-.topnav .nav-items a {
-  font-size: 13px;
-  color: var(--text);
-  opacity: 0.85;
-  padding: 8px 0;
-  position: relative;
-  transition: opacity 0.2s;
-}
+.topnav .brand { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+.topnav .nav-items { display: flex; gap: 22px; flex: 1; }
+.topnav .nav-items a { font-size: 13px; color: var(--text); opacity: 0.85; padding: 8px 0; position: relative; }
 .topnav .nav-items a:hover { opacity: 1; }
 .topnav .nav-items a.active::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0; right: 0;
-  height: 2px;
-  background: var(--text);
-  border-radius: 1px;
+  content: ""; position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 2px; background: var(--text); border-radius: 1px;
 }
 .topnav .search-mini {
-  display: flex;
-  align-items: center;
-  background: var(--bg-soft);
-  border-radius: 8px;
-  padding: 4px 10px;
-  font-size: 13px;
-  color: var(--text-tertiary);
+  display: flex; align-items: center;
+  background: var(--bg-soft); border-radius: 8px;
+  padding: 4px 10px; font-size: 13px; color: var(--text-tertiary);
   min-width: 180px;
-  cursor: text;
 }
-.topnav .search-mini input {
-  border: none; background: transparent; outline: none;
-  font-size: 13px; flex: 1; color: var(--text);
-  font-family: inherit;
-}
+.topnav .search-mini input { border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: var(--text); font-family: inherit; }
 
-/* Layout */
 .layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
 .sidebar {
   position: sticky; top: 48px;
@@ -115,452 +77,237 @@ a:hover { color: var(--accent-hover); }
 }
 .sidebar-section { margin-bottom: 24px; }
 .sidebar-title {
-  padding: 0 22px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 8px;
+  padding: 0 22px; font-size: 11px; font-weight: 600;
+  color: var(--text-tertiary); text-transform: uppercase;
+  letter-spacing: 0.04em; margin-bottom: 8px;
 }
 .sidebar-item {
   display: flex; align-items: center; gap: 10px;
-  padding: 7px 22px;
-  font-size: 14px;
-  color: var(--text);
+  padding: 7px 22px; font-size: 14px; color: var(--text);
   transition: background 0.15s, color 0.15s;
-  border-left: 2px solid transparent;
-  margin: 1px 0;
+  border-left: 2px solid transparent; margin: 1px 0;
 }
 .sidebar-item:hover { background: var(--bg-soft); }
 .sidebar-item.active {
-  background: var(--accent-soft);
-  color: var(--accent);
-  border-left-color: var(--accent);
-  font-weight: 500;
+  background: var(--accent-soft); color: var(--accent);
+  border-left-color: var(--accent); font-weight: 500;
 }
 .sidebar-item .ico { font-size: 16px; }
 
-/* Main */
+/* Main - LONG-FORM READING MODE */
 .main {
-  padding: 64px 80px 120px;
-  max-width: 980px;
+  padding: 32px 80px 80px;
+  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
 }
 
-/* Hero (homepage) */
-.hero {
-  text-align: center;
-  padding: 80px 0 64px;
-  margin-bottom: 64px;
+/* Article layout with TOC */
+.article-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr 220px;
+  gap: 48px;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.hero .eyebrow {
-  font-size: 14px;
-  color: var(--accent);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.hero h1 {
-  font-size: 72px;
-  line-height: 1.05;
-  letter-spacing: -0.035em;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 24px;
-}
-.hero .lede {
-  font-size: 24px;
-  line-height: 1.4;
-  color: var(--text-secondary);
-  font-weight: 400;
-  max-width: 720px;
-  margin: 0 auto 32px;
-  letter-spacing: -0.01em;
-}
-.hero .cta-row {
-  display: inline-flex;
-  gap: 16px;
-  align-items: center;
-}
-.btn {
-  display: inline-block;
-  padding: 12px 22px;
-  border-radius: 980px;
-  font-size: 15px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  cursor: pointer;
-  font-family: inherit;
-  border: none;
-}
-.btn-primary {
+
+/* Reading progress */
+.reading-progress {
+  position: fixed;
+  top: 48px;
+  left: 0;
+  height: 3px;
   background: var(--accent);
-  color: #fff;
-}
-.btn-primary:hover {
-  background: var(--accent-hover);
-  color: #fff;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-.btn-secondary {
-  background: var(--bg-soft);
-  color: var(--text);
-}
-.btn-secondary:hover {
-  background: var(--bg-elevated);
-  color: var(--text);
-  box-shadow: var(--shadow-sm);
+  z-index: 99;
+  transition: width 0.1s;
+  width: 0;
 }
 
-/* Section */
-.section { margin: 80px 0; }
-.section-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 24px;
-  padding-bottom: 12px;
+/* Page meta */
+.article-meta-row {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 32px; padding-bottom: 24px;
   border-bottom: 1px solid var(--border);
+  font-size: 13px; color: var(--text-tertiary);
 }
-.section-h2 {
-  font-size: 40px;
-  line-height: 1.15;
-  letter-spacing: -0.025em;
-  font-weight: 600;
-  margin: 24px 0 16px;
-  color: var(--text);
+.article-meta-row .pill {
+  background: var(--bg-soft); color: var(--text);
+  padding: 4px 12px; border-radius: 980px;
+  font-weight: 500; font-size: 12px;
 }
-.section-h3 {
-  font-size: 24px;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
-  font-weight: 600;
-  margin: 32px 0 12px;
-  color: var(--text);
+.article-meta-row .pill.accent {
+  background: var(--accent-soft); color: var(--accent);
+}
+.article-meta-row .reading-time {
+  margin-left: auto;
 }
 
-/* Card grid */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  margin: 24px 0;
-}
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  transition: all 0.25s ease;
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--border-strong);
-}
-.card .icon {
-  font-size: 36px;
-  margin-bottom: 16px;
-  display: block;
-}
-.card .label {
+/* Mini TOC (sticky) */
+.mini-toc {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
   font-size: 13px;
-  color: var(--accent);
-  font-weight: 600;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  padding-right: 8px;
 }
-.card h4 {
-  font-size: 22px;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--text);
+.mini-toc .toc-label {
+  font-size: 11px; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; margin-bottom: 16px;
 }
-.card p {
-  font-size: 15px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin: 0;
+.mini-toc a {
+  display: block; padding: 5px 0; color: var(--text-secondary);
+  border-left: 2px solid transparent; padding-left: 10px;
+  text-decoration: none; transition: all 0.15s;
+  line-height: 1.4;
 }
+.mini-toc a:hover { color: var(--accent); }
+.mini-toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
+.mini-toc .toc-h3 { padding-left: 22px; font-size: 12px; }
+.mini-toc .toc-h4 { padding-left: 34px; font-size: 11px; color: var(--text-tertiary); }
 
-/* Feature row (Apple product page style) */
-.feature-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: center;
-  margin: 80px 0;
-  padding: 64px 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+/* Main content - long-form optimized */
+.content {
+  font-size: 19px; line-height: 1.7; color: var(--text);
+  max-width: 720px; margin: 0 auto;
+  /* Better reading measure */
 }
-.feature-row.reverse { direction: rtl; }
-.feature-row.reverse > * { direction: ltr; }
-.feature-row .feature-text h3 {
-  font-size: 36px;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  margin-bottom: 16px;
-  line-height: 1.2;
-}
-.feature-row .feature-text p {
-  font-size: 19px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 16px;
-}
-.feature-row .feature-visual {
-  background: var(--bg-soft);
-  border-radius: var(--radius-lg);
-  aspect-ratio: 1.2 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 120px;
-  border: 1px solid var(--border);
-}
-
-/* Pill / Tag */
-.pill {
-  display: inline-block;
-  padding: 4px 12px;
-  background: var(--bg-soft);
-  border-radius: 980px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-right: 6px;
-  margin-bottom: 6px;
-}
-.pill.accent {
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-weight: 500;
-}
-
-/* Content (article body) */
-.content { font-size: 19px; line-height: 1.65; color: var(--text); }
 .content h1 {
-  font-size: 56px;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  font-weight: 600;
-  margin: 0 0 16px;
-  color: var(--text);
-}
-.content > blockquote:first-of-type {
-  font-size: 22px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  border: none;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 24px 0;
-  margin: 24px 0 40px;
-  font-weight: 400;
-  background: transparent;
+  font-size: 48px; line-height: 1.15; letter-spacing: -0.025em;
+  font-weight: 600; margin: 0 0 16px; color: var(--text);
 }
 .content h2 {
-  font-size: 36px;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  margin: 64px 0 16px;
-  color: var(--text);
+  font-size: 32px; line-height: 1.25; letter-spacing: -0.02em;
+  font-weight: 600; margin: 56px 0 16px; color: var(--text);
+  padding-top: 16px;
 }
 .content h3 {
-  font-size: 24px;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  font-weight: 600;
-  margin: 40px 0 12px;
-  color: var(--text);
+  font-size: 22px; line-height: 1.35; letter-spacing: -0.01em;
+  font-weight: 600; margin: 40px 0 12px; color: var(--text);
 }
 .content h4 {
-  font-size: 19px;
-  font-weight: 600;
-  margin: 24px 0 8px;
-  color: var(--text);
+  font-size: 18px; font-weight: 600; margin: 24px 0 8px; color: var(--text);
 }
 .content p { margin: 16px 0; }
 .content ul, .content ol { padding-left: 24px; margin: 16px 0; }
-.content li { margin: 6px 0; line-height: 1.6; }
+.content li { margin: 6px 0; line-height: 1.65; }
 .content strong { font-weight: 600; color: var(--text); }
 .content em { font-style: italic; }
 .content code {
-  background: var(--bg-code);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: "SF Mono", "Menlo", monospace;
-  font-size: 0.9em;
-  color: #c7254e;
+  background: var(--bg-code); padding: 2px 6px; border-radius: 4px;
+  font-family: "SF Mono", Menlo, monospace; font-size: 0.85em; color: #c7254e;
 }
 .content pre {
-  background: var(--bg-soft);
-  padding: 20px 24px;
-  border-radius: var(--radius-sm);
-  overflow-x: auto;
-  margin: 24px 0;
-  border: 1px solid var(--border);
-  font-size: 14px;
-  line-height: 1.5;
+  background: var(--bg-soft); padding: 20px 24px; border-radius: var(--radius-sm);
+  overflow-x: auto; margin: 24px 0; border: 1px solid var(--border);
+  font-size: 14px; line-height: 1.5;
 }
-.content pre code {
-  background: none;
-  padding: 0;
-  color: var(--text);
-  font-size: inherit;
-}
-.content table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 24px 0;
-  font-size: 15px;
-}
+.content pre code { background: none; padding: 0; color: var(--text); font-size: inherit; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
 .content th {
-  text-align: left;
-  padding: 12px 16px;
-  background: var(--bg-soft);
-  font-weight: 600;
-  font-size: 14px;
-  border-bottom: 2px solid var(--border-strong);
+  text-align: left; padding: 12px 16px; background: var(--bg-soft);
+  font-weight: 600; font-size: 13px; border-bottom: 2px solid var(--border-strong);
 }
-.content td {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-  vertical-align: top;
-}
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
 .content blockquote {
-  border-left: 3px solid var(--accent);
-  padding: 4px 20px;
-  margin: 24px 0;
-  color: var(--text-secondary);
-  background: var(--accent-soft);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  border-left: 3px solid var(--accent); padding: 12px 20px;
+  margin: 24px 0; color: var(--text-secondary);
+  background: var(--accent-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 .content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
 .content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
 .content a:hover { text-decoration-color: var(--accent); }
 
-/* In-page TOC (right side) */
-.with-toc {
-  display: grid;
-  grid-template-columns: 1fr 220px;
-  gap: 48px;
-  align-items: start;
-}
-.page-toc {
-  position: sticky;
-  top: 80px;
-  font-size: 13px;
+/* Right rail - related + progress */
+.right-rail {
+  position: sticky; top: 80px;
   max-height: calc(100vh - 100px);
   overflow-y: auto;
-}
-.page-toc .toc-title {
-  font-size: 11px;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-.page-toc a {
-  display: block;
-  padding: 5px 0;
-  color: var(--text-secondary);
-  text-decoration: none;
-  border-left: 2px solid transparent;
-  padding-left: 12px;
-  transition: all 0.15s;
-}
-.page-toc a:hover { color: var(--accent); }
-.page-toc a.active { color: var(--accent); border-left-color: var(--accent); }
-.page-toc .toc-h3 { padding-left: 24px; font-size: 12px; }
-
-/* Footer */
-.footer {
-  margin-top: 120px;
-  padding: 48px 0 32px;
-  border-top: 1px solid var(--border);
-  text-align: center;
   font-size: 13px;
-  color: var(--text-tertiary);
-  line-height: 1.7;
 }
+.right-rail .rail-block {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.right-rail h5 {
+  font-size: 11px; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; margin-bottom: 12px;
+}
+.right-rail a {
+  display: block; padding: 6px 0; color: var(--text-secondary);
+  text-decoration: none; transition: color 0.15s;
+}
+.right-rail a:hover { color: var(--accent); }
 
-/* Article header */
-.article-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
-.article-meta { display: flex; gap: 12px; margin-bottom: 12px; font-size: 13px; color: var(--text-tertiary); }
-.article-meta .pill { font-size: 12px; padding: 3px 10px; }
-
-/* Video card (for KB pages) */
+/* Video card (long-form optimized) */
 .video-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  margin: 16px 0;
-  transition: all 0.2s;
   border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin: 24px 0;
+  transition: all 0.2s;
 }
 .video-card:hover { box-shadow: var(--shadow-md); }
-.video-card h3 { font-size: 19px; line-height: 1.4; margin: 0 0 12px; }
-.video-card .meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--text-tertiary); margin-top: 12px; }
+.video-card h3 { font-size: 20px; line-height: 1.4; margin: 0 0 12px; }
+.video-card .meta { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: var(--text-tertiary); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
 .video-card .meta a { color: var(--text-secondary); }
 .video-card .meta a:hover { color: var(--accent); }
 .video-card .meta .pill.author { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.video-card .meta .pill.topic { background: var(--bg-soft); color: var(--text); }
+.video-card .meta .pill.val { background: rgba(0, 175, 100, 0.12); color: #00875a; }
 .video-card .insight { 
-  background: var(--bg-soft); 
-  padding: 16px 20px; 
-  border-radius: var(--radius-sm); 
-  margin-top: 16px;
-  font-size: 14px;
-  white-space: pre-wrap;
-  line-height: 1.6;
-  color: var(--text);
-  font-family: "SF Mono", "Menlo", monospace;
+  background: var(--bg-soft); padding: 18px 22px; 
+  border-radius: var(--radius-sm); margin-top: 16px;
+  font-size: 14px; line-height: 1.7; white-space: pre-wrap; 
+  color: var(--text); font-family: "SF Mono", Menlo, monospace;
+  max-height: 280px; overflow-y: auto;
 }
 .video-card details { margin-top: 16px; }
-.video-card details summary {
-  cursor: pointer;
-  font-size: 13px;
-  color: var(--accent);
-  padding: 8px 0;
-  user-select: none;
+.video-card details summary { cursor: pointer; font-size: 13px; color: var(--accent); padding: 6px 0; user-select: none; }
+.video-card details pre { max-height: 400px; overflow-y: auto; margin-top: 12px; font-size: 13px; }
+
+/* Sub-topic collapsible */
+.subtopic { margin: 32px 0; }
+.subtopic-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; background: var(--bg-soft);
+  border-radius: var(--radius); cursor: pointer; user-select: none;
+  margin-bottom: 16px; transition: background 0.15s;
 }
-.video-card details pre {
-  max-height: 400px;
-  overflow-y: auto;
-  margin-top: 12px;
-  font-size: 13px;
-}
+.subtopic-header:hover { background: var(--bg-elevated); box-shadow: var(--shadow-sm); }
+.subtopic-header h2 { margin: 0; font-size: 22px; }
+.subtopic-header .count { font-size: 13px; color: var(--text-tertiary); }
+.subtopic-header .arrow { margin-left: auto; transition: transform 0.2s; }
+.subtopic.collapsed .arrow { transform: rotate(-90deg); }
+.subtopic.collapsed .videos { display: none; }
+
+/* Footer */
+.footer { margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--text-tertiary); line-height: 1.7; }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .article-layout { grid-template-columns: 200px 1fr; }
+  .right-rail { display: none; }
+}
 @media (max-width: 1024px) {
   .layout { grid-template-columns: 1fr; }
   .sidebar { display: none; }
-  .main { padding: 40px 24px 80px; }
-  .hero h1 { font-size: 48px; }
-  .feature-row { grid-template-columns: 1fr; gap: 32px; }
-  .feature-row.reverse { direction: ltr; }
-  .with-toc { grid-template-columns: 1fr; }
-  .page-toc { display: none; }
+  .main { padding: 24px; }
+  .article-layout { grid-template-columns: 1fr; }
+  .mini-toc { display: none; }
 }
 </style>
 </head>
 <body>
+<div class="reading-progress"></div>
 
 <nav class="topnav">
   <a href="index.html" class="brand">企业 AI 实战</a>
@@ -633,14 +380,18 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-header"><div class="article-meta"><span class="pill accent">📂 9 大主题 · 6/9</span></div></div><h1 id="02-06">02-06 · 自媒体·获客运营</h1>
+<div class="article-meta-row">
+<span class="pill accent">📂 知识库</span>
+<span class="pill">深度阅读</span>
+<span class="reading-time">⏱️ 约 73 分钟 · 29,274 字</span>
+</div><div class="article-layout"><div class="mini-toc"><div class="toc-label">本页目录</div><a href="#其他" class="">其他</a><a href="#建议普通人去做一个小博主-博主身份能为你的人生作弊-短视频运营-自媒体教程-新手入门-涨粉技巧" class="toc-h3">建议普通人去做一个小博主，博主身份能为你的人生作弊 #短视频运营 #自媒体教程 #新手入门 #涨粉技巧</a><a href="#别再浪费时间刷短视频了-ai时代-真正拉开差距的-是你有没有提前布局-选择学习-还是选择原地踏步-全" class="toc-h3">别再浪费时间刷短视频了 AI时代，真正拉开差距的，是你有没有提前布局 选择学习，还是选择原地踏步，全在你一念之间 拥抱AI，就是拥抱未来！ 海外老哥亲授｜Claude AI完整保姆级教程 1小时学会自主搭建+全流程自动化…</a><a href="#traework是怎么帮我实现多维打分并建立选题库的-青年创作者成长计划-trae-traework" class="toc-h3">TraeWork是怎么帮我实现多维打分并建立选题库的 #青年创作者成长计划 #TRAE #TRAEWork</a><a href="#编程名词扫盲之-啥是github-ai新星计划-github-github怎么用-抖音前沿科技首发计" class="toc-h3">编程名词扫盲之“啥是Github？” #ai新星计划 #github #github怎么用 ##抖音前沿科技首发计划 #ai</a><a href="#告别视频抽卡-这两张图你要知道-好用的ai指令-我在抖音聊科技-ai对话日常-故事板-分镜故事板-这" class="toc-h3">告别视频抽卡，这两张图你要知道！ #好用的ai指令 #我在抖音聊科技 #ai对话日常 #故事板 #分镜故事板 这期视频给大家演示一套我常用的视频制作技巧，只需要在生视频前多加两张参考图（故事板+角色设定板），就能控制住视…</a><a href="#学ai-千万别错过这5个博主-抖音精选是会搞内容分类的-抖音精选-ai-博主推荐" class="toc-h3">学AI，千万别错过这5个博主！ #抖音精选是会搞内容分类的 #抖音精选 #AI #博主推荐</a><a href="#揭秘-一个人如何独自完成自媒体全套工作-4个月涨粉20万-1个人承担整个自媒体团队工作-ai是我最大" class="toc-h3">揭秘！一个人如何独自完成自媒体全套工作 4个月涨粉20万，1个人承担整个自媒体团队工作，AI是我最大的帮手，一人，一场景，一句话，一个系统真的来了 #ai #ai工具 #工作流 #拉斐尔2077 #debug</a><a href="#当我用冰箱贴记录旅行-超简单-去评论区找我的口令-复制给ai工具-替换一下其中的地名和时间-分分钟就" class="toc-h3">当我用冰箱贴记录旅行。超简单，去评论区找我的口令，复制给AI工具，替换一下其中的地名和时间，分分钟就能get你自己的旅游冰箱贴！ #出行实况分享计划 #当我用冰箱贴记录旅行 #一种很新的生活记录方式 #抖音摄影美学大赏 …</a><a href="#obsidian16套模板-导入即可用-分享了很多期关于模板的笔记-大家都在问模板是否可以分享-我稍" class="toc-h3">Obsidian16套模板 ，导入即可用。分享了很多期关于模板的笔记 大家都在问模板是否可以分享 我稍微整理了模板，分享到给大家拉 大家有需要的话，进入到抖音群，在群收藏中就可以获取了。 特别提醒： 1、模板库仅供大家参…</a><a href="#针对新算法-我的视角和观点-由六个部分构成说明-或许对你有用-抖音新算法-平台算法-短视频运营-抖音" class="toc-h3">针对新算法，我的视角和观点，由六个部分构成说明，或许对你有用 #抖音新算法 #平台算法 #短视频运营 #抖音创作 #干货分享</a><a href="#学了很多ai工具-但还是没挣到钱-ai-搞钱-个人成长-抖音创作者大会-抖音前沿科技首发计划" class="toc-h3">学了很多AI工具，但还是没挣到钱 #AI #搞钱 #个人成长 #抖音创作者大会 #抖音前沿科技首发计划</a><a href="#1400条视频深度分析-34个ai博主今年都讲了什么内容-ai新星计划-ai博主-抖音创作者大会" class="toc-h3">1400条视频深度分析，34个AI博主今年都讲了什么内容？ #AI新星计划 #AI博主 #抖音创作者大会</a><a href="#ai-把我的封面点击率从-8-干到了-36" class="toc-h3">AI 把我的封面点击率从 8% 干到了 36%</a><a href="#抓到一朵云-抖音记录美好生活" class="toc-h3">抓到一朵云☁️#抖音记录美好生活</a><a href="#五万粉里程碑达成-我用ai运营自媒体的三个心法-青年创作者成长计划" class="toc-h3">五万粉里程碑达成！我用Ai运营自媒体的三个心法 #青年创作者成长计划</a><a href="#去用这个ai-辅导孩子写作业强助攻-干货分享-自媒体-实用分享-豆包" class="toc-h3">去用这个ai，辅导孩子写作业强助攻#干货分享 #自媒体 #实用分享 #豆包</a><a href="#cc-obsidian自动做自媒体选题库-十倍速阅读" class="toc-h3">CC+Obsidian自动做自媒体选题库&十倍速阅读</a><a href="#科技博主恰饭-是因为没人对内容付费-自媒体-王自如-恰饭-科技博主-付费内容" class="toc-h3">科技博主恰饭，是因为没人对内容付费？ #自媒体 #王自如 #恰饭 #科技博主 #付费内容</a><a href="#胡子哥直播笔记-发出来有点晚-姜胡说" class="toc-h3">胡子哥直播笔记。发出来有点晚#姜胡说</a></div><div class="content"><h1 id="02-06">02-06 · 自媒体·获客运营</h1>
 <blockquote>
 <p>抖音 / 视频号 / 公众号 / 私域 怎么起号和转化</p>
 </blockquote>
 <p><strong>统计</strong>：19 条视频 · 0 个子主题</p>
 <hr />
-<h2 id="_1">其他</h2>
-<h3 id="_2">建议普通人去做一个小博主，博主身份能为你的人生作弊 #短视频运营 #自媒体教程 #新手入门 #涨粉技巧</h3>
+<h2 id="" 其他="其他">其他</h2>
+<h3 id="" 建议普通人去做一个小博主-博主身份能为你的人生作弊-短视频运营-自媒体教程-新手入门-涨粉技巧="建议普通人去做一个小博主-博主身份能为你的人生作弊-短视频运营-自媒体教程-新手入门-涨粉技巧">建议普通人去做一个小博主，博主身份能为你的人生作弊 #短视频运营 #自媒体教程 #新手入门 #涨粉技巧</h3>
 <p><strong>作者</strong>：且行内容学院（5月16成都线下课） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7632174477425626368">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】普通人做小博主，不是为了涨粉当网红，而是给自己攒一份“社会身份资本”，让它在求职、谈合作、社交中为你加分。
@@ -823,7 +574,7 @@ a:hover { color: var(--accent-hover); }
 
 </details>
 
-<h3 id="ai-ai-claude-ai-1">别再浪费时间刷短视频了 AI时代，真正拉开差距的，是你有没有提前布局 选择学习，还是选择原地踏步，全在你一念之间 拥抱AI，就是拥抱未来！ 海外老哥亲授｜Claude AI完整保姆级教程 1小时学会自主搭建+全流程自动化…</h3>
+<h3 id="" 别再浪费时间刷短视频了-ai时代-真正拉开差距的-是你有没有提前布局-选择学习-还是选择原地踏步-全="别再浪费时间刷短视频了-ai时代-真正拉开差距的-是你有没有提前布局-选择学习-还是选择原地踏步-全">别再浪费时间刷短视频了 AI时代，真正拉开差距的，是你有没有提前布局 选择学习，还是选择原地踏步，全在你一念之间 拥抱AI，就是拥抱未来！ 海外老哥亲授｜Claude AI完整保姆级教程 1小时学会自主搭建+全流程自动化…</h3>
 <p><strong>作者</strong>：冰糖 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7624592371200599674">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：别再浪费时间刷短视频了<br />
 AI时代，真正拉开差距的，是你有没有提前布局<br />
@@ -901,7 +652,7 @@ by ...（转写过长，已截断，完整内容见原视频）
 
 </details>
 
-<h3 id="traework-trae-traework">TraeWork是怎么帮我实现多维打分并建立选题库的 #青年创作者成长计划 #TRAE #TRAEWork</h3>
+<h3 id="" traework是怎么帮我实现多维打分并建立选题库的-青年创作者成长计划-trae-traework="traework是怎么帮我实现多维打分并建立选题库的-青年创作者成长计划-trae-traework">TraeWork是怎么帮我实现多维打分并建立选题库的 #青年创作者成长计划 #TRAE #TRAEWork</h3>
 <p><strong>作者</strong>：柱子哥TzFilm · <strong>链接</strong>：<a href="https://www.douyin.com/video/7649973320758152474">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：TraeWork是怎么帮我实现多维打分并建立选题库的 #青年创作者成长计划 #TRAE  #TRAEWork</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -1047,7 +798,7 @@ AI时代已经过了
 
 </details>
 
-<h3 id="github-ai-github-github-ai">编程名词扫盲之“啥是Github？” #ai新星计划 #github #github怎么用 ##抖音前沿科技首发计划 #ai</h3>
+<h3 id="" 编程名词扫盲之-啥是github-ai新星计划-github-github怎么用-抖音前沿科技首发计="编程名词扫盲之-啥是github-ai新星计划-github-github怎么用-抖音前沿科技首发计">编程名词扫盲之“啥是Github？” #ai新星计划 #github #github怎么用 ##抖音前沿科技首发计划 #ai</h3>
 <p><strong>作者</strong>：一枚卓子 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643810414333070638">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】GitHub是程序员的“网盘+朋友圈”，Star数超500就能让HR主动找你，比实习经历更管用。
@@ -1179,7 +930,7 @@ all-sumllm
 
 </details>
 
-<h3 id="ai-ai">告别视频抽卡，这两张图你要知道！ #好用的ai指令 #我在抖音聊科技 #ai对话日常 #故事板 #分镜故事板 这期视频给大家演示一套我常用的视频制作技巧，只需要在生视频前多加两张参考图（故事板+角色设定板），就能控制住视…</h3>
+<h3 id="" 告别视频抽卡-这两张图你要知道-好用的ai指令-我在抖音聊科技-ai对话日常-故事板-分镜故事板-这="告别视频抽卡-这两张图你要知道-好用的ai指令-我在抖音聊科技-ai对话日常-故事板-分镜故事板-这">告别视频抽卡，这两张图你要知道！ #好用的ai指令 #我在抖音聊科技 #ai对话日常 #故事板 #分镜故事板 这期视频给大家演示一套我常用的视频制作技巧，只需要在生视频前多加两张参考图（故事板+角色设定板），就能控制住视…</h3>
 <p><strong>作者</strong>：居鲁仕 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643404202686020081">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：告别视频抽卡，这两张图你要知道！ #好用的ai指令 #我在抖音聊科技 #ai对话日常 #故事板 #分镜故事板 这期视频给大家演示一套我常用的视频制作技巧，只需要在生视频前多加两张参考图（故事板+角色设定板），就能控制住视频抽卡时的不确定性。用原图限定风格，身份板锁定角色，故事板控制镜头和动作，效率和稳定性都会好很多！</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -1337,7 +1088,7 @@ AI也是一样的
 
 </details>
 
-<h3 id="ai5-ai">学AI，千万别错过这5个博主！ #抖音精选是会搞内容分类的 #抖音精选 #AI #博主推荐</h3>
+<h3 id="" 学ai-千万别错过这5个博主-抖音精选是会搞内容分类的-抖音精选-ai-博主推荐="学ai-千万别错过这5个博主-抖音精选是会搞内容分类的-抖音精选-ai-博主推荐">学AI，千万别错过这5个博主！ #抖音精选是会搞内容分类的 #抖音精选 #AI #博主推荐</h3>
 <p><strong>作者</strong>：取景框看世界 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639197165092490530">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：学AI，千万别错过这5个博主！ #抖音精选是会搞内容分类的  #抖音精选 #AI #博主推荐</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -1443,7 +1194,7 @@ AI也是一样的
 
 </details>
 
-<h3 id="4201ai-ai-ai-2077-debug">揭秘！一个人如何独自完成自媒体全套工作 4个月涨粉20万，1个人承担整个自媒体团队工作，AI是我最大的帮手，一人，一场景，一句话，一个系统真的来了 #ai #ai工具 #工作流 #拉斐尔2077 #debug</h3>
+<h3 id="" 揭秘-一个人如何独自完成自媒体全套工作-4个月涨粉20万-1个人承担整个自媒体团队工作-ai是我最大="揭秘-一个人如何独自完成自媒体全套工作-4个月涨粉20万-1个人承担整个自媒体团队工作-ai是我最大">揭秘！一个人如何独自完成自媒体全套工作 4个月涨粉20万，1个人承担整个自媒体团队工作，AI是我最大的帮手，一人，一场景，一句话，一个系统真的来了 #ai #ai工具 #工作流 #拉斐尔2077 #debug</h3>
 <p><strong>作者</strong>：拉斐尔2077 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634243959653675846">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】一个人做自媒体，不用靠灵感，靠一套可复制的AI自动化内容生产SOP，4个月涨粉20万。
@@ -1574,13 +1325,13 @@ AI搭建系统的时代真的来了
 
 </details>
 
-<h3 id="aiget">当我用冰箱贴记录旅行。超简单，去评论区找我的口令，复制给AI工具，替换一下其中的地名和时间，分分钟就能get你自己的旅游冰箱贴！ #出行实况分享计划 #当我用冰箱贴记录旅行 #一种很新的生活记录方式 #抖音摄影美学大赏 …</h3>
+<h3 id="" 当我用冰箱贴记录旅行-超简单-去评论区找我的口令-复制给ai工具-替换一下其中的地名和时间-分分钟就="当我用冰箱贴记录旅行-超简单-去评论区找我的口令-复制给ai工具-替换一下其中的地名和时间-分分钟就">当我用冰箱贴记录旅行。超简单，去评论区找我的口令，复制给AI工具，替换一下其中的地名和时间，分分钟就能get你自己的旅游冰箱贴！ #出行实况分享计划 #当我用冰箱贴记录旅行 #一种很新的生活记录方式 #抖音摄影美学大赏 …</h3>
 <p><strong>作者</strong>：Jayden_张彤 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7638948271470485486">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：当我用冰箱贴记录旅行。超简单，去评论区找我的口令，复制给AI工具，替换一下其中的地名和时间，分分钟就能get你自己的旅游冰箱贴！ #出行实况分享计划 #当我用冰箱贴记录旅行 #一种很新的生活记录方式 #抖音摄影美学大赏 #每一帧都是壁纸</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="obsidian16-1">Obsidian16套模板 ，导入即可用。分享了很多期关于模板的笔记 大家都在问模板是否可以分享 我稍微整理了模板，分享到给大家拉 大家有需要的话，进入到抖音群，在群收藏中就可以获取了。 特别提醒： 1、模板库仅供大家参…</h3>
+<h3 id="" obsidian16套模板-导入即可用-分享了很多期关于模板的笔记-大家都在问模板是否可以分享-我稍="obsidian16套模板-导入即可用-分享了很多期关于模板的笔记-大家都在问模板是否可以分享-我稍">Obsidian16套模板 ，导入即可用。分享了很多期关于模板的笔记 大家都在问模板是否可以分享 我稍微整理了模板，分享到给大家拉 大家有需要的话，进入到抖音群，在群收藏中就可以获取了。 特别提醒： 1、模板库仅供大家参…</h3>
 <p><strong>作者</strong>：自然成长笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7638099189532036361">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：Obsidian16套模板 ，导入即可用。分享了很多期关于模板的笔记<br />
 大家都在问模板是否可以分享<br />
@@ -1596,7 +1347,7 @@ AI搭建系统的时代真的来了
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="_3">针对新算法，我的视角和观点，由六个部分构成说明，或许对你有用 #抖音新算法 #平台算法 #短视频运营 #抖音创作 #干货分享</h3>
+<h3 id="" 针对新算法-我的视角和观点-由六个部分构成说明-或许对你有用-抖音新算法-平台算法-短视频运营-抖音="针对新算法-我的视角和观点-由六个部分构成说明-或许对你有用-抖音新算法-平台算法-短视频运营-抖音">针对新算法，我的视角和观点，由六个部分构成说明，或许对你有用 #抖音新算法 #平台算法 #短视频运营 #抖音创作 #干货分享</h3>
 <p><strong>作者</strong>：大莫的说 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7635761988605911242">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】2026年抖音新算法不再靠运气给流量，而是靠“有用、耐看、能留存”的优质内容分流量，流量将向专业原创者大幅倾斜。
@@ -1799,7 +1550,7 @@ AI搭建系统的时代真的来了
 
 </details>
 
-<h3 id="ai-ai_1">学了很多AI工具，但还是没挣到钱 #AI #搞钱 #个人成长 #抖音创作者大会 #抖音前沿科技首发计划</h3>
+<h3 id="" 学了很多ai工具-但还是没挣到钱-ai-搞钱-个人成长-抖音创作者大会-抖音前沿科技首发计划="学了很多ai工具-但还是没挣到钱-ai-搞钱-个人成长-抖音创作者大会-抖音前沿科技首发计划">学了很多AI工具，但还是没挣到钱 #AI #搞钱 #个人成长 #抖音创作者大会 #抖音前沿科技首发计划</h3>
 <p><strong>作者</strong>：野说商业 Yeah’s talk · <strong>链接</strong>：<a href="https://www.douyin.com/video/7672999622008114483">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【AI博主生态1400条元分析 · 徐兆猛】
@@ -1853,7 +1604,7 @@ AI搭建系统的时代真的来了
 
 </details>
 
-<h3 id="140034ai-ai-ai">1400条视频深度分析，34个AI博主今年都讲了什么内容？ #AI新星计划 #AI博主 #抖音创作者大会</h3>
+<h3 1400条视频深度分析-34个ai博主今年都讲了什么内容-ai新星计划-ai博主-抖音创作者大会="1400条视频深度分析-34个ai博主今年都讲了什么内容-ai新星计划-ai博主-抖音创作者大会" id="">1400条视频深度分析，34个AI博主今年都讲了什么内容？ #AI新星计划 #AI博主 #抖音创作者大会</h3>
 <p><strong>作者</strong>：徐兆猛 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7674170814966631718">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】AI内容赛道仍有红利，但“挂AI牌子”不如“讲AI用途”有效，观众更爱看“怎么用”而非“怎么看”。
@@ -1994,7 +1745,7 @@ AI GT的固执号普遍低频
 
 </details>
 
-<h3 id="ai-8-36">AI 把我的封面点击率从 8% 干到了 36%</h3>
+<h3 ai-把我的封面点击率从-8-干到了-36="ai-把我的封面点击率从-8-干到了-36" id="">AI 把我的封面点击率从 8% 干到了 36%</h3>
 <p><strong>作者</strong>：吴知行AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7651250599279970484">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -2026,12 +1777,12 @@ AI GT的固执号普遍低频
 
 </details>
 
-<h3 id="_4">抓到一朵云☁️#抖音记录美好生活</h3>
+<h3 id="" 抓到一朵云-抖音记录美好生活="抓到一朵云-抖音记录美好生活">抓到一朵云☁️#抖音记录美好生活</h3>
 <p><strong>作者</strong>：翘翘 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642522416904396785">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="ai">五万粉里程碑达成！我用Ai运营自媒体的三个心法 #青年创作者成长计划</h3>
+<h3 id="" 五万粉里程碑达成-我用ai运营自媒体的三个心法-青年创作者成长计划="五万粉里程碑达成-我用ai运营自媒体的三个心法-青年创作者成长计划">五万粉里程碑达成！我用Ai运营自媒体的三个心法 #青年创作者成长计划</h3>
 <p><strong>作者</strong>：柱子哥TzFilm · <strong>链接</strong>：<a href="https://www.douyin.com/video/7638387584661540134">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】做AI自媒体，别急着变现，把内容做好、保持真人味儿，用迭代思维做视频包装，才能持续涨粉。
@@ -2150,7 +1901,7 @@ AI GT的固执号普遍低频
 
 </details>
 
-<h3 id="ai_1">去用这个ai，辅导孩子写作业强助攻#干货分享 #自媒体 #实用分享 #豆包</h3>
+<h3 id="" 去用这个ai-辅导孩子写作业强助攻-干货分享-自媒体-实用分享-豆包="去用这个ai-辅导孩子写作业强助攻-干货分享-自媒体-实用分享-豆包">去用这个ai，辅导孩子写作业强助攻#干货分享 #自媒体 #实用分享 #豆包</h3>
 <p><strong>作者</strong>：Ann · <strong>链接</strong>：<a href="https://www.douyin.com/video/7414053889483296040">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用抖音旗下免费AI“豆包”拍照讲题+作业检查，能大幅减少家长辅导时间。
@@ -2196,7 +1947,7 @@ AI GT的固执号普遍低频
 
 </details>
 
-<h3 id="ccobsidian">CC+Obsidian自动做自媒体选题库&amp;十倍速阅读</h3>
+<h3 cc-obsidian自动做自媒体选题库-十倍速阅读="cc-obsidian自动做自媒体选题库-十倍速阅读" id="">CC+Obsidian自动做自媒体选题库&amp;十倍速阅读</h3>
 <p><strong>作者</strong>：YAN · <strong>链接</strong>：<a href="https://www.douyin.com/video/7629535979778444559">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用Obsidian+Claude Code把“学习-素材-创作-归档”合并到一个本地仓库，解决数据孤岛，让知识库越用越大、创作越快。
@@ -2266,7 +2017,7 @@ OK,那么有了这几个方法之后呢,我们就可以做到每次我们想写�
 
 </details>
 
-<h3 id="_5">科技博主恰饭，是因为没人对内容付费？ #自媒体 #王自如 #恰饭 #科技博主 #付费内容</h3>
+<h3 id="" 科技博主恰饭-是因为没人对内容付费-自媒体-王自如-恰饭-科技博主-付费内容="科技博主恰饭-是因为没人对内容付费-自媒体-王自如-恰饭-科技博主-付费内容">科技博主恰饭，是因为没人对内容付费？ #自媒体 #王自如 #恰饭 #科技博主 #付费内容</h3>
 <p><strong>作者</strong>：王自如AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7592580131177254196">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】  
@@ -2351,12 +2102,24 @@ OK,那么有了这几个方法之后呢,我们就可以做到每次我们想写�
 
 </details>
 
-<h3 id="_6">胡子哥直播笔记。发出来有点晚#姜胡说</h3>
+<h3 id="" 胡子哥直播笔记-发出来有点晚-姜胡说="胡子哥直播笔记-发出来有点晚-姜胡说">胡子哥直播笔记。发出来有点晚#姜胡说</h3>
 <p><strong>作者</strong>：小秦同学 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7631242248738393350">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<hr /></div>
+<hr /></div><aside class="right-rail">
+<div class="rail-block">
+<h5>本页统计</h5>
+<div id="stats" style="color: var(--text-secondary); line-height: 1.8;"></div>
+</div>
+<div class="rail-block">
+<h5>相关推荐</h5>
+<a href="top30.html">⭐ TOP 30 精华</a>
+<a href="method.html">📐 方法论总纲</a>
+<a href="sop-01.html">💰 接单成交 SOP</a>
+<a href="auth-index.html">🏛️ 权威支撑</a>
+</div>
+</aside></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
@@ -2366,13 +2129,65 @@ OK,那么有了这几个方法之后呢,我们就可以做到每次我们想写�
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Sidebar active state
+  // Active nav
   const path = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.sidebar-item').forEach(el => {
     if (el.getAttribute('href') === path) el.classList.add('active');
   });
   document.querySelectorAll('.nav-items a').forEach(el => {
     if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+  
+  // Reading progress bar
+  const progress = document.querySelector('.reading-progress');
+  if (progress) {
+    const update = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      progress.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+  
+  // TOC active state (IntersectionObserver)
+  const tocLinks = document.querySelectorAll('.mini-toc a');
+  if (tocLinks.length) {
+    const sections = Array.from(tocLinks).map(l => {
+      const id = l.getAttribute('href').slice(1);
+      return document.getElementById(id);
+    }).filter(Boolean);
+    if (sections.length) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            const active = document.querySelector(`.mini-toc a[href="#${e.target.id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+      sections.forEach(s => observer.observe(s));
+    }
+    // Smooth scroll
+    tocLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const id = link.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if (target) {
+          window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+        }
+      });
+    });
+  }
+  
+  // Sub-topic collapse
+  document.querySelectorAll('.subtopic-header').forEach(h => {
+    h.addEventListener('click', () => {
+      h.parentElement.classList.toggle('collapsed');
+    });
   });
   
   // Search
@@ -2383,48 +2198,11 @@ document.addEventListener('DOMContentLoaded', () => {
       clearTimeout(t);
       t = setTimeout(() => {
         const q = e.target.value.toLowerCase();
-        const cards = document.querySelectorAll('.video-card, .card');
-        cards.forEach(c => {
-          c.style.display = c.innerText.toLowerCase().includes(q) || !q ? '' : 'none';
+        document.querySelectorAll('.video-card').forEach(c => {
+          c.style.display = !q || c.innerText.toLowerCase().includes(q) ? '' : 'none';
         });
-        // For content pages
-        const content = document.querySelector('.content');
-        if (content) {
-          content.querySelectorAll('p, li, h2, h3').forEach(el => {
-            if (!q) { el.style.background = ''; return; }
-            el.style.background = el.innerText.toLowerCase().includes(q) ? 'rgba(255, 235, 59, 0.4)' : '';
-          });
-        }
       }, 200);
     });
-  }
-  
-  // Smooth scroll for TOC links
-  document.querySelectorAll('.page-toc a').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const id = link.getAttribute('href').slice(1);
-      const target = document.getElementById(id);
-      if (target) {
-        window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-      }
-    });
-  });
-  
-  // Active TOC item on scroll
-  const tocLinks = document.querySelectorAll('.page-toc a');
-  if (tocLinks.length) {
-    const sections = Array.from(tocLinks).map(l => document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          tocLinks.forEach(l => l.classList.remove('active'));
-          const active = document.querySelector(`.page-toc a[href="#${e.target.id}"]`);
-          if (active) active.classList.add('active');
-        }
-      });
-    }, { rootMargin: '-80px 0px -70% 0px' });
-    sections.forEach(s => observer.observe(s));
   }
 });
 </script>

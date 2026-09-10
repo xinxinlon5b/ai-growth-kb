@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 认知·趋势·观点</title>
+<title>AI 认知 · 趋势</title>
 <style>
 :root {
   --bg: #fbfbfd;
@@ -21,7 +21,6 @@
   --border-strong: rgba(0, 0, 0, 0.12);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
   --radius: 18px;
   --radius-sm: 10px;
   --radius-lg: 24px;
@@ -43,68 +42,31 @@ html, body {
 a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
 a:hover { color: var(--accent-hover); }
 
-/* Top nav - Apple-style sticky blurred */
 .topnav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  position: sticky; top: 0; z-index: 100;
   background: rgba(251, 251, 253, 0.72);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--border);
-  padding: 0 22px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  gap: 28px;
+  padding: 0 22px; height: 48px;
+  display: flex; align-items: center; gap: 28px;
 }
-.topnav .brand {
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -0.02em;
-}
-.topnav .nav-items {
-  display: flex;
-  gap: 22px;
-  flex: 1;
-}
-.topnav .nav-items a {
-  font-size: 13px;
-  color: var(--text);
-  opacity: 0.85;
-  padding: 8px 0;
-  position: relative;
-  transition: opacity 0.2s;
-}
+.topnav .brand { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+.topnav .nav-items { display: flex; gap: 22px; flex: 1; }
+.topnav .nav-items a { font-size: 13px; color: var(--text); opacity: 0.85; padding: 8px 0; position: relative; }
 .topnav .nav-items a:hover { opacity: 1; }
 .topnav .nav-items a.active::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0; right: 0;
-  height: 2px;
-  background: var(--text);
-  border-radius: 1px;
+  content: ""; position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 2px; background: var(--text); border-radius: 1px;
 }
 .topnav .search-mini {
-  display: flex;
-  align-items: center;
-  background: var(--bg-soft);
-  border-radius: 8px;
-  padding: 4px 10px;
-  font-size: 13px;
-  color: var(--text-tertiary);
+  display: flex; align-items: center;
+  background: var(--bg-soft); border-radius: 8px;
+  padding: 4px 10px; font-size: 13px; color: var(--text-tertiary);
   min-width: 180px;
-  cursor: text;
 }
-.topnav .search-mini input {
-  border: none; background: transparent; outline: none;
-  font-size: 13px; flex: 1; color: var(--text);
-  font-family: inherit;
-}
+.topnav .search-mini input { border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: var(--text); font-family: inherit; }
 
-/* Layout */
 .layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
 .sidebar {
   position: sticky; top: 48px;
@@ -115,452 +77,237 @@ a:hover { color: var(--accent-hover); }
 }
 .sidebar-section { margin-bottom: 24px; }
 .sidebar-title {
-  padding: 0 22px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 8px;
+  padding: 0 22px; font-size: 11px; font-weight: 600;
+  color: var(--text-tertiary); text-transform: uppercase;
+  letter-spacing: 0.04em; margin-bottom: 8px;
 }
 .sidebar-item {
   display: flex; align-items: center; gap: 10px;
-  padding: 7px 22px;
-  font-size: 14px;
-  color: var(--text);
+  padding: 7px 22px; font-size: 14px; color: var(--text);
   transition: background 0.15s, color 0.15s;
-  border-left: 2px solid transparent;
-  margin: 1px 0;
+  border-left: 2px solid transparent; margin: 1px 0;
 }
 .sidebar-item:hover { background: var(--bg-soft); }
 .sidebar-item.active {
-  background: var(--accent-soft);
-  color: var(--accent);
-  border-left-color: var(--accent);
-  font-weight: 500;
+  background: var(--accent-soft); color: var(--accent);
+  border-left-color: var(--accent); font-weight: 500;
 }
 .sidebar-item .ico { font-size: 16px; }
 
-/* Main */
+/* Main - LONG-FORM READING MODE */
 .main {
-  padding: 64px 80px 120px;
-  max-width: 980px;
+  padding: 32px 80px 80px;
+  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
 }
 
-/* Hero (homepage) */
-.hero {
-  text-align: center;
-  padding: 80px 0 64px;
-  margin-bottom: 64px;
+/* Article layout with TOC */
+.article-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr 220px;
+  gap: 48px;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.hero .eyebrow {
-  font-size: 14px;
-  color: var(--accent);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.hero h1 {
-  font-size: 72px;
-  line-height: 1.05;
-  letter-spacing: -0.035em;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 24px;
-}
-.hero .lede {
-  font-size: 24px;
-  line-height: 1.4;
-  color: var(--text-secondary);
-  font-weight: 400;
-  max-width: 720px;
-  margin: 0 auto 32px;
-  letter-spacing: -0.01em;
-}
-.hero .cta-row {
-  display: inline-flex;
-  gap: 16px;
-  align-items: center;
-}
-.btn {
-  display: inline-block;
-  padding: 12px 22px;
-  border-radius: 980px;
-  font-size: 15px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  cursor: pointer;
-  font-family: inherit;
-  border: none;
-}
-.btn-primary {
+
+/* Reading progress */
+.reading-progress {
+  position: fixed;
+  top: 48px;
+  left: 0;
+  height: 3px;
   background: var(--accent);
-  color: #fff;
-}
-.btn-primary:hover {
-  background: var(--accent-hover);
-  color: #fff;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-.btn-secondary {
-  background: var(--bg-soft);
-  color: var(--text);
-}
-.btn-secondary:hover {
-  background: var(--bg-elevated);
-  color: var(--text);
-  box-shadow: var(--shadow-sm);
+  z-index: 99;
+  transition: width 0.1s;
+  width: 0;
 }
 
-/* Section */
-.section { margin: 80px 0; }
-.section-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 24px;
-  padding-bottom: 12px;
+/* Page meta */
+.article-meta-row {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 32px; padding-bottom: 24px;
   border-bottom: 1px solid var(--border);
+  font-size: 13px; color: var(--text-tertiary);
 }
-.section-h2 {
-  font-size: 40px;
-  line-height: 1.15;
-  letter-spacing: -0.025em;
-  font-weight: 600;
-  margin: 24px 0 16px;
-  color: var(--text);
+.article-meta-row .pill {
+  background: var(--bg-soft); color: var(--text);
+  padding: 4px 12px; border-radius: 980px;
+  font-weight: 500; font-size: 12px;
 }
-.section-h3 {
-  font-size: 24px;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
-  font-weight: 600;
-  margin: 32px 0 12px;
-  color: var(--text);
+.article-meta-row .pill.accent {
+  background: var(--accent-soft); color: var(--accent);
+}
+.article-meta-row .reading-time {
+  margin-left: auto;
 }
 
-/* Card grid */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  margin: 24px 0;
-}
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  transition: all 0.25s ease;
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--border-strong);
-}
-.card .icon {
-  font-size: 36px;
-  margin-bottom: 16px;
-  display: block;
-}
-.card .label {
+/* Mini TOC (sticky) */
+.mini-toc {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
   font-size: 13px;
-  color: var(--accent);
-  font-weight: 600;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  padding-right: 8px;
 }
-.card h4 {
-  font-size: 22px;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--text);
+.mini-toc .toc-label {
+  font-size: 11px; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; margin-bottom: 16px;
 }
-.card p {
-  font-size: 15px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin: 0;
+.mini-toc a {
+  display: block; padding: 5px 0; color: var(--text-secondary);
+  border-left: 2px solid transparent; padding-left: 10px;
+  text-decoration: none; transition: all 0.15s;
+  line-height: 1.4;
 }
+.mini-toc a:hover { color: var(--accent); }
+.mini-toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
+.mini-toc .toc-h3 { padding-left: 22px; font-size: 12px; }
+.mini-toc .toc-h4 { padding-left: 34px; font-size: 11px; color: var(--text-tertiary); }
 
-/* Feature row (Apple product page style) */
-.feature-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: center;
-  margin: 80px 0;
-  padding: 64px 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+/* Main content - long-form optimized */
+.content {
+  font-size: 19px; line-height: 1.7; color: var(--text);
+  max-width: 720px; margin: 0 auto;
+  /* Better reading measure */
 }
-.feature-row.reverse { direction: rtl; }
-.feature-row.reverse > * { direction: ltr; }
-.feature-row .feature-text h3 {
-  font-size: 36px;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  margin-bottom: 16px;
-  line-height: 1.2;
-}
-.feature-row .feature-text p {
-  font-size: 19px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 16px;
-}
-.feature-row .feature-visual {
-  background: var(--bg-soft);
-  border-radius: var(--radius-lg);
-  aspect-ratio: 1.2 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 120px;
-  border: 1px solid var(--border);
-}
-
-/* Pill / Tag */
-.pill {
-  display: inline-block;
-  padding: 4px 12px;
-  background: var(--bg-soft);
-  border-radius: 980px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-right: 6px;
-  margin-bottom: 6px;
-}
-.pill.accent {
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-weight: 500;
-}
-
-/* Content (article body) */
-.content { font-size: 19px; line-height: 1.65; color: var(--text); }
 .content h1 {
-  font-size: 56px;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  font-weight: 600;
-  margin: 0 0 16px;
-  color: var(--text);
-}
-.content > blockquote:first-of-type {
-  font-size: 22px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  border: none;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 24px 0;
-  margin: 24px 0 40px;
-  font-weight: 400;
-  background: transparent;
+  font-size: 48px; line-height: 1.15; letter-spacing: -0.025em;
+  font-weight: 600; margin: 0 0 16px; color: var(--text);
 }
 .content h2 {
-  font-size: 36px;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  margin: 64px 0 16px;
-  color: var(--text);
+  font-size: 32px; line-height: 1.25; letter-spacing: -0.02em;
+  font-weight: 600; margin: 56px 0 16px; color: var(--text);
+  padding-top: 16px;
 }
 .content h3 {
-  font-size: 24px;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  font-weight: 600;
-  margin: 40px 0 12px;
-  color: var(--text);
+  font-size: 22px; line-height: 1.35; letter-spacing: -0.01em;
+  font-weight: 600; margin: 40px 0 12px; color: var(--text);
 }
 .content h4 {
-  font-size: 19px;
-  font-weight: 600;
-  margin: 24px 0 8px;
-  color: var(--text);
+  font-size: 18px; font-weight: 600; margin: 24px 0 8px; color: var(--text);
 }
 .content p { margin: 16px 0; }
 .content ul, .content ol { padding-left: 24px; margin: 16px 0; }
-.content li { margin: 6px 0; line-height: 1.6; }
+.content li { margin: 6px 0; line-height: 1.65; }
 .content strong { font-weight: 600; color: var(--text); }
 .content em { font-style: italic; }
 .content code {
-  background: var(--bg-code);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: "SF Mono", "Menlo", monospace;
-  font-size: 0.9em;
-  color: #c7254e;
+  background: var(--bg-code); padding: 2px 6px; border-radius: 4px;
+  font-family: "SF Mono", Menlo, monospace; font-size: 0.85em; color: #c7254e;
 }
 .content pre {
-  background: var(--bg-soft);
-  padding: 20px 24px;
-  border-radius: var(--radius-sm);
-  overflow-x: auto;
-  margin: 24px 0;
-  border: 1px solid var(--border);
-  font-size: 14px;
-  line-height: 1.5;
+  background: var(--bg-soft); padding: 20px 24px; border-radius: var(--radius-sm);
+  overflow-x: auto; margin: 24px 0; border: 1px solid var(--border);
+  font-size: 14px; line-height: 1.5;
 }
-.content pre code {
-  background: none;
-  padding: 0;
-  color: var(--text);
-  font-size: inherit;
-}
-.content table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 24px 0;
-  font-size: 15px;
-}
+.content pre code { background: none; padding: 0; color: var(--text); font-size: inherit; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
 .content th {
-  text-align: left;
-  padding: 12px 16px;
-  background: var(--bg-soft);
-  font-weight: 600;
-  font-size: 14px;
-  border-bottom: 2px solid var(--border-strong);
+  text-align: left; padding: 12px 16px; background: var(--bg-soft);
+  font-weight: 600; font-size: 13px; border-bottom: 2px solid var(--border-strong);
 }
-.content td {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-  vertical-align: top;
-}
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
 .content blockquote {
-  border-left: 3px solid var(--accent);
-  padding: 4px 20px;
-  margin: 24px 0;
-  color: var(--text-secondary);
-  background: var(--accent-soft);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  border-left: 3px solid var(--accent); padding: 12px 20px;
+  margin: 24px 0; color: var(--text-secondary);
+  background: var(--accent-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 .content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
 .content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
 .content a:hover { text-decoration-color: var(--accent); }
 
-/* In-page TOC (right side) */
-.with-toc {
-  display: grid;
-  grid-template-columns: 1fr 220px;
-  gap: 48px;
-  align-items: start;
-}
-.page-toc {
-  position: sticky;
-  top: 80px;
-  font-size: 13px;
+/* Right rail - related + progress */
+.right-rail {
+  position: sticky; top: 80px;
   max-height: calc(100vh - 100px);
   overflow-y: auto;
-}
-.page-toc .toc-title {
-  font-size: 11px;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-.page-toc a {
-  display: block;
-  padding: 5px 0;
-  color: var(--text-secondary);
-  text-decoration: none;
-  border-left: 2px solid transparent;
-  padding-left: 12px;
-  transition: all 0.15s;
-}
-.page-toc a:hover { color: var(--accent); }
-.page-toc a.active { color: var(--accent); border-left-color: var(--accent); }
-.page-toc .toc-h3 { padding-left: 24px; font-size: 12px; }
-
-/* Footer */
-.footer {
-  margin-top: 120px;
-  padding: 48px 0 32px;
-  border-top: 1px solid var(--border);
-  text-align: center;
   font-size: 13px;
-  color: var(--text-tertiary);
-  line-height: 1.7;
 }
+.right-rail .rail-block {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.right-rail h5 {
+  font-size: 11px; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; margin-bottom: 12px;
+}
+.right-rail a {
+  display: block; padding: 6px 0; color: var(--text-secondary);
+  text-decoration: none; transition: color 0.15s;
+}
+.right-rail a:hover { color: var(--accent); }
 
-/* Article header */
-.article-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
-.article-meta { display: flex; gap: 12px; margin-bottom: 12px; font-size: 13px; color: var(--text-tertiary); }
-.article-meta .pill { font-size: 12px; padding: 3px 10px; }
-
-/* Video card (for KB pages) */
+/* Video card (long-form optimized) */
 .video-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  margin: 16px 0;
-  transition: all 0.2s;
   border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin: 24px 0;
+  transition: all 0.2s;
 }
 .video-card:hover { box-shadow: var(--shadow-md); }
-.video-card h3 { font-size: 19px; line-height: 1.4; margin: 0 0 12px; }
-.video-card .meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--text-tertiary); margin-top: 12px; }
+.video-card h3 { font-size: 20px; line-height: 1.4; margin: 0 0 12px; }
+.video-card .meta { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: var(--text-tertiary); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
 .video-card .meta a { color: var(--text-secondary); }
 .video-card .meta a:hover { color: var(--accent); }
 .video-card .meta .pill.author { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.video-card .meta .pill.topic { background: var(--bg-soft); color: var(--text); }
+.video-card .meta .pill.val { background: rgba(0, 175, 100, 0.12); color: #00875a; }
 .video-card .insight { 
-  background: var(--bg-soft); 
-  padding: 16px 20px; 
-  border-radius: var(--radius-sm); 
-  margin-top: 16px;
-  font-size: 14px;
-  white-space: pre-wrap;
-  line-height: 1.6;
-  color: var(--text);
-  font-family: "SF Mono", "Menlo", monospace;
+  background: var(--bg-soft); padding: 18px 22px; 
+  border-radius: var(--radius-sm); margin-top: 16px;
+  font-size: 14px; line-height: 1.7; white-space: pre-wrap; 
+  color: var(--text); font-family: "SF Mono", Menlo, monospace;
+  max-height: 280px; overflow-y: auto;
 }
 .video-card details { margin-top: 16px; }
-.video-card details summary {
-  cursor: pointer;
-  font-size: 13px;
-  color: var(--accent);
-  padding: 8px 0;
-  user-select: none;
+.video-card details summary { cursor: pointer; font-size: 13px; color: var(--accent); padding: 6px 0; user-select: none; }
+.video-card details pre { max-height: 400px; overflow-y: auto; margin-top: 12px; font-size: 13px; }
+
+/* Sub-topic collapsible */
+.subtopic { margin: 32px 0; }
+.subtopic-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; background: var(--bg-soft);
+  border-radius: var(--radius); cursor: pointer; user-select: none;
+  margin-bottom: 16px; transition: background 0.15s;
 }
-.video-card details pre {
-  max-height: 400px;
-  overflow-y: auto;
-  margin-top: 12px;
-  font-size: 13px;
-}
+.subtopic-header:hover { background: var(--bg-elevated); box-shadow: var(--shadow-sm); }
+.subtopic-header h2 { margin: 0; font-size: 22px; }
+.subtopic-header .count { font-size: 13px; color: var(--text-tertiary); }
+.subtopic-header .arrow { margin-left: auto; transition: transform 0.2s; }
+.subtopic.collapsed .arrow { transform: rotate(-90deg); }
+.subtopic.collapsed .videos { display: none; }
+
+/* Footer */
+.footer { margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--text-tertiary); line-height: 1.7; }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .article-layout { grid-template-columns: 200px 1fr; }
+  .right-rail { display: none; }
+}
 @media (max-width: 1024px) {
   .layout { grid-template-columns: 1fr; }
   .sidebar { display: none; }
-  .main { padding: 40px 24px 80px; }
-  .hero h1 { font-size: 48px; }
-  .feature-row { grid-template-columns: 1fr; gap: 32px; }
-  .feature-row.reverse { direction: ltr; }
-  .with-toc { grid-template-columns: 1fr; }
-  .page-toc { display: none; }
+  .main { padding: 24px; }
+  .article-layout { grid-template-columns: 1fr; }
+  .mini-toc { display: none; }
 }
 </style>
 </head>
 <body>
+<div class="reading-progress"></div>
 
 <nav class="topnav">
   <a href="index.html" class="brand">企业 AI 实战</a>
@@ -633,14 +380,18 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-header"><div class="article-meta"><span class="pill accent">📂 9 大主题 · 8/9</span></div></div><h1 id="02-08-ai">02-08 · AI认知·趋势·观点</h1>
+<div class="article-meta-row">
+<span class="pill accent">📂 知识库</span>
+<span class="pill">深度阅读</span>
+<span class="reading-time">⏱️ 约 104 分钟 · 41,929 字</span>
+</div><div class="article-layout"><div class="mini-toc"><div class="toc-label">本页目录</div><a href="#其他" class="">其他</a><a href="#ai时代的顶级能力苏格拉底2000年前就教过-李飞飞最新访谈中-提到prompting是一项重要能力" class="toc-h3">AI时代的顶级能力苏格拉底2000年前就教过 李飞飞最新访谈中，提到Prompting是一项重要能力，学校应该在基础教育阶段教学生如何提问。她还提到，苏格拉底的提问法本质上就是一种Prompting。 #AI #李飞飞 …</a><a href="#线控ai航拍玩法-30s学会控制镜头运动轨迹-ai玩法-ai教程-航拍-创意-干货" class="toc-h3">线控AI航拍玩法！30s学会控制镜头运动轨迹 #AI玩法 #AI教程 #航拍 #创意 #干货</a><a href="#ai助力ui动效设计全流程-1分钟学会-ui设计-ui动效设计-ui-ai提示词-ae" class="toc-h3">ai助力ui动效设计全流程，1分钟学会🔥 #ui设计 #ui动效设计 #ui #ai提示词 #AE</a><a href="#精准高效-一键生成自动对齐的双语字幕-摄影-字幕-剪辑教程-ai工具-双语字幕" class="toc-h3">精准高效！一键生成自动对齐的双语字幕 #摄影 #字幕 #剪辑教程 #ai工具 #双语字幕</a><a href="#ai时代的学习真相-你不会-是因为你没问-ai时代不存在系统教程-最快的学习方法就是让ai教你-下个" class="toc-h3">AI时代的学习真相：你不会，是因为你没问。 AI时代不存在系统教程，最快的学习方法就是让AI教你。 下个时代属于AI原生人群，把AI当基础设施、当人去对待。我们的生活方式应对的是上个时代，需要主动调整自己——融入AI，而…</a><a href="#不会写ai提示词的有救了-ai提示词-提示词-ai工具-ai使用技巧-ai干货" class="toc-h3">不会写AI提示词的有救了 #AI提示词 #提示词 #AI工具 #AI使用技巧 #AI干货</a><a href="#学会这一招-告别ai味前端" class="toc-h3">学会这一招，告别AI味前端。</a><a href="#token会如何改变大国博弈格局-token-词元-人工智能-燃起来了大国重器-零距离看懂财经" class="toc-h3">Token会如何改变大国博弈格局？ #Token#词元#人工智能#燃起来了大国重器#零距离看懂财经</a><a href="#我怎么用ai策划-长谈-脱不花-长谈-工作-ai-方法" class="toc-h3">我怎么用AI策划《长谈》 #脱不花 #长谈 #工作 #AI #方法</a><a href="#claude做神级网页-一键轻轻松松-科技-ai-claude-韭菜-claude-能做一切-骗人不" class="toc-h3">claude做神级网页？一键轻轻松松？ #科技 #ai #Claude #韭菜 claude 能做一切？骗人不脸红？很多人真的知道ai是怎么回事吗？</a><a href="#推荐几本ai时代需要重新读的书-ai时代-ai思维-读书-用好ai-我是宋玥" class="toc-h3">推荐几本AI时代需要重新读的书 #AI时代 #AI思维 #读书 #用好AI #我是宋玥</a><a href="#让这几个ai替我上班-卷疯同事早下班2小时-办公神器-效率神器-打工人效率神器-ai工具-青年创作者" class="toc-h3">让这几个AI替我上班, 卷疯同事早下班2小时! #办公神器 #效率神器 #打工人效率神器 #AI工具 #青年创作者成长计划</a><a href="#60岁的我写给现在自己的信-我认为-这封信不光写给我-也写给每一个刷到这条视频的你-在简单剪辑过程中" class="toc-h3">60岁的我写给现在自己的信 我认为 这封信不光写给我💌 👉也写给每一个刷到这条视频的你 在简单剪辑过程中，又忍不住哭了 同时我也更有能量和力量 真正的去带着觉醒的心 去生活 希望屏幕前的你，也能获得一份专属于你的力量 爱…</a><a href="#一分钟-都没拉完-ai已经出活了-现在-你只需要一分钟即可利用人工智能将设计概念可视化-各位商家-厂" class="toc-h3">一分钟，💩都没拉完，ai已经出活了 现在，你只需要一分钟即可利用人工智能将设计概念可视化🤯各位商家、厂商、设计师，你们还在坚持手搓吗？#工业设计 #把抽象的空间概念变得超直观 #家具设计 #人工智能 #ai</a><a href="#追求-快节奏-的当下-我做了一个只能慢慢敲字的打字机-想把那种一字一句落下的仪式感-重新还给输入这个" class="toc-h3">追求"快节奏"的当下，我做了一个只能慢慢敲字的打字机，想把那种一字一句落下的仪式感，重新还给输入这个动作。AI 现在可以做 3D 可交互作品了，你们也可以试试，比想象中好玩。</a><a href="#以后不用再剪视频了-claude自动剪辑工作流-ai剪辑-claude-自动剪辑-ai工具-jack" class="toc-h3">以后不用再剪视频了？Claude自动剪辑工作流 #AI剪辑 #Claude #自动剪辑 #AI工具 #Jacky的AI成长日记</a><a href="#3步搭好风格库-让ai秒变你的设计师-ai-ui设计-前端设计-ai设计-ai审美" class="toc-h3">3步搭好风格库，让AI秒变你的设计师 #AI #UI设计 #前端设计 #AI设计 #AI审美</a><a href="#ai重构疗愈赛道" class="toc-h3">AI重构疗愈赛道</a><a href="#斯坦福ai教母-一年8万美元的私教-ai只要100美元-李飞飞-ai-ai时代个人成长-干货" class="toc-h3">斯坦福AI教母：一年8万美元的私教，AI只要100美元 #李飞飞 #AI #ai时代个人成长 #干货</a></div><div class="content"><h1 id="02-08-ai">02-08 · AI认知·趋势·观点</h1>
 <blockquote>
 <p>行业访谈、判断力训练、趋势研判、深度内容</p>
 </blockquote>
 <p><strong>统计</strong>：34 条视频 · 0 个子主题</p>
 <hr />
-<h2 id="_1">其他</h2>
-<h3 id="ai2000-promptingprompting-ai">AI时代的顶级能力苏格拉底2000年前就教过 李飞飞最新访谈中，提到Prompting是一项重要能力，学校应该在基础教育阶段教学生如何提问。她还提到，苏格拉底的提问法本质上就是一种Prompting。 #AI #李飞飞 …</h3>
+<h2 id="" 其他="其他">其他</h2>
+<h3 ai时代的顶级能力苏格拉底2000年前就教过-李飞飞最新访谈中-提到prompting是一项重要能力="ai时代的顶级能力苏格拉底2000年前就教过-李飞飞最新访谈中-提到prompting是一项重要能力" id="">AI时代的顶级能力苏格拉底2000年前就教过 李飞飞最新访谈中，提到Prompting是一项重要能力，学校应该在基础教育阶段教学生如何提问。她还提到，苏格拉底的提问法本质上就是一种Prompting。 #AI #李飞飞 …</h3>
 <p><strong>作者</strong>：量子位 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7674912770394950921">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：AI时代的顶级能力苏格拉底2000年前就教过 李飞飞最新访谈中，提到Prompting是一项重要能力，学校应该在基础教育阶段教学生如何提问。她还提到，苏格拉底的提问法本质上就是一种Prompting。</p>
 <h1 id="ai-prompt">AI   #李飞飞   #Prompt   #苏格拉底</h1>
@@ -670,7 +421,7 @@ And taking a walk while you have those discussions.
 
 </details>
 
-<h3 id="ai30s-ai-ai">线控AI航拍玩法！30s学会控制镜头运动轨迹 #AI玩法 #AI教程 #航拍 #创意 #干货</h3>
+<h3 id="" 线控ai航拍玩法-30s学会控制镜头运动轨迹-ai玩法-ai教程-航拍-创意-干货="线控ai航拍玩法-30s学会控制镜头运动轨迹-ai玩法-ai教程-航拍-创意-干货">线控AI航拍玩法！30s学会控制镜头运动轨迹 #AI玩法 #AI教程 #航拍 #创意 #干货</h3>
 <p><strong>作者</strong>：AI玩家 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646433254496587017">抖音</a> · <strong>价值评分</strong>：3</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -696,7 +447,7 @@ And taking a walk while you have those discussions.
 
 </details>
 
-<h3 id="aiui1-ui-ui-ui-ai-ae">ai助力ui动效设计全流程，1分钟学会🔥 #ui设计 #ui动效设计 #ui #ai提示词 #AE</h3>
+<h3 ai助力ui动效设计全流程-1分钟学会-ui设计-ui动效设计-ui-ai提示词-ae="ai助力ui动效设计全流程-1分钟学会-ui设计-ui动效设计-ui-ai提示词-ae" id="">ai助力ui动效设计全流程，1分钟学会🔥 #ui设计 #ui动效设计 #ui #ai提示词 #AE</h3>
 <p><strong>作者</strong>：菜心设计铺 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642640610574290185">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用AI辅助生成3D角色动效，再合成到UI界面里，1分钟学会全流程。
@@ -754,7 +505,7 @@ And taking a walk while you have those discussions.
 
 </details>
 
-<h3 id="ai">精准高效！一键生成自动对齐的双语字幕 #摄影 #字幕 #剪辑教程 #ai工具 #双语字幕</h3>
+<h3 id="" 精准高效-一键生成自动对齐的双语字幕-摄影-字幕-剪辑教程-ai工具-双语字幕="精准高效-一键生成自动对齐的双语字幕-摄影-字幕-剪辑教程-ai工具-双语字幕">精准高效！一键生成自动对齐的双语字幕 #摄影 #字幕 #剪辑教程 #ai工具 #双语字幕</h3>
 <p><strong>作者</strong>：木木大XX · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640540588739153186">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：精准高效！一键生成自动对齐的双语字幕 #摄影  #字幕 #剪辑教程 #ai工具 #双语字幕</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -826,7 +577,7 @@ Recover from setbacks
 
 </details>
 
-<h3 id="ai-aiai-aiaiai">AI时代的学习真相：你不会，是因为你没问。 AI时代不存在系统教程，最快的学习方法就是让AI教你。 下个时代属于AI原生人群，把AI当基础设施、当人去对待。我们的生活方式应对的是上个时代，需要主动调整自己——融入AI，而…</h3>
+<h3 ai时代的学习真相-你不会-是因为你没问-ai时代不存在系统教程-最快的学习方法就是让ai教你-下个="ai时代的学习真相-你不会-是因为你没问-ai时代不存在系统教程-最快的学习方法就是让ai教你-下个" id="">AI时代的学习真相：你不会，是因为你没问。 AI时代不存在系统教程，最快的学习方法就是让AI教你。 下个时代属于AI原生人群，把AI当基础设施、当人去对待。我们的生活方式应对的是上个时代，需要主动调整自己——融入AI，而…</h3>
 <p><strong>作者</strong>：水球泡 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637833313901628698">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：AI时代的学习真相：你不会，是因为你没问。 AI时代不存在系统教程，最快的学习方法就是让AI教你。<br />
 下个时代属于AI原生人群，把AI当基础设施、当人去对待。我们的生活方式应对的是上个时代，需要主动调整自己——融入AI，而不是抗拒它。</p>
@@ -987,7 +738,7 @@ AI開始工作
 
 </details>
 
-<h3 id="ai-ai-ai-ai-ai">不会写AI提示词的有救了 #AI提示词 #提示词 #AI工具 #AI使用技巧 #AI干货</h3>
+<h3 id="" 不会写ai提示词的有救了-ai提示词-提示词-ai工具-ai使用技巧-ai干货="不会写ai提示词的有救了-ai提示词-提示词-ai工具-ai使用技巧-ai干货">不会写AI提示词的有救了 #AI提示词 #提示词 #AI工具 #AI使用技巧 #AI干货</h3>
 <p><strong>作者</strong>：小小小小石 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650105640303578414">抖音</a> · <strong>价值评分</strong>：2</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -1021,7 +772,7 @@ AI開始工作
 
 </details>
 
-<h3 id="ai_1">学会这一招，告别AI味前端。</h3>
+<h3 id="" 学会这一招-告别ai味前端="学会这一招-告别ai味前端">学会这一招，告别AI味前端。</h3>
 <p><strong>作者</strong>：哆噶兽 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7622617574492228904">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -1154,7 +905,7 @@ OK 以上就是本期视频的评论
 
 </details>
 
-<h3 id="token-token">Token会如何改变大国博弈格局？ #Token#词元#人工智能#燃起来了大国重器#零距离看懂财经</h3>
+<h3 id="" token会如何改变大国博弈格局-token-词元-人工智能-燃起来了大国重器-零距离看懂财经="token会如何改变大国博弈格局-token-词元-人工智能-燃起来了大国重器-零距离看懂财经">Token会如何改变大国博弈格局？ #Token#词元#人工智能#燃起来了大国重器#零距离看懂财经</h3>
 <p><strong>作者</strong>：小佛爷说 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7648174784576032009">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】中国AI大模型周调用量已是美国2.62倍，Token正成为重塑中美博弈格局的战略资源。
@@ -1301,7 +1052,7 @@ OK 以上就是本期视频的评论
 
 </details>
 
-<h3 id="ai-ai">我怎么用AI策划《长谈》 #脱不花 #长谈 #工作 #AI #方法</h3>
+<h3 id="" 我怎么用ai策划-长谈-脱不花-长谈-工作-ai-方法="我怎么用ai策划-长谈-脱不花-长谈-工作-ai-方法">我怎么用AI策划《长谈》 #脱不花 #长谈 #工作 #AI #方法</h3>
 <p><strong>作者</strong>：脱不花 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643486224393884089">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -1467,7 +1218,7 @@ AI助手就会问我
 
 </details>
 
-<h3 id="claude-ai-claude-claude-ai">claude做神级网页？一键轻轻松松？ #科技 #ai #Claude #韭菜 claude 能做一切？骗人不脸红？很多人真的知道ai是怎么回事吗？</h3>
+<h3 claude做神级网页-一键轻轻松松-科技-ai-claude-韭菜-claude-能做一切-骗人不="claude做神级网页-一键轻轻松松-科技-ai-claude-韭菜-claude-能做一切-骗人不" id="">claude做神级网页？一键轻轻松松？ #科技 #ai #Claude #韭菜 claude 能做一切？骗人不脸红？很多人真的知道ai是怎么回事吗？</h3>
 <p><strong>作者</strong>：不过几千寒热 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644300336928628585">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】别信“AI一键做出顶级3D网站”的营销号，当前AI根本做不到，那些是顶级创意团队作品。
@@ -1524,7 +1275,7 @@ AI助手就会问我
 
 </details>
 
-<h3 id="ai-ai-ai-ai">推荐几本AI时代需要重新读的书 #AI时代 #AI思维 #读书 #用好AI #我是宋玥</h3>
+<h3 id="" 推荐几本ai时代需要重新读的书-ai时代-ai思维-读书-用好ai-我是宋玥="推荐几本ai时代需要重新读的书-ai时代-ai思维-读书-用好ai-我是宋玥">推荐几本AI时代需要重新读的书 #AI时代 #AI思维 #读书 #用好AI #我是宋玥</h3>
 <p><strong>作者</strong>：我是宋玥 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637089431039593766">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】AI时代最值钱的能力不是会用工具，而是会拆解问题、问对问题、做选择和保持判断力。
@@ -1667,7 +1418,7 @@ AI助手就会问我
 
 </details>
 
-<h3 id="ai-2-ai">让这几个AI替我上班, 卷疯同事早下班2小时! #办公神器 #效率神器 #打工人效率神器 #AI工具 #青年创作者成长计划</h3>
+<h3 id="" 让这几个ai替我上班-卷疯同事早下班2小时-办公神器-效率神器-打工人效率神器-ai工具-青年创作者="让这几个ai替我上班-卷疯同事早下班2小时-办公神器-效率神器-打工人效率神器-ai工具-青年创作者">让这几个AI替我上班, 卷疯同事早下班2小时! #办公神器 #效率神器 #打工人效率神器 #AI工具 #青年创作者成长计划</h3>
 <p><strong>作者</strong>：卡尔的AI沃茨 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7631156732495924495">抖音</a> · <strong>价值评分</strong>：2</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -1688,7 +1439,7 @@ AI助手就会问我
 
 </details>
 
-<h3 id="60">60岁的我写给现在自己的信 我认为 这封信不光写给我💌 👉也写给每一个刷到这条视频的你 在简单剪辑过程中，又忍不住哭了 同时我也更有能量和力量 真正的去带着觉醒的心 去生活 希望屏幕前的你，也能获得一份专属于你的力量 爱…</h3>
+<h3 60岁的我写给现在自己的信-我认为-这封信不光写给我-也写给每一个刷到这条视频的你-在简单剪辑过程中="60岁的我写给现在自己的信-我认为-这封信不光写给我-也写给每一个刷到这条视频的你-在简单剪辑过程中" id="">60岁的我写给现在自己的信 我认为 这封信不光写给我💌 👉也写给每一个刷到这条视频的你 在简单剪辑过程中，又忍不住哭了 同时我也更有能量和力量 真正的去带着觉醒的心 去生活 希望屏幕前的你，也能获得一份专属于你的力量 爱…</h3>
 <p><strong>作者</strong>：内在探索者一鸣 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7660781610481536091">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：60岁的我写给现在自己的信 我认为  这封信不光写给我💌  👉也写给每一个刷到这条视频的你  在简单剪辑过程中，又忍不住哭了  同时我也更有能量和力量  真正的去带着觉醒的心  去生活  希望屏幕前的你，也能获得一份专属于你的力量  爱你💖 #认知觉醒 #人工智能</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -1838,13 +1589,13 @@ AI助手就会问我
 
 </details>
 
-<h3 id="ai-ai_1">一分钟，💩都没拉完，ai已经出活了 现在，你只需要一分钟即可利用人工智能将设计概念可视化🤯各位商家、厂商、设计师，你们还在坚持手搓吗？#工业设计 #把抽象的空间概念变得超直观 #家具设计 #人工智能 #ai</h3>
+<h3 id="" 一分钟-都没拉完-ai已经出活了-现在-你只需要一分钟即可利用人工智能将设计概念可视化-各位商家-厂="一分钟-都没拉完-ai已经出活了-现在-你只需要一分钟即可利用人工智能将设计概念可视化-各位商家-厂">一分钟，💩都没拉完，ai已经出活了 现在，你只需要一分钟即可利用人工智能将设计概念可视化🤯各位商家、厂商、设计师，你们还在坚持手搓吗？#工业设计 #把抽象的空间概念变得超直观 #家具设计 #人工智能 #ai</h3>
 <p><strong>作者</strong>：不吃芫荽 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7668198708177782885">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：一分钟，💩都没拉完，ai已经出活了 现在，你只需要一分钟即可利用人工智能将设计概念可视化🤯各位商家、厂商、设计师，你们还在坚持手搓吗？#工业设计 #把抽象的空间概念变得超直观 #家具设计  #人工智能 #ai</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="ai-3d">追求"快节奏"的当下，我做了一个只能慢慢敲字的打字机，想把那种一字一句落下的仪式感，重新还给输入这个动作。AI 现在可以做 3D 可交互作品了，你们也可以试试，比想象中好玩。</h3>
+<h3 id="" 追求-快节奏-的当下-我做了一个只能慢慢敲字的打字机-想把那种一字一句落下的仪式感-重新还给输入这个="追求-快节奏-的当下-我做了一个只能慢慢敲字的打字机-想把那种一字一句落下的仪式感-重新还给输入这个">追求"快节奏"的当下，我做了一个只能慢慢敲字的打字机，想把那种一字一句落下的仪式感，重新还给输入这个动作。AI 现在可以做 3D 可交互作品了，你们也可以试试，比想象中好玩。</h3>
 <p><strong>作者</strong>：周末Zomo · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634436726908826533">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用AI 3D工具+免费模型，普通人也能快速做出可交互的3D作品。
@@ -1892,7 +1643,7 @@ ok 就是这些
 
 </details>
 
-<h3 id="claude-ai-claude-ai-jackyai">以后不用再剪视频了？Claude自动剪辑工作流 #AI剪辑 #Claude #自动剪辑 #AI工具 #Jacky的AI成长日记</h3>
+<h3 id="" 以后不用再剪视频了-claude自动剪辑工作流-ai剪辑-claude-自动剪辑-ai工具-jack="以后不用再剪视频了-claude自动剪辑工作流-ai剪辑-claude-自动剪辑-ai工具-jack">以后不用再剪视频了？Claude自动剪辑工作流 #AI剪辑 #Claude #自动剪辑 #AI工具 #Jacky的AI成长日记</h3>
 <p><strong>作者</strong>：Jacky的AI成长日记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7638883662343195910">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：以后不用再剪视频了？Claude自动剪辑工作流 #AI剪辑  #Claude  #自动剪辑  #AI工具 #Jacky的AI成长日记</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -2030,7 +1781,7 @@ OK可以看到这里
 
 </details>
 
-<h3 id="3ai-ai-ui-ai-ai">3步搭好风格库，让AI秒变你的设计师 #AI #UI设计 #前端设计 #AI设计 #AI审美</h3>
+<h3 3步搭好风格库-让ai秒变你的设计师-ai-ui设计-前端设计-ai设计-ai审美="3步搭好风格库-让ai秒变你的设计师-ai-ui设计-前端设计-ai设计-ai审美" id="">3步搭好风格库，让AI秒变你的设计师 #AI #UI设计 #前端设计 #AI设计 #AI审美</h3>
 <p><strong>作者</strong>：起哥的AI实战 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7680901149595110675">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】AI设计千篇一律，不是AI不行，而是你没给它建立有品位的风格库。
@@ -2143,7 +1894,7 @@ AI输出的是模板感很强的默认风格
 
 </details>
 
-<h3 id="ai_2">AI重构疗愈赛道</h3>
+<h3 ai重构疗愈赛道="ai重构疗愈赛道" id="">AI重构疗愈赛道</h3>
 <p><strong>作者</strong>：房主任Ai商业圈 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7677972389224844570">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】AI疗愈赛道的机会在于：用AI生成情绪内容引流，用智能体承接交付，把专家经验变成可复用的产品。
@@ -2218,7 +1969,7 @@ AI能重构的远远不止疗愈这一个行业
 
 </details>
 
-<h3 id="ai8ai100-ai-ai">斯坦福AI教母：一年8万美元的私教，AI只要100美元 #李飞飞 #AI #ai时代个人成长 #干货</h3>
+<h3 id="" 斯坦福ai教母-一年8万美元的私教-ai只要100美元-李飞飞-ai-ai时代个人成长-干货="斯坦福ai教母-一年8万美元的私教-ai只要100美元-李飞飞-ai-ai时代个人成长-干货">斯坦福AI教母：一年8万美元的私教，AI只要100美元 #李飞飞 #AI #ai时代个人成长 #干货</h3>
 <p><strong>作者</strong>：昌健胡说 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7670908159133227897">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】AI时代，人与人的差距将由“敢不敢先伸手试”拉开，而非聪明程度。
@@ -2360,7 +2111,7 @@ AI時代人會被分成兩種
 
 </details>
 
-<h3 id="26q2ai">更新迭代太快了！盘点分析26年Q2中美Ai前沿态势 #青年创作者成长计划</h3>
+<h3 id="" 更新迭代太快了-盘点分析26年q2中美ai前沿态势-青年创作者成长计划="更新迭代太快了-盘点分析26年q2中美ai前沿态势-青年创作者成长计划">更新迭代太快了！盘点分析26年Q2中美Ai前沿态势 #青年创作者成长计划</h3>
 <p><strong>作者</strong>：柱子哥TzFilm · <strong>链接</strong>：<a href="https://www.douyin.com/video/7647717028643556627">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】中美AI竞争已从“代差”缩小为“误差”，最多6个月差距，且竞争焦点正从模型能力转向生态、价格与应用落地。
@@ -2495,7 +2246,7 @@ Nthoby的Cloudcore
 
 </details>
 
-<h3 id="ai_3">AI时代进入读书心流最快的方式</h3>
+<h3 ai时代进入读书心流最快的方式="ai时代进入读书心流最快的方式" id="">AI时代进入读书心流最快的方式</h3>
 <p><strong>作者</strong>：瑞秋Grandma · <strong>链接</strong>：<a href="https://www.douyin.com/video/7653401591328539200">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用AI插件把读书变成“读者+AI+过往笔记+作者”的四维对话，让知识自动串联，收获翻倍。
@@ -2569,7 +2320,7 @@ Nthoby的Cloudcore
 
 </details>
 
-<h3 id="ai_4">北京大学哲学系教授程乐松：我不在乎AI，我只在乎我的孩子会不会被社会定义为“落后”</h3>
+<h3 id="" 北京大学哲学系教授程乐松-我不在乎ai-我只在乎我的孩子会不会被社会定义为-落后="北京大学哲学系教授程乐松-我不在乎ai-我只在乎我的孩子会不会被社会定义为-落后">北京大学哲学系教授程乐松：我不在乎AI，我只在乎我的孩子会不会被社会定义为“落后”</h3>
 <p><strong>作者</strong>：新京报 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7651875389660204315">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】  
@@ -2601,12 +2352,12 @@ AI时代真正的焦虑不是技术本身，而是孩子会不会被社会评判
 
 </details>
 
-<h3 id="creght">这个首屏也太有创意啦 超级适合室内设计行业 #creght #设计师 #网页设计 #室内设计 #品牌网站</h3>
+<h3 id="" 这个首屏也太有创意啦-超级适合室内设计行业-creght-设计师-网页设计-室内设计-品牌网站="这个首屏也太有创意啦-超级适合室内设计行业-creght-设计师-网页设计-室内设计-品牌网站">这个首屏也太有创意啦 超级适合室内设计行业 #creght #设计师 #网页设计 #室内设计 #品牌网站</h3>
 <p><strong>作者</strong>：creght可视化建站工具 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650471689541754986">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="38-ai-ai">爬虫圈3大坑，踩一个赔8位数，踩两个人进去 真人真事，没忽悠你 #AI #大模型 #AI合规 #爬虫</h3>
+<h3 id="" 爬虫圈3大坑-踩一个赔8位数-踩两个人进去-真人真事-没忽悠你-ai-大模型-ai合规-爬虫="爬虫圈3大坑-踩一个赔8位数-踩两个人进去-真人真事-没忽悠你-ai-大模型-ai合规-爬虫">爬虫圈3大坑，踩一个赔8位数，踩两个人进去 真人真事，没忽悠你 #AI #大模型 #AI合规 #爬虫</h3>
 <p><strong>作者</strong>：单律聊AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7614015205189684523">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】爬虫项目先自问三个问题，答错可能赔千万甚至坐牢。
@@ -2714,7 +2465,7 @@ A百科花了十几年
 
 </details>
 
-<h3 id="ai-ai-ai-ai-ai_1">将你的电脑和Ai融合起来 让你的电脑又Ai来接管 #开发者工具 #Ai辅助 #Ai做事情 #Ai场景</h3>
+<h3 id="" 将你的电脑和ai融合起来-让你的电脑又ai来接管-开发者工具-ai辅助-ai做事情-ai场景="将你的电脑和ai融合起来-让你的电脑又ai来接管-开发者工具-ai辅助-ai做事情-ai场景">将你的电脑和Ai融合起来 让你的电脑又Ai来接管 #开发者工具 #Ai辅助 #Ai做事情 #Ai场景</h3>
 <p><strong>作者</strong>：lip · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639262879409921957">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】把文档直接拖进Claude Code窗口，让AI接管处理，比网页版/桌面端效率高得多。
@@ -2768,17 +2519,17 @@ OK
 
 </details>
 
-<h3 id="ai_5">设计师被淘汰了 #ai</h3>
+<h3 id="" 设计师被淘汰了-ai="设计师被淘汰了-ai">设计师被淘汰了 #ai</h3>
 <p><strong>作者</strong>：擦拉黑 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646261636923767542">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="google-gemini-omini-ai">新模型 #Google #gemini #omini #ai</h3>
+<h3 id="" 新模型-google-gemini-omini-ai="新模型-google-gemini-omini-ai">新模型 #Google #gemini #omini #ai</h3>
 <p><strong>作者</strong>：大变超人 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7645637129569160499">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="marvismarvis-ai">外有贾维斯，我有马维斯 腾讯Marvis正式发布，我来来尝尝“咸淡”#Marvis #马维斯 #童年AI情报</h3>
+<h3 id="" 外有贾维斯-我有马维斯-腾讯marvis正式发布-我来来尝尝-咸淡-marvis-马维斯-童年ai情="外有贾维斯-我有马维斯-腾讯marvis正式发布-我来来尝尝-咸淡-marvis-马维斯-童年ai情">外有贾维斯，我有马维斯 腾讯Marvis正式发布，我来来尝尝“咸淡”#Marvis #马维斯 #童年AI情报</h3>
 <p><strong>作者</strong>：童年AI情报站 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642666691800976674">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】腾讯Marvis实测：定位个人入门级AI电脑管家，能一句话改系统设置、查配置，适合电脑小白处理繁琐操作。
@@ -2896,12 +2647,12 @@ UI更简洁
 
 </details>
 
-<h3 id="ai-marvis">你还打上三角洲了我去，看看你两个同事好不好哈哈哈哈😂😂😂#三角洲 #马维斯 #ai #marvis</h3>
+<h3 id="" 你还打上三角洲了我去-看看你两个同事好不好哈哈哈哈-三角洲-马维斯-ai-marvis="你还打上三角洲了我去-看看你两个同事好不好哈哈哈哈-三角洲-马维斯-ai-marvis">你还打上三角洲了我去，看看你两个同事好不好哈哈哈哈😂😂😂#三角洲 #马维斯 #ai #marvis</h3>
 <p><strong>作者</strong>：2VOICEAAA · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642630108847593134">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="ai_6">低效的人遇事就查，高效的人遇事就“套” #AI #认知 #职场 #周俊东</h3>
+<h3 id="" 低效的人遇事就查-高效的人遇事就-套-ai-认知-职场-周俊东="低效的人遇事就查-高效的人遇事就-套-ai-认知-职场-周俊东">低效的人遇事就查，高效的人遇事就“套” #AI #认知 #职场 #周俊东</h3>
 <p><strong>作者</strong>：老周聊ai决策 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637235222551055662">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】别把知识库当“查资料”的工具，要把它当成“套模板”的武器——用固定框架复用经验，而不是每次从零开始。
@@ -2951,7 +2702,7 @@ UI更简洁
 
 </details>
 
-<h3 id="2026ai">2026最新风口：用户和Ai间的对话数据会是各巨头争抢的资产 #青年创作者成长计划</h3>
+<h3 2026最新风口-用户和ai间的对话数据会是各巨头争抢的资产-青年创作者成长计划="2026最新风口-用户和ai间的对话数据会是各巨头争抢的资产-青年创作者成长计划" id="">2026最新风口：用户和Ai间的对话数据会是各巨头争抢的资产 #青年创作者成长计划</h3>
 <p><strong>作者</strong>：柱子哥TzFilm · <strong>链接</strong>：<a href="https://www.douyin.com/video/7636162735721565478">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用户与AI的高质量对话数据即将耗尽，谁先搭建数据交易平台，谁就能抢占2026年AI训练数据的蓝海市场。
@@ -3143,19 +2894,19 @@ API充長的那個以後
 
 </details>
 
-<h3 id="ai-ai_2">五一偷偷在家制作亲子写真，不用去影楼 #儿童写真 #亲子写真 #ai写真 #ai亲子写真 #超幸福的家庭</h3>
+<h3 id="" 五一偷偷在家制作亲子写真-不用去影楼-儿童写真-亲子写真-ai写真-ai亲子写真-超幸福的家庭="五一偷偷在家制作亲子写真-不用去影楼-儿童写真-亲子写真-ai写真-ai亲子写真-超幸福的家庭">五一偷偷在家制作亲子写真，不用去影楼 #儿童写真 #亲子写真 #ai写真 #ai亲子写真 #超幸福的家庭</h3>
 <p><strong>作者</strong>：魔镜写真馆 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7631961496973212371">抖音</a></p>
 <p><strong>简介</strong>：五一偷偷在家制作亲子写真，不用去影楼 #儿童写真 #亲子写真  #ai写真 #ai亲子写真 #超幸福的家庭</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="ai-ai-ai">郭宇：AI会给我们的生活带来什么样的变化？ #郭宇 #ai #人工智能 #ai失业 #白领失业</h3>
+<h3 id="" 郭宇-ai会给我们的生活带来什么样的变化-郭宇-ai-人工智能-ai失业-白领失业="郭宇-ai会给我们的生活带来什么样的变化-郭宇-ai-人工智能-ai失业-白领失业">郭宇：AI会给我们的生活带来什么样的变化？ #郭宇 #ai #人工智能 #ai失业 #白领失业</h3>
 <p><strong>作者</strong>：晓得了 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7635229357346196778">抖音</a></p>
 <p><strong>简介</strong>：郭宇：AI会给我们的生活带来什么样的变化？ #郭宇 #ai  #人工智能 #ai失业 #白领失业</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="ai-ai_3">不要不懂装懂，就能更好的使用ai #硅谷 #大模型 #ai</h3>
+<h3 id="" 不要不懂装懂-就能更好的使用ai-硅谷-大模型-ai="不要不懂装懂-就能更好的使用ai-硅谷-大模型-ai">不要不懂装懂，就能更好的使用ai #硅谷 #大模型 #ai</h3>
 <p><strong>作者</strong>：月球大叔 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7607192880532288646">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】承认自己无知，用“最强团队”视角向AI提问，是普通人用好AI的捷径。
@@ -3202,7 +2953,19 @@ AI的训练预料是人类有史以来的全部的知识
 
 </details>
 
-<hr /></div>
+<hr /></div><aside class="right-rail">
+<div class="rail-block">
+<h5>本页统计</h5>
+<div id="stats" style="color: var(--text-secondary); line-height: 1.8;"></div>
+</div>
+<div class="rail-block">
+<h5>相关推荐</h5>
+<a href="top30.html">⭐ TOP 30 精华</a>
+<a href="method.html">📐 方法论总纲</a>
+<a href="sop-01.html">💰 接单成交 SOP</a>
+<a href="auth-index.html">🏛️ 权威支撑</a>
+</div>
+</aside></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
@@ -3212,13 +2975,65 @@ AI的训练预料是人类有史以来的全部的知识
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Sidebar active state
+  // Active nav
   const path = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.sidebar-item').forEach(el => {
     if (el.getAttribute('href') === path) el.classList.add('active');
   });
   document.querySelectorAll('.nav-items a').forEach(el => {
     if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+  
+  // Reading progress bar
+  const progress = document.querySelector('.reading-progress');
+  if (progress) {
+    const update = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      progress.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+  
+  // TOC active state (IntersectionObserver)
+  const tocLinks = document.querySelectorAll('.mini-toc a');
+  if (tocLinks.length) {
+    const sections = Array.from(tocLinks).map(l => {
+      const id = l.getAttribute('href').slice(1);
+      return document.getElementById(id);
+    }).filter(Boolean);
+    if (sections.length) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            const active = document.querySelector(`.mini-toc a[href="#${e.target.id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+      sections.forEach(s => observer.observe(s));
+    }
+    // Smooth scroll
+    tocLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const id = link.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if (target) {
+          window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+        }
+      });
+    });
+  }
+  
+  // Sub-topic collapse
+  document.querySelectorAll('.subtopic-header').forEach(h => {
+    h.addEventListener('click', () => {
+      h.parentElement.classList.toggle('collapsed');
+    });
   });
   
   // Search
@@ -3229,48 +3044,11 @@ document.addEventListener('DOMContentLoaded', () => {
       clearTimeout(t);
       t = setTimeout(() => {
         const q = e.target.value.toLowerCase();
-        const cards = document.querySelectorAll('.video-card, .card');
-        cards.forEach(c => {
-          c.style.display = c.innerText.toLowerCase().includes(q) || !q ? '' : 'none';
+        document.querySelectorAll('.video-card').forEach(c => {
+          c.style.display = !q || c.innerText.toLowerCase().includes(q) ? '' : 'none';
         });
-        // For content pages
-        const content = document.querySelector('.content');
-        if (content) {
-          content.querySelectorAll('p, li, h2, h3').forEach(el => {
-            if (!q) { el.style.background = ''; return; }
-            el.style.background = el.innerText.toLowerCase().includes(q) ? 'rgba(255, 235, 59, 0.4)' : '';
-          });
-        }
       }, 200);
     });
-  }
-  
-  // Smooth scroll for TOC links
-  document.querySelectorAll('.page-toc a').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const id = link.getAttribute('href').slice(1);
-      const target = document.getElementById(id);
-      if (target) {
-        window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-      }
-    });
-  });
-  
-  // Active TOC item on scroll
-  const tocLinks = document.querySelectorAll('.page-toc a');
-  if (tocLinks.length) {
-    const sections = Array.from(tocLinks).map(l => document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          tocLinks.forEach(l => l.classList.remove('active'));
-          const active = document.querySelector(`.page-toc a[href="#${e.target.id}"]`);
-          if (active) active.classList.add('active');
-        }
-      });
-    }, { rootMargin: '-80px 0px -70% 0px' });
-    sections.forEach(s => observer.observe(s));
   }
 });
 </script>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>效率工具·知识管理</title>
+<title>效率工具 · 知识管理</title>
 <style>
 :root {
   --bg: #fbfbfd;
@@ -21,7 +21,6 @@
   --border-strong: rgba(0, 0, 0, 0.12);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
   --radius: 18px;
   --radius-sm: 10px;
   --radius-lg: 24px;
@@ -43,68 +42,31 @@ html, body {
 a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
 a:hover { color: var(--accent-hover); }
 
-/* Top nav - Apple-style sticky blurred */
 .topnav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  position: sticky; top: 0; z-index: 100;
   background: rgba(251, 251, 253, 0.72);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--border);
-  padding: 0 22px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  gap: 28px;
+  padding: 0 22px; height: 48px;
+  display: flex; align-items: center; gap: 28px;
 }
-.topnav .brand {
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -0.02em;
-}
-.topnav .nav-items {
-  display: flex;
-  gap: 22px;
-  flex: 1;
-}
-.topnav .nav-items a {
-  font-size: 13px;
-  color: var(--text);
-  opacity: 0.85;
-  padding: 8px 0;
-  position: relative;
-  transition: opacity 0.2s;
-}
+.topnav .brand { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+.topnav .nav-items { display: flex; gap: 22px; flex: 1; }
+.topnav .nav-items a { font-size: 13px; color: var(--text); opacity: 0.85; padding: 8px 0; position: relative; }
 .topnav .nav-items a:hover { opacity: 1; }
 .topnav .nav-items a.active::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0; right: 0;
-  height: 2px;
-  background: var(--text);
-  border-radius: 1px;
+  content: ""; position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 2px; background: var(--text); border-radius: 1px;
 }
 .topnav .search-mini {
-  display: flex;
-  align-items: center;
-  background: var(--bg-soft);
-  border-radius: 8px;
-  padding: 4px 10px;
-  font-size: 13px;
-  color: var(--text-tertiary);
+  display: flex; align-items: center;
+  background: var(--bg-soft); border-radius: 8px;
+  padding: 4px 10px; font-size: 13px; color: var(--text-tertiary);
   min-width: 180px;
-  cursor: text;
 }
-.topnav .search-mini input {
-  border: none; background: transparent; outline: none;
-  font-size: 13px; flex: 1; color: var(--text);
-  font-family: inherit;
-}
+.topnav .search-mini input { border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: var(--text); font-family: inherit; }
 
-/* Layout */
 .layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
 .sidebar {
   position: sticky; top: 48px;
@@ -115,452 +77,237 @@ a:hover { color: var(--accent-hover); }
 }
 .sidebar-section { margin-bottom: 24px; }
 .sidebar-title {
-  padding: 0 22px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 8px;
+  padding: 0 22px; font-size: 11px; font-weight: 600;
+  color: var(--text-tertiary); text-transform: uppercase;
+  letter-spacing: 0.04em; margin-bottom: 8px;
 }
 .sidebar-item {
   display: flex; align-items: center; gap: 10px;
-  padding: 7px 22px;
-  font-size: 14px;
-  color: var(--text);
+  padding: 7px 22px; font-size: 14px; color: var(--text);
   transition: background 0.15s, color 0.15s;
-  border-left: 2px solid transparent;
-  margin: 1px 0;
+  border-left: 2px solid transparent; margin: 1px 0;
 }
 .sidebar-item:hover { background: var(--bg-soft); }
 .sidebar-item.active {
-  background: var(--accent-soft);
-  color: var(--accent);
-  border-left-color: var(--accent);
-  font-weight: 500;
+  background: var(--accent-soft); color: var(--accent);
+  border-left-color: var(--accent); font-weight: 500;
 }
 .sidebar-item .ico { font-size: 16px; }
 
-/* Main */
+/* Main - LONG-FORM READING MODE */
 .main {
-  padding: 64px 80px 120px;
-  max-width: 980px;
+  padding: 32px 80px 80px;
+  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
 }
 
-/* Hero (homepage) */
-.hero {
-  text-align: center;
-  padding: 80px 0 64px;
-  margin-bottom: 64px;
+/* Article layout with TOC */
+.article-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr 220px;
+  gap: 48px;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.hero .eyebrow {
-  font-size: 14px;
-  color: var(--accent);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.hero h1 {
-  font-size: 72px;
-  line-height: 1.05;
-  letter-spacing: -0.035em;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 24px;
-}
-.hero .lede {
-  font-size: 24px;
-  line-height: 1.4;
-  color: var(--text-secondary);
-  font-weight: 400;
-  max-width: 720px;
-  margin: 0 auto 32px;
-  letter-spacing: -0.01em;
-}
-.hero .cta-row {
-  display: inline-flex;
-  gap: 16px;
-  align-items: center;
-}
-.btn {
-  display: inline-block;
-  padding: 12px 22px;
-  border-radius: 980px;
-  font-size: 15px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  cursor: pointer;
-  font-family: inherit;
-  border: none;
-}
-.btn-primary {
+
+/* Reading progress */
+.reading-progress {
+  position: fixed;
+  top: 48px;
+  left: 0;
+  height: 3px;
   background: var(--accent);
-  color: #fff;
-}
-.btn-primary:hover {
-  background: var(--accent-hover);
-  color: #fff;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-.btn-secondary {
-  background: var(--bg-soft);
-  color: var(--text);
-}
-.btn-secondary:hover {
-  background: var(--bg-elevated);
-  color: var(--text);
-  box-shadow: var(--shadow-sm);
+  z-index: 99;
+  transition: width 0.1s;
+  width: 0;
 }
 
-/* Section */
-.section { margin: 80px 0; }
-.section-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 24px;
-  padding-bottom: 12px;
+/* Page meta */
+.article-meta-row {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 32px; padding-bottom: 24px;
   border-bottom: 1px solid var(--border);
+  font-size: 13px; color: var(--text-tertiary);
 }
-.section-h2 {
-  font-size: 40px;
-  line-height: 1.15;
-  letter-spacing: -0.025em;
-  font-weight: 600;
-  margin: 24px 0 16px;
-  color: var(--text);
+.article-meta-row .pill {
+  background: var(--bg-soft); color: var(--text);
+  padding: 4px 12px; border-radius: 980px;
+  font-weight: 500; font-size: 12px;
 }
-.section-h3 {
-  font-size: 24px;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
-  font-weight: 600;
-  margin: 32px 0 12px;
-  color: var(--text);
+.article-meta-row .pill.accent {
+  background: var(--accent-soft); color: var(--accent);
+}
+.article-meta-row .reading-time {
+  margin-left: auto;
 }
 
-/* Card grid */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  margin: 24px 0;
-}
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  transition: all 0.25s ease;
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--border-strong);
-}
-.card .icon {
-  font-size: 36px;
-  margin-bottom: 16px;
-  display: block;
-}
-.card .label {
+/* Mini TOC (sticky) */
+.mini-toc {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
   font-size: 13px;
-  color: var(--accent);
-  font-weight: 600;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  padding-right: 8px;
 }
-.card h4 {
-  font-size: 22px;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--text);
+.mini-toc .toc-label {
+  font-size: 11px; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; margin-bottom: 16px;
 }
-.card p {
-  font-size: 15px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin: 0;
+.mini-toc a {
+  display: block; padding: 5px 0; color: var(--text-secondary);
+  border-left: 2px solid transparent; padding-left: 10px;
+  text-decoration: none; transition: all 0.15s;
+  line-height: 1.4;
 }
+.mini-toc a:hover { color: var(--accent); }
+.mini-toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
+.mini-toc .toc-h3 { padding-left: 22px; font-size: 12px; }
+.mini-toc .toc-h4 { padding-left: 34px; font-size: 11px; color: var(--text-tertiary); }
 
-/* Feature row (Apple product page style) */
-.feature-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: center;
-  margin: 80px 0;
-  padding: 64px 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+/* Main content - long-form optimized */
+.content {
+  font-size: 19px; line-height: 1.7; color: var(--text);
+  max-width: 720px; margin: 0 auto;
+  /* Better reading measure */
 }
-.feature-row.reverse { direction: rtl; }
-.feature-row.reverse > * { direction: ltr; }
-.feature-row .feature-text h3 {
-  font-size: 36px;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  margin-bottom: 16px;
-  line-height: 1.2;
-}
-.feature-row .feature-text p {
-  font-size: 19px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 16px;
-}
-.feature-row .feature-visual {
-  background: var(--bg-soft);
-  border-radius: var(--radius-lg);
-  aspect-ratio: 1.2 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 120px;
-  border: 1px solid var(--border);
-}
-
-/* Pill / Tag */
-.pill {
-  display: inline-block;
-  padding: 4px 12px;
-  background: var(--bg-soft);
-  border-radius: 980px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-right: 6px;
-  margin-bottom: 6px;
-}
-.pill.accent {
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-weight: 500;
-}
-
-/* Content (article body) */
-.content { font-size: 19px; line-height: 1.65; color: var(--text); }
 .content h1 {
-  font-size: 56px;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  font-weight: 600;
-  margin: 0 0 16px;
-  color: var(--text);
-}
-.content > blockquote:first-of-type {
-  font-size: 22px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  border: none;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 24px 0;
-  margin: 24px 0 40px;
-  font-weight: 400;
-  background: transparent;
+  font-size: 48px; line-height: 1.15; letter-spacing: -0.025em;
+  font-weight: 600; margin: 0 0 16px; color: var(--text);
 }
 .content h2 {
-  font-size: 36px;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  margin: 64px 0 16px;
-  color: var(--text);
+  font-size: 32px; line-height: 1.25; letter-spacing: -0.02em;
+  font-weight: 600; margin: 56px 0 16px; color: var(--text);
+  padding-top: 16px;
 }
 .content h3 {
-  font-size: 24px;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  font-weight: 600;
-  margin: 40px 0 12px;
-  color: var(--text);
+  font-size: 22px; line-height: 1.35; letter-spacing: -0.01em;
+  font-weight: 600; margin: 40px 0 12px; color: var(--text);
 }
 .content h4 {
-  font-size: 19px;
-  font-weight: 600;
-  margin: 24px 0 8px;
-  color: var(--text);
+  font-size: 18px; font-weight: 600; margin: 24px 0 8px; color: var(--text);
 }
 .content p { margin: 16px 0; }
 .content ul, .content ol { padding-left: 24px; margin: 16px 0; }
-.content li { margin: 6px 0; line-height: 1.6; }
+.content li { margin: 6px 0; line-height: 1.65; }
 .content strong { font-weight: 600; color: var(--text); }
 .content em { font-style: italic; }
 .content code {
-  background: var(--bg-code);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: "SF Mono", "Menlo", monospace;
-  font-size: 0.9em;
-  color: #c7254e;
+  background: var(--bg-code); padding: 2px 6px; border-radius: 4px;
+  font-family: "SF Mono", Menlo, monospace; font-size: 0.85em; color: #c7254e;
 }
 .content pre {
-  background: var(--bg-soft);
-  padding: 20px 24px;
-  border-radius: var(--radius-sm);
-  overflow-x: auto;
-  margin: 24px 0;
-  border: 1px solid var(--border);
-  font-size: 14px;
-  line-height: 1.5;
+  background: var(--bg-soft); padding: 20px 24px; border-radius: var(--radius-sm);
+  overflow-x: auto; margin: 24px 0; border: 1px solid var(--border);
+  font-size: 14px; line-height: 1.5;
 }
-.content pre code {
-  background: none;
-  padding: 0;
-  color: var(--text);
-  font-size: inherit;
-}
-.content table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 24px 0;
-  font-size: 15px;
-}
+.content pre code { background: none; padding: 0; color: var(--text); font-size: inherit; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
 .content th {
-  text-align: left;
-  padding: 12px 16px;
-  background: var(--bg-soft);
-  font-weight: 600;
-  font-size: 14px;
-  border-bottom: 2px solid var(--border-strong);
+  text-align: left; padding: 12px 16px; background: var(--bg-soft);
+  font-weight: 600; font-size: 13px; border-bottom: 2px solid var(--border-strong);
 }
-.content td {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-  vertical-align: top;
-}
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
 .content blockquote {
-  border-left: 3px solid var(--accent);
-  padding: 4px 20px;
-  margin: 24px 0;
-  color: var(--text-secondary);
-  background: var(--accent-soft);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  border-left: 3px solid var(--accent); padding: 12px 20px;
+  margin: 24px 0; color: var(--text-secondary);
+  background: var(--accent-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 .content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
 .content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
 .content a:hover { text-decoration-color: var(--accent); }
 
-/* In-page TOC (right side) */
-.with-toc {
-  display: grid;
-  grid-template-columns: 1fr 220px;
-  gap: 48px;
-  align-items: start;
-}
-.page-toc {
-  position: sticky;
-  top: 80px;
-  font-size: 13px;
+/* Right rail - related + progress */
+.right-rail {
+  position: sticky; top: 80px;
   max-height: calc(100vh - 100px);
   overflow-y: auto;
-}
-.page-toc .toc-title {
-  font-size: 11px;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-.page-toc a {
-  display: block;
-  padding: 5px 0;
-  color: var(--text-secondary);
-  text-decoration: none;
-  border-left: 2px solid transparent;
-  padding-left: 12px;
-  transition: all 0.15s;
-}
-.page-toc a:hover { color: var(--accent); }
-.page-toc a.active { color: var(--accent); border-left-color: var(--accent); }
-.page-toc .toc-h3 { padding-left: 24px; font-size: 12px; }
-
-/* Footer */
-.footer {
-  margin-top: 120px;
-  padding: 48px 0 32px;
-  border-top: 1px solid var(--border);
-  text-align: center;
   font-size: 13px;
-  color: var(--text-tertiary);
-  line-height: 1.7;
 }
+.right-rail .rail-block {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.right-rail h5 {
+  font-size: 11px; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; margin-bottom: 12px;
+}
+.right-rail a {
+  display: block; padding: 6px 0; color: var(--text-secondary);
+  text-decoration: none; transition: color 0.15s;
+}
+.right-rail a:hover { color: var(--accent); }
 
-/* Article header */
-.article-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
-.article-meta { display: flex; gap: 12px; margin-bottom: 12px; font-size: 13px; color: var(--text-tertiary); }
-.article-meta .pill { font-size: 12px; padding: 3px 10px; }
-
-/* Video card (for KB pages) */
+/* Video card (long-form optimized) */
 .video-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  margin: 16px 0;
-  transition: all 0.2s;
   border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin: 24px 0;
+  transition: all 0.2s;
 }
 .video-card:hover { box-shadow: var(--shadow-md); }
-.video-card h3 { font-size: 19px; line-height: 1.4; margin: 0 0 12px; }
-.video-card .meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--text-tertiary); margin-top: 12px; }
+.video-card h3 { font-size: 20px; line-height: 1.4; margin: 0 0 12px; }
+.video-card .meta { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: var(--text-tertiary); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
 .video-card .meta a { color: var(--text-secondary); }
 .video-card .meta a:hover { color: var(--accent); }
 .video-card .meta .pill.author { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.video-card .meta .pill.topic { background: var(--bg-soft); color: var(--text); }
+.video-card .meta .pill.val { background: rgba(0, 175, 100, 0.12); color: #00875a; }
 .video-card .insight { 
-  background: var(--bg-soft); 
-  padding: 16px 20px; 
-  border-radius: var(--radius-sm); 
-  margin-top: 16px;
-  font-size: 14px;
-  white-space: pre-wrap;
-  line-height: 1.6;
-  color: var(--text);
-  font-family: "SF Mono", "Menlo", monospace;
+  background: var(--bg-soft); padding: 18px 22px; 
+  border-radius: var(--radius-sm); margin-top: 16px;
+  font-size: 14px; line-height: 1.7; white-space: pre-wrap; 
+  color: var(--text); font-family: "SF Mono", Menlo, monospace;
+  max-height: 280px; overflow-y: auto;
 }
 .video-card details { margin-top: 16px; }
-.video-card details summary {
-  cursor: pointer;
-  font-size: 13px;
-  color: var(--accent);
-  padding: 8px 0;
-  user-select: none;
+.video-card details summary { cursor: pointer; font-size: 13px; color: var(--accent); padding: 6px 0; user-select: none; }
+.video-card details pre { max-height: 400px; overflow-y: auto; margin-top: 12px; font-size: 13px; }
+
+/* Sub-topic collapsible */
+.subtopic { margin: 32px 0; }
+.subtopic-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; background: var(--bg-soft);
+  border-radius: var(--radius); cursor: pointer; user-select: none;
+  margin-bottom: 16px; transition: background 0.15s;
 }
-.video-card details pre {
-  max-height: 400px;
-  overflow-y: auto;
-  margin-top: 12px;
-  font-size: 13px;
-}
+.subtopic-header:hover { background: var(--bg-elevated); box-shadow: var(--shadow-sm); }
+.subtopic-header h2 { margin: 0; font-size: 22px; }
+.subtopic-header .count { font-size: 13px; color: var(--text-tertiary); }
+.subtopic-header .arrow { margin-left: auto; transition: transform 0.2s; }
+.subtopic.collapsed .arrow { transform: rotate(-90deg); }
+.subtopic.collapsed .videos { display: none; }
+
+/* Footer */
+.footer { margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--text-tertiary); line-height: 1.7; }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .article-layout { grid-template-columns: 200px 1fr; }
+  .right-rail { display: none; }
+}
 @media (max-width: 1024px) {
   .layout { grid-template-columns: 1fr; }
   .sidebar { display: none; }
-  .main { padding: 40px 24px 80px; }
-  .hero h1 { font-size: 48px; }
-  .feature-row { grid-template-columns: 1fr; gap: 32px; }
-  .feature-row.reverse { direction: ltr; }
-  .with-toc { grid-template-columns: 1fr; }
-  .page-toc { display: none; }
+  .main { padding: 24px; }
+  .article-layout { grid-template-columns: 1fr; }
+  .mini-toc { display: none; }
 }
 </style>
 </head>
 <body>
+<div class="reading-progress"></div>
 
 <nav class="topnav">
   <a href="index.html" class="brand">企业 AI 实战</a>
@@ -633,14 +380,18 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-header"><div class="article-meta"><span class="pill accent">📂 9 大主题 · 7/9</span></div></div><h1 id="02-07">02-07 · 效率工具·知识管理</h1>
+<div class="article-meta-row">
+<span class="pill accent">📂 知识库</span>
+<span class="pill">深度阅读</span>
+<span class="reading-time">⏱️ 约 69 分钟 · 27,837 字</span>
+</div><div class="article-layout"><div class="mini-toc"><div class="toc-label">本页目录</div><a href="#其他" class="">其他</a><a href="#这个流程它每天晚上-12-点都会自动跑一次-保存到我的-obsidian-里" class="toc-h3">这个流程它每天晚上 12 点都会自动跑一次，保存到我的 Obsidian 里</a><a href="#全网内容一键归档到-obsidian-从零搭建教程-收藏了等于没收藏-转发了再也找不到-每个平台都在" class="toc-h3">全网内容一键归档到 Obsidian，从零搭建教程 收藏了等于没收藏？转发了再也找不到？ 每个平台都在阻止你把内容带走。 这期视频用一个入口 + 一个 Obsidian 插件， 打通全网内容的采集、AI 转录、自动同步。…</a><a href="#专属本地个人知识库-零基础手把手入门教程-obsidian快速上手-一个就能学会-obsidian-" class="toc-h3">专属本地个人知识库，零基础手把手入门教程 Obsidian快速上手，一个就能学会！ #Obsidian #个人知识库</a><a href="#本地知识库喂饭级搭建教程-有手就会-用obsidian接入本地deepseek来搭建本地知识库-完全" class="toc-h3">本地知识库喂饭级搭建教程！有手就会！ 用Obsidian接入本地DeepSeek来搭建本地知识库 完全免费，不用联网 无缝融入你的笔记工作流中 体验爽到飞起 保姆级！有手就会！ #AI #跟我学AI #本地知识库 #AI…</a><a href="#第74集-open-design所有设计能力的总和-如果只推荐一款设计应用-我只能选择open-de" class="toc-h3">第74集 open design所有设计能力的总和 如果只推荐一款设计应用，我只能选择Open design 可以从figma 到原型 到所有的UI/UX 没有人能够替代Open Design，除了它自己。 #AI #d…</a><a href="#别再瞎折腾-obsidian更适合这类人-ai-越来越强-claude-能总结资料-notion-飞" class="toc-h3">别再瞎折腾，Obsidian更适合这类人！ AI 越来越强，Claude 能总结资料，Notion、飞书也能记笔记，那普通人还需要 Obsidian 吗？ 这期聊聊：什么样的人适合继续用 Obsidian，为什么别再把它…</a><a href="#开发了个桌面整理大师哈哈-电脑使用小技巧-桌面整理" class="toc-h3">开发了个桌面整理大师哈哈 #电脑使用小技巧 #桌面整理</a><a href="#ai大模型智能时间读取器-实用电脑软件-电脑技巧" class="toc-h3">Ai大模型智能时间读取器！#实用电脑软件 #电脑技巧</a><a href="#如何用豆包学会任何领域-给大家分享几个小技巧-人类对豆包的开发不足百分之一-三分钟生成ppt-豆包也" class="toc-h3">如何用豆包学会任何领域？ 给大家分享几个小技巧！ #人类对豆包的开发不足百分之一 #三分钟生成PPT #豆包也太会写了 #豆包 #AI新星计划</a><a href="#这个网站360行提示词全免费-不用登录一键复制-ai创作潮计划-提示词生成器-ai提示词-效率工具-" class="toc-h3">这个网站360行提示词全免费！不用登录一键复制 #ai创作潮计划 #提示词生成器 #AI提示词 #效率工具 #AI新星计划</a><a href="#行走编程第11天-全网第一个deepseek-harness手机端使用者-你会用harness吗-d" class="toc-h3">行走编程第11天！ 全网第一个deepseek harness手机端使用者！你会用harness吗？#deepseek #harness #远程编程 #deepseekharness #AI</a><a href="#reasonix国产开发-harness-之光-专门为-deepseek-适配的-虽然不是官方的-h" class="toc-h3">reasonix国产开发 Harness 之光 专门为 Deepseek 适配的！虽然不是官方的 harness，但是已经非常非常棒了。 刚出来的时候就在用，但是最近其他家公司发的东西有点多，所以就没太关注。但是这次心血…</a><a href="#把喜欢的小说做成游戏也太好玩了-人类对豆包的开发不足百分之一-遇事不决问豆包-古月方源-游戏制作-豆" class="toc-h3">把喜欢的小说做成游戏也太好玩了！#人类对豆包的开发不足百分之一 #遇事不决问豆包 #古月方源 #游戏制作 #豆包生产力的神</a><a href="#滑动变祖器-滑到梁圣-ai教育-deepseek-高中物理-物理网课" class="toc-h3">滑动变祖器，滑到梁圣！！！ #AI教育 #deepseek #高中物理 #物理网课</a><a href="#果然用obsidian做知识库还是太权威了-obsidian-知识库搭建" class="toc-h3">果然用obsidian做知识库还是太权威了 #obsidian #知识库搭建</a><a href="#彻底告别纯文本-v4-1实现真正的模型共鸣-deepseek-大模型-ai-算力" class="toc-h3">彻底告别纯文本，V4.1实现真正的模型共鸣 #deepseek #大模型 #AI #算力</a><a href="#豆包编程开箱即用-对小白也太友好了-要是我能早知道这些就好了哇-豆包ai-豆包电脑版-人工智能-ai" class="toc-h3">豆包编程开箱即用，对小白也太友好了！ 要是我能早知道这些就好了哇 #豆包ai #豆包电脑版 #人工智能 #ai #科技</a><a href="#挑战用豆包两分钟开发一个软件-人类对豆包的开发不足百分之一-遇事不决问豆包" class="toc-h3">挑战用豆包两分钟开发一个软件 #人类对豆包的开发不足百分之一 #遇事不决问豆包</a><a href="#提示词越狱-ai-豆包-杂谈" class="toc-h3">提示词越狱#AI #豆包 #杂谈</a></div><div class="content"><h1 id="02-07">02-07 · 效率工具·知识管理</h1>
 <blockquote>
 <p>Obsidian / Notion / Skill / 本地知识库 / 工作流</p>
 </blockquote>
 <p><strong>统计</strong>：26 条视频 · 0 个子主题</p>
 <hr />
-<h2 id="_1">其他</h2>
-<h3 id="12-obsidian">这个流程它每天晚上 12 点都会自动跑一次，保存到我的 Obsidian 里</h3>
+<h2 id="" 其他="其他">其他</h2>
+<h3 id="" 这个流程它每天晚上-12-点都会自动跑一次-保存到我的-obsidian-里="这个流程它每天晚上-12-点都会自动跑一次-保存到我的-obsidian-里">这个流程它每天晚上 12 点都会自动跑一次，保存到我的 Obsidian 里</h3>
 <p><strong>作者</strong>：瑶瑶 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646621905500467667">抖音</a> · <strong>价值评分</strong>：3</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -661,7 +412,7 @@ a:hover { color: var(--accent-hover); }
 
 </details>
 
-<h3 id="obsidian-obsidian-ai">全网内容一键归档到 Obsidian，从零搭建教程 收藏了等于没收藏？转发了再也找不到？ 每个平台都在阻止你把内容带走。 这期视频用一个入口 + 一个 Obsidian 插件， 打通全网内容的采集、AI 转录、自动同步。…</h3>
+<h3 id="" 全网内容一键归档到-obsidian-从零搭建教程-收藏了等于没收藏-转发了再也找不到-每个平台都在="全网内容一键归档到-obsidian-从零搭建教程-收藏了等于没收藏-转发了再也找不到-每个平台都在">全网内容一键归档到 Obsidian，从零搭建教程 收藏了等于没收藏？转发了再也找不到？ 每个平台都在阻止你把内容带走。 这期视频用一个入口 + 一个 Obsidian 插件， 打通全网内容的采集、AI 转录、自动同步。…</h3>
 <p><strong>作者</strong>：光头obsidian教学 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642998876140239860">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：全网内容一键归档到 Obsidian，从零搭建教程 收藏了等于没收藏？转发了再也找不到？ 每个平台都在阻止你把内容带走。 这期视频用一个入口 + 一个 Obsidian 插件， 打通全网内容的采集、AI 转录、自动同步。 从零搭建，看完就能用。    #obsidian #知识管理 #笔记同步助手 #个人知识管理 #Obsidian插件</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -802,7 +553,7 @@ AI就只会处理肉文件夹中的内容
 
 </details>
 
-<h3 id="obsidian-obsidian">专属本地个人知识库，零基础手把手入门教程 Obsidian快速上手，一个就能学会！ #Obsidian #个人知识库</h3>
+<h3 id="" 专属本地个人知识库-零基础手把手入门教程-obsidian快速上手-一个就能学会-obsidian-="专属本地个人知识库-零基础手把手入门教程-obsidian快速上手-一个就能学会-obsidian-">专属本地个人知识库，零基础手把手入门教程 Obsidian快速上手，一个就能学会！ #Obsidian #个人知识库</h3>
 <p><strong>作者</strong>：蓝好好 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7626661081670274344">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：专属本地个人知识库，零基础手把手入门教程 Obsidian快速上手，一个就能学会！</p>
 <h1 id="obsidian">Obsidian #个人知识库</h1>
@@ -942,7 +693,7 @@ Obsidian太難上手了
 
 </details>
 
-<h3 id="obsidiandeepseek-ai-ai-ai">本地知识库喂饭级搭建教程！有手就会！ 用Obsidian接入本地DeepSeek来搭建本地知识库 完全免费，不用联网 无缝融入你的笔记工作流中 体验爽到飞起 保姆级！有手就会！ #AI #跟我学AI #本地知识库 #AI…</h3>
+<h3 id="" 本地知识库喂饭级搭建教程-有手就会-用obsidian接入本地deepseek来搭建本地知识库-完全="本地知识库喂饭级搭建教程-有手就会-用obsidian接入本地deepseek来搭建本地知识库-完全">本地知识库喂饭级搭建教程！有手就会！ 用Obsidian接入本地DeepSeek来搭建本地知识库 完全免费，不用联网 无缝融入你的笔记工作流中 体验爽到飞起 保姆级！有手就会！ #AI #跟我学AI #本地知识库 #AI…</h3>
 <p><strong>作者</strong>：Xuan酱 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7493177260720082210">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：本地知识库喂饭级搭建教程！有手就会！ 用Obsidian接入本地DeepSeek来搭建本地知识库 <br />
 完全免费，不用联网 <br />
@@ -1068,7 +819,7 @@ Copilot 插件的設置頁面
 
 </details>
 
-<h3 id="74-open-design-open-design-figma-uiux-open-design-ai-d">第74集 open design所有设计能力的总和 如果只推荐一款设计应用，我只能选择Open design 可以从figma 到原型 到所有的UI/UX 没有人能够替代Open Design，除了它自己。 #AI #d…</h3>
+<h3 id="" 第74集-open-design所有设计能力的总和-如果只推荐一款设计应用-我只能选择open-de="第74集-open-design所有设计能力的总和-如果只推荐一款设计应用-我只能选择open-de">第74集 open design所有设计能力的总和 如果只推荐一款设计应用，我只能选择Open design 可以从figma 到原型 到所有的UI/UX 没有人能够替代Open Design，除了它自己。 #AI #d…</h3>
 <p><strong>作者</strong>：哈工大AI 工程师 Peter · <strong>链接</strong>：<a href="https://www.douyin.com/video/7657915706993855770">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：第74集 open design所有设计能力的总和 如果只推荐一款设计应用，我只能选择Open design<br />
 可以从figma 到原型 到所有的UI/UX<br />
@@ -1078,7 +829,7 @@ Copilot 插件的設置頁面
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="obsidian-ai-claude-notion-obsidian-obsidian">别再瞎折腾，Obsidian更适合这类人！ AI 越来越强，Claude 能总结资料，Notion、飞书也能记笔记，那普通人还需要 Obsidian 吗？ 这期聊聊：什么样的人适合继续用 Obsidian，为什么别再把它…</h3>
+<h3 id="" 别再瞎折腾-obsidian更适合这类人-ai-越来越强-claude-能总结资料-notion-飞="别再瞎折腾-obsidian更适合这类人-ai-越来越强-claude-能总结资料-notion-飞">别再瞎折腾，Obsidian更适合这类人！ AI 越来越强，Claude 能总结资料，Notion、飞书也能记笔记，那普通人还需要 Obsidian 吗？ 这期聊聊：什么样的人适合继续用 Obsidian，为什么别再把它…</h3>
 <p><strong>作者</strong>：Kiven大汉堡 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644608213127646518">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：别再瞎折腾，Obsidian更适合这类人！ AI 越来越强，Claude 能总结资料，Notion、飞书也能记笔记，那普通人还需要 Obsidian 吗？<br />
 这期聊聊：什么样的人适合继续用 Obsidian，为什么别再把它当高级收藏夹，以及如何让它真正成为承载项目、思考和行动上下文的工作现场。#obsidian #notion #claude #ai #知识库</p>
@@ -1190,20 +941,20 @@ Copilot 插件的設置頁面
 
 </details>
 
-<h3 id="_2">开发了个桌面整理大师哈哈 #电脑使用小技巧 #桌面整理</h3>
+<h3 id="" 开发了个桌面整理大师哈哈-电脑使用小技巧-桌面整理="开发了个桌面整理大师哈哈-电脑使用小技巧-桌面整理">开发了个桌面整理大师哈哈 #电脑使用小技巧 #桌面整理</h3>
 <p><strong>作者</strong>：奇怪宝宝 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644972021215044937">抖音</a> · <strong>价值评分</strong>：2</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="ai">Ai大模型智能时间读取器！#实用电脑软件 #电脑技巧</h3>
+<h3 ai大模型智能时间读取器-实用电脑软件-电脑技巧="ai大模型智能时间读取器-实用电脑软件-电脑技巧" id="">Ai大模型智能时间读取器！#实用电脑软件 #电脑技巧</h3>
 <p><strong>作者</strong>：彩虹-远程修机 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642104877946922235">抖音</a> · <strong>价值评分</strong>：2</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="ppt-ai">如何用豆包学会任何领域？ 给大家分享几个小技巧！ #人类对豆包的开发不足百分之一 #三分钟生成PPT #豆包也太会写了 #豆包 #AI新星计划</h3>
+<h3 id="" 如何用豆包学会任何领域-给大家分享几个小技巧-人类对豆包的开发不足百分之一-三分钟生成ppt-豆包也="如何用豆包学会任何领域-给大家分享几个小技巧-人类对豆包的开发不足百分之一-三分钟生成ppt-豆包也">如何用豆包学会任何领域？ 给大家分享几个小技巧！ #人类对豆包的开发不足百分之一 #三分钟生成PPT #豆包也太会写了 #豆包 #AI新星计划</h3>
 <p><strong>作者</strong>：林亦LYi · <strong>链接</strong>：<a href="https://www.douyin.com/video/7631802120253033734">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：如何用豆包学会任何领域？ 给大家分享几个小技巧！</p>
-<h1 id="ppt-ai_1">人类对豆包的开发不足百分之一  #三分钟生成PPT  #豆包也太会写了 #豆包 #AI新星计划</h1>
+<h1 id="ppt-ai">人类对豆包的开发不足百分之一  #三分钟生成PPT  #豆包也太会写了 #豆包 #AI新星计划</h1>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用豆包PC版，从“提问-溯源-梳理-输出”四步，几小时摸透任何新概念。
 
@@ -1351,7 +1102,7 @@ Agent可以同时拥有多个Skills
 
 </details>
 
-<h3 id="360-ai-ai-ai">这个网站360行提示词全免费！不用登录一键复制 #ai创作潮计划 #提示词生成器 #AI提示词 #效率工具 #AI新星计划</h3>
+<h3 id="" 这个网站360行提示词全免费-不用登录一键复制-ai创作潮计划-提示词生成器-ai提示词-效率工具-="这个网站360行提示词全免费-不用登录一键复制-ai创作潮计划-提示词生成器-ai提示词-效率工具-">这个网站360行提示词全免费！不用登录一键复制 #ai创作潮计划 #提示词生成器 #AI提示词 #效率工具 #AI新星计划</h3>
 <p><strong>作者</strong>：大卫自媒体（AI赋能版） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7630833471162973114">抖音</a> · <strong>价值评分</strong>：2</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -1373,7 +1124,7 @@ Agent可以同时拥有多个Skills
 
 </details>
 
-<h3 id="11-deepseek-harnessharnessdeepseek-harness-deepseekharness-ai">行走编程第11天！ 全网第一个deepseek harness手机端使用者！你会用harness吗？#deepseek #harness #远程编程 #deepseekharness #AI</h3>
+<h3 id="" 行走编程第11天-全网第一个deepseek-harness手机端使用者-你会用harness吗-d="行走编程第11天-全网第一个deepseek-harness手机端使用者-你会用harness吗-d">行走编程第11天！ 全网第一个deepseek harness手机端使用者！你会用harness吗？#deepseek #harness #远程编程 #deepseekharness #AI</h3>
 <p><strong>作者</strong>：天宇玩AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7673828574016621833">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】DeepSeek Harness是新一代AI编程工具，可脱离电脑端限制，在手机端直接使用，实现随时随地的智能体任务派发。
@@ -1431,7 +1182,7 @@ Agent可以同时拥有多个Skills
 
 </details>
 
-<h3 id="reasonix-harness-deepseek-harness">reasonix国产开发 Harness 之光 专门为 Deepseek 适配的！虽然不是官方的 harness，但是已经非常非常棒了。 刚出来的时候就在用，但是最近其他家公司发的东西有点多，所以就没太关注。但是这次心血…</h3>
+<h3 id="" reasonix国产开发-harness-之光-专门为-deepseek-适配的-虽然不是官方的-h="reasonix国产开发-harness-之光-专门为-deepseek-适配的-虽然不是官方的-h">reasonix国产开发 Harness 之光 专门为 Deepseek 适配的！虽然不是官方的 harness，但是已经非常非常棒了。 刚出来的时候就在用，但是最近其他家公司发的东西有点多，所以就没太关注。但是这次心血…</h3>
 <p><strong>作者</strong>：艺峰学长 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7670496973892128699">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：reasonix国产开发 Harness 之光 专门为 Deepseek 适配的！虽然不是官方的 harness，但是已经非常非常棒了。 刚出来的时候就在用，但是最近其他家公司发的东西有点多，所以就没太关注。但是这次心血来潮更新了一下，发现真的不得了，跟原来完全是两个产品。#herness #reasonix</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -1507,7 +1258,7 @@ YYDS
 
 </details>
 
-<h3 id="_3">把喜欢的小说做成游戏也太好玩了！#人类对豆包的开发不足百分之一 #遇事不决问豆包 #古月方源 #游戏制作 #豆包生产力的神</h3>
+<h3 id="" 把喜欢的小说做成游戏也太好玩了-人类对豆包的开发不足百分之一-遇事不决问豆包-古月方源-游戏制作-豆="把喜欢的小说做成游戏也太好玩了-人类对豆包的开发不足百分之一-遇事不决问豆包-古月方源-游戏制作-豆">把喜欢的小说做成游戏也太好玩了！#人类对豆包的开发不足百分之一 #遇事不决问豆包 #古月方源 #游戏制作 #豆包生产力的神</h3>
 <p><strong>作者</strong>：困告羊 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7665299652660463306">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用豆包电脑版，输入指定指令，就能把整本小说自动生成可玩的游戏。
@@ -1538,7 +1289,7 @@ YYDS
 
 </details>
 
-<h3 id="ai-deepseek">滑动变祖器，滑到梁圣！！！ #AI教育 #deepseek #高中物理 #物理网课</h3>
+<h3 id="" 滑动变祖器-滑到梁圣-ai教育-deepseek-高中物理-物理网课="滑动变祖器-滑到梁圣-ai教育-deepseek-高中物理-物理网课">滑动变祖器，滑到梁圣！！！ #AI教育 #deepseek #高中物理 #物理网课</h3>
 <p><strong>作者</strong>：酷学物理赵老师-海淀版 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7674179051652840356">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用DeepSeek Pro开发了一个物理网课同步教学工具，让学生强制跟随教师视角实时画图做题，并支持双向页面跳转。
@@ -1608,7 +1359,7 @@ DeepSake真的给我戳出来了
 
 </details>
 
-<h3 id="obsidian-obsidian_1">果然用obsidian做知识库还是太权威了 #obsidian #知识库搭建</h3>
+<h3 id="" 果然用obsidian做知识库还是太权威了-obsidian-知识库搭建="果然用obsidian做知识库还是太权威了-obsidian-知识库搭建">果然用obsidian做知识库还是太权威了 #obsidian #知识库搭建</h3>
 <p><strong>作者</strong>：陈语寥聊 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640149467819548654">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -1633,7 +1384,7 @@ DeepSake真的给我戳出来了
 
 </details>
 
-<h3 id="v41-deepseek-ai">彻底告别纯文本，V4.1实现真正的模型共鸣 #deepseek #大模型 #AI #算力</h3>
+<h3 id="" 彻底告别纯文本-v4-1实现真正的模型共鸣-deepseek-大模型-ai-算力="彻底告别纯文本-v4-1实现真正的模型共鸣-deepseek-大模型-ai-算力">彻底告别纯文本，V4.1实现真正的模型共鸣 #deepseek #大模型 #AI #算力</h3>
 <p><strong>作者</strong>：大计算算力炼丹炉 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7645263548771257635">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -1661,7 +1412,7 @@ Dipstick V4.1的不只是多摩太能力
 
 </details>
 
-<h3 id="ai-ai">豆包编程开箱即用，对小白也太友好了！ 要是我能早知道这些就好了哇 #豆包ai #豆包电脑版 #人工智能 #ai #科技</h3>
+<h3 id="" 豆包编程开箱即用-对小白也太友好了-要是我能早知道这些就好了哇-豆包ai-豆包电脑版-人工智能-ai="豆包编程开箱即用-对小白也太友好了-要是我能早知道这些就好了哇-豆包ai-豆包电脑版-人工智能-ai">豆包编程开箱即用，对小白也太友好了！ 要是我能早知道这些就好了哇 #豆包ai #豆包电脑版 #人工智能 #ai #科技</h3>
 <p><strong>作者</strong>：公子龙 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7484120071208520996">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】豆包电脑版内置AI编程功能，小白不用写代码、不用配环境，就能直接生成并运行小游戏、图表和完整项目。
@@ -1731,7 +1482,7 @@ Dipstick V4.1的不只是多摩太能力
 
 </details>
 
-<h3 id="_4">挑战用豆包两分钟开发一个软件 #人类对豆包的开发不足百分之一 #遇事不决问豆包</h3>
+<h3 id="" 挑战用豆包两分钟开发一个软件-人类对豆包的开发不足百分之一-遇事不决问豆包="挑战用豆包两分钟开发一个软件-人类对豆包的开发不足百分之一-遇事不决问豆包">挑战用豆包两分钟开发一个软件 #人类对豆包的开发不足百分之一 #遇事不决问豆包</h3>
 <p><strong>作者</strong>：英雄哪里出来 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7619961394124836132">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用豆包AI，普通人也能按“需求→审核→编码→美化”四步，零基础做出自己的时间规划软件。
@@ -1840,12 +1591,12 @@ OK好了我们来验收一下
 
 </details>
 
-<h3 id="ai_1">提示词越狱#AI #豆包 #杂谈</h3>
+<h3 id="" 提示词越狱-ai-豆包-杂谈="提示词越狱-ai-豆包-杂谈">提示词越狱#AI #豆包 #杂谈</h3>
 <p><strong>作者</strong>：Ai玩家老陈 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7632951436023811347">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="ai-ai-belike">《当我试图驯服AI》 #ai #搞笑 #内容过于真实 #豆包 #精神状态belike</h3>
+<h3 id="" 当我试图驯服ai-ai-搞笑-内容过于真实-豆包-精神状态belike="当我试图驯服ai-ai-搞笑-内容过于真实-豆包-精神状态belike">《当我试图驯服AI》 #ai #搞笑 #内容过于真实 #豆包 #精神状态belike</h3>
 <p><strong>作者</strong>：小何同学【梗王】 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644863076093344753">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -1861,22 +1612,22 @@ OK好了我们来验收一下
 
 </details>
 
-<h3 id="windows">实用软件 #电脑软件 #实用工具 #windows</h3>
+<h3 id="" 实用软件-电脑软件-实用工具-windows="实用软件-电脑软件-实用工具-windows">实用软件 #电脑软件 #实用工具 #windows</h3>
 <p><strong>作者</strong>：福哥办公 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642276222194710505">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="_5">我和我的傻包#豆包</h3>
+<h3 id="" 我和我的傻包-豆包="我和我的傻包-豆包">我和我的傻包#豆包</h3>
 <p><strong>作者</strong>：-17 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642530702404650917">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="_6">智能翻译工具 #编程</h3>
+<h3 id="" 智能翻译工具-编程="智能翻译工具-编程">智能翻译工具 #编程</h3>
 <p><strong>作者</strong>：傻了吧唧 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640805674095671546">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="ai-marvis">腾讯最新的 ai软件马维斯不得不说确实有点东西 #马维斯 #marvis</h3>
+<h3 id="" 腾讯最新的-ai软件马维斯不得不说确实有点东西-马维斯-marvis="腾讯最新的-ai软件马维斯不得不说确实有点东西-马维斯-marvis">腾讯最新的 ai软件马维斯不得不说确实有点东西 #马维斯 #marvis</h3>
 <p><strong>作者</strong>：陈语寥聊 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642569978260835529">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】腾讯Marvis AI智能体办公软件，完成度高于同类产品Workbody，但缺第三方API调用接口。
@@ -1950,7 +1701,7 @@ workbody要更好用
 
 </details>
 
-<h3 id="2026-ai-gpt-gemini-claude">2026年了，个人知识库到底有没有标准答案? #AI #大模型 #gpt #gemini #claude</h3>
+<h3 2026年了-个人知识库到底有没有标准答案-ai-大模型-gpt-gemini-claude="2026年了-个人知识库到底有没有标准答案-ai-大模型-gpt-gemini-claude" id="">2026年了，个人知识库到底有没有标准答案? #AI #大模型 #gpt #gemini #claude</h3>
 <p><strong>作者</strong>：布鲁歇一歇 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639008890583010594">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】2026年个人知识库没有标准答案，按需选型：在线工具够用就别折腾，追求长期沉淀再看LLM Wiki，技术大牛才考虑自建系统。
@@ -2016,7 +1767,7 @@ RAG是每次问的时候消耗,LLM Wiki是每次新增资料、更新资料的�
 
 </details>
 
-<h3 id="deepseek-ai-deepseek-openhanako">我给 DeepSeek 做了一套专属武装，它更完美了！ #ai #deepseek #openhanako</h3>
+<h3 id="" 我给-deepseek-做了一套专属武装-它更完美了-ai-deepseek-openhanako="我给-deepseek-做了一套专属武装-它更完美了-ai-deepseek-openhanako">我给 DeepSeek 做了一套专属武装，它更完美了！ #ai #deepseek #openhanako</h3>
 <p><strong>作者</strong>：liliMozi · <strong>链接</strong>：<a href="https://www.douyin.com/video/7635986003542560041">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】给DeepSeek V4补齐思考模式、视觉、长上下文短板，并封装成好用的AI Agent平台。
@@ -2166,7 +1917,19 @@ Open Hanako这个软件本身
 
 </details>
 
-<hr /></div>
+<hr /></div><aside class="right-rail">
+<div class="rail-block">
+<h5>本页统计</h5>
+<div id="stats" style="color: var(--text-secondary); line-height: 1.8;"></div>
+</div>
+<div class="rail-block">
+<h5>相关推荐</h5>
+<a href="top30.html">⭐ TOP 30 精华</a>
+<a href="method.html">📐 方法论总纲</a>
+<a href="sop-01.html">💰 接单成交 SOP</a>
+<a href="auth-index.html">🏛️ 权威支撑</a>
+</div>
+</aside></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
@@ -2176,13 +1939,65 @@ Open Hanako这个软件本身
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Sidebar active state
+  // Active nav
   const path = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.sidebar-item').forEach(el => {
     if (el.getAttribute('href') === path) el.classList.add('active');
   });
   document.querySelectorAll('.nav-items a').forEach(el => {
     if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+  
+  // Reading progress bar
+  const progress = document.querySelector('.reading-progress');
+  if (progress) {
+    const update = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      progress.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+  
+  // TOC active state (IntersectionObserver)
+  const tocLinks = document.querySelectorAll('.mini-toc a');
+  if (tocLinks.length) {
+    const sections = Array.from(tocLinks).map(l => {
+      const id = l.getAttribute('href').slice(1);
+      return document.getElementById(id);
+    }).filter(Boolean);
+    if (sections.length) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            const active = document.querySelector(`.mini-toc a[href="#${e.target.id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+      sections.forEach(s => observer.observe(s));
+    }
+    // Smooth scroll
+    tocLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const id = link.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if (target) {
+          window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+        }
+      });
+    });
+  }
+  
+  // Sub-topic collapse
+  document.querySelectorAll('.subtopic-header').forEach(h => {
+    h.addEventListener('click', () => {
+      h.parentElement.classList.toggle('collapsed');
+    });
   });
   
   // Search
@@ -2193,48 +2008,11 @@ document.addEventListener('DOMContentLoaded', () => {
       clearTimeout(t);
       t = setTimeout(() => {
         const q = e.target.value.toLowerCase();
-        const cards = document.querySelectorAll('.video-card, .card');
-        cards.forEach(c => {
-          c.style.display = c.innerText.toLowerCase().includes(q) || !q ? '' : 'none';
+        document.querySelectorAll('.video-card').forEach(c => {
+          c.style.display = !q || c.innerText.toLowerCase().includes(q) ? '' : 'none';
         });
-        // For content pages
-        const content = document.querySelector('.content');
-        if (content) {
-          content.querySelectorAll('p, li, h2, h3').forEach(el => {
-            if (!q) { el.style.background = ''; return; }
-            el.style.background = el.innerText.toLowerCase().includes(q) ? 'rgba(255, 235, 59, 0.4)' : '';
-          });
-        }
       }, 200);
     });
-  }
-  
-  // Smooth scroll for TOC links
-  document.querySelectorAll('.page-toc a').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const id = link.getAttribute('href').slice(1);
-      const target = document.getElementById(id);
-      if (target) {
-        window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-      }
-    });
-  });
-  
-  // Active TOC item on scroll
-  const tocLinks = document.querySelectorAll('.page-toc a');
-  if (tocLinks.length) {
-    const sections = Array.from(tocLinks).map(l => document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          tocLinks.forEach(l => l.classList.remove('active'));
-          const active = document.querySelector(`.page-toc a[href="#${e.target.id}"]`);
-          if (active) active.classList.add('active');
-        }
-      });
-    }, { rootMargin: '-80px 0px -70% 0px' });
-    sections.forEach(s => observer.observe(s));
   }
 });
 </script>

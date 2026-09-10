@@ -21,7 +21,6 @@
   --border-strong: rgba(0, 0, 0, 0.12);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
   --radius: 18px;
   --radius-sm: 10px;
   --radius-lg: 24px;
@@ -43,68 +42,31 @@ html, body {
 a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
 a:hover { color: var(--accent-hover); }
 
-/* Top nav - Apple-style sticky blurred */
 .topnav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  position: sticky; top: 0; z-index: 100;
   background: rgba(251, 251, 253, 0.72);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--border);
-  padding: 0 22px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  gap: 28px;
+  padding: 0 22px; height: 48px;
+  display: flex; align-items: center; gap: 28px;
 }
-.topnav .brand {
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -0.02em;
-}
-.topnav .nav-items {
-  display: flex;
-  gap: 22px;
-  flex: 1;
-}
-.topnav .nav-items a {
-  font-size: 13px;
-  color: var(--text);
-  opacity: 0.85;
-  padding: 8px 0;
-  position: relative;
-  transition: opacity 0.2s;
-}
+.topnav .brand { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+.topnav .nav-items { display: flex; gap: 22px; flex: 1; }
+.topnav .nav-items a { font-size: 13px; color: var(--text); opacity: 0.85; padding: 8px 0; position: relative; }
 .topnav .nav-items a:hover { opacity: 1; }
 .topnav .nav-items a.active::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0; right: 0;
-  height: 2px;
-  background: var(--text);
-  border-radius: 1px;
+  content: ""; position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 2px; background: var(--text); border-radius: 1px;
 }
 .topnav .search-mini {
-  display: flex;
-  align-items: center;
-  background: var(--bg-soft);
-  border-radius: 8px;
-  padding: 4px 10px;
-  font-size: 13px;
-  color: var(--text-tertiary);
+  display: flex; align-items: center;
+  background: var(--bg-soft); border-radius: 8px;
+  padding: 4px 10px; font-size: 13px; color: var(--text-tertiary);
   min-width: 180px;
-  cursor: text;
 }
-.topnav .search-mini input {
-  border: none; background: transparent; outline: none;
-  font-size: 13px; flex: 1; color: var(--text);
-  font-family: inherit;
-}
+.topnav .search-mini input { border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: var(--text); font-family: inherit; }
 
-/* Layout */
 .layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
 .sidebar {
   position: sticky; top: 48px;
@@ -115,452 +77,237 @@ a:hover { color: var(--accent-hover); }
 }
 .sidebar-section { margin-bottom: 24px; }
 .sidebar-title {
-  padding: 0 22px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 8px;
+  padding: 0 22px; font-size: 11px; font-weight: 600;
+  color: var(--text-tertiary); text-transform: uppercase;
+  letter-spacing: 0.04em; margin-bottom: 8px;
 }
 .sidebar-item {
   display: flex; align-items: center; gap: 10px;
-  padding: 7px 22px;
-  font-size: 14px;
-  color: var(--text);
+  padding: 7px 22px; font-size: 14px; color: var(--text);
   transition: background 0.15s, color 0.15s;
-  border-left: 2px solid transparent;
-  margin: 1px 0;
+  border-left: 2px solid transparent; margin: 1px 0;
 }
 .sidebar-item:hover { background: var(--bg-soft); }
 .sidebar-item.active {
-  background: var(--accent-soft);
-  color: var(--accent);
-  border-left-color: var(--accent);
-  font-weight: 500;
+  background: var(--accent-soft); color: var(--accent);
+  border-left-color: var(--accent); font-weight: 500;
 }
 .sidebar-item .ico { font-size: 16px; }
 
-/* Main */
+/* Main - LONG-FORM READING MODE */
 .main {
-  padding: 64px 80px 120px;
-  max-width: 980px;
+  padding: 32px 80px 80px;
+  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
 }
 
-/* Hero (homepage) */
-.hero {
-  text-align: center;
-  padding: 80px 0 64px;
-  margin-bottom: 64px;
+/* Article layout with TOC */
+.article-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr 220px;
+  gap: 48px;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.hero .eyebrow {
-  font-size: 14px;
-  color: var(--accent);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.hero h1 {
-  font-size: 72px;
-  line-height: 1.05;
-  letter-spacing: -0.035em;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 24px;
-}
-.hero .lede {
-  font-size: 24px;
-  line-height: 1.4;
-  color: var(--text-secondary);
-  font-weight: 400;
-  max-width: 720px;
-  margin: 0 auto 32px;
-  letter-spacing: -0.01em;
-}
-.hero .cta-row {
-  display: inline-flex;
-  gap: 16px;
-  align-items: center;
-}
-.btn {
-  display: inline-block;
-  padding: 12px 22px;
-  border-radius: 980px;
-  font-size: 15px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  cursor: pointer;
-  font-family: inherit;
-  border: none;
-}
-.btn-primary {
+
+/* Reading progress */
+.reading-progress {
+  position: fixed;
+  top: 48px;
+  left: 0;
+  height: 3px;
   background: var(--accent);
-  color: #fff;
-}
-.btn-primary:hover {
-  background: var(--accent-hover);
-  color: #fff;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-.btn-secondary {
-  background: var(--bg-soft);
-  color: var(--text);
-}
-.btn-secondary:hover {
-  background: var(--bg-elevated);
-  color: var(--text);
-  box-shadow: var(--shadow-sm);
+  z-index: 99;
+  transition: width 0.1s;
+  width: 0;
 }
 
-/* Section */
-.section { margin: 80px 0; }
-.section-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 24px;
-  padding-bottom: 12px;
+/* Page meta */
+.article-meta-row {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 32px; padding-bottom: 24px;
   border-bottom: 1px solid var(--border);
+  font-size: 13px; color: var(--text-tertiary);
 }
-.section-h2 {
-  font-size: 40px;
-  line-height: 1.15;
-  letter-spacing: -0.025em;
-  font-weight: 600;
-  margin: 24px 0 16px;
-  color: var(--text);
+.article-meta-row .pill {
+  background: var(--bg-soft); color: var(--text);
+  padding: 4px 12px; border-radius: 980px;
+  font-weight: 500; font-size: 12px;
 }
-.section-h3 {
-  font-size: 24px;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
-  font-weight: 600;
-  margin: 32px 0 12px;
-  color: var(--text);
+.article-meta-row .pill.accent {
+  background: var(--accent-soft); color: var(--accent);
+}
+.article-meta-row .reading-time {
+  margin-left: auto;
 }
 
-/* Card grid */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  margin: 24px 0;
-}
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  transition: all 0.25s ease;
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--border-strong);
-}
-.card .icon {
-  font-size: 36px;
-  margin-bottom: 16px;
-  display: block;
-}
-.card .label {
+/* Mini TOC (sticky) */
+.mini-toc {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
   font-size: 13px;
-  color: var(--accent);
-  font-weight: 600;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  padding-right: 8px;
 }
-.card h4 {
-  font-size: 22px;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--text);
+.mini-toc .toc-label {
+  font-size: 11px; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; margin-bottom: 16px;
 }
-.card p {
-  font-size: 15px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin: 0;
+.mini-toc a {
+  display: block; padding: 5px 0; color: var(--text-secondary);
+  border-left: 2px solid transparent; padding-left: 10px;
+  text-decoration: none; transition: all 0.15s;
+  line-height: 1.4;
 }
+.mini-toc a:hover { color: var(--accent); }
+.mini-toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
+.mini-toc .toc-h3 { padding-left: 22px; font-size: 12px; }
+.mini-toc .toc-h4 { padding-left: 34px; font-size: 11px; color: var(--text-tertiary); }
 
-/* Feature row (Apple product page style) */
-.feature-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: center;
-  margin: 80px 0;
-  padding: 64px 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+/* Main content - long-form optimized */
+.content {
+  font-size: 19px; line-height: 1.7; color: var(--text);
+  max-width: 720px; margin: 0 auto;
+  /* Better reading measure */
 }
-.feature-row.reverse { direction: rtl; }
-.feature-row.reverse > * { direction: ltr; }
-.feature-row .feature-text h3 {
-  font-size: 36px;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  margin-bottom: 16px;
-  line-height: 1.2;
-}
-.feature-row .feature-text p {
-  font-size: 19px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 16px;
-}
-.feature-row .feature-visual {
-  background: var(--bg-soft);
-  border-radius: var(--radius-lg);
-  aspect-ratio: 1.2 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 120px;
-  border: 1px solid var(--border);
-}
-
-/* Pill / Tag */
-.pill {
-  display: inline-block;
-  padding: 4px 12px;
-  background: var(--bg-soft);
-  border-radius: 980px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-right: 6px;
-  margin-bottom: 6px;
-}
-.pill.accent {
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-weight: 500;
-}
-
-/* Content (article body) */
-.content { font-size: 19px; line-height: 1.65; color: var(--text); }
 .content h1 {
-  font-size: 56px;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  font-weight: 600;
-  margin: 0 0 16px;
-  color: var(--text);
-}
-.content > blockquote:first-of-type {
-  font-size: 22px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  border: none;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 24px 0;
-  margin: 24px 0 40px;
-  font-weight: 400;
-  background: transparent;
+  font-size: 48px; line-height: 1.15; letter-spacing: -0.025em;
+  font-weight: 600; margin: 0 0 16px; color: var(--text);
 }
 .content h2 {
-  font-size: 36px;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  margin: 64px 0 16px;
-  color: var(--text);
+  font-size: 32px; line-height: 1.25; letter-spacing: -0.02em;
+  font-weight: 600; margin: 56px 0 16px; color: var(--text);
+  padding-top: 16px;
 }
 .content h3 {
-  font-size: 24px;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  font-weight: 600;
-  margin: 40px 0 12px;
-  color: var(--text);
+  font-size: 22px; line-height: 1.35; letter-spacing: -0.01em;
+  font-weight: 600; margin: 40px 0 12px; color: var(--text);
 }
 .content h4 {
-  font-size: 19px;
-  font-weight: 600;
-  margin: 24px 0 8px;
-  color: var(--text);
+  font-size: 18px; font-weight: 600; margin: 24px 0 8px; color: var(--text);
 }
 .content p { margin: 16px 0; }
 .content ul, .content ol { padding-left: 24px; margin: 16px 0; }
-.content li { margin: 6px 0; line-height: 1.6; }
+.content li { margin: 6px 0; line-height: 1.65; }
 .content strong { font-weight: 600; color: var(--text); }
 .content em { font-style: italic; }
 .content code {
-  background: var(--bg-code);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: "SF Mono", "Menlo", monospace;
-  font-size: 0.9em;
-  color: #c7254e;
+  background: var(--bg-code); padding: 2px 6px; border-radius: 4px;
+  font-family: "SF Mono", Menlo, monospace; font-size: 0.85em; color: #c7254e;
 }
 .content pre {
-  background: var(--bg-soft);
-  padding: 20px 24px;
-  border-radius: var(--radius-sm);
-  overflow-x: auto;
-  margin: 24px 0;
-  border: 1px solid var(--border);
-  font-size: 14px;
-  line-height: 1.5;
+  background: var(--bg-soft); padding: 20px 24px; border-radius: var(--radius-sm);
+  overflow-x: auto; margin: 24px 0; border: 1px solid var(--border);
+  font-size: 14px; line-height: 1.5;
 }
-.content pre code {
-  background: none;
-  padding: 0;
-  color: var(--text);
-  font-size: inherit;
-}
-.content table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 24px 0;
-  font-size: 15px;
-}
+.content pre code { background: none; padding: 0; color: var(--text); font-size: inherit; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
 .content th {
-  text-align: left;
-  padding: 12px 16px;
-  background: var(--bg-soft);
-  font-weight: 600;
-  font-size: 14px;
-  border-bottom: 2px solid var(--border-strong);
+  text-align: left; padding: 12px 16px; background: var(--bg-soft);
+  font-weight: 600; font-size: 13px; border-bottom: 2px solid var(--border-strong);
 }
-.content td {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-  vertical-align: top;
-}
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
 .content blockquote {
-  border-left: 3px solid var(--accent);
-  padding: 4px 20px;
-  margin: 24px 0;
-  color: var(--text-secondary);
-  background: var(--accent-soft);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  border-left: 3px solid var(--accent); padding: 12px 20px;
+  margin: 24px 0; color: var(--text-secondary);
+  background: var(--accent-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 .content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
 .content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
 .content a:hover { text-decoration-color: var(--accent); }
 
-/* In-page TOC (right side) */
-.with-toc {
-  display: grid;
-  grid-template-columns: 1fr 220px;
-  gap: 48px;
-  align-items: start;
-}
-.page-toc {
-  position: sticky;
-  top: 80px;
-  font-size: 13px;
+/* Right rail - related + progress */
+.right-rail {
+  position: sticky; top: 80px;
   max-height: calc(100vh - 100px);
   overflow-y: auto;
-}
-.page-toc .toc-title {
-  font-size: 11px;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-.page-toc a {
-  display: block;
-  padding: 5px 0;
-  color: var(--text-secondary);
-  text-decoration: none;
-  border-left: 2px solid transparent;
-  padding-left: 12px;
-  transition: all 0.15s;
-}
-.page-toc a:hover { color: var(--accent); }
-.page-toc a.active { color: var(--accent); border-left-color: var(--accent); }
-.page-toc .toc-h3 { padding-left: 24px; font-size: 12px; }
-
-/* Footer */
-.footer {
-  margin-top: 120px;
-  padding: 48px 0 32px;
-  border-top: 1px solid var(--border);
-  text-align: center;
   font-size: 13px;
-  color: var(--text-tertiary);
-  line-height: 1.7;
 }
+.right-rail .rail-block {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.right-rail h5 {
+  font-size: 11px; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; margin-bottom: 12px;
+}
+.right-rail a {
+  display: block; padding: 6px 0; color: var(--text-secondary);
+  text-decoration: none; transition: color 0.15s;
+}
+.right-rail a:hover { color: var(--accent); }
 
-/* Article header */
-.article-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
-.article-meta { display: flex; gap: 12px; margin-bottom: 12px; font-size: 13px; color: var(--text-tertiary); }
-.article-meta .pill { font-size: 12px; padding: 3px 10px; }
-
-/* Video card (for KB pages) */
+/* Video card (long-form optimized) */
 .video-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  margin: 16px 0;
-  transition: all 0.2s;
   border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin: 24px 0;
+  transition: all 0.2s;
 }
 .video-card:hover { box-shadow: var(--shadow-md); }
-.video-card h3 { font-size: 19px; line-height: 1.4; margin: 0 0 12px; }
-.video-card .meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--text-tertiary); margin-top: 12px; }
+.video-card h3 { font-size: 20px; line-height: 1.4; margin: 0 0 12px; }
+.video-card .meta { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: var(--text-tertiary); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
 .video-card .meta a { color: var(--text-secondary); }
 .video-card .meta a:hover { color: var(--accent); }
 .video-card .meta .pill.author { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.video-card .meta .pill.topic { background: var(--bg-soft); color: var(--text); }
+.video-card .meta .pill.val { background: rgba(0, 175, 100, 0.12); color: #00875a; }
 .video-card .insight { 
-  background: var(--bg-soft); 
-  padding: 16px 20px; 
-  border-radius: var(--radius-sm); 
-  margin-top: 16px;
-  font-size: 14px;
-  white-space: pre-wrap;
-  line-height: 1.6;
-  color: var(--text);
-  font-family: "SF Mono", "Menlo", monospace;
+  background: var(--bg-soft); padding: 18px 22px; 
+  border-radius: var(--radius-sm); margin-top: 16px;
+  font-size: 14px; line-height: 1.7; white-space: pre-wrap; 
+  color: var(--text); font-family: "SF Mono", Menlo, monospace;
+  max-height: 280px; overflow-y: auto;
 }
 .video-card details { margin-top: 16px; }
-.video-card details summary {
-  cursor: pointer;
-  font-size: 13px;
-  color: var(--accent);
-  padding: 8px 0;
-  user-select: none;
+.video-card details summary { cursor: pointer; font-size: 13px; color: var(--accent); padding: 6px 0; user-select: none; }
+.video-card details pre { max-height: 400px; overflow-y: auto; margin-top: 12px; font-size: 13px; }
+
+/* Sub-topic collapsible */
+.subtopic { margin: 32px 0; }
+.subtopic-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; background: var(--bg-soft);
+  border-radius: var(--radius); cursor: pointer; user-select: none;
+  margin-bottom: 16px; transition: background 0.15s;
 }
-.video-card details pre {
-  max-height: 400px;
-  overflow-y: auto;
-  margin-top: 12px;
-  font-size: 13px;
-}
+.subtopic-header:hover { background: var(--bg-elevated); box-shadow: var(--shadow-sm); }
+.subtopic-header h2 { margin: 0; font-size: 22px; }
+.subtopic-header .count { font-size: 13px; color: var(--text-tertiary); }
+.subtopic-header .arrow { margin-left: auto; transition: transform 0.2s; }
+.subtopic.collapsed .arrow { transform: rotate(-90deg); }
+.subtopic.collapsed .videos { display: none; }
+
+/* Footer */
+.footer { margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--text-tertiary); line-height: 1.7; }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .article-layout { grid-template-columns: 200px 1fr; }
+  .right-rail { display: none; }
+}
 @media (max-width: 1024px) {
   .layout { grid-template-columns: 1fr; }
   .sidebar { display: none; }
-  .main { padding: 40px 24px 80px; }
-  .hero h1 { font-size: 48px; }
-  .feature-row { grid-template-columns: 1fr; gap: 32px; }
-  .feature-row.reverse { direction: ltr; }
-  .with-toc { grid-template-columns: 1fr; }
-  .page-toc { display: none; }
+  .main { padding: 24px; }
+  .article-layout { grid-template-columns: 1fr; }
+  .mini-toc { display: none; }
 }
 </style>
 </head>
 <body>
+<div class="reading-progress"></div>
 
 <nav class="topnav">
   <a href="index.html" class="brand">企业 AI 实战</a>
@@ -633,13 +380,17 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-header"><div class="article-meta"><span class="pill accent">📂 9 大主题 · 1/9</span></div></div><h1 id="02-01-ai">02-01 · 企业AI落地·接单武器</h1>
+<div class="article-meta-row">
+<span class="pill accent">📂 知识库</span>
+<span class="pill">深度阅读</span>
+<span class="reading-time">⏱️ 约 100 分钟 · 40,068 字</span>
+</div><div class="article-layout"><div class="mini-toc"><div class="toc-label">本页目录</div><a href="#子主题" class="">子主题</a><a href="#flow-落地流程-方法" class="">flow · 落地流程&方法</a><a href="#数据只是第一步难的是把人的经验说清楚-案例实操讲解-企业数字化运营-企业ai落地应用-ai" class="toc-h3">数据只是第一步难的是把人的经验说清楚 #案例实操讲解 #企业数字化运营 #企业ai落地应用 #ai</a><a href="#第15集-做ai转型踩坑无数-这套4阶段落地法才靠谱-企业ai落地-企业ai转型-ai赋能-ai数字" class="toc-h3">第15集｜做AI转型踩坑无数，这套4阶段落地法才靠谱 #企业ai落地 #企业ai转型 #ai赋能 #ai数字化 #旭东opc</a><a href="#企业ai落地最优单元-ai时代护城河-ai不会凭空给你更好的业务能力-ai只会指数放大你沉淀的业务资" class="toc-h3">企业AI落地最优单元｜AI时代护城河 AI不会凭空给你更好的业务能力，AI只会指数放大你沉淀的业务资产和能力。 #ai #企业ai #ai落地 #ai赋能 #高管</a><a href="#收集的企业ai情况-视频会长一点-建议收藏-过去企业软件和现在的ai转型-流程恰恰相反-企业级ai-" class="toc-h3">收集的企业AI情况，视频会长一点，建议收藏 过去企业软件和现在的AI转型，流程恰恰相反#企业级AI #智能体 #agent #制造业 #实在agent</a><a href="#第27集-国内ai-fde轻量落地流程-企业ai落地-fde-ai服务-ai转型-旭东opc" class="toc-h3">第27集｜国内AI- FDE轻量落地流程。 #企业AI落地 #FDE #AI服务 #AI转型 #旭东opc</a><a href="#电商ai落地系统搭建思路-多维表格-rpa自动化-真实生活分享计划-电商自动化-电商ai-ai电商落" class="toc-h3">电商Ai落地系统搭建思路-多维表格+RPA自动化 #真实生活分享计划 #电商自动化 #电商ai #ai电商落地</a><a href="#这是一个-微信公众号-ai-运营-skill-套件-你可以把它理解成给公众号运营者-内容团队-个人-" class="toc-h3">这是一个“微信公众号 AI 运营 Skill 套件”，你可以把它理解成给公众号运营者、内容团队、个人 IP 和企业新媒体搭了一个会按流程干活的公众号数字员工：专门帮用户把选题调研、文章写作、审稿校对、Markdown 排…</a><a href="#三个步骤-用好-ai-本期-十字路口-有个很好的时间点-2026-年过半-ai-已经强到足以改变-怎" class="toc-h3">三个步骤 用好 AI ➤ 本期「十字路口」有个很好的时间点：2026 年过半，AI 已经强到足以改变“怎么工作”，但离“无摩擦地替你把事做完”仍然有距离。 ➤ 上半场，我邀请到身边用 AI 的“高手”课代表立正，讲清楚高…</a><a href="#fde-fde-实战现场" class="">fde · FDE 实战现场</a><a href="#全网第一fde真实入企赶路的一天-fde-中国fde黄埔军校-企业ai落地-丹元智能" class="toc-h3">全网第一fde真实入企赶路的一天 #fde #中国fde黄埔军校 #企业ai落地 #丹元智能</a><a href="#第38集-企业ai落地真相-工具是0-业务才是1-没1全白搭-企业ai落地-企业ai转型-旭东opc" class="toc-h3">第38集｜企业AI落地真相：工具是0，业务才是1，没1全白搭 #企业AI落地 #企业AI转型 #旭东opc #ai赋能 #FDE</a><a href="#企业ai转型落地如何报价-ai-企业ai-fde-企业管理-企业管理" class="toc-h3">企业AI转型落地如何报价 #AI #企业ai #FDE #企业管理 #企业管理</a><a href="#暴论-fde只有3-5年的生命周期" class="toc-h3">暴论：FDE只有3-5年的生命周期</a><a href="#制造业ai降本增效咨询分享-fde-企业ai-降本增效-企业管理-ai" class="toc-h3">制造业AI降本增效咨询分享 #fde #企业ai #降本增效 #企业管理 #ai</a><a href="#quote-报价-谈单-诊断" class="">quote · 报价·谈单·诊断</a><a href="#ai-智慧农业落地全纪实-ai-智慧农业-墒情-本地部署" class="toc-h3">AI+智慧农业落地全纪实 #AI #智慧农业 #墒情 #本地部署</a><a href="#不愧是字节来的产品经理-三个问题直接问懵业务方-ai产品经理-大模型产品经理-ai大模型-ai人工智" class="toc-h3">不愧是字节来的产品经理，三个问题直接问懵业务方 #ai产品经理 #大模型产品经理 #ai大模型 #ai人工智能 #互联网大厂</a><a href="#org-组织-战略-变革" class="">org · 组织·战略·变革</a></div><div class="content"><h1 id="02-01-ai">02-01 · 企业AI落地·接单武器</h1>
 <blockquote>
 <p>见客户前扫一遍：落地流程/报价/FDE/诊断话术都在这</p>
 </blockquote>
 <p><strong>统计</strong>：23 条视频 · 6 个子主题</p>
 <hr />
-<h2 id="_1">子主题</h2>
+<h2 id="" 子主题="子主题">子主题</h2>
 <ul>
 <li><strong>flow</strong> 落地流程&amp;方法：AI转型怎么一步步做对: 4阶段落地法/FDE轻量流程/落地最优单元</li>
 <li><strong>fde</strong> FDE 实战现场：真实入企的一天 / FDE 生命周期 / 黄埔军校</li>
@@ -649,9 +400,9 @@ a:hover { color: var(--accent-hover); }
 <li><strong>case</strong> 行业案例样板：制造业/电商/公众号 真实落地案例</li>
 </ul>
 <hr />
-<h2 id="flow">flow · 落地流程&amp;方法</h2>
+<h2 flow-落地流程-方法="flow-落地流程-方法" id="">flow · 落地流程&amp;方法</h2>
 <p><em>AI转型怎么一步步做对: 4阶段落地法/FDE轻量流程/落地最优单元</em></p>
-<h3 id="ai-ai">数据只是第一步难的是把人的经验说清楚 #案例实操讲解 #企业数字化运营 #企业ai落地应用 #ai</h3>
+<h3 id="" 数据只是第一步难的是把人的经验说清楚-案例实操讲解-企业数字化运营-企业ai落地应用-ai="数据只是第一步难的是把人的经验说清楚-案例实操讲解-企业数字化运营-企业ai落地应用-ai">数据只是第一步难的是把人的经验说清楚 #案例实操讲解 #企业数字化运营 #企业ai落地应用 #ai</h3>
 <p><strong>作者</strong>：董俊豪企业AI化 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7681641726272757233">抖音</a> · <strong>子主题</strong>：flow · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【企业AI落地两条件三步 · 董俊豪】
@@ -815,7 +566,7 @@ CLM里面的客户
 
 </details>
 
-<h3 id="15ai4-ai-ai-ai-ai-opc">第15集｜做AI转型踩坑无数，这套4阶段落地法才靠谱 #企业ai落地 #企业ai转型 #ai赋能 #ai数字化 #旭东opc</h3>
+<h3 id="" 第15集-做ai转型踩坑无数-这套4阶段落地法才靠谱-企业ai落地-企业ai转型-ai赋能-ai数字="第15集-做ai转型踩坑无数-这套4阶段落地法才靠谱-企业ai落地-企业ai转型-ai赋能-ai数字">第15集｜做AI转型踩坑无数，这套4阶段落地法才靠谱 #企业ai落地 #企业ai转型 #ai赋能 #ai数字化 #旭东opc</h3>
 <p><strong>作者</strong>：旭东AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7658300999208355569">抖音</a> · <strong>子主题</strong>：flow · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【企业AI落地4阶段法 · 旭东AI】
@@ -937,7 +688,7 @@ demo
 
 </details>
 
-<h3 id="aiai-aiai-ai-ai-ai-ai">企业AI落地最优单元｜AI时代护城河 AI不会凭空给你更好的业务能力，AI只会指数放大你沉淀的业务资产和能力。 #ai #企业ai #ai落地 #ai赋能 #高管</h3>
+<h3 id="" 企业ai落地最优单元-ai时代护城河-ai不会凭空给你更好的业务能力-ai只会指数放大你沉淀的业务资="企业ai落地最优单元-ai时代护城河-ai不会凭空给你更好的业务能力-ai只会指数放大你沉淀的业务资">企业AI落地最优单元｜AI时代护城河 AI不会凭空给你更好的业务能力，AI只会指数放大你沉淀的业务资产和能力。 #ai #企业ai #ai落地 #ai赋能 #高管</h3>
 <p><strong>作者</strong>：DD讲AI（9.5线下课） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7648178925922831657">抖音</a> · <strong>子主题</strong>：flow · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：企业AI落地最优单元｜AI时代护城河 AI不会凭空给你更好的业务能力，AI只会指数放大你沉淀的业务资产和能力。</p>
 <h1 id="ai-ai-ai-ai">ai #企业ai #ai落地 #ai赋能 #高管</h1>
@@ -1057,7 +808,7 @@ AI落地单元从小到大
 
 </details>
 
-<h3 id="ai-aiai-agent-agent">收集的企业AI情况，视频会长一点，建议收藏 过去企业软件和现在的AI转型，流程恰恰相反#企业级AI #智能体 #agent #制造业 #实在agent</h3>
+<h3 id="" 收集的企业ai情况-视频会长一点-建议收藏-过去企业软件和现在的ai转型-流程恰恰相反-企业级ai-="收集的企业ai情况-视频会长一点-建议收藏-过去企业软件和现在的ai转型-流程恰恰相反-企业级ai-">收集的企业AI情况，视频会长一点，建议收藏 过去企业软件和现在的AI转型，流程恰恰相反#企业级AI #智能体 #agent #制造业 #实在agent</h3>
 <p><strong>作者</strong>：制造业AI落地官 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7670501071919402250">抖音</a> · <strong>子主题</strong>：flow · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【制造业AI转型 · 制造业AI落地官】
@@ -1139,7 +890,7 @@ AI落地单元从小到大
 
 </details>
 
-<h3 id="27ai-fde-ai-fde-ai-ai-opc">第27集｜国内AI- FDE轻量落地流程。 #企业AI落地 #FDE #AI服务 #AI转型 #旭东opc</h3>
+<h3 id="" 第27集-国内ai-fde轻量落地流程-企业ai落地-fde-ai服务-ai转型-旭东opc="第27集-国内ai-fde轻量落地流程-企业ai落地-fde-ai服务-ai转型-旭东opc">第27集｜国内AI- FDE轻量落地流程。 #企业AI落地 #FDE #AI服务 #AI转型 #旭东opc</h3>
 <p><strong>作者</strong>：旭东AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7666765255364460217">抖音</a> · <strong>子主题</strong>：flow · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【FDE轻量落地流程 · 旭东AI】
@@ -1278,7 +1029,7 @@ AI落地流程的一个梳理
 
 </details>
 
-<h3 id="ai-rpa-ai-ai">电商Ai落地系统搭建思路-多维表格+RPA自动化 #真实生活分享计划 #电商自动化 #电商ai #ai电商落地</h3>
+<h3 id="" 电商ai落地系统搭建思路-多维表格-rpa自动化-真实生活分享计划-电商自动化-电商ai-ai电商落="电商ai落地系统搭建思路-多维表格-rpa自动化-真实生活分享计划-电商自动化-电商ai-ai电商落">电商Ai落地系统搭建思路-多维表格+RPA自动化 #真实生活分享计划 #电商自动化 #电商ai #ai电商落地</h3>
 <p><strong>作者</strong>：时来 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7654235313329764325">抖音</a> · <strong>子主题</strong>：flow · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【电商AI自动化 · 时来】
@@ -1357,7 +1108,7 @@ RPA价借多维表格这里需要完成RPA从多维表格里面去读取物料�
 
 </details>
 
-<h3 id="ai-skill-ip-markdown">这是一个“微信公众号 AI 运营 Skill 套件”，你可以把它理解成给公众号运营者、内容团队、个人 IP 和企业新媒体搭了一个会按流程干活的公众号数字员工：专门帮用户把选题调研、文章写作、审稿校对、Markdown 排…</h3>
+<h3 id="" 这是一个-微信公众号-ai-运营-skill-套件-你可以把它理解成给公众号运营者-内容团队-个人-="这是一个-微信公众号-ai-运营-skill-套件-你可以把它理解成给公众号运营者-内容团队-个人-">这是一个“微信公众号 AI 运营 Skill 套件”，你可以把它理解成给公众号运营者、内容团队、个人 IP 和企业新媒体搭了一个会按流程干活的公众号数字员工：专门帮用户把选题调研、文章写作、审稿校对、Markdown 排…</h3>
 <p><strong>作者</strong>：智群Ai · <strong>链接</strong>：<a href="https://www.douyin.com/video/7651221727833279784">抖音</a> · <strong>子主题</strong>：flow · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：这是一个“微信公众号 AI 运营 Skill 套件”，你可以把它理解成给公众号运营者、内容团队、个人 IP 和企业新媒体搭了一个会按流程干活的公众号数字员工：专门帮用户把选题调研、文章写作、审稿校对、Markdown 排版、封面配图、业务素材库、账号风格配置、微信 API 发布和多账号管理放到一套 AI Agent 工作流里。有需要可以关注看一下。</p>
 <blockquote>
@@ -1377,7 +1128,7 @@ RPA价借多维表格这里需要完成RPA从多维表格里面去读取物料�
 
 </details>
 
-<h3 id="ai-2026-ai-ai">三个步骤 用好 AI ➤ 本期「十字路口」有个很好的时间点：2026 年过半，AI 已经强到足以改变“怎么工作”，但离“无摩擦地替你把事做完”仍然有距离。 ➤ 上半场，我邀请到身边用 AI 的“高手”课代表立正，讲清楚高…</h3>
+<h3 id="" 三个步骤-用好-ai-本期-十字路口-有个很好的时间点-2026-年过半-ai-已经强到足以改变-怎="三个步骤-用好-ai-本期-十字路口-有个很好的时间点-2026-年过半-ai-已经强到足以改变-怎">三个步骤 用好 AI ➤ 本期「十字路口」有个很好的时间点：2026 年过半，AI 已经强到足以改变“怎么工作”，但离“无摩擦地替你把事做完”仍然有距离。 ➤ 上半场，我邀请到身边用 AI 的“高手”课代表立正，讲清楚高…</h3>
 <p><strong>作者</strong>：Koji杨远骋 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7649425375927291182">抖音</a> · <strong>子主题</strong>：flow · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：三个步骤 用好 AI ➤ 本期「十字路口」有个很好的时间点：2026 年过半，AI 已经强到足以改变“怎么工作”，但离“无摩擦地替你把事做完”仍然有距离。</p>
 <p>➤ 上半场，我邀请到身边用 AI 的“高手”课代表立正，讲清楚高手的 AI 为什么会越用越强？——他们在想“我能为 AI 做些什么”，并且把生活和工作的大事小事全都交给 AI。</p>
@@ -1411,9 +1162,9 @@ RPA价借多维表格这里需要完成RPA从多维表格里面去读取物料�
 </details>
 
 <hr />
-<h2 id="fde-fde">fde · FDE 实战现场</h2>
+<h2 fde-fde-实战现场="fde-fde-实战现场" id="">fde · FDE 实战现场</h2>
 <p><em>真实入企的一天 / FDE 生命周期 / 黄埔军校</em></p>
-<h3 id="fde-fde-fde-ai">全网第一fde真实入企赶路的一天 #fde #中国fde黄埔军校 #企业ai落地 #丹元智能</h3>
+<h3 id="" 全网第一fde真实入企赶路的一天-fde-中国fde黄埔军校-企业ai落地-丹元智能="全网第一fde真实入企赶路的一天-fde-中国fde黄埔军校-企业ai落地-丹元智能">全网第一fde真实入企赶路的一天 #fde #中国fde黄埔军校 #企业ai落地 #丹元智能</h3>
 <p><strong>作者</strong>：小智_企业AI落地 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7665714793470381350">抖音</a> · <strong>子主题</strong>：fde · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【00后FDE入企纪实 · 小智(全网第一FDE黄埔军校)】
@@ -1492,7 +1243,7 @@ ID入企趕路的一天
 
 </details>
 
-<h3 id="38ai011-ai-ai-opc-ai-fde">第38集｜企业AI落地真相：工具是0，业务才是1，没1全白搭 #企业AI落地 #企业AI转型 #旭东opc #ai赋能 #FDE</h3>
+<h3 id="" 第38集-企业ai落地真相-工具是0-业务才是1-没1全白搭-企业ai落地-企业ai转型-旭东opc="第38集-企业ai落地真相-工具是0-业务才是1-没1全白搭-企业ai落地-企业ai转型-旭东opc">第38集｜企业AI落地真相：工具是0，业务才是1，没1全白搭 #企业AI落地 #企业AI转型 #旭东opc #ai赋能 #FDE</h3>
 <p><strong>作者</strong>：旭东AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7676136301146610353">抖音</a> · <strong>子主题</strong>：fde · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【FDE真价值3步法 · 旭东AI】
@@ -1633,7 +1384,7 @@ fde的價值從來不是幫企業裝個工具
 
 </details>
 
-<h3 id="ai-ai-ai-fde">企业AI转型落地如何报价 #AI #企业ai #FDE #企业管理 #企业管理</h3>
+<h3 id="" 企业ai转型落地如何报价-ai-企业ai-fde-企业管理-企业管理="企业ai转型落地如何报价-ai-企业ai-fde-企业管理-企业管理">企业AI转型落地如何报价 #AI #企业ai #FDE #企业管理 #企业管理</h3>
 <p><strong>作者</strong>：zionisreal · <strong>链接</strong>：<a href="https://www.douyin.com/video/7671840324734671827">抖音</a> · <strong>子主题</strong>：fde · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【企业AI改造报价实战 · zionisreal】
@@ -1697,7 +1448,7 @@ OK,剛從寧波回來給一個製造業的公司做了企業AI改造
 
 </details>
 
-<h3 id="fde3-5">暴论：FDE只有3-5年的生命周期</h3>
+<h3 id="" 暴论-fde只有3-5年的生命周期="暴论-fde只有3-5年的生命周期">暴论：FDE只有3-5年的生命周期</h3>
 <p><strong>作者</strong>：曲率出逃 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7679483436800838948">抖音</a> · <strong>子主题</strong>：fde</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【FDE生命周期暴论 · 曲率出逃】
@@ -1825,7 +1576,7 @@ AI写提示词比99%的人要好
 
 </details>
 
-<h3 id="ai-fde-ai-ai">制造业AI降本增效咨询分享 #fde #企业ai #降本增效 #企业管理 #ai</h3>
+<h3 id="" 制造业ai降本增效咨询分享-fde-企业ai-降本增效-企业管理-ai="制造业ai降本增效咨询分享-fde-企业ai-降本增效-企业管理-ai">制造业AI降本增效咨询分享 #fde #企业ai #降本增效 #企业管理 #ai</h3>
 <p><strong>作者</strong>：zionisreal · <strong>链接</strong>：<a href="https://www.douyin.com/video/7671925705978187492">抖音</a> · <strong>子主题</strong>：fde</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【制造业AI降本增效 · zionisreal】
@@ -1925,9 +1676,9 @@ AI工具知识产生在调研之后
 </details>
 
 <hr />
-<h2 id="quote">quote · 报价·谈单·诊断</h2>
+<h2 id="" quote-报价-谈单-诊断="quote-报价-谈单-诊断">quote · 报价·谈单·诊断</h2>
 <p><em>企业AI转型怎么报价 / 三个问题问懵业务方(诊断式提问)</em></p>
-<h3 id="ai-ai_1">AI+智慧农业落地全纪实 #AI #智慧农业 #墒情 #本地部署</h3>
+<h3 ai-智慧农业落地全纪实-ai-智慧农业-墒情-本地部署="ai-智慧农业落地全纪实-ai-智慧农业-墒情-本地部署" id="">AI+智慧农业落地全纪实 #AI #智慧农业 #墒情 #本地部署</h3>
 <p><strong>作者</strong>：单车酒吧搞机社 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644455359888837930">抖音</a> · <strong>子主题</strong>：quote · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -1969,7 +1720,7 @@ ai加智慧农业落地全计时 你敢相信吗 现在很多智慧农业看起�
 
 </details>
 
-<h3 id="ai-ai-ai">不愧是字节来的产品经理，三个问题直接问懵业务方 #ai产品经理 #大模型产品经理 #ai大模型 #ai人工智能 #互联网大厂</h3>
+<h3 id="" 不愧是字节来的产品经理-三个问题直接问懵业务方-ai产品经理-大模型产品经理-ai大模型-ai人工智="不愧是字节来的产品经理-三个问题直接问懵业务方-ai产品经理-大模型产品经理-ai大模型-ai人工智">不愧是字节来的产品经理，三个问题直接问懵业务方 #ai产品经理 #大模型产品经理 #ai大模型 #ai人工智能 #互联网大厂</h3>
 <p><strong>作者</strong>：产品经理学AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7676365533168726888">抖音</a> · <strong>子主题</strong>：quote · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】AI需求分析的核心不是急着选模型，而是先把模糊的业务愿望拆成可执行、可度量的产品问题。
@@ -2070,9 +1821,9 @@ AI产品不是模型越大越好
 </details>
 
 <hr />
-<h2 id="org">org · 组织·战略·变革</h2>
+<h2 id="" org-组织-战略-变革="org-组织-战略-变革">org · 组织·战略·变革</h2>
 <p><em>AI原生组织/老板视角/组织怎么变(曾鸣/程前/飞书)</em></p>
-<h3 id="ai_1">AI原生组织长什么样 未来组织其实就做两件事情，一是运营的自动化， 二是战略决策的高质量化#曾鸣教授讲战略#战略的功夫#商业思维</h3>
+<h3 ai原生组织长什么样-未来组织其实就做两件事情-一是运营的自动化-二是战略决策的高质量化-曾鸣教授讲="ai原生组织长什么样-未来组织其实就做两件事情-一是运营的自动化-二是战略决策的高质量化-曾鸣教授讲" id="">AI原生组织长什么样 未来组织其实就做两件事情，一是运营的自动化， 二是战略决策的高质量化#曾鸣教授讲战略#战略的功夫#商业思维</h3>
 <p><strong>作者</strong>：北京观塘智管理咨询有限公司 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7658626779199884596">抖音</a> · <strong>子主题</strong>：org · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【AI原生组织 · 曾鸣(北京观塘智)】
@@ -2211,7 +1962,7 @@ Tesla的FSD
 
 </details>
 
-<h3 id="ai-ai_2">程前朋友圈AI大改造。 #光羽 #企业AI变革 #飞书 #程前朋友圈 #抖音前沿科技首发计划</h3>
+<h3 id="" 程前朋友圈ai大改造-光羽-企业ai变革-飞书-程前朋友圈-抖音前沿科技首发计划="程前朋友圈ai大改造-光羽-企业ai变革-飞书-程前朋友圈-抖音前沿科技首发计划">程前朋友圈AI大改造。 #光羽 #企业AI变革 #飞书 #程前朋友圈 #抖音前沿科技首发计划</h3>
 <p><strong>作者</strong>：光羽的平行世界 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7654126612127976745">抖音</a> · <strong>子主题</strong>：org</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】AI改造企业流程，先别急着优化“痛”点，要定位能带来增长的关键策略问题，而非局部提效。
@@ -2362,7 +2113,7 @@ AI到底能做什么呢
 
 </details>
 
-<h3 id="ai2-ai">森马用AI变革增收2个亿 @森创启睿 #光羽 #企业AI变革 #森马电商</h3>
+<h3 id="" 森马用ai变革增收2个亿-森创启睿-光羽-企业ai变革-森马电商="森马用ai变革增收2个亿-森创启睿-光羽-企业ai变革-森马电商">森马用AI变革增收2个亿 @森创启睿 #光羽 #企业AI变革 #森马电商</h3>
 <p><strong>作者</strong>：光羽的平行世界 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642252037626907958">抖音</a> · <strong>子主题</strong>：org</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】森马电商用AI全流程改造，靠数字人直播和AI生图，一年多做2个亿营收。
@@ -2574,9 +2325,9 @@ AI那个是实拍
 </details>
 
 <hr />
-<h2 id="truth">truth · 真相·避坑·障碍</h2>
+<h2 id="" truth-真相-避坑-障碍="truth-真相-避坑-障碍">truth · 真相·避坑·障碍</h2>
 <p><em>工具是0业务才是1/最大障碍/数据vs经验/踩坑</em></p>
-<h3 id="14ai-ai-ai-opc-ai">第14集｜企业AI落地最大的障碍是什么？ #企业AI落地 #企业AI转型 #旭东opc #ai赋能</h3>
+<h3 id="" 第14集-企业ai落地最大的障碍是什么-企业ai落地-企业ai转型-旭东opc-ai赋能="第14集-企业ai落地最大的障碍是什么-企业ai落地-企业ai转型-旭东opc-ai赋能">第14集｜企业AI落地最大的障碍是什么？ #企业AI落地 #企业AI转型 #旭东opc #ai赋能</h3>
 <p><strong>作者</strong>：旭东AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7657538416166490289">抖音</a> · <strong>子主题</strong>：truth · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【企业AI落地最大障碍 · 旭东AI】
@@ -2715,7 +2466,7 @@ AI所以说AI必须一把手
 
 </details>
 
-<h3 id="1bagent-agent-ai-b-ai">做了1年B端Agent搭建，踩坑无数，总结出来七条血泪经验 #agent搭建 #AI获客 #智能体搭建 #b端客户服务 #ai创业干货</h3>
+<h3 id="" 做了1年b端agent搭建-踩坑无数-总结出来七条血泪经验-agent搭建-ai获客-智能体搭建-b="做了1年b端agent搭建-踩坑无数-总结出来七条血泪经验-agent搭建-ai获客-智能体搭建-b">做了1年B端Agent搭建，踩坑无数，总结出来七条血泪经验 #agent搭建 #AI获客 #智能体搭建 #b端客户服务 #ai创业干货</h3>
 <p><strong>作者</strong>：清华鑫哥讲AI智能体（9.12线下课） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7669867103487500907">抖音</a> · <strong>子主题</strong>：truth · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【B端Agent七条血泪 · 清华鑫哥】(1年B端项目复盘)
@@ -2832,8 +2583,8 @@ AI只占
 </details>
 
 <hr />
-<h2 id="_2">其他</h2>
-<h3 id="fde10ai">FDE凭什么月入10万？真正值钱的根本不是AI</h3>
+<h2 id="" 其他="其他">其他</h2>
+<h3 fde凭什么月入10万-真正值钱的根本不是ai="fde凭什么月入10万-真正值钱的根本不是ai" id="">FDE凭什么月入10万？真正值钱的根本不是AI</h3>
 <p><strong>作者</strong>：皮皮 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7681562541897759219">抖音</a> · <strong>录入</strong>：2026-09-08</p>
 <p><strong>简介</strong>：FDE凭什么月入10万？真正值钱的根本不是AI 最近都在说FDE很赚钱。但我看完火山大哥这段，反而觉得真正值得研究的不是 “FDE能赚多少”，而是企业凭什么愿意把这笔钱给你？同样是大企业怕出错、中型公司在意谁说了算、小公司只想尽快看到结果。真正难的可能从来不是客户提了什么需求，而是你能不能比客户更早看懂他真正愿意为什么付钱。</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -2974,12 +2725,12 @@ AI创业就很难做到很多大公司的AI咨询
 
 </details>
 
-<h3 id="ai-agent-ai">董事长自豪介绍各部门的AI agent，听完我笑哭了 #AI #智能体 #企业家 #商业思维 #企业管理</h3>
+<h3 id="" 董事长自豪介绍各部门的ai-agent-听完我笑哭了-ai-智能体-企业家-商业思维-企业管理="董事长自豪介绍各部门的ai-agent-听完我笑哭了-ai-智能体-企业家-商业思维-企业管理">董事长自豪介绍各部门的AI agent，听完我笑哭了 #AI #智能体 #企业家 #商业思维 #企业管理</h3>
 <p><strong>作者</strong>：王文博商业趋势 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7670722503458835752">抖音</a> · <strong>子主题</strong>：other · <strong>价值评分</strong>：2</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<h3 id="ai-ai-rag-agent">决定你AI上限的，不是工具，是跟对了谁！ #AI产品经理 #大模型应用 #RAG #AGENT #产品经理思维</h3>
+<h3 id="" 决定你ai上限的-不是工具-是跟对了谁-ai产品经理-大模型应用-rag-agent-产品经理思维="决定你ai上限的-不是工具-是跟对了谁-ai产品经理-大模型应用-rag-agent-产品经理思维">决定你AI上限的，不是工具，是跟对了谁！ #AI产品经理 #大模型应用 #RAG #AGENT #产品经理思维</h3>
 <p><strong>作者</strong>：AI产品破壁者-小易 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7678252125486455985">抖音</a> · <strong>子主题</strong>：other</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【AI上限不取决于工具 · AI产品破壁者】
@@ -3018,7 +2769,19 @@ AI从入门到进阶的清单
 
 </details>
 
-<hr /></div>
+<hr /></div><aside class="right-rail">
+<div class="rail-block">
+<h5>本页统计</h5>
+<div id="stats" style="color: var(--text-secondary); line-height: 1.8;"></div>
+</div>
+<div class="rail-block">
+<h5>相关推荐</h5>
+<a href="top30.html">⭐ TOP 30 精华</a>
+<a href="method.html">📐 方法论总纲</a>
+<a href="sop-01.html">💰 接单成交 SOP</a>
+<a href="auth-index.html">🏛️ 权威支撑</a>
+</div>
+</aside></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
@@ -3028,13 +2791,65 @@ AI从入门到进阶的清单
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Sidebar active state
+  // Active nav
   const path = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.sidebar-item').forEach(el => {
     if (el.getAttribute('href') === path) el.classList.add('active');
   });
   document.querySelectorAll('.nav-items a').forEach(el => {
     if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+  
+  // Reading progress bar
+  const progress = document.querySelector('.reading-progress');
+  if (progress) {
+    const update = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      progress.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+  
+  // TOC active state (IntersectionObserver)
+  const tocLinks = document.querySelectorAll('.mini-toc a');
+  if (tocLinks.length) {
+    const sections = Array.from(tocLinks).map(l => {
+      const id = l.getAttribute('href').slice(1);
+      return document.getElementById(id);
+    }).filter(Boolean);
+    if (sections.length) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            const active = document.querySelector(`.mini-toc a[href="#${e.target.id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+      sections.forEach(s => observer.observe(s));
+    }
+    // Smooth scroll
+    tocLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const id = link.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if (target) {
+          window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+        }
+      });
+    });
+  }
+  
+  // Sub-topic collapse
+  document.querySelectorAll('.subtopic-header').forEach(h => {
+    h.addEventListener('click', () => {
+      h.parentElement.classList.toggle('collapsed');
+    });
   });
   
   // Search
@@ -3045,48 +2860,11 @@ document.addEventListener('DOMContentLoaded', () => {
       clearTimeout(t);
       t = setTimeout(() => {
         const q = e.target.value.toLowerCase();
-        const cards = document.querySelectorAll('.video-card, .card');
-        cards.forEach(c => {
-          c.style.display = c.innerText.toLowerCase().includes(q) || !q ? '' : 'none';
+        document.querySelectorAll('.video-card').forEach(c => {
+          c.style.display = !q || c.innerText.toLowerCase().includes(q) ? '' : 'none';
         });
-        // For content pages
-        const content = document.querySelector('.content');
-        if (content) {
-          content.querySelectorAll('p, li, h2, h3').forEach(el => {
-            if (!q) { el.style.background = ''; return; }
-            el.style.background = el.innerText.toLowerCase().includes(q) ? 'rgba(255, 235, 59, 0.4)' : '';
-          });
-        }
       }, 200);
     });
-  }
-  
-  // Smooth scroll for TOC links
-  document.querySelectorAll('.page-toc a').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const id = link.getAttribute('href').slice(1);
-      const target = document.getElementById(id);
-      if (target) {
-        window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-      }
-    });
-  });
-  
-  // Active TOC item on scroll
-  const tocLinks = document.querySelectorAll('.page-toc a');
-  if (tocLinks.length) {
-    const sections = Array.from(tocLinks).map(l => document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          tocLinks.forEach(l => l.classList.remove('active'));
-          const active = document.querySelector(`.page-toc a[href="#${e.target.id}"]`);
-          if (active) active.classList.add('active');
-        }
-      });
-    }, { rootMargin: '-80px 0px -70% 0px' });
-    sections.forEach(s => observer.observe(s));
   }
 });
 </script>

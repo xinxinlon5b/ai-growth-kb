@@ -21,7 +21,6 @@
   --border-strong: rgba(0, 0, 0, 0.12);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
   --radius: 18px;
   --radius-sm: 10px;
   --radius-lg: 24px;
@@ -43,68 +42,31 @@ html, body {
 a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
 a:hover { color: var(--accent-hover); }
 
-/* Top nav - Apple-style sticky blurred */
 .topnav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  position: sticky; top: 0; z-index: 100;
   background: rgba(251, 251, 253, 0.72);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--border);
-  padding: 0 22px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  gap: 28px;
+  padding: 0 22px; height: 48px;
+  display: flex; align-items: center; gap: 28px;
 }
-.topnav .brand {
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -0.02em;
-}
-.topnav .nav-items {
-  display: flex;
-  gap: 22px;
-  flex: 1;
-}
-.topnav .nav-items a {
-  font-size: 13px;
-  color: var(--text);
-  opacity: 0.85;
-  padding: 8px 0;
-  position: relative;
-  transition: opacity 0.2s;
-}
+.topnav .brand { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+.topnav .nav-items { display: flex; gap: 22px; flex: 1; }
+.topnav .nav-items a { font-size: 13px; color: var(--text); opacity: 0.85; padding: 8px 0; position: relative; }
 .topnav .nav-items a:hover { opacity: 1; }
 .topnav .nav-items a.active::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0; right: 0;
-  height: 2px;
-  background: var(--text);
-  border-radius: 1px;
+  content: ""; position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 2px; background: var(--text); border-radius: 1px;
 }
 .topnav .search-mini {
-  display: flex;
-  align-items: center;
-  background: var(--bg-soft);
-  border-radius: 8px;
-  padding: 4px 10px;
-  font-size: 13px;
-  color: var(--text-tertiary);
+  display: flex; align-items: center;
+  background: var(--bg-soft); border-radius: 8px;
+  padding: 4px 10px; font-size: 13px; color: var(--text-tertiary);
   min-width: 180px;
-  cursor: text;
 }
-.topnav .search-mini input {
-  border: none; background: transparent; outline: none;
-  font-size: 13px; flex: 1; color: var(--text);
-  font-family: inherit;
-}
+.topnav .search-mini input { border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: var(--text); font-family: inherit; }
 
-/* Layout */
 .layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
 .sidebar {
   position: sticky; top: 48px;
@@ -115,452 +77,237 @@ a:hover { color: var(--accent-hover); }
 }
 .sidebar-section { margin-bottom: 24px; }
 .sidebar-title {
-  padding: 0 22px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 8px;
+  padding: 0 22px; font-size: 11px; font-weight: 600;
+  color: var(--text-tertiary); text-transform: uppercase;
+  letter-spacing: 0.04em; margin-bottom: 8px;
 }
 .sidebar-item {
   display: flex; align-items: center; gap: 10px;
-  padding: 7px 22px;
-  font-size: 14px;
-  color: var(--text);
+  padding: 7px 22px; font-size: 14px; color: var(--text);
   transition: background 0.15s, color 0.15s;
-  border-left: 2px solid transparent;
-  margin: 1px 0;
+  border-left: 2px solid transparent; margin: 1px 0;
 }
 .sidebar-item:hover { background: var(--bg-soft); }
 .sidebar-item.active {
-  background: var(--accent-soft);
-  color: var(--accent);
-  border-left-color: var(--accent);
-  font-weight: 500;
+  background: var(--accent-soft); color: var(--accent);
+  border-left-color: var(--accent); font-weight: 500;
 }
 .sidebar-item .ico { font-size: 16px; }
 
-/* Main */
+/* Main - LONG-FORM READING MODE */
 .main {
-  padding: 64px 80px 120px;
-  max-width: 980px;
+  padding: 32px 80px 80px;
+  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
 }
 
-/* Hero (homepage) */
-.hero {
-  text-align: center;
-  padding: 80px 0 64px;
-  margin-bottom: 64px;
+/* Article layout with TOC */
+.article-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr 220px;
+  gap: 48px;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.hero .eyebrow {
-  font-size: 14px;
-  color: var(--accent);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.hero h1 {
-  font-size: 72px;
-  line-height: 1.05;
-  letter-spacing: -0.035em;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 24px;
-}
-.hero .lede {
-  font-size: 24px;
-  line-height: 1.4;
-  color: var(--text-secondary);
-  font-weight: 400;
-  max-width: 720px;
-  margin: 0 auto 32px;
-  letter-spacing: -0.01em;
-}
-.hero .cta-row {
-  display: inline-flex;
-  gap: 16px;
-  align-items: center;
-}
-.btn {
-  display: inline-block;
-  padding: 12px 22px;
-  border-radius: 980px;
-  font-size: 15px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  cursor: pointer;
-  font-family: inherit;
-  border: none;
-}
-.btn-primary {
+
+/* Reading progress */
+.reading-progress {
+  position: fixed;
+  top: 48px;
+  left: 0;
+  height: 3px;
   background: var(--accent);
-  color: #fff;
-}
-.btn-primary:hover {
-  background: var(--accent-hover);
-  color: #fff;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-.btn-secondary {
-  background: var(--bg-soft);
-  color: var(--text);
-}
-.btn-secondary:hover {
-  background: var(--bg-elevated);
-  color: var(--text);
-  box-shadow: var(--shadow-sm);
+  z-index: 99;
+  transition: width 0.1s;
+  width: 0;
 }
 
-/* Section */
-.section { margin: 80px 0; }
-.section-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 24px;
-  padding-bottom: 12px;
+/* Page meta */
+.article-meta-row {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 32px; padding-bottom: 24px;
   border-bottom: 1px solid var(--border);
+  font-size: 13px; color: var(--text-tertiary);
 }
-.section-h2 {
-  font-size: 40px;
-  line-height: 1.15;
-  letter-spacing: -0.025em;
-  font-weight: 600;
-  margin: 24px 0 16px;
-  color: var(--text);
+.article-meta-row .pill {
+  background: var(--bg-soft); color: var(--text);
+  padding: 4px 12px; border-radius: 980px;
+  font-weight: 500; font-size: 12px;
 }
-.section-h3 {
-  font-size: 24px;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
-  font-weight: 600;
-  margin: 32px 0 12px;
-  color: var(--text);
+.article-meta-row .pill.accent {
+  background: var(--accent-soft); color: var(--accent);
+}
+.article-meta-row .reading-time {
+  margin-left: auto;
 }
 
-/* Card grid */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  margin: 24px 0;
-}
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  transition: all 0.25s ease;
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--border-strong);
-}
-.card .icon {
-  font-size: 36px;
-  margin-bottom: 16px;
-  display: block;
-}
-.card .label {
+/* Mini TOC (sticky) */
+.mini-toc {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
   font-size: 13px;
-  color: var(--accent);
-  font-weight: 600;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  padding-right: 8px;
 }
-.card h4 {
-  font-size: 22px;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--text);
+.mini-toc .toc-label {
+  font-size: 11px; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; margin-bottom: 16px;
 }
-.card p {
-  font-size: 15px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin: 0;
+.mini-toc a {
+  display: block; padding: 5px 0; color: var(--text-secondary);
+  border-left: 2px solid transparent; padding-left: 10px;
+  text-decoration: none; transition: all 0.15s;
+  line-height: 1.4;
 }
+.mini-toc a:hover { color: var(--accent); }
+.mini-toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
+.mini-toc .toc-h3 { padding-left: 22px; font-size: 12px; }
+.mini-toc .toc-h4 { padding-left: 34px; font-size: 11px; color: var(--text-tertiary); }
 
-/* Feature row (Apple product page style) */
-.feature-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: center;
-  margin: 80px 0;
-  padding: 64px 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+/* Main content - long-form optimized */
+.content {
+  font-size: 19px; line-height: 1.7; color: var(--text);
+  max-width: 720px; margin: 0 auto;
+  /* Better reading measure */
 }
-.feature-row.reverse { direction: rtl; }
-.feature-row.reverse > * { direction: ltr; }
-.feature-row .feature-text h3 {
-  font-size: 36px;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  margin-bottom: 16px;
-  line-height: 1.2;
-}
-.feature-row .feature-text p {
-  font-size: 19px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 16px;
-}
-.feature-row .feature-visual {
-  background: var(--bg-soft);
-  border-radius: var(--radius-lg);
-  aspect-ratio: 1.2 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 120px;
-  border: 1px solid var(--border);
-}
-
-/* Pill / Tag */
-.pill {
-  display: inline-block;
-  padding: 4px 12px;
-  background: var(--bg-soft);
-  border-radius: 980px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-right: 6px;
-  margin-bottom: 6px;
-}
-.pill.accent {
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-weight: 500;
-}
-
-/* Content (article body) */
-.content { font-size: 19px; line-height: 1.65; color: var(--text); }
 .content h1 {
-  font-size: 56px;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  font-weight: 600;
-  margin: 0 0 16px;
-  color: var(--text);
-}
-.content > blockquote:first-of-type {
-  font-size: 22px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  border: none;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 24px 0;
-  margin: 24px 0 40px;
-  font-weight: 400;
-  background: transparent;
+  font-size: 48px; line-height: 1.15; letter-spacing: -0.025em;
+  font-weight: 600; margin: 0 0 16px; color: var(--text);
 }
 .content h2 {
-  font-size: 36px;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-  margin: 64px 0 16px;
-  color: var(--text);
+  font-size: 32px; line-height: 1.25; letter-spacing: -0.02em;
+  font-weight: 600; margin: 56px 0 16px; color: var(--text);
+  padding-top: 16px;
 }
 .content h3 {
-  font-size: 24px;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  font-weight: 600;
-  margin: 40px 0 12px;
-  color: var(--text);
+  font-size: 22px; line-height: 1.35; letter-spacing: -0.01em;
+  font-weight: 600; margin: 40px 0 12px; color: var(--text);
 }
 .content h4 {
-  font-size: 19px;
-  font-weight: 600;
-  margin: 24px 0 8px;
-  color: var(--text);
+  font-size: 18px; font-weight: 600; margin: 24px 0 8px; color: var(--text);
 }
 .content p { margin: 16px 0; }
 .content ul, .content ol { padding-left: 24px; margin: 16px 0; }
-.content li { margin: 6px 0; line-height: 1.6; }
+.content li { margin: 6px 0; line-height: 1.65; }
 .content strong { font-weight: 600; color: var(--text); }
 .content em { font-style: italic; }
 .content code {
-  background: var(--bg-code);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: "SF Mono", "Menlo", monospace;
-  font-size: 0.9em;
-  color: #c7254e;
+  background: var(--bg-code); padding: 2px 6px; border-radius: 4px;
+  font-family: "SF Mono", Menlo, monospace; font-size: 0.85em; color: #c7254e;
 }
 .content pre {
-  background: var(--bg-soft);
-  padding: 20px 24px;
-  border-radius: var(--radius-sm);
-  overflow-x: auto;
-  margin: 24px 0;
-  border: 1px solid var(--border);
-  font-size: 14px;
-  line-height: 1.5;
+  background: var(--bg-soft); padding: 20px 24px; border-radius: var(--radius-sm);
+  overflow-x: auto; margin: 24px 0; border: 1px solid var(--border);
+  font-size: 14px; line-height: 1.5;
 }
-.content pre code {
-  background: none;
-  padding: 0;
-  color: var(--text);
-  font-size: inherit;
-}
-.content table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 24px 0;
-  font-size: 15px;
-}
+.content pre code { background: none; padding: 0; color: var(--text); font-size: inherit; }
+.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
 .content th {
-  text-align: left;
-  padding: 12px 16px;
-  background: var(--bg-soft);
-  font-weight: 600;
-  font-size: 14px;
-  border-bottom: 2px solid var(--border-strong);
+  text-align: left; padding: 12px 16px; background: var(--bg-soft);
+  font-weight: 600; font-size: 13px; border-bottom: 2px solid var(--border-strong);
 }
-.content td {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-  vertical-align: top;
-}
+.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
 .content blockquote {
-  border-left: 3px solid var(--accent);
-  padding: 4px 20px;
-  margin: 24px 0;
-  color: var(--text-secondary);
-  background: var(--accent-soft);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  border-left: 3px solid var(--accent); padding: 12px 20px;
+  margin: 24px 0; color: var(--text-secondary);
+  background: var(--accent-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 .content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
 .content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
 .content a:hover { text-decoration-color: var(--accent); }
 
-/* In-page TOC (right side) */
-.with-toc {
-  display: grid;
-  grid-template-columns: 1fr 220px;
-  gap: 48px;
-  align-items: start;
-}
-.page-toc {
-  position: sticky;
-  top: 80px;
-  font-size: 13px;
+/* Right rail - related + progress */
+.right-rail {
+  position: sticky; top: 80px;
   max-height: calc(100vh - 100px);
   overflow-y: auto;
-}
-.page-toc .toc-title {
-  font-size: 11px;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-.page-toc a {
-  display: block;
-  padding: 5px 0;
-  color: var(--text-secondary);
-  text-decoration: none;
-  border-left: 2px solid transparent;
-  padding-left: 12px;
-  transition: all 0.15s;
-}
-.page-toc a:hover { color: var(--accent); }
-.page-toc a.active { color: var(--accent); border-left-color: var(--accent); }
-.page-toc .toc-h3 { padding-left: 24px; font-size: 12px; }
-
-/* Footer */
-.footer {
-  margin-top: 120px;
-  padding: 48px 0 32px;
-  border-top: 1px solid var(--border);
-  text-align: center;
   font-size: 13px;
-  color: var(--text-tertiary);
-  line-height: 1.7;
 }
+.right-rail .rail-block {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.right-rail h5 {
+  font-size: 11px; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; margin-bottom: 12px;
+}
+.right-rail a {
+  display: block; padding: 6px 0; color: var(--text-secondary);
+  text-decoration: none; transition: color 0.15s;
+}
+.right-rail a:hover { color: var(--accent); }
 
-/* Article header */
-.article-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
-.article-meta { display: flex; gap: 12px; margin-bottom: 12px; font-size: 13px; color: var(--text-tertiary); }
-.article-meta .pill { font-size: 12px; padding: 3px 10px; }
-
-/* Video card (for KB pages) */
+/* Video card (long-form optimized) */
 .video-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  margin: 16px 0;
-  transition: all 0.2s;
   border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin: 24px 0;
+  transition: all 0.2s;
 }
 .video-card:hover { box-shadow: var(--shadow-md); }
-.video-card h3 { font-size: 19px; line-height: 1.4; margin: 0 0 12px; }
-.video-card .meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--text-tertiary); margin-top: 12px; }
+.video-card h3 { font-size: 20px; line-height: 1.4; margin: 0 0 12px; }
+.video-card .meta { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: var(--text-tertiary); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
 .video-card .meta a { color: var(--text-secondary); }
 .video-card .meta a:hover { color: var(--accent); }
 .video-card .meta .pill.author { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.video-card .meta .pill.topic { background: var(--bg-soft); color: var(--text); }
+.video-card .meta .pill.val { background: rgba(0, 175, 100, 0.12); color: #00875a; }
 .video-card .insight { 
-  background: var(--bg-soft); 
-  padding: 16px 20px; 
-  border-radius: var(--radius-sm); 
-  margin-top: 16px;
-  font-size: 14px;
-  white-space: pre-wrap;
-  line-height: 1.6;
-  color: var(--text);
-  font-family: "SF Mono", "Menlo", monospace;
+  background: var(--bg-soft); padding: 18px 22px; 
+  border-radius: var(--radius-sm); margin-top: 16px;
+  font-size: 14px; line-height: 1.7; white-space: pre-wrap; 
+  color: var(--text); font-family: "SF Mono", Menlo, monospace;
+  max-height: 280px; overflow-y: auto;
 }
 .video-card details { margin-top: 16px; }
-.video-card details summary {
-  cursor: pointer;
-  font-size: 13px;
-  color: var(--accent);
-  padding: 8px 0;
-  user-select: none;
+.video-card details summary { cursor: pointer; font-size: 13px; color: var(--accent); padding: 6px 0; user-select: none; }
+.video-card details pre { max-height: 400px; overflow-y: auto; margin-top: 12px; font-size: 13px; }
+
+/* Sub-topic collapsible */
+.subtopic { margin: 32px 0; }
+.subtopic-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; background: var(--bg-soft);
+  border-radius: var(--radius); cursor: pointer; user-select: none;
+  margin-bottom: 16px; transition: background 0.15s;
 }
-.video-card details pre {
-  max-height: 400px;
-  overflow-y: auto;
-  margin-top: 12px;
-  font-size: 13px;
-}
+.subtopic-header:hover { background: var(--bg-elevated); box-shadow: var(--shadow-sm); }
+.subtopic-header h2 { margin: 0; font-size: 22px; }
+.subtopic-header .count { font-size: 13px; color: var(--text-tertiary); }
+.subtopic-header .arrow { margin-left: auto; transition: transform 0.2s; }
+.subtopic.collapsed .arrow { transform: rotate(-90deg); }
+.subtopic.collapsed .videos { display: none; }
+
+/* Footer */
+.footer { margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--text-tertiary); line-height: 1.7; }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .article-layout { grid-template-columns: 200px 1fr; }
+  .right-rail { display: none; }
+}
 @media (max-width: 1024px) {
   .layout { grid-template-columns: 1fr; }
   .sidebar { display: none; }
-  .main { padding: 40px 24px 80px; }
-  .hero h1 { font-size: 48px; }
-  .feature-row { grid-template-columns: 1fr; gap: 32px; }
-  .feature-row.reverse { direction: ltr; }
-  .with-toc { grid-template-columns: 1fr; }
-  .page-toc { display: none; }
+  .main { padding: 24px; }
+  .article-layout { grid-template-columns: 1fr; }
+  .mini-toc { display: none; }
 }
 </style>
 </head>
 <body>
+
 
 <nav class="topnav">
   <a href="index.html" class="brand">企业 AI 实战</a>
@@ -633,86 +380,306 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-
-<section class="hero">
-  <div class="eyebrow">AI 落地 · FDE · 个人成长</div>
-  <h1>把企业 AI 落地<br/>做成可指导的方法论</h1>
-  <p class="lede">从 514 条实战视频、110 个方法簇、19 张权威卡片中<br/>凝练出的 FDE / 接单 / 内容 / 行业 know-how</p>
-  <div class="cta-row">
-    <a href="00-知识体系入口.html" class="btn btn-primary">开始学习</a>
-    <a href="auth-index.html" class="btn btn-secondary">查看权威支撑</a>
-  </div>
+<div class="content">
+<section class="article-meta-row">
+  <span class="pill accent">AI 落地 · FDE · 个人成长</span>
+  <span class="reading-time">⏱️ 5 分钟快速浏览</span>
 </section>
-
-<div class="section">
-  <div class="section-title">快速开始</div>
-  <div class="card-grid">
-    <a href="00-知识体系入口.html" class="card">
-      <span class="icon">🗺️</span>
-      <div class="label">入门</div>
-      <h4>知识体系地图</h4>
-      <p>5 分钟看懂整套知识结构，6 层金字塔 + 6 条成长路径</p>
-    </a>
-    <a href="sop-01.html" class="card">
-      <span class="icon">💰</span>
-      <div class="label">首选</div>
-      <h4>接单成交 SOP</h4>
-      <p>5 步完整流程，FDE 三问 + 5 步报价法 + MVD 三军规</p>
-    </a>
-    <a href="top30.html" class="card">
-      <span class="icon">⭐</span>
-      <div class="label">精华</div>
-      <h4>TOP 30 视频</h4>
-      <p>514 条视频的精华，每条带"为什么是 TOP"点评</p>
-    </a>
-    <a href="auth-e6.html" class="card">
-      <span class="icon">🏛️</span>
-      <div class="label">权威</div>
-      <h4>FDE 三原厂</h4>
-      <p>Palantir + OpenAI + Anthropic 官方对 FDE 的定义</p>
-    </a>
-  </div>
+<div class="content">
+<h1>把企业 AI 落地做成可指导的方法论</h1>
+<p>从 514 条实战视频、110 个方法簇、19 张权威卡片中凝练出的 FDE / 接单 / 内容 / 行业 know-how</p>
+<p>这一份按 4 个层级组织：<strong>立场层 → 领域层 → 流程层 → 判断力层 → 权威支撑层</strong>。5 分钟建立全局观。</p>
 </div>
-
-<div class="feature-row">
-  <div class="feature-text">
-    <h3>7 套可执行 SOP</h3>
-    <p>接单 / 内容 / FDE / Agent / 行业 / 认知 / 报价，每套都是 5-8 步完整流程 + 真实案例 + 工具清单 + 反模式 + 一句话速查卡。</p>
-    <p><a href="sop-01.html">查看全部 SOP →</a></p>
-  </div>
-  <div class="feature-visual">📋</div>
-</div>
-
-<div class="feature-row reverse">
-  <div class="feature-text">
-    <h3>9 大主题知识库</h3>
-    <p>把 514 条抖音口播按主题归档，每条视频含完整 insight + 转写原文 + 标签，可以按作者、主题、价值评分筛选。</p>
-    <p><a href="kb-01.html">浏览知识库 →</a></p>
-  </div>
-  <div class="feature-visual">📚</div>
-</div>
-
-<div class="feature-row">
-  <div class="feature-text">
-    <h3>19 张权威支撑卡</h3>
-    <p>Anthropic 官方、Palantir Foundry、Google Agent Framework、AWS Well-Architected、NIST AI RMF、ISO 42001——不是经验之谈，是国际/行业/原厂共识。</p>
-    <p><a href="auth-index.html">查看权威支撑 →</a></p>
-  </div>
-  <div class="feature-visual">🌐</div>
-</div>
-
-<div class="section">
-  <div class="section-title">6 条成长路径</div>
-  <div class="card-grid">
-    <a href="sop-01.html" class="card"><span class="icon">💰</span><h4>接单成交</h4><p>把弹药变成订单，离钱最近</p></a>
-    <a href="sop-02.html" class="card"><span class="icon">📹</span><h4>内容 IP</h4><p>24 小时营业的销售，长期复利</p></a>
-    <a href="sop-03.html" class="card"><span class="icon">🏗️</span><h4>FDE 入企</h4><p>8 阶段 8 SOP，做深做重</p></a>
-    <a href="sop-04.html" class="card"><span class="icon">🤖</span><h4>Agent 工具链</h4><p>自己先武装，隐形加速器</p></a>
-    <a href="sop-05.html" class="card"><span class="icon">🌊</span><h4>行业深耕</h4><p>物流/跨境，护城河</p></a>
-    <a href="sop-06.html" class="card"><span class="icon">🧠</span><h4>认知升级</h4><p>判断力，天花板</p></a>
-  </div>
-</div>
-
+<h1 id="ai-v30">🏠 企业 AI 实战知识库 · 个人成长系统 v3.0</h1>
+<blockquote>
+<p><strong>这一份是做什么的</strong>：把 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径 SOP 重新组织成的<strong>「企业 AI 落地 / FDE 实操」实战库</strong>。<br />
+<strong>和 v2.11 原网站的区别</strong>：系统性 ✅ + 权威性 ✅ + 可直接用 ✅（原网站散落在 9 个卡片里）<br />
+<strong>数据规模</strong>：43 万中文字 · 1.55 MB · 22 核心文件 + 18 权威卡片</p>
+</blockquote>
+<h2 id="3">一、3 分钟读懂这套知识库</h2>
+<h3 id="ai-ai">你学的是<strong>「怎么把 AI 在企业里用对」</strong>——不是 AI 知识</h3>
+<p>按 4 个层级组织（从抽象到具体）：</p>
+<pre><code>立场层 (Why)        → 你是谁 / 你为谁服务
+领域层 (What)       → 你研究哪 9 块学问  
+流程层 (How)        → 做成一单要过哪 7 关
+判断力层 (So What)   → 4 条最高原则
+权威支撑层 (From Whom) → 18 张一手权威卡
+</code></pre>
+<h3 id="6-roi">你最常走的 6 条路（按 ROI 排序）</h3>
+<table>
+<thead>
+<tr>
+<th>路径</th>
+<th>ROI</th>
+<th>适合谁</th>
+<th>见 SOP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>💰 <strong>接单成交</strong></td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>有客户资源</td>
+<td><code>SOP-01</code></td>
+</tr>
+<tr>
+<td>📹 <strong>内容 IP</strong></td>
+<td>⭐⭐⭐⭐</td>
+<td>已经在做内容</td>
+<td><code>SOP-02</code></td>
+</tr>
+<tr>
+<td>🏗️ <strong>FDE 入企交付</strong></td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>有 1-2 个项目</td>
+<td><code>SOP-03</code> v2</td>
+</tr>
+<tr>
+<td>🤖 <strong>Agent 工具链</strong></td>
+<td>⭐⭐⭐</td>
+<td>想省 2-3 小时/天</td>
+<td><code>SOP-04</code></td>
+</tr>
+<tr>
+<td>🌊 <strong>行业深耕（物流/跨境）</strong></td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>有实体业务</td>
+<td><code>SOP-05</code></td>
+</tr>
+<tr>
+<td>🧠 <strong>认知升级</strong></td>
+<td>⭐⭐⭐⭐</td>
+<td>长期主义</td>
+<td><code>SOP-06</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>闭环</strong>：接单 → 案例 → 内容 → 新客户 → 接新单。同时内容 → 武装自己 → 工具链 → 反哺接单。物流 know-how 是护城河。认知升级是天花板。</p>
+</blockquote>
+<hr />
+<h2 id="_1">二、今天该读什么？（按你的角色选）</h2>
+<h3 id="fde">🚀 如果你是<strong>新手 / 刚接触 FDE</strong></h3>
+<p><strong>Week 1（认知建立）</strong>：<br />
+- 先读 <code>00-知识体系.md</code>（5 分钟建立全局观）<br />
+- 读 <code>01-方法论总纲.md</code>「接单判断」章（半小时）<br />
+- 读 <code>auth-e6-FDE 三原厂官方.md</code>（了解 FDE 是什么）</p>
+<p><strong>Week 2（接单启蒙）</strong>：<br />
+- 读 <code>03-SOP/SOP-01-接单成交方向.md</code>（完整版）<br />
+- 看 <code>top30.html</code> 5 条 TOP 1-5（接单类）<br />
+- 读 <code>auth-e4-失败率证据.md</code>（说服自己为什么做）</p>
+<p><strong>Week 3（落地实操）</strong>：<br />
+- 读 <code>03-SOP/SOP-03-FDE 入企交付方向.md</code> v2（8 阶段 8 SOP）<br />
+- 读 <code>auth-a1-A1-Anthropic-FDE博客.md</code><br />
+- 选 1 个目标客户做 FDE 三问摸底</p>
+<p><strong>Week 4（飞轮启动）</strong>：<br />
+- 读 <code>03-SOP/SOP-02-内容 IP 方向.md</code>（完整版）<br />
+- 录第一条实战视频<br />
+- 加第一个私域客户</p>
+<h3 id="fde_1">💼 如果你是<strong>正在接单的 FDE</strong></h3>
+<p><strong>核心动作清单</strong>：<br />
+1. <strong>每天</strong>：5 步报价法 + FDE 三问（用在每个新客户）<br />
+2. <strong>每周</strong>：选 3 条 TOP 30 深读 + 见 1 个客户<br />
+3. <strong>每月</strong>：复盘 3 个判断 + 沉淀 1 个案例</p>
+<p><strong>优先读</strong>：<br />
+- <code>01-方法论总纲.md</code>「接单判断 / 报价签约 / 交付 SOP」3 章<br />
+- <code>03-SOP/SOP-01</code> + <code>SOP-03</code> + <code>SOP-07</code> 报价签约<br />
+- <code>02-知识库/01-企业AI落地·接单武器.md</code>（23 视频精华）</p>
+<h3 id="_2">📹 如果你是<strong>内容创作者 / 自媒体</strong></h3>
+<p><strong>优先读</strong>：<br />
+- <code>03-SOP/SOP-02-内容 IP 方向.md</code>（完整版）<br />
+- <code>02-知识库/05-AI内容创作.md</code>（41 视频）+ <code>06-自媒体·获客运营.md</code>（19 视频）<br />
+- <code>top30.html</code> 中筛选 6 条内容相关</p>
+<h3 id="_3">🌊 如果你是<strong>物流 / 跨境业务老板</strong></h3>
+<p><strong>优先读</strong>：<br />
+- <code>03-SOP/SOP-05-行业深耕方向.md</code>（完整版）<br />
+- <code>02-知识库/01-企业AI落地·接单武器.md</code> 真相·避坑簇<br />
+- <code>auth-c1-风险驱动架构.md</code> + <code>auth-c3-DDD.md</code>（业务建模）</p>
+<h3 id="_4">🧠 如果你是<strong>长期主义 / 想升级认知</strong></h3>
+<p><strong>优先读</strong>：<br />
+- <code>03-SOP/SOP-06-认知升级方向.md</code>（完整版）<br />
+- <code>02-知识库/08-AI认知·趋势·观点.md</code>（34 视频）<br />
+- <code>auth-e1-软件工程知识体系.md</code> + <code>auth-e2-MLOps.md</code>（深度）</p>
+<hr />
+<h2 id="top-30">三、TOP 30 精华怎么用</h2>
+<p><code>top30.html</code> 是从 514 条视频里筛出的<strong>价值评分 TOP 30</strong>，每条带"为什么是 TOP"一句话点评。</p>
+<p><strong>使用建议</strong>：<br />
+1. <strong>迷茫时</strong> 从 #1 开始读<br />
+2. <strong>见客户前</strong> 翻 1-2 条相关主题当弹药<br />
+3. <strong>写笔记时</strong> 直接 cite 原文链接<br />
+4. <strong>每周固定</strong> 选 3 条做 deep dive</p>
+<p><strong>主题分布</strong>：<br />
+- 企业 AI 落地 6 条<br />
+- 商业案例 6 条<br />
+- 智能体 6 条<br />
+- AI 编程 6 条<br />
+- AI 内容创作 6 条</p>
+<hr />
+<h2 id="_5">四、权威支撑层怎么用</h2>
+<p><code>08-权威支撑/</code> 下有 <strong>18 张一手权威卡</strong>（A1-A3 / B1-B4 / C1-C3 / D1-D3 / E1-E6），每张含：<br />
+- 中文释义 + 核心论点<br />
+- 关键术语<br />
+- 与本知识库的映射<br />
+- 客户引用话术<br />
+- 原文链接</p>
+<p><strong>何时用</strong>：<br />
+- <strong>见客户被问"这套方法论来源"</strong> → 亮 A 类（Anthropic / Google / AWS / OpenAI 三原厂）<br />
+- <strong>写方案需要权威背书</strong> → 引用 E 类（国际标准 / 行业数据）<br />
+- <strong>学新概念想找最权威解释</strong> → 按字母去查</p>
+<p><strong>三大厂商方法论横向对比</strong>（你可信度最高的弹药）：<br />
+- Anthropic：学院派工程化（Harness / 护栏）<br />
+- Google：平台化（白名单工具 / 风险分级）<br />
+- OpenAI：实用主义（Function Calling / 循环控制）</p>
+<blockquote>
+<p><strong>三家头部收敛到同一套方法论</strong>——这不是偏好，是行业共识。</p>
+</blockquote>
+<hr />
+<h2 id="_6">五、每周节奏建议</h2>
+<h3 id="1">⏰ 周一（规划 · 1 小时）</h3>
+<ul>
+<li>[ ] 看 TOP 30 选 3 条本周深读</li>
+<li>[ ] 选 1 个客户做本周主攻</li>
+<li>[ ] 看一遍 SOP-01 报价单模板</li>
+</ul>
+<h3 id="2-3">⏰ 周二三四（执行 · 各 2-3 小时）</h3>
+<ul>
+<li>[ ] 接单：每天 FDE 三问 1-2 个客户</li>
+<li>[ ] 交付：MVD 时间线推进</li>
+<li>[ ] 内容：录 1-2 条实战视频</li>
+<li>[ ] Agent：跑 1 个新 Skill</li>
+</ul>
+<h3 id="1-2">⏰ 周五（沉淀 · 1-2 小时）</h3>
+<ul>
+<li>[ ] 案例库更新（1 个新案例）</li>
+<li>[ ] 复盘 3 个本周判断</li>
+<li>[ ] 选下周 3 个选题</li>
+</ul>
+<h3 id="1-2_1">⏰ 周末（升级 · 1-2 小时）</h3>
+<ul>
+<li>[ ] 精读 1 篇长内容（4 遍法）</li>
+<li>[ ] 风格库更新 3-5 个"为什么好"</li>
+<li>[ ] 元命题季度自问</li>
+</ul>
+<hr />
+<h2 id="_7">六、常见问题</h2>
+<h3 id="q1-sop">Q1: 我该从哪个 SOP 开始？</h3>
+<p><strong>A</strong>: 看你的当前状态——<br />
+- 没客户 → SOP-02 内容 IP 起号<br />
+- 有客户没成交 → SOP-01 接单成交<br />
+- 成交了不会做 → SOP-03 FDE 入企交付<br />
+- 都在跑想加速 → SOP-04 Agent 工具链<br />
+- 有自家业务 → SOP-05 行业深耕<br />
+- 都稳了想升级 → SOP-06 认知升级</p>
+<h3 id="q2-6">Q2: 6 条路必须全做吗？</h3>
+<p><strong>A</strong>: 不是。建议<strong>主线 + 辅线</strong>——<br />
+- 主线：1 条路径（投入 60% 时间）<br />
+- 辅线：1-2 条路径（投入 30%）<br />
+- 长期：2-3 条路径（投入 10%）</p>
+<p><strong>示例组合</strong>：<br />
+- 接单成交（主）+ 内容 IP（辅）+ 认知升级（长期）<br />
+- 行业深耕（主）+ FDE 交付（辅）+ Agent 工具链（长期）</p>
+<h3 id="q3-v211">Q3: 知识库和原网站 v2.11 有什么区别？</h3>
+<p><strong>A</strong>: 4 个核心差异：<br />
+1. <strong>结构化</strong>：原网站是 9 个分类卡片，这版是 6 层级金字塔<br />
+2. <strong>权威化</strong>：原网站是经验性总结，这版加 18 张一手权威卡<br />
+3. <strong>可执行</strong>：原网站 SOP 是 5 步骨架，这版是 5-8 步完整流程 + 真实案例 + 工具清单<br />
+4. <strong>易搜索</strong>：原网站是 SPA，这版是静态页 + 全文搜索 + 主题过滤</p>
+<h3 id="q4">Q4: 怎么证明这套方法论是权威的？</h3>
+<p><strong>A</strong>: 看 <code>08-权威支撑/</code> 18 张卡——<br />
+- <strong>A 类</strong>（一手权威）：Anthropic 官方 / Google Agent Framework / OpenAI Best Practices<br />
+- <strong>B 类</strong>（工程师必读书）：Pete Hunt / Adele Lin / RAG in Action / Security<br />
+- <strong>C 类</strong>（通用方法论）：Risk-Driven Architecture / Chaos Engineering / DDD<br />
+- <strong>D 类</strong>（行业框架）：Google / AWS / OpenAI<br />
+- <strong>E 类</strong>（国际标准）：SWEBOK / ISO 12207 / NIST RMF / EU AI Act / TOGAF / PMBOK / ISO 42001</p>
+<h3 id="q5">Q5: 怎么快速见客户？</h3>
+<p><strong>A</strong>: 用 <code>03-SOP/SOP-07-报价签约.md</code> 的报价单模板（6 部分 + 付款节奏），加上 5 句金话术（<code>05-话术弹药.md</code>），加上 13 个避坑（<code>06-避坑清单.md</code>），加上 1 张 MIT 95% 失败率（<code>auth-e4</code>）—— 半小时准备，足够见客户。</p>
+<hr />
+<h2 id="v211">七、这版比 v2.11 强在哪？</h2>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>v2.11 原网站</th>
+<th>这版 v3.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>系统性</strong></td>
+<td>9 个独立分类卡片</td>
+<td>6 层级金字塔（立场→领域→流程→判断→权威）</td>
+</tr>
+<tr>
+<td><strong>权威性</strong></td>
+<td>经验性总结</td>
+<td>18 张一手权威卡（厂商 + 国际标准 + 经典工程书）</td>
+</tr>
+<tr>
+<td><strong>SOP 化</strong></td>
+<td>5 步骨架</td>
+<td>5-8 步完整流程 + 真实案例 + 工具清单 + 速查卡</td>
+</tr>
+<tr>
+<td><strong>搜索</strong></td>
+<td>SPA 内搜索</td>
+<td>全文搜索 + 主题过滤 + 站内导航</td>
+</tr>
+<tr>
+<td><strong>部署</strong></td>
+<td>GitHub Pages SPA</td>
+<td>GitHub Pages 静态站（加载更快）</td>
+</tr>
+<tr>
+<td><strong>可维护</strong></td>
+<td>单文件 365KB</td>
+<td>模块化（每页 10-50KB）</td>
+</tr>
+<tr>
+<td><strong>可引用</strong></td>
+<td>内部链接</td>
+<td>每条原则带原文 URL（可外引）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_8">八、版本与更新</h2>
+<ul>
+<li><strong>v3.0</strong>（2026-09-10）：加入权威支撑层（18 张卡），SOP 升级到 v2（8 阶段），增加 TOP 30 索引</li>
+<li><strong>v2.11</strong>（2026-09-08）：原 v2.11 工作台</li>
+<li><strong>下次更新</strong>：按月重排 TOP 30 / 补充新视频</li>
+</ul>
+<hr />
+<h2 id="5">九、开始你的 5 分钟旅程</h2>
+<ol>
+<li><strong>现在</strong> → 看 <code>top30.html</code> 选 3 条感兴趣的视频</li>
+<li><strong>今天</strong> → 选 1 个 SOP 深读（按你的角色）</li>
+<li><strong>这周</strong> → 跑通 SOP 里的 1 个具体动作</li>
+<li><strong>本月</strong> → 完成 1 个接单 / 1 个内容 / 1 个 Agent</li>
+<li><strong>本季</strong> → 沉淀出你的元命题</li>
+</ol>
+<p><strong>有问题随时找我</strong>。每个文件都有权威依据和回查链接，按图索骥即可。</p>
+<hr />
+<h2 id="_9">附录 · 文件清单</h2>
+<pre><code>知识库根目录
+├── 00-知识体系.md          ← 你现在读的
+├── 01-方法论总纲.md        ← 162 条原则
+├── 02-知识库/              ← 9 大主题视频精华
+├── 03-SOP/                 ← 7 套可执行 SOP
+├── 04-工具链.md
+├── 05-话术弹药.md
+├── 06-避坑清单.md
+├── 07-专业大词典.md
+└── 08-权威支撑/            ← 18 张一手权威卡
+    ├── README.md
+    ├── A1-A3（Anthropic）
+    ├── B1-B4（工程师必读）
+    ├── C1-C3（通用方法论）
+    ├── D1-D3（行业厂商）
+    └── E1-E6（国际标准 / deerflow 调研）
+</code></pre>
+<p><strong>总规模</strong>：22 核心 md + 18 权威卡 = 40 文件，43 万中文字，1.55 MB。<br />
+<strong>部署</strong>：GitHub Pages 静态站<br />
+<strong>维护</strong>：所有文件纯文本，可用任何编辑器（VS Code / Obsidian / Typora / 备忘录）</p></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
@@ -722,13 +689,65 @@ a:hover { color: var(--accent-hover); }
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Sidebar active state
+  // Active nav
   const path = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.sidebar-item').forEach(el => {
     if (el.getAttribute('href') === path) el.classList.add('active');
   });
   document.querySelectorAll('.nav-items a').forEach(el => {
     if (el.getAttribute('href') === path) el.classList.add('active');
+  });
+  
+  // Reading progress bar
+  const progress = document.querySelector('.reading-progress');
+  if (progress) {
+    const update = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      progress.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+  
+  // TOC active state (IntersectionObserver)
+  const tocLinks = document.querySelectorAll('.mini-toc a');
+  if (tocLinks.length) {
+    const sections = Array.from(tocLinks).map(l => {
+      const id = l.getAttribute('href').slice(1);
+      return document.getElementById(id);
+    }).filter(Boolean);
+    if (sections.length) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            const active = document.querySelector(`.mini-toc a[href="#${e.target.id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+      sections.forEach(s => observer.observe(s));
+    }
+    // Smooth scroll
+    tocLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const id = link.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if (target) {
+          window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+        }
+      });
+    });
+  }
+  
+  // Sub-topic collapse
+  document.querySelectorAll('.subtopic-header').forEach(h => {
+    h.addEventListener('click', () => {
+      h.parentElement.classList.toggle('collapsed');
+    });
   });
   
   // Search
@@ -739,48 +758,11 @@ document.addEventListener('DOMContentLoaded', () => {
       clearTimeout(t);
       t = setTimeout(() => {
         const q = e.target.value.toLowerCase();
-        const cards = document.querySelectorAll('.video-card, .card');
-        cards.forEach(c => {
-          c.style.display = c.innerText.toLowerCase().includes(q) || !q ? '' : 'none';
+        document.querySelectorAll('.video-card').forEach(c => {
+          c.style.display = !q || c.innerText.toLowerCase().includes(q) ? '' : 'none';
         });
-        // For content pages
-        const content = document.querySelector('.content');
-        if (content) {
-          content.querySelectorAll('p, li, h2, h3').forEach(el => {
-            if (!q) { el.style.background = ''; return; }
-            el.style.background = el.innerText.toLowerCase().includes(q) ? 'rgba(255, 235, 59, 0.4)' : '';
-          });
-        }
       }, 200);
     });
-  }
-  
-  // Smooth scroll for TOC links
-  document.querySelectorAll('.page-toc a').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const id = link.getAttribute('href').slice(1);
-      const target = document.getElementById(id);
-      if (target) {
-        window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-      }
-    });
-  });
-  
-  // Active TOC item on scroll
-  const tocLinks = document.querySelectorAll('.page-toc a');
-  if (tocLinks.length) {
-    const sections = Array.from(tocLinks).map(l => document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          tocLinks.forEach(l => l.classList.remove('active'));
-          const active = document.querySelector(`.page-toc a[href="#${e.target.id}"]`);
-          if (active) active.classList.add('active');
-        }
-      });
-    }, { rootMargin: '-80px 0px -70% 0px' });
-    sections.forEach(s => observer.observe(s));
   }
 });
 </script>
