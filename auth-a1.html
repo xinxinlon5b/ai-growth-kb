@@ -797,7 +797,146 @@ IT 部门做的是"项目上线"，FDE 做的是"客户业务改变"。</p>
 - 如果 3 个客户都掉同一个坑 → 不是客户的错，是你的方法没沉淀<br />
 - 如果客户需求 80% 重复 → 该把"项目制"转成"产品+配置"<br />
 - 如果销售可以独立接单 → 你已经从 FDE 升级到"产品公司"了</p>
-<p><strong>Anthropic 的路径</strong>：FDE → 沉淀 Skill → 平台产品 → 客户自服务。</p></div>
+<p><strong>Anthropic 的路径</strong>：FDE → 沉淀 Skill → 平台产品 → 客户自服务。</p>
+<hr />
+<h2 id="anthropic-harness-2025-11">十一、补充：Anthropic Harness 原始工程实现（2025 年 11 月原文）</h2>
+<blockquote>
+<p>来源：https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents<br />
+这是 A1 的延伸阅读，因为 harness 是 FDE 交付的核心工程抽象</p>
+</blockquote>
+<h3 id="1-agent">1. 长期 Agent 的核心问题</h3>
+<blockquote>
+<p>"The core challenge of long-running agents is that they must work in discrete sessions,<br />
+and each new session begins with <strong>no memory</strong> of what came before."</p>
+</blockquote>
+<p><strong>类比</strong>：工程师轮班，每个新工程师到来<strong>没有前班记忆</strong>。</p>
+<p><strong>两个失败模式</strong>：<br />
+1. <strong>试图一次做完所有事</strong> —— 中途 context 用完，下一班看到未完成功能得猜<br />
+2. <strong>过早宣布完成</strong> —— 看到有些功能已实现就 declare done</p>
+<h3 id="2-anthropic-initializer-coding-agent">2. Anthropic 的解法：Initializer + Coding Agent</h3>
+<h4 id="initializer-agent">Initializer Agent（首次会话）</h4>
+<ul>
+<li><strong>目的</strong>：搭建后续工作环境</li>
+<li><strong>产出</strong>：</li>
+<li><code>init.sh</code> 脚本</li>
+<li><code>claude-progress.txt</code> 进度日志</li>
+<li><strong>初始 git commit</strong>（显示添加了哪些文件）</li>
+<li><strong>feature_list.json</strong> —— 完整功能列表</li>
+</ul>
+<h4 id="coding-agent">Coding Agent（后续每次会话）</h4>
+<ul>
+<li><strong>目的</strong>：做<strong>单次增量进展</strong></li>
+<li><strong>要求</strong>：</li>
+<li>只改一个 feature</li>
+<li>离开前 <strong>git commit 描述性 message</strong></li>
+<li>在 progress 文件写<strong>结构化更新</strong></li>
+</ul>
+<h3 id="3-feature-list">3. Feature List 设计（关键！）</h3>
+<blockquote>
+<p>"To address the agent one-shotting an app,<br />
+we prompted the initializer agent to write a comprehensive file<br />
+of feature requirements expanding on the user's initial prompt.<br />
+In the claude.ai clone example, this meant <strong>over 200 features</strong>."</p>
+</blockquote>
+<p><strong>feature_list.json 结构</strong>（每条功能）：</p>
+<pre><code class="language-json">{
+  &quot;category&quot;: &quot;functional&quot;,
+  &quot;description&quot;: &quot;New chat button creates a fresh conversation&quot;,
+  &quot;steps&quot;: [
+    &quot;Navigate to main interface&quot;,
+    &quot;Click the 'New Chat' button&quot;,
+    &quot;Verify a new conversation is created&quot;,
+    &quot;Check that chat area shows welcome state&quot;,
+    &quot;Verify conversation appears in sidebar&quot;
+  ],
+  &quot;passes&quot;: false
+}
+</code></pre>
+<p><strong>关键规则</strong>：<br />
+- 全部初始标记为 <code>passes: false</code><br />
+- <strong>只能用 JSON</strong>（模型对 JSON 的编辑比 Markdown 谨慎）<br />
+- 强警告："<strong>删除或编辑测试是不可接受的</strong>"</p>
+<h3 id="4">4. 启动序列（每个新会话）</h3>
+<pre><code>1. Run `pwd` 确认工作目录
+2. Read git log + progress files 了解最近工作
+3. Read feature list 选优先级最高且未完成的功能
+4. 启动开发服务器（init.sh）
+5. 用 Puppeteer MCP 做端到端测试
+   - 新建聊天 / 发消息 / 收到回复
+6. 如果有 bug → 立即修（不要先做新 feature）
+7. 做新 feature
+8. git commit 描述性 message
+9. 更新 progress.txt
+</code></pre>
+<h3 id="5_1">5. 端到端测试（关键差异）</h3>
+<blockquote>
+<p>"Claude tended to make code changes, and even do testing with unit tests or curl commands,<br />
+but would fail to recognize that the feature didn't work <strong>end-to-end</strong>."</p>
+</blockquote>
+<p><strong>改进</strong>：用 <strong>Puppeteer MCP</strong> 让 Claude 像人一样用浏览器测试。</p>
+<blockquote>
+<p>"Providing Claude with these kinds of testing tools dramatically improved performance,<br />
+as the agent was able to identify and fix bugs that weren't obvious from the code alone."</p>
+</blockquote>
+<h3 id="6-fde">6. 与企业 FDE 项目的映射</h3>
+<table>
+<thead>
+<tr>
+<th>Anthropic Harness</th>
+<th>FDE 项目等效</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claude-progress.txt</code></td>
+<td><strong>客户档案 + 交付日志</strong></td>
+</tr>
+<tr>
+<td><code>feature_list.json</code></td>
+<td><strong>PSF 判断书 + 5 步报价法</strong></td>
+</tr>
+<tr>
+<td>Initializer Agent</td>
+<td><strong>入企尽调 5 张地图</strong></td>
+</tr>
+<tr>
+<td>Coding Agent</td>
+<td><strong>MVD 4 周 Demo</strong></td>
+</tr>
+<tr>
+<td>Puppeteer MCP 测试</td>
+<td><strong>客户业务方人工验收</strong></td>
+</tr>
+<tr>
+<td>Git commit message</td>
+<td><strong>每单交付的复盘文档</strong></td>
+</tr>
+<tr>
+<td>Progress.txt 更新</td>
+<td><strong>每周项目状态同步</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="7-fde-5-harness">7. FDE 可以直接用的 5 个 harness 模式</h3>
+<ol>
+<li><strong>Initializer + 多 Coding Agent</strong> —— 1 周尽调 + 多周交付</li>
+<li><strong>Feature List 拆任务</strong> —— 把 1 个项目拆 50-200 个 feature</li>
+<li><strong>端到端测试</strong> —— 让 FDE 真正用系统而不是看代码</li>
+<li><strong>Git-style 进度文件</strong> —— 客户能查的实时进度</li>
+<li><strong>结构化交接</strong> —— FDE 离开前留下完整文档</li>
+</ol>
+<h3 id="8-a1">8. 与 A1 主题的关联</h3>
+<p>A1 介绍 FDE 这个<strong>角色</strong>（人）。<br />
+本文介绍 FDE 工作<strong>用的工具</strong>（harness）。<br />
+两者共同构成 FDE 体系：<br />
+- <strong>人</strong>：驻场 / 对业务结果负责 / 现场迭代<br />
+- <strong>工具</strong>：harness 化思维 / 状态显式 / 增量进展</p>
+<h2 id="_6">十二、原文链接</h2>
+<ul>
+<li>全文：https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents</li>
+<li>关键模式：Initializer + Coding Agent + Feature List + 端到端测试</li>
+<li>出版时间：2025 年 11 月</li>
+</ul></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

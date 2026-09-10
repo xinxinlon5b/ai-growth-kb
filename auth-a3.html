@@ -863,7 +863,146 @@ ROI = (年节省 - 项目费) / 项目费 × 100%
 <p>"上线后每月出一份评估报告——<br />
 准确率、响应时长、节省金额三项数字。<br />
 数据下降就触发模型调优，数据达标就触发续约谈判。"</p>
-</blockquote></div>
+</blockquote>
+<hr />
+<h2 id="anthropic-2023-10">十一、原文核心（Anthropic 2023 年 10 月原文）</h2>
+<blockquote>
+<p>来源：https://www.anthropic.com/research/evaluating-ai-systems （原文 2.4 万字）</p>
+</blockquote>
+<h3 id="1-takeaways">1. 核心结论（原文两个 takeaways）</h3>
+<blockquote>
+<p>"我们希望读者带走两个核心观点：<br />
+1. 健壮的评估<strong>极其难以</strong>开发和实施<br />
+2. 有效的 AI 治理<strong>取决于我们有意义地评估 AI 系统的能力</strong>"</p>
+</blockquote>
+<h3 id="2-6">2. 6 大评估挑战（按难度递增）</h3>
+<h4 id="1multiple-choice-evaluationsmmlu">挑战 1：Multiple Choice Evaluations（MMLU 等）</h4>
+<p><strong>Anthropic 发现 MMLU 的 4 个问题</strong>：</p>
+<ol>
+<li><strong>MMLU 太广为人知，模型训练时可能见过</strong> —— 相当于学生考前看过考题</li>
+<li><strong>简单格式变化可改变 5% 准确率</strong> —— (A) vs (1)，(A) vs [A] 都影响</li>
+<li><strong>实现不一致</strong> —— 有些实验室用 few-shot、CoT 提高 MMLU 分数</li>
+<li><strong>MMLU 本身可能有错</strong> —— 找到过 mislabeled 的题目</li>
+</ol>
+<blockquote>
+<p>教训：<strong>"supposedly simple and standardized evaluation"</strong> 实际上需要很多 tricky 判断。</p>
+</blockquote>
+<h4 id="2bbq">挑战 2：BBQ（社会偏见）</h4>
+<blockquote>
+<p>"实施 BBQ 花了<strong>一个最好的工程师一整个不间断的周</strong>"</p>
+</blockquote>
+<p><strong>Anthropic 真实故事</strong>：<br />
+- 实施 BBQ 几个月，模型偏见分 = 0<br />
+- 内部一位 BBQ 开发者问："你们检查了模型<strong>是否在回答问题吗</strong>？"<br />
+- 结果发现：模型<strong>根本没在答</strong> —— 偏见分 0 是因为返回空答案<br />
+- <strong>"技术上无偏见，但也完全无用"</strong></p>
+<p><strong>教训</strong>：<br />
+- 评估可能<strong>完全误导</strong>你<br />
+- 总是先做<strong>sanity check</strong>（模型到底在不在答）</p>
+<h4 id="3big-bench204">挑战 3：BIG-bench（204 个评估的众包集合）</h4>
+<p><strong>4 个问题</strong>：<br />
+1. 大量工程量才能装上<br />
+2. 跑全部 204 项<strong>无法在合理时间完成</strong><br />
+3. 发现了 BBQ-lite 实现 bug<br />
+4. 决定哪些任务最重要需要研究投入</p>
+<h4 id="4helm">挑战 4：HELM（斯坦福）</h4>
+<p><strong>3 个问题</strong>：<br />
+1. HELM 不支持 Anthropic 的 Human/Assistant 格式 → 误评 Claude<br />
+2. 迭代慢 —— 新模型评估要几个月<br />
+3. 需要协调和沟通</p>
+<blockquote>
+<p>教训：第三方评估<strong>不是中立、免费的午餐</strong>。</p>
+</blockquote>
+<h4 id="5ab-testing-with-crowdworkers">挑战 5：A/B Testing with Crowdworkers</h4>
+<p><strong>局限性</strong>：<br />
+- 贵 + 慢<br />
+- 评估者差异大（创造力、动机）<br />
+- helpfulness vs harmlessness 的张力<br />
+- "What numerical value indicates a model is sufficiently helpful and harmless?"</p>
+<h4 id="6frontier-threats-red-teaming">挑战 6：Frontier Threats Red Teaming（国关级红队）</h4>
+<blockquote>
+<p>"国家安全的独特性使评估比一般伤害<strong>更有挑战性</strong><br />
+——国家安全风险复杂、需要专家级敏感知识、依赖现实场景"</p>
+</blockquote>
+<p><strong>3 个特殊挑战</strong>：<br />
+1. 国家安全风险是<strong>complicated, expert knowledge, real-world</strong><br />
+2. 红队是<strong>艺术而非科学</strong> —— 还没有标准化<br />
+3. 可重复 + 量化很难</p>
+<h3 id="3-ai-ai">3. 用生成式 AI 评估生成式 AI（最有前景）</h3>
+<blockquote>
+<p>"我们最有趣的实验：用生成式 AI 开发评估生成式 AI。"</p>
+</blockquote>
+<p><strong>做法</strong>：<br />
+- 用 Claude 帮<strong>生成</strong>评估数据集<br />
+- 用 Claude 帮<strong>评分</strong>其他模型输出<br />
+- 形成<strong>评估回路</strong></p>
+<blockquote>
+<p>优势：规模大、速度快、便宜<br />
+风险：评估器和被评估模型<strong>同样有偏见</strong></p>
+</blockquote>
+<h3 id="4-anthropic-5">4. 政策建议（Anthropic 5 条）</h3>
+<ol>
+<li><strong>不要把分数当唯一证据</strong> —— 量化是起点不是终点</li>
+<li><strong>永远做 sanity check</strong> —— 模型在答问题吗？</li>
+<li><strong>多种评估结合</strong> —— 不依赖单一 benchmark</li>
+<li><strong>公开评估方法和局限</strong> —— 透明度</li>
+<li><strong>持续投入评估能力</strong> —— 不只是模型</li>
+</ol>
+<h3 id="5-fde">5. 与企业 FDE 项目的映射</h3>
+<table>
+<thead>
+<tr>
+<th>Anthropic 挑战</th>
+<th>FDE 项目应对</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MMLU 训练泄露</td>
+<td>评测集必须<strong>100% 来自客户真实业务</strong>，不是公开数据集</td>
+</tr>
+<tr>
+<td>格式敏感</td>
+<td>同一格式跑全评测，<strong>不中途改 prompt</strong></td>
+</tr>
+<tr>
+<td>BBQ 空答案问题</td>
+<td><strong>每条评测都人工 spot-check 一次</strong></td>
+</tr>
+<tr>
+<td>第三方评估错位</td>
+<td>自建评测，<strong>按业务定制</strong></td>
+</tr>
+<tr>
+<td>A/B testing 贵</td>
+<td>用<strong>黄金集 + 自动化脚本</strong></td>
+</tr>
+<tr>
+<td>红队是艺术</td>
+<td><strong>客户业务方</strong>做 red team，比通用 red teamer 更准</td>
+</tr>
+<tr>
+<td>生成式评估有偏见</td>
+<td>多个 AI 互审 + 人工兜底</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_7">十二、客户讨论话术</h2>
+<blockquote>
+<p>"Anthropic 官方说：<strong>'Robust evaluations are extremely difficult to develop and implement'</strong>。</p>
+<p>这就是为什么我们的评测集<strong>不直接用 MMLU</strong>——而是用客户的<strong>真实业务素材</strong>建 50-100 条黄金集。</p>
+<p>我们每条评测都做<strong>人工 sanity check</strong>——确保模型在答问题，<br />
+不是在 BB（Bullshit）一个 0 分的'无偏见'答案。"</p>
+<p>"Anthropic 的 BBQ 团队就栽过这跟头：<br />
+模型偏见分 0 = 模型根本没在答问题。<br />
+我们的评测避开了这个陷阱。"</p>
+</blockquote>
+<h2 id="_8">十三、原文链接</h2>
+<ul>
+<li>全文：https://www.anthropic.com/research/evaluating-ai-systems</li>
+<li>关键发现：6 大评估挑战 + 5 条政策建议</li>
+<li>出版时间：2023 年 10 月</li>
+</ul></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

@@ -859,7 +859,207 @@ a:hover { color: var(--accent-hover); }
 <h3 id="4_1">反模式 4：忽略业务回滚</h3>
 <p><strong>症状</strong>：Agent 调用了工具但失败了，业务影响没撤销。<br />
 <strong>风险</strong>：数据库脏数据 / 用户收到错误邮件。<br />
-<strong>正解</strong>：Saga 模式 + 补偿事务 + 软删除。</p></div>
+<strong>正解</strong>：Saga 模式 + 补偿事务 + 软删除。</p>
+<hr />
+<h2 id="anthropic-2024-12">十一、原文核心（Anthropic 2024 年 12 月原文）</h2>
+<blockquote>
+<p>来源：https://www.anthropic.com/engineering/building-effective-agents （原文 2 万字）</p>
+</blockquote>
+<h3 id="1-agents-vs-workflows">1. Agents vs Workflows 的关键区分</h3>
+<p>Anthropic 把所有 agentic systems 分两类：</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>特征</th>
+<th>适合场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Workflows</strong></td>
+<td>LLM 和工具通过<strong>预定义代码路径</strong>编排</td>
+<td>任务明确、可分解</td>
+</tr>
+<tr>
+<td><strong>Agents</strong></td>
+<td>LLM <strong>动态指导自己的流程和工具使用</strong></td>
+<td>灵活性 + 模型决策</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>"Anthropic 内部把这两类都归为 agentic systems，但画了清晰的架构界限。"</p>
+</blockquote>
+<h3 id="2-agents">2. 何时用 / 何时不用 agents</h3>
+<p>Anthropic 原文原话：</p>
+<blockquote>
+<p>"我们建议找到最简的解决方案，只在需要时增加复杂度。<br />
+这可能意味着完全不要构建 agentic 系统。<br />
+Agentic systems 经常用<strong>延迟和成本换取更好的任务性能</strong>，<br />
+你应该考虑这种 trade-off 何时合理。"</p>
+</blockquote>
+<p><strong>判断矩阵</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>用什么</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单次 LLM 调用 + 检索 + 上下文示例</td>
+<td>不用 agent</td>
+<td>已足够</td>
+</tr>
+<tr>
+<td>任务明确 + 可分解</td>
+<td>Workflow</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>需要灵活决策</td>
+<td>Agent</td>
+<td>灵活</td>
+</tr>
+<tr>
+<td>成本 / 延迟敏感</td>
+<td>不用 agent</td>
+<td>代价大</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-5-workflow">3. 5 种 Workflow 模式（核心！）</h3>
+<h4 id="1prompt-chaining">模式 1：Prompt Chaining（提示链）</h4>
+<ul>
+<li><strong>结构</strong>：LLM 调用序列 + 中间检查（gate）</li>
+<li><strong>何时用</strong>：任务能清晰分解为固定子任务</li>
+<li><strong>例子</strong>：营销文案 → 翻译成另一语言；写文档大纲 → 检查 → 写正文</li>
+</ul>
+<h4 id="2routing">模式 2：Routing（路由）</h4>
+<ul>
+<li><strong>结构</strong>：分类器把输入路由到专门的处理流</li>
+<li><strong>何时用</strong>：任务有明确不同类别</li>
+<li><strong>例子</strong>：客服查询分类（普通 / 退款 / 技术支持）；简单问题用 Claude Haiku、难问题用 Claude Sonnet</li>
+</ul>
+<h4 id="3parallelization">模式 3：Parallelization（并行化）</h4>
+<ul>
+<li><strong>结构</strong>：LLM 并行处理同一任务的不同部分</li>
+<li><strong>两种形式</strong>：</li>
+<li><strong>Sectioning</strong>：把任务拆成独立子任务并行</li>
+<li><strong>Voting</strong>：跑同一任务多次取多数票（用于高准确性场景）</li>
+<li><strong>例子</strong>：多视角内容审核；代码漏洞检测</li>
+</ul>
+<h4 id="4orchestrator-workers-">模式 4：Orchestrator-Workers（编排者-工人）</h4>
+<ul>
+<li><strong>结构</strong>：中央 LLM 动态分解任务、委派给 worker LLM、整合结果</li>
+<li><strong>何时用</strong>：无法预测所需子任务</li>
+<li><strong>例子</strong>：需要修改多个文件的代码项目；多源信息检索</li>
+</ul>
+<h4 id="5evaluator-optimizer-">模式 5：Evaluator-Optimizer（评估者-优化者）</h4>
+<ul>
+<li><strong>结构</strong>：一个 LLM 生成输出，另一个 LLM 评估并提供反馈，循环</li>
+<li><strong>何时用</strong>：有明确评估标准、迭代改进有价值</li>
+<li><strong>例子</strong>：文学翻译（评估者给多轮反馈）；复杂搜索（评估者决定信息够不够）</li>
+</ul>
+<h3 id="4-autonomous-agents">4. Autonomous Agents（自主智能体）</h3>
+<p>Anthropic 区分 agent 和 workflow 的关键：<br />
+- Workflows 通过预定义路径编排<br />
+- <strong>Agents 动态指导自己的过程</strong></p>
+<blockquote>
+<p>"Agents 在每一步根据环境反馈决定下一步做什么——<br />
+这让它们能处理复杂任务，但代价是更多延迟和成本。"</p>
+</blockquote>
+<h3 id="5_1">5. 框架使用建议（重要！）</h3>
+<p>Anthropic 明确警告：</p>
+<blockquote>
+<p>"我们建议开发者<strong>直接用 LLM API</strong>起步：<br />
+很多模式可以<strong>用几行代码</strong>实现。<br />
+如果用框架，要确保你<strong>理解底层代码</strong>——<br />
+对底层工作原理的错误假设是<strong>客户错误的常见来源</strong>。"</p>
+</blockquote>
+<p><strong>框架选型</strong>：<br />
+- 推荐：Claude Agent SDK<br />
+- 也可用：Strands Agents SDK (AWS), Rivet, Vellum</p>
+<h3 id="6-augmented-llm-llm">6. Augmented LLM（增强 LLM）作为基础构件</h3>
+<p>所有 agentic systems 的基础构件 = <strong>LLM + 检索 + 工具 + 记忆</strong>。</p>
+<blockquote>
+<p>"The basic building block of agentic systems is an LLM<br />
+enhanced with augmentations such as retrieval, tools, and memory."</p>
+</blockquote>
+<p>实现建议：<br />
+- 用 <strong>Model Context Protocol (MCP)</strong> 集成第三方工具<br />
+- 简化的客户端实现<br />
+- 提供清晰、有良好文档的接口</p>
+<h3 id="7">7. 组合模式总结</h3>
+<table>
+<thead>
+<tr>
+<th>复杂度</th>
+<th>模式</th>
+<th>用例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>低</strong></td>
+<td>Augmented LLM</td>
+<td>单次调用</td>
+</tr>
+<tr>
+<td><strong>中低</strong></td>
+<td>Prompt Chaining</td>
+<td>翻译 / 大纲→正文</td>
+</tr>
+<tr>
+<td><strong>中</strong></td>
+<td>Routing</td>
+<td>客服分类</td>
+</tr>
+<tr>
+<td><strong>中高</strong></td>
+<td>Parallelization</td>
+<td>多视角审核</td>
+</tr>
+<tr>
+<td><strong>高</strong></td>
+<td>Orchestrator-Workers</td>
+<td>复杂代码</td>
+</tr>
+<tr>
+<td><strong>高</strong></td>
+<td>Evaluator-Optimizer</td>
+<td>文学翻译</td>
+</tr>
+<tr>
+<td><strong>最高</strong></td>
+<td>Autonomous Agent</td>
+<td>开放研究</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>核心建议</strong>：从最简的 Augmented LLM 开始，按需升级。</p>
+</blockquote>
+<h2 id="_7">十二、客户讨论话术</h2>
+<blockquote>
+<p>"Anthropic 官方把 agentic systems 分为 5 个 workflow + autonomous agent。<br />
+我们的方案选<strong>哪一档</strong>取决于您的业务复杂度：<br />
+- 简单业务：augmented LLM（1 步）<br />
+- 中等业务：routing 或 parallelization（3-5 步）<br />
+- 复杂业务：orchestrator-workers 或 autonomous agent</p>
+<p>不盲目上 agent = <strong>不浪费您的钱</strong>。<br />
+这是 Anthropic 2024 年官方建议的核心。"</p>
+</blockquote>
+<h2 id="_8">十三、原文链接</h2>
+<ul>
+<li>全文：https://www.anthropic.com/engineering/building-effective-agents</li>
+<li>摘要 PDF：见原文</li>
+<li>关键发现：5 workflow 模式 + autonomous agent 区分</li>
+<li>出版时间：2024 年 12 月</li>
+</ul></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
