@@ -836,7 +836,35 @@ GCP 重度 → GCP Architecture Framework
 <li>PMBOK 8：https://www.pmi.org/pmbok-guide</li>
 <li>ISO 42001：https://www.iso.org/standard/42001</li>
 <li>AWS WAF：https://aws.amazon.com/architecture/well-architected/</li>
-</ul></div>
+</ul>
+<hr />
+<h1 id="_6">📖 完整深度论述</h1>
+<blockquote>
+<p>本卡对应 TOGAF 10 / PMBOK 8 / ISO 42001 / 三家云 WAF。以下为系统性深度论述。</p>
+</blockquote>
+<h2 id="fde">为什么 FDE 需要企业级标准</h2>
+<p>FDE 做的是企业级 AI 系统，而企业级系统有企业级的规矩。客户 CIO/CTO 会问：<strong>"你的架构符合什么标准？你的项目管理按什么方法论？你的 AI 治理对齐什么规范？"</strong></p>
+<p>四个国际标准正好覆盖这四个问题：TOGAF 管架构、PMBOK 管项目、ISO 42001 管 AI 治理、三家云 WAF 管云架构。懂得引用这些标准，FDE 就从"会调 API 的工程师"变成"懂企业级交付的顾问"。</p>
+<h2 id="togaf">TOGAF：企业架构的国际标准</h2>
+<p>TOGAF（The Open Group Architecture Framework）是企业架构领域唯一被广泛采用的国际标准。它的核心是 <strong>ADM（架构开发方法）10 阶段</strong>：架构愿景 → 业务架构 → 信息系统架构 → 技术架构 → 机会与解决方案 → 迁移规划 → 实施治理 → 架构变更管理（+ 需求管理和变更管理贯穿）。</p>
+<p>TOGAF 的<strong>独有强项是 H（架构变更管理）</strong>——这是其它框架的天然空白。企业架构不是一次设计就完，而是持续演进的，变更管理是关键。</p>
+<h2 id="pmbok-8">PMBOK 8：项目管理的七绩效域</h2>
+<p>PMBOK 8 把项目管理从"过程导向"转向"绩效导向"，定义了<strong>七个绩效域</strong>：团队、规划、不确定性、交付、度量、业务、干系人。</p>
+<p>对 FDE 最有用的是<strong>干系人域</strong>——FDE 项目最难的不是技术，而是管理客户内部的多方干系人（支持者、影响者、受损者）。PMBOK 的干系人管理方法，直接对应 FDE 8 阶段 SOP 里的"变革管理三件套"。</p>
+<h2 id="iso-42001-ai">ISO 42001：全球第一个 AI 管理国际标准</h2>
+<p>ISO/IEC 42001:2023 是<strong>全球第一个 AI 管理国际标准</strong>。它的结构遵循 PDCA 循环，但有几个 AI 特有的强项：</p>
+<ul>
+<li><strong>AI 影响评估</strong>（Discover 阶段独有）；</li>
+<li><strong>数据治理</strong>（Data 阶段）；</li>
+<li><strong>模型退役</strong>（Retire 阶段，其它框架的空白）。</li>
+</ul>
+<p>对出海或做欧盟市场的 FDE 来说，ISO 42001 几乎是必选项。</p>
+<h2 id="waf">三家云 WAF：六支柱的同构</h2>
+<p>AWS、Azure、GCP 三家的 Well-Architected Framework，虽然名字不同，但<strong>六支柱几乎同构</strong>：安全、可靠性、性能效率、成本优化、卓越运营（+ 可持续性）。</p>
+<p>这个同构的意义在于：<strong>云架构的最佳实践是收敛的</strong>。FDE 见云客户时，引用对应"那家"的 WAF，就能建立专业信任。</p>
+<blockquote>
+<p>一句话总结：<strong>TOGAF 管架构、PMBOK 管项目、ISO 42001 管 AI 治理、三家云 WAF 管云架构——四个标准覆盖企业级交付的完整维度，是 FDE 的"专业护城河"。</strong></p>
+</blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

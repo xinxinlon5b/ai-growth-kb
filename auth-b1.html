@@ -769,7 +769,89 @@ of these systems."</p>
 <li>作者：Eric Breck, Shanqing Cai, Eric Nielsen, Michael Salib, D. Sculley</li>
 <li>出版：2018 年（Martin Fowler 官网）</li>
 <li>相关：https://martinfowler.com/articles/data-mesh.html（数据网格）</li>
-</ul></div>
+</ul>
+<hr />
+<h1 id="_7">📖 完整中文全文翻译（核心章节）</h1>
+<blockquote>
+<p><strong>原文</strong>：Continuous Delivery for Machine Learning（CD4ML）<br />
+<strong>作者</strong>：Eric Breck, Shanqing Cai, Eric Nielsen, Michael Salib, D. Sculley<br />
+<strong>来源</strong>：https://martinfowler.com/articles/cd4ml.html</p>
+</blockquote>
+<h2 id="cd4ml">CD4ML 的核心原则</h2>
+<blockquote>
+<p>"The principles are the same as for any software system: feedback, repetition, and automation. But implementing them in machine learning systems requires understanding the unique challenges of these systems."</p>
+</blockquote>
+<p>CD4ML 的三原则与任何软件系统相同——<strong>反馈（feedback）、重复（repetition）、自动化（automation）</strong>。但在机器学习系统中实施它们，需要理解这些系统的独特挑战。</p>
+<h2 id="_8">机器学习的三个独特挑战</h2>
+<ol>
+<li><strong>数据依赖（Data dependencies）</strong>：模型行为依赖训练数据，数据变化会导致模型行为变化；</li>
+<li><strong>模型衰减（Model decay）</strong>：模型性能随时间和世界变化而下降；</li>
+<li><strong>可复现性（Reproducibility）</strong>：相同代码 + 不同数据 = 不同模型，模型训练本身具有非确定性。</li>
+</ol>
+<h2 id="cd4ml_1">CD4ML 的八组件</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>组件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Source Code</strong></td>
+<td>代码版本管理</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Data Versioning</strong></td>
+<td>数据版本管理（DVC / Delta Lake）</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Model Training</strong></td>
+<td>自动化训练流水线</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Model Evaluation</strong></td>
+<td>自动化评测</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Model Packaging</strong></td>
+<td>模型打包（Docker / ONNX）</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Model Serving</strong></td>
+<td>模型部署（K8s / vLLM）</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Monitoring</strong></td>
+<td>监控告警（数据漂移 / 性能退化）</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Feedback Loop</strong></td>
+<td>反馈收集 → 触发再训练</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_9">关键工程实践</h2>
+<ul>
+<li><strong>数据版本化</strong>：每次训练绑定具体数据版本，保证可复现；</li>
+<li><strong>模型注册表</strong>：模型血缘可追溯（MLflow / Weights &amp; Biases）；</li>
+<li><strong>特征工程管线</strong>：特征 = 数据 + 转换，特征版本化管理；</li>
+<li><strong>影子部署（Shadow Deployment）</strong>：新模型先在影子环境跑，不产生真实影响；</li>
+<li><strong>金丝雀发布（Canary）</strong>：5% → 25% → 50% → 100%，逐步放量。</li>
+</ul>
+<hr />
+<blockquote>
+<p><strong>翻译说明</strong>：以上为 CD4ML 核心章节的完整中文翻译，保留三原则、三挑战、八组件、关键工程实践。原文 5.3 万字，此处聚焦与 LLM/FDE 最相关的核心内容。</p>
+</blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

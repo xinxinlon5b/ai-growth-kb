@@ -681,7 +681,48 @@ https://cloud.google.com/blog/products/devops-sre/using-the-four-keys-to-measure
 <h3 id="3_1">反模式 3：不测就改</h3>
 <p><strong>症状</strong>：直接上 CI/CD 不测基线。<br />
 <strong>风险</strong>：改完不知道变好还是变差。<br />
-<strong>正解</strong>：先测 3 个月基线，再定改进目标。</p></div>
+<strong>正解</strong>：先测 3 个月基线，再定改进目标。</p>
+<hr />
+<h1 id="_8">📖 完整深度论述</h1>
+<blockquote>
+<p>本卡对应 SWEBOK V4 + ISO 12207 + Agile + Scrum + CMMI + DORA。以下为系统性深度论述。</p>
+</blockquote>
+<h2 id="_9">两张"总地图"：知识全集 + 动作全集</h2>
+<p>要理解"软件是怎么开发出来的"，业界有两份权威"总地图"：</p>
+<ul>
+<li><strong>SWEBOK V4</strong>（IEEE 软件工程知识体系）回答"做软件需要哪些知识"——18 个知识领域，是知识全集；</li>
+<li><strong>ISO/IEC/IEEE 12207</strong>（软件生命周期过程）回答"做软件要按什么顺序做什么"——4 大过程组，是动作全集。</li>
+</ul>
+<p>二者叠加，就是"软件如何被开发出来"的最权威答案框架。日常说的"需求→设计→编码→测试→上线"，本质是 12207 技术过程的通俗化表达。</p>
+<p>对 FDE 的意义：<strong>你交付的不是"AI 代码"，而是企业级生产软件</strong>。它必须遵循这套国际标准，才能对客户说"这是按国际标准做的"。</p>
+<h2 id="_10">从瀑布到敏捷：一场反馈环的革命</h2>
+<p>生命周期模型的演进，本质是一场<strong>缩短反馈环</strong>的革命：</p>
+<ul>
+<li><strong>瀑布模型</strong>（1970 Winston Royce）：需求→设计→实现→测试→部署严格线性，反馈环最长——软件交付前看不到，需求变了要推倒重来；</li>
+<li><strong>V 模型</strong>：在瀑布基础上给每阶段加验证环节，强调可追溯；</li>
+<li><strong>迭代/增量</strong>：分多次循环，每次交付可用增量，反馈环缩短；</li>
+<li><strong>螺旋</strong>：每个循环做风险评估，风险驱动；</li>
+<li><strong>敏捷</strong>（2001 敏捷宣言）：小步快跑、频繁交付、拥抱变化，反馈环最短。</li>
+</ul>
+<p>敏捷成为主流，是因为它解决了瀑布最致命的缺陷——<strong>"猜错需求"的成本</strong>。通过缩短反馈环，把猜错的代价降到最低。</p>
+<h2 id="dora">DORA 四指标：衡量交付能力的行业标准</h2>
+<p>DORA（DevOps Research and Assessment）的四项关键指标，把"交付能力"这个模糊概念量化了：</p>
+<ul>
+<li><strong>部署频率</strong>：多频繁发布到生产（精英团队按需部署）；</li>
+<li><strong>变更前置时间</strong>：从提交代码到上线耗时（精英团队 &lt; 1 天）；</li>
+<li><strong>变更失败率</strong>：上线导致故障的比例（精英团队 &lt; 15%）；</li>
+<li><strong>恢复时间 MTTR</strong>：故障后多久恢复（精英团队 &lt; 1 小时）。</li>
+</ul>
+<p>这四指标是 FDE 自证交付能力的最强武器——<strong>"我的 DORA 四项是 X / Y / Z / W"</strong>，比"我做了 10 年"有说服力得多。</p>
+<h2 id="cmmi-5_1">CMMI 5 级：从个人英雄到可重复</h2>
+<p>CMMI 的能力成熟度 5 级，描述组织从"靠个人英雄"到"可预测可重复"的进化：</p>
+<ol>
+<li>初始级（靠个人英雄）→ 2. 已管理级（项目可重复）→ 3. 已定义级（组织标准化）→ 4. 定量管理级（数据驱动）→ 5. 优化级（持续改进）。</li>
+</ol>
+<p>对 FDE 的启示：<strong>个人/小团队项目可以靠个人英雄，但角色可以合并、步骤不能省略</strong>。企业项目的本质是把角色拆分、流程管控；个人项目的本质是把角色内化到习惯里。</p>
+<blockquote>
+<p>一句话总结：<strong>SWEBOK + 12207 给了软件工程的"知识+动作"双全集，敏捷缩短反馈环，DORA 量化交付能力，CMMI 描述过程成熟度。FDE 交付的是按国际标准做的企业级软件。</strong></p>
+</blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

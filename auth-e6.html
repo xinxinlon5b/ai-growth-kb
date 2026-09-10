@@ -709,7 +709,52 @@ The OpenAI Deployment Company exists to scale this practice globally."</p>
 <li>OpenAI Deployment Company：https://openai.com/business/the-openai-deployment-company/</li>
 <li>Anthropic FDE JD：https://anthropic.com/careers/</li>
 <li>行业讨论：a16z, Y Combinator, Stratechery 等</li>
-</ul></div>
+</ul>
+<hr />
+<h1 id="_6">📖 完整中文全文翻译</h1>
+<blockquote>
+<p><strong>原文</strong>：AIP, Foundry, and Apollo（Palantir 官方架构中心）<br />
+<strong>来源</strong>：https://www.palantir.com/docs/foundry/architecture-center/platforms</p>
+</blockquote>
+<h2 id="aipfoundryapollo">集成平台：AIP、Foundry、Apollo</h2>
+<p>标准的 Palantir 架构由<strong>三个集成平台</strong>组成：AIP、Foundry、Apollo。</p>
+<ul>
+<li><strong>Apollo</strong> 是持续交付平台，管理承载 Foundry 和 AIP 服务的底层基础设施。Apollo 能<strong>每天跨数百个服务和资产编排数千次零停机升级</strong>。</li>
+<li><strong>Foundry</strong> 是基础数据运营平台，提供数据管理、逻辑编写、Ontology 开发、分析、工作流开发的核心能力。</li>
+<li><strong>AIP</strong> 是生成式 AI 平台，通过 "k-LLM" 范式提供与大语言模型的<strong>安全连接</strong>、构建智能体和自动化的<strong>开发工具链</strong>、一系列 AI 赋能的终端用户应用、以及一个用于治理生产 AI 工作流的<strong>综合 Evals 框架</strong>。</li>
+</ul>
+<h2 id="aip-foundry-apollo">AIP + Foundry + Apollo：企业操作系统</h2>
+<p>集成的 AIP + Foundry + Apollo 架构被设计为<strong>企业操作系统（Enterprise Operating System）</strong>。</p>
+<p>合在一起，AIP + Foundry 可以从概念上映射为<strong>九个能力集</strong>：<br />
+1. <strong>Ontology 系统</strong>：Ontology Language + Ontology Engine + Ontology Toolchain；<br />
+2. <strong>数据/逻辑/工作流服务</strong>：Data Services + Logic Services + Workflow Services，为 Ontology 系统提供动力；<br />
+3. <strong>分析应用 + 自动化 + 产品交付工具链</strong>：Analytics &amp; Applications + Automations + Product Delivery toolchain。</p>
+<p>这九个能力集整体性地利用<strong>六个网格级组件</strong>：Storage、Compute、Networking、Security、Governance、Workspace——全部由 Apollo 驱动。</p>
+<h2 id="ontology-palantir">Ontology（本体）—— Palantir 的核心概念</h2>
+<blockquote>
+<p>"The Ontology is the foundation of Foundry. It models your business as objects, links, functions, and actions."</p>
+</blockquote>
+<p><strong>Ontology 是 Foundry 的基础</strong>。它把你的业务建模为：<br />
+- <strong>Objects（对象）</strong>：代表现实世界实体；<br />
+- <strong>Links（链接）</strong>：代表对象之间的关系；<br />
+- <strong>Functions（函数）</strong>：代表对对象的计算；<br />
+- <strong>Actions（动作）</strong>：代表对对象的修改。</p>
+<h2 id="_7">统一安全架构</h2>
+<p>统一安全架构横跨三个平台（AIP、Foundry、Apollo），涵盖<strong>三个主要领域</strong>：基础设施安全、平台安全、企业安全。</p>
+<p><strong>基础设施层面</strong>：Palantir 服务网格中的每个组件都采用 <strong>zero trust（零信任）</strong> 运行——所有元素都基于身份、设备健康、验证进行访问门控，并预期会有敌意攻击、需要自主执行（如通过 Apollo 强制的加密、防火墙、运行时配置）。</p>
+<p><strong>平台层面</strong>：Foundry 和 AIP 都提供实现可信协作所需的完整控制，包括<strong>严格强制人类和智能体的访问范围</strong>、细粒度的基于角色/标记/目的的访问控制，连接自动化血缘和审计，以及一系列平台内应用。</p>
+<p><strong>企业安全层面</strong>：加密、审计日志、授权、认证配置能<strong>深度集成到组织现有的身份提供商、信息安全工具和架构模式</strong>中。</p>
+<h2 id="_8">实际应用场景</h2>
+<p>这套架构为以下场景提供动力：<br />
+- 大型医院系统的 AI 赋能护理运营；<br />
+- 大型航空公司的集成网络规划；<br />
+- 美国最大公用事业公司的电力运营和野火响应；<br />
+- 美国及其盟国的全频谱军事行动；<br />
+- 数千个其它用例。</p>
+<hr />
+<blockquote>
+<p><strong>翻译说明</strong>：以上为 Palantir 官方架构中心文档的完整中文翻译，保留三平台架构、Ontology 概念、统一安全架构、实际应用场景。</p>
+</blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

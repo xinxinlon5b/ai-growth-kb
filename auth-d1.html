@@ -780,7 +780,37 @@ def invoke(tool_name, args):
 <li>Google AI Agents 概览：https://cloud.google.com/discover/what-are-ai-agents</li>
 <li>Gemini API 文档：https://ai.google.dev/</li>
 <li>实战：https://www.cloudskillsboost.google/paths/118</li>
-</ul></div>
+</ul>
+<hr />
+<h1 id="_7">📖 完整深度论述</h1>
+<blockquote>
+<p>本卡对应 Google Vertex AI Agent Builder 框架。以下为系统性深度论述。</p>
+</blockquote>
+<h2 id="google-agent">Google 的 Agent 定义：三要素</h2>
+<p>Google 对 Agent 的定义清晰而完整：<strong>Agent = Reasoning（推理）+ Tools（工具）+ Actions（动作）</strong>。</p>
+<ul>
+<li><strong>Reasoning</strong>：LLM 的思考能力，负责理解目标、规划步骤；</li>
+<li><strong>Tools</strong>：Agent 调用外部能力的方式——搜索、RAG、API、代码执行；</li>
+<li><strong>Actions</strong>：Agent 改变世界的方式——写数据库、发邮件、调外部系统。</li>
+</ul>
+<p>这个三要素定义的价值在于：<strong>它澄清了"Agent 不是什么"</strong>——Agent 不是一个只会聊天的 LLM，也不是一个只会执行固定流程的脚本，而是"能推理 + 能调用工具 + 能产生真实影响"的自治程序。</p>
+<h2 id="_8">工具白名单：默认拒绝优于默认放行</h2>
+<p>Google 框架最值得 FDE 学习的一点是<strong>工具白名单（Action Allowlist）</strong>：Agent 创建时就定义好"允许调用的工具列表"，任何不在列表里的工具调用一律拒绝。</p>
+<p>这个设计哲学是<strong>默认拒绝优于默认放行</strong>。黑名单（列出禁止的）的漏洞是"总有想不到的"；白名单（列出允许的）的威力是"没列出的就是禁止的"。在安全领域，这是一个经过反复验证的原则——防火墙的默认策略、RBAC 的最小权限，都是同一个思想。</p>
+<h2 id="guardrail">三层 Guardrail：输入、输出、动作</h2>
+<p>Google 把护栏分成三层，覆盖 Agent 的完整生命周期：</p>
+<ol>
+<li><strong>输入验证</strong>：检测 prompt injection、过滤敏感内容、验证用户权限；</li>
+<li><strong>输出过滤</strong>：屏蔽违规内容、检查 PII、验证格式；</li>
+<li><strong>动作约束</strong>：白名单工具、风险分级、人工接管。</li>
+</ol>
+<p>这三层的价值在于<strong>完整的闭环</strong>——不是只在"入口"或"出口"设防，而是贯穿 Agent 的每个环节。</p>
+<h2 id="_9">人机交接：高危动作的最后一棒</h2>
+<p>Google 强调的 <strong>Human Handoff（人机交接）</strong>，是 FDE 交付里最容易漏掉的一环：不是所有事都让 AI 做，高风险动作必须有人"接最后一棒"。</p>
+<p>关键是<strong>交接信息的完整性</strong>——AI 把上下文打包好交给人工，不能"传一半"。比如 AI 判断一笔退款需要人工确认，它应该把订单信息、退款原因、风险点、建议方案全部整理好，让审核人一眼就能决策，而不是让人再翻一堆系统。</p>
+<blockquote>
+<p>一句话总结：<strong>Google 的 Agent 框架 = 三要素定义 + 白名单工具 + 三层护栏 + 人机交接。核心哲学是"默认拒绝、分层防护、人接最后一棒"。</strong></p>
+</blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

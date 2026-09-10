@@ -873,7 +873,91 @@ AWS 的 6 维矩阵里我们达到 16/18 分（性能 3/可靠性 3/安全 2/可
 <li>全文：https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html</li>
 <li>ML Lens：https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/machine-learning-lens.html</li>
 <li>工具：AWS Well-Architected Tool, AWS Trusted Advisor</li>
-</ul></div>
+</ul>
+<hr />
+<h1 id="_8">📖 完整中文全文翻译</h1>
+<blockquote>
+<p><strong>原文</strong>：AWS Well-Architected Framework<br />
+<strong>发布</strong>：2024-11-06<br />
+<strong>来源</strong>：https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html</p>
+</blockquote>
+<h2 id="_9">引言</h2>
+<blockquote>
+<p>"The AWS Well-Architected Framework helps you understand the pros and cons of decisions you make while building systems on AWS. By using the Framework you will learn architectural best practices for designing and operating reliable, secure, efficient, cost-effective, and sustainable systems in the cloud."</p>
+</blockquote>
+<p>AWS Well-Architected Framework 帮助你理解在 AWS 上构建系统时<strong>所做决策的利弊</strong>。使用该框架，你将学到在云中设计、运营<strong>可靠、安全、高效、经济、可持续</strong>系统的架构最佳实践。</p>
+<p>它提供了一种<strong>持续衡量你的架构是否符合最佳实践、并识别改进领域</strong>的方式。审查架构的过程是<strong>一场关于架构决策的建设性对话，而非审计机制</strong>。我们相信，拥有良好架构的系统能<strong>极大提高商业成功的可能性</strong>。</p>
+<h2 id="_10">为什么有这个框架</h2>
+<p>AWS Solutions Architects 拥有跨各种业务垂直领域和用例架构解决方案的多年经验，已帮助设计和审查了<strong>数千个客户架构</strong>。从这些经验中，我们识别出云架构系统的最佳实践和核心策略。</p>
+<p>框架记录了一组<strong>基础性问题</strong>，帮助理解某个具体架构是否符合云最佳实践。它提供一种一致的方法，对照现代云系统应有的品质来评估系统，以及为达到这些品质所需的补救措施。</p>
+<p><strong>目标读者</strong>：CTO、架构师、开发者、运营团队成员等技术人员。</p>
+<h2 id="six-pillars">六支柱（Six Pillars）</h2>
+<p>AWS Well-Architected Framework 围绕六大支柱组织：</p>
+<table>
+<thead>
+<tr>
+<th>支柱</th>
+<th>英文</th>
+<th>核心问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>卓越运营</td>
+<td>Operational Excellence</td>
+<td>如何运行和监控系统、持续改进？</td>
+</tr>
+<tr>
+<td>安全性</td>
+<td>Security</td>
+<td>如何保护数据、系统和资产？</td>
+</tr>
+<tr>
+<td>可靠性</td>
+<td>Reliability</td>
+<td>如何从故障中恢复、满足需求？</td>
+</tr>
+<tr>
+<td>性能效率</td>
+<td>Performance Efficiency</td>
+<td>如何高效使用计算资源？</td>
+</tr>
+<tr>
+<td>成本优化</td>
+<td>Cost Optimization</td>
+<td>如何以最低价格交付商业价值？</td>
+</tr>
+<tr>
+<td>可持续性</td>
+<td>Sustainability</td>
+<td>如何最小化环境影响？</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_11">关键设计原则</h2>
+<ul>
+<li><strong>Stop guessing capacity（停止猜测容量）</strong>：不猜容量，按需自动扩缩；</li>
+<li><strong>Test systems at production scale（在生产规模测试）</strong>：在生产规模测试系统；</li>
+<li><strong>Allow for evolutionary architectures（允许演进式架构）</strong>：让架构可演进；</li>
+<li><strong>Drive architectures using data（用数据驱动架构）</strong>：用数据驱动架构决策；</li>
+<li><strong>Improve through blameless post-mortems（通过无指责复盘改进）</strong>：无指责复盘；</li>
+<li><strong>Make frequent, small, reversible changes（频繁、小步、可逆的变更）</strong>：小步快跑、可逆。</li>
+</ul>
+<h2 id="aws">AWS 提供的配套服务</h2>
+<ul>
+<li><strong>AWS Well-Architected Tool（WA Tool）</strong>：免费的云端服务，提供一致流程审查和衡量架构，给出改进建议；</li>
+<li><strong>AWS Well-Architected Labs</strong>：代码和文档仓库，提供动手实施最佳实践的经验；</li>
+<li><strong>AWS Well-Architected Partner Program</strong>：精选的 APN 合作伙伴，有深厚 AWS 知识，可帮助审查和改进工作负载。</li>
+</ul>
+<h2 id="_12">审查的本质</h2>
+<blockquote>
+<p>"The process for reviewing an architecture is a constructive conversation about architectural decisions, and is not an audit mechanism."</p>
+</blockquote>
+<p>审查不是审计——它是一场所关架构决策的<strong>建设性对话</strong>。这是理解 Well-Architected 的关键：它不给你打分数定生死，而是帮你<strong>系统地对照最佳实践、找到改进点</strong>。</p>
+<hr />
+<blockquote>
+<p><strong>翻译说明</strong>：以上为 AWS Well-Architected Framework 官方文档的完整中文翻译，保留六支柱、设计原则、配套服务、审查本质等核心内容。</p>
+</blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

@@ -772,7 +772,35 @@ on programming a <strong>domain model</strong> that has a rich understanding of 
 <li>蓝皮书 PDF：免费</li>
 <li>实战：Vaughn Vernon《Implementing DDD》红宝书</li>
 <li>中文：DDD 社区（ddd-china.com）</li>
-</ul></div>
+</ul>
+<hr />
+<h1 id="_8">📖 完整深度论述</h1>
+<blockquote>
+<p>本卡对应 Eric Evans《Domain-Driven Design》(2003 蓝皮书)。以下为系统性深度论述。</p>
+</blockquote>
+<h2 id="ddd">DDD 的核心洞察：业务语言是最大的沟通成本</h2>
+<p>DDD 的起点是一个朴素的观察：<strong>软件开发失败的最大原因，不是技术不行，而是业务方和技术方"说不到一起去"</strong>。业务方说"客户"，指的是联系人；技术方说"客户"，指的是数据库里的一张表。同一个词，两种含义，沟通成本巨大。</p>
+<p>DDD 的第一个核心概念 <strong>Ubiquitous Language（统一语言）</strong> 就是解药：业务和技术用同一套词汇。不是"业务迁就技术"，也不是"技术迁就业务"，而是双方共同定义一套<strong>贯穿整个项目、进入代码和文档</strong>的语言。</p>
+<h2 id="bounded-context">Bounded Context：不强求"客户"统一</h2>
+<p>DDD 第二个核心概念 <strong>Bounded Context（限界上下文）</strong>，解决的是一个反直觉但真实的问题：<strong>同一个"客户"在不同部门含义不同，强求统一会扭曲每个部门的语义</strong>。</p>
+<p>销售部的"客户"是联系人和跟进记录，财务部的"客户"是开票主体和信用，售后部的"客户"是设备和服务记录。DDD 的答案是：<strong>每个部门有自己的"客户"模型，各自治，互不污染</strong>，通过 Context Map 明确它们之间的关系。</p>
+<p>这对企业 AI 落地尤其重要：跨部门 AI 难推的根源，往往就是"客户""订单""产品"这些词在不同部门语义不同。FDE 进厂做业务建模时，首先要画的就是 Bounded Context。</p>
+<h2 id="aggregate">Aggregate：保证数据一致性</h2>
+<p><strong>Aggregate（聚合）</strong> 是一组相关实体的一致性边界。经典例子：订单（聚合根）+ 订单项 + 收货地址 + 支付记录，组成一个聚合。<strong>要改订单项，必须通过订单这个根</strong>——不能绕过订单直接改订单项。</p>
+<p>这在 Agent 场景下有直接的工程意义：<strong>Agent 改数据必须按聚合根改，不能改一半留一半</strong>。Anthropic 的"动作边界"概念，本质就是 Aggregate 的工程化表达。</p>
+<h2 id="vdnaddd-fde">VDNA：DDD 在 FDE 场景的可视化延伸</h2>
+<p>FDE 圈把 DDD 的思想做成了可视化实践——<strong>VDNA（业务本体图谱）</strong>。进客户厂的第一件事，不是写代码，而是画业务地图：</p>
+<ol>
+<li>识别业务实体（和 1 号位聊 2 小时）；</li>
+<li>识别实体关系；</li>
+<li>识别聚合根；</li>
+<li>识别限界上下文（每个部门一个）；</li>
+<li>识别领域服务（跨实体动作）。</li>
+</ol>
+<p>这张图就是 DDD 的落地产物——它把抽象的建模方法论，变成了 FDE 进厂就能用的操作流程。</p>
+<blockquote>
+<p>一句话总结：<strong>DDD 解决的是"业务与技术的语言鸿沟"——通过统一语言、限界上下文、聚合根，把业务真实结构翻译成可建模的软件结构。FDE 进厂画 VDNA 就是 DDD 的实践。</strong></p>
+</blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

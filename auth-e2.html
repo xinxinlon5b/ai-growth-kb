@@ -654,7 +654,47 @@ AI 不只是"调模型"，是"数据 + 模型 + 编排 + 服务 + 治理"五层�
 <h3 id="3_2">反模式 3：监控只看准确率</h3>
 <p><strong>症状</strong>：只看模型准确率。<br />
 <strong>风险</strong>：业务早变了但模型不知道。<br />
-<strong>正解</strong>：监控业务指标（解决率 / 满意度）。</p></div>
+<strong>正解</strong>：监控业务指标（解决率 / 满意度）。</p>
+<hr />
+<h1 id="_5">📖 完整深度论述</h1>
+<blockquote>
+<p>本卡对应 Google MLOps + AI 五层技术栈。以下为系统性深度论述。</p>
+</blockquote>
+<h2 id="ai-api">AI 落地 ≠ 调 API</h2>
+<p>最大的误解是把"企业 AI 落地"等同于"调一个 LLM API"。真相是：<strong>AI 落地是一个完整的系统工程，分五层</strong>——数据、模型、编排、服务、治理。企业落地失败的常见原因，正是只做了模型层和服务层，而忽略了数据层和治理层。</p>
+<p>这五层的价值在于<strong>它澄清了 AI 项目的完整范围</strong>。FDE 报价时，客户往往只看到"模型层"（一个 API 调用），而看不到数据层（七成脏活）和治理层（合规安全）的工作量。五层框架是解释"为什么知识库项目要 10-15 万"的有力工具。</p>
+<h2 id="mlops">MLOps 七步流水线</h2>
+<p>Google 的 MLOps 实践者指南定义了 AI 落地的标准流水线：</p>
+<ol>
+<li>用例识别与价值定义；</li>
+<li>数据工程（采集/清洗/标注/版本化/切分）；</li>
+<li>模型开发与实验；</li>
+<li>模型评估；</li>
+<li>模型部署；</li>
+<li>监控与持续训练；</li>
+<li>治理与合规。</li>
+</ol>
+<p>这七步和传统软件工程的"需求→设计→实现→测试→部署→运维"共享同一骨架，但在"数据"和"模型"这两环多出了独特环节。理解这个映射，FDE 就能复用软件工程的经验，同时识别 AI 特有的挑战。</p>
+<h2 id="llmops-vs-mlops_1">LLMOps vs MLOps：大模型时代的新增关注点</h2>
+<p>LLM 时代的 LLMOps 在 MLOps 基础上新增了五个关注点：</p>
+<ul>
+<li><strong>微调</strong>取代/补充"从零训练"——基础模型已强，无需从零；</li>
+<li><strong>实时生成计算</strong>——推理延迟和 token 成本成为核心成本项；</li>
+<li><strong>向量数据库编排</strong>——用于 RAG 检索；</li>
+<li><strong>提示工程</strong>——Prompt 成为一类新的"代码"；</li>
+<li><strong>RAG</strong>——私有知识接入，无需重训。</li>
+</ul>
+<p>这五点直接对应你工作台的方法论：<strong>"先免费白嫖"</strong>（token 成本）、<strong>"进厂先找数据"</strong>（RAG + 向量库）、<strong>"AI 时代顶级能力 = 会提问"</strong>（提示工程）。</p>
+<h2 id="gartner">Gartner 五级成熟度：帮客户定位</h2>
+<p>Gartner 的 AI 成熟度五级（Awareness → Active → Operational → Systemic → Transformational），是 FDE 帮客户定位的利器：</p>
+<ul>
+<li>大多数客户在 <strong>2-3 级</strong>（试点阶段或刚进生产）；</li>
+<li>从 2 级到 3 级的跨越，正是 FDE 的核心价值——把零散试点变成生产流程；</li>
+<li>只有 3% 企业达到 5 级（Transformational），说明从"用 AI"到"用好 AI"是巨大鸿沟。</li>
+</ul>
+<blockquote>
+<p>一句话总结：<strong>AI 落地是五层系统工程，不是调 API。MLOps 七步是标准流水线，LLMOps 新增 token 成本/RAG/提示工程，Gartner 五级帮客户定位阶段。</strong></p>
+</blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

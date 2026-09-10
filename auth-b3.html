@@ -884,7 +884,27 @@ a:hover { color: var(--accent-hover); }
 <li>Pinecone Learning：https://www.pinecone.io/learn/</li>
 <li>LangChain RAG：https://python.langchain.com/docs/tutorials/rag/</li>
 <li>实战书：《RAG in Action》Manning</li>
-</ul></div>
+</ul>
+<hr />
+<h1 id="_7">📖 完整深度论述</h1>
+<blockquote>
+<p>本卡对应《RAG in Action》(Manning)。以下为基于公开内容与工业实践的系统性深度论述。</p>
+</blockquote>
+<h2 id="rag">RAG 要解决的根本问题</h2>
+<p>RAG（检索增强生成）解决的是 LLM 的三个根本局限：<strong>知识截止</strong>（训练后的事件不知道）、<strong>幻觉</strong>（自信地编造）、<strong>无领域知识</strong>（不懂你的私有文档）。这三者有一个共同点：<strong>LLM 的参数里没有答案，答案在你的文档里。</strong></p>
+<p>RAG 的思路朴素而有效：<strong>先把相关文档检索出来，再让 LLM 看着文档回答</strong>。这样既保留了 LLM 的语言能力，又用你的数据补足了它的知识盲区。相比微调，RAG 的三个优势是决定性的：成本低（不用重训）、更新快（改文档即可）、可溯源（答案能指向具体文档）。</p>
+<h2 id="_8">七成工作不在模型，在数据</h2>
+<p>很多 FDE 项目栽在这里：以为 RAG 就是"接个向量库 + 调个 API"，结果上线后效果稀烂。真相是，<strong>RAG 项目的七成工作量在数据准备</strong>——解析 PDF/Word/Excel、清洗乱文档、切分、标注元数据、去重。这正是你工作台里反复出现的"知识库项目 7 成是脏活"的工程解释。</p>
+<p>其中 <strong>chunking（切分）</strong> 是最关键也最被低估的一步。切太整，检索召回的都是大段无关内容，模型答不准；切太碎，上下文不完整，模型答不出。甜区通常在 300-1000 字符，而且要保留语义边界（别把一句话切两半）、加 overlap（前后重叠 10-20% 防截断）、加 metadata（来源/时间/类型）。</p>
+<h2 id="rag_1">检索质量决定 RAG 上限</h2>
+<p>RAG 有个残酷的规律：<strong>生成的质量上限由检索质量决定</strong>。检索漏了关键文档，模型再强也答不对。这就是为什么 Recall@K（前 K 个结果含正确答案的比例）是 RAG 最重要的指标，目标值 &gt; 0.80。</p>
+<p>单纯用向量相似度检索往往不够，工业实践用"多路召回 + 重排"：向量检索 + 关键词检索 + 元数据过滤三路并行召回，再用 Cross-Encoder 模型精排，取 Top-K 喂给 LLM。这一层做好了，RAG 效果会有质的飞跃。</p>
+<h2 id="rag_2">防幻觉是 RAG 的生死线</h2>
+<p>RAG 最大的风险是<strong>幻觉</strong>——模型看似引用了文档，其实在编。三类幻觉各有对策：Context 没用上（召回对了但模型没看）→ 强制要求引用；Context 不够（召回不全）→ 提升召回率；过度推断（基于召回做了过度推理）→ 约束"只基于给定文档回答"。</p>
+<p>Anthropic 的 BBQ 教训在这里同样适用：<strong>模型给了一个"看似正确"的答案，可能根本没在看文档</strong>。所以评测 Faithfulness（忠实度，答案是否忠实于原文）比准确率更关键，目标值 &gt; 0.90。测试时故意给错误文档、空文档、部分文档，看模型是照搬、拒绝回答、还是乱补全——这是防幻觉的必修课。</p>
+<blockquote>
+<p>一句话总结：<strong>RAG 的价值 = 用你的数据补足 LLM 的知识盲区，但 7 成工作不在模型而在数据，检索质量决定上限，防幻觉是生死线。</strong></p>
+</blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
