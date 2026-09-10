@@ -3,390 +3,644 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>02-05 · AI内容创作 · 企业 AI 实战知识库</title>
-<meta name="description" content="基于 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径，构建的 FDE/AI落地 实战知识库">
+<title>AI 内容创作</title>
 <style>
 :root {
-  --bg: #0f1419;
-  --bg-elevated: #1a2028;
-  --bg-card: #232a35;
-  --border: #2d3540;
-  --text: #e6e6e6;
-  --text-dim: #9aa5b1;
-  --text-bright: #ffffff;
-  --accent: #4f9eff;
-  --accent-hover: #6bb0ff;
-  --warning: #ff9a4f;
-  --success: #4fdf9a;
-  --code-bg: #0a0e13;
-  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+  --bg: #fbfbfd;
+  --bg-elevated: #ffffff;
+  --bg-soft: #f5f5f7;
+  --bg-card: #ffffff;
+  --bg-code: #f5f5f7;
+  --text: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --text-tertiary: #86868b;
+  --accent: #0066cc;
+  --accent-hover: #0077ed;
+  --accent-soft: rgba(0, 102, 204, 0.08);
+  --border: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --radius: 18px;
+  --radius-sm: 10px;
+  --radius-lg: 24px;
 }
-* { box-sizing: border-box; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 html, body {
-  margin: 0; padding: 0;
-  font-family: -apple-system, "SF Pro Display", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.65;
-  font-size: 15px;
+  line-height: 1.5;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
-a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
+
+a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
 a:hover { color: var(--accent-hover); }
 
-/* Layout */
-.app {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  min-height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  background: var(--bg-elevated);
-  border-right: 1px solid var(--border);
-  padding: 24px 0;
+/* Top nav - Apple-style sticky blurred */
+.topnav {
   position: sticky;
   top: 0;
-  height: 100vh;
-  overflow-y: auto;
-}
-.brand {
-  padding: 0 24px 24px;
+  z-index: 100;
+  background: rgba(251, 251, 253, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--border);
-  margin-bottom: 16px;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
 }
-.brand h1 {
-  margin: 0;
-  font-size: 18px;
-  color: var(--text-bright);
+.topnav .brand {
+  font-size: 17px;
   font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.02em;
 }
-.brand .sub {
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 4px;
+.topnav .nav-items {
+  display: flex;
+  gap: 22px;
+  flex: 1;
 }
-.search-box {
-  margin: 0 24px 16px;
+.topnav .nav-items a {
+  font-size: 13px;
+  color: var(--text);
+  opacity: 0.85;
+  padding: 8px 0;
   position: relative;
+  transition: opacity 0.2s;
 }
-.search-box input {
-  width: 100%;
-  padding: 8px 12px 8px 32px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
-  font-size: 13px;
-}
-.search-box input:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-.search-box::before {
-  content: "🔍";
+.topnav .nav-items a:hover { opacity: 1; }
+.topnav .nav-items a.active::after {
+  content: "";
   position: absolute;
-  left: 10px; top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  opacity: 0.5;
+  bottom: -1px;
+  left: 0; right: 0;
+  height: 2px;
+  background: var(--text);
+  border-radius: 1px;
 }
-.nav-section {
-  margin-bottom: 8px;
-}
-.nav-section-title {
-  padding: 8px 24px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.nav-item {
-  display: block;
-  padding: 8px 24px;
-  color: var(--text);
+.topnav .search-mini {
+  display: flex;
+  align-items: center;
+  background: var(--bg-soft);
+  border-radius: 8px;
+  padding: 4px 10px;
   font-size: 13px;
-  border-left: 3px solid transparent;
-  transition: all 0.15s;
+  color: var(--text-tertiary);
+  min-width: 180px;
+  cursor: text;
 }
-.nav-item:hover {
-  background: var(--bg-card);
-  border-left-color: var(--accent);
-}
-.nav-item.active {
-  background: var(--bg-card);
-  border-left-color: var(--accent);
-  color: var(--text-bright);
-}
-.nav-item .desc {
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-top: 2px;
+.topnav .search-mini input {
+  border: none; background: transparent; outline: none;
+  font-size: 13px; flex: 1; color: var(--text);
+  font-family: inherit;
 }
 
-/* Main content */
+/* Layout */
+.layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
+.sidebar {
+  position: sticky; top: 48px;
+  height: calc(100vh - 48px); overflow-y: auto;
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border);
+  padding: 32px 0;
+}
+.sidebar-section { margin-bottom: 24px; }
+.sidebar-title {
+  padding: 0 22px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+.sidebar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 22px;
+  font-size: 14px;
+  color: var(--text);
+  transition: background 0.15s, color 0.15s;
+  border-left: 2px solid transparent;
+  margin: 1px 0;
+}
+.sidebar-item:hover { background: var(--bg-soft); }
+.sidebar-item.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: 500;
+}
+.sidebar-item .ico { font-size: 16px; }
+
+/* Main */
 .main {
-  padding: 40px 56px;
+  padding: 64px 80px 120px;
   max-width: 980px;
   margin: 0 auto;
   width: 100%;
 }
-.content h1 {
-  color: var(--text-bright);
-  font-size: 32px;
-  margin: 0 0 8px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
+
+/* Hero (homepage) */
+.hero {
+  text-align: center;
+  padding: 80px 0 64px;
+  margin-bottom: 64px;
 }
-.content > blockquote {
-  border-left: 4px solid var(--accent);
-  padding: 8px 16px;
-  margin: 16px 0 24px;
-  background: var(--bg-elevated);
-  border-radius: 0 6px 6px 0;
-  color: var(--text-dim);
+.hero .eyebrow {
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
 }
-.content h2 {
-  color: var(--text-bright);
-  font-size: 24px;
-  margin: 40px 0 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-}
-.content h3 {
-  color: var(--text-bright);
-  font-size: 18px;
-  margin: 28px 0 12px;
-}
-.content h4 {
+.hero h1 {
+  font-size: 72px;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  font-weight: 600;
   color: var(--text);
+  margin-bottom: 24px;
+}
+.hero .lede {
+  font-size: 24px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  font-weight: 400;
+  max-width: 720px;
+  margin: 0 auto 32px;
+  letter-spacing: -0.01em;
+}
+.hero .cta-row {
+  display: inline-flex;
+  gap: 16px;
+  align-items: center;
+}
+.btn {
+  display: inline-block;
+  padding: 12px 22px;
+  border-radius: 980px;
   font-size: 15px;
-  margin: 20px 0 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
 }
-.content p {
-  margin: 12px 0;
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
 }
-.content ul, .content ol {
-  padding-left: 24px;
+.btn-primary:hover {
+  background: var(--accent-hover);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
-.content li { margin: 4px 0; }
-.content code {
-  background: var(--code-bg);
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-family: "SF Mono", Menlo, monospace;
+.btn-secondary {
+  background: var(--bg-soft);
+  color: var(--text);
+}
+.btn-secondary:hover {
+  background: var(--bg-elevated);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Section */
+.section { margin: 80px 0; }
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.section-h2 {
+  font-size: 40px;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+  margin: 24px 0 16px;
+  color: var(--text);
+}
+.section-h3 {
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  margin: 32px 0 12px;
+  color: var(--text);
+}
+
+/* Card grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-strong);
+}
+.card .icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+  display: block;
+}
+.card .label {
   font-size: 13px;
   color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.card h4 {
+  font-size: 22px;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.card p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Feature row (Apple product page style) */
+.feature-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  margin: 80px 0;
+  padding: 64px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.feature-row.reverse { direction: rtl; }
+.feature-row.reverse > * { direction: ltr; }
+.feature-row .feature-text h3 {
+  font-size: 36px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+.feature-row .feature-text p {
+  font-size: 19px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+.feature-row .feature-visual {
+  background: var(--bg-soft);
+  border-radius: var(--radius-lg);
+  aspect-ratio: 1.2 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 120px;
+  border: 1px solid var(--border);
+}
+
+/* Pill / Tag */
+.pill {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--bg-soft);
+  border-radius: 980px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+.pill.accent {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Content (article body) */
+.content { font-size: 19px; line-height: 1.65; color: var(--text); }
+.content h1 {
+  font-size: 56px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+  margin: 0 0 16px;
+  color: var(--text);
+}
+.content > blockquote:first-of-type {
+  font-size: 22px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  border: none;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 0;
+  margin: 24px 0 40px;
+  font-weight: 400;
+  background: transparent;
+}
+.content h2 {
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  margin: 64px 0 16px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+  margin: 40px 0 12px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 19px;
+  font-weight: 600;
+  margin: 24px 0 8px;
+  color: var(--text);
+}
+.content p { margin: 16px 0; }
+.content ul, .content ol { padding-left: 24px; margin: 16px 0; }
+.content li { margin: 6px 0; line-height: 1.6; }
+.content strong { font-weight: 600; color: var(--text); }
+.content em { font-style: italic; }
+.content code {
+  background: var(--bg-code);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 0.9em;
+  color: #c7254e;
 }
 .content pre {
-  background: var(--code-bg);
-  padding: 16px;
-  border-radius: 6px;
+  background: var(--bg-soft);
+  padding: 20px 24px;
+  border-radius: var(--radius-sm);
   overflow-x: auto;
+  margin: 24px 0;
   border: 1px solid var(--border);
+  font-size: 14px;
+  line-height: 1.5;
 }
 .content pre code {
   background: none;
   padding: 0;
   color: var(--text);
+  font-size: inherit;
 }
 .content table {
-  border-collapse: collapse;
   width: 100%;
-  margin: 16px 0;
-  font-size: 13px;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 15px;
 }
 .content th {
-  background: var(--bg-elevated);
   text-align: left;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  color: var(--text-bright);
+  padding: 12px 16px;
+  background: var(--bg-soft);
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 2px solid var(--border-strong);
 }
 .content td {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
 }
 .content blockquote {
-  border-left: 4px solid var(--border);
-  padding: 4px 16px;
-  margin: 16px 0;
-  color: var(--text-dim);
-  background: var(--bg-elevated);
-}
-.content hr {
-  border: 0;
-  border-top: 1px solid var(--border);
-  margin: 32px 0;
-}
-
-/* Cards for KB pages */
-.video-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px 20px;
-  margin: 16px 0;
-}
-.video-meta {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 8px;
-}
-.video-meta .author { color: var(--accent); font-weight: 500; }
-.video-meta a { color: var(--text-dim); }
-.video-meta a:hover { color: var(--accent); }
-.video-meta .badge {
-  background: var(--bg-elevated);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-}
-.video-meta .badge.high { background: #2d4a3a; color: var(--success); }
-.video-meta .badge.sub { background: #2d3a4a; color: var(--accent); }
-.video-insight {
-  background: var(--code-bg);
   border-left: 3px solid var(--accent);
-  padding: 12px 16px;
-  margin: 12px 0;
-  font-size: 13px;
-  white-space: pre-wrap;
-  border-radius: 0 6px 6px 0;
+  padding: 4px 20px;
+  margin: 24px 0;
+  color: var(--text-secondary);
+  background: var(--accent-soft);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
-details {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 16px;
-  margin: 12px 0;
+.content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
+.content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+.content a:hover { text-decoration-color: var(--accent); }
+
+/* In-page TOC (right side) */
+.with-toc {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 48px;
+  align-items: start;
 }
-details summary {
-  cursor: pointer;
-  color: var(--accent);
+.page-toc {
+  position: sticky;
+  top: 80px;
   font-size: 13px;
-}
-details[open] summary { margin-bottom: 12px; }
-details pre {
-  margin: 0;
-  font-size: 13px;
-  max-height: 400px;
+  max-height: calc(100vh - 100px);
   overflow-y: auto;
 }
+.page-toc .toc-title {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.page-toc a {
+  display: block;
+  padding: 5px 0;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  padding-left: 12px;
+  transition: all 0.15s;
+}
+.page-toc a:hover { color: var(--accent); }
+.page-toc a.active { color: var(--accent); border-left-color: var(--accent); }
+.page-toc .toc-h3 { padding-left: 24px; font-size: 12px; }
 
 /* Footer */
 .footer {
-  margin-top: 60px;
-  padding-top: 24px;
+  margin-top: 120px;
+  padding: 48px 0 32px;
   border-top: 1px solid var(--border);
-  color: var(--text-dim);
-  font-size: 12px;
   text-align: center;
+  font-size: 13px;
+  color: var(--text-tertiary);
+  line-height: 1.7;
+}
+
+/* Article header */
+.article-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+.article-meta { display: flex; gap: 12px; margin-bottom: 12px; font-size: 13px; color: var(--text-tertiary); }
+.article-meta .pill { font-size: 12px; padding: 3px 10px; }
+
+/* Video card (for KB pages) */
+.video-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin: 16px 0;
+  transition: all 0.2s;
+  border-left: 4px solid var(--accent);
+}
+.video-card:hover { box-shadow: var(--shadow-md); }
+.video-card h3 { font-size: 19px; line-height: 1.4; margin: 0 0 12px; }
+.video-card .meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--text-tertiary); margin-top: 12px; }
+.video-card .meta a { color: var(--text-secondary); }
+.video-card .meta a:hover { color: var(--accent); }
+.video-card .meta .pill.author { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.video-card .insight { 
+  background: var(--bg-soft); 
+  padding: 16px 20px; 
+  border-radius: var(--radius-sm); 
+  margin-top: 16px;
+  font-size: 14px;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  color: var(--text);
+  font-family: "SF Mono", "Menlo", monospace;
+}
+.video-card details { margin-top: 16px; }
+.video-card details summary {
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--accent);
+  padding: 8px 0;
+  user-select: none;
+}
+.video-card details pre {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 12px;
+  font-size: 13px;
 }
 
 /* Responsive */
-@media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; }
-  .sidebar { position: relative; height: auto; }
-  .main { padding: 24px; }
-}
-
-/* Mermaid-style simple diagrams */
-.diagram {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-  margin: 16px 0;
-  font-family: "SF Mono", Menlo, monospace;
-  font-size: 12px;
-  white-space: pre;
-  overflow-x: auto;
-  line-height: 1.5;
+@media (max-width: 1024px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .main { padding: 40px 24px 80px; }
+  .hero h1 { font-size: 48px; }
+  .feature-row { grid-template-columns: 1fr; gap: 32px; }
+  .feature-row.reverse { direction: ltr; }
+  .with-toc { grid-template-columns: 1fr; }
+  .page-toc { display: none; }
 }
 </style>
-
 </head>
 <body>
-<div class="app">
+
+<nav class="topnav">
+  <a href="index.html" class="brand">企业 AI 实战</a>
+  <div class="nav-items">
+    <a href="method.html">方法论</a>
+    <a href="top30.html">TOP 30</a>
+    <a href="sop-01.html">SOP</a>
+    <a href="kb-01.html">知识库</a>
+    <a href="auth-index.html">权威支撑</a>
+    <a href="glossary.html">词典</a>
+  </div>
+  <div class="search-mini">
+    <span>🔍</span>
+    <input type="text" id="search" placeholder="搜索…" />
+  </div>
+</nav>
+
+<div class="layout">
 <aside class="sidebar">
-<div class="brand">
-<h1>企业 AI 实战知识库</h1>
-<div class="sub">个人成长系统 v3.0</div>
+<div class="sidebar-section">
+<div class="sidebar-title">总览</div>
+<a class="sidebar-item" href="index.html"><span class="ico">🏠</span><span>知识体系</span></a>
 </div>
-<div class="search-box">
-<input type="text" id="search" placeholder="搜索本页内容..." />
+<div class="sidebar-section">
+<div class="sidebar-title">核心方法论</div>
+<a class="sidebar-item" href="method.html"><span class="ico">📐</span><span>方法论总纲</span></a>
+<a class="sidebar-item" href="top30.html"><span class="ico">⭐</span><span>TOP 30 精华</span></a>
+<a class="sidebar-item" href="tools.html"><span class="ico">🛠️</span><span>工具链</span></a>
+<a class="sidebar-item" href="lines.html"><span class="ico">🎙️</span><span>话术弹药</span></a>
+<a class="sidebar-item" href="pits.html"><span class="ico">⚠️</span><span>避坑清单</span></a>
 </div>
-<div class="nav-section">
-<div class="nav-section-title">总览</div>
-<a class="nav-item" href="index.html">🏠 知识体系<div class="desc">00-知识体系</div></a>
+<div class="sidebar-section">
+<div class="sidebar-title">可执行 SOP</div>
+<a class="sidebar-item" href="sop-01.html"><span class="ico">💰</span><span>接单成交</span></a>
+<a class="sidebar-item" href="sop-02.html"><span class="ico">📹</span><span>内容 IP</span></a>
+<a class="sidebar-item" href="sop-03.html"><span class="ico">🏗️</span><span>FDE 入企</span></a>
+<a class="sidebar-item" href="sop-04.html"><span class="ico">🤖</span><span>Agent 工具链</span></a>
+<a class="sidebar-item" href="sop-05.html"><span class="ico">🌊</span><span>行业深耕</span></a>
+<a class="sidebar-item" href="sop-06.html"><span class="ico">🧠</span><span>认知升级</span></a>
+<a class="sidebar-item" href="sop-07.html"><span class="ico">💵</span><span>报价签约</span></a>
 </div>
-<div class="nav-section">
-<div class="nav-section-title">核心方法论</div>
-<a class="nav-item" href="method.html">📐 方法论总纲<div class="desc">162 条原则</div></a>
-<a class="nav-item" href="tools.html">🛠️ 工具链<div class="desc">47 个要点</div></a>
-<a class="nav-item" href="lines.html">🎙️ 话术弹药<div class="desc">22 句金句</div></a>
-<a class="nav-item" href="pits.html">⚠️ 避坑清单<div class="desc">13 个错误</div></a>
+<div class="sidebar-section">
+<div class="sidebar-title">知识库 · 9 主题</div>
+<a class="sidebar-item" href="kb-01.html"><span class="ico">🎯</span><span>企业 AI 落地</span></a>
+<a class="sidebar-item" href="kb-02.html"><span class="ico">🤖</span><span>智能体 OpenClaw</span></a>
+<a class="sidebar-item" href="kb-03.html"><span class="ico">💻</span><span>AI 编程工具链</span></a>
+<a class="sidebar-item" href="kb-04.html"><span class="ico">💰</span><span>商业案例</span></a>
+<a class="sidebar-item active" href="kb-05.html"><span class="ico">🎨</span><span>AI 内容创作</span></a>
+<a class="sidebar-item" href="kb-06.html"><span class="ico">📣</span><span>自媒体获客</span></a>
+<a class="sidebar-item" href="kb-07.html"><span class="ico">🧰</span><span>效率工具</span></a>
+<a class="sidebar-item" href="kb-08.html"><span class="ico">🧠</span><span>AI 认知</span></a>
+<a class="sidebar-item" href="kb-09.html"><span class="ico">📦</span><span>内容资产</span></a>
 </div>
-<div class="nav-section">
-<div class="nav-section-title">可执行 SOP</div>
-<a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a>
-<a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a>
-<a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a>
-<a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a>
-<a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a>
-<a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a>
-<a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a>
+<div class="sidebar-section">
+<div class="sidebar-title">权威支撑</div>
+<a class="sidebar-item" href="auth-index.html"><span class="ico">📚</span><span>总览</span></a>
+<a class="sidebar-item" href="auth-a1.html"><span class="ico">🏛️</span><span>Anthropic FDE</span></a>
+<a class="sidebar-item" href="auth-a2.html"><span class="ico">🏛️</span><span>Anthropic Agent</span></a>
+<a class="sidebar-item" href="auth-a3.html"><span class="ico">🏛️</span><span>Anthropic Eval</span></a>
+<a class="sidebar-item" href="auth-e1.html"><span class="ico">⚙️</span><span>软件工程体系</span></a>
+<a class="sidebar-item" href="auth-e2.html"><span class="ico">⚙️</span><span>MLOps</span></a>
+<a class="sidebar-item" href="auth-e3.html"><span class="ico">⚙️</span><span>AI 治理</span></a>
+<a class="sidebar-item" href="auth-e4.html"><span class="ico">📊</span><span>失败率证据</span></a>
+<a class="sidebar-item" href="auth-e5.html"><span class="ico">⚙️</span><span>企业架构</span></a>
+<a class="sidebar-item" href="auth-e6.html"><span class="ico">🏛️</span><span>FDE 三原厂</span></a>
 </div>
-<div class="nav-section">
-<div class="nav-section-title">知识库 · 9 大主题</div>
-<a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a>
-<a class="nav-item" href="kb-02.html">🤖 智能体·OpenClaw</a>
-<a class="nav-item" href="kb-03.html">💻 AI 编程工具链</a>
-<a class="nav-item" href="kb-04.html">💰 商业案例·变现</a>
-<a class="nav-item active" href="kb-05.html">🎨 AI 内容创作</a>
-<a class="nav-item" href="kb-06.html">📣 自媒体·获客</a>
-<a class="nav-item" href="kb-07.html">🧰 效率工具·知识管理</a>
-<a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a>
-<a class="nav-item" href="kb-09.html">📦 自己的内容资产</a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">工具</div>
-<a class="nav-item" href="glossary.html">📖 专业大词典<div class="desc">50+ 术语</div></a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">权威支撑（新增）</div>
-<a class="nav-item" href="auth-index.html">📚 权威支撑总览<div class="desc">12 个来源</div></a>
-<a class="nav-item" href="auth-a1.html">A1 · Anthropic FDE 博客<div class="desc">一手权威</div></a>
-<a class="nav-item" href="auth-a2.html">A2 · Anthropic Agent 白皮书<div class="desc">Harness/护栏</div></a>
-<a class="nav-item" href="auth-a3.html">A3 · Anthropic Agent 评估<div class="desc">可验证标准</div></a>
-<a class="nav-item" href="auth-b1.html">B1 · LLM 应用生产化<div class="desc">Pete Hunt</div></a>
-<a class="nav-item" href="auth-b2.html">B2 · Agentic Systems<div class="desc">O'Reilly</div></a>
-<a class="nav-item" href="auth-b3.html">B3 · RAG in Action<div class="desc">知识库工程</div></a>
-<a class="nav-item" href="auth-b4.html">B4 · LLM Security<div class="desc">安全与合规</div></a>
-<a class="nav-item" href="auth-c1.html">C1 · 风险驱动架构<div class="desc">方法论</div></a>
-<a class="nav-item" href="auth-c2.html">C2 · 混沌工程<div class="desc">Netflix</div></a>
-<a class="nav-item" href="auth-c3.html">C3 · DDD 领域驱动<div class="desc">Eric Evans</div></a>
-<a class="nav-item" href="auth-d1.html">D1 · Google Agent<div class="desc">厂商框架</div></a>
-<a class="nav-item" href="auth-d2.html">D2 · AWS LLM 框架<div class="desc">厂商框架</div></a>
-<a class="nav-item" href="auth-d3.html">D3 · OpenAI Agent<div class="desc">厂商框架</div></a>
+<div class="sidebar-section">
+<div class="sidebar-title">工具</div>
+<a class="sidebar-item" href="glossary.html"><span class="ico">📖</span><span>专业大词典</span></a>
 </div>
 </aside>
 <main class="main">
-<div class="content">
-<h1 id="02-05-ai">02-05 · AI内容创作</h1>
+<div class="content"><div class="article-header"><div class="article-meta"><span class="pill accent">📂 9 大主题 · 5/9</span></div></div><h1 id="02-05-ai">02-05 · AI内容创作</h1>
 <blockquote>
 <p>用 AI 做口播脚本、剪辑、封面、字幕、选题</p>
 </blockquote>
 <p><strong>统计</strong>：41 条视频 · 0 个子主题</p>
 <hr />
 <h2 id="_1">其他</h2>
-<div class="video-card">
-<h3>0基础，带你做出你人生第一个AI视频！ 本作品在 TapNow 制作！#tapnow #tapnow创作者成长计划 #AI视频教程 #aigc #抖音创作者大会</h3>
-
+<h3 id="0ai-tapnow-tapnow-tapnow-ai-aigc">0基础，带你做出你人生第一个AI视频！ 本作品在 TapNow 制作！#tapnow #tapnow创作者成长计划 #AI视频教程 #aigc #抖音创作者大会</h3>
 <p><strong>作者</strong>：Ksr桑 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7676216498687462706">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】AI视频制作没有技术壁垒，真正稀缺的是导演思维和审美判断，别为“10分钟能学会的操作”付费买课。
@@ -552,10 +806,8 @@ OK 然后接下来要生视频
 这...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI视频修复到4K高清教程，4个场景 20秒看懂！ 很多朋友问题如何把AI生成的720p的视频变成4k高清，并且不希望有AI味儿。想要AI修复没有AI味，专业的工具就是Topaz，我是在本地跑的，一些云端平台的底层模型也…</h3>
 
+<h3 id="ai4k4-20-ai720p4kaiaiaitopaz">AI视频修复到4K高清教程，4个场景 20秒看懂！ 很多朋友问题如何把AI生成的720p的视频变成4k高清，并且不希望有AI味儿。想要AI修复没有AI味，专业的工具就是Topaz，我是在本地跑的，一些云端平台的底层模型也…</h3>
 <p><strong>作者</strong>：黄白 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7614112937905469632">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：AI视频修复到4K高清教程，4个场景 20秒看懂！ 很多朋友问题如何把AI生成的720p的视频变成4k高清，并且不希望有AI味儿。想要AI修复没有AI味，专业的工具就是Topaz，我是在本地跑的，一些云端平台的底层模型也都是这个。 其中提供了多个模型可以选择： 然后按照我视频的配置导出。 #AI教程 #AIGC #AI视频 #Seedance #AI工具</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -583,10 +835,8 @@ OK 然后接下来要生视频
 導出就可以了
 
 </details>
-</div>
-<div class="video-card">
-<h3>一次安装，反复使用的4K高清修复Skill 最近给JIMENG AI做了一个「4K高清修复」使用技能。 它比较方便的地方是：只需要安装一次，以后处理图片时直接调用，不用每次重新写提示词。 安装方法： 把4K高清修复 Sk…</h3>
 
+<h3 id="4kskill-jimeng-ai4k-4k-sk">一次安装，反复使用的4K高清修复Skill 最近给JIMENG AI做了一个「4K高清修复」使用技能。 它比较方便的地方是：只需要安装一次，以后处理图片时直接调用，不用每次重新写提示词。 安装方法： 把4K高清修复 Sk…</h3>
 <p><strong>作者</strong>：爆蛋BD · <strong>链接</strong>：<a href="https://www.douyin.com/video/7656373957114088302">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：一次安装，反复使用的4K高清修复Skill 最近给JIMENG AI做了一个「4K高清修复」使用技能。 它比较方便的地方是：只需要安装一次，以后处理图片时直接调用，不用每次重新写提示词。 安装方法： 把4K高清修复 Skill 的 MD 文档直接拖进去 切换到 Agent 模式  输入“帮我安装这个【使用技能】”  出现系统提示后，点击「添加技能」 之后需要修复图片时： 上传图片，在 Agent 模式中打开「使用技能」，选择【4K高清修复】，按下回车即可。 视频开头放了原图与修复后的对比，可以重点看看人物面部、服装纹理和毛发细节的变化。 #AI修图 #4K高清修复  #AI工具 #图片高清修复 #一站式AI创作工作台</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -638,19 +888,14 @@ OK 然后接下来要生视频
 我會把Scale分享給你
 
 </details>
-</div>
-<div class="video-card">
-<h3>故事板怎么用才不翻车？一条视频把实操细节全讲清楚！ 故事板最近大火，但很多人一用就翻车：单张图还行，连成视频就人物变、场景变、镜头关系也乱。 这期一帆老师不只讲故事板，而是把AI短片稳定成片的流程讲清楚：先拆镜头，再控人…</h3>
 
+<h3 id="ai">故事板怎么用才不翻车？一条视频把实操细节全讲清楚！ 故事板最近大火，但很多人一用就翻车：单张图还行，连成视频就人物变、场景变、镜头关系也乱。 这期一帆老师不只讲故事板，而是把AI短片稳定成片的流程讲清楚：先拆镜头，再控人…</h3>
 <p><strong>作者</strong>：李一帆 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7651618528713871355">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：故事板怎么用才不翻车？一条视频把实操细节全讲清楚！ 故事板最近大火，但很多人一用就翻车：单张图还行，连成视频就人物变、场景变、镜头关系也乱。 这期一帆老师不只讲故事板，而是把AI短片稳定成片的流程讲清楚：先拆镜头，再控人物和场景，最后用导演台把空间关系摆明白。 别再靠反复抽卡碰运气了。想让AI视频像一条完整短片，先学会像导演一样控镜头！ #AI视频  #ai新星计划 #AI创作浪潮计划 #故事板 #AI短剧</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>8张照片➕AI能做出什么样的宣传短片？#AI #AI制作 #宣传片 #蓝莓 #AI教程</h3>
-
+<h3 id="8aiai-ai-ai">8张照片➕AI能做出什么样的宣传短片？#AI #AI制作 #宣传片 #蓝莓 #AI教程</h3>
 <p><strong>作者</strong>：王康『优视文化』 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650089825206291747">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用少量实拍照片+AI生成关键帧，就能低成本做出一条丝滑的穿越机风格宣传片。
@@ -693,10 +938,8 @@ OK 然后接下来要生视频
 .关软康走进AI的冲突世界.
 
 </details>
-</div>
-<div class="video-card">
-<h3>水墨动作动画实操教程来了！ 复刻Latte工作流 #gptimage2 #image2 #seedance2 #ai动画 #即梦ai</h3>
 
+<h3 id="latte-gptimage2-image2-seedance2-ai-ai">水墨动作动画实操教程来了！ 复刻Latte工作流 #gptimage2 #image2 #seedance2 #ai动画 #即梦ai</h3>
 <p><strong>作者</strong>：AIGC设计师 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644018121854061866">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：水墨动作动画实操教程来了！ 复刻Latte工作流 #gptimage2  #image2  #seedance2 #ai动画 #即梦ai</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -757,10 +1000,8 @@ chat GPT image2和極夢Cdance 2.0
 提升末級邊緣和非白質感
 
 </details>
-</div>
-<div class="video-card">
-<h3>seedance不擅长的科普动画 我花720个小时攻克了 流程标准化并开源了代码！不是api也不烧token 一句话接入龙虾生成AE质感的动画视频 向全世界介绍vibe-motion～ #AI新星计划 #vibeMoti…</h3>
 
+<h3 id="seedance-720-apitoken-ae-vibe-motion-ai-vibemoti">seedance不擅长的科普动画 我花720个小时攻克了 流程标准化并开源了代码！不是api也不烧token 一句话接入龙虾生成AE质感的动画视频 向全世界介绍vibe-motion～ #AI新星计划 #vibeMoti…</h3>
 <p><strong>作者</strong>：浙大猫学长 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7625546413195283721">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：seedance不擅长的科普动画 我花720个小时攻克了 流程标准化并开源了代码！不是api也不烧token 一句话接入龙虾生成AE质感的动画视频 向全世界介绍vibe-motion～ #AI新星计划 #vibeMotion #vibeAnimation #minimax #claudecode</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -891,10 +1132,8 @@ M2.7就会阅读项目结构
 我们下期再见
 
 </details>
-</div>
-<div class="video-card">
-<h3>再见了AI抽卡，搞懂AI生图的底层逻辑 为什么连科幻大片都能生成的AI，画好简单的生活场景会这么难？ 如果你也被这个问题困惑了好久。 那么恭喜你，这条视频将彻底拆解 AI 出图的底层逻辑。 搞懂提示词污染、AI视觉代偿机…</h3>
 
+<h3 id="aiai-ai-ai-ai">再见了AI抽卡，搞懂AI生图的底层逻辑 为什么连科幻大片都能生成的AI，画好简单的生活场景会这么难？ 如果你也被这个问题困惑了好久。 那么恭喜你，这条视频将彻底拆解 AI 出图的底层逻辑。 搞懂提示词污染、AI视觉代偿机…</h3>
 <p><strong>作者</strong>：大师的AI小灶 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7629235002428968232">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：再见了AI抽卡，搞懂AI生图的底层逻辑 为什么连科幻大片都能生成的AI，画好简单的生活场景会这么难？<br />
 如果你也被这个问题困惑了好久。<br />
@@ -1047,10 +1286,8 @@ AI就不得不分配更多的注意力
 倾斜给宇航员的面罩和武...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>｜第97期｜一条视频学会Seko无限画布+自动工作流 顶配模型+无限画布+自动生成工作流能否从原点重塑Ai视频的创作体验 #seko ##sekoai #Seko无限画布 #青年创作者成长计划 #挑战用ai做100件事</h3>
 
+<h3 id="97seko-ai-seko-sekoai-seko-ai100">｜第97期｜一条视频学会Seko无限画布+自动工作流 顶配模型+无限画布+自动生成工作流能否从原点重塑Ai视频的创作体验 #seko ##sekoai #Seko无限画布 #青年创作者成长计划 #挑战用ai做100件事</h3>
 <p><strong>作者</strong>：Bob同学 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7651253650899209499">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：｜第97期｜一条视频学会Seko无限画布+自动工作流 顶配模型+无限画布+自动生成工作流能否从原点重塑Ai视频的创作体验</p>
 <h1 id="seko-sekoai-seko-ai100">seko ##sekoai #Seko无限画布 #青年创作者成长计划 #挑战用ai做100件事</h1>
@@ -1143,10 +1380,8 @@ C-32.0低至4.8折
 好了本期视频就...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>又学新招，延展之前的航拍思路 同样是一张图一条线一段提示词。别问我为什么人脸都长得差不多，因为我懒啊！测试玩玩就好，别较真。#即梦ai</h3>
 
+<h3 id="ai_1">又学新招，延展之前的航拍思路 同样是一张图一条线一段提示词。别问我为什么人脸都长得差不多，因为我懒啊！测试玩玩就好，别较真。#即梦ai</h3>
 <p><strong>作者</strong>：天赐teddy · <strong>链接</strong>：<a href="https://www.douyin.com/video/7647488005540113019">抖音</a> · <strong>价值评分</strong>：2</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -1160,10 +1395,8 @@ Hello, my name is Maria, I came from Brazil
 Hello, my name is Lee Seo-yoon, I came from Korea
 
 </details>
-</div>
-<div class="video-card">
-<h3>为什么我不喜欢露脸拍摄？ #科技 #数字人 #AI #ai新星计划</h3>
 
+<h3 id="ai-ai">为什么我不喜欢露脸拍摄？ #科技 #数字人 #AI #ai新星计划</h3>
 <p><strong>作者</strong>：玄离199 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643461138021371142">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】不想露脸拍口播？用LibLib数字人，一张图+文案就能生成自然口播视频，还能换装、做特效。
@@ -1245,10 +1478,8 @@ C-Dance2.0在内的顶级视频模型
 我们下期再见吧
 
 </details>
-</div>
-<div class="video-card">
-<h3>当设计师学会了做菜...... #做菜 #设计师 #设计师日常 #aigc #image2</h3>
 
+<h3 id="aigc-image2">当设计师学会了做菜...... #做菜 #设计师 #设计师日常 #aigc #image2</h3>
 <p><strong>作者</strong>：设计师任亮 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644043897760517386">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】设计师用AI工具（image2）把个人菜品照片快速变成预制菜包装和详情页，零成本搞定视觉设计。
@@ -1297,10 +1528,8 @@ AI生成的卖点文字容易“清汤寡水”，视觉可用，但关键营销
 这个视觉输出你们觉得怎么样
 
 </details>
-</div>
-<div class="video-card">
-<h3>3招炸裂技巧，教会你用AI做PPT 技巧都整理成文档了！【点赞+关注】即可获得！ #PPT #豆包电脑版 #ai新星计划 #AI生图 #豆包ai</h3>
 
+<h3 id="3aippt-ppt-ai-ai-ai">3招炸裂技巧，教会你用AI做PPT 技巧都整理成文档了！【点赞+关注】即可获得！ #PPT #豆包电脑版 #ai新星计划 #AI生图 #豆包ai</h3>
 <p><strong>作者</strong>：数字游牧人Samuel · <strong>链接</strong>：<a href="https://www.douyin.com/video/7620742529088081162">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：3招炸裂技巧，教会你用AI做PPT 技巧都整理成文档了！【点赞+关注】即可获得！</p>
 <h1 id="ppt-ai-ai-ai">PPT #豆包电脑版 #ai新星计划 #AI生图 #豆包ai</h1>
@@ -1415,28 +1644,20 @@ AI時代
 而不是拼手藝的時代
 
 </details>
-</div>
-<div class="video-card">
-<h3>行船入夜｜给阿嬷的情书 “行船入夜，恰江上升明月，似与你并肩共赏，江河万里心中念你，便不觉遥远。” 《写个阿嬷的情书》中有很多写信的场景，直白粗粝的心意借由先生的手就染上了时间与文化的温柔。这一小段在电影院看到的时候不由…</h3>
 
+<h3 id="_2">行船入夜｜给阿嬷的情书 “行船入夜，恰江上升明月，似与你并肩共赏，江河万里心中念你，便不觉遥远。” 《写个阿嬷的情书》中有很多写信的场景，直白粗粝的心意借由先生的手就染上了时间与文化的温柔。这一小段在电影院看到的时候不由…</h3>
 <p><strong>作者</strong>：思花 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7636775847630944100">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：行船入夜｜给阿嬷的情书 “行船入夜，恰江上升明月，似与你并肩共赏，江河万里心中念你，便不觉遥远。” 《写个阿嬷的情书》中有很多写信的场景，直白粗粝的心意借由先生的手就染上了时间与文化的温柔。这一小段在电影院看到的时候不由地想起张九龄的“海上升明月，天涯共此时。情人怨遥月，竟夕起相思。”说起相思，里面还有王维写给李龟年的《江上赠李龟年》“红豆生南国，春来发几枝？愿君多采撷，此物最相思。”如同毕业后才意识到语文之美一样，剧情在日常角落里埋着许多草蛇灰线，只待后续伏笔一一收回，人早已是泣咽一回又一回。 在叙事上写信是电影的神来之笔，每一小段故事的情绪都浓缩在那一封封信中，折在信封里，装在盒子中，枕在枕头下，日思夜想。“行船入夜，恰江上升明月，似与你并肩…”据说评判一篇文章，一个电影的好坏有这么一个角度：“看它能否在你的脑海中引发的迷失的密度，那些能立刻吸引人的思想、词语却无法驻足的地方的密度。文章中这样的地方越多，就越严肃，这样的地方越少，就越平庸。”我就是这么迷失在其中不知多少回。这并非是以“精彩的故事”作为目的讲述的，而是一种进入，进入了某段人生，在其中流连。虽然坐在位置上，但我的思绪早已进入荧幕当中，与角色一起在其中幸福或落泪，但归根结底是坚韧地生活。我非旁观者，我与故事角色与历史的现在的未来的无数人一起都经历或将经历。《春江花月夜》开篇就写到“春江潮水连海平，海上明月共潮生。” 我想木生是在一个月明星亮的晚上，想着盼望着。“行船入夜，恰江上升明月…”星河也被他折进文字当中，在夜夜相思中打开，望向同一片星空。 ——— 非广，推荐观影。 #给阿嬷的情书电影 #艺术 #随笔#文字</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>字节出品的AI语音怪兽 Seed Audio 效果太惊艳了！字节出品的AI语音怪兽 豆包Seed Audio 1.0震撼登场 #AI音乐 #AI语音 #配音 #小旭音乐</h3>
-
+<h3 id="ai-seed-audio-ai-seed-audio-10-ai-ai">字节出品的AI语音怪兽 Seed Audio 效果太惊艳了！字节出品的AI语音怪兽 豆包Seed Audio 1.0震撼登场 #AI音乐 #AI语音 #配音 #小旭音乐</h3>
 <p><strong>作者</strong>：小旭 AI Studio · <strong>链接</strong>：<a href="https://www.douyin.com/video/7655285594696789483">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：字节出品的AI语音怪兽 Seed Audio 效果太惊艳了！字节出品的AI语音怪兽 豆包Seed Audio 1.0震撼登场  #AI音乐 #AI语音 #配音 #小旭音乐</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>Boogu-Image开源，效果真的炸裂！2秒出图还免费！ ComfyUI Boogu-Image模型测试，完整教学，新模型用起来#ComfyUI #AI绘图 #科技 #AI #文生图</h3>
-
+<h3 id="boogu-image2-comfyui-boogu-imagecomfyui-ai-ai">Boogu-Image开源，效果真的炸裂！2秒出图还免费！ ComfyUI Boogu-Image模型测试，完整教学，新模型用起来#ComfyUI #AI绘图 #科技 #AI #文生图</h3>
 <p><strong>作者</strong>：啦啦啦的小黄瓜 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7654090701679938867">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -1492,10 +1713,8 @@ Boogu-Image开源模型，2秒出图、支持中文文字生成、本地免费�
 好吧 整体的画面质量的是没有太大的问题 包括人物的手和脚都没有太大的问题啊 我们再来换一些其他的提示词哈 我们...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>简单三步，就能搞定一套动态表情包【附提示词】 首先，我们先生成一套静态表情包。 上传一张ip图片，让生图工具帮我生成静态表情包 第二步，把表情包转成动态效果 用视频工具生成 第三步，把这组表情包进行拆分 我们先打开剪辑工…</h3>
 
+<h3 id="ip">简单三步，就能搞定一套动态表情包【附提示词】 首先，我们先生成一套静态表情包。 上传一张ip图片，让生图工具帮我生成静态表情包 第二步，把表情包转成动态效果 用视频工具生成 第三步，把这组表情包进行拆分 我们先打开剪辑工…</h3>
 <p><strong>作者</strong>：贝琳琳_AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7645652320428799461">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：简单三步，就能搞定一套动态表情包【附提示词】 首先，我们先生成一套静态表情包。 上传一张ip图片，让生图工具帮我生成静态表情包 第二步，把表情包转成动态效果 用视频工具生成 第三步，把这组表情包进行拆分 我们先打开剪辑工具，把画布比例改成1:1。把你想要的单个表情放到画面正中间，然后直接导出成gif格式 这样一个动态表情包就完成了。  #表情包 #ai表情包 #设计干货 #ai提示词 #排版</p>
 <blockquote>
@@ -1529,13 +1748,11 @@ Boogu-Image开源模型，2秒出图、支持中文文字生成、本地免费�
 大家快去试试吧
 
 </details>
-</div>
-<div class="video-card">
-<h3>木偶动画《琴中魄》第二部分6-10集合集|葛巾+鸲鹆+造畜篇 第二部分一共十分钟可以一起看啦！ #AI创作浪潮计划 #AI动画新势力 #未来导演扶持计划 #聊斋 #木偶动画</h3>
 
+<h3 id="6-10-ai-ai">木偶动画《琴中魄》第二部分6-10集合集|葛巾+鸲鹆+造畜篇 第二部分一共十分钟可以一起看啦！ #AI创作浪潮计划 #AI动画新势力 #未来导演扶持计划 #聊斋 #木偶动画</h3>
 <p><strong>作者</strong>：拂届 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7645207400097549620">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：木偶动画《琴中魄》第二部分6-10集合集|葛巾+鸲鹆+造畜篇 第二部分一共十分钟可以一起看啦！</p>
-<h1 id="ai-ai">AI创作浪潮计划 #AI动画新势力 #未来导演扶持计划 #聊斋 #木偶动画</h1>
+<h1 id="ai-ai_1">AI创作浪潮计划 #AI动画新势力 #未来导演扶持计划 #聊斋 #木偶动画</h1>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】这条视频是用AI木偶动画讲聊斋故事，核心价值在于展示AI动画创作的可能性，而非提供实操干货。
 
@@ -1709,10 +1926,8 @@ Boogu-Image开源模型，2秒出图、支持中文文字生成、本地免费�
 ...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>【自制动画】聊斋系列之《公孙九娘·问骨》上篇 最是薄情读书人…吗？#AI创作浪潮计划 #未来导演扶持计划 #老动画的魅力 #上美影 #聊斋</h3>
 
+<h3 id="ai_2">【自制动画】聊斋系列之《公孙九娘·问骨》上篇 最是薄情读书人…吗？#AI创作浪潮计划 #未来导演扶持计划 #老动画的魅力 #上美影 #聊斋</h3>
 <p><strong>作者</strong>：画心月狐 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642687166975447360">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用“告官+写状子”的合法方式复仇，比直接杀人更解气也更安全。
@@ -1776,19 +1991,14 @@ Boogu-Image开源模型，2秒出图、支持中文文字生成、本地免费�
 方案招学
 
 </details>
-</div>
-<div class="video-card">
-<h3>Chat gpt 我愛死你 指令放下面自己拿 做一張超吸睛的 3D pop-out social media portrait poster，畫面主體是 K-pop idol 形象，穿著 潮流穿搭，坐在一個 巨大的智慧型…</h3>
 
+<h3 id="chat-gpt-3d-pop-out-social-media-portrait-poster-k-pop-idol">Chat gpt 我愛死你 指令放下面自己拿 做一張超吸睛的 3D pop-out social media portrait poster，畫面主體是 K-pop idol 形象，穿著 潮流穿搭，坐在一個 巨大的智慧型…</h3>
 <p><strong>作者</strong>：原味小仙女 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639678958435346555">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：Chat gpt 我愛死你 指令放下面自己拿 做一張超吸睛的 3D pop-out social media portrait poster，畫面主體是 K-pop idol 形象，穿著 潮流穿搭，坐在一個 巨大的智慧型手機畫面裡，整體像社群平台個人頁面。 人物以 強烈透視構圖 從手機畫面中伸手「突破」出來，一隻手朝鏡頭延伸，腳也跨出畫面，營造 誇張景深與立體衝擊感。 手機介面是 ins風社群頁面，上方有帳號名稱、頭像、追蹤數、按鈕與貼文元素，但不必完全複製真實平台，做成 相似但原創的社群UI設計。 背景是一個 滿滿珍珠白色佈置的K-pop偶像房間，牆上貼滿人物照片與拍立得，空間中有 粉色氣球、亮晶晶水鑽碎片、透明玻璃碎裂特效、閃光粒子 漂浮四周。 整體色調以 珍珠白色、銀色 為主，帶有 韓系時尚、Y2K、idol aesthetic。 畫面需有 高級商業攝影質感、時尚雜誌封面感、電影級打光、細膩皮膚質感、清楚五官、超高解析度、超高細節。 使用 低角度廣角鏡頭，加強人物近大遠小的透視效果，讓整體畫面更有「衝出螢幕」的震撼感。 #AI生成 #完全美丽 #GPT</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>这是一个真人ai#婚纱 主题短片的制作思路分享视频。提示词我念得很慢，有用的可以直接拿去。这次我抛弃了九宫格，使用四宫格，充分调动ai创意能力，单图输出为主。复杂的提示词，豆包可以写～ #lovart #婚纱照</h3>
-
+<h3 id="ai-ai-lovart">这是一个真人ai#婚纱 主题短片的制作思路分享视频。提示词我念得很慢，有用的可以直接拿去。这次我抛弃了九宫格，使用四宫格，充分调动ai创意能力，单图输出为主。复杂的提示词，豆包可以写～ #lovart #婚纱照</h3>
 <p><strong>作者</strong>：北方Befun · <strong>链接</strong>：<a href="https://www.douyin.com/video/7616749478796732387">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用“四宫格+单图输出”替代九宫格，通过分步生成和局部精修，把一张婚纱照做成AI真人短视频。
@@ -1931,10 +2141,8 @@ OK 生成之后大概是这样
 然...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Vlog 低成本创意玩法让画面变有趣！ 一张几毛钱的绿纸，就能让普通vlog突然变得有意思。很多看起来复杂的画面，其实新手也能做到。#青年创作者成长计划 #创意vlog #视频剪辑 #绿幕 #电影感</h3>
 
+<h3 id="vlog-vlog-vlog">Vlog 低成本创意玩法让画面变有趣！ 一张几毛钱的绿纸，就能让普通vlog突然变得有意思。很多看起来复杂的画面，其实新手也能做到。#青年创作者成长计划 #创意vlog #视频剪辑 #绿幕 #电影感</h3>
 <p><strong>作者</strong>：添柴等水开 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639701902338439674">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用几毛钱绿纸+剪辑软件颜色抠图，低成本实现空间重合、丝滑转场等创意vlog效果。
@@ -1992,10 +2200,8 @@ vlog缺乏创意的时候
 可以点不按常理出牌的探索欲
 
 </details>
-</div>
-<div class="video-card">
-<h3>#ai 弥补了#异地恋 不能当面道歉的缺点（bushi） #内容由ai生成</h3>
 
+<h3 id="ai-bushi-ai">#ai 弥补了#异地恋 不能当面道歉的缺点（bushi） #内容由ai生成</h3>
 <p><strong>作者</strong>：sorry · <strong>链接</strong>：<a href="https://www.douyin.com/video/7673552072655170984">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>__NO_VALUE__
@@ -2009,10 +2215,8 @@ vlog缺乏创意的时候
 对不起宝贝
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI终于可以精准控制人物表情和情绪了！ #ai #ai视频 #AI短剧 #ai新星计划 #AI创作浪潮计划</h3>
 
+<h3 id="ai-ai-ai-ai-ai-ai">AI终于可以精准控制人物表情和情绪了！ #ai #ai视频 #AI短剧 #ai新星计划 #AI创作浪潮计划</h3>
 <p><strong>作者</strong>：程序员三千 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7660121685315652873">抖音</a></p>
 <p><strong>简介</strong>：AI终于可以精准控制人物表情和情绪了！</p>
 <h1 id="ai-ai-ai-ai-ai">ai  #ai视频  #AI短剧  #ai新星计划   #AI创作浪潮计划</h1>
@@ -2125,19 +2329,14 @@ AI需要自己拆的部分就越少
 你也可以轻松做出来
 
 </details>
-</div>
-<div class="video-card">
-<h3>这清晰度，确实微妙微翘了 #傲慢与偏见 #短片 #摄影</h3>
 
+<h3 id="_3">这清晰度，确实微妙微翘了 #傲慢与偏见 #短片 #摄影</h3>
 <p><strong>作者</strong>：纳吉nagy · <strong>链接</strong>：<a href="https://www.douyin.com/video/7660421361869633009">抖音</a></p>
 <p><strong>简介</strong>：这清晰度，确实微妙微翘了  #傲慢与偏见 #短片 #摄影</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>一个很牛的美食转场 #美食转场 #旅游转场 #转场</h3>
-
+<h3 id="_4">一个很牛的美食转场 #美食转场 #旅游转场 #转场</h3>
 <p><strong>作者</strong>：再给我喝一口奶茶 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7657424939548696182">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>__NO_VALUE__
@@ -2147,10 +2346,8 @@ AI需要自己拆的部分就越少
 Amy meme Amy meme Amy meme Amy meme Amy meme You sexy Amy meme You sexy Amy meme
 
 </details>
-</div>
-<div class="video-card">
-<h3>设计师私藏：7个好用的神仙出图提示词公式 有用得上的可以试一试哦！#AI #设计 #AI提示词 #AI修图#P图</h3>
 
+<h3 id="7-ai-ai-aip">设计师私藏：7个好用的神仙出图提示词公式 有用得上的可以试一试哦！#AI #设计 #AI提示词 #AI修图#P图</h3>
 <p><strong>作者</strong>：赛博鸭AIGC · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650818310648499492">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -2166,10 +2363,8 @@ Amy meme Amy meme Amy meme Amy meme Amy meme You sexy Amy meme You sexy Amy meme
 这个提示词可以帮你精修产品
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI可以实现建模了！ #风景园林 #景观岛 #AI建模 #建模 #AI</h3>
 
+<h3 id="ai-ai-ai">AI可以实现建模了！ #风景园林 #景观岛 #AI建模 #建模 #AI</h3>
 <p><strong>作者</strong>：景观岛 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650492128069422377">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -2192,10 +2387,8 @@ AI不能完全理解空间关系
 (You do these things)
 
 </details>
-</div>
-<div class="video-card">
-<h3>别被骗了！眼前的我根本不是真人 #数字人 #实用干货 #AI生成 #AI #AI工具</h3>
 
+<h3 id="ai-ai-ai_1">别被骗了！眼前的我根本不是真人 #数字人 #实用干货 #AI生成 #AI #AI工具</h3>
 <p><strong>作者</strong>：小D同学AI笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643759730040540462">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用一张照片+AI工具，5分钟就能生成口型、表情、动作全自动匹配的数字分身。
@@ -2246,10 +2439,8 @@ OK 这就是制作赛博数字人的全流程
 那我们下期再见
 
 </details>
-</div>
-<div class="video-card">
-<h3>免费开源的声音模型VoxCPM2，克隆、情绪、方言、口音全拿 #青年创作者成长计划 #ai #ai语音</h3>
 
+<h3 id="voxcpm2-ai-ai">免费开源的声音模型VoxCPM2，克隆、情绪、方言、口音全拿 #青年创作者成长计划 #ai #ai语音</h3>
 <p><strong>作者</strong>：鹤之Neo · <strong>链接</strong>：<a href="https://www.douyin.com/video/7648258362313125361">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】免费开源声音模型VoxCPM2，支持30种语言，能克隆声音、控制情绪方言，本地部署或在线体验均可。
@@ -2383,26 +2574,18 @@ OK 这就是制作赛博数字人的全流程
 记得一键三连
 
 </details>
-</div>
-<div class="video-card">
-<h3>如果看到另一个世界的自己，试试这些prompt吧 #aigc#ai新星计划#prompt</h3>
 
+<h3 id="prompt-aigcaiprompt">如果看到另一个世界的自己，试试这些prompt吧 #aigc#ai新星计划#prompt</h3>
 <p><strong>作者</strong>：Ak007设计师 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646335066646451814">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>不会真有人想玩吧.........#转场 #变装 #华盛铭重工 #工厂视频实拍 #对辊破碎机</h3>
-
+<h3 id="_5">不会真有人想玩吧.........#转场 #变装 #华盛铭重工 #工厂视频实拍 #对辊破碎机</h3>
 <p><strong>作者</strong>：辊式破碎首席官（华盛铭重工） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7645256525744770347">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>谷歌Gemini最新视频模型omni超强用法 #gemini #视频模型 #ai #chatgpt</h3>
-
+<h3 id="geminiomni-gemini-ai-chatgpt">谷歌Gemini最新视频模型omni超强用法 #gemini #视频模型 #ai #chatgpt</h3>
 <p><strong>作者</strong>：阿兰同学 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642998600162708788">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -2417,35 +2600,24 @@ OK 这就是制作赛博数字人的全流程
 5. 编辑原视频物体
 
 </details>
-</div>
-<div class="video-card">
-<h3>少年同欢语，白衣赴朝夕。 #医学生 #转场 #急诊 #十里桃花待嫁的年华</h3>
 
+<h3 id="_6">少年同欢语，白衣赴朝夕。 #医学生 #转场 #急诊 #十里桃花待嫁的年华</h3>
 <p><strong>作者</strong>：南华大学附属第二医院 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7641918000743959818">抖音</a></p>
 <p><strong>简介</strong>：少年同欢语，白衣赴朝夕。 #医学生  #转场  #急诊  #十里桃花待嫁的年华</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>当我企图驯服AI做视频 #AI创作浪潮计划 #AI翻车 #搞笑</h3>
-
+<h3 id="ai-ai-ai_2">当我企图驯服AI做视频 #AI创作浪潮计划 #AI翻车 #搞笑</h3>
 <p><strong>作者</strong>：刘幸运 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643740272026799386">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>游泳人的AI，这个真的可以！！！ChatGPT夯夯夯 #chatgpt #chatgptimage2 #ai</h3>
-
+<h3 id="aichatgpt-chatgpt-chatgptimage2-ai">游泳人的AI，这个真的可以！！！ChatGPT夯夯夯 #chatgpt #chatgptimage2 #ai</h3>
 <p><strong>作者</strong>：ᴘᴀɴɢ-ᴢʜᴀɴɢ · <strong>链接</strong>：<a href="https://www.douyin.com/video/7641560213808937317">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>阿里开源的AI全自动短视频剪辑工具 Pixelle-Video#ai #全自动剪辑 #科技 #ai视频生成 #科技下一站</h3>
-
+<h3 id="ai-pixelle-videoai-ai">阿里开源的AI全自动短视频剪辑工具 Pixelle-Video#ai #全自动剪辑 #科技 #ai视频生成 #科技下一站</h3>
 <p><strong>作者</strong>：羊仔不躺平 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640040801883491630">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -2475,10 +2647,8 @@ OK 这就是制作赛博数字人的全流程
 对想辟谅做AI短视频的人来说就很舍心
 
 </details>
-</div>
-<div class="video-card">
-<h3>一份怜爱，她坚持了二十多年！#早餐奶奶毛师花 #未来导演扶持计划 #AI创作浪潮计划 #内容由ai生成</h3>
 
+<h3 id="ai-ai_2">一份怜爱，她坚持了二十多年！#早餐奶奶毛师花 #未来导演扶持计划 #AI创作浪潮计划 #内容由ai生成</h3>
 <p><strong>作者</strong>：旧梦留声机 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640082170305090171">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用“亏本卖早餐”这一件小事，坚持二十多年，本质是“用最低成本满足孩子吃饱”的朴素善意，而非商业逻辑。
@@ -2563,10 +2733,8 @@ OK 这就是制作赛博数字人的全流程
 谢谢婆婆
 
 </details>
-</div>
-<div class="video-card">
-<h3>古法剪辑的这一路走得很不容易～ #马斯克 #ai视频 #黑色幽默 #FlovaAI</h3>
 
+<h3 id="ai-flovaai">古法剪辑的这一路走得很不容易～ #马斯克 #ai视频 #黑色幽默 #FlovaAI</h3>
 <p><strong>作者</strong>：剪辑师八条 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640056732978400564">抖音</a></p>
 <p><strong>简介</strong>：古法剪辑的这一路走得很不容易～ #马斯克 #ai视频  #黑色幽默  #FlovaAI</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -2743,10 +2911,8 @@ Flova属于是对你这种
 可以自己手戳Sca...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>学习电影的捷径，回归常识。 #经典电影 #电影学院 #编剧 #导演 #成城老板</h3>
 
+<h3 id="_7">学习电影的捷径，回归常识。 #经典电影 #电影学院 #编剧 #导演 #成城老板</h3>
 <p><strong>作者</strong>：成城老板 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633041041600408308">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】学电影叙事/编剧的捷径：忘掉电影技巧，回归生活常识和人的常识。
@@ -2865,97 +3031,83 @@ Flova属于是对你这种
 下面就說說第九區的劇作和敘事
 
 </details>
-</div>
-<div class="video-card">
-<h3>ai进步真的太快了……#gpt #gptimage #美工</h3>
 
+<h3 id="aigpt-gptimage">ai进步真的太快了……#gpt #gptimage #美工</h3>
 <p><strong>作者</strong>：阿文在努力 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7632318888491481595">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<hr />
-</div>
-</div>
+<hr /></div>
 <div class="footer">
-企业 AI 实战知识库 · 个人成长系统 v3.0 · 数据基于 514 条视频原文 + 110 方法簇 + 162 方法论<br>
+企业 AI 实战知识库 · 个人成长系统 v3.0<br>
+基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
 部署于 GitHub Pages · 2026-09-10
 </div>
 </main>
 </div>
 <script>
-// Search functionality
-const searchIndex = [];
-const PAGES = {};
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Build search index from current page content
-  const content = document.querySelector('.content');
-  if (content) {
-    const text = content.innerText.toLowerCase();
-    const title = document.querySelector('h1')?.innerText || '';
-    const headings = Array.from(document.querySelectorAll('h2, h3')).map(h => h.innerText);
-    searchIndex.push({
-      title, headings: headings.join(' '), text: text.substring(0, 5000)
-    });
-  }
-  
-  // Search input
-  const searchInput = document.getElementById('search');
-  if (searchInput) {
-    let timer;
-    searchInput.addEventListener('input', (e) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => doSearch(e.target.value), 200);
-    });
-  }
-  
-  // Highlight current page in nav
+  // Sidebar active state
   const path = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-item').forEach(el => {
+  document.querySelectorAll('.sidebar-item').forEach(el => {
     if (el.getAttribute('href') === path) el.classList.add('active');
   });
-});
-
-function doSearch(q) {
-  if (!q || q.length < 2) return;
-  // Basic in-page highlight (could be enhanced)
-  const content = document.querySelector('.content');
-  if (!content) return;
-  // remove old marks
-  content.querySelectorAll('mark.search-mark').forEach(m => {
-    const t = document.createTextNode(m.textContent);
-    m.parentNode.replaceChild(t, m);
+  document.querySelectorAll('.nav-items a').forEach(el => {
+    if (el.getAttribute('href') === path) el.classList.add('active');
   });
-  if (q.length < 2) return;
-  // walk text nodes
-  const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
-  const re = new RegExp(q.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&'), 'gi');
-  let count = 0;
-  while (walker.nextNode() && count < 30) {
-    const node = walker.currentNode;
-    if (node.parentNode.tagName === 'SCRIPT' || node.parentNode.tagName === 'STYLE') continue;
-    const text = node.nodeValue;
-    if (!re.test(text)) continue;
-    re.lastIndex = 0;
-    const frag = document.createDocumentFragment();
-    let last = 0;
-    let m;
-    while ((m = re.exec(text)) !== null) {
-      frag.appendChild(document.createTextNode(text.substring(last, m.index)));
-      const mark = document.createElement('mark');
-      mark.className = 'search-mark';
-      mark.style.background = '#ff9a4f';
-      mark.style.color = '#000';
-      mark.textContent = m[0];
-      frag.appendChild(mark);
-      last = m.index + m[0].length;
-      count++;
-      if (count > 30) break;
-    }
-    frag.appendChild(document.createTextNode(text.substring(last)));
-    node.parentNode.replaceChild(frag, node);
+  
+  // Search
+  const si = document.getElementById('search');
+  if (si) {
+    let t;
+    si.addEventListener('input', e => {
+      clearTimeout(t);
+      t = setTimeout(() => {
+        const q = e.target.value.toLowerCase();
+        const cards = document.querySelectorAll('.video-card, .card');
+        cards.forEach(c => {
+          c.style.display = c.innerText.toLowerCase().includes(q) || !q ? '' : 'none';
+        });
+        // For content pages
+        const content = document.querySelector('.content');
+        if (content) {
+          content.querySelectorAll('p, li, h2, h3').forEach(el => {
+            if (!q) { el.style.background = ''; return; }
+            el.style.background = el.innerText.toLowerCase().includes(q) ? 'rgba(255, 235, 59, 0.4)' : '';
+          });
+        }
+      }, 200);
+    });
   }
-}
+  
+  // Smooth scroll for TOC links
+  document.querySelectorAll('.page-toc a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+      }
+    });
+  });
+  
+  // Active TOC item on scroll
+  const tocLinks = document.querySelectorAll('.page-toc a');
+  if (tocLinks.length) {
+    const sections = Array.from(tocLinks).map(l => document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          tocLinks.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.page-toc a[href="#${e.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    sections.forEach(s => observer.observe(s));
+  }
+});
 </script>
 </body>
 </html>

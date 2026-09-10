@@ -3,398 +3,649 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>02-02 · 智能体·OpenClaw·Hermes · 企业 AI 实战知识库</title>
-<meta name="description" content="基于 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径，构建的 FDE/AI落地 实战知识库">
+<title>智能体·OpenClaw</title>
 <style>
 :root {
-  --bg: #0f1419;
-  --bg-elevated: #1a2028;
-  --bg-card: #232a35;
-  --border: #2d3540;
-  --text: #e6e6e6;
-  --text-dim: #9aa5b1;
-  --text-bright: #ffffff;
-  --accent: #4f9eff;
-  --accent-hover: #6bb0ff;
-  --warning: #ff9a4f;
-  --success: #4fdf9a;
-  --code-bg: #0a0e13;
-  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+  --bg: #fbfbfd;
+  --bg-elevated: #ffffff;
+  --bg-soft: #f5f5f7;
+  --bg-card: #ffffff;
+  --bg-code: #f5f5f7;
+  --text: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --text-tertiary: #86868b;
+  --accent: #0066cc;
+  --accent-hover: #0077ed;
+  --accent-soft: rgba(0, 102, 204, 0.08);
+  --border: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --radius: 18px;
+  --radius-sm: 10px;
+  --radius-lg: 24px;
 }
-* { box-sizing: border-box; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 html, body {
-  margin: 0; padding: 0;
-  font-family: -apple-system, "SF Pro Display", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.65;
-  font-size: 15px;
+  line-height: 1.5;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
-a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
+
+a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
 a:hover { color: var(--accent-hover); }
 
-/* Layout */
-.app {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  min-height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  background: var(--bg-elevated);
-  border-right: 1px solid var(--border);
-  padding: 24px 0;
+/* Top nav - Apple-style sticky blurred */
+.topnav {
   position: sticky;
   top: 0;
-  height: 100vh;
-  overflow-y: auto;
-}
-.brand {
-  padding: 0 24px 24px;
+  z-index: 100;
+  background: rgba(251, 251, 253, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--border);
-  margin-bottom: 16px;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
 }
-.brand h1 {
-  margin: 0;
-  font-size: 18px;
-  color: var(--text-bright);
+.topnav .brand {
+  font-size: 17px;
   font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.02em;
 }
-.brand .sub {
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 4px;
+.topnav .nav-items {
+  display: flex;
+  gap: 22px;
+  flex: 1;
 }
-.search-box {
-  margin: 0 24px 16px;
+.topnav .nav-items a {
+  font-size: 13px;
+  color: var(--text);
+  opacity: 0.85;
+  padding: 8px 0;
   position: relative;
+  transition: opacity 0.2s;
 }
-.search-box input {
-  width: 100%;
-  padding: 8px 12px 8px 32px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
-  font-size: 13px;
-}
-.search-box input:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-.search-box::before {
-  content: "🔍";
+.topnav .nav-items a:hover { opacity: 1; }
+.topnav .nav-items a.active::after {
+  content: "";
   position: absolute;
-  left: 10px; top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  opacity: 0.5;
+  bottom: -1px;
+  left: 0; right: 0;
+  height: 2px;
+  background: var(--text);
+  border-radius: 1px;
 }
-.nav-section {
-  margin-bottom: 8px;
-}
-.nav-section-title {
-  padding: 8px 24px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.nav-item {
-  display: block;
-  padding: 8px 24px;
-  color: var(--text);
+.topnav .search-mini {
+  display: flex;
+  align-items: center;
+  background: var(--bg-soft);
+  border-radius: 8px;
+  padding: 4px 10px;
   font-size: 13px;
-  border-left: 3px solid transparent;
-  transition: all 0.15s;
+  color: var(--text-tertiary);
+  min-width: 180px;
+  cursor: text;
 }
-.nav-item:hover {
-  background: var(--bg-card);
-  border-left-color: var(--accent);
-}
-.nav-item.active {
-  background: var(--bg-card);
-  border-left-color: var(--accent);
-  color: var(--text-bright);
-}
-.nav-item .desc {
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-top: 2px;
+.topnav .search-mini input {
+  border: none; background: transparent; outline: none;
+  font-size: 13px; flex: 1; color: var(--text);
+  font-family: inherit;
 }
 
-/* Main content */
+/* Layout */
+.layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
+.sidebar {
+  position: sticky; top: 48px;
+  height: calc(100vh - 48px); overflow-y: auto;
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border);
+  padding: 32px 0;
+}
+.sidebar-section { margin-bottom: 24px; }
+.sidebar-title {
+  padding: 0 22px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+.sidebar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 22px;
+  font-size: 14px;
+  color: var(--text);
+  transition: background 0.15s, color 0.15s;
+  border-left: 2px solid transparent;
+  margin: 1px 0;
+}
+.sidebar-item:hover { background: var(--bg-soft); }
+.sidebar-item.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: 500;
+}
+.sidebar-item .ico { font-size: 16px; }
+
+/* Main */
 .main {
-  padding: 40px 56px;
+  padding: 64px 80px 120px;
   max-width: 980px;
   margin: 0 auto;
   width: 100%;
 }
-.content h1 {
-  color: var(--text-bright);
-  font-size: 32px;
-  margin: 0 0 8px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
+
+/* Hero (homepage) */
+.hero {
+  text-align: center;
+  padding: 80px 0 64px;
+  margin-bottom: 64px;
 }
-.content > blockquote {
-  border-left: 4px solid var(--accent);
-  padding: 8px 16px;
-  margin: 16px 0 24px;
-  background: var(--bg-elevated);
-  border-radius: 0 6px 6px 0;
-  color: var(--text-dim);
+.hero .eyebrow {
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
 }
-.content h2 {
-  color: var(--text-bright);
-  font-size: 24px;
-  margin: 40px 0 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-}
-.content h3 {
-  color: var(--text-bright);
-  font-size: 18px;
-  margin: 28px 0 12px;
-}
-.content h4 {
+.hero h1 {
+  font-size: 72px;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  font-weight: 600;
   color: var(--text);
+  margin-bottom: 24px;
+}
+.hero .lede {
+  font-size: 24px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  font-weight: 400;
+  max-width: 720px;
+  margin: 0 auto 32px;
+  letter-spacing: -0.01em;
+}
+.hero .cta-row {
+  display: inline-flex;
+  gap: 16px;
+  align-items: center;
+}
+.btn {
+  display: inline-block;
+  padding: 12px 22px;
+  border-radius: 980px;
   font-size: 15px;
-  margin: 20px 0 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
 }
-.content p {
-  margin: 12px 0;
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
 }
-.content ul, .content ol {
-  padding-left: 24px;
+.btn-primary:hover {
+  background: var(--accent-hover);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
-.content li { margin: 4px 0; }
-.content code {
-  background: var(--code-bg);
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-family: "SF Mono", Menlo, monospace;
+.btn-secondary {
+  background: var(--bg-soft);
+  color: var(--text);
+}
+.btn-secondary:hover {
+  background: var(--bg-elevated);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Section */
+.section { margin: 80px 0; }
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.section-h2 {
+  font-size: 40px;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+  margin: 24px 0 16px;
+  color: var(--text);
+}
+.section-h3 {
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  margin: 32px 0 12px;
+  color: var(--text);
+}
+
+/* Card grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-strong);
+}
+.card .icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+  display: block;
+}
+.card .label {
   font-size: 13px;
   color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.card h4 {
+  font-size: 22px;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.card p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Feature row (Apple product page style) */
+.feature-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  margin: 80px 0;
+  padding: 64px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.feature-row.reverse { direction: rtl; }
+.feature-row.reverse > * { direction: ltr; }
+.feature-row .feature-text h3 {
+  font-size: 36px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+.feature-row .feature-text p {
+  font-size: 19px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+.feature-row .feature-visual {
+  background: var(--bg-soft);
+  border-radius: var(--radius-lg);
+  aspect-ratio: 1.2 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 120px;
+  border: 1px solid var(--border);
+}
+
+/* Pill / Tag */
+.pill {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--bg-soft);
+  border-radius: 980px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+.pill.accent {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Content (article body) */
+.content { font-size: 19px; line-height: 1.65; color: var(--text); }
+.content h1 {
+  font-size: 56px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+  margin: 0 0 16px;
+  color: var(--text);
+}
+.content > blockquote:first-of-type {
+  font-size: 22px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  border: none;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 0;
+  margin: 24px 0 40px;
+  font-weight: 400;
+  background: transparent;
+}
+.content h2 {
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  margin: 64px 0 16px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+  margin: 40px 0 12px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 19px;
+  font-weight: 600;
+  margin: 24px 0 8px;
+  color: var(--text);
+}
+.content p { margin: 16px 0; }
+.content ul, .content ol { padding-left: 24px; margin: 16px 0; }
+.content li { margin: 6px 0; line-height: 1.6; }
+.content strong { font-weight: 600; color: var(--text); }
+.content em { font-style: italic; }
+.content code {
+  background: var(--bg-code);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 0.9em;
+  color: #c7254e;
 }
 .content pre {
-  background: var(--code-bg);
-  padding: 16px;
-  border-radius: 6px;
+  background: var(--bg-soft);
+  padding: 20px 24px;
+  border-radius: var(--radius-sm);
   overflow-x: auto;
+  margin: 24px 0;
   border: 1px solid var(--border);
+  font-size: 14px;
+  line-height: 1.5;
 }
 .content pre code {
   background: none;
   padding: 0;
   color: var(--text);
+  font-size: inherit;
 }
 .content table {
-  border-collapse: collapse;
   width: 100%;
-  margin: 16px 0;
-  font-size: 13px;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 15px;
 }
 .content th {
-  background: var(--bg-elevated);
   text-align: left;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  color: var(--text-bright);
+  padding: 12px 16px;
+  background: var(--bg-soft);
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 2px solid var(--border-strong);
 }
 .content td {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
 }
 .content blockquote {
-  border-left: 4px solid var(--border);
-  padding: 4px 16px;
-  margin: 16px 0;
-  color: var(--text-dim);
-  background: var(--bg-elevated);
-}
-.content hr {
-  border: 0;
-  border-top: 1px solid var(--border);
-  margin: 32px 0;
-}
-
-/* Cards for KB pages */
-.video-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px 20px;
-  margin: 16px 0;
-}
-.video-meta {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 8px;
-}
-.video-meta .author { color: var(--accent); font-weight: 500; }
-.video-meta a { color: var(--text-dim); }
-.video-meta a:hover { color: var(--accent); }
-.video-meta .badge {
-  background: var(--bg-elevated);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-}
-.video-meta .badge.high { background: #2d4a3a; color: var(--success); }
-.video-meta .badge.sub { background: #2d3a4a; color: var(--accent); }
-.video-insight {
-  background: var(--code-bg);
   border-left: 3px solid var(--accent);
-  padding: 12px 16px;
-  margin: 12px 0;
-  font-size: 13px;
-  white-space: pre-wrap;
-  border-radius: 0 6px 6px 0;
+  padding: 4px 20px;
+  margin: 24px 0;
+  color: var(--text-secondary);
+  background: var(--accent-soft);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
-details {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 16px;
-  margin: 12px 0;
+.content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
+.content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+.content a:hover { text-decoration-color: var(--accent); }
+
+/* In-page TOC (right side) */
+.with-toc {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 48px;
+  align-items: start;
 }
-details summary {
-  cursor: pointer;
-  color: var(--accent);
+.page-toc {
+  position: sticky;
+  top: 80px;
   font-size: 13px;
-}
-details[open] summary { margin-bottom: 12px; }
-details pre {
-  margin: 0;
-  font-size: 13px;
-  max-height: 400px;
+  max-height: calc(100vh - 100px);
   overflow-y: auto;
 }
+.page-toc .toc-title {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.page-toc a {
+  display: block;
+  padding: 5px 0;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  padding-left: 12px;
+  transition: all 0.15s;
+}
+.page-toc a:hover { color: var(--accent); }
+.page-toc a.active { color: var(--accent); border-left-color: var(--accent); }
+.page-toc .toc-h3 { padding-left: 24px; font-size: 12px; }
 
 /* Footer */
 .footer {
-  margin-top: 60px;
-  padding-top: 24px;
+  margin-top: 120px;
+  padding: 48px 0 32px;
   border-top: 1px solid var(--border);
-  color: var(--text-dim);
-  font-size: 12px;
   text-align: center;
+  font-size: 13px;
+  color: var(--text-tertiary);
+  line-height: 1.7;
+}
+
+/* Article header */
+.article-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+.article-meta { display: flex; gap: 12px; margin-bottom: 12px; font-size: 13px; color: var(--text-tertiary); }
+.article-meta .pill { font-size: 12px; padding: 3px 10px; }
+
+/* Video card (for KB pages) */
+.video-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin: 16px 0;
+  transition: all 0.2s;
+  border-left: 4px solid var(--accent);
+}
+.video-card:hover { box-shadow: var(--shadow-md); }
+.video-card h3 { font-size: 19px; line-height: 1.4; margin: 0 0 12px; }
+.video-card .meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--text-tertiary); margin-top: 12px; }
+.video-card .meta a { color: var(--text-secondary); }
+.video-card .meta a:hover { color: var(--accent); }
+.video-card .meta .pill.author { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.video-card .insight { 
+  background: var(--bg-soft); 
+  padding: 16px 20px; 
+  border-radius: var(--radius-sm); 
+  margin-top: 16px;
+  font-size: 14px;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  color: var(--text);
+  font-family: "SF Mono", "Menlo", monospace;
+}
+.video-card details { margin-top: 16px; }
+.video-card details summary {
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--accent);
+  padding: 8px 0;
+  user-select: none;
+}
+.video-card details pre {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 12px;
+  font-size: 13px;
 }
 
 /* Responsive */
-@media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; }
-  .sidebar { position: relative; height: auto; }
-  .main { padding: 24px; }
-}
-
-/* Mermaid-style simple diagrams */
-.diagram {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-  margin: 16px 0;
-  font-family: "SF Mono", Menlo, monospace;
-  font-size: 12px;
-  white-space: pre;
-  overflow-x: auto;
-  line-height: 1.5;
+@media (max-width: 1024px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .main { padding: 40px 24px 80px; }
+  .hero h1 { font-size: 48px; }
+  .feature-row { grid-template-columns: 1fr; gap: 32px; }
+  .feature-row.reverse { direction: ltr; }
+  .with-toc { grid-template-columns: 1fr; }
+  .page-toc { display: none; }
 }
 </style>
-
 </head>
 <body>
-<div class="app">
+
+<nav class="topnav">
+  <a href="index.html" class="brand">企业 AI 实战</a>
+  <div class="nav-items">
+    <a href="method.html">方法论</a>
+    <a href="top30.html">TOP 30</a>
+    <a href="sop-01.html">SOP</a>
+    <a href="kb-01.html">知识库</a>
+    <a href="auth-index.html">权威支撑</a>
+    <a href="glossary.html">词典</a>
+  </div>
+  <div class="search-mini">
+    <span>🔍</span>
+    <input type="text" id="search" placeholder="搜索…" />
+  </div>
+</nav>
+
+<div class="layout">
 <aside class="sidebar">
-<div class="brand">
-<h1>企业 AI 实战知识库</h1>
-<div class="sub">个人成长系统 v3.0</div>
+<div class="sidebar-section">
+<div class="sidebar-title">总览</div>
+<a class="sidebar-item" href="index.html"><span class="ico">🏠</span><span>知识体系</span></a>
 </div>
-<div class="search-box">
-<input type="text" id="search" placeholder="搜索本页内容..." />
+<div class="sidebar-section">
+<div class="sidebar-title">核心方法论</div>
+<a class="sidebar-item" href="method.html"><span class="ico">📐</span><span>方法论总纲</span></a>
+<a class="sidebar-item" href="top30.html"><span class="ico">⭐</span><span>TOP 30 精华</span></a>
+<a class="sidebar-item" href="tools.html"><span class="ico">🛠️</span><span>工具链</span></a>
+<a class="sidebar-item" href="lines.html"><span class="ico">🎙️</span><span>话术弹药</span></a>
+<a class="sidebar-item" href="pits.html"><span class="ico">⚠️</span><span>避坑清单</span></a>
 </div>
-<div class="nav-section">
-<div class="nav-section-title">总览</div>
-<a class="nav-item" href="index.html">🏠 知识体系<div class="desc">00-知识体系</div></a>
+<div class="sidebar-section">
+<div class="sidebar-title">可执行 SOP</div>
+<a class="sidebar-item" href="sop-01.html"><span class="ico">💰</span><span>接单成交</span></a>
+<a class="sidebar-item" href="sop-02.html"><span class="ico">📹</span><span>内容 IP</span></a>
+<a class="sidebar-item" href="sop-03.html"><span class="ico">🏗️</span><span>FDE 入企</span></a>
+<a class="sidebar-item" href="sop-04.html"><span class="ico">🤖</span><span>Agent 工具链</span></a>
+<a class="sidebar-item" href="sop-05.html"><span class="ico">🌊</span><span>行业深耕</span></a>
+<a class="sidebar-item" href="sop-06.html"><span class="ico">🧠</span><span>认知升级</span></a>
+<a class="sidebar-item" href="sop-07.html"><span class="ico">💵</span><span>报价签约</span></a>
 </div>
-<div class="nav-section">
-<div class="nav-section-title">核心方法论</div>
-<a class="nav-item" href="method.html">📐 方法论总纲<div class="desc">162 条原则</div></a>
-<a class="nav-item" href="tools.html">🛠️ 工具链<div class="desc">47 个要点</div></a>
-<a class="nav-item" href="lines.html">🎙️ 话术弹药<div class="desc">22 句金句</div></a>
-<a class="nav-item" href="pits.html">⚠️ 避坑清单<div class="desc">13 个错误</div></a>
+<div class="sidebar-section">
+<div class="sidebar-title">知识库 · 9 主题</div>
+<a class="sidebar-item" href="kb-01.html"><span class="ico">🎯</span><span>企业 AI 落地</span></a>
+<a class="sidebar-item active" href="kb-02.html"><span class="ico">🤖</span><span>智能体 OpenClaw</span></a>
+<a class="sidebar-item" href="kb-03.html"><span class="ico">💻</span><span>AI 编程工具链</span></a>
+<a class="sidebar-item" href="kb-04.html"><span class="ico">💰</span><span>商业案例</span></a>
+<a class="sidebar-item" href="kb-05.html"><span class="ico">🎨</span><span>AI 内容创作</span></a>
+<a class="sidebar-item" href="kb-06.html"><span class="ico">📣</span><span>自媒体获客</span></a>
+<a class="sidebar-item" href="kb-07.html"><span class="ico">🧰</span><span>效率工具</span></a>
+<a class="sidebar-item" href="kb-08.html"><span class="ico">🧠</span><span>AI 认知</span></a>
+<a class="sidebar-item" href="kb-09.html"><span class="ico">📦</span><span>内容资产</span></a>
 </div>
-<div class="nav-section">
-<div class="nav-section-title">可执行 SOP</div>
-<a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a>
-<a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a>
-<a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a>
-<a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a>
-<a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a>
-<a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a>
-<a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a>
+<div class="sidebar-section">
+<div class="sidebar-title">权威支撑</div>
+<a class="sidebar-item" href="auth-index.html"><span class="ico">📚</span><span>总览</span></a>
+<a class="sidebar-item" href="auth-a1.html"><span class="ico">🏛️</span><span>Anthropic FDE</span></a>
+<a class="sidebar-item" href="auth-a2.html"><span class="ico">🏛️</span><span>Anthropic Agent</span></a>
+<a class="sidebar-item" href="auth-a3.html"><span class="ico">🏛️</span><span>Anthropic Eval</span></a>
+<a class="sidebar-item" href="auth-e1.html"><span class="ico">⚙️</span><span>软件工程体系</span></a>
+<a class="sidebar-item" href="auth-e2.html"><span class="ico">⚙️</span><span>MLOps</span></a>
+<a class="sidebar-item" href="auth-e3.html"><span class="ico">⚙️</span><span>AI 治理</span></a>
+<a class="sidebar-item" href="auth-e4.html"><span class="ico">📊</span><span>失败率证据</span></a>
+<a class="sidebar-item" href="auth-e5.html"><span class="ico">⚙️</span><span>企业架构</span></a>
+<a class="sidebar-item" href="auth-e6.html"><span class="ico">🏛️</span><span>FDE 三原厂</span></a>
 </div>
-<div class="nav-section">
-<div class="nav-section-title">知识库 · 9 大主题</div>
-<a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a>
-<a class="nav-item active" href="kb-02.html">🤖 智能体·OpenClaw</a>
-<a class="nav-item" href="kb-03.html">💻 AI 编程工具链</a>
-<a class="nav-item" href="kb-04.html">💰 商业案例·变现</a>
-<a class="nav-item" href="kb-05.html">🎨 AI 内容创作</a>
-<a class="nav-item" href="kb-06.html">📣 自媒体·获客</a>
-<a class="nav-item" href="kb-07.html">🧰 效率工具·知识管理</a>
-<a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a>
-<a class="nav-item" href="kb-09.html">📦 自己的内容资产</a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">工具</div>
-<a class="nav-item" href="glossary.html">📖 专业大词典<div class="desc">50+ 术语</div></a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">权威支撑（新增）</div>
-<a class="nav-item" href="auth-index.html">📚 权威支撑总览<div class="desc">12 个来源</div></a>
-<a class="nav-item" href="auth-a1.html">A1 · Anthropic FDE 博客<div class="desc">一手权威</div></a>
-<a class="nav-item" href="auth-a2.html">A2 · Anthropic Agent 白皮书<div class="desc">Harness/护栏</div></a>
-<a class="nav-item" href="auth-a3.html">A3 · Anthropic Agent 评估<div class="desc">可验证标准</div></a>
-<a class="nav-item" href="auth-b1.html">B1 · LLM 应用生产化<div class="desc">Pete Hunt</div></a>
-<a class="nav-item" href="auth-b2.html">B2 · Agentic Systems<div class="desc">O'Reilly</div></a>
-<a class="nav-item" href="auth-b3.html">B3 · RAG in Action<div class="desc">知识库工程</div></a>
-<a class="nav-item" href="auth-b4.html">B4 · LLM Security<div class="desc">安全与合规</div></a>
-<a class="nav-item" href="auth-c1.html">C1 · 风险驱动架构<div class="desc">方法论</div></a>
-<a class="nav-item" href="auth-c2.html">C2 · 混沌工程<div class="desc">Netflix</div></a>
-<a class="nav-item" href="auth-c3.html">C3 · DDD 领域驱动<div class="desc">Eric Evans</div></a>
-<a class="nav-item" href="auth-d1.html">D1 · Google Agent<div class="desc">厂商框架</div></a>
-<a class="nav-item" href="auth-d2.html">D2 · AWS LLM 框架<div class="desc">厂商框架</div></a>
-<a class="nav-item" href="auth-d3.html">D3 · OpenAI Agent<div class="desc">厂商框架</div></a>
+<div class="sidebar-section">
+<div class="sidebar-title">工具</div>
+<a class="sidebar-item" href="glossary.html"><span class="ico">📖</span><span>专业大词典</span></a>
 </div>
 </aside>
 <main class="main">
-<div class="content">
-<h1 id="02-02-openclawhermes">02-02 · 智能体·OpenClaw·Hermes</h1>
+<div class="content"><div class="article-header"><div class="article-meta"><span class="pill accent">📂 9 大主题 · 2/9</span></div></div><h1 id="02-02-openclawhermes">02-02 · 智能体·OpenClaw·Hermes</h1>
 <blockquote>
 <p>怎么把 Agent 跑起来：OpenClaw、Hermes、Skill、工作流编排</p>
 </blockquote>
 <p><strong>统计</strong>：115 条视频 · 0 个子主题</p>
 <hr />
 <h2 id="_1">其他</h2>
-<div class="video-card">
-<h3>还不会用AI做电商图的，直接转发给你的Agent 电商做图工作流架构开源，这条视频是讲给AI的，直接扔给Agent，他就能帮你搭出这条流水线。#电商 #AI #电商作图工具 #AI电商 #电商创业</h3>
-
+<h3 id="aiagent-aiagent-ai-ai">还不会用AI做电商图的，直接转发给你的Agent 电商做图工作流架构开源，这条视频是讲给AI的，直接扔给Agent，他就能帮你搭出这条流水线。#电商 #AI #电商作图工具 #AI电商 #电商创业</h3>
 <p><strong>作者</strong>：Ai江湖策 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7654799480692231451">抖音</a> · <strong>价值评分</strong>：3</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>我用座机实现了与AI对线，终于有个宣泄口！ 你有没有想过,家里吃灰的老座机其实可以改装成与Ai对线的对讲机?我用我家那台老座机做了一个可以和codex说话的对讲机。拿起电话就能直接下指令:"请把我最近的工作整理成清单,并…</h3>
-
+<h3 id="ai-aicodex">我用座机实现了与AI对线，终于有个宣泄口！ 你有没有想过,家里吃灰的老座机其实可以改装成与Ai对线的对讲机?我用我家那台老座机做了一个可以和codex说话的对讲机。拿起电话就能直接下指令:"请把我最近的工作整理成清单,并…</h3>
 <p><strong>作者</strong>：硅忆说 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7659254158733610303">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：我用座机实现了与AI对线，终于有个宣泄口！ 你有没有想过,家里吃灰的老座机其实可以改装成与Ai对线的对讲机?我用我家那台老座机做了一个可以和codex说话的对讲机。拿起电话就能直接下指令:"请把我最近的工作整理成清单,并发到我的邮箱里"——它就开始干活了。任务完成后,还会主动打电话通知"任务已完成"。<br />
 这不仅是座机改造的创意DIY项目,更是把传统电话接入AI系统的创意方案。不需要购买智能音箱,不需要复杂的系统,只需要一台老座机和一点创意就能实现语音输入和自动通知功能。#青年创作者成长计划 #VibeCoding大赏 #Ai新星计划 #codex #agent</p>
@@ -419,10 +670,8 @@ details pre {
 天呐到底是谁想出的这个主意简直就是鬼才
 
 </details>
-</div>
-<div class="video-card">
-<h3>让你的ai agent能够使用浏览器教程 #claudecode #ai浏览器</h3>
 
+<h3 id="ai-agent-claudecode-ai">让你的ai agent能够使用浏览器教程 #claudecode #ai浏览器</h3>
 <p><strong>作者</strong>：软萌孜神 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7654498820353919353">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】本地AI Agent无法像人一样操作浏览器，需配置微软官方维护的Playwright CLI，才能执行订票等真实网页操作。
@@ -482,10 +731,8 @@ which is very helpful
 所以給大家推薦一下這個PlayWrite CLI
 
 </details>
-</div>
-<div class="video-card">
-<h3>爱马仕智能体保姆级安装教程！ 手把手教你对接DeepSeek #AI新星计划 #抖音前沿科技首发计划 #hermes #deepseek #ai</h3>
 
+<h3 id="deepseek-ai-hermes-deepseek-ai">爱马仕智能体保姆级安装教程！ 手把手教你对接DeepSeek #AI新星计划 #抖音前沿科技首发计划 #hermes #deepseek #ai</h3>
 <p><strong>作者</strong>：创野小朱 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650085932002970921">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】手把手教你免费安装爱马仕智能体（Hermes），并成功对接国产大模型DeepSeek，全程零成本。
@@ -627,10 +874,8 @@ MacOS只需要像我一样在访达里点击应用程序
 我也会同步到我的粉丝群里
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI不会等你准备好：郭宇谈Agent时代的生存规则 下集 #AI #郭宇 #aiagent #访谈 #失业</h3>
 
+<h3 id="aiagent-ai-aiagent">AI不会等你准备好：郭宇谈Agent时代的生存规则 下集 #AI #郭宇 #aiagent #访谈 #失业</h3>
 <p><strong>作者</strong>：晓得了 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644386028991646991">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -752,10 +997,8 @@ INFJ什麼你的血型是雙魚做什麼之類的
 以...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI不会等你准备好：郭宇Agent时代的生存规则 中集 #AI #郭宇 #aiagent #访谈 #失业</h3>
 
+<h3 id="aiagent-ai-aiagent_1">AI不会等你准备好：郭宇Agent时代的生存规则 中集 #AI #郭宇 #aiagent #访谈 #失业</h3>
 <p><strong>作者</strong>：晓得了 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644385362487315752">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】AI编程已从“副驾驶”变为“主力”，普通人不必学软件工程，也能用自然语言做出完整产品。
@@ -886,10 +1129,8 @@ AI让他们减少了
 你...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>hermes接入微信，再让hermes调用codex和cc 这太爽了，以后就在微信里面调用claude code和codex了#hermesagent #codex #claudecode #AI教学 #AI教程</h3>
 
+<h3 id="hermeshermescodexcc-claude-codecodexhermesagent-codex-claudecode-ai-ai">hermes接入微信，再让hermes调用codex和cc 这太爽了，以后就在微信里面调用claude code和codex了#hermesagent #codex #claudecode #AI教学 #AI教程</h3>
 <p><strong>作者</strong>：翔子玩ai，这也太好玩了 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7648214627662204186">抖音</a> · <strong>价值评分</strong>：3</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -902,10 +1143,8 @@ AI让他们减少了
 就直接可以在微信里面调用我的 Cloud Code 了
 
 </details>
-</div>
-<div class="video-card">
-<h3>零Token使用openclaw使用真实体会与解决方法 深扒龙虾源码，从大模型Web服务出发实现技术突破，我的实操记录和方法梳理#openclaw #ai智能体#token #vibecoding#ai技能</h3>
 
+<h3 id="tokenopenclaw-webopenclaw-aitoken-vibecodingai">零Token使用openclaw使用真实体会与解决方法 深扒龙虾源码，从大模型Web服务出发实现技术突破，我的实操记录和方法梳理#openclaw #ai智能体#token #vibecoding#ai技能</h3>
 <p><strong>作者</strong>：叶秋大大 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637878004835781903">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用大模型官方网页版（Web服务）替代API，通过本地代理转发，实现OpenClaw零Token调用。
@@ -999,10 +1238,8 @@ Token机飞系统向我们去扣飞了
 而且又不费任何的Token
 
 </details>
-</div>
-<div class="video-card">
-<h3>龙虾操作电脑的三种方法 龙虾如何操作电脑，一共就这三种方案，一次讲清#龙虾 #openclaw #AI员工 #一人公司 #电脑知识</h3>
 
+<h3 id="openclaw-ai">龙虾操作电脑的三种方法 龙虾如何操作电脑，一共就这三种方案，一次讲清#龙虾 #openclaw #AI员工 #一人公司 #电脑知识</h3>
 <p><strong>作者</strong>：工具怪 Talen · <strong>链接</strong>：<a href="https://www.douyin.com/video/7624548961357191525">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】龙虾操作电脑只有三种方案：API、CLI、GUI，按优先级选型即可。
@@ -1032,10 +1269,8 @@ Token机飞系统向我们去扣飞了
 真正该问的是,你的软件有没有开放API,有没有CLI,实在不行,那能不能接受RPA的不稳定性
 
 </details>
-</div>
-<div class="video-card">
-<h3>龙虾 OpenClaw 操作电脑软件 龙虾 Openclaw ➕RPA 实操来了，龙虾操作电脑所有软件#龙虾 #AI #openclaw</h3>
 
+<h3 id="openclaw-openclaw-rpa-ai-openclaw">龙虾 OpenClaw 操作电脑软件 龙虾 Openclaw ➕RPA 实操来了，龙虾操作电脑所有软件#龙虾 #AI #openclaw</h3>
 <p><strong>作者</strong>：工具怪 Talen · <strong>链接</strong>：<a href="https://www.douyin.com/video/7617824363346595045">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用“龙虾(OpenClaw)+八转于RPA”的Webhook联动方案，一句话指令就能让AI自动操作电脑上的所有软件。
@@ -1084,10 +1319,8 @@ OpenCloud+RPA的联动访案
 有需要的可以跟我要
 
 </details>
-</div>
-<div class="video-card">
-<h3>10 大领域 82 个小龙虾 openckaw 应用案例#ai #openai #openclaw #小龙虾ai #ai商业应用</h3>
 
+<h3 id="10-82-openckaw-ai-openai-openclaw-ai-ai">10 大领域 82 个小龙虾 openckaw 应用案例#ai #openai #openclaw #小龙虾ai #ai商业应用</h3>
 <p><strong>作者</strong>：Ai一刀梁山伯 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7615412254502188197">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用“五层金木”框架+82个真实案例，把Manus（小龙虾AI）从玩具变成生产力工具。
@@ -1157,10 +1390,8 @@ OpenCloud+RPA的联动访案
 幹爆生產力吧
 
 </details>
-</div>
-<div class="video-card">
-<h3>可能是史上最简单本地部署大模型和小龙虾的方案 永久免费无限量，电脑小白也能装，一行命令都不要。 #免费AI #LMStudio #OpenClaw #Qwen36 #workbuddy</h3>
 
+<h3 id="ai-lmstudio-openclaw-qwen36-workbuddy">可能是史上最简单本地部署大模型和小龙虾的方案 永久免费无限量，电脑小白也能装，一行命令都不要。 #免费AI #LMStudio #OpenClaw #Qwen36 #workbuddy</h3>
 <p><strong>作者</strong>：wycode_cn · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644268335311392019">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：可能是史上最简单本地部署大模型和小龙虾的方案 永久免费无限量，电脑小白也能装，一行命令都不要。<br />
  #免费AI   #LMStudio  #OpenClaw  #Qwen36 #workbuddy</p>
@@ -1208,10 +1439,8 @@ OpenCloud+RPA的联动访案
 觉得有用的话记得点赞关注,拜拜
 
 </details>
-</div>
-<div class="video-card">
-<h3>HermesPet Ai宠物教程 #真实生活分享计划 3 分钟， 你就能真正开始用 AI。 我越来越觉得： 未来 AI 最重要的， 不是“多强”。 而是： 能不能让普通人真正用起来。 #HermesPet #AI桌宠 #…</h3>
 
+<h3 id="hermespet-ai-3-ai-ai-hermespet-ai">HermesPet Ai宠物教程 #真实生活分享计划 3 分钟， 你就能真正开始用 AI。 我越来越觉得： 未来 AI 最重要的， 不是“多强”。 而是： 能不能让普通人真正用起来。 #HermesPet #AI桌宠 #…</h3>
 <p><strong>作者</strong>：lip · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642676098945506789">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：HermesPet Ai宠物教程 #真实生活分享计划   3 分钟， 你就能真正开始用 AI。 我越来越觉得： 未来 AI 最重要的， 不是“多强”。 而是： 能不能让普通人真正用起来。  #HermesPet #AI桌宠 #Mac效率 #独立开发</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -1255,10 +1484,8 @@ AI工具要真正落地，关键是让普通人能轻松上手，而不是堆砌
 你会越用越顺手
 
 </details>
-</div>
-<div class="video-card">
-<h3>Openclaw对接飞书自动化工作搭建 AI 科技博主私藏！6 只龙虾天团对接飞书全教程，3 个硬核技术让 AI 自动干活～#AI 自动化 #OpenClaw 教程 #飞书机器人 #自媒体干货 #龙虾养成记</h3>
 
+<h3 id="openclaw-ai-6-3-ai-ai-openclaw">Openclaw对接飞书自动化工作搭建 AI 科技博主私藏！6 只龙虾天团对接飞书全教程，3 个硬核技术让 AI 自动干活～#AI 自动化 #OpenClaw 教程 #飞书机器人 #自媒体干货 #龙虾养成记</h3>
 <p><strong>作者</strong>：老孙聊ai · <strong>链接</strong>：<a href="https://www.douyin.com/video/7630001777106913189">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：Openclaw对接飞书自动化工作搭建 AI 科技博主私藏！6 只龙虾天团对接飞书全教程，3 个硬核技术让 AI 自动干活～#AI 自动化 #OpenClaw 教程 #飞书机器人  #自媒体干货 #龙虾养成记</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -1377,10 +1604,8 @@ OpenCloud验证通过才接收
 回传给敖黄 最终敖黄把全套成品发给...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Claude桌面端更新报错终极解决方案！！！ #ai #人工智能 #ai新星计划 #claude #ai智能体</h3>
 
+<h3 id="claude-ai-ai-claude-ai">Claude桌面端更新报错终极解决方案！！！ #ai #人工智能 #ai新星计划 #claude #ai智能体</h3>
 <p><strong>作者</strong>：Winhao学AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7636825018743131392">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】Claude桌面端更新后API接不上，自制小工具可解决，支持最多8个第三方模型且正常显示名称。
@@ -1425,10 +1650,8 @@ Cloud官方的模型名称就可以用了
 带大家教一下大家怎么使用我这个工具
 
 </details>
-</div>
-<div class="video-card">
-<h3>让ClaudeCode多Agent管理更简单 这份视频稿件介绍了 Claude Code 新推出的 “代理视图”（Agent View） 功能，旨在简化开发者同时管理多个 AI 任务的流程。通过该界面，用户可以在单一终端…</h3>
 
+<h3 id="claudecodeagent-claude-code-agent-view-ai">让ClaudeCode多Agent管理更简单 这份视频稿件介绍了 Claude Code 新推出的 “代理视图”（Agent View） 功能，旨在简化开发者同时管理多个 AI 任务的流程。通过该界面，用户可以在单一终端…</h3>
 <p><strong>作者</strong>：一蛙AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639031528861102001">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：让ClaudeCode多Agent管理更简单 这份视频稿件介绍了 Claude Code 新推出的 “代理视图”（Agent View） 功能，旨在简化开发者同时管理多个 AI 任务的流程。通过该界面，用户可以在单一终端窗口中实时监控所有运行中的会话状态，无需在多个标签页之间反复切换。系统利用色彩标识直观地显示任务进度，例如绿色代表已完成，黄色则提示需要人工干预。此外，文章还提到了 “目标模式”（Goal Mode），允许 AI 针对特定指标进行长时间的自主尝试。用户可以通过简单的键盘快捷键或命令行指令，在不同项目目录间灵活启动、回复或关闭多个 AI 代理。总而言之，这一更新极大提升了并行开发的效率，让复杂的多任务自动化变得更加直观可控。 #大模型 #claudecode</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -1559,10 +1782,8 @@ CLI通常都拥有最多的功能
 ...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI批量出图+秒出神级可编辑PPT【终极教程】 榨干AI批量出图，图片丢给AI Agent秒变神级可编辑PPT，这是目前AI PPT最高颜值的解法了，毕竟html slides只能排版不能生图，而其他的AI PPT平台模…</h3>
 
+<h3 id="aippt-aiai-agentpptai-ppthtml-slidesai-ppt">AI批量出图+秒出神级可编辑PPT【终极教程】 榨干AI批量出图，图片丢给AI Agent秒变神级可编辑PPT，这是目前AI PPT最高颜值的解法了，毕竟html slides只能排版不能生图，而其他的AI PPT平台模…</h3>
 <p><strong>作者</strong>：十元钱钱 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640858200819944756">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：AI批量出图+秒出神级可编辑PPT【终极教程】 榨干AI批量出图，图片丢给AI Agent秒变神级可编辑PPT，这是目前AI PPT最高颜值的解法了，毕竟html slides只能排版不能生图，而其他的AI PPT平台模版都太丑，要追求高颜值，可以参照我这套工作流。#AIPPT #AIGC #AI生图 #AI工具</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -1607,10 +1828,8 @@ IP周边自由
 更多GPT Image2玩法
 
 </details>
-</div>
-<div class="video-card">
-<h3>新手学扣子，95%都在踩坑！一期讲透底层学习逻辑 #coze #扣子编程 #coze课程 #coze教程 #coze工作流</h3>
 
+<h3 id="95-coze-coze-coze-coze">新手学扣子，95%都在踩坑！一期讲透底层学习逻辑 #coze #扣子编程 #coze课程 #coze教程 #coze工作流</h3>
 <p><strong>作者</strong>：拾忆的Agent · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637076653058886955">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】学扣子别急着抄工作流，先吃透变量、变量类型、JSON结构三大底层基础，才能看懂和搭建任何工作流。
@@ -1737,10 +1956,8 @@ codes应用的交互逻辑 以及一套降伟打击的学习方法
 懂...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex 零基础终极教程：功能、办公、编程、自动化一次讲透 这是目前最完整的 Codex 零基础保姆级教程。 从安装、界面、权限、任务管理，到 Skills、插件、办公文档、PPT、Excel、网站制作、部署和自动化，…</h3>
 
+<h3 id="codex-codex-skillspptexcel">Codex 零基础终极教程：功能、办公、编程、自动化一次讲透 这是目前最完整的 Codex 零基础保姆级教程。 从安装、界面、权限、任务管理，到 Skills、插件、办公文档、PPT、Excel、网站制作、部署和自动化，…</h3>
 <p><strong>作者</strong>：木子不写代码 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634145036032085298">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：Codex 零基础终极教程：功能、办公、编程、自动化一次讲透 这是目前最完整的 Codex 零基础保姆级教程。</p>
 <p>从安装、界面、权限、任务管理，到 Skills、插件、办公文档、PPT、Excel、网站制作、部署和自动化，我会用一个视频带你系统看懂 Codex 到底怎么用。</p>
@@ -1861,10 +2078,8 @@ Use existing folder
 然后给...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>扣子（Coze）从零到一实战先导课，扣子高效学习路径 从零基础小白到工作流搭建的熟练工#coze #扣子编程 #coze教程 #coze课程 #coze工作流</h3>
 
+<h3 id="coze-coze-coze-coze-coze">扣子（Coze）从零到一实战先导课，扣子高效学习路径 从零基础小白到工作流搭建的熟练工#coze #扣子编程 #coze教程 #coze课程 #coze工作流</h3>
 <p><strong>作者</strong>：拾忆的Agent · <strong>链接</strong>：<a href="https://www.douyin.com/video/7631508783637876022">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】学扣子别只当操作工，要掌握底层逻辑，才能自己搭建复杂工作流。
@@ -1949,10 +2164,8 @@ Use existing folder
 下节课正式开干
 
 </details>
-</div>
-<div class="video-card">
-<h3>手把手教你从0创建一个自己的Skill｜附TVC案例全流程 #ai新星计划 #openclaw #skills #lala罐头 #城野医生377超光瓶</h3>
 
+<h3 id="0skilltvc-ai-openclaw-skills-lala-377">手把手教你从0创建一个自己的Skill｜附TVC案例全流程 #ai新星计划 #openclaw #skills #lala罐头 #城野医生377超光瓶</h3>
 <p><strong>作者</strong>：Lala罐头 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637087554147224858">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：手把手教你从0创建一个自己的Skill｜附TVC案例全流程 #ai新星计划 #openclaw #skills  #lala罐头  #城野医生377超光瓶</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -2103,10 +2316,8 @@ Agent给到了三版方案
 同时也讲到了一些关键点的画面设计...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI龙虾加盟，总部扶持，无需经验，轻松创业！</h3>
 
+<h3 id="ai">AI龙虾加盟，总部扶持，无需经验，轻松创业！</h3>
 <p><strong>作者</strong>：浙江星瀚云计算技术有限公司官方号 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7631126576796618026">抖音</a> · <strong>价值评分</strong>：3</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -2135,10 +2346,8 @@ Agent给到了三版方案
 欢迎咨询
 
 </details>
-</div>
-<div class="video-card">
-<h3>拒绝白交钱！4招把 OpenClaw 成本降 10倍 Openclaw是我目前用过的 无定语的 最强大的软件和工具。 但是，他的高额token消耗和成本让很多朋友望而却步，不敢尝试，或着 无法打开他的所有潜力， 今天我们…</h3>
 
+<h3 id="4-openclaw-10-openclaw-token">拒绝白交钱！4招把 OpenClaw 成本降 10倍 Openclaw是我目前用过的 无定语的 最强大的软件和工具。 但是，他的高额token消耗和成本让很多朋友望而却步，不敢尝试，或着 无法打开他的所有潜力， 今天我们…</h3>
 <p><strong>作者</strong>：木子不写代码 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7611545708444781833">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：拒绝白交钱！4招把 OpenClaw 成本降 10倍 Openclaw是我目前用过的 无定语的 最强大的软件和工具。</p>
 <p>但是，他的高额token消耗和成本让很多朋友望而却步，不敢尝试，或着 无法打开他的所有潜力，</p>
@@ -2280,10 +2489,8 @@ HotB.md这个里面的清单
 ...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>对罗福莉的3.5小时访谈（视频完整版）：AI范式已然巨变！ 2026年，大模型战争全面升级，掀开了第二幕——从Pre-train（预训练）主导的Chat时代，转向Post-train（后训练）主导的Agent时代。 在A…</h3>
 
+<h3 id="35ai-2026pre-trainchatpost-trainagent-a">对罗福莉的3.5小时访谈（视频完整版）：AI范式已然巨变！ 2026年，大模型战争全面升级，掀开了第二幕——从Pre-train（预训练）主导的Chat时代，转向Post-train（后训练）主导的Agent时代。 在A…</h3>
 <p><strong>作者</strong>：张小珺 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7632145100964957449">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：对罗福莉的3.5小时访谈（视频完整版）：AI范式已然巨变！ 2026年，大模型战争全面升级，掀开了第二幕——从Pre-train（预训练）主导的Chat时代，转向Post-train（后训练）主导的Agent时代。</p>
 <p>在AI范式巨变之际，我访谈了人工智能研究员罗福莉。罗福莉曾供职阿里达摩院、DeepSeek，目前是小米大模型团队负责人，主导研发了MiMo-V2系列模型。她在网络空间有很多标签，例如“AI天才少女”，但她不喜欢这个称呼。</p>
@@ -2464,10 +2671,8 @@ ok
 日...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Hermes浏览器联动实测，简单几步，小白也能上手 #Hermes #Hermes接入浏览器 #AI工具教程 #办公效率神器 #浏览器联动技巧</h3>
 
+<h3 id="hermes-hermes-hermes-ai">Hermes浏览器联动实测，简单几步，小白也能上手 #Hermes #Hermes接入浏览器 #AI工具教程 #办公效率神器 #浏览器联动技巧</h3>
 <p><strong>作者</strong>：麦冬AI实验室 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7629913430161509670">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：Hermes浏览器联动实测，简单几步，小白也能上手 #Hermes  #Hermes接入浏览器  #AI工具教程  #办公效率神器  #浏览器联动技巧</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -2608,10 +2813,8 @@ Windows专第一步操作一致
 瀏覽...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>coze智能体工作流生成【产品口播种草视频】 【coze实操教学】coze智能体工作流生成产品口播种草视频，保姆级教学。制作不易，且看且珍惜！无任何引导，纯教程#coze#coze使用教程#coze工作流#coze智能体…</h3>
 
+<h3 id="coze-cozecozecozecozecozecoze">coze智能体工作流生成【产品口播种草视频】 【coze实操教学】coze智能体工作流生成产品口播种草视频，保姆级教学。制作不易，且看且珍惜！无任何引导，纯教程#coze#coze使用教程#coze工作流#coze智能体…</h3>
 <p><strong>作者</strong>：多来米AI库 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7626451386250661158">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：coze智能体工作流生成【产品口播种草视频】 【coze实操教学】coze智能体工作流生成产品口播种草视频，保姆级教学。制作不易，且看且珍惜！无任何引导，纯教程#coze#coze使用教程#coze工作流#coze智能体搭建#口播种草</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -2759,10 +2962,8 @@ OK这一步做完之后
 我们把这个拿过来再进行下一步...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>强烈推荐：为什么要用claude code？各种用法介绍 强烈推荐大家都用claudecode，它是你AI时代的超级便车。它能帮你做任何事！包括部署openclaw大龙虾，写代码，搜索下载资料，整理软件，日常填表做表写P…</h3>
 
+<h3 id="claude-code-claudecodeaiopenclawp">强烈推荐：为什么要用claude code？各种用法介绍 强烈推荐大家都用claudecode，它是你AI时代的超级便车。它能帮你做任何事！包括部署openclaw大龙虾，写代码，搜索下载资料，整理软件，日常填表做表写P…</h3>
 <p><strong>作者</strong>：阿森编程日记（AI自动化） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7627053907415403811">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：强烈推荐：为什么要用claude code？各种用法介绍 强烈推荐大家都用claudecode，它是你AI时代的超级便车。它能帮你做任何事！包括部署openclaw大龙虾，写代码，搜索下载资料，整理软件，日常填表做表写PPT，帮你做标书监控投标信息等等，无所不能！#AI #claudecode #AI教程 #AI编程 #AI工具</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -2841,10 +3042,8 @@ Cloud Code甚至是你这个内容分发工厂
 让大家一步一步用好它
 
 </details>
-</div>
-<div class="video-card">
-<h3>从零开始用国内网络，跑通一切AI Agent工具 从零开始，用国内网络，把新电脑打造成全能AI Agent运行平台。 解锁Claude Code，Codex，Hermes Agent，OpenClaw等等一切Agent框…</h3>
 
+<h3 id="ai-agent-ai-agent-claude-codecodexhermes-agentopenclawagent">从零开始用国内网络，跑通一切AI Agent工具 从零开始，用国内网络，把新电脑打造成全能AI Agent运行平台。 解锁Claude Code，Codex，Hermes Agent，OpenClaw等等一切Agent框…</h3>
 <p><strong>作者</strong>：技术爬爬虾 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7631175460113780006">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：从零开始用国内网络，跑通一切AI Agent工具 从零开始，用国内网络，把新电脑打造成全能AI Agent运行平台。 解锁Claude Code，Codex，Hermes Agent，OpenClaw等等一切Agent框架，从此搭建环境再也不求人。 本期视频是一个手把手的保姆级教程 ，我准备了三台刚刚重装完系统的电脑，分别覆盖Windows，MacOS，还有Linux。使用国内家庭宽，用录屏软件详细记录了全过程。相信大家跟着我的操作，绝大多数问题都能顺利解决。</p>
 <h1 id="ai-ai-agent">AI #AI新星计划 #Agent #计算机 #教程</h1>
@@ -2965,10 +3164,8 @@ Cloud Code是现阶段公认的最强的AAAgent软件
 然后输入命令Cloud...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>这个系统，把OpenClaw聊天直接养成 Skills！ 今天和大家开源分享我的“Openclaw AI 分身系统” ！ 这是一个能够自动将你与AI的对话、收藏的网页、文件，智能沉淀为长期记忆和专属技能（Skills）的…</h3>
 
+<h3 id="openclaw-skills-openclaw-ai-aiskills">这个系统，把OpenClaw聊天直接养成 Skills！ 今天和大家开源分享我的“Openclaw AI 分身系统” ！ 这是一个能够自动将你与AI的对话、收藏的网页、文件，智能沉淀为长期记忆和专属技能（Skills）的…</h3>
 <p><strong>作者</strong>：木子不写代码 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7623473050486328582">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：这个系统，把OpenClaw聊天直接养成 Skills！ 今天和大家开源分享我的“Openclaw AI 分身系统” ！</p>
 <p>这是一个能够自动将你与AI的对话、收藏的网页、文件，智能沉淀为长期记忆和专属技能（Skills）的系统 。</p>
@@ -3087,10 +3284,8 @@ Project Decision和Content Angle
 各项是一种内...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>王自如聊Harness是什么 大模型就像一匹力量惊人但又容易横冲直撞的野马，纯靠Prompt只能教它怎么说话。当AI需要去写代码、改文件、运行测试、操作数据库或执行复杂的工作流时，它就很容易出现幻觉、越权操作、死循环或答…</h3>
 
+<h3 id="harness-promptai">王自如聊Harness是什么 大模型就像一匹力量惊人但又容易横冲直撞的野马，纯靠Prompt只能教它怎么说话。当AI需要去写代码、改文件、运行测试、操作数据库或执行复杂的工作流时，它就很容易出现幻觉、越权操作、死循环或答…</h3>
 <p><strong>作者</strong>：JACH · <strong>链接</strong>：<a href="https://www.douyin.com/video/7675657441110969643">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：王自如聊Harness是什么 大模型就像一匹力量惊人但又容易横冲直撞的野马，纯靠Prompt只能教它怎么说话。当AI需要去写代码、改文件、运行测试、操作数据库或执行复杂的工作流时，它就很容易出现幻觉、越权操作、死循环或答非所问。而Harness的出现就是要在模型完全自主与完全程序化之间找到一条灰度，把模型的不确定性限制在可控、可靠、可重复的工程框架之内，让Agent找到一个中间位置……</p>
 <h1 id="ai-harness">王自如 #AI #Harness #程序员 #软件</h1>
@@ -3140,19 +3335,14 @@ Whatever
 我觉得不那么容易
 
 </details>
-</div>
-<div class="video-card">
-<h3>用开源Hermes桌面端部署Ai 手机员工，周末来帮我加班 #真实生活分享计划 #ai工具运营 #hermes #opc #ai员工 周末闲暇时间，想着整整Hermes 桌面端，感谢开源的Hermes agent和Her…</h3>
 
+<h3 id="hermesai-ai-hermes-opc-ai-hermes-hermes-agenther">用开源Hermes桌面端部署Ai 手机员工，周末来帮我加班 #真实生活分享计划 #ai工具运营 #hermes #opc #ai员工 周末闲暇时间，想着整整Hermes 桌面端，感谢开源的Hermes agent和Her…</h3>
 <p><strong>作者</strong>：浪花Hermes Plus · <strong>链接</strong>：<a href="https://www.douyin.com/video/7669362752049404066">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：用开源Hermes桌面端部署Ai 手机员工，周末来帮我加班 #真实生活分享计划 #ai工具运营 #hermes #opc #ai员工   周末闲暇时间，想着整整Hermes 桌面端，感谢开源的Hermes agent和Hermes one， 为我们提供了很大方便。  在开源基础之上，我们接入了手机功能模块，试了试用它来帮我做客户工作，还是挺方便的，设置好后能自动帮我们回复千牛上的咨询。  解决了客户咨询时能听懂千牛的叮咚声音，桌面端大脑能够自主决策规划，并吩咐9号Ai手机员工做事。</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>聊天记录导入知识库怎么用？ #obsidian #codex #Hermes Agent #openclaw #claudecode</h3>
-
+<h3 id="obsidian-codex-hermes-agent-openclaw-claudecode">聊天记录导入知识库怎么用？ #obsidian #codex #Hermes Agent #openclaw #claudecode</h3>
 <p><strong>作者</strong>：点力中国 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7660819870719773967">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【聊天记录→知识库的正确姿势 · 点力中国】
@@ -3196,10 +3386,8 @@ Whatever
 或者是数字乱生
 
 </details>
-</div>
-<div class="video-card">
-<h3>从零搭建AI知识库 一直在用AI，但总觉得也就那样？ 你可能是没用对，更可能是不知道自己在哪一层。 AI知识库分7层，从低到高： L1·对话查询 —— 当搜索引擎用，给思路 L2·Agent干活 —— 订票、生图、写文案…</h3>
 
+<h3 id="ai-ai-ai7-l1-l2agent">从零搭建AI知识库 一直在用AI，但总觉得也就那样？ 你可能是没用对，更可能是不知道自己在哪一层。 AI知识库分7层，从低到高： L1·对话查询 —— 当搜索引擎用，给思路 L2·Agent干活 —— 订票、生图、写文案…</h3>
 <p><strong>作者</strong>：姜胡说 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7667590381990628635">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：从零搭建AI知识库 一直在用AI，但总觉得也就那样？</p>
 <p>你可能是没用对，更可能是不知道自己在哪一层。</p>
@@ -3335,10 +3523,8 @@ Agent已经可以让你干什么呢
 你给他一个命...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>第21期 普通人养龙虾 免费还是付费 #龙虾 #openclaw #ai入门</h3>
 
+<h3 id="21-openclaw-ai">第21期 普通人养龙虾 免费还是付费 #龙虾 #openclaw #ai入门</h3>
 <p><strong>作者</strong>：王昕ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7658250180839394570">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】普通人学AI的正确顺序：先免费试用建立正反馈，再按需付费升级，别纠结对错只看阶段。
@@ -3445,10 +3631,8 @@ Agent已经可以让你干什么呢
 我们一起往前走
 
 </details>
-</div>
-<div class="video-card">
-<h3>第 19 期 macbook全系涨价后，AI养龙虾还能选什么 #AI MacBook #AI设备选购 #入门ai #龙虾</h3>
 
+<h3 id="19-macbookai-ai-macbook-ai-ai">第 19 期 macbook全系涨价后，AI养龙虾还能选什么 #AI MacBook #AI设备选购 #入门ai #龙虾</h3>
 <p><strong>作者</strong>：王昕ai实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7655533404507600357">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】跑云端AI（如Claude Code），三四千的二手MacBook Air M1就够用，不必买贵。
@@ -3601,10 +3785,8 @@ Cloud Code或Codex的众都用户
 这...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>这到底是怎么了😂 #ai操作系统 #Hermespet #Ai情感 #我的ai提效清单 #不困了</h3>
 
+<h3 id="ai-hermespet-ai-ai">这到底是怎么了😂 #ai操作系统 #Hermespet #Ai情感 #我的ai提效清单 #不困了</h3>
 <p><strong>作者</strong>：lip · <strong>链接</strong>：<a href="https://www.douyin.com/video/7653528770100669873">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：这到底是怎么了😂 #ai操作系统  #Hermespet  #Ai情感 #我的ai提效清单 #不困了</p>
 <blockquote>
@@ -3623,10 +3805,8 @@ Cloud Code或Codex的众都用户
 聲音質感確實會有點差別
 
 </details>
-</div>
-<div class="video-card">
-<h3>Hermes vs Claude Code到底哪个更好用？ 同一道题 Hermes 跑第七次比第一次快了一半——一行配置没动，是它自己把自己改了。这节课带你 0 基础跑通这背后的两个核心机制：①Skills 蒸馏——让 …</h3>
 
+<h3 id="hermes-vs-claude-code-hermes-0-1skills">Hermes vs Claude Code到底哪个更好用？ 同一道题 Hermes 跑第七次比第一次快了一半——一行配置没动，是它自己把自己改了。这节课带你 0 基础跑通这背后的两个核心机制：①Skills 蒸馏——让 …</h3>
 <p><strong>作者</strong>：九天Hector · <strong>链接</strong>：<a href="https://www.douyin.com/video/7647889525464681782">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：Hermes vs Claude Code到底哪个更好用？ 同一道题 Hermes 跑第七次比第一次快了一半——一行配置没动，是它自己把自己改了。这节课带你 0 基础跑通这背后的两个核心机制：①Skills 蒸馏——让 Agent 从你跟它的真实对话里把反复出现的活儿自己提炼成新技能；②Skills 自进化——Skill 写出来跑错了让它回头读自己那份说明书、挑出哪句不清楚、自己改一刀再跑，一轮一轮准确率自己爬上去。视频还会讲清楚为啥只装 Skills 不管 Harness、装到第五个 Agent 就开始变笨。看完你电脑里就多一份会自己长本事的 Skill 文档。完整项目源码+配套课件都准备好了，评论区扣"课件"两个字我挨个回！#Hermes #Claude #codex #抖音前沿科技首发计划 #Al新星计划</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -3771,10 +3951,8 @@ Agent's Skills開發
 在去做...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>教你3分钟搭建AI团队，多Agent协作指南 评论点赞关注，我会发你文档哒！#AI新星计划 #新一代AI团队 #扣子Coze #AI</h3>
 
+<h3 id="3aiagent-ai-ai-coze-ai">教你3分钟搭建AI团队，多Agent协作指南 评论点赞关注，我会发你文档哒！#AI新星计划 #新一代AI团队 #扣子Coze #AI</h3>
 <p><strong>作者</strong>：数字游牧人Samuel · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646958660077227310">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -3890,10 +4068,8 @@ Cloud Code Codex OpenCloud
 人和agent完美协作的团队
 
 </details>
-</div>
-<div class="video-card">
-<h3>解决新版本openclaw不能操控你的电脑，如何解决#openclaw #小龙虾 #AI #AI助手#openai</h3>
 
+<h3 id="openclawopenclaw-ai-aiopenai">解决新版本openclaw不能操控你的电脑，如何解决#openclaw #小龙虾 #AI #AI助手#openai</h3>
 <p><strong>作者</strong>：Double growth · <strong>链接</strong>：<a href="https://www.douyin.com/video/7614138598510050725">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】新版OpenClaw默认限制工具调用，改一个JSON配置项就能恢复电脑操控。
@@ -3933,10 +4109,8 @@ Cloud Code Codex OpenCloud
 把这个抗准架C 抗准C 把它停一下 然后再打开OpenCloud 打开那个OpenCloud 然后再去运行 再去运行的话就ok了 就这样
 
 </details>
-</div>
-<div class="video-card">
-<h3>使用两个月龙虾，总结出最值得推荐的 7 个龙虾使用场景 #AI #龙虾 #openclaw #提效工具 #创作</h3>
 
+<h3 id="7-ai-openclaw">使用两个月龙虾，总结出最值得推荐的 7 个龙虾使用场景 #AI #龙虾 #openclaw #提效工具 #创作</h3>
 <p><strong>作者</strong>：PM.姜同学 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7623413358674332964">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -3995,10 +4169,8 @@ Cloud Code Codex OpenCloud
 好了,今天七个场景都手完了,希望能给大家带来帮助,感谢观看,下期见!
 
 </details>
-</div>
-<div class="video-card">
-<h3>我是怎么配置Codex的 最简单的方式，把图片截图，直接喂给Agents，或者识别文字，检查一下没问题，喂给Agents再去帮你配置，为什么这么配置？可以看我之前开发文档合集里面的一些视频和长文。 #codex #age…</h3>
 
+<h3 id="codex-agentsagents-codex-age">我是怎么配置Codex的 最简单的方式，把图片截图，直接喂给Agents，或者识别文字，检查一下没问题，喂给Agents再去帮你配置，为什么这么配置？可以看我之前开发文档合集里面的一些视频和长文。 #codex #age…</h3>
 <p><strong>作者</strong>：Tate万能君 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643013820742392399">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：我是怎么配置Codex的 最简单的方式，把图片截图，直接喂给Agents，或者识别文字，检查一下没问题，喂给Agents再去帮你配置，为什么这么配置？可以看我之前开发文档合集里面的一些视频和长文。 #codex #agent #skills</p>
 <blockquote>
@@ -4020,10 +4192,8 @@ Cloud Code Codex OpenCloud
 可以发我之前发的一些视频和文章
 
 </details>
-</div>
-<div class="video-card">
-<h3>DeepSeek的API端真的有视觉能力了？ 刚才发现用codex接入DeepSeek后，它竟然有视觉能力了？#软件操作技巧学习 #codex #DeepSeek #ai #agent</h3>
 
+<h3 id="deepseekapi-codexdeepseek-codex-deepseek-ai-agent">DeepSeek的API端真的有视觉能力了？ 刚才发现用codex接入DeepSeek后，它竟然有视觉能力了？#软件操作技巧学习 #codex #DeepSeek #ai #agent</h3>
 <p><strong>作者</strong>：along干不明白tk · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643684204877898102">抖音</a> · <strong>价值评分</strong>：2</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -4039,26 +4209,18 @@ Cloud Code Codex OpenCloud
 用用视觉能力
 
 </details>
-</div>
-<div class="video-card">
-<h3>怎么agent也打上三角洲了 #marvis #腾讯马维斯 #马维斯 #agent #ai</h3>
 
+<h3 id="agent-marvis-agent-ai">怎么agent也打上三角洲了 #marvis #腾讯马维斯 #马维斯 #agent #ai</h3>
 <p><strong>作者</strong>：夢尋Dreamer · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642348768419287540">抖音</a> · <strong>价值评分</strong>：2</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>小马啊，你组员上班摸鱼你不管管吗 我花 token 是雇你来干活的喂，怎么可以上班摸鱼 #Marvis #腾讯Marvis #AI #agent</h3>
-
+<h3 id="token-marvis-marvis-ai-agent">小马啊，你组员上班摸鱼你不管管吗 我花 token 是雇你来干活的喂，怎么可以上班摸鱼 #Marvis #腾讯Marvis #AI #agent</h3>
 <p><strong>作者</strong>：岚星 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642544036519911643">抖音</a> · <strong>价值评分</strong>：2</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>Agent 的下个形态是什么？ #ai新星计划 #marvis #马维斯 #agent</h3>
-
+<h3 id="agent-ai-marvis-agent">Agent 的下个形态是什么？ #ai新星计划 #marvis #马维斯 #agent</h3>
 <p><strong>作者</strong>：飞天闪客 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7641818337621740863">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】Agent的下个形态不是给Agent套外衣，而是让Agent退居底层，以“人操作电脑的习惯”为核心，把整个电脑变成你的助手。
@@ -4142,10 +4304,8 @@ Windows上要这个仕图还是挺实用的,也可以浏览自己的电脑,
 然后用cloudcode的改个配置连上...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>如何50秒一键部署OpenClaw，全自动赚钱 #openclaw#扣子编程#扣子Coze#AI新星计划#最近迷上了新东西</h3>
 
+<h3 id="50openclaw-openclawcozeai">如何50秒一键部署OpenClaw，全自动赚钱 #openclaw#扣子编程#扣子Coze#AI新星计划#最近迷上了新东西</h3>
 <p><strong>作者</strong>：数字游牧人Samuel · <strong>链接</strong>：<a href="https://www.douyin.com/video/7616387081048231231">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用扣子Coze一键部署OpenClaw（龙虾），让它控制浏览器自动回复、卖虚拟资料，实现全自动电商赚钱。
@@ -4287,10 +4447,8 @@ Instreet
 还能怎么让它赚钱
 
 </details>
-</div>
-<div class="video-card">
-<h3>Coze一键写入公众号草稿箱智能体！干货分享！#coze #coze如何使用</h3>
 
+<h3 id="cozecoze-coze">Coze一键写入公众号草稿箱智能体！干货分享！#coze #coze如何使用</h3>
 <p><strong>作者</strong>：江海Ai · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634145570395441017">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用Coze搭建一个工作流，输入关键词和公众号文章链接，就能自动仿写并写入公众号草稿箱，省去手动写作时间。
@@ -4436,10 +4594,8 @@ Imaginist
 然后第二个就是...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>我最近做了一个“超好用”的Skill！💪效率Up！ GitHub：gilbertwuu/Auto-Optimize 我最近发现不管是Vibe coding，Agent，还是向AU提问的时候，“同样的问题，不同的表达出来的…</h3>
 
+<h3 id="skillup-githubgilbertwuuauto-optimize-vibe-codingagentau">我最近做了一个“超好用”的Skill！💪效率Up！ GitHub：gilbertwuu/Auto-Optimize 我最近发现不管是Vibe coding，Agent，还是向AU提问的时候，“同样的问题，不同的表达出来的…</h3>
 <p><strong>作者</strong>：Gilbert🍃 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7627892609827439281">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：我最近做了一个“超好用”的Skill！💪效率Up！ GitHub：gilbertwuu/Auto-Optimize</p>
 <p>我最近发现不管是Vibe coding，Agent，还是向AU提问的时候，“同样的问题，不同的表达出来的答案，他们的差异都是巨大的！”所以我特别想给你分享一个Skill，叫Auto- Optimize！<br />
@@ -4572,19 +4728,14 @@ Android Capacity它發了一個能夠讓AI
 這個東西...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Hermes上可以养宠物啦。Tony Simons 开源了一个可爱的项目。 项目叫 Hermes Pets 如果你还记得之前那篇《一份 170 行的 SOUL.md，把 Hermes 从助手改造成真人队友》，原作者也是他…</h3>
 
+<h3 id="hermestony-simons-hermes-pets-170-soulmd-hermes">Hermes上可以养宠物啦。Tony Simons 开源了一个可爱的项目。 项目叫 Hermes Pets 如果你还记得之前那篇《一份 170 行的 SOUL.md，把 Hermes 从助手改造成真人队友》，原作者也是他…</h3>
 <p><strong>作者</strong>：聪少All in AI进行时 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7638240833620500072">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：Hermes上可以养宠物啦。Tony Simons 开源了一个可爱的项目。  项目叫 Hermes Pets  如果你还记得之前那篇《一份 170 行的 SOUL.md，把 Hermes 从助手改造成真人队友》，原作者也是他。  继 Claude code、Codex 之后，咱们 Hermes 用户也是好起来了。  Hermes Pets 会在桌面上放一只小宠物，让它替你的本地工作流做状态反馈。比如任务开始了、跑完了、失败了、来了消息，它都会用气泡和动作告诉你。  它把原本藏在终端里的状态，变成一个你能看见的小东西。  最近很多 Agent 工具都开始玩桌面宠物这一套，我一开始也觉得有点好笑。 怎么 AI 都开始养电子宠物了？  但想一想，又挺合理。  随着agent的发展，UI越做越像控制台。按钮、日志、面板、状态栏，一层叠一层。看起来很专业，但也很冷。现在 Agent 开始自己干活，人反而更需要一点“它还在动”的信号。  所以这可能真算一种很小的文艺复兴，人类也需要反馈、表情和一点点陪伴感。  跑测试、等任务、看失败日志，本来都很干。现在它把这些状态变成一只宠物的反应，等待就没那么空。  v0.3.0 还加了本地 dashboard，可以看宠物状态、通知偏好、最近任务和 custom pets。它也支持导入、预览、切换自己的动画宠物。  坏消息是：完整 overlay 体验目前只支持 WSL2 on Windows 10/11 ， macOS、原生 Linux、原生 Windows 还没有完整支持。  如果你只是偶尔用 AI，那看看热闹也挺好。  至少它说明了一件事：AI 工具的情绪价值，不一定来自更会聊天。有时候，只是让后台任务看起来没那么孤零零，就已经够了。</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>如何用3个龙虾skills搞定公众号文章生成发布自动化 #ai #公众号 #龙虾 #自动化 #公众号文章</h3>
-
+<h3 id="3skills-ai">如何用3个龙虾skills搞定公众号文章生成发布自动化 #ai #公众号 #龙虾 #自动化 #公众号文章</h3>
 <p><strong>作者</strong>：AI实战派Ellen · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637797178698400229">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用3个龙虾skills串联，实现从播客转写到公众号文章生成、再到自动发布草稿箱的全流程。
@@ -4616,26 +4767,18 @@ Android Capacity它發了一個能夠讓AI
 那为什么...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Workbuddy+Skill+微信 = 极致丝滑“龙虾” #workbuddy #skill #agent #AI入门</h3>
 
+<h3 id="workbuddyskill-workbuddy-skill-agent-ai">Workbuddy+Skill+微信 = 极致丝滑“龙虾” #workbuddy #skill #agent #AI入门</h3>
 <p><strong>作者</strong>：一启-AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7626406453405846803">抖音</a> · <strong>价值评分</strong>：2</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>我是如何让小龙虾完成12个人类员工岗位的？ #刘小排 #AI编程 #AI #openclaw #AI工具</h3>
-
+<h3 id="12-ai-ai-openclaw-ai">我是如何让小龙虾完成12个人类员工岗位的？ #刘小排 #AI编程 #AI #openclaw #AI工具</h3>
 <p><strong>作者</strong>：刘小排 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634072127125212442">抖音</a> · <strong>价值评分</strong>：2</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>OpenClaw 学会自己发抖音图文 #OpenClaw</h3>
-
+<h3 id="openclaw-openclaw">OpenClaw 学会自己发抖音图文 #OpenClaw</h3>
 <p><strong>作者</strong>：根谷 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633832826860817679">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用PlayWire自动化框架+固定脚本，能让OpenClaw（小龙虾）稳定自主发抖音图文，速度约827 Token/秒。
@@ -4721,10 +4864,8 @@ Android Capacity它發了一個能夠讓AI
 这段课就分享到这里
 
 </details>
-</div>
-<div class="video-card">
-<h3>为什么DeepSeek v4的风评好坏参半？ 【深度实测】为什么 DeepSeek V4 网页版不是“满血”版？我接入 Agent 后才明白了#deepseek #ai #AI新星计划 #AI</h3>
 
+<h3 id="deepseek-v4-deepseek-v4-agent-deepseek-ai-ai-ai">为什么DeepSeek v4的风评好坏参半？ 【深度实测】为什么 DeepSeek V4 网页版不是“满血”版？我接入 Agent 后才明白了#deepseek #ai #AI新星计划 #AI</h3>
 <p><strong>作者</strong>：Git源宝（AI版） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633395373356141875">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -4835,10 +4976,8 @@ DeepSake V4这次给我的感受也是类似的
 我这边也在继续测试不同...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>一个满配的 Agent 是什么样？扣子2.5来了！ #ai新星计划 #agent #扣子</h3>
 
+<h3 id="agent-25-ai-agent">一个满配的 Agent 是什么样？扣子2.5来了！ #ai新星计划 #agent #扣子</h3>
 <p><strong>作者</strong>：飞天闪客 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7631535444706020646">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】扣子2.5让Agent从“聊天机器人”升级为“满配数字员工”：能配独立云手机/云电脑干活、能定时自动产出、还有虚拟社交身份。
@@ -4993,10 +5132,8 @@ Code这次的升级
 加...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>免费无限用的AI！智能体、生图、生视频效果实测！ #agnes #Agnes免费API #大模型 #Agent #AI新星计划</h3>
 
+<h3 id="ai-agnes-agnesapi-agent-ai">免费无限用的AI！智能体、生图、生视频效果实测！ #agnes #Agnes免费API #大模型 #Agent #AI新星计划</h3>
 <p><strong>作者</strong>：木子不写代码 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7663035920131673379">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：免费无限用的AI！智能体、生图、生视频效果实测！ #agnes  #Agnes免费API  #大模型  #Agent  #AI新星计划</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -5116,18 +5253,13 @@ Agnis 2.5 Flash模型做了两件事情
 一净有理解也到位...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>ai 一人公司 Vibe Coding.opc ai 智能体自动化应用 压力测试#codex #Claudecode #workbuddy #opc #一人公司</h3>
 
+<h3 id="ai-vibe-codingopc-ai-codex-claudecode-workbuddy-opc">ai 一人公司 Vibe Coding.opc ai 智能体自动化应用 压力测试#codex #Claudecode #workbuddy #opc #一人公司</h3>
 <p><strong>作者</strong>：Token - 蜂巢智控 HiveOps · <strong>链接</strong>：<a href="https://www.douyin.com/video/7652127210946410149">抖音</a> · <strong>价值评分</strong>：1</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>hermes自动操作电脑 #hermes 通过调用#uitars 操作电脑，自动发微信消息，自动操作你的电脑桌面，实现桌面操作自动化</h3>
-
+<h3 id="hermes-hermes-uitars">hermes自动操作电脑 #hermes 通过调用#uitars 操作电脑，自动发微信消息，自动操作你的电脑桌面，实现桌面操作自动化</h3>
 <p><strong>作者</strong>：醉风 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644396150610529571">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】让AI像人一样“看屏幕”操作电脑，无需API和脚本，用本地视觉模型实现桌面自动化。
@@ -5203,10 +5335,8 @@ AI就能操作
 后续会分享更多AI实战技巧
 
 </details>
-</div>
-<div class="video-card">
-<h3>终于找到了免费的AI大模型，文字/图片/视频都能生成 #AI #Agent #agnes #AI新星计划 #vibecoding大赏</h3>
 
+<h3 id="ai-ai-agent-agnes-ai-vibecoding">终于找到了免费的AI大模型，文字/图片/视频都能生成 #AI #Agent #agnes #AI新星计划 #vibecoding大赏</h3>
 <p><strong>作者</strong>：数字游牧人Samuel · <strong>链接</strong>：<a href="https://www.douyin.com/video/7647758531097152777">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】发现一个API无限期免费的全模态大模型Agnus 2.0，能白嫖Agent任务和生图/生视频，适合批量测试和风格化创作。
@@ -5337,10 +5467,8 @@ Agnus和Sota模型相比
 Ag...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Hermes Agent 发布桌面端，香到不行！告别终端！ Hermes终于出桌面端了！虽然安装过程简直像闯了九九八十一难…不过搞定之后真的香到不行——终于不用对着黑乎乎的终端了，普通人点点鼠标就能让AI跑定时任务！ 你…</h3>
 
+<h3 id="hermes-agent-hermesai">Hermes Agent 发布桌面端，香到不行！告别终端！ Hermes终于出桌面端了！虽然安装过程简直像闯了九九八十一难…不过搞定之后真的香到不行——终于不用对着黑乎乎的终端了，普通人点点鼠标就能让AI跑定时任务！ 你…</h3>
 <p><strong>作者</strong>：陈虾仁AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7647907892519725211">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：Hermes Agent 发布桌面端，香到不行！告别终端！ Hermes终于出桌面端了！虽然安装过程简直像闯了九九八十一难…不过搞定之后真的香到不行——终于不用对着黑乎乎的终端了，普通人点点鼠标就能让AI跑定时任务！  你们有没有遇到过比这更难装的软件呀？  #hermes爱马仕 #Hermes桌面端 #HermesAgent #我在抖音聊科技 #爱马仕</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -5494,10 +5622,8 @@ OK 你看
 ...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>装好这8个Skill，你的龙虾AI直接开挂！ 装好这8个Skill，你的龙虾AI直接开挂！#OpenClaw #skill #AI #人工智能</h3>
 
+<h3 id="8skillai-8skillaiopenclaw-skill-ai">装好这8个Skill，你的龙虾AI直接开挂！ 装好这8个Skill，你的龙虾AI直接开挂！#OpenClaw #skill #AI #人工智能</h3>
 <p><strong>作者</strong>：OpenClaw干货毛哥 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7628990189209242889">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -5582,10 +5708,8 @@ skill8、summarize AI总结
 咱们下期见
 
 </details>
-</div>
-<div class="video-card">
-<h3>使用豆包的编程模式100%解决一切你使用openclaw 遇到的问题 把 openclaw 的github 源码给到 豆包 之后，就可以获取最新的问题以及避免幻觉的出现了</h3>
 
+<h3 id="100openclaw-openclaw-github">使用豆包的编程模式100%解决一切你使用openclaw 遇到的问题 把 openclaw 的github 源码给到 豆包 之后，就可以获取最新的问题以及避免幻觉的出现了</h3>
 <p><strong>作者</strong>：教你宇宙级AI编程（求关注） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637548151972302130">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：使用豆包的编程模式100%解决一切你使用openclaw 遇到的问题</p>
 <p>把 openclaw 的github 源码给到 豆包 之后，就可以获取最新的问题以及避免幻觉的出现了</p>
@@ -5625,10 +5749,8 @@ skill8、summarize AI总结
 關於OpenClaw小龍蝦遇到的問題
 
 </details>
-</div>
-<div class="video-card">
-<h3>龙虾官方发布Peekaboo，像人一样操控电脑。真正给agent装上眼睛和手。#agent #peekaboo #openclaw #ai应用 #AI自动化</h3>
 
+<h3 id="peekabooagentagent-peekaboo-openclaw-ai-ai">龙虾官方发布Peekaboo，像人一样操控电脑。真正给agent装上眼睛和手。#agent #peekaboo #openclaw #ai应用 #AI自动化</h3>
 <p><strong>作者</strong>：俗人六哥_Ai商业洞察 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640391635938839871">抖音</a> · <strong>价值评分</strong>：1</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -5649,10 +5771,8 @@ AI能直接读懂你的屏幕操作任何软件
 还没领着攻击的说一下
 
 </details>
-</div>
-<div class="video-card">
-<h3>OpenClaw不只能操控浏览器！港大开源CLI-Anything让AI直接操控电脑上30+款专业软件，剪视频修图做PPT统统搞定 #AI工具 #AI编程 #AIAgent #桌面自动化 #开源项目</h3>
 
+<h3 id="openclawcli-anythingai30ppt-ai-ai-aiagent">OpenClaw不只能操控浏览器！港大开源CLI-Anything让AI直接操控电脑上30+款专业软件，剪视频修图做PPT统统搞定 #AI工具 #AI编程 #AIAgent #桌面自动化 #开源项目</h3>
 <p><strong>作者</strong>：IT小圈 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7629677080069885194">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：OpenClaw不只能操控浏览器！港大开源CLI-Anything让AI直接操控电脑上30+款专业软件，剪视频修图做PPT统统搞定</p>
 <h1 id="ai-ai-aiagent">AI工具 #AI编程 #AIAgent #桌面自动化 #开源项目</h1>
@@ -5696,10 +5816,8 @@ Cursor等主流AI工具
 评论区已经帮你们准备好了
 
 </details>
-</div>
-<div class="video-card">
-<h3>OpenClaw发布peekaboo 给Agent 装上眼睛和手，让openclaw 像人类一样控制电脑 #openclaw #agent #peekaboo #运营</h3>
 
+<h3 id="openclawpeekaboo-agent-openclaw-openclaw-agent-peekaboo">OpenClaw发布peekaboo 给Agent 装上眼睛和手，让openclaw 像人类一样控制电脑 #openclaw #agent #peekaboo #运营</h3>
 <p><strong>作者</strong>：AI加速度 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639588219125870058">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】OpenClaw发布Peekaboo工具，让AI Agent能像人一样“看屏幕+理解界面+动手操作”，从而真正模拟人类控制电脑。
@@ -5791,10 +5909,8 @@ Peekable这个工具的发布
 让AI为企业创造价值
 
 </details>
-</div>
-<div class="video-card">
-<h3>VibeCoding大赏 | 自由听歌的Agent🎵 用Claude code🦀➕Deepseek v4🐬 Vibe Coding的项目终于可以使用啦！❌音乐平台不懂你，❌AI也未必懂你，✅只有你知道自己想听什么！@抖音…</h3>
 
+<h3 id="vibecoding-agent-claude-codedeepseek-v4-vibe-codingai">VibeCoding大赏 | 自由听歌的Agent🎵 用Claude code🦀➕Deepseek v4🐬 Vibe Coding的项目终于可以使用啦！❌音乐平台不懂你，❌AI也未必懂你，✅只有你知道自己想听什么！@抖音…</h3>
 <p><strong>作者</strong>：寒影 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640469163852533027">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：VibeCoding大赏 | 自由听歌的Agent🎵 用Claude code🦀➕Deepseek v4🐬 Vibe Coding的项目终于可以使用啦！❌音乐平台不懂你，❌AI也未必懂你，✅只有你知道自己想听什么！@抖音科技 #ai新星计划 #vibecoding #auramusic #周杰伦  #vibecoding大赏</p>
 <blockquote>
@@ -5821,19 +5937,14 @@ Peekable这个工具的发布
 別走
 
 </details>
-</div>
-<div class="video-card">
-<h3>试了个新办法，用WorkBuddy手动装了Claude Code，还匹配上了deepseek-v4模型～这下直接用上地表最强Agent啦！ #ClaudeCode#DeepSeekv4</h3>
 
+<h3 id="workbuddyclaude-codedeepseek-v4agent-claudecodedeepseekv4">试了个新办法，用WorkBuddy手动装了Claude Code，还匹配上了deepseek-v4模型～这下直接用上地表最强Agent啦！ #ClaudeCode#DeepSeekv4</h3>
 <p><strong>作者</strong>：恺哥三十几 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7641443023931657908">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：试了个新办法，用WorkBuddy手动装了Claude Code，还匹配上了deepseek-v4模型～这下直接用上地表最强Agent啦！  #ClaudeCode#DeepSeekv4</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>小龙虾OpenClaw便携版U盘？58块走哪AI到哪？#明知山有虎 #老张是大佬 #小龙虾 #龙虾u盘 #openclaw</h3>
-
+<h3 id="openclawu58ai-u-openclaw">小龙虾OpenClaw便携版U盘？58块走哪AI到哪？#明知山有虎 #老张是大佬 #小龙虾 #龙虾u盘 #openclaw</h3>
 <p><strong>作者</strong>：老张是大佬 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639154191486799155">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】58元“小龙虾U盘”本质是预装OpenClaw的USB2.0启动盘，能跨电脑保留配置，但配置门槛高且有严重隐私泄露风险。
@@ -5964,10 +6075,8 @@ U盘把小龙虾
 别玩了
 
 </details>
-</div>
-<div class="video-card">
-<h3>桌面AI宠物，主打一个陪伴➕干活，有了有趣的互动，使用ai的时候更加的有趣。 宠物可以接claudecode，codex，Hermes 这些智能体，扩展空间还有非常多。 #ai #claudecode #ai宠物 #co…</h3>
 
+<h3 id="aiai-claudecodecodexhermes-ai-claudecode-ai-co">桌面AI宠物，主打一个陪伴➕干活，有了有趣的互动，使用ai的时候更加的有趣。 宠物可以接claudecode，codex，Hermes 这些智能体，扩展空间还有非常多。 #ai #claudecode #ai宠物 #co…</h3>
 <p><strong>作者</strong>：AI鼬 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640115402337826406">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：桌面AI宠物，主打一个陪伴➕干活，有了有趣的互动，使用ai的时候更加的有趣。 宠物可以接claudecode，codex，Hermes 这些智能体，扩展空间还有非常多。 #ai #claudecode #ai宠物 #codex #openclaw</p>
 <blockquote>
@@ -5987,10 +6096,8 @@ U盘把小龙虾
 like i got that
 
 </details>
-</div>
-<div class="video-card">
-<h3>deepseek v4接入Codex，十分钟搞定。不改文件，不经过第三方，本地中间件安全转发。价格只要codex的十分之一都不到。#deepseek #codex #openclaw #ai #ai编程</h3>
 
+<h3 id="deepseek-v4codexcodexdeepseek-codex-openclaw-ai-ai">deepseek v4接入Codex，十分钟搞定。不改文件，不经过第三方，本地中间件安全转发。价格只要codex的十分之一都不到。#deepseek #codex #openclaw #ai #ai编程</h3>
 <p><strong>作者</strong>：OpenClaw实操笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639394270986378873">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用本地中间件把DeepSeek V4接入Codex，不改Codex文件，价格仅为OpenAI的1/10。
@@ -6021,10 +6128,8 @@ DeepSeq V4 Pro在Codex里跟原版体验一样。
 关注旺彩,AI编程不踩坑。
 
 </details>
-</div>
-<div class="video-card">
-<h3>搞定龙虾的语音输入了 这下龙虾🦞和Claudecode都可以用语音输入了，开心！#openclaw #龙虾 #Claudecode #语音输入 #AI</h3>
 
+<h3 id="claudecodeopenclaw-claudecode-ai">搞定龙虾的语音输入了 这下龙虾🦞和Claudecode都可以用语音输入了，开心！#openclaw #龙虾 #Claudecode #语音输入 #AI</h3>
 <p><strong>作者</strong>：小爷开启🔛疯狂模式 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7627047272815021318">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用“闪电说”工具，给Claude Code和OpenClaw（龙虾）加上语音输入，说话就能直接下达编程任务。
@@ -6082,29 +6187,21 @@ OK 它就已经进去了
 用这一套闪电说
 
 </details>
-</div>
-<div class="video-card">
-<h3>如果把作品集vibecoding成网站好像也不错～我是美术生，不懂计算机也能生成好看的网站啦。（界面是国外的模版改的哦，下期会把步骤发出来。这个只是本地没有部署。如果需要借鉴做作品集还是需要好好深化的）#aiagent …</h3>
 
+<h3 id="vibecodingaiagent">如果把作品集vibecoding成网站好像也不错～我是美术生，不懂计算机也能生成好看的网站啦。（界面是国外的模版改的哦，下期会把步骤发出来。这个只是本地没有部署。如果需要借鉴做作品集还是需要好好深化的）#aiagent …</h3>
 <p><strong>作者</strong>：🩰Selena · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633012544060733274">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：如果把作品集vibecoding成网站好像也不错～我是美术生，不懂计算机也能生成好看的网站啦。（界面是国外的模版改的哦，下期会把步骤发出来。这个只是本地没有部署。如果需要借鉴做作品集还是需要好好深化的）#aiagent #trae#claude #opus4.7#vibecoding</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>1300元的M1 无头骑士，平民最强“养龙虾”神器？ 斥巨资淘了一台物理断头的M1 MacBook Air。水极深，千万别头脑一热就上车... #openclaw #笔记本 #MacBook #无头骑士 #捡垃圾</h3>
-
+<h3 id="1300m1-m1-macbook-air-openclaw-macbook">1300元的M1 无头骑士，平民最强“养龙虾”神器？ 斥巨资淘了一台物理断头的M1 MacBook Air。水极深，千万别头脑一热就上车... #openclaw #笔记本 #MacBook #无头骑士 #捡垃圾</h3>
 <p><strong>作者</strong>：司波图 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7623351338415426851">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：1300元的M1 无头骑士，平民最强“养龙虾”神器？ 斥巨资淘了一台物理断头的M1 MacBook Air。水极深，千万别头脑一热就上车...</p>
 <h1 id="openclaw-macbook">openclaw #笔记本 #MacBook #无头骑士 #捡垃圾</h1>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>Codex 终于国产模型自由了！而且切模型不再丢会话记录 #codex #deepseekv4 #agent #vibecoding #ai工具</h3>
-
+<h3 id="codex-codex-deepseekv4-agent-vibecoding-ai">Codex 终于国产模型自由了！而且切模型不再丢会话记录 #codex #deepseekv4 #agent #vibecoding #ai工具</h3>
 <p><strong>作者</strong>：木马_MUMAI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639936000172608809">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -6194,10 +6291,8 @@ API模式下没有办法正常的去使用插件
 咱们下期见
 
 </details>
-</div>
-<div class="video-card">
-<h3>你的桌面小特工 这个好玩。哎，不然天天敲着代码冷冰冰的，有点情绪价值。#Hermes#OpenClaw#Claudecode#Claude#CodeX</h3>
 
+<h3 id="hermesopenclawclaudecodeclaudecodex">你的桌面小特工 这个好玩。哎，不然天天敲着代码冷冰冰的，有点情绪价值。#Hermes#OpenClaw#Claudecode#Claude#CodeX</h3>
 <p><strong>作者</strong>：小爷开启🔛疯狂模式 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640050473621901302">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -6260,10 +6355,8 @@ OK它其实是自己也会去跑
 大家可以玩起来
 
 </details>
-</div>
-<div class="video-card">
-<h3>别再乱装Skill了！这4组Skill，才是顶级生产力。 如果Skill没有配置好，那么Agent使用起来的效果就会事倍功半。 我尝试了十几个Agent和几十个Skill，这些Skill是我每天都在用的，而且不依赖特定的…</h3>
 
+<h3 id="skill4skill-skillagent-agentskillskill">别再乱装Skill了！这4组Skill，才是顶级生产力。 如果Skill没有配置好，那么Agent使用起来的效果就会事倍功半。 我尝试了十几个Agent和几十个Skill，这些Skill是我每天都在用的，而且不依赖特定的…</h3>
 <p><strong>作者</strong>：Juang_42号搭车客 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637565067772366130">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：别再乱装Skill了！这4组Skill，才是顶级生产力。 如果Skill没有配置好，那么Agent使用起来的效果就会事倍功半。<br />
 我尝试了十几个Agent和几十个Skill，这些Skill是我每天都在用的，而且不依赖特定的Agent。</p>
@@ -6401,10 +6494,8 @@ agent写完之后
 每个...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Hermes AI革命来了！我把Hermes AI做成了一键本地部署，不用懂任何技术，双击安装，点开就能用，普通Windows电脑即可本地化运行，零门槛拿捏顶级AI！ #龙虾 #Hermesagent #本地部署 #AI…</h3>
 
+<h3 id="hermes-aihermes-aiwindowsai-hermesagent-ai">Hermes AI革命来了！我把Hermes AI做成了一键本地部署，不用懂任何技术，双击安装，点开就能用，普通Windows电脑即可本地化运行，零门槛拿捏顶级AI！ #龙虾 #Hermesagent #本地部署 #AI…</h3>
 <p><strong>作者</strong>：冒爸聊AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7631507909939072275">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：Hermes AI革命来了！我把Hermes AI做成了一键本地部署，不用懂任何技术，双击安装，点开就能用，普通Windows电脑即可本地化运行，零门槛拿捏顶级AI！ #龙虾  #Hermesagent  #本地部署  #AI平权 #AI</p>
 <blockquote>
@@ -6438,10 +6529,8 @@ AI不是程序员的专属玩具
 感兴趣的可以评论去留言哦
 
 </details>
-</div>
-<div class="video-card">
-<h3>openclaw deepseek自动微信语音电话，复刻声音 分享openclaw调用deepseek v4大模型，复刻本人声音，实现微信自动语音电话，教育培育行业实用分享，这个效果大家感觉AI能代替自己做语音客服吗？ …</h3>
 
+<h3 id="openclaw-deepseek-openclawdeepseek-v4ai">openclaw deepseek自动微信语音电话，复刻声音 分享openclaw调用deepseek v4大模型，复刻本人声音，实现微信自动语音电话，教育培育行业实用分享，这个效果大家感觉AI能代替自己做语音客服吗？ …</h3>
 <p><strong>作者</strong>：AI实训营 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633696831806266867">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：openclaw deepseek自动微信语音电话，复刻声音 分享openclaw调用deepseek v4大模型，复刻本人声音，实现微信自动语音电话，教育培育行业实用分享，这个效果大家感觉AI能代替自己做语音客服吗？</p>
 <h1 id="deepseekv4-openclaw-deepseekv2">实测DeepSeekV4 #openclaw #deepseekv2 #微信智能体 #微信助手</h1>
@@ -6460,18 +6549,13 @@ OpenCloud+Deep Sleep P4 实现微信自动语音电话
 想邀请孩子来体验一下 你看方便吗
 
 </details>
-</div>
-<div class="video-card">
-<h3>Claude不香了，拥抱Codex新功能，打造自己的桌宠！ #科技下一站 #codex #ai #claudecode #agent</h3>
 
+<h3 id="claudecodex-codex-ai-claudecode-agent">Claude不香了，拥抱Codex新功能，打造自己的桌宠！ #科技下一站 #codex #ai #claudecode #agent</h3>
 <p><strong>作者</strong>：LIGHT · <strong>链接</strong>：<a href="https://www.douyin.com/video/7635692430432033673">抖音</a> · <strong>价值评分</strong>：1</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>在纯电大六座车里养龙虾Openclaw是怎样一种体验。 最近养龙虾很火啊，我也废寝忘食研究了好几天。 把一只进口龙虾本地部署在我的乐道L90车上了哈哈。 有一说一对于自媒体博主来讲。 龙虾的适配度有点超纲？ 还没打通工作…</h3>
-
+<h3 id="openclaw-l90">在纯电大六座车里养龙虾Openclaw是怎样一种体验。 最近养龙虾很火啊，我也废寝忘食研究了好几天。 把一只进口龙虾本地部署在我的乐道L90车上了哈哈。 有一说一对于自媒体博主来讲。 龙虾的适配度有点超纲？ 还没打通工作…</h3>
 <p><strong>作者</strong>：电车漫游2049 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7621898153080969445">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：在纯电大六座车里养龙虾Openclaw是怎样一种体验。<br />
 最近养龙虾很火啊，我也废寝忘食研究了好几天。<br />
@@ -6479,7 +6563,7 @@ OpenCloud+Deep Sleep P4 实现微信自动语音电话
 有一说一对于自媒体博主来讲。<br />
 龙虾的适配度有点超纲？ <br />
 还没打通工作流我就已经很惊喜了。</p>
-<h1 id="openclaw-l90">电车漫游 #养龙虾  #移动办公室 #openclaw #蔚来乐道L90</h1>
+<h1 id="openclaw-l90_1">电车漫游 #养龙虾  #移动办公室 #openclaw #蔚来乐道L90</h1>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】在车内用本地部署的AI工作流，实现素材自动剪辑、文案生成和全平台分发，打造移动超级个体。
 
@@ -6582,10 +6666,8 @@ OK 按摩腰部 扶定 推下
 是真的...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>安卓codex，一台超级 ai agent手机 #豆包手机 #ai #agen#codex</h3>
 
+<h3 id="codex-ai-agent-ai-agencodex">安卓codex，一台超级 ai agent手机 #豆包手机 #ai #agen#codex</h3>
 <p><strong>作者</strong>：lots · <strong>链接</strong>：<a href="https://www.douyin.com/video/7681501210054881449">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】原生Codex环境跑在安卓上，能自主完成多线程长任务，全程无需人工干预。
@@ -6678,10 +6760,8 @@ OK 按摩腰部 扶定 推下
 其实还是挺智能的吧
 
 </details>
-</div>
-<div class="video-card">
-<h3>我在河边吹风，5个AI正在替我做决定 #刘小排 #AI编程 #agent #AI</h3>
 
+<h3 id="5ai-ai-agent-ai">我在河边吹风，5个AI正在替我做决定 #刘小排 #AI编程 #agent #AI</h3>
 <p><strong>作者</strong>：刘小排 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7676091892970310922">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】给AI编程工具配多个AI“同事”互相审核代码，能大幅减少返工，比单打独斗效率更高。
@@ -6739,28 +6819,20 @@ OK 按摩腰部 扶定 推下
 你请了哪几位同事
 
 </details>
-</div>
-<div class="video-card">
-<h3>我开源了自媒体Ai自审智能体！能够帮助大家合规地创作视频啦 #Ai新星计划 #Vibecoding大赏</h3>
 
+<h3 id="ai-ai-vibecoding">我开源了自媒体Ai自审智能体！能够帮助大家合规地创作视频啦 #Ai新星计划 #Vibecoding大赏</h3>
 <p><strong>作者</strong>：柱子哥TzFilm · <strong>链接</strong>：<a href="https://www.douyin.com/video/7657040269149326638">抖音</a></p>
 <p><strong>简介</strong>：我开源了自媒体Ai自审智能体！能够帮助大家合规地创作视频啦 #Ai新星计划  #Vibecoding大赏</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>蒸馏5位亿万富翁从0创业，谁最先赚到100亿？ #ai新星计划 #ai #创业 #agent#商业</h3>
-
+<h3 id="50100-ai-ai-agent">蒸馏5位亿万富翁从0创业，谁最先赚到100亿？ #ai新星计划 #ai #创业 #agent#商业</h3>
 <p><strong>作者</strong>：糊粥人儿 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7655381236378062118">抖音</a></p>
 <p><strong>简介</strong>：蒸馏5位亿万富翁从0创业，谁最先赚到100亿？ #ai新星计划  #ai #创业 #agent#商业</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>告别手搓PPT、文档，飞书+Codex 才是提效的神！ #飞书CLI #飞书 #AI新星计划 #智能体 #codex</h3>
-
+<h3 id="pptcodex-cli-ai-codex">告别手搓PPT、文档，飞书+Codex 才是提效的神！ #飞书CLI #飞书 #AI新星计划 #智能体 #codex</h3>
 <p><strong>作者</strong>：Xuan酱 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7654518684718779691">抖音</a></p>
 <p><strong>简介</strong>：告别手搓PPT、文档，飞书+Codex 才是提效的神！ #飞书CLI #飞书 #AI新星计划  #智能体 #codex</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -6944,10 +7016,8 @@ AI协同编辑的好处
 那我就可以...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>workbuddy龙虾会自动帮我看群聊，还能自动总结信息</h3>
 
+<h3 id="workbuddy">workbuddy龙虾会自动帮我看群聊，还能自动总结信息</h3>
 <p><strong>作者</strong>：慕瑶车海 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650919089887737826">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -6968,10 +7038,8 @@ AI协同编辑的好处
 等一下就会跟我们出一个结果
 
 </details>
-</div>
-<div class="video-card">
-<h3>小白6分钟速通codex，操控电脑、办公、生图、自动化，轻松上手！#ai #aiagent #ai新星计划 #codex</h3>
 
+<h3 id="6codexai-aiagent-ai-codex">小白6分钟速通codex，操控电脑、办公、生图、自动化，轻松上手！#ai #aiagent #ai新星计划 #codex</h3>
 <p><strong>作者</strong>：鹤之Neo · <strong>链接</strong>：<a href="https://www.douyin.com/video/7636230465388725754">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -7093,10 +7161,8 @@ Canvas设计软件的
 这个半透明小光标就是coDEX操作...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>媲美 claude code 和codex的agent产品 #科技 #agent #模型 #deepseek</h3>
 
+<h3 id="claude-code-codexagent-agent-deepseek">媲美 claude code 和codex的agent产品 #科技 #agent #模型 #deepseek</h3>
 <p><strong>作者</strong>：算力炼丹炉 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643767024761490697">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -7119,10 +7185,8 @@ Ryzenix 是一个专门为 DeepSeq 优化的桌面端产品
 感兴趣的小伙伴赶紧去试试
 
 </details>
-</div>
-<div class="video-card">
-<h3>飞书官方插件一出，龙虾的玩法彻底变了 #OpenClaw #飞书 #Agent #养虾 #飞书妙搭</h3>
 
+<h3 id="openclaw-agent">飞书官方插件一出，龙虾的玩法彻底变了 #OpenClaw #飞书 #Agent #养虾 #飞书妙搭</h3>
 <p><strong>作者</strong>：技术爬爬虾 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7616735960260169011">抖音</a></p>
 <p><strong>简介</strong>：飞书官方插件一出，龙虾的玩法彻底变了 #OpenClaw  #飞书  #Agent #养虾  #飞书妙搭</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -7252,10 +7316,8 @@ OpenCloud整体还处于初级形态
 如果我发你的截图是个...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>超级省token的国产Agent #dou出新知#这个视频有点儿料#电脑#电脑知识#deepseek</h3>
 
+<h3 id="tokenagent-doudeepseek">超级省token的国产Agent #dou出新知#这个视频有点儿料#电脑#电脑知识#deepseek</h3>
 <p><strong>作者</strong>：微机课代表阿银 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643878438117330228">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -7279,10 +7341,8 @@ OpenCloud整体还处于初级形态
 赶紧去试试吧
 
 </details>
-</div>
-<div class="video-card">
-<h3>我觉得玩AI比打游戏有意思！Hermes真的比小龙虾好用吗?#Ai #hermes #openclaw #AI</h3>
 
+<h3 id="aihermesai-hermes-openclaw-ai">我觉得玩AI比打游戏有意思！Hermes真的比小龙虾好用吗?#Ai #hermes #openclaw #AI</h3>
 <p><strong>作者</strong>：波龙先生 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639778443386759610">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -7310,10 +7370,8 @@ OpenCloud整体还处于初级形态
 明天有
 
 </details>
-</div>
-<div class="video-card">
-<h3>收藏！大佬们的OpenClaw神仙用法开源项目！ #OpenClaw #开源 #Agent</h3>
 
+<h3 id="openclaw-openclaw-agent">收藏！大佬们的OpenClaw神仙用法开源项目！ #OpenClaw #开源 #Agent</h3>
 <p><strong>作者</strong>：程序员少北晨 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7616166765168479528">抖音</a></p>
 <p><strong>简介</strong>：收藏！大佬们的OpenClaw神仙用法开源项目！ #OpenClaw  #开源 #Agent</p>
 <blockquote>
@@ -7331,10 +7389,8 @@ OpenCloud整体还处于初级形态
 里面收录了很多OpenCloud的经验用法
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex有多强？看完你也能用AI为所欲为 #codex #AI工具 #AI教学 #智能体</h3>
 
+<h3 id="codexai-codex-ai-ai">Codex有多强？看完你也能用AI为所欲为 #codex #AI工具 #AI教学 #智能体</h3>
 <p><strong>作者</strong>：里昂说AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7645269431458843958">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】Codex是能替你干活的AI员工，配置好插件和权限，就能让它自动完成做视频、做网站等复杂任务。
@@ -7478,18 +7534,13 @@ Codex所有的技艺都是存储在本地
 你们平时都用 Codex 做了什么呢?
 
 </details>
-</div>
-<div class="video-card">
-<h3>整又整不好 弃又不舍得 花费我一天 😭。#openclaw #人工智能#养虾人</h3>
 
+<h3 id="openclaw">整又整不好 弃又不舍得 花费我一天 😭。#openclaw #人工智能#养虾人</h3>
 <p><strong>作者</strong>：少婷&amp;瑜伽体态健康管理 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643130995370293247">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>最近很火的操作系统级AI助手，到底强在哪 #Marvis #AI助手 #AI #agent #思维</h3>
-
+<h3 id="ai-marvis-ai-ai-agent">最近很火的操作系统级AI助手，到底强在哪 #Marvis #AI助手 #AI #agent #思维</h3>
 <p><strong>作者</strong>：腾讯云TDP · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642281629041413410">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】Marvis是能直接操作电脑的操作系统级AI助手，可执行卸载安装应用、检查磁盘等真实操作，而非仅聊天。
@@ -7551,10 +7602,8 @@ OK 可以看到你完成卸載操作
 誰能拒絕這麼能幹的忙
 
 </details>
-</div>
-<div class="video-card">
-<h3>我的 openclaw ，居然给我部署了一个假的 Hermes #openclaw #Hermes #agent</h3>
 
+<h3 id="openclaw-hermes-openclaw-hermes-agent">我的 openclaw ，居然给我部署了一个假的 Hermes #openclaw #Hermes #agent</h3>
 <p><strong>作者</strong>：阿森 AI 实战笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7631269531054581097">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -7618,10 +7667,8 @@ AI Agent部署翻车，往往不是能力问题，而是规则太松。用两条
 规则紧一点 它交出来的反而更硬 我是阿森 一个在AI浪潮里四颗实战的普通人 关注我 一起用AI少走弯路
 
 </details>
-</div>
-<div class="video-card">
-<h3>GitHub 宝藏项目：为自动化而生的浏览器 #人工智能 #ai #openclaw #vibecoding #浏览器</h3>
 
+<h3 id="github-ai-openclaw-vibecoding">GitHub 宝藏项目：为自动化而生的浏览器 #人工智能 #ai #openclaw #vibecoding #浏览器</h3>
 <p><strong>作者</strong>：AIKIT · <strong>链接</strong>：<a href="https://www.douyin.com/video/7641978445266268506">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】与其用易失效的伪装脚本，不如直接修改浏览器底层代码，让自动化环境本身看起来就像真实用户。
@@ -7675,10 +7722,8 @@ AI Agent部署翻车，往往不是能力问题，而是规则太松。用两条
 我们下期见
 
 </details>
-</div>
-<div class="video-card">
-<h3>Openclaw+Hermes，双擎合一，秒级集成#Hermes #openclaw #龙虾 #AI工具</h3>
 
+<h3 id="openclawhermeshermes-openclaw-ai">Openclaw+Hermes，双擎合一，秒级集成#Hermes #openclaw #龙虾 #AI工具</h3>
 <p><strong>作者</strong>：张泽伟聊AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640001527666593064">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -7717,10 +7762,8 @@ CodeBody就能自動解析架構意圖
 與Hermes的執行效率為你所用
 
 </details>
-</div>
-<div class="video-card">
-<h3>image2真正的隐藏用法，被我跑通了 #image2 #agent #AI #装修 #openclaw</h3>
 
+<h3 id="image2-image2-agent-ai-openclaw">image2真正的隐藏用法，被我跑通了 #image2 #agent #AI #装修 #openclaw</h3>
 <p><strong>作者</strong>：朱曦辰 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639826739124328689">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】  
@@ -7766,10 +7809,8 @@ CodeBody就能自動解析架構意圖
 成本和搭建流程
 
 </details>
-</div>
-<div class="video-card">
-<h3>炸裂升级！Codex直接操控电脑！ #Codex #VibeCoding #Agent #GPT #山姆奥特曼</h3>
 
+<h3 id="codex-codex-vibecoding-agent-gpt">炸裂升级！Codex直接操控电脑！ #Codex #VibeCoding #Agent #GPT #山姆奥特曼</h3>
 <p><strong>作者</strong>：未来奇点 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7630382572161240360">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】Codex大更新，从“聊天写代码”进化为能直接操控电脑、精准改网页的“完全体Agent”。
@@ -7837,10 +7878,8 @@ SSH連接服務器了
 好了關注我帶你了解更多Agent貨
 
 </details>
-</div>
-<div class="video-card">
-<h3>新手小白必看，教你分清智能体和工作流的区别，千万不要乱学 #coze #扣子编程 #智能体 #工作流 #coze工作流</h3>
 
+<h3 id="coze-coze">新手小白必看，教你分清智能体和工作流的区别，千万不要乱学 #coze #扣子编程 #智能体 #工作流 #coze工作流</h3>
 <p><strong>作者</strong>：拾忆的Agent · <strong>链接</strong>：<a href="https://www.douyin.com/video/7632712500118621459">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】智能体负责对话交互，工作流负责批量执行，商业级应用必须两者组合使用。
@@ -7981,18 +8020,13 @@ SSH連接服務器了
 他不需要知道后台调用了多少...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>hermesagent 可视化面板。hermes可视化小女孩ui #openclaw #hermesagent #ui</h3>
 
+<h3 id="hermesagent-hermesui-openclaw-hermesagent-ui">hermesagent 可视化面板。hermes可视化小女孩ui #openclaw #hermesagent #ui</h3>
 <p><strong>作者</strong>：月 光 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7638515892854806117">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>用Codex5.4做了一个桌宠，又解压又实用 #chatgpt #codex #罗小黑战记 #Ai #OpenClaw</h3>
-
+<h3 id="codex54-chatgpt-codex-ai-openclaw">用Codex5.4做了一个桌宠，又解压又实用 #chatgpt #codex #罗小黑战记 #Ai #OpenClaw</h3>
 <p><strong>作者</strong>：AI 老黄 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7622988837471407400">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -8036,10 +8070,8 @@ SSH連接服務器了
 关注我让你的ai更好玩
 
 </details>
-</div>
-<div class="video-card">
-<h3>啥叫agent？为啥豆包不能直接给我订票？ #AI #AI新星计划 #人工智能 #agent #知识科普</h3>
 
+<h3 id="agent-ai-ai-agent">啥叫agent？为啥豆包不能直接给我订票？ #AI #AI新星计划 #人工智能 #agent #知识科普</h3>
 <p><strong>作者</strong>：Youni讲AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634193928522075438">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】豆包这类通用AI是“公共前台”，出于安全、责任和监管限制，不能替你执行订票等操作；想用上能动手办事的Agent，得用专用工具或自己搭。
@@ -8205,10 +8237,8 @@ azint才从真正的论文走到你手机里
 金融...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>让开源AI模型在本地帮你处理多样化任务 #人工智能 #有ai就有无限可能 #科技与狠活 #Agent</h3>
 
+<h3 id="ai-ai-agent_1">让开源AI模型在本地帮你处理多样化任务 #人工智能 #有ai就有无限可能 #科技与狠活 #Agent</h3>
 <p><strong>作者</strong>：赛文乔伊 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637830673276865855">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】开源纯视觉AI模型Mano-GangPi可在本地操控电脑屏幕，替你完成打游戏、传文件、剪视频等多样化任务，数据不出本机。
@@ -8275,18 +8305,13 @@ ManoGunP不只是能帮你做几个简单的点击
 私有化AI的时代这回是真的要来了
 
 </details>
-</div>
-<div class="video-card">
-<h3>算力经济加盟，星瀚云龙虾AI诚招全国代理商！</h3>
 
+<h3 id="ai_1">算力经济加盟，星瀚云龙虾AI诚招全国代理商！</h3>
 <p><strong>作者</strong>：浙江星瀚云计算技术有限公司官方号 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7636602100499221803">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>#Agent #智能体 #AI</h3>
-
+<h3 id="agent-ai">#Agent #智能体 #AI</h3>
 <p><strong>作者</strong>：成也2.0 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7600359556429942026">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -8311,10 +8336,8 @@ ManoGunP不只是能帮你做几个简单的点击
 如果你也想學來我知不見
 
 </details>
-</div>
-<div class="video-card">
-<h3>openclaw 太复杂，于是我重新开发了个。 #openclaw #ai</h3>
 
+<h3 id="openclaw-openclaw-ai">openclaw 太复杂，于是我重新开发了个。 #openclaw #ai</h3>
 <p><strong>作者</strong>：liliMozi · <strong>链接</strong>：<a href="https://www.douyin.com/video/7617428517102068890">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】把复杂AI Agent（如OpenClaw）做成配置简单、有记忆、能主动干活的本地化工具，核心是“会打字就能用”。
@@ -8470,10 +8493,8 @@ OpenHanako 完整兼容OpenCloud的
 Hanako 跟OpenCloud...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>问题点比较多，大家再等几天，让我测试好，到时候会发视频通知📢 #hermesagent #aiagent</h3>
 
+<h3 id="hermesagent-aiagent">问题点比较多，大家再等几天，让我测试好，到时候会发视频通知📢 #hermesagent #aiagent</h3>
 <p><strong>作者</strong>：虾捣鼓 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7635718062146429672">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -8514,10 +8535,8 @@ HermesAgent管理界面还在内测优化中，群聊、任务面板等核心功
 所以还有很多地方需要再优化
 
 </details>
-</div>
-<div class="video-card">
-<h3>你还在使用Hermes终端进行交互吗？赶紧试试UI交互吧！#抖音AI创作 #Hermes #agent #AI</h3>
 
+<h3 id="hermesuiai-hermes-agent-ai">你还在使用Hermes终端进行交互吗？赶紧试试UI交互吧！#抖音AI创作 #Hermes #agent #AI</h3>
 <p><strong>作者</strong>：朱智聪Zero · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633686643392063985">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用Docker给Hermes装一个网页版UI界面，告别黑乎乎的中端操作。
@@ -8620,10 +8639,8 @@ Hermes 安装过后
 这就是 Hermes 的 UI 界面
 
 </details>
-</div>
-<div class="video-card">
-<h3>一条视频讲透AI编程的最后阶段：小龙虾🦞 #刘小排 #AI #AI编程 #openclaw #AI工具</h3>
 
+<h3 id="ai-ai-ai-openclaw-ai">一条视频讲透AI编程的最后阶段：小龙虾🦞 #刘小排 #AI #AI编程 #openclaw #AI工具</h3>
 <p><strong>作者</strong>：刘小排 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633689551361297691">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -8787,10 +8804,8 @@ AI可以自己找活干
 到阶段四的代码消失...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>龙虾帮我上品？#龙虾ai #openclaw #ai #电商</h3>
 
+<h3 id="ai-openclaw-ai">龙虾帮我上品？#龙虾ai #openclaw #ai #电商</h3>
 <p><strong>作者</strong>：Ai 龙虾智能自动化系统 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634122433385659257">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -8805,18 +8820,13 @@ AI可以自己找活干
 填好信息之后帮我们发布
 
 </details>
-</div>
-<div class="video-card">
-<h3>Coze一键生成电商产品视频 Coze一键生成产品视频，Ai让电商更简单#coze工作流#Ai应用#智能体</h3>
 
+<h3 id="coze-cozeaicozeai">Coze一键生成电商产品视频 Coze一键生成产品视频，Ai让电商更简单#coze工作流#Ai应用#智能体</h3>
 <p><strong>作者</strong>：阳雨Ai · <strong>链接</strong>：<a href="https://www.douyin.com/video/7624974467546090802">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>Hermes API接进来就能用了，需要的进粉丝群，我测试好之后发群里。 #hermesagent</h3>
-
+<h3 id="hermes-api-hermesagent">Hermes API接进来就能用了，需要的进粉丝群，我测试好之后发群里。 #hermesagent</h3>
 <p><strong>作者</strong>：虾捣鼓 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633880377694223247">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用Hermes API套壳，给不同Agent设定人格和分工，实现任务透明化管理。
@@ -8872,97 +8882,83 @@ agent管理界面
 任务看板
 
 </details>
-</div>
-<div class="video-card">
-<h3>用最新的deepseekV4操控我的龙虾手机！ #ai #deepseek #人工智能 #openclaw #agent</h3>
 
+<h3 id="deepseekv4-ai-deepseek-openclaw-agent">用最新的deepseekV4操控我的龙虾手机！ #ai #deepseek #人工智能 #openclaw #agent</h3>
 <p><strong>作者</strong>：Ai手机-侠客工坊 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7632601047836498923">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<hr />
-</div>
-</div>
+<hr /></div>
 <div class="footer">
-企业 AI 实战知识库 · 个人成长系统 v3.0 · 数据基于 514 条视频原文 + 110 方法簇 + 162 方法论<br>
+企业 AI 实战知识库 · 个人成长系统 v3.0<br>
+基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
 部署于 GitHub Pages · 2026-09-10
 </div>
 </main>
 </div>
 <script>
-// Search functionality
-const searchIndex = [];
-const PAGES = {};
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Build search index from current page content
-  const content = document.querySelector('.content');
-  if (content) {
-    const text = content.innerText.toLowerCase();
-    const title = document.querySelector('h1')?.innerText || '';
-    const headings = Array.from(document.querySelectorAll('h2, h3')).map(h => h.innerText);
-    searchIndex.push({
-      title, headings: headings.join(' '), text: text.substring(0, 5000)
-    });
-  }
-  
-  // Search input
-  const searchInput = document.getElementById('search');
-  if (searchInput) {
-    let timer;
-    searchInput.addEventListener('input', (e) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => doSearch(e.target.value), 200);
-    });
-  }
-  
-  // Highlight current page in nav
+  // Sidebar active state
   const path = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-item').forEach(el => {
+  document.querySelectorAll('.sidebar-item').forEach(el => {
     if (el.getAttribute('href') === path) el.classList.add('active');
   });
-});
-
-function doSearch(q) {
-  if (!q || q.length < 2) return;
-  // Basic in-page highlight (could be enhanced)
-  const content = document.querySelector('.content');
-  if (!content) return;
-  // remove old marks
-  content.querySelectorAll('mark.search-mark').forEach(m => {
-    const t = document.createTextNode(m.textContent);
-    m.parentNode.replaceChild(t, m);
+  document.querySelectorAll('.nav-items a').forEach(el => {
+    if (el.getAttribute('href') === path) el.classList.add('active');
   });
-  if (q.length < 2) return;
-  // walk text nodes
-  const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
-  const re = new RegExp(q.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&'), 'gi');
-  let count = 0;
-  while (walker.nextNode() && count < 30) {
-    const node = walker.currentNode;
-    if (node.parentNode.tagName === 'SCRIPT' || node.parentNode.tagName === 'STYLE') continue;
-    const text = node.nodeValue;
-    if (!re.test(text)) continue;
-    re.lastIndex = 0;
-    const frag = document.createDocumentFragment();
-    let last = 0;
-    let m;
-    while ((m = re.exec(text)) !== null) {
-      frag.appendChild(document.createTextNode(text.substring(last, m.index)));
-      const mark = document.createElement('mark');
-      mark.className = 'search-mark';
-      mark.style.background = '#ff9a4f';
-      mark.style.color = '#000';
-      mark.textContent = m[0];
-      frag.appendChild(mark);
-      last = m.index + m[0].length;
-      count++;
-      if (count > 30) break;
-    }
-    frag.appendChild(document.createTextNode(text.substring(last)));
-    node.parentNode.replaceChild(frag, node);
+  
+  // Search
+  const si = document.getElementById('search');
+  if (si) {
+    let t;
+    si.addEventListener('input', e => {
+      clearTimeout(t);
+      t = setTimeout(() => {
+        const q = e.target.value.toLowerCase();
+        const cards = document.querySelectorAll('.video-card, .card');
+        cards.forEach(c => {
+          c.style.display = c.innerText.toLowerCase().includes(q) || !q ? '' : 'none';
+        });
+        // For content pages
+        const content = document.querySelector('.content');
+        if (content) {
+          content.querySelectorAll('p, li, h2, h3').forEach(el => {
+            if (!q) { el.style.background = ''; return; }
+            el.style.background = el.innerText.toLowerCase().includes(q) ? 'rgba(255, 235, 59, 0.4)' : '';
+          });
+        }
+      }, 200);
+    });
   }
-}
+  
+  // Smooth scroll for TOC links
+  document.querySelectorAll('.page-toc a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+      }
+    });
+  });
+  
+  // Active TOC item on scroll
+  const tocLinks = document.querySelectorAll('.page-toc a');
+  if (tocLinks.length) {
+    const sections = Array.from(tocLinks).map(l => document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          tocLinks.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.page-toc a[href="#${e.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    sections.forEach(s => observer.observe(s));
+  }
+});
 </script>
 </body>
 </html>

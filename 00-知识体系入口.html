@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>B3 · RAG in Action</title>
+<title>知识体系</title>
 <style>
 :root {
   --bg: #fbfbfd;
@@ -633,328 +633,296 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-header"><div class="article-meta"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">B3</span></div></div><h1 id="b3-rag-in-action">B3 · 《RAG in Action》</h1>
+<div class="content"><h1 id="ai-v30">🏠 企业 AI 实战知识库 · 个人成长系统 v3.0</h1>
 <blockquote>
-<p><strong>类型</strong>：工程技术书 · RAG 工程实战<br />
-<strong>链接</strong>：Manning / 各大书店渠道<br />
-<strong>中文卡版本</strong>：基于摘要整理 · 2026-09-10</p>
+<p><strong>这一份是做什么的</strong>：把 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径 SOP 重新组织成的<strong>「企业 AI 落地 / FDE 实操」实战库</strong>。<br />
+<strong>和 v2.11 原网站的区别</strong>：系统性 ✅ + 权威性 ✅ + 可直接用 ✅（原网站散落在 9 个卡片里）<br />
+<strong>数据规模</strong>：43 万中文字 · 1.55 MB · 22 核心文件 + 18 权威卡片</p>
 </blockquote>
-<h2 id="_1">一、定位</h2>
-<p>RAG（Retrieval-Augmented Generation，检索增强生成）是企业 AI 落地<strong>最常用</strong>的架构——<br />
-把企业私有知识库 + 大模型组合起来，让模型"看了再说"。</p>
-<blockquote>
-<p>这本书是 RAG 工程化的"红宝书"。<br />
-你 KB 里"知识库项目 7 成是脏活"，那 7 成就是 RAG 数据准备。</p>
-</blockquote>
-<h2 id="_2">二、五大核心论点</h2>
-<h3 id="1-rag">1. 什么时候需要 RAG，什么时候不需要</h3>
+<h2 id="3">一、3 分钟读懂这套知识库</h2>
+<h3 id="ai-ai">你学的是<strong>「怎么把 AI 在企业里用对」</strong>——不是 AI 知识</h3>
+<p>按 4 个层级组织（从抽象到具体）：</p>
+<pre><code>立场层 (Why)        → 你是谁 / 你为谁服务
+领域层 (What)       → 你研究哪 9 块学问  
+流程层 (How)        → 做成一单要过哪 7 关
+判断力层 (So What)   → 4 条最高原则
+权威支撑层 (From Whom) → 18 张一手权威卡
+</code></pre>
+<h3 id="6-roi">你最常走的 6 条路（按 ROI 排序）</h3>
 <table>
 <thead>
 <tr>
-<th>场景</th>
-<th>RAG</th>
-<th>原因</th>
+<th>路径</th>
+<th>ROI</th>
+<th>适合谁</th>
+<th>见 SOP</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>企业私有知识问答</td>
-<td>✓ 必须</td>
-<td>模型不知道</td>
+<td>💰 <strong>接单成交</strong></td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>有客户资源</td>
+<td><code>SOP-01</code></td>
 </tr>
 <tr>
-<td>实时信息查询</td>
-<td>✓ 推荐</td>
-<td>模型知识过期</td>
+<td>📹 <strong>内容 IP</strong></td>
+<td>⭐⭐⭐⭐</td>
+<td>已经在做内容</td>
+<td><code>SOP-02</code></td>
 </tr>
 <tr>
-<td>答案必须可追溯</td>
-<td>✓ 推荐</td>
-<td>RAG 能引用原文</td>
+<td>🏗️ <strong>FDE 入企交付</strong></td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>有 1-2 个项目</td>
+<td><code>SOP-03</code> v2</td>
 </tr>
 <tr>
-<td>通用知识问答</td>
-<td>✗ 不需要</td>
-<td>模型本身够</td>
+<td>🤖 <strong>Agent 工具链</strong></td>
+<td>⭐⭐⭐</td>
+<td>想省 2-3 小时/天</td>
+<td><code>SOP-04</code></td>
 </tr>
 <tr>
-<td>创意写作</td>
-<td>✗ 不建议</td>
-<td>检索会干扰创作</td>
+<td>🌊 <strong>行业深耕（物流/跨境）</strong></td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>有实体业务</td>
+<td><code>SOP-05</code></td>
 </tr>
 <tr>
-<td>强逻辑推理</td>
-<td>✗ 不需要</td>
-<td>用 CoT / Tool Use</td>
+<td>🧠 <strong>认知升级</strong></td>
+<td>⭐⭐⭐⭐</td>
+<td>长期主义</td>
+<td><code>SOP-06</code></td>
 </tr>
 </tbody>
 </table>
-<p><strong>判断口诀</strong>：<strong>知识更新 + 来源可溯 → RAG</strong>；<strong>通用 + 创意 + 推理 → 不用 RAG</strong>。</p>
-<h3 id="2-rag">2. RAG 召回效果验证方法</h3>
-<p>RAG 不是"丢进去就能用"，<strong>召回质量决定上限</strong>：</p>
-<table>
-<thead>
-<tr>
-<th>指标</th>
-<th>释义</th>
-<th>阈值建议</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Recall@5</td>
-<td>前 5 个结果里包含正确答案的比例</td>
-<td>&gt; 80%</td>
-</tr>
-<tr>
-<td>MRR</td>
-<td>正确答案的排名倒数</td>
-<td>&gt; 0.7</td>
-</tr>
-<tr>
-<td>Context Precision</td>
-<td>召回内容的精确度</td>
-<td>&gt; 0.8</td>
-</tr>
-<tr>
-<td>Answer Faithfulness</td>
-<td>答案忠实于原文（无幻觉）</td>
-<td>&gt; 90%</td>
-</tr>
-</tbody>
-</table>
-<p><strong>测试方法</strong>：<br />
-- 准备 100-500 个真实问题 + 标准答案<br />
-- 跑 RAG 看召回对不对<br />
-- 看模型回答对不对 + 是否引用了原文<br />
-- 找最差的 20 个 case 改</p>
 <blockquote>
-<p>对应你 SOP-03 第 4 步"持续迭代"——<br />
-<strong>RAG 不是一次做对，是每周调一次</strong>。</p>
+<p><strong>闭环</strong>：接单 → 案例 → 内容 → 新客户 → 接新单。同时内容 → 武装自己 → 工具链 → 反哺接单。物流 know-how 是护城河。认知升级是天花板。</p>
 </blockquote>
-<h3 id="3">3. 幻觉测试方法</h3>
-<p>RAG 的最大风险是<strong>幻觉</strong>——模型"看似回答了你的问题，其实编的"。</p>
-<p><strong>三类幻觉</strong>：<br />
-- <strong>Context 没用上</strong>：召回对了但模型没看<br />
-- <strong>Context 不够</strong>：召回没召回完整信息<br />
-- <strong>Context 过度推断</strong>：模型基于召回做了过度推理</p>
-<p><strong>测试套路</strong>：<br />
-- 故意给错误文档 → 看模型会不会照搬<br />
-- 故意给空文档 → 看模型会不会说"不知道"<br />
-- 故意给部分文档 → 看模型会不会乱补全</p>
+<hr />
+<h2 id="_1">二、今天该读什么？（按你的角色选）</h2>
+<h3 id="fde">🚀 如果你是<strong>新手 / 刚接触 FDE</strong></h3>
+<p><strong>Week 1（认知建立）</strong>：<br />
+- 先读 <code>00-知识体系.md</code>（5 分钟建立全局观）<br />
+- 读 <code>01-方法论总纲.md</code>「接单判断」章（半小时）<br />
+- 读 <code>auth-e6-FDE 三原厂官方.md</code>（了解 FDE 是什么）</p>
+<p><strong>Week 2（接单启蒙）</strong>：<br />
+- 读 <code>03-SOP/SOP-01-接单成交方向.md</code>（完整版）<br />
+- 看 <code>top30.html</code> 5 条 TOP 1-5（接单类）<br />
+- 读 <code>auth-e4-失败率证据.md</code>（说服自己为什么做）</p>
+<p><strong>Week 3（落地实操）</strong>：<br />
+- 读 <code>03-SOP/SOP-03-FDE 入企交付方向.md</code> v2（8 阶段 8 SOP）<br />
+- 读 <code>auth-a1-A1-Anthropic-FDE博客.md</code><br />
+- 选 1 个目标客户做 FDE 三问摸底</p>
+<p><strong>Week 4（飞轮启动）</strong>：<br />
+- 读 <code>03-SOP/SOP-02-内容 IP 方向.md</code>（完整版）<br />
+- 录第一条实战视频<br />
+- 加第一个私域客户</p>
+<h3 id="fde_1">💼 如果你是<strong>正在接单的 FDE</strong></h3>
+<p><strong>核心动作清单</strong>：<br />
+1. <strong>每天</strong>：5 步报价法 + FDE 三问（用在每个新客户）<br />
+2. <strong>每周</strong>：选 3 条 TOP 30 深读 + 见 1 个客户<br />
+3. <strong>每月</strong>：复盘 3 个判断 + 沉淀 1 个案例</p>
+<p><strong>优先读</strong>：<br />
+- <code>01-方法论总纲.md</code>「接单判断 / 报价签约 / 交付 SOP」3 章<br />
+- <code>03-SOP/SOP-01</code> + <code>SOP-03</code> + <code>SOP-07</code> 报价签约<br />
+- <code>02-知识库/01-企业AI落地·接单武器.md</code>（23 视频精华）</p>
+<h3 id="_2">📹 如果你是<strong>内容创作者 / 自媒体</strong></h3>
+<p><strong>优先读</strong>：<br />
+- <code>03-SOP/SOP-02-内容 IP 方向.md</code>（完整版）<br />
+- <code>02-知识库/05-AI内容创作.md</code>（41 视频）+ <code>06-自媒体·获客运营.md</code>（19 视频）<br />
+- <code>top30.html</code> 中筛选 6 条内容相关</p>
+<h3 id="_3">🌊 如果你是<strong>物流 / 跨境业务老板</strong></h3>
+<p><strong>优先读</strong>：<br />
+- <code>03-SOP/SOP-05-行业深耕方向.md</code>（完整版）<br />
+- <code>02-知识库/01-企业AI落地·接单武器.md</code> 真相·避坑簇<br />
+- <code>auth-c1-风险驱动架构.md</code> + <code>auth-c3-DDD.md</code>（业务建模）</p>
+<h3 id="_4">🧠 如果你是<strong>长期主义 / 想升级认知</strong></h3>
+<p><strong>优先读</strong>：<br />
+- <code>03-SOP/SOP-06-认知升级方向.md</code>（完整版）<br />
+- <code>02-知识库/08-AI认知·趋势·观点.md</code>（34 视频）<br />
+- <code>auth-e1-软件工程知识体系.md</code> + <code>auth-e2-MLOps.md</code>（深度）</p>
+<hr />
+<h2 id="top-30">三、TOP 30 精华怎么用</h2>
+<p><code>top30.html</code> 是从 514 条视频里筛出的<strong>价值评分 TOP 30</strong>，每条带"为什么是 TOP"一句话点评。</p>
+<p><strong>使用建议</strong>：<br />
+1. <strong>迷茫时</strong> 从 #1 开始读<br />
+2. <strong>见客户前</strong> 翻 1-2 条相关主题当弹药<br />
+3. <strong>写笔记时</strong> 直接 cite 原文链接<br />
+4. <strong>每周固定</strong> 选 3 条做 deep dive</p>
+<p><strong>主题分布</strong>：<br />
+- 企业 AI 落地 6 条<br />
+- 商业案例 6 条<br />
+- 智能体 6 条<br />
+- AI 编程 6 条<br />
+- AI 内容创作 6 条</p>
+<hr />
+<h2 id="_5">四、权威支撑层怎么用</h2>
+<p><code>08-权威支撑/</code> 下有 <strong>18 张一手权威卡</strong>（A1-A3 / B1-B4 / C1-C3 / D1-D3 / E1-E6），每张含：<br />
+- 中文释义 + 核心论点<br />
+- 关键术语<br />
+- 与本知识库的映射<br />
+- 客户引用话术<br />
+- 原文链接</p>
+<p><strong>何时用</strong>：<br />
+- <strong>见客户被问"这套方法论来源"</strong> → 亮 A 类（Anthropic / Google / AWS / OpenAI 三原厂）<br />
+- <strong>写方案需要权威背书</strong> → 引用 E 类（国际标准 / 行业数据）<br />
+- <strong>学新概念想找最权威解释</strong> → 按字母去查</p>
+<p><strong>三大厂商方法论横向对比</strong>（你可信度最高的弹药）：<br />
+- Anthropic：学院派工程化（Harness / 护栏）<br />
+- Google：平台化（白名单工具 / 风险分级）<br />
+- OpenAI：实用主义（Function Calling / 循环控制）</p>
 <blockquote>
-<p>对应 A3「企业 Agent 评估」的"边界验证"——<br />
-<strong>让模型在错误输入下不撒谎</strong>比答对重要。</p>
+<p><strong>三家头部收敛到同一套方法论</strong>——这不是偏好，是行业共识。</p>
 </blockquote>
-<h3 id="4-chunking">4. 文档预处理与切分（Chunking）</h3>
-<p>RAG 的 7 成脏活在<strong>文档预处理</strong>：</p>
+<hr />
+<h2 id="_6">五、每周节奏建议</h2>
+<h3 id="1">⏰ 周一（规划 · 1 小时）</h3>
 <ul>
-<li><strong>格式解析</strong>：PDF / Word / Excel / 图片 OCR</li>
-<li><strong>结构保留</strong>：标题 / 章节 / 表格 / 列表</li>
-<li><strong>切分策略</strong>：按段落 / 按 token / 按语义</li>
-<li><strong>元数据</strong>：作者 / 时间 / 来源 / 标签</li>
-<li><strong>去重 / 合并 / 过滤</strong>：垃圾文档先清掉</li>
+<li>[ ] 看 TOP 30 选 3 条本周深读</li>
+<li>[ ] 选 1 个客户做本周主攻</li>
+<li>[ ] 看一遍 SOP-01 报价单模板</li>
 </ul>
-<p><strong>Chunking 黄金法则</strong>：<br />
-- 一段一段切，不要整篇丢<br />
-- 保留语义边界（不要把一句话切两半）<br />
-- 加 overlap（前后重复 10-20%）防截断<br />
-- 加 metadata（来源 / 时间 / 类型）</p>
-<blockquote>
-<p>对应你方法论「知识库项目 7 成是脏活」——<br />
-<strong>脏活的 80% 在 chunking</strong>。</p>
-</blockquote>
-<h3 id="5-rerank">5. 召回策略与重排序（Rerank）</h3>
-<p>简单的"embedding 相似度召回"不够，需要<strong>多路召回 + 重排</strong>：</p>
+<h3 id="2-3">⏰ 周二三四（执行 · 各 2-3 小时）</h3>
+<ul>
+<li>[ ] 接单：每天 FDE 三问 1-2 个客户</li>
+<li>[ ] 交付：MVD 时间线推进</li>
+<li>[ ] 内容：录 1-2 条实战视频</li>
+<li>[ ] Agent：跑 1 个新 Skill</li>
+</ul>
+<h3 id="1-2">⏰ 周五（沉淀 · 1-2 小时）</h3>
+<ul>
+<li>[ ] 案例库更新（1 个新案例）</li>
+<li>[ ] 复盘 3 个本周判断</li>
+<li>[ ] 选下周 3 个选题</li>
+</ul>
+<h3 id="1-2_1">⏰ 周末（升级 · 1-2 小时）</h3>
+<ul>
+<li>[ ] 精读 1 篇长内容（4 遍法）</li>
+<li>[ ] 风格库更新 3-5 个"为什么好"</li>
+<li>[ ] 元命题季度自问</li>
+</ul>
+<hr />
+<h2 id="_7">六、常见问题</h2>
+<h3 id="q1-sop">Q1: 我该从哪个 SOP 开始？</h3>
+<p><strong>A</strong>: 看你的当前状态——<br />
+- 没客户 → SOP-02 内容 IP 起号<br />
+- 有客户没成交 → SOP-01 接单成交<br />
+- 成交了不会做 → SOP-03 FDE 入企交付<br />
+- 都在跑想加速 → SOP-04 Agent 工具链<br />
+- 有自家业务 → SOP-05 行业深耕<br />
+- 都稳了想升级 → SOP-06 认知升级</p>
+<h3 id="q2-6">Q2: 6 条路必须全做吗？</h3>
+<p><strong>A</strong>: 不是。建议<strong>主线 + 辅线</strong>——<br />
+- 主线：1 条路径（投入 60% 时间）<br />
+- 辅线：1-2 条路径（投入 30%）<br />
+- 长期：2-3 条路径（投入 10%）</p>
+<p><strong>示例组合</strong>：<br />
+- 接单成交（主）+ 内容 IP（辅）+ 认知升级（长期）<br />
+- 行业深耕（主）+ FDE 交付（辅）+ Agent 工具链（长期）</p>
+<h3 id="q3-v211">Q3: 知识库和原网站 v2.11 有什么区别？</h3>
+<p><strong>A</strong>: 4 个核心差异：<br />
+1. <strong>结构化</strong>：原网站是 9 个分类卡片，这版是 6 层级金字塔<br />
+2. <strong>权威化</strong>：原网站是经验性总结，这版加 18 张一手权威卡<br />
+3. <strong>可执行</strong>：原网站 SOP 是 5 步骨架，这版是 5-8 步完整流程 + 真实案例 + 工具清单<br />
+4. <strong>易搜索</strong>：原网站是 SPA，这版是静态页 + 全文搜索 + 主题过滤</p>
+<h3 id="q4">Q4: 怎么证明这套方法论是权威的？</h3>
+<p><strong>A</strong>: 看 <code>08-权威支撑/</code> 18 张卡——<br />
+- <strong>A 类</strong>（一手权威）：Anthropic 官方 / Google Agent Framework / OpenAI Best Practices<br />
+- <strong>B 类</strong>（工程师必读书）：Pete Hunt / Adele Lin / RAG in Action / Security<br />
+- <strong>C 类</strong>（通用方法论）：Risk-Driven Architecture / Chaos Engineering / DDD<br />
+- <strong>D 类</strong>（行业框架）：Google / AWS / OpenAI<br />
+- <strong>E 类</strong>（国际标准）：SWEBOK / ISO 12207 / NIST RMF / EU AI Act / TOGAF / PMBOK / ISO 42001</p>
+<h3 id="q5">Q5: 怎么快速见客户？</h3>
+<p><strong>A</strong>: 用 <code>03-SOP/SOP-07-报价签约.md</code> 的报价单模板（6 部分 + 付款节奏），加上 5 句金话术（<code>05-话术弹药.md</code>），加上 13 个避坑（<code>06-避坑清单.md</code>），加上 1 张 MIT 95% 失败率（<code>auth-e4</code>）—— 半小时准备，足够见客户。</p>
+<hr />
+<h2 id="v211">七、这版比 v2.11 强在哪？</h2>
 <table>
 <thead>
 <tr>
-<th>阶段</th>
-<th>做法</th>
+<th>维度</th>
+<th>v2.11 原网站</th>
+<th>这版 v3.0</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>召回</td>
-<td>向量检索 + 关键词检索 + 元数据过滤（多路）</td>
+<td><strong>系统性</strong></td>
+<td>9 个独立分类卡片</td>
+<td>6 层级金字塔（立场→领域→流程→判断→权威）</td>
 </tr>
 <tr>
-<td>初排</td>
-<td>相似度排序</td>
+<td><strong>权威性</strong></td>
+<td>经验性总结</td>
+<td>18 张一手权威卡（厂商 + 国际标准 + 经典工程书）</td>
 </tr>
 <tr>
-<td>重排</td>
-<td>Cross-Encoder 模型精排（更准但更慢）</td>
+<td><strong>SOP 化</strong></td>
+<td>5 步骨架</td>
+<td>5-8 步完整流程 + 真实案例 + 工具清单 + 速查卡</td>
 </tr>
 <tr>
-<td>截断</td>
-<td>取 Top-K 喂给 LLM</td>
+<td><strong>搜索</strong></td>
+<td>SPA 内搜索</td>
+<td>全文搜索 + 主题过滤 + 站内导航</td>
+</tr>
+<tr>
+<td><strong>部署</strong></td>
+<td>GitHub Pages SPA</td>
+<td>GitHub Pages 静态站（加载更快）</td>
+</tr>
+<tr>
+<td><strong>可维护</strong></td>
+<td>单文件 365KB</td>
+<td>模块化（每页 10-50KB）</td>
+</tr>
+<tr>
+<td><strong>可引用</strong></td>
+<td>内部链接</td>
+<td>每条原则带原文 URL（可外引）</td>
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p>对应你的 SOP-04 第 5 步"沉淀成 Skill"——<br />
-<strong>RAG 配置（切分/召回/重排）应该作为 Skill 沉淀</strong>，下次复用。</p>
-</blockquote>
-<h2 id="_3">三、关键术语（新增）</h2>
-<table>
-<thead>
-<tr>
-<th>英文</th>
-<th>中文</th>
-<th>释义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>RAG</td>
-<td>检索增强生成</td>
-<td>检索 + 生成的两段式架构</td>
-</tr>
-<tr>
-<td>Chunking</td>
-<td>文档切分</td>
-<td>把长文档切成适合检索的小段</td>
-</tr>
-<tr>
-<td>Recall@K</td>
-<td>Top-K 召回率</td>
-<td>前 K 个结果里正确答案占比</td>
-</tr>
-<tr>
-<td>MRR</td>
-<td>平均倒数排名</td>
-<td>正确答案排名的倒数</td>
-</tr>
-<tr>
-<td>Faithfulness</td>
-<td>忠实度</td>
-<td>答案不偏离原文</td>
-</tr>
-<tr>
-<td>Rerank</td>
-<td>重排序</td>
-<td>用更精确的模型二次排序</td>
-</tr>
-<tr>
-<td>Embedding</td>
-<td>向量化</td>
-<td>把文本转成数字向量</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_4">四、与本知识库的映射</h2>
-<table>
-<thead>
-<tr>
-<th>本知识库位置</th>
-<th>关联本文哪条</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>02-知识库/01-企业AI落地·接单武器.md</code> 知识库簇</td>
-<td>论点 1（RAG 决策）</td>
-</tr>
-<tr>
-<td><code>03-SOP/SOP-03-FDE 入企交付方向.md</code> 第 4-5 步</td>
-<td>论点 2（召回验证）+ 论点 4（脏活）</td>
-</tr>
-<tr>
-<td><code>01-方法论总纲.md</code>「接单判断」第 11 条</td>
-<td>论点 5（多路召回）</td>
-</tr>
-<tr>
-<td><code>07-专业大词典.md</code> 新增 RAG / Embedding / Chunking</td>
-<td>术语对齐</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_5">五、客户引用话术</h2>
-<blockquote>
-<p>"知识库不是把文档丢给 AI——是 RAG 工程化。<br />
-我们的做法参照《RAG in Action》：先做文档预处理（7 成脏活），再做多路召回 + 重排序，<br />
-最后做召回率 / 忠实度 / 幻觉率三层指标验收。<br />
-您看到的不是 Demo，是工业级 RAG 流水线。"</p>
-</blockquote>
-<h2 id="chunking-5">十一、Chunking 5 种策略对比</h2>
-<table>
-<thead>
-<tr>
-<th>策略</th>
-<th>优点</th>
-<th>缺点</th>
-<th>适合</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>固定大小</strong></td>
-<td>简单</td>
-<td>切断语义</td>
-<td>通用文本</td>
-</tr>
-<tr>
-<td><strong>按段落</strong></td>
-<td>保留语义</td>
-<td>长度不均</td>
-<td>文章 / 博客</td>
-</tr>
-<tr>
-<td><strong>按 Token</strong></td>
-<td>精准控制</td>
-<td>需要 tokenizer</td>
-<td>预算严格</td>
-</tr>
-<tr>
-<td><strong>按语义</strong></td>
-<td>语义完整</td>
-<td>计算慢</td>
-<td>复杂文档</td>
-</tr>
-<tr>
-<td><strong>递归切分</strong></td>
-<td>多级粒度</td>
-<td>复杂度高</td>
-<td>异构文档</td>
-</tr>
-</tbody>
-</table>
-<p><strong>推荐</strong>：先按段落切，超长再按 Token 切。</p>
-<h2 id="4-chunking_1">十二、4 个 Chunking 黄金法则</h2>
-<h3 id="1">法则 1：保留语义边界</h3>
+<hr />
+<h2 id="_8">八、版本与更新</h2>
 <ul>
-<li>❌ 把一句话切两半</li>
-<li>✅ 在段落 / 章节 / 标题边界切</li>
+<li><strong>v3.0</strong>（2026-09-10）：加入权威支撑层（18 张卡），SOP 升级到 v2（8 阶段），增加 TOP 30 索引</li>
+<li><strong>v2.11</strong>（2026-09-08）：原 v2.11 工作台</li>
+<li><strong>下次更新</strong>：按月重排 TOP 30 / 补充新视频</li>
 </ul>
-<h3 id="2-overlap">法则 2：加 Overlap</h3>
-<ul>
-<li>前后重复 10-20% 字符</li>
-<li>防止边界信息丢失</li>
-</ul>
-<h3 id="3-metadata">法则 3：加 Metadata</h3>
-<ul>
-<li>来源文档 / 章节 / 时间 / 类型</li>
-<li>检索时可过滤</li>
-</ul>
-<h3 id="4">法则 4：可解释切分</h3>
-<ul>
-<li>切完后人工检查 50 条</li>
-<li>看语义是否完整</li>
-</ul>
-<h2 id="3_1">十三、3 个反模式</h2>
-<h3 id="1_1">反模式 1：整篇文档丢进去</h3>
-<p><strong>症状</strong>：100 页 PDF 一次 Embedding。<br />
-<strong>风险</strong>：超上下文窗口 + 检索不准。<br />
-<strong>正解</strong>：必须切分。</p>
-<h3 id="2">反模式 2：切太小</h3>
-<p><strong>症状</strong>：每段 100 字。<br />
-<strong>风险</strong>：检索召回的上下文不完整，模型答不出。<br />
-<strong>正解</strong>：300-1000 字符是甜区。</p>
-<h3 id="3-overlap">反模式 3：不加 Overlap</h3>
-<p><strong>症状</strong>：段落之间无重叠。<br />
-<strong>风险</strong>：边界信息丢失。<br />
-<strong>正解</strong>：前后 10-20% 重叠。</p></div>
+<hr />
+<h2 id="5">九、开始你的 5 分钟旅程</h2>
+<ol>
+<li><strong>现在</strong> → 看 <code>top30.html</code> 选 3 条感兴趣的视频</li>
+<li><strong>今天</strong> → 选 1 个 SOP 深读（按你的角色）</li>
+<li><strong>这周</strong> → 跑通 SOP 里的 1 个具体动作</li>
+<li><strong>本月</strong> → 完成 1 个接单 / 1 个内容 / 1 个 Agent</li>
+<li><strong>本季</strong> → 沉淀出你的元命题</li>
+</ol>
+<p><strong>有问题随时找我</strong>。每个文件都有权威依据和回查链接，按图索骥即可。</p>
+<hr />
+<h2 id="_9">附录 · 文件清单</h2>
+<pre><code>知识库根目录
+├── 00-知识体系.md          ← 你现在读的
+├── 01-方法论总纲.md        ← 162 条原则
+├── 02-知识库/              ← 9 大主题视频精华
+├── 03-SOP/                 ← 7 套可执行 SOP
+├── 04-工具链.md
+├── 05-话术弹药.md
+├── 06-避坑清单.md
+├── 07-专业大词典.md
+└── 08-权威支撑/            ← 18 张一手权威卡
+    ├── README.md
+    ├── A1-A3（Anthropic）
+    ├── B1-B4（工程师必读）
+    ├── C1-C3（通用方法论）
+    ├── D1-D3（行业厂商）
+    └── E1-E6（国际标准 / deerflow 调研）
+</code></pre>
+<p><strong>总规模</strong>：22 核心 md + 18 权威卡 = 40 文件，43 万中文字，1.55 MB。<br />
+<strong>部署</strong>：GitHub Pages 静态站<br />
+<strong>维护</strong>：所有文件纯文本，可用任何编辑器（VS Code / Obsidian / Typora / 备忘录）</p></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>
 基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>

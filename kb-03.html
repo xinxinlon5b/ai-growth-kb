@@ -3,390 +3,644 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>02-03 · AI编程工具链 · 企业 AI 实战知识库</title>
-<meta name="description" content="基于 514 条抖音口播 + 110 方法簇 + 162 方法论 + 6 路径，构建的 FDE/AI落地 实战知识库">
+<title>AI 编程工具链</title>
 <style>
 :root {
-  --bg: #0f1419;
-  --bg-elevated: #1a2028;
-  --bg-card: #232a35;
-  --border: #2d3540;
-  --text: #e6e6e6;
-  --text-dim: #9aa5b1;
-  --text-bright: #ffffff;
-  --accent: #4f9eff;
-  --accent-hover: #6bb0ff;
-  --warning: #ff9a4f;
-  --success: #4fdf9a;
-  --code-bg: #0a0e13;
-  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+  --bg: #fbfbfd;
+  --bg-elevated: #ffffff;
+  --bg-soft: #f5f5f7;
+  --bg-card: #ffffff;
+  --bg-code: #f5f5f7;
+  --text: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --text-tertiary: #86868b;
+  --accent: #0066cc;
+  --accent-hover: #0077ed;
+  --accent-soft: rgba(0, 102, 204, 0.08);
+  --border: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --radius: 18px;
+  --radius-sm: 10px;
+  --radius-lg: 24px;
 }
-* { box-sizing: border-box; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 html, body {
-  margin: 0; padding: 0;
-  font-family: -apple-system, "SF Pro Display", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.65;
-  font-size: 15px;
+  line-height: 1.5;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
-a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
+
+a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
 a:hover { color: var(--accent-hover); }
 
-/* Layout */
-.app {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  min-height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  background: var(--bg-elevated);
-  border-right: 1px solid var(--border);
-  padding: 24px 0;
+/* Top nav - Apple-style sticky blurred */
+.topnav {
   position: sticky;
   top: 0;
-  height: 100vh;
-  overflow-y: auto;
-}
-.brand {
-  padding: 0 24px 24px;
+  z-index: 100;
+  background: rgba(251, 251, 253, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--border);
-  margin-bottom: 16px;
+  padding: 0 22px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
 }
-.brand h1 {
-  margin: 0;
-  font-size: 18px;
-  color: var(--text-bright);
+.topnav .brand {
+  font-size: 17px;
   font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.02em;
 }
-.brand .sub {
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 4px;
+.topnav .nav-items {
+  display: flex;
+  gap: 22px;
+  flex: 1;
 }
-.search-box {
-  margin: 0 24px 16px;
+.topnav .nav-items a {
+  font-size: 13px;
+  color: var(--text);
+  opacity: 0.85;
+  padding: 8px 0;
   position: relative;
+  transition: opacity 0.2s;
 }
-.search-box input {
-  width: 100%;
-  padding: 8px 12px 8px 32px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
-  font-size: 13px;
-}
-.search-box input:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-.search-box::before {
-  content: "🔍";
+.topnav .nav-items a:hover { opacity: 1; }
+.topnav .nav-items a.active::after {
+  content: "";
   position: absolute;
-  left: 10px; top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  opacity: 0.5;
+  bottom: -1px;
+  left: 0; right: 0;
+  height: 2px;
+  background: var(--text);
+  border-radius: 1px;
 }
-.nav-section {
-  margin-bottom: 8px;
-}
-.nav-section-title {
-  padding: 8px 24px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.nav-item {
-  display: block;
-  padding: 8px 24px;
-  color: var(--text);
+.topnav .search-mini {
+  display: flex;
+  align-items: center;
+  background: var(--bg-soft);
+  border-radius: 8px;
+  padding: 4px 10px;
   font-size: 13px;
-  border-left: 3px solid transparent;
-  transition: all 0.15s;
+  color: var(--text-tertiary);
+  min-width: 180px;
+  cursor: text;
 }
-.nav-item:hover {
-  background: var(--bg-card);
-  border-left-color: var(--accent);
-}
-.nav-item.active {
-  background: var(--bg-card);
-  border-left-color: var(--accent);
-  color: var(--text-bright);
-}
-.nav-item .desc {
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-top: 2px;
+.topnav .search-mini input {
+  border: none; background: transparent; outline: none;
+  font-size: 13px; flex: 1; color: var(--text);
+  font-family: inherit;
 }
 
-/* Main content */
+/* Layout */
+.layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
+.sidebar {
+  position: sticky; top: 48px;
+  height: calc(100vh - 48px); overflow-y: auto;
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border);
+  padding: 32px 0;
+}
+.sidebar-section { margin-bottom: 24px; }
+.sidebar-title {
+  padding: 0 22px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+.sidebar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 22px;
+  font-size: 14px;
+  color: var(--text);
+  transition: background 0.15s, color 0.15s;
+  border-left: 2px solid transparent;
+  margin: 1px 0;
+}
+.sidebar-item:hover { background: var(--bg-soft); }
+.sidebar-item.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: 500;
+}
+.sidebar-item .ico { font-size: 16px; }
+
+/* Main */
 .main {
-  padding: 40px 56px;
+  padding: 64px 80px 120px;
   max-width: 980px;
   margin: 0 auto;
   width: 100%;
 }
-.content h1 {
-  color: var(--text-bright);
-  font-size: 32px;
-  margin: 0 0 8px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
+
+/* Hero (homepage) */
+.hero {
+  text-align: center;
+  padding: 80px 0 64px;
+  margin-bottom: 64px;
 }
-.content > blockquote {
-  border-left: 4px solid var(--accent);
-  padding: 8px 16px;
-  margin: 16px 0 24px;
-  background: var(--bg-elevated);
-  border-radius: 0 6px 6px 0;
-  color: var(--text-dim);
+.hero .eyebrow {
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
 }
-.content h2 {
-  color: var(--text-bright);
-  font-size: 24px;
-  margin: 40px 0 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-}
-.content h3 {
-  color: var(--text-bright);
-  font-size: 18px;
-  margin: 28px 0 12px;
-}
-.content h4 {
+.hero h1 {
+  font-size: 72px;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  font-weight: 600;
   color: var(--text);
+  margin-bottom: 24px;
+}
+.hero .lede {
+  font-size: 24px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  font-weight: 400;
+  max-width: 720px;
+  margin: 0 auto 32px;
+  letter-spacing: -0.01em;
+}
+.hero .cta-row {
+  display: inline-flex;
+  gap: 16px;
+  align-items: center;
+}
+.btn {
+  display: inline-block;
+  padding: 12px 22px;
+  border-radius: 980px;
   font-size: 15px;
-  margin: 20px 0 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
 }
-.content p {
-  margin: 12px 0;
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
 }
-.content ul, .content ol {
-  padding-left: 24px;
+.btn-primary:hover {
+  background: var(--accent-hover);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
-.content li { margin: 4px 0; }
-.content code {
-  background: var(--code-bg);
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-family: "SF Mono", Menlo, monospace;
+.btn-secondary {
+  background: var(--bg-soft);
+  color: var(--text);
+}
+.btn-secondary:hover {
+  background: var(--bg-elevated);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Section */
+.section { margin: 80px 0; }
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.section-h2 {
+  font-size: 40px;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+  margin: 24px 0 16px;
+  color: var(--text);
+}
+.section-h3 {
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  margin: 32px 0 12px;
+  color: var(--text);
+}
+
+/* Card grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-strong);
+}
+.card .icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+  display: block;
+}
+.card .label {
   font-size: 13px;
   color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.card h4 {
+  font-size: 22px;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.card p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Feature row (Apple product page style) */
+.feature-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  margin: 80px 0;
+  padding: 64px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.feature-row.reverse { direction: rtl; }
+.feature-row.reverse > * { direction: ltr; }
+.feature-row .feature-text h3 {
+  font-size: 36px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+.feature-row .feature-text p {
+  font-size: 19px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+.feature-row .feature-visual {
+  background: var(--bg-soft);
+  border-radius: var(--radius-lg);
+  aspect-ratio: 1.2 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 120px;
+  border: 1px solid var(--border);
+}
+
+/* Pill / Tag */
+.pill {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--bg-soft);
+  border-radius: 980px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+.pill.accent {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Content (article body) */
+.content { font-size: 19px; line-height: 1.65; color: var(--text); }
+.content h1 {
+  font-size: 56px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+  margin: 0 0 16px;
+  color: var(--text);
+}
+.content > blockquote:first-of-type {
+  font-size: 22px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  border: none;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 0;
+  margin: 24px 0 40px;
+  font-weight: 400;
+  background: transparent;
+}
+.content h2 {
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  margin: 64px 0 16px;
+  color: var(--text);
+}
+.content h3 {
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+  margin: 40px 0 12px;
+  color: var(--text);
+}
+.content h4 {
+  font-size: 19px;
+  font-weight: 600;
+  margin: 24px 0 8px;
+  color: var(--text);
+}
+.content p { margin: 16px 0; }
+.content ul, .content ol { padding-left: 24px; margin: 16px 0; }
+.content li { margin: 6px 0; line-height: 1.6; }
+.content strong { font-weight: 600; color: var(--text); }
+.content em { font-style: italic; }
+.content code {
+  background: var(--bg-code);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 0.9em;
+  color: #c7254e;
 }
 .content pre {
-  background: var(--code-bg);
-  padding: 16px;
-  border-radius: 6px;
+  background: var(--bg-soft);
+  padding: 20px 24px;
+  border-radius: var(--radius-sm);
   overflow-x: auto;
+  margin: 24px 0;
   border: 1px solid var(--border);
+  font-size: 14px;
+  line-height: 1.5;
 }
 .content pre code {
   background: none;
   padding: 0;
   color: var(--text);
+  font-size: inherit;
 }
 .content table {
-  border-collapse: collapse;
   width: 100%;
-  margin: 16px 0;
-  font-size: 13px;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 15px;
 }
 .content th {
-  background: var(--bg-elevated);
   text-align: left;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  color: var(--text-bright);
+  padding: 12px 16px;
+  background: var(--bg-soft);
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 2px solid var(--border-strong);
 }
 .content td {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
 }
 .content blockquote {
-  border-left: 4px solid var(--border);
-  padding: 4px 16px;
-  margin: 16px 0;
-  color: var(--text-dim);
-  background: var(--bg-elevated);
-}
-.content hr {
-  border: 0;
-  border-top: 1px solid var(--border);
-  margin: 32px 0;
-}
-
-/* Cards for KB pages */
-.video-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px 20px;
-  margin: 16px 0;
-}
-.video-meta {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 8px;
-}
-.video-meta .author { color: var(--accent); font-weight: 500; }
-.video-meta a { color: var(--text-dim); }
-.video-meta a:hover { color: var(--accent); }
-.video-meta .badge {
-  background: var(--bg-elevated);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-}
-.video-meta .badge.high { background: #2d4a3a; color: var(--success); }
-.video-meta .badge.sub { background: #2d3a4a; color: var(--accent); }
-.video-insight {
-  background: var(--code-bg);
   border-left: 3px solid var(--accent);
-  padding: 12px 16px;
-  margin: 12px 0;
-  font-size: 13px;
-  white-space: pre-wrap;
-  border-radius: 0 6px 6px 0;
+  padding: 4px 20px;
+  margin: 24px 0;
+  color: var(--text-secondary);
+  background: var(--accent-soft);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
-details {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 16px;
-  margin: 12px 0;
+.content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
+.content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+.content a:hover { text-decoration-color: var(--accent); }
+
+/* In-page TOC (right side) */
+.with-toc {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 48px;
+  align-items: start;
 }
-details summary {
-  cursor: pointer;
-  color: var(--accent);
+.page-toc {
+  position: sticky;
+  top: 80px;
   font-size: 13px;
-}
-details[open] summary { margin-bottom: 12px; }
-details pre {
-  margin: 0;
-  font-size: 13px;
-  max-height: 400px;
+  max-height: calc(100vh - 100px);
   overflow-y: auto;
 }
+.page-toc .toc-title {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.page-toc a {
+  display: block;
+  padding: 5px 0;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  padding-left: 12px;
+  transition: all 0.15s;
+}
+.page-toc a:hover { color: var(--accent); }
+.page-toc a.active { color: var(--accent); border-left-color: var(--accent); }
+.page-toc .toc-h3 { padding-left: 24px; font-size: 12px; }
 
 /* Footer */
 .footer {
-  margin-top: 60px;
-  padding-top: 24px;
+  margin-top: 120px;
+  padding: 48px 0 32px;
   border-top: 1px solid var(--border);
-  color: var(--text-dim);
-  font-size: 12px;
   text-align: center;
+  font-size: 13px;
+  color: var(--text-tertiary);
+  line-height: 1.7;
+}
+
+/* Article header */
+.article-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+.article-meta { display: flex; gap: 12px; margin-bottom: 12px; font-size: 13px; color: var(--text-tertiary); }
+.article-meta .pill { font-size: 12px; padding: 3px 10px; }
+
+/* Video card (for KB pages) */
+.video-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin: 16px 0;
+  transition: all 0.2s;
+  border-left: 4px solid var(--accent);
+}
+.video-card:hover { box-shadow: var(--shadow-md); }
+.video-card h3 { font-size: 19px; line-height: 1.4; margin: 0 0 12px; }
+.video-card .meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--text-tertiary); margin-top: 12px; }
+.video-card .meta a { color: var(--text-secondary); }
+.video-card .meta a:hover { color: var(--accent); }
+.video-card .meta .pill.author { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.video-card .insight { 
+  background: var(--bg-soft); 
+  padding: 16px 20px; 
+  border-radius: var(--radius-sm); 
+  margin-top: 16px;
+  font-size: 14px;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  color: var(--text);
+  font-family: "SF Mono", "Menlo", monospace;
+}
+.video-card details { margin-top: 16px; }
+.video-card details summary {
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--accent);
+  padding: 8px 0;
+  user-select: none;
+}
+.video-card details pre {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 12px;
+  font-size: 13px;
 }
 
 /* Responsive */
-@media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; }
-  .sidebar { position: relative; height: auto; }
-  .main { padding: 24px; }
-}
-
-/* Mermaid-style simple diagrams */
-.diagram {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-  margin: 16px 0;
-  font-family: "SF Mono", Menlo, monospace;
-  font-size: 12px;
-  white-space: pre;
-  overflow-x: auto;
-  line-height: 1.5;
+@media (max-width: 1024px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .main { padding: 40px 24px 80px; }
+  .hero h1 { font-size: 48px; }
+  .feature-row { grid-template-columns: 1fr; gap: 32px; }
+  .feature-row.reverse { direction: ltr; }
+  .with-toc { grid-template-columns: 1fr; }
+  .page-toc { display: none; }
 }
 </style>
-
 </head>
 <body>
-<div class="app">
+
+<nav class="topnav">
+  <a href="index.html" class="brand">企业 AI 实战</a>
+  <div class="nav-items">
+    <a href="method.html">方法论</a>
+    <a href="top30.html">TOP 30</a>
+    <a href="sop-01.html">SOP</a>
+    <a href="kb-01.html">知识库</a>
+    <a href="auth-index.html">权威支撑</a>
+    <a href="glossary.html">词典</a>
+  </div>
+  <div class="search-mini">
+    <span>🔍</span>
+    <input type="text" id="search" placeholder="搜索…" />
+  </div>
+</nav>
+
+<div class="layout">
 <aside class="sidebar">
-<div class="brand">
-<h1>企业 AI 实战知识库</h1>
-<div class="sub">个人成长系统 v3.0</div>
+<div class="sidebar-section">
+<div class="sidebar-title">总览</div>
+<a class="sidebar-item" href="index.html"><span class="ico">🏠</span><span>知识体系</span></a>
 </div>
-<div class="search-box">
-<input type="text" id="search" placeholder="搜索本页内容..." />
+<div class="sidebar-section">
+<div class="sidebar-title">核心方法论</div>
+<a class="sidebar-item" href="method.html"><span class="ico">📐</span><span>方法论总纲</span></a>
+<a class="sidebar-item" href="top30.html"><span class="ico">⭐</span><span>TOP 30 精华</span></a>
+<a class="sidebar-item" href="tools.html"><span class="ico">🛠️</span><span>工具链</span></a>
+<a class="sidebar-item" href="lines.html"><span class="ico">🎙️</span><span>话术弹药</span></a>
+<a class="sidebar-item" href="pits.html"><span class="ico">⚠️</span><span>避坑清单</span></a>
 </div>
-<div class="nav-section">
-<div class="nav-section-title">总览</div>
-<a class="nav-item" href="index.html">🏠 知识体系<div class="desc">00-知识体系</div></a>
+<div class="sidebar-section">
+<div class="sidebar-title">可执行 SOP</div>
+<a class="sidebar-item" href="sop-01.html"><span class="ico">💰</span><span>接单成交</span></a>
+<a class="sidebar-item" href="sop-02.html"><span class="ico">📹</span><span>内容 IP</span></a>
+<a class="sidebar-item" href="sop-03.html"><span class="ico">🏗️</span><span>FDE 入企</span></a>
+<a class="sidebar-item" href="sop-04.html"><span class="ico">🤖</span><span>Agent 工具链</span></a>
+<a class="sidebar-item" href="sop-05.html"><span class="ico">🌊</span><span>行业深耕</span></a>
+<a class="sidebar-item" href="sop-06.html"><span class="ico">🧠</span><span>认知升级</span></a>
+<a class="sidebar-item" href="sop-07.html"><span class="ico">💵</span><span>报价签约</span></a>
 </div>
-<div class="nav-section">
-<div class="nav-section-title">核心方法论</div>
-<a class="nav-item" href="method.html">📐 方法论总纲<div class="desc">162 条原则</div></a>
-<a class="nav-item" href="tools.html">🛠️ 工具链<div class="desc">47 个要点</div></a>
-<a class="nav-item" href="lines.html">🎙️ 话术弹药<div class="desc">22 句金句</div></a>
-<a class="nav-item" href="pits.html">⚠️ 避坑清单<div class="desc">13 个错误</div></a>
+<div class="sidebar-section">
+<div class="sidebar-title">知识库 · 9 主题</div>
+<a class="sidebar-item" href="kb-01.html"><span class="ico">🎯</span><span>企业 AI 落地</span></a>
+<a class="sidebar-item" href="kb-02.html"><span class="ico">🤖</span><span>智能体 OpenClaw</span></a>
+<a class="sidebar-item active" href="kb-03.html"><span class="ico">💻</span><span>AI 编程工具链</span></a>
+<a class="sidebar-item" href="kb-04.html"><span class="ico">💰</span><span>商业案例</span></a>
+<a class="sidebar-item" href="kb-05.html"><span class="ico">🎨</span><span>AI 内容创作</span></a>
+<a class="sidebar-item" href="kb-06.html"><span class="ico">📣</span><span>自媒体获客</span></a>
+<a class="sidebar-item" href="kb-07.html"><span class="ico">🧰</span><span>效率工具</span></a>
+<a class="sidebar-item" href="kb-08.html"><span class="ico">🧠</span><span>AI 认知</span></a>
+<a class="sidebar-item" href="kb-09.html"><span class="ico">📦</span><span>内容资产</span></a>
 </div>
-<div class="nav-section">
-<div class="nav-section-title">可执行 SOP</div>
-<a class="nav-item" href="sop-01.html">💰 接单成交 SOP</a>
-<a class="nav-item" href="sop-02.html">📹 内容 IP SOP</a>
-<a class="nav-item" href="sop-03.html">🏗️ FDE 入企 SOP</a>
-<a class="nav-item" href="sop-04.html">🤖 Agent 工具链 SOP</a>
-<a class="nav-item" href="sop-05.html">🌊 行业深耕 SOP</a>
-<a class="nav-item" href="sop-06.html">🧠 认知升级 SOP</a>
-<a class="nav-item" href="sop-07.html">💵 报价签约 SOP</a>
+<div class="sidebar-section">
+<div class="sidebar-title">权威支撑</div>
+<a class="sidebar-item" href="auth-index.html"><span class="ico">📚</span><span>总览</span></a>
+<a class="sidebar-item" href="auth-a1.html"><span class="ico">🏛️</span><span>Anthropic FDE</span></a>
+<a class="sidebar-item" href="auth-a2.html"><span class="ico">🏛️</span><span>Anthropic Agent</span></a>
+<a class="sidebar-item" href="auth-a3.html"><span class="ico">🏛️</span><span>Anthropic Eval</span></a>
+<a class="sidebar-item" href="auth-e1.html"><span class="ico">⚙️</span><span>软件工程体系</span></a>
+<a class="sidebar-item" href="auth-e2.html"><span class="ico">⚙️</span><span>MLOps</span></a>
+<a class="sidebar-item" href="auth-e3.html"><span class="ico">⚙️</span><span>AI 治理</span></a>
+<a class="sidebar-item" href="auth-e4.html"><span class="ico">📊</span><span>失败率证据</span></a>
+<a class="sidebar-item" href="auth-e5.html"><span class="ico">⚙️</span><span>企业架构</span></a>
+<a class="sidebar-item" href="auth-e6.html"><span class="ico">🏛️</span><span>FDE 三原厂</span></a>
 </div>
-<div class="nav-section">
-<div class="nav-section-title">知识库 · 9 大主题</div>
-<a class="nav-item" href="kb-01.html">🎯 企业 AI 落地</a>
-<a class="nav-item" href="kb-02.html">🤖 智能体·OpenClaw</a>
-<a class="nav-item active" href="kb-03.html">💻 AI 编程工具链</a>
-<a class="nav-item" href="kb-04.html">💰 商业案例·变现</a>
-<a class="nav-item" href="kb-05.html">🎨 AI 内容创作</a>
-<a class="nav-item" href="kb-06.html">📣 自媒体·获客</a>
-<a class="nav-item" href="kb-07.html">🧰 效率工具·知识管理</a>
-<a class="nav-item" href="kb-08.html">🧠 AI 认知·趋势</a>
-<a class="nav-item" href="kb-09.html">📦 自己的内容资产</a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">工具</div>
-<a class="nav-item" href="glossary.html">📖 专业大词典<div class="desc">50+ 术语</div></a>
-</div>
-<div class="nav-section">
-<div class="nav-section-title">权威支撑（新增）</div>
-<a class="nav-item" href="auth-index.html">📚 权威支撑总览<div class="desc">12 个来源</div></a>
-<a class="nav-item" href="auth-a1.html">A1 · Anthropic FDE 博客<div class="desc">一手权威</div></a>
-<a class="nav-item" href="auth-a2.html">A2 · Anthropic Agent 白皮书<div class="desc">Harness/护栏</div></a>
-<a class="nav-item" href="auth-a3.html">A3 · Anthropic Agent 评估<div class="desc">可验证标准</div></a>
-<a class="nav-item" href="auth-b1.html">B1 · LLM 应用生产化<div class="desc">Pete Hunt</div></a>
-<a class="nav-item" href="auth-b2.html">B2 · Agentic Systems<div class="desc">O'Reilly</div></a>
-<a class="nav-item" href="auth-b3.html">B3 · RAG in Action<div class="desc">知识库工程</div></a>
-<a class="nav-item" href="auth-b4.html">B4 · LLM Security<div class="desc">安全与合规</div></a>
-<a class="nav-item" href="auth-c1.html">C1 · 风险驱动架构<div class="desc">方法论</div></a>
-<a class="nav-item" href="auth-c2.html">C2 · 混沌工程<div class="desc">Netflix</div></a>
-<a class="nav-item" href="auth-c3.html">C3 · DDD 领域驱动<div class="desc">Eric Evans</div></a>
-<a class="nav-item" href="auth-d1.html">D1 · Google Agent<div class="desc">厂商框架</div></a>
-<a class="nav-item" href="auth-d2.html">D2 · AWS LLM 框架<div class="desc">厂商框架</div></a>
-<a class="nav-item" href="auth-d3.html">D3 · OpenAI Agent<div class="desc">厂商框架</div></a>
+<div class="sidebar-section">
+<div class="sidebar-title">工具</div>
+<a class="sidebar-item" href="glossary.html"><span class="ico">📖</span><span>专业大词典</span></a>
 </div>
 </aside>
 <main class="main">
-<div class="content">
-<h1 id="02-03-ai">02-03 · AI编程工具链</h1>
+<div class="content"><div class="article-header"><div class="article-meta"><span class="pill accent">📂 9 大主题 · 3/9</span></div></div><h1 id="02-03-ai">02-03 · AI编程工具链</h1>
 <blockquote>
 <p>Cursor / Claude Code / Trae / v0 / bolt 等工具使用心得</p>
 </blockquote>
 <p><strong>统计</strong>：182 条视频 · 0 个子主题</p>
 <hr />
 <h2 id="_1">其他</h2>
-<div class="video-card">
-<h3>Codex实现电商自动上架，我又跑通了一个平台 花了2-3天时间，我用 Codex + Playwright 又跑通了一个电商平台自动上架流程。从飞书商品资料管理，到浏览器自动录入平台，AI可以帮助运营减少大量重复操作。…</h3>
-
+<h3 id="codex-2-3-codex-playwright-ai">Codex实现电商自动上架，我又跑通了一个平台 花了2-3天时间，我用 Codex + Playwright 又跑通了一个电商平台自动上架流程。从飞书商品资料管理，到浏览器自动录入平台，AI可以帮助运营减少大量重复操作。…</h3>
 <p><strong>作者</strong>：芒果林奇 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7664923898458230070">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：Codex实现电商自动上架，我又跑通了一个平台 花了2-3天时间，我用 Codex + Playwright 又跑通了一个电商平台自动上架流程。从飞书商品资料管理，到浏览器自动录入平台，AI可以帮助运营减少大量重复操作。但测试后发现，不同平台依然需要重新适配。</p>
 <h1 id="codex-ai-rpa">Codex #电商自动化  #AI电商  #电商上架  #影刀rpa</h1>
@@ -452,18 +706,13 @@ AI 其实还没有这么智能
 拥有真正会使用 AI 的人才
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex电商自动化风控解决方案 #真实生活分享计划 #ai电商 #codex #电商自动化 #ai电商</h3>
 
+<h3 id="codex-ai-codex-ai">codex电商自动化风控解决方案 #真实生活分享计划 #ai电商 #codex #电商自动化 #ai电商</h3>
 <p><strong>作者</strong>：时来 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7675614001514817189">抖音</a> · <strong>价值评分</strong>：3</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>不会编程，我用 Codex 做出了四平台发布 App 零编程经验也能把真实工作流做成自己的工具。这条视频把实际效果和完整流程展示给你看。#Codex #AI编程 #自媒体工具 #多平台发布 #效率工具</h3>
-
+<h3 id="codex-app-codex-ai">不会编程，我用 Codex 做出了四平台发布 App 零编程经验也能把真实工作流做成自己的工具。这条视频把实际效果和完整流程展示给你看。#Codex #AI编程 #自媒体工具 #多平台发布 #效率工具</h3>
 <p><strong>作者</strong>：才紫哥 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7667020729598233856">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【零编程做四平台App · 才紫哥】
@@ -588,18 +837,13 @@ bilibili
 妈的社会变化太快了
 
 </details>
-</div>
-<div class="video-card">
-<h3>用AI开发游戏 3D《冒险岛》 只要一小时 完全使用AI开发童年经典游戏《冒险岛》，全流程教学，AI工作流演示#游戏开发 #ai #人工智能 #游戏 #ai工具</h3>
 
+<h3 id="ai-3d-aiai-ai-ai">用AI开发游戏 3D《冒险岛》 只要一小时 完全使用AI开发童年经典游戏《冒险岛》，全流程教学，AI工作流演示#游戏开发 #ai #人工智能 #游戏 #ai工具</h3>
 <p><strong>作者</strong>：做游戏的花生 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7666353309020409530">抖音</a> · <strong>价值评分</strong>：3</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>6分钟：普通人也能用上codex（安装教程） 按照教程来应该不会有问题，我在mac和windows都反复试验了两遍。 要说明一下，对于大部分人来说，包括我自己，平时的工况使用国产大模型已经非常好用了，不用太担心所谓的“降…</h3>
-
+<h3 id="6codex-macwindows">6分钟：普通人也能用上codex（安装教程） 按照教程来应该不会有问题，我在mac和windows都反复试验了两遍。 要说明一下，对于大部分人来说，包括我自己，平时的工况使用国产大模型已经非常好用了，不用太担心所谓的“降…</h3>
 <p><strong>作者</strong>：Ai林爻 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7652267273159314740">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：6分钟：普通人也能用上codex（安装教程） 按照教程来应该不会有问题，我在mac和windows都反复试验了两遍。<br />
 要说明一下，对于大部分人来说，包括我自己，平时的工况使用国产大模型已经非常好用了，不用太担心所谓的“降智”问题。当然如果你能用到最好的模型有机会一定要试试！！！##vibecoding大赏 #codex #DeepSeek #mimo #教程</p>
@@ -708,10 +952,8 @@ K翻译过来就是钥匙
 它...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>从0做出你的专属App ｜ 零基础AI编程保姆教程 #vibecoding大赏 #ai新星计划 #ai编程 #ai教程 #软件开发</h3>
 
+<h3 id="0app-ai-vibecoding-ai-ai-ai">从0做出你的专属App ｜ 零基础AI编程保姆教程 #vibecoding大赏 #ai新星计划 #ai编程 #ai教程 #软件开发</h3>
 <p><strong>作者</strong>：木子不写代码 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7670142299807960363">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：从0做出你的专属App ｜ 零基础AI编程保姆教程 #vibecoding大赏  #ai新星计划  #ai编程 #ai教程 #软件开发</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -874,28 +1116,20 @@ AI会让自己的想法去做
 满不满足我...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Obsidian仪表盘大升级！3D粒子卡片交互超丝滑✨ 上篇分享的Obsidian阅读管理方案，居然收到好多小伙伴的喜欢～ 好多人跟我吐槽，Obsidian原生界面太朴素了，完全没动态交互感。 这次终于把仪表盘迭代升级啦…</h3>
 
+<h3 id="obsidian3d-obsidian-obsidian">Obsidian仪表盘大升级！3D粒子卡片交互超丝滑✨ 上篇分享的Obsidian阅读管理方案，居然收到好多小伙伴的喜欢～ 好多人跟我吐槽，Obsidian原生界面太朴素了，完全没动态交互感。 这次终于把仪表盘迭代升级啦…</h3>
 <p><strong>作者</strong>：清晨方白晓 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7668649612115529849">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：Obsidian仪表盘大升级！3D粒子卡片交互超丝滑✨ 上篇分享的Obsidian阅读管理方案，居然收到好多小伙伴的喜欢～ 好多人跟我吐槽，Obsidian原生界面太朴素了，完全没动态交互感。   这次终于把仪表盘迭代升级啦！新增4张独立的流体扰动粒子卡片👇 ✅ 鼠标一悬浮就触发3D旋转，粒子还会跟着动态流转，再也不是死气沉沉的静态界面咯 ✅ 4个分区卡片各有专属配色，今日新增、未读库存、已阅读、长期未读都能分开看 ✅ 全盘自定义调色安排上了！色彩参数随便调，深色浅色主题都能完美适配 ✅ 还联动了中央的3D阅读流转视图，知识库笔记的消化进度一眼就能看明白~   现在它不再是冷冰冰的文字清单，而是能直观展示知识库流转状态的可视化操作台啦！  #Obsidian #知识管理 #AI工作流 #Codex #个人知识库</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>自从我装上了Codex后，每天睡觉时be like… 每天睡觉前 都要先把它的活安排完 让它同时干七八件事情 帮我剪辑视频 设计海报、封面 写明天的汇报方案 整理数据、找热点选题 总之我能睡，它不能睡！ 一个晚上干完我一…</h3>
-
+<h3 id="codexbe-like">自从我装上了Codex后，每天睡觉时be like… 每天睡觉前 都要先把它的活安排完 让它同时干七八件事情 帮我剪辑视频 设计海报、封面 写明天的汇报方案 整理数据、找热点选题 总之我能睡，它不能睡！ 一个晚上干完我一…</h3>
 <p><strong>作者</strong>：伊文 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7659265348575745960">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：自从我装上了Codex后，每天睡觉时be like… 每天睡觉前 都要先把它的活安排完 让它同时干七八件事情 帮我剪辑视频 设计海报、封面 写明天的汇报方案 整理数据、找热点选题 总之我能睡，它不能睡！ 一个晚上干完我一周的活！ #codex #ai #人工智能</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>用Codex开发的插件，终于有收入了！但 我可能会停掉这个产品 这是一期从0-1的完整复盘 在AI时代，最重要的依然是学会发现需求 希望给同样想自己做产品的朋友一点信心和参考 #codex #vibecoding #vi…</h3>
-
+<h3 id="codex-0-1-ai-codex-vibecoding-vi">用Codex开发的插件，终于有收入了！但 我可能会停掉这个产品 这是一期从0-1的完整复盘 在AI时代，最重要的依然是学会发现需求 希望给同样想自己做产品的朋友一点信心和参考 #codex #vibecoding #vi…</h3>
 <p><strong>作者</strong>：Alex的实践笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7659770894398573850">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：用Codex开发的插件，终于有收入了！但 我可能会停掉这个产品<br />
 这是一期从0-1的完整复盘<br />
@@ -1018,10 +1252,8 @@ AI会让自己的想法去做
 那緊接著我就...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex绝对实操！！小白制作网页最有效的方法√ 三部曲文稿已整理#codex #codex网页 #ai网页设计 #Clawhunt #PetScope c</h3>
 
+<h3 id="codex-codex-codex-ai-clawhunt-petscope-c">codex绝对实操！！小白制作网页最有效的方法√ 三部曲文稿已整理#codex #codex网页 #ai网页设计 #Clawhunt #PetScope c</h3>
 <p><strong>作者</strong>：大白AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7660844602957532450">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用Codex做网页，别急着写代码，先让AI反问你问题完善逻辑，再给参考做视觉匹配，最后丢图片让AI自己分类。
@@ -1164,10 +1396,8 @@ Codex它会自己提出关键的问题
 让Codex自己去识别分配...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex零基础入门教程 #Codex #Codex教程 #AI新星计划</h3>
 
+<h3 id="codex-codex-codex-ai">Codex零基础入门教程 #Codex #Codex教程 #AI新星计划</h3>
 <p><strong>作者</strong>：浩哥咚咚咚 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7657225082716081434">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【Codex零基础入门教程 · 浩哥咚咚咚】
@@ -1274,18 +1504,13 @@ CodexTest是我们的当前目录
 编辑外部文件和使用...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex小白剪辑六部曲！文稿已整理√ 剪辑效果不满意？ 剪辑六步骤 文稿直接复制粘贴#codex剪辑 #剪辑教程 #纯小白codex #自媒体人必备神器</h3>
 
+<h3 id="codex-codex-codex">codex小白剪辑六部曲！文稿已整理√ 剪辑效果不满意？ 剪辑六步骤 文稿直接复制粘贴#codex剪辑 #剪辑教程 #纯小白codex #自媒体人必备神器</h3>
 <p><strong>作者</strong>：大白AI实操库 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7655995367103679753">抖音</a> · <strong>价值评分</strong>：3</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>用codex+hyperframe生成MG动画视频，附教程 #codex #AI #MG动画 #AI视频 #ai新星计划</h3>
-
+<h3 id="codexhyperframemg-codex-ai-mg-ai-ai">用codex+hyperframe生成MG动画视频，附教程 #codex #AI #MG动画 #AI视频 #ai新星计划</h3>
 <p><strong>作者</strong>：千雪AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7651932625984130347">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：用codex+hyperframe生成MG动画视频，附教程 #codex #AI   #MG动画 #AI视频 #ai新星计划</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -1335,10 +1560,8 @@ CodexTest是我们的当前目录
 我们下期再见
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI做视频邪修大法vibemotion 保姆级教程教你如何用codex搭配hyperframes，用写代码的方式做视频。#VibeMotion #AI视频 #AIGC #AI教学 #AI</h3>
 
+<h3 id="aivibemotion-codexhyperframesvibemotion-ai-aigc-ai-ai">AI做视频邪修大法vibemotion 保姆级教程教你如何用codex搭配hyperframes，用写代码的方式做视频。#VibeMotion #AI视频 #AIGC #AI教学 #AI</h3>
 <p><strong>作者</strong>：宅不住的AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7648871494637997318">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【AI做视频邪修大法vibemotion · 宅不住的AI】
@@ -1485,10 +1708,8 @@ Cloud 4.6
 就是 WebMotion 的专属载道
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex直接产出剪映源文件（ai剪视频） #ai实操落地 #ai实战技巧 #aigc #ai#AI新星计划 #vibecoding大赏</h3>
 
+<h3 id="codexai-ai-ai-aigc-aiai-vibecoding">codex直接产出剪映源文件（ai剪视频） #ai实操落地 #ai实战技巧 #aigc #ai#AI新星计划 #vibecoding大赏</h3>
 <p><strong>作者</strong>：喂鱼 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643381265149098405">抖音</a> · <strong>价值评分</strong>：3</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -1516,10 +1737,8 @@ codex里面
 绝了
 
 </details>
-</div>
-<div class="video-card">
-<h3>我的上一条视频播放量4600，AI预测的是5000 #claude #deepseek #skill #ai教程 #做自媒体</h3>
 
+<h3 id="4600ai5000-claude-deepseek-skill-ai">我的上一条视频播放量4600，AI预测的是5000 #claude #deepseek #skill #ai教程 #做自媒体</h3>
 <p><strong>作者</strong>：蛋饼 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7649655135270956136">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：我的上一条视频播放量4600，AI预测的是5000 #claude #deepseek #skill #ai教程  #做自媒体</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -1622,10 +1841,8 @@ AI会自动修正打分的公式或者说打分的维度
 如果大家能够在桌面端运行那肯定会更好一些
 
 </details>
-</div>
-<div class="video-card">
-<h3>端午节 OpenAI 出的王炸 #openai #codex #record #replay 关注我，后续出一期教程</h3>
 
+<h3 id="openai-openai-codex-record-replay">端午节 OpenAI 出的王炸 #openai #codex #record #replay 关注我，后续出一期教程</h3>
 <p><strong>作者</strong>：Shameless · <strong>链接</strong>：<a href="https://www.douyin.com/video/7653031818015227322">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】OpenAI Codex新增Record and Replay插件，可录制你的工作流程生成可修改的skill，以后一句话就能让AI按此流程干活。
@@ -1668,10 +1885,8 @@ Codex版本更新
 后续出一期实操教程
 
 </details>
-</div>
-<div class="video-card">
-<h3>游戏小镇--超级治愈，用claude或者codex制作 依托 Codex 完成游戏场景渲染、交互逻辑、种植养殖、家园建造底层代码，实现流畅画面与轻量化运行；使用 Claude 撰写小镇人物剧情、支线故事、场景文案与对话文…</h3>
 
+<h3 id="-claudecodex-codex-claude">游戏小镇--超级治愈，用claude或者codex制作 依托 Codex 完成游戏场景渲染、交互逻辑、种植养殖、家园建造底层代码，实现流畅画面与轻量化运行；使用 Claude 撰写小镇人物剧情、支线故事、场景文案与对话文…</h3>
 <p><strong>作者</strong>：皮皮翔 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7651985823600004404">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：游戏小镇--超级治愈，用claude或者codex制作 依托 Codex 完成游戏场景渲染、交互逻辑、种植养殖、家园建造底层代码，实现流畅画面与轻量化运行；使用 Claude 撰写小镇人物剧情、支线故事、场景文案与对话文本，统一治愈温柔的叙事风格，二者配合完成这座无压力休闲小镇的完整开发，打造沉浸式治愈休闲体验。#撰写小镇人物 #vibecoding大赏 #高温来袭这套ootd超顶 #这件吊带有夏天滤镜 #无法拒绝的夏日快乐水</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -1722,10 +1937,8 @@ Codex版本更新
 好,那也需要把毒水
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex帮我做三维动效 #ai新星计划 #vibecoding大赏 #前沿科技趋势发布月 #codex #ai教程</h3>
 
+<h3 id="codex-ai-vibecoding-codex-ai">Codex帮我做三维动效 #ai新星计划 #vibecoding大赏 #前沿科技趋势发布月 #codex #ai教程</h3>
 <p><strong>作者</strong>：光郡 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7651270428162306553">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -1764,10 +1977,8 @@ Codex版本更新
 你希望我在这个skill中还可以加入什么能力
 
 </details>
-</div>
-<div class="video-card">
-<h3>用Codex做出专业视频 Codex+Remotion，两个案例和三个进阶心法，让你轻松做视频 #codex #remotion #AI应用 #自媒体短视频</h3>
 
+<h3 id="codex-codexremotion-codex-remotion-ai">用Codex做出专业视频 Codex+Remotion，两个案例和三个进阶心法，让你轻松做视频 #codex #remotion #AI应用 #自媒体短视频</h3>
 <p><strong>作者</strong>：小韦用AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7651270003974491402">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：用Codex做出专业视频 Codex+Remotion，两个案例和三个进阶心法，让你轻松做视频</p>
 <h1 id="codex-remotion-ai">codex #remotion #AI应用 #自媒体短视频</h1>
@@ -1877,18 +2088,13 @@ Remotion负责渲染
 AIT效工具和方法的小尾
 
 </details>
-</div>
-<div class="video-card">
-<h3>两种公众号自动进入草稿箱流程 #真实生活分享计划 #后台操作流程 #codex #公众号</h3>
 
+<h3 id="codex">两种公众号自动进入草稿箱流程 #真实生活分享计划 #后台操作流程 #codex #公众号</h3>
 <p><strong>作者</strong>：MID艺术工作室 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7649235839197947087">抖音</a> · <strong>价值评分</strong>：3</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>用Codex 做了个短视频运营助手 Codex不只是写代码。我让它帮我分析账号数据、推荐爆款对标、沉淀剪辑方法论 #Codex #AI工作流 #抖音运营 #VibeCoding #程序员日常</h3>
-
+<h3 id="codex-codex-codex-ai-vibecoding">用Codex 做了个短视频运营助手 Codex不只是写代码。我让它帮我分析账号数据、推荐爆款对标、沉淀剪辑方法论 #Codex #AI工作流 #抖音运营 #VibeCoding #程序员日常</h3>
 <p><strong>作者</strong>：会偷懒的程序员阿语 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650167066004026619">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：用Codex 做了个短视频运营助手 Codex不只是写代码。我让它帮我分析账号数据、推荐爆款对标、沉淀剪辑方法论  #Codex #AI工作流 #抖音运营 #VibeCoding #程序员日常</p>
 <blockquote>
@@ -1920,10 +2126,8 @@ AIT效工具和方法的小尾
 我直接发给你
 
 </details>
-</div>
-<div class="video-card">
-<h3>我整理 Obsidian 后发现 我刚开始用obsidian 的时候也犯过一个错，就是真的把它当成什么都可以往里面扔的仓库，无论是文章截图、复盘，还是各种各样的灵感方法论都放在一起，然后想要找某一篇笔记的时候花了非常多时…</h3>
 
+<h3 id="obsidian-obsidian">我整理 Obsidian 后发现 我刚开始用obsidian 的时候也犯过一个错，就是真的把它当成什么都可以往里面扔的仓库，无论是文章截图、复盘，还是各种各样的灵感方法论都放在一起，然后想要找某一篇笔记的时候花了非常多时…</h3>
 <p><strong>作者</strong>：蓝好好 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650448372242992394">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：我整理 Obsidian 后发现 我刚开始用obsidian 的时候也犯过一个错，就是真的把它当成什么都可以往里面扔的仓库，无论是文章截图、复盘，还是各种各样的灵感方法论都放在一起，然后想要找某一篇笔记的时候花了非常多时间。<br />
 所以后面在看到非常多大神分享各种各样不同的知识库结构之后，我根据自己实际的使用场景总结了一下。<br />
@@ -2017,10 +2221,8 @@ Obsidian不是越复杂越好用
 也可以在评论区分享给我哦
 
 </details>
-</div>
-<div class="video-card">
-<h3>什么，codex基础配置没做你就开始干活了？ 安装好codex后，先按照视频教程做好基础配置，后续更好帮你干活。#AI #CODEX #AI学习 #个人成长</h3>
 
+<h3 id="codex-codexai-codex-ai">什么，codex基础配置没做你就开始干活了？ 安装好codex后，先按照视频教程做好基础配置，后续更好帮你干活。#AI #CODEX #AI学习 #个人成长</h3>
 <p><strong>作者</strong>：许仙青柳讲AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7641496752683519232">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】装好Codex后，先花几分钟做完这几项基础配置，它才能按你的需求好好干活。
@@ -2097,10 +2299,8 @@ Obsidian不是越复杂越好用
 AirAgent的一些应用
 
 </details>
-</div>
-<div class="video-card">
-<h3>边跑外卖边vibe coding 教程 #热点 #vibecoding #就业 #ai #外卖 #vibecoding大赏</h3>
 
+<h3 id="vibe-coding-vibecoding-ai-vibecoding">边跑外卖边vibe coding 教程 #热点 #vibecoding #就业 #ai #外卖 #vibecoding大赏</h3>
 <p><strong>作者</strong>：挑眉哥 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7649722290413800710">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：边跑外卖边vibe coding 教程 #热点 #vibecoding  #就业 #ai #外卖 #vibecoding大赏</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -2142,10 +2342,8 @@ Cloud Code的
 那个视频大部分还是在整活
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex剪辑视频成片效果？耗时多久？消耗多少token？ 测试下来很多人抱怨的Codex剪辑慢+消耗Token多，主要是走的computer use方案，通过截图分析剪映界面再点击拖慢了节奏，增加了Token消耗，其实…</h3>
 
+<h3 id="codextoken-codextokencomputer-usetoken">Codex剪辑视频成片效果？耗时多久？消耗多少token？ 测试下来很多人抱怨的Codex剪辑慢+消耗Token多，主要是走的computer use方案，通过截图分析剪映界面再点击拖慢了节奏，增加了Token消耗，其实…</h3>
 <p><strong>作者</strong>：橙光Lab · <strong>链接</strong>：<a href="https://www.douyin.com/video/7647780168349666602">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：Codex剪辑视频成片效果？耗时多久？消耗多少token？ 测试下来很多人抱怨的Codex剪辑慢+消耗Token多，主要是走的computer use方案，通过截图分析剪映界面再点击拖慢了节奏，增加了Token消耗，其实codex完全可以用插件和代码自己剪视频...强烈建议试试这个方案：拍好的视频口播稿给到gpt写提示词，然后把提示词给codex直接剪辑，输出成片以及剪映草稿，这样实测下来1~2分钟的口播视频十几分钟就能剪辑+包装+导出，且只消耗1%左右的周额度，并且可以继续在剪映微调，下条视频会有实操步骤和一镜到底的花絮#vibecoding大赏    #ai新星计划 #Codex剪视频 #codex剪视频效果 #codex剪视频消耗 @抖音科技</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -2248,10 +2446,8 @@ Codex完成剪辑
 那我们下期见
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex接DeepSeek的教程，只需要30秒就能搞定 #codex #DeepSeek</h3>
 
+<h3 id="codexdeepseek30-codex-deepseek">codex接DeepSeek的教程，只需要30秒就能搞定 #codex #DeepSeek</h3>
 <p><strong>作者</strong>：李文 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7647930447108941681">抖音</a> · <strong>价值评分</strong>：3</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -2271,10 +2467,8 @@ Codex接Deepseak 首先你的cc-switch需要更新到最新版的
 然后你重启Codex就可以了
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI信息分拣台，让收藏夹不吃灰｜Vibe Coding大赏 做这个的初衷是，我最近有点信息焦虑。 总是在各个平台找最新的资讯、访谈和观点，但找到了之后，又没有真的吸收，就继续找下一个。 后来我发现，问题不是信息不够，而是…</h3>
 
+<h3 id="aivibe-coding">AI信息分拣台，让收藏夹不吃灰｜Vibe Coding大赏 做这个的初衷是，我最近有点信息焦虑。 总是在各个平台找最新的资讯、访谈和观点，但找到了之后，又没有真的吸收，就继续找下一个。 后来我发现，问题不是信息不够，而是…</h3>
 <p><strong>作者</strong>：周末Zomo · <strong>链接</strong>：<a href="https://www.douyin.com/video/7647474772738289381">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：AI信息分拣台，让收藏夹不吃灰｜Vibe Coding大赏 做这个的初衷是，我最近有点信息焦虑。 总是在各个平台找最新的资讯、访谈和观点，但找到了之后，又没有真的吸收，就继续找下一个。 后来我发现，问题不是信息不够，而是我缺少一个更顺手的信息处理流程。 所以我做了一个平台，帮我收集、预审、分类和回顾这些信息。它很大程度上提高了我的信息处理效率，也缓解了很多焦虑。这期就把我的思路分享给大家～#VibeCoding大赏#ai新星计划@抖音科技</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -2359,10 +2553,8 @@ AI会按我的语气先写1-2分钟的脚本文案
 变成我自己的知识和表达
 
 </details>
-</div>
-<div class="video-card">
-<h3>干货！Vibe Coding 经验小结</h3>
 
+<h3 id="vibe-coding">干货！Vibe Coding 经验小结</h3>
 <p><strong>作者</strong>：白玩dev · <strong>链接</strong>：<a href="https://www.douyin.com/video/7645152181057883419">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】Vibe Coding不是对AI许愿，而是你自己把架构想明白，让AI填细节。
@@ -2485,10 +2677,8 @@ CSS是用Telvin的还是用原声的
 画着画着...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>🔥爆火低能量穿搭视频教程来了 前几天发的低能量穿搭视频，评论区很多人问怎么做。 其实核心不是会穿搭，而是把爆款视频拆成一套 AI 流程： 先用 Codex 反推视频提示词，再用 image2 生成穿搭图，最后用 Seed…</h3>
 
+<h3 id="ai-codex-image2-seed">🔥爆火低能量穿搭视频教程来了 前几天发的低能量穿搭视频，评论区很多人问怎么做。 其实核心不是会穿搭，而是把爆款视频拆成一套 AI 流程： 先用 Codex 反推视频提示词，再用 image2 生成穿搭图，最后用 Seed…</h3>
 <p><strong>作者</strong>：鸿悟AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644893991280274021">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：🔥爆火低能量穿搭视频教程来了 前几天发的低能量穿搭视频，评论区很多人问怎么做。 其实核心不是会穿搭，而是把爆款视频拆成一套 AI 流程： 先用 Codex 反推视频提示词，再用 image2 生成穿搭图，最后用 Seedance 2 让图片动起来。 普通人也能做出一条很有质感的 AI 穿搭视频。  #AI穿搭 #AI视频 #低能量穿搭 #AI教程 #Codex</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -2513,10 +2703,8 @@ CSS是用Telvin的还是用原声的
 等它生成完,最後稍微剪一下節奏。Hag BGM,一條低能量穿搭視頻就做好了。所以這類視頻真正難的不是會不會穿搭,而是你會不會把爆款視頻拆成一套可附用的AI流程,想看我下一期直接實操一遍的話,可以先關注,我繼續把AI做圖,做視頻的玩法拆給你看。
 
 </details>
-</div>
-<div class="video-card">
-<h3>废掉一个人最快的方式，就是让他不停vibecoding 今天踩了个坑，记下来提醒自己。 事情很简单——我需要抓取一个公众号作者所有历史文章，标题、发布时间、正文、阅读量、链接，五个维度。工作量不大，但数据散落在各处，得用…</h3>
 
+<h3 id="vibecoding">废掉一个人最快的方式，就是让他不停vibecoding 今天踩了个坑，记下来提醒自己。 事情很简单——我需要抓取一个公众号作者所有历史文章，标题、发布时间、正文、阅读量、链接，五个维度。工作量不大，但数据散落在各处，得用…</h3>
 <p><strong>作者</strong>：大厂转型人强哥 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7641616060696890639">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：废掉一个人最快的方式，就是让他不停vibecoding 今天踩了个坑，记下来提醒自己。</p>
 <p>事情很简单——我需要抓取一个公众号作者所有历史文章，标题、发布时间、正文、阅读量、链接，五个维度。工作量不大，但数据散落在各处，得用技术手段批量拿。</p>
@@ -2629,10 +2817,8 @@ CSS是用Telvin的还是用原声的
 你什么时候不该做什么
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI 剪辑教程：用这套方法，让Codex剪视频效果和效率翻倍 用 HyperFrames 生成或剪辑视频效果不好，这一期教你一招解决方法。 #AI新星计划 #AI #AI剪辑 #codex #skills</h3>
 
+<h3 id="ai-codex-hyperframes-ai-ai-ai-codex-skills">AI 剪辑教程：用这套方法，让Codex剪视频效果和效率翻倍 用 HyperFrames 生成或剪辑视频效果不好，这一期教你一招解决方法。 #AI新星计划 #AI #AI剪辑 #codex #skills</h3>
 <p><strong>作者</strong>：废才俱乐部Club · <strong>链接</strong>：<a href="https://www.douyin.com/video/7641230262990556479">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：AI 剪辑教程：用这套方法，让Codex剪视频效果和效率翻倍 用 HyperFrames 生成或剪辑视频效果不好，这一期教你一招解决方法。</p>
 <h1 id="ai-ai-ai-codex-skills">AI新星计划 #AI #AI剪辑 #codex  #skills</h1>
@@ -2773,10 +2959,8 @@ videospike的markdown文档里
 这一径...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Claude Code国内安装 + 剪视频,Skill已开源 国内网络手把手安装安装Claude Code！不用写代码，新手也能剪动画视频 ✅ Claude Code保姆及安装教程+配置Kimi模型 ✅ Remotion…</h3>
 
+<h3 id="claude-code-skill-claude-code-claude-codekimi-remotion">Claude Code国内安装 + 剪视频,Skill已开源 国内网络手把手安装安装Claude Code！不用写代码，新手也能剪动画视频 ✅ Claude Code保姆及安装教程+配置Kimi模型 ✅ Remotion…</h3>
 <p><strong>作者</strong>：跟着阿亮学AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640067408295644456">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：Claude Code国内安装 + 剪视频,Skill已开源 国内网络手把手安装安装Claude Code！不用写代码，新手也能剪动画视频<br />
 ✅ Claude Code保姆及安装教程+配置Kimi模型<br />
@@ -2898,16 +3082,14 @@ remotion是一个用代码生成动画的框架
 让它创建一个八创电池组的动画效果...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Vibe Coding教程：对AI说话就做出软件 🤔如果你最近也在想一件事：我一个完全不会代码的人，真的可以用 AI 为自己做出一个软件吗？ 🌟我的答案是：当然可以！ 📚我把自己这4个月Vibe Coding里最重要的经…</h3>
 
+<h3 id="vibe-codingai-ai-4vibe-coding">Vibe Coding教程：对AI说话就做出软件 🤔如果你最近也在想一件事：我一个完全不会代码的人，真的可以用 AI 为自己做出一个软件吗？ 🌟我的答案是：当然可以！ 📚我把自己这4个月Vibe Coding里最重要的经…</h3>
 <p><strong>作者</strong>：大牙大 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7636352251627425058">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：Vibe Coding教程：对AI说话就做出软件 🤔如果你最近也在想一件事：我一个完全不会代码的人，真的可以用 AI 为自己做出一个软件吗？<br />
  🌟我的答案是：当然可以！</p>
 <p>📚我把自己这4个月Vibe Coding里最重要的经验，浓缩成了一次完整实操演示。<br />
  不是只告诉你装什么工具，而是直接带你从0到1做出一个真正能运行的软件：怎么提第一次需求，怎么让AI稳定执行，怎么一步一步把项目推进下去。</p>
-<h2 id="vibe-coding">如果你刚开始对Vibe Coding感兴趣，那这条就是为你制作的！看完之后，你应该就能自己动手开始第一次尝试了。</h2>
+<h2 id="vibe-coding_1">如果你刚开始对Vibe Coding感兴趣，那这条就是为你制作的！看完之后，你应该就能自己动手开始第一次尝试了。</h2>
 <h1 id="vibecoding-ai-ai-deepseek-ai">vibecoding #AI编程 #AI教程 #deepseek #AI技巧</h1>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】不会代码的小白，用“需求模板+分步规划”就能让AI帮你做出软件。
@@ -3034,10 +3216,8 @@ OK
 会如何去思考和消化...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>宠物上桌！2分钟教你用vibecoding小狗陪上班！ 2分钟用vibecoding把小法斗搬上电脑，嘿嘿 一行代码没写！教程在后面～#vibecoding #codex #桌宠 #ai #ai工具</h3>
 
+<h3 id="2vibecoding-2vibecoding-vibecoding-codex-ai-ai">宠物上桌！2分钟教你用vibecoding小狗陪上班！ 2分钟用vibecoding把小法斗搬上电脑，嘿嘿 一行代码没写！教程在后面～#vibecoding #codex #桌宠 #ai #ai工具</h3>
 <p><strong>作者</strong>：HiHi小壮 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639728159406984474">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：宠物上桌！2分钟教你用vibecoding小狗陪上班！ 2分钟用vibecoding把小法斗搬上电脑，嘿嘿<br />
 一行代码没写！教程在后面～#vibecoding #codex #桌宠 #ai #ai工具</p>
@@ -3110,10 +3290,8 @@ Wabcoding好的產品框架裡進行配置
 我都整理好了需要的小夥伴們
 
 </details>
-</div>
-<div class="video-card">
-<h3>把自家小狗做成 Codex 桌宠！简单好上手👏 快速给大家分享一下我是如何用Codex把自家小狗做成专属桌面宠物啦～ 超级简单，快快跟着我一起操作吧～ #codex #ai #ai工具 #AI教程 #桌面宠物 @抖音小助…</h3>
 
+<h3 id="codex-codex-codex-ai-ai-ai">把自家小狗做成 Codex 桌宠！简单好上手👏 快速给大家分享一下我是如何用Codex把自家小狗做成专属桌面宠物啦～ 超级简单，快快跟着我一起操作吧～ #codex #ai #ai工具 #AI教程 #桌面宠物 @抖音小助…</h3>
 <p><strong>作者</strong>：77的快乐星球cici · <strong>链接</strong>：<a href="https://www.douyin.com/video/7638995382487239987">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：把自家小狗做成 Codex 桌宠！简单好上手👏 快速给大家分享一下我是如何用Codex把自家小狗做成专属桌面宠物啦～<br />
 超级简单，快快跟着我一起操作吧～</p>
@@ -3165,10 +3343,8 @@ Codex自带的宠物大家也可以玩一玩
 拜拜
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex完整使用拆解，我的新生产力闭环。 分享近期高强度使用codex的技巧，希望对你有所帮助。#AI #codex #gpt #gemini #claude</h3>
 
+<h3 id="codex-codexai-codex-gpt-gemini-claude">Codex完整使用拆解，我的新生产力闭环。 分享近期高强度使用codex的技巧，希望对你有所帮助。#AI #codex #gpt #gemini #claude</h3>
 <p><strong>作者</strong>：布鲁歇一歇 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634931976520224043">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：Codex完整使用拆解，我的新生产力闭环。 分享近期高强度使用codex的技巧，希望对你有所帮助。#AI #codex  #gpt #gemini #claude</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -3295,10 +3471,8 @@ Cloud Code中compack的那样的命令
 第二 自动化可以调用Codex自身的...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>CODEX完整教程｜超强个人AI工具 #codex #codex教程 #职场 #提效 #ai工具</h3>
 
+<h3 id="codexai-codex-codex-ai">CODEX完整教程｜超强个人AI工具 #codex #codex教程 #职场 #提效 #ai工具</h3>
 <p><strong>作者</strong>：瑞哥那 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7630079656838090018">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：CODEX完整教程｜超强个人AI工具 #codex  #codex教程  #职场  #提效 #ai工具</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -3426,10 +3600,8 @@ skills跟自动化
 去问一下...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex+obsidian搭建生图工作流，再也不用抽卡了！ 内容创作者如何利用codex+obsidian高效产出配图？本视频用最清晰易懂的语言详细讲解今天视频里面一整套完整的工作流搭建流程。不管是视频还是图文，这套方…</h3>
 
+<h3 id="codexobsidian-codexobsidian">codex+obsidian搭建生图工作流，再也不用抽卡了！ 内容创作者如何利用codex+obsidian高效产出配图？本视频用最清晰易懂的语言详细讲解今天视频里面一整套完整的工作流搭建流程。不管是视频还是图文，这套方…</h3>
 <p><strong>作者</strong>：船长的角落 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637842420767476992">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：codex+obsidian搭建生图工作流，再也不用抽卡了！ 内容创作者如何利用codex+obsidian高效产出配图？本视频用最清晰易懂的语言详细讲解今天视频里面一整套完整的工作流搭建流程。不管是视频还是图文，这套方法都能帮你提升效率。</p>
 <h1 id="codex-obsidian-image2-ai">codex #obsidian #image2 #ai #人工智能</h1>
@@ -3600,10 +3772,8 @@ Cautance开始干活了
 场景...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Pretext的爆火：让我看到了创作全民化的未来 我用Pretext给两个5岁的儿子vibe coding了一个讲故事的交互网站。加入AI后，我每天都在思考如何让更多非技术的人理解AI现在到底能带来什么？ 说实话现在的落…</h3>
 
+<h3 id="pretext-pretext5vibe-codingaiai">Pretext的爆火：让我看到了创作全民化的未来 我用Pretext给两个5岁的儿子vibe coding了一个讲故事的交互网站。加入AI后，我每天都在思考如何让更多非技术的人理解AI现在到底能带来什么？ 说实话现在的落…</h3>
 <p><strong>作者</strong>：缘缘er · <strong>链接</strong>：<a href="https://www.douyin.com/video/7624149523127979302">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：Pretext的爆火：让我看到了创作全民化的未来 我用Pretext给两个5岁的儿子vibe coding了一个讲故事的交互网站。加入AI后，我每天都在思考如何让更多非技术的人理解AI现在到底能带来什么？<br />
 说实话现在的落地场景还非常有限，但技术进步的速度很快，我能感受到AI可以让创造的门槛越来越低。哪怕不善于镜头前表达的人，也可以把细腻的情绪通过技术的帮助，更完整的传达出来，我乐观地认为，这一定是一个很美好的未来。#AI #Pretext #创作</p>
@@ -3681,10 +3851,8 @@ What is good for you?
 然后想分享给大家
 
 </details>
-</div>
-<div class="video-card">
-<h3>用codex跑通自媒体运营全流程！运营太烦了！ 这期分享的是我真实在用的 Codex 内容运营流程。 做号最累的，其实不是拍视频。 而是拍完以后那些又碎、又重复、又不能不做的事情： 看数据、复盘、更新账号策略、写封面标题…</h3>
 
+<h3 id="codex-codex">用codex跑通自媒体运营全流程！运营太烦了！ 这期分享的是我真实在用的 Codex 内容运营流程。 做号最累的，其实不是拍视频。 而是拍完以后那些又碎、又重复、又不能不做的事情： 看数据、复盘、更新账号策略、写封面标题…</h3>
 <p><strong>作者</strong>：珍妮丁丁说AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637082949514546466">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：用codex跑通自媒体运营全流程！运营太烦了！ 这期分享的是我真实在用的 Codex 内容运营流程。<br />
 做号最累的，其实不是拍视频。<br />
@@ -3832,10 +4000,8 @@ AI就会去读取了这几个固定的文档以后
 这个时候...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex可以养宠物了！教你养可爱还干活的AI宝宝！ 本期珍妮强烈要做！太可爱了！ 自定义你自己的小宠物！ 快！手把手教你搞一个！ #ai新星计划 #codex #AI #openai</h3>
 
+<h3 id="codexai-ai-codex-ai-openai">Codex可以养宠物了！教你养可爱还干活的AI宝宝！ 本期珍妮强烈要做！太可爱了！ 自定义你自己的小宠物！ 快！手把手教你搞一个！ #ai新星计划 #codex #AI #openai</h3>
 <p><strong>作者</strong>：珍妮丁丁说AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7635487489267928366">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：Codex可以养宠物了！教你养可爱还干活的AI宝宝！ 本期珍妮强烈要做！太可爱了！<br />
 自定义你自己的小宠物！<br />
@@ -3949,10 +4115,8 @@ installer的这个skill
 拜拜
 
 </details>
-</div>
-<div class="video-card">
-<h3>让我们回归到起点：到底什么是Vibe Coding？ . 发了不少Vibe Coding的视频， 现在让我们回到原点：解释什么是Vibe Coding。 为了方便大家理解，我大概是这么拆解的： 1、谁提出的Vibe Co…</h3>
 
+<h3 id="vibe-coding-vibe-coding-vibe-coding-1vibe-co">让我们回归到起点：到底什么是Vibe Coding？ . 发了不少Vibe Coding的视频， 现在让我们回到原点：解释什么是Vibe Coding。 为了方便大家理解，我大概是这么拆解的： 1、谁提出的Vibe Co…</h3>
 <p><strong>作者</strong>：阿囤囤 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7614912768881216777">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：让我们回归到起点：到底什么是Vibe Coding？ .<br />
 发了不少Vibe Coding的视频，<br />
@@ -4067,10 +4231,8 @@ ASCMA你们可以看我之前的视频了解一下
 你先跟我描述一下它包含哪些功...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>零基础安装Claude Code 保姆级教程 限流重发 #ai #claudecode #vibecoding #编程入门</h3>
 
+<h3 id="claude-code-ai-claudecode-vibecoding">零基础安装Claude Code 保姆级教程 限流重发 #ai #claudecode #vibecoding #编程入门</h3>
 <p><strong>作者</strong>：数字生命king · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633456757523631403">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>简介</strong>：零基础安装Claude Code 保姆级教程 限流重发  #ai  #claudecode  #vibecoding  #编程入门</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -4190,10 +4352,8 @@ PowerShell
 下一期我接着分享
 
 </details>
-</div>
-<div class="video-card">
-<h3>ClaudeCode一键接入DeepSeekV4教程#claude #DeepSeek #ai编程</h3>
 
+<h3 id="claudecodedeepseekv4claude-deepseek-ai">ClaudeCode一键接入DeepSeekV4教程#claude #DeepSeek #ai编程</h3>
 <p><strong>作者</strong>：程序员_秃头哥 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633790282421990065">抖音</a> · <strong>价值评分</strong>：3</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用第三方工具一键把Claude Code接入DeepSeek V4 Pro，不用手动改代码。
@@ -4276,19 +4436,14 @@ OK 可以看到這個配置
 謝謝各位的觀看
 
 </details>
-</div>
-<div class="video-card">
-<h3>免费的 AI女友，不领一个吗？ #vibecoding大赏 继续优化 Codex Live 实时对话功能，实现真•面向对象编程。 优化完成后，会内置到开源的 #Codex 皮肤生成器项目“Codex-QQ-Skin”中。…</h3>
 
+<h3 id="ai-vibecoding-codex-live-codex-codex-qq-skin">免费的 AI女友，不领一个吗？ #vibecoding大赏 继续优化 Codex Live 实时对话功能，实现真•面向对象编程。 优化完成后，会内置到开源的 #Codex 皮肤生成器项目“Codex-QQ-Skin”中。…</h3>
 <p><strong>作者</strong>：老 A 玩 AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7667317005448367706">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：免费的 AI女友，不领一个吗？ #vibecoding大赏  继续优化 Codex Live 实时对话功能，实现真•面向对象编程。 优化完成后，会内置到开源的 #Codex 皮肤生成器项目“Codex-QQ-Skin”中。 感兴趣的朋友可以先Star 一下。  #howto入门codex</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>如何使用第三方模型驱动Codex 无需OpenAI账号 #openai #gpt #deepseek #glm #codex</h3>
-
+<h3 id="codex-openai-openai-gpt-deepseek-glm-codex">如何使用第三方模型驱动Codex 无需OpenAI账号 #openai #gpt #deepseek #glm #codex</h3>
 <p><strong>作者</strong>：马克的技术工作坊 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7656439735560228123">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【国产模型驱动Codex · 马克的技术工作坊】
@@ -4403,10 +4558,8 @@ CC switch是什么呢
 respo...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>Github 5万颗星！还有多少人不知道这款AI设计工具！！ 最近有一个很棒的软件叫：“Open Design”！就如果最近你很苦恼如何Vibe coding出一个好看的设计！怎么Claude Design这么贵！ 那这…</h3>
 
+<h3 id="github-5ai-open-designvibe-codingclaude-design">Github 5万颗星！还有多少人不知道这款AI设计工具！！ 最近有一个很棒的软件叫：“Open Design”！就如果最近你很苦恼如何Vibe coding出一个好看的设计！怎么Claude Design这么贵！ 那这…</h3>
 <p><strong>作者</strong>：Gilbert🍃 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644260710385569067">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：Github 5万颗星！还有多少人不知道这款AI设计工具！！ 最近有一个很棒的软件叫：“Open Design”！就如果最近你很苦恼如何Vibe coding出一个好看的设计！怎么Claude Design这么贵！</p>
 <p>那这期视频呢，我会具体向你介绍一下，你到底可以用它来干什么！ #ai设计#opendesign #ai新星计划 #vibecoding大赏 @抖音科技 #抖音前沿科技首发计划</p>
@@ -4555,18 +4708,13 @@ OK
 它有一个很丰富的一个skills...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>想要做出一款能够变现的AI产品，如何找对用户需求？ #刘小排 #AI创业 #创业 #AI编程 #AI产品</h3>
 
+<h3 id="ai-ai-ai-ai">想要做出一款能够变现的AI产品，如何找对用户需求？ #刘小排 #AI创业 #创业 #AI编程 #AI产品</h3>
 <p><strong>作者</strong>：刘小排本排 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7654208790820097306">抖音</a> · <strong>价值评分</strong>：2</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>网站写好了别人怎么看？ 上 「VibeCoding大赏」从零AI第 5 期：网站做好以后，为什么别人打不开？这一期用 GitHub + Vercel，把本地网页部署到云端，让别人真正能访问你的网站。#vibecoding…</h3>
-
+<h3 id="vibecodingai-5-github-vercelvibecoding">网站写好了别人怎么看？ 上 「VibeCoding大赏」从零AI第 5 期：网站做好以后，为什么别人打不开？这一期用 GitHub + Vercel，把本地网页部署到云端，让别人真正能访问你的网站。#vibecoding…</h3>
 <p><strong>作者</strong>：肯耶 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7649350686295002410">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：网站写好了别人怎么看？ 上 「VibeCoding大赏」从零AI第 5 期：网站做好以后，为什么别人打不开？这一期用 GitHub + Vercel，把本地网页部署到云端，让别人真正能访问你的网站。#vibecoding大赏   #ai新星计划   #github  #Vercel  #网站上线  @抖音科技</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -4630,10 +4778,8 @@ github是全球最大的开源平台
 Vercel就可以通过阅读你的仓库
 
 </details>
-</div>
-<div class="video-card">
-<h3>装过上百个skill后，推荐这16个 #AI #skill #skills #人工智能 #vibecoding #vibecoding大赏</h3>
 
+<h3 id="skill16-ai-skill-skills-vibecoding-vibecoding">装过上百个skill后，推荐这16个 #AI #skill #skills #人工智能 #vibecoding #vibecoding大赏</h3>
 <p><strong>作者</strong>：起哥的AI实战 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650479432901119284">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：装过上百个skill后，推荐这16个 #AI #skill #skills #人工智能  #vibecoding #vibecoding大赏</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -4760,10 +4906,8 @@ UI设计的一致性的
 我...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>我给DeepSeek添加视觉能力的原理 Vision Skill+Vision MCP #AI #DeepSeek #skills</h3>
 
+<h3 id="deepseek-vision-skillvision-mcp-ai-deepseek-skills">我给DeepSeek添加视觉能力的原理 Vision Skill+Vision MCP #AI #DeepSeek #skills</h3>
 <p><strong>作者</strong>：鸣远的世界 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7645960331184868644">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：我给DeepSeek添加视觉能力的原理 Vision Skill+Vision MCP</p>
 <h1 id="ai-deepseek-skills">AI #DeepSeek #skills</h1>
@@ -4813,10 +4957,8 @@ DeepSig就有了图的理解回复给你
 下期继续聊AI玩法
 
 </details>
-</div>
-<div class="video-card">
-<h3>如何在手机上写代码？ 利用termius和claude code ，我们能够随时随地在手机上提出新的功能需求，并进行代码修改。#ai #编程 #代码 #手机 #claude</h3>
 
+<h3 id="termiusclaude-code-ai-claude">如何在手机上写代码？ 利用termius和claude code ，我们能够随时随地在手机上提出新的功能需求，并进行代码修改。#ai #编程 #代码 #手机 #claude</h3>
 <p><strong>作者</strong>：Cass · <strong>链接</strong>：<a href="https://www.douyin.com/video/7541893533804875062">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】没带电脑时，用手机Termius连远程服务器，召唤Claude Code就能随时改代码、加功能。
@@ -4926,10 +5068,8 @@ keytub上来
 放开这里我们要求...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>挑战一镜到底让codex剪辑视频，成片效果究竟如何？消耗多少token？花费多长时间？操作步骤？#codex剪视频#Codex #AI提效 #vibecoding大赏 #ai新星计划</h3>
 
+<h3 id="codextokencodexcodex-ai-vibecoding-ai">挑战一镜到底让codex剪辑视频，成片效果究竟如何？消耗多少token？花费多长时间？操作步骤？#codex剪视频#Codex #AI提效 #vibecoding大赏 #ai新星计划</h3>
 <p><strong>作者</strong>：橙光Lab · <strong>链接</strong>：<a href="https://www.douyin.com/video/7648241414131764518">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：挑战一镜到底让codex剪辑视频，成片效果究竟如何？消耗多少token？花费多长时间？操作步骤？#codex剪视频#Codex #AI提效  #vibecoding大赏  #ai新星计划</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -5040,10 +5180,8 @@ computer 幼稚的界面
 后续再给家人们汇报一下
 
 </details>
-</div>
-<div class="video-card">
-<h3>怎么一天产一条 AI 口播?我把自己拆成了流水线 刚开口那个"我",其实是数字人🤖 这条视频的选题、脚本、分镜,连我说话的停顿,都是我搭的一条 AI 流水线自己定的——我只在最后穿着睡衣,按了个回车键。 它不是替代我,是…</h3>
 
+<h3 id="ai-ai">怎么一天产一条 AI 口播?我把自己拆成了流水线 刚开口那个"我",其实是数字人🤖 这条视频的选题、脚本、分镜,连我说话的停顿,都是我搭的一条 AI 流水线自己定的——我只在最后穿着睡衣,按了个回车键。 它不是替代我,是…</h3>
 <p><strong>作者</strong>：你好小王 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7648243752871529780">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：怎么一天产一条 AI 口播?我把自己拆成了流水线 刚开口那个"我",其实是数字人🤖<br />
 这条视频的选题、脚本、分镜,连我说话的停顿,都是我搭的一条 AI 流水线自己定的——我只在最后穿着睡衣,按了个回车键。<br />
@@ -5053,10 +5191,7 @@ computer 幼稚的界面
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>CLI的AI编程工具是适合所有行业所有人的 很多人对于像Claude Code这样的AI编程工具望而生畏, 其实要学会并不难, 只需要克服恐惧的心理, 学会之后, AI就不需要向下兼容你, 你的效率也会大大提高 #CLI…</h3>
-
+<h3 id="cliai-claude-codeai-ai-cli">CLI的AI编程工具是适合所有行业所有人的 很多人对于像Claude Code这样的AI编程工具望而生畏, 其实要学会并不难, 只需要克服恐惧的心理, 学会之后, AI就不需要向下兼容你, 你的效率也会大大提高 #CLI…</h3>
 <p><strong>作者</strong>：X小福（Jun） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646656384326536490">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：CLI的AI编程工具是适合所有行业所有人的 很多人对于像Claude Code这样的AI编程工具望而生畏, 其实要学会并不难, 只需要克服恐惧的心理, 学会之后, AI就不需要向下兼容你, 你的效率也会大大提高 #CLI #AI编程 #AI辅助 #命令行</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -5114,18 +5249,13 @@ computer 幼稚的界面
 可能是纯CRI工具的十倍以上
 
 </details>
-</div>
-<div class="video-card">
-<h3>自动化制作公众号 #软件操作技巧 #一天一个强大的网站 #公众号#ai工作流</h3>
 
+<h3 id="ai">自动化制作公众号 #软件操作技巧 #一天一个强大的网站 #公众号#ai工作流</h3>
 <p><strong>作者</strong>：MID艺术工作室 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646703540438086132">抖音</a> · <strong>价值评分</strong>：2</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>如何将stitch生成的样式一比一还原到代码中 @小欣同学 #codex #claudecode #vibecoding #stitch</h3>
-
+<h3 id="stitch-codex-claudecode-vibecoding-stitch">如何将stitch生成的样式一比一还原到代码中 @小欣同学 #codex #claudecode #vibecoding #stitch</h3>
 <p><strong>作者</strong>：每天只睡三小时 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7645687370737519891">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】让AI按Stitch导出的HTML文件还原样式，而不是“看着截图模仿”，才能做到1:1复刻。
@@ -5281,10 +5411,8 @@ ok然后呢
 后续呢我还会...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI小技巧44——让codex中的deepseek看图 #AI小技巧 #AI</h3>
 
+<h3 id="ai44codexdeepseek-ai-ai">AI小技巧44——让codex中的deepseek看图 #AI小技巧 #AI</h3>
 <p><strong>作者</strong>：王美美爸爸 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646331782337400073">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】通过截图工具+提示词，让Codex绕过无法直接看图的限制，实现截图对话。
@@ -5324,19 +5452,14 @@ Codex 拥有看图能力
 非常方便
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex 可以直接在网页上改设计了！Codex 开始支持你直接在网页上标注，让 UI 修改更像设计批注而不是评论，看图就知道了。 就是现在你可以直接在 Vibe coding 的网页或者 app 预览窗口，直接选择元素…</h3>
 
+<h3 id="codex-codex-ui-vibe-coding-app">Codex 可以直接在网页上改设计了！Codex 开始支持你直接在网页上标注，让 UI 修改更像设计批注而不是评论，看图就知道了。 就是现在你可以直接在 Vibe coding 的网页或者 app 预览窗口，直接选择元素…</h3>
 <p><strong>作者</strong>：RaDesign设计 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644190102113699435">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：Codex 可以直接在网页上改设计了！Codex 开始支持你直接在网页上标注，让 UI 修改更像设计批注而不是评论，看图就知道了。 就是现在你可以直接在 Vibe coding 的网页或者 app 预览窗口，直接选择元素，就是你在 figma 里面改设计一样改，这太猛了！#设计工具推荐 #ai #codex #ai设计 #openai</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>一条让codex效率提升5倍的提示词 别从0开始造轮子，要学会站在前辈的肩膀上。任何事情都要学会借力和借势。#电脑上长猫了 #codex #vibecoding #提示词 #github</h3>
-
+<h3 id="codex5-0-codex-vibecoding-github">一条让codex效率提升5倍的提示词 别从0开始造轮子，要学会站在前辈的肩膀上。任何事情都要学会借力和借势。#电脑上长猫了 #codex #vibecoding #提示词 #github</h3>
 <p><strong>作者</strong>：周锦年zjn · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643350074881420977">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】让Codex效率提升5倍的关键，不是让它从0写代码，而是先让它去GitHub找现成方案。
@@ -5382,10 +5505,8 @@ Codex 拥有看图能力
 很快
 
 </details>
-</div>
-<div class="video-card">
-<h3>让Vibecoding做出高级感页面，UI审美提升技巧 3个vibecoding设计审美库+2个使用小技巧， 非设计师背景，也能做出高级感的产品！ #vibecoding #ai #ai工具 #UI审美 #aistudi…</h3>
 
+<h3 id="vibecodingui-3vibecoding2-vibecoding-ai-ai-ui-aistudi">让Vibecoding做出高级感页面，UI审美提升技巧 3个vibecoding设计审美库+2个使用小技巧， 非设计师背景，也能做出高级感的产品！ #vibecoding #ai #ai工具 #UI审美 #aistudi…</h3>
 <p><strong>作者</strong>：HiHi小壮 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7624063970286079258">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：让Vibecoding做出高级感页面，UI审美提升技巧 3个vibecoding设计审美库+2个使用小技巧，<br />
 非设计师背景，也能做出高级感的产品！</p>
@@ -5464,20 +5585,15 @@ Codex 拥有看图能力
 你学费了吗
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex实现动画自由 以前制作一个动画要花好长时间，需要设计和动效以及剪辑配合才能制作出来，现在Codex可以实现动画自由，只需要一句话就可以实现可编辑的透明背景动画，普通人也能实现动画自由。 #Ai工具 #Codex…</h3>
 
+<h3 id="codex-codex-ai-codex">Codex实现动画自由 以前制作一个动画要花好长时间，需要设计和动效以及剪辑配合才能制作出来，现在Codex可以实现动画自由，只需要一句话就可以实现可编辑的透明背景动画，普通人也能实现动画自由。 #Ai工具 #Codex…</h3>
 <p><strong>作者</strong>：好创兴tv · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639038608975858985">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：Codex实现动画自由 以前制作一个动画要花好长时间，需要设计和动效以及剪辑配合才能制作出来，现在Codex可以实现动画自由，只需要一句话就可以实现可编辑的透明背景动画，普通人也能实现动画自由。</p>
 <h1 id="ai-codex-mg">Ai工具 #Codex #动画制作 #MG动画#自媒体运营 #设计师#动画师#内容创作#效率神器 #打破信息差</h1>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>image2批量生图技巧 用codex调用image2批量生图，太好用了叭😵#image2 #codex #ai #知识科普</h3>
-
+<h3 id="image2-codeximage2image2-codex-ai">image2批量生图技巧 用codex调用image2批量生图，太好用了叭😵#image2 #codex #ai #知识科普</h3>
 <p><strong>作者</strong>：老鹰的AI思考 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634496598345185649">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用Codex替代GPT官网拖拽，可批量生成分镜图片并自动归档，适合做短片素材。
@@ -5531,10 +5647,8 @@ Codex 拥有看图能力
 变成作品
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex APP进化成Cursor级体验，技巧教学 #编程 #Codex #AI #教学视频 #开源</h3>
 
+<h3 id="codex-appcursor-codex-ai">Codex APP进化成Cursor级体验，技巧教学 #编程 #Codex #AI #教学视频 #开源</h3>
 <p><strong>作者</strong>：程序员晓刘 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7620485356357422362">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】Codex APP能通过快捷键呼出悬浮编辑器，实现类Cursor的侧边编辑体验，并支持批量创建子代理。
@@ -5703,10 +5817,8 @@ VVNew的这个VVNew文件
 ...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>我是如何在vibecoding产品上线第一天就拿到正反馈的 #小智IP管家 #小智opc</h3>
 
+<h3 id="vibecoding-ip-opc">我是如何在vibecoding产品上线第一天就拿到正反馈的 #小智IP管家 #小智opc</h3>
 <p><strong>作者</strong>：小智AI企业进化 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7616313151277092122">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】上线第一天拿到正反馈的关键：先验证需求再做产品，用差异化功能打透小白人群。
@@ -5832,10 +5944,8 @@ VVNew的这个VVNew文件
 咱们下期见
 
 </details>
-</div>
-<div class="video-card">
-<h3>强烈推荐6个自用skill 2026强烈推荐新手必用6个skill，功能超齐全！自用认证。 #skills #AI #AI工作流 #claudecode #大模型</h3>
 
+<h3 id="6skill-20266skill-skills-ai-ai-claudecode">强烈推荐6个自用skill 2026强烈推荐新手必用6个skill，功能超齐全！自用认证。 #skills #AI #AI工作流 #claudecode #大模型</h3>
 <p><strong>作者</strong>：阿森编程日记（AI自动化） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7627063419945979188">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：强烈推荐6个自用skill 2026强烈推荐新手必用6个skill，功能超齐全！自用认证。</p>
 <h1 id="skills-ai-ai-claudecode">skills #AI #AI工作流 #claudecode #大模型</h1>
@@ -5911,10 +6021,8 @@ AI操作文档的天花板
 关注我分享更多AI技巧
 
 </details>
-</div>
-<div class="video-card">
-<h3>更新后的Codex！是小白最容易上手的AI工具！太惊艳了！ 最近疯狂更新的Codex ，有一些亮眼的功能真的好喜欢！ 我感觉OpenAI 这次真的开始"舔"小白用户了 ！ 很推荐大家试试看！ 何必天天追求对自己爱答不理的…</h3>
 
+<h3 id="codexai-codex-openai">更新后的Codex！是小白最容易上手的AI工具！太惊艳了！ 最近疯狂更新的Codex ，有一些亮眼的功能真的好喜欢！ 我感觉OpenAI 这次真的开始"舔"小白用户了 ！ 很推荐大家试试看！ 何必天天追求对自己爱答不理的…</h3>
 <p><strong>作者</strong>：珍妮丁丁说AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633044986639977738">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：更新后的Codex！是小白最容易上手的AI工具！太惊艳了！ 最近疯狂更新的Codex ，有一些亮眼的功能真的好喜欢！<br />
 我感觉OpenAI 这次真的开始"舔"小白用户了 ！<br />
@@ -6080,20 +6188,15 @@ Itab等等
 Gmail的美食任务...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI时代，怎么做产品？怎么做公司？ 截至目前，Anthropic是AI时代最成功的公司。他们不仅模型强，做产品、做公司也非常厉害。这期Lenny播客采访了Anthropic产品负责人Cat Wu，分享了很多洞察，很值得看…</h3>
 
+<h3 id="ai-anthropicailennyanthropiccat-wu">AI时代，怎么做产品？怎么做公司？ 截至目前，Anthropic是AI时代最成功的公司。他们不仅模型强，做产品、做公司也非常厉害。这期Lenny播客采访了Anthropic产品负责人Cat Wu，分享了很多洞察，很值得看…</h3>
 <p><strong>作者</strong>：黄益贺 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633779563167780137">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：AI时代，怎么做产品？怎么做公司？ 截至目前，Anthropic是AI时代最成功的公司。他们不仅模型强，做产品、做公司也非常厉害。这期Lenny播客采访了Anthropic产品负责人Cat Wu，分享了很多洞察，很值得看。</p>
 <h1 id="ai-anthropic-claudecode">AI在抖音 #Anthropic #ClaudeCode</h1>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>2026AI工具推荐 2026年推荐几个我自己用的AI工具，值得一试！claude code/闪电说/智普AI输入法/notebooellm/通义千问/remotion自动做视频。#AI #AI工具 #效率工具推荐 #A…</h3>
-
+<h3 id="2026ai-2026aiclaude-codeainotebooellmremotionai-ai-a">2026AI工具推荐 2026年推荐几个我自己用的AI工具，值得一试！claude code/闪电说/智普AI输入法/notebooellm/通义千问/remotion自动做视频。#AI #AI工具 #效率工具推荐 #A…</h3>
 <p><strong>作者</strong>：土木AI提效实践日记-大古-打死低效率 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7607301435243498762">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：2026AI工具推荐 2026年推荐几个我自己用的AI工具，值得一试！claude code/闪电说/智普AI输入法/notebooellm/通义千问/remotion自动做视频。#AI #AI工具 #效率工具推荐 #AI提效 #大模型</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -6148,10 +6251,8 @@ AI幫你剪輯配音 加特效
 关注大股 下期见
 
 </details>
-</div>
-<div class="video-card">
-<h3>我是如何用obsidian+AI做知识管理&内容创作？🤔 书接上回，这次来和大家分享我用obsidian+ai的场景！ 其实还有很多好用的方法，我就先抛砖引玉啦： 1️⃣知识管理 主要就是想让AI帮我整理读书笔记并促进我…</h3>
 
+<h3 id="obsidianai-obsidianai-1-ai">我是如何用obsidian+AI做知识管理&amp;内容创作？🤔 书接上回，这次来和大家分享我用obsidian+ai的场景！ 其实还有很多好用的方法，我就先抛砖引玉啦： 1️⃣知识管理 主要就是想让AI帮我整理读书笔记并促进我…</h3>
 <p><strong>作者</strong>：ami.moment · <strong>链接</strong>：<a href="https://www.douyin.com/video/7626727063034072326">抖音</a> · <strong>价值评分</strong>：2</p>
 <p><strong>简介</strong>：我是如何用obsidian+AI做知识管理&amp;内容创作？🤔 书接上回，这次来和大家分享我用obsidian+ai的场景！<br />
 其实还有很多好用的方法，我就先抛砖引玉啦：<br />
@@ -6299,10 +6400,8 @@ Milly Molly Hong一句咒语
 所以我觉得很有...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>我用AI做了一款Steam游戏，花了多少钱？ 很多人好奇：做游戏是不是一定要烧很多 Token？AI 工具到底要花多少钱？这期把我实际使用过的工具和成本拆开讲一下。 #AI做游戏 #独立游戏开发 #Steam游戏 #AI…</h3>
 
+<h3 id="aisteam-tokenai-ai-steam-ai">我用AI做了一款Steam游戏，花了多少钱？ 很多人好奇：做游戏是不是一定要烧很多 Token？AI 工具到底要花多少钱？这期把我实际使用过的工具和成本拆开讲一下。 #AI做游戏 #独立游戏开发 #Steam游戏 #AI…</h3>
 <p><strong>作者</strong>：玩游戏做游戏的老刘 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7660433506832551231">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：我用AI做了一款Steam游戏，花了多少钱？ 很多人好奇：做游戏是不是一定要烧很多 Token？AI 工具到底要花多少钱？这期把我实际使用过的工具和成本拆开讲一下。</p>
 <h1 id="ai-steam-ai">AI做游戏  #独立游戏开发  #Steam游戏  #AI创作  #游戏开发</h1>
@@ -6437,10 +6536,8 @@ Sono的政策是
 如果你下决行好好选A...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>普通人入坑 Vibe Coding 的时候到了！ #vibecoding大赏 #ai #Codex #Claude #人工智能</h3>
 
+<h3 id="vibe-coding-vibecoding-ai-codex-claude">普通人入坑 Vibe Coding 的时候到了！ #vibecoding大赏 #ai #Codex #Claude #人工智能</h3>
 <p><strong>作者</strong>：liliMozi · <strong>链接</strong>：<a href="https://www.douyin.com/video/7665673702209490222">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：普通人入坑 Vibe Coding 的时候到了！ #vibecoding大赏   #ai #Codex #Claude #人工智能</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -6618,10 +6715,8 @@ Windows的色彩管理
 去匹配一份正確的色彩...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>「VibeCoding大赏」痞老板，你是错的 这是最好的时代，也是最坏的时代。你说对吧？痞老板。#电影镜头感 #vibecoding大赏 #ai新星计划 #赛博女友 @抖音科技</h3>
 
+<h3 id="vibecoding-vibecoding-ai">「VibeCoding大赏」痞老板，你是错的 这是最好的时代，也是最坏的时代。你说对吧？痞老板。#电影镜头感 #vibecoding大赏 #ai新星计划 #赛博女友 @抖音科技</h3>
 <p><strong>作者</strong>：天工开帧 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7665526842757225713">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：「VibeCoding大赏」痞老板，你是错的 这是最好的时代，也是最坏的时代。你说对吧？痞老板。#电影镜头感  #vibecoding大赏  #ai新星计划 #赛博女友  @抖音科技</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -6636,10 +6731,8 @@ Windows的色彩管理
 只是你不在的時候,我就一直等你
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex新骗局就是拿获奖作品说自己Vibecoding出来 #vibecoding #codex #AI工具 #商业思维 #vibecoding大赏</h3>
 
+<h3 id="codexvibecoding-vibecoding-codex-ai-vibecoding">Codex新骗局就是拿获奖作品说自己Vibecoding出来 #vibecoding #codex #AI工具 #商业思维 #vibecoding大赏</h3>
 <p><strong>作者</strong>：钱大柱 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7659678787572360874">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】别信“用Codex搓出高端网页”的吹牛，多数是拿设计大赛获奖作品冒充，骗你买课或高价代做。
@@ -6708,10 +6801,8 @@ AI 明明做不出来
 才发现全是引流的骗子
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex 自动剪辑第五稿 可检查、可预览、可微调、可复用的 AI 视频工作流。 #codex #自动剪辑 #ai #remotion #hyperframes</h3>
 
+<h3 id="codex-ai-codex-ai-remotion-hyperframes">Codex 自动剪辑第五稿 可检查、可预览、可微调、可复用的 AI 视频工作流。 #codex #自动剪辑 #ai #remotion #hyperframes</h3>
 <p><strong>作者</strong>：喜悦🍐爸爸的ai日记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7663721262467894574">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：Codex 自动剪辑第五稿 可检查、可预览、可微调、可复用的 AI 视频工作流。</p>
 <h1 id="codex-ai-remotion-hyperframes">codex #自动剪辑 #ai #remotion #hyperframes</h1>
@@ -6838,10 +6929,8 @@ AI负责理解内容、鬼坏包装
 边把自己折腾明白
 
 </details>
-</div>
-<div class="video-card">
-<h3>手搓Libtv 屌不屌？ vibecoding1个月，持续更新3个月的 Nody 1.04版，企业定制版可支持自定义api，就问你屌不屌 欢迎体验提建议~ #vibecoding大赏 #抖音前沿科技首发计划 @抖音科技 …</h3>
 
+<h3 id="libtv-vibecoding13-nody-104api-vibecoding">手搓Libtv 屌不屌？ vibecoding1个月，持续更新3个月的 Nody 1.04版，企业定制版可支持自定义api，就问你屌不屌 欢迎体验提建议~ #vibecoding大赏 #抖音前沿科技首发计划 @抖音科技 …</h3>
 <p><strong>作者</strong>：AI抽象派 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7659183541359562034">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：手搓Libtv  屌不屌？ vibecoding1个月，持续更新3个月的 Nody 1.04版，企业定制版可支持自定义api，就问你屌不屌<br />
 欢迎体验提建议~</p>
@@ -6889,10 +6978,8 @@ A正也有
 图出来了
 
 </details>
-</div>
-<div class="video-card">
-<h3>全程codex接管libtv 算是一个小实验吧，用obsidian当知识库大脑，在运行过程中自己调用提前写好的导演分镜创造剪辑skill，如果到达精品剧还是得需要人的全程参与才行#这也能开播 #用ai打开人文新视界</h3>
 
+<h3 id="codexlibtv-obsidianskill-ai">全程codex接管libtv 算是一个小实验吧，用obsidian当知识库大脑，在运行过程中自己调用提前写好的导演分镜创造剪辑skill，如果到达精品剧还是得需要人的全程参与才行#这也能开播 #用ai打开人文新视界</h3>
 <p><strong>作者</strong>：紫薯饼 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7659059369450982698">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】AI工具链（如Codex+Obsidian）可自动化执行标准化流程，但精品级创作仍需人类全程参与决策。
@@ -6956,10 +7043,8 @@ A正也有
 综合生环率下降至71%
 
 </details>
-</div>
-<div class="video-card">
-<h3>VibeCoding大赏：一键生成 3D 国画 这次我用 Tripo Splat 和 ComfyUI 搭建了一套高斯泼溅生成工作流，先对国画图像做简单清理，再生成可以放置、移动和组合的三维水墨素材。 #数字媒体艺术 #高…</h3>
 
+<h3 id="vibecoding-3d-tripo-splat-comfyui">VibeCoding大赏：一键生成 3D 国画 这次我用 Tripo Splat 和 ComfyUI 搭建了一套高斯泼溅生成工作流，先对国画图像做简单清理，再生成可以放置、移动和组合的三维水墨素材。 #数字媒体艺术 #高…</h3>
 <p><strong>作者</strong>：言言老师 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7657919667863948596">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：VibeCoding大赏：一键生成 3D 国画 这次我用 Tripo Splat 和 ComfyUI 搭建了一套高斯泼溅生成工作流，先对国画图像做简单清理，再生成可以放置、移动和组合的三维水墨素材。</p>
 <h1 id="tripoai-ai-vibecoding">数字媒体艺术 #高斯泼溅 #tripoai #ai新星计划 #vibecoding大赏</h1>
@@ -7020,27 +7105,19 @@ A正也有
 可以关注我私信留言
 
 </details>
-</div>
-<div class="video-card">
-<h3>你相信这是codex做的吗？#vibecoding 网友投稿网站，Codex自动复刻，仅供技术研究和审美提高。用了 Webflow 页面 + Vercel 自定义 bundle，核心用了 Three.js/WebGL2、…</h3>
 
+<h3 id="codexvibecoding-codex-webflow-vercel-bundle-threejswebgl2">你相信这是codex做的吗？#vibecoding 网友投稿网站，Codex自动复刻，仅供技术研究和审美提高。用了 Webflow 页面 + Vercel 自定义 bundle，核心用了 Three.js/WebGL2、…</h3>
 <p><strong>作者</strong>：太阳Ai实验室 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7656793670405852462">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：你相信这是codex做的吗？#vibecoding 网友投稿网站，Codex自动复刻，仅供技术研究和审美提高。用了 Webflow 页面 + Vercel 自定义 bundle，核心用了 Three.js/WebGL2、GSAP 3.12.7、ScrollTrigger/Observer/SplitText、Lenis 风格滚动、TagCloud.js、Draco 压缩 GLB、Web Audio#vibe氛围 #vibecoding   #codex</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>用Codex + HyperFrames搞定你的口播剪辑 #ai新星计划 #口播剪辑 #hyperframes #ai剪辑</h3>
-
+<h3 id="codex-hyperframes-ai-hyperframes-ai">用Codex + HyperFrames搞定你的口播剪辑 #ai新星计划 #口播剪辑 #hyperframes #ai剪辑</h3>
 <p><strong>作者</strong>：投哥不请自来 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646262498026409243">抖音</a> · <strong>价值评分</strong>：1</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>Qwen3.7-Max让我的水波纹更逼真了 上个月那条50万播放的水波纹,说实话当时我自己觉得还不够真。这次我把源代码丢给Qwen3.7-Max进行优化，来回改了十几轮,从头记到尾,一条老作品被重新做成了我一直想要的样子…</h3>
-
+<h3 id="qwen37-max-50qwen37-max">Qwen3.7-Max让我的水波纹更逼真了 上个月那条50万播放的水波纹,说实话当时我自己觉得还不够真。这次我把源代码丢给Qwen3.7-Max进行优化，来回改了十几轮,从头记到尾,一条老作品被重新做成了我一直想要的样子…</h3>
 <p><strong>作者</strong>：希彼赫 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7653455592849894031">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：Qwen3.7-Max让我的水波纹更逼真了 上个月那条50万播放的水波纹,说实话当时我自己觉得还不够真。这次我把源代码丢给Qwen3.7-Max进行优化，来回改了十几轮,从头记到尾,一条老作品被重新做成了我一直想要的样子</p>
 <h1 id="vibecoding-qoderwork-ai-vibecoding">vibecoding #千问#QoderWork #AI编程 #vibecoding大赏</h1>
@@ -7092,10 +7169,8 @@ A正也有
 交給千文3.7 Max就行了
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex+Remotion“抄袭”博主同款动画！ #我在抖音聊科技 #codex #前沿科技趋势发布月 #ai新星计划 #vivecoding</h3>
 
+<h3 id="codexremotion-codex-ai-vivecoding">Codex+Remotion“抄袭”博主同款动画！ #我在抖音聊科技 #codex #前沿科技趋势发布月 #ai新星计划 #vivecoding</h3>
 <p><strong>作者</strong>：DannyZ · <strong>链接</strong>：<a href="https://www.douyin.com/video/7654534433777485811">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：Codex+Remotion“抄袭”博主同款动画！ #我在抖音聊科技 #codex #前沿科技趋势发布月 #ai新星计划  #vivecoding</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -7145,10 +7220,8 @@ A正也有
 我们下期视频再见
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex神级更新：Record & Replay Codex新出的Record & Replay是我今年见到最牛逼的功能，没有之一！以前，你需要通过文字描述创建Skills。现在，你只需要操作一遍，Codex会全部录下…</h3>
 
+<h3 id="codexrecord-replay-codexrecord-replayskillscodex">Codex神级更新：Record &amp; Replay Codex新出的Record &amp; Replay是我今年见到最牛逼的功能，没有之一！以前，你需要通过文字描述创建Skills。现在，你只需要操作一遍，Codex会全部录下…</h3>
 <p><strong>作者</strong>：黄益贺 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7653474229572160783">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：Codex神级更新：Record &amp; Replay Codex新出的Record &amp; Replay是我今年见到最牛逼的功能，没有之一！以前，你需要通过文字描述创建Skills。现在，你只需要操作一遍，Codex会全部录下来，然后分析每步操作的逻辑，最后自动生成可重复使用的Skills。这个对于AI学习人类技能有非常大的促进！</p>
 <h1 id="ai-skills-codex-openai">AI在抖音 #Skills #Codex #OpenAI</h1>
@@ -7283,10 +7356,8 @@ Substack 后台的操作箱里
 在最后一...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>终于不用守着AI写代码了 Codex新功能goal上新！让你不用一直守着电脑等ai写代码了！ #AI #codex #小梅同学 #claudecode #程序员</h3>
 
+<h3 id="ai-codexgoalai-ai-codex-claudecode">终于不用守着AI写代码了 Codex新功能goal上新！让你不用一直守着电脑等ai写代码了！ #AI #codex #小梅同学 #claudecode #程序员</h3>
 <p><strong>作者</strong>：小梅同学 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643636223654991066">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】Codex新功能“Goal”能让你设定目标后彻底放手，AI会自主连续工作（实测13小时），不用再像主管一样全程盯着。
@@ -7364,10 +7435,8 @@ AI它会读带码 会写带码
 它改变的是你使用AI的方式
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex 帮我自动追踪 AI 博主更新 我关注了20多个AI博主，但我已经不用一个个刷他们的主页了。每天打开飞书，就能看到他们都在发什么、哪些内容数据好、哪些观点比较有意思。 #我在抖音聊科技 #当我开始使用codex…</h3>
 
+<h3 id="codex-ai-20ai-codex">Codex 帮我自动追踪 AI 博主更新 我关注了20多个AI博主，但我已经不用一个个刷他们的主页了。每天打开飞书，就能看到他们都在发什么、哪些内容数据好、哪些观点比较有意思。 #我在抖音聊科技 #当我开始使用codex…</h3>
 <p><strong>作者</strong>：LIGHT · <strong>链接</strong>：<a href="https://www.douyin.com/video/7653483212706989210">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：Codex 帮我自动追踪 AI 博主更新 我关注了20多个AI博主，但我已经不用一个个刷他们的主页了。每天打开飞书，就能看到他们都在发什么、哪些内容数据好、哪些观点比较有意思。 #我在抖音聊科技 #当我开始使用codex #codex #ai</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -7453,10 +7522,8 @@ AI它会读带码 会写带码
 这套思路完全可以直接拿去用
 
 </details>
-</div>
-<div class="video-card">
-<h3>把CodeX塞进AI画布什么效果 VibeCoding大赏 30多个版本的迭代后，AI画布的自动化终于趋于成熟，给大家看看效果~ #AI #vibecoding大赏 #ai新星计划 @抖音科技 #vibecoding #…</h3>
 
+<h3 id="codexai-vibecoding-30ai-ai-vibecoding-ai-vibecoding">把CodeX塞进AI画布什么效果 VibeCoding大赏 30多个版本的迭代后，AI画布的自动化终于趋于成熟，给大家看看效果~ #AI #vibecoding大赏 #ai新星计划 @抖音科技 #vibecoding #…</h3>
 <p><strong>作者</strong>：AI抽象派 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646367301075356963">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：把CodeX塞进AI画布什么效果  VibeCoding大赏 30多个版本的迭代后，AI画布的自动化终于趋于成熟，给大家看看效果~</p>
 <h1 id="ai-vibecoding-ai-vibecoding-ai">AI #vibecoding大赏 #ai新星计划 @抖音科技 #vibecoding #AI工具</h1>
@@ -7483,10 +7550,8 @@ Agent的自动开始生成创意大纲
 目前软件在公测 欢迎试用提键意
 
 </details>
-</div>
-<div class="video-card">
-<h3>Vibe Coding了一个 Claude 桌面状态灯 灵感来源于《底特律：变人》。 还记得康纳额头那一圈流转的黄蓝色光环吗？ 仿生人思考时，光环律动； 做出决定时，光环变色。 我一直想要那种感觉。 不是盯着冷冰冰的命令…</h3>
 
+<h3 id="vibe-coding-claude">Vibe Coding了一个 Claude 桌面状态灯 灵感来源于《底特律：变人》。 还记得康纳额头那一圈流转的黄蓝色光环吗？ 仿生人思考时，光环律动； 做出决定时，光环变色。 我一直想要那种感觉。 不是盯着冷冰冰的命令…</h3>
 <p><strong>作者</strong>：Houyu · <strong>链接</strong>：<a href="https://www.douyin.com/video/7651283452289276595">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：Vibe Coding了一个 Claude 桌面状态灯 灵感来源于《底特律：变人》。<br />
 还记得康纳额头那一圈流转的黄蓝色光环吗？<br />
@@ -7517,19 +7582,13 @@ Agent的自动开始生成创意大纲
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>【Vibecoding大赏】10s快速拼/抠图的app 历时两个月，终于上传内测了！ 【Pinple】一个本地、快速拼图应用： · 一键自动抠像，自动识别人物/动物/物体 · 抠像支持静态/live（最多同时3张） · …</h3>
-
+<h3 id="vibecoding10sapp-pinple-live3">【Vibecoding大赏】10s快速拼/抠图的app 历时两个月，终于上传内测了！ 【Pinple】一个本地、快速拼图应用： · 一键自动抠像，自动识别人物/动物/物体 · 抠像支持静态/live（最多同时3张） · …</h3>
 <p><strong>作者</strong>：Russ拉索（Pinple已上线） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646040660864168421">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：【Vibecoding大赏】10s快速拼/抠图的app 历时两个月，终于上传内测了！  【Pinple】一个本地、快速拼图应用： · 一键自动抠像，自动识别人物/动物/物体 · 抠像支持静态/live（最多同时3张） · 多套拼贴模板可选（单图、四格、宽幅、胶片条、三格、九格等），自适应图片位置 · 单图模式下支持多原图叠拼 · 全过程本地化处理  目前已在testflight开放内测 #vibecoding大赏 #ai新星计划 #户外拼图 #拼图app #claudecode  @抖音科技</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>这个截图转矢量动画Skill，能让你的Logo动起来！ AI 做的 Logo 放大全是锯齿、又不会动。 这个免费开源工具 Pixel2Motion,让模型用代码重新拟合建模,再用迪士尼 12 法则输出丝滑矢量动画。Min…</h3>
-
+<h3 id="skilllogo-ai-logo-pixel2motion-12-min">这个截图转矢量动画Skill，能让你的Logo动起来！ AI 做的 Logo 放大全是锯齿、又不会动。 这个免费开源工具 Pixel2Motion,让模型用代码重新拟合建模,再用迪士尼 12 法则输出丝滑矢量动画。Min…</h3>
 <p><strong>作者</strong>：Nolansay · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650777763577646386">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：这个截图转矢量动画Skill，能让你的Logo动起来！ AI 做的 Logo 放大全是锯齿、又不会动。<br />
 这个免费开源工具 Pixel2Motion,让模型用代码重新拟合建模,再用迪士尼 12 法则输出丝滑矢量动画。MiniMax M3 实测也能打！ #vibecoding大赏</p>
@@ -7569,10 +7628,8 @@ minimax M3也可以做到不错的效果
 加上你的想法会有意想不到的效果
 
 </details>
-</div>
-<div class="video-card">
-<h3>Claude fable 5 会让你知道世界上所有的专业知识都为你敞开#AI #claudecode #ClaudeFable#人工智能</h3>
 
+<h3 id="claude-fable-5-ai-claudecode-claudefable">Claude fable 5 会让你知道世界上所有的专业知识都为你敞开#AI #claudecode #ClaudeFable#人工智能</h3>
 <p><strong>作者</strong>：共赴AI星 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650514627658993498">抖音</a> · <strong>价值评分</strong>：1</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -7594,10 +7651,8 @@ minimax M3也可以做到不错的效果
 另一个世界
 
 </details>
-</div>
-<div class="video-card">
-<h3>VibeCoding大赏 豆包发布强大新功能 办公任务 和飞书丝滑打通，提供沙箱环境，低门槛易上手#vibecoding大赏 #ai新星计划并 并#豆包 @抖音科技 @豆包</h3>
 
+<h3 id="vibecoding-vibecoding-ai_1">VibeCoding大赏 豆包发布强大新功能 办公任务 和飞书丝滑打通，提供沙箱环境，低门槛易上手#vibecoding大赏 #ai新星计划并 并#豆包 @抖音科技 @豆包</h3>
 <p><strong>作者</strong>：易博有AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650560252051459391">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：VibeCoding大赏 豆包发布强大新功能 办公任务 和飞书丝滑打通，提供沙箱环境，低门槛易上手#vibecoding大赏  #ai新星计划并 并#豆包 @抖音科技 @豆包</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -7643,10 +7698,8 @@ minimax M3也可以做到不错的效果
 大家可以评论区回复我666
 
 </details>
-</div>
-<div class="video-card">
-<h3>Vibe coding 的产品为我赚了 14w 分享我开发 pocketclaw 的思考以及过程 #vibecoding #vibecoding大赏</h3>
 
+<h3 id="vibe-coding-14w-pocketclaw-vibecoding-vibecoding">Vibe coding 的产品为我赚了 14w 分享我开发 pocketclaw 的思考以及过程 #vibecoding #vibecoding大赏</h3>
 <p><strong>作者</strong>：叶孤城 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650408187761282344">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：Vibe coding 的产品为我赚了 14w 分享我开发 pocketclaw 的思考以及过程</p>
 <h1 id="vibecoding-vibecoding">vibecoding  #vibecoding大赏</h1>
@@ -7727,10 +7780,8 @@ minimax M3也可以做到不错的效果
 然后扣完税大概1...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>GitHub 杀疯了！6 个 AI 工具接管你的工作流 一夜爆 6 个 AI 项目，方向出奇一致：Claude Code、CodeGraph、Understand Anything、Presenton、NVIDIA Lo…</h3>
 
+<h3 id="github-6-ai-6-ai-claude-codecodegraphunderstand-anythingpresentonnvidia-lo">GitHub 杀疯了！6 个 AI 工具接管你的工作流 一夜爆 6 个 AI 项目，方向出奇一致：Claude Code、CodeGraph、Understand Anything、Presenton、NVIDIA Lo…</h3>
 <p><strong>作者</strong>：阿森编程日记（AI自动化） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643843139823799592">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：GitHub 杀疯了！6 个 AI 工具接管你的工作流 一夜爆 6 个 AI 项目，方向出奇一致：Claude Code、CodeGraph、Understand Anything、Presenton、NVIDIA LongLive 全在抢一件事——接管你的工作流。看完收藏开干。#AI工具 #ClaudeCode #GitHub #工作流 #AI编程</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -7802,10 +7853,8 @@ Presentation
 继续带你看懂AI工具的新机会
 
 </details>
-</div>
-<div class="video-card">
-<h3>能自主运行数天的神话级模型Claude Fable5 发布 Anthropic 正式发布了目前最强大的模型 Claude Fable 5 并且向公众开放。这款被称为神话级的模型在发布前经历了一段曲折。此前由于预览版模型（…</h3>
 
+<h3 id="claude-fable5-anthropic-claude-fable-5">能自主运行数天的神话级模型Claude Fable5 发布 Anthropic 正式发布了目前最强大的模型 Claude Fable 5 并且向公众开放。这款被称为神话级的模型在发布前经历了一段曲折。此前由于预览版模型（…</h3>
 <p><strong>作者</strong>：零重力瓦力 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650157778526375206">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：能自主运行数天的神话级模型Claude Fable5 发布 Anthropic 正式发布了目前最强大的模型 Claude Fable 5 并且向公众开放。这款被称为神话级的模型在发布前经历了一段曲折。此前由于预览版模型（Mythos）能轻易找出数千个网络安全漏洞，出于安全隐患，没有直接公开，转而将其提供给安全防御人员。为了让大家都能用上这款顶级模型，开发团队设计了一套很有意思的安全路由机制。当用户提交涉及网络安全或生物学等高风险领域的请求时，系统会自动将请求重定向到较温和的 Opus 4.8 处理。这种分流设计在保障安全底线的同时，最大化释放了 Fable 5 的通用能力。在实际应用中，这款模型最强的地方在于超高的自主性。它不仅能写代码，还能处理金融、法律、科学研究等领域的复杂项目，甚至可以连续自主运行数天而不需要人工干预。这种长周期、高自主性的任务处理能力，可能会彻底改变我们日常的工作流。</p>
 <h1 id="claudefable5-anthropic">ClaudeFable5  #人工智能  #Anthropic</h1>
@@ -7881,10 +7930,8 @@ Fable需要更多的貢獻機身體
 MING PAO CANADA | MING PAO TORONTO
 
 </details>
-</div>
-<div class="video-card">
-<h3>免费不限量使用Mimo V2.5!小米发布Mimo Code #小米 #AI新星计划 #VibeCoding #Mimo #Github</h3>
 
+<h3 id="mimo-v25mimo-code-ai-vibecoding-mimo-github">免费不限量使用Mimo V2.5!小米发布Mimo Code #小米 #AI新星计划 #VibeCoding #Mimo #Github</h3>
 <p><strong>作者</strong>：未来奇点 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650164847220395316">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：免费不限量使用Mimo V2.5!小米发布Mimo Code #小米 #AI新星计划  #VibeCoding  #Mimo #Github</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -7933,10 +7980,8 @@ MING PAO CANADA | MING PAO TORONTO
 感谢大家收看
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI一晚上产出26个视频 自动克隆音自动做可视化，有CC20x一点也别休息#ai #ai新星计划 #vibecoding大赏 #短视频创业 #skill</h3>
 
+<h3 id="ai26-cc20xai-ai-vibecoding-skill">AI一晚上产出26个视频 自动克隆音自动做可视化，有CC20x一点也别休息#ai #ai新星计划 #vibecoding大赏 #短视频创业 #skill</h3>
 <p><strong>作者</strong>：喂鱼 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7648497963764951921">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -8021,10 +8066,8 @@ Louse降了一点点就降不动了
 当成了整个世界的最低点
 
 </details>
-</div>
-<div class="video-card">
-<h3>【VibeCoding大赏】我做了个VibeCoding雷达 ：帮你找到第一个值得做的项目 #vibecoding大赏 #AI新星计划 #AI</h3>
 
+<h3 id="vibecodingvibecoding-vibecoding-ai-ai">【VibeCoding大赏】我做了个VibeCoding雷达 ：帮你找到第一个值得做的项目 #vibecoding大赏 #AI新星计划 #AI</h3>
 <p><strong>作者</strong>：晓白和林亦 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7648352811847011610">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：【VibeCoding大赏】我做了个VibeCoding雷达 ：帮你找到第一个值得做的项目 #vibecoding大赏  #AI新星计划   #AI</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -8099,10 +8142,8 @@ Louse降了一点点就降不动了
 可能比任何数据更能说明 Webcoding 的破圈
 
 </details>
-</div>
-<div class="video-card">
-<h3>claude code的hook功能 讲解harness在claude code中的一种实现,hook功能, 可以在对话的不同生命周期对大模型进行约束 #claudecode #harness #vibecoding #…</h3>
 
+<h3 id="claude-codehook-harnessclaude-codehook-claudecode-harness-vibecoding">claude code的hook功能 讲解harness在claude code中的一种实现,hook功能, 可以在对话的不同生命周期对大模型进行约束 #claudecode #harness #vibecoding #…</h3>
 <p><strong>作者</strong>：X小福（Jun） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7648282048267848996">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：claude code的hook功能 讲解harness在claude code中的一种实现,hook功能, 可以在对话的不同生命周期对大模型进行约束 #claudecode #harness #vibecoding #ai语音合成 #Claudian</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -8175,10 +8216,8 @@ Hello 大家好
 比Cloud Code原生的还要强大
 
 </details>
-</div>
-<div class="video-card">
-<h3>claude code 每天都给我惊喜 做了一个非常好用 适合我的文件管理器 #claude #claudecode #ai #vibe氛围 #编程</h3>
 
+<h3 id="claude-code-claude-claudecode-ai-vibe">claude code 每天都给我惊喜 做了一个非常好用 适合我的文件管理器 #claude #claudecode #ai #vibe氛围 #编程</h3>
 <p><strong>作者</strong>：好好学电脑 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7648276857095310618">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：claude code 每天都给我惊喜 做了一个非常好用<br />
 适合我的文件管理器</p>
@@ -8209,14 +8248,12 @@ coded每天都给我惊喜
 对Fundal简直就是个垃圾
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI做视频特效,Hyperframes不如Remotion Hyperframes 28 美元 / 1 小时 2 分钟,Remotion 19 美元 / 43 分钟;完整成品时 Remotion 累计 43 美元。我故意…</h3>
 
+<h3 id="aihyperframesremotion-hyperframes-28-1-2-remotion-19-43-remotion-43">AI做视频特效,Hyperframes不如Remotion Hyperframes 28 美元 / 1 小时 2 分钟,Remotion 19 美元 / 43 分钟;完整成品时 Remotion 累计 43 美元。我故意…</h3>
 <p><strong>作者</strong>：陈与小金 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7647782895154662694">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：AI做视频特效,Hyperframes不如Remotion Hyperframes 28 美元 / 1 小时 2 分钟,Remotion 19 美元 / 43 分钟;完整成品时 Remotion 累计 43 美元。我故意给 Hyperframes 配了专门 Skill、Remotion 没配,Remotion 还是更省钱更省时间、效果更可控。<br />
 上一条违了-.-</p>
-<h1 id="vibecoding-ai">vibecoding大赏   #ai新星计划   @抖音科技#青年创作者成长计划</h1>
+<h1 id="vibecoding-ai_1">vibecoding大赏   #ai新星计划   @抖音科技#青年创作者成长计划</h1>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】AI做视频特效，选Remotion比Hyperframes更精准、效果上限更高，但调试成本需自己权衡。
 
@@ -8315,10 +8352,8 @@ remotion就天然要比hyperfemmes要高的很多
 然后我们可以看一下rem...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>VibeCoding大赏 #Vibecoding #电脑有自己的想法 #今天的情绪价值是电脑给的加标题前缀#ai新星计划 #Vibecoding大赏</h3>
 
+<h3 id="vibecoding-vibecoding-ai-vibecoding">VibeCoding大赏 #Vibecoding #电脑有自己的想法 #今天的情绪价值是电脑给的加标题前缀#ai新星计划 #Vibecoding大赏</h3>
 <p><strong>作者</strong>：明秀 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643836813534341028">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用“AI自检+主动汇报学习进展”的对话模板，展示AI的可靠性与成长性，适合做产品演示或人机协作开场。
@@ -8401,10 +8436,8 @@ AI生成的能力
 我希尔公听
 
 </details>
-</div>
-<div class="video-card">
-<h3>不会编程？Codex帮老师做可视化课件 用 Codex 做了几个可以互动的网页课件：函数图像、分子结构、自由落体模拟。 老师不用学编程，只要先把教学需求说清楚，让 ChatGPT 或豆包整理成提示词，再交给 Codex …</h3>
 
+<h3 id="codex-codex-chatgpt-codex">不会编程？Codex帮老师做可视化课件 用 Codex 做了几个可以互动的网页课件：函数图像、分子结构、自由落体模拟。 老师不用学编程，只要先把教学需求说清楚，让 ChatGPT 或豆包整理成提示词，再交给 Codex …</h3>
 <p><strong>作者</strong>：Yuuhann · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646433003547266358">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：不会编程？Codex帮老师做可视化课件 用 Codex 做了几个可以互动的网页课件：函数图像、分子结构、自由落体模拟。<br />
 老师不用学编程，只要先把教学需求说清楚，让 ChatGPT 或豆包整理成提示词，再交给 Codex 生成。一个简单课件，十分钟左右就能看到第一版。</p>
@@ -8511,18 +8544,13 @@ Codex会给你一个网页
 在实际工作和生活中的使用案例
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex 操作 Photoshop 画图，把 image 的文件换成分层 psd 格式#codex #Photoshop #image2</h3>
 
+<h3 id="codex-photoshop-image-psd-codex-photoshop-image2">codex 操作 Photoshop 画图，把 image 的文件换成分层 psd 格式#codex #Photoshop #image2</h3>
 <p><strong>作者</strong>：36度的风 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646029916936997873">抖音</a> · <strong>价值评分</strong>：1</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>VibeCoding大赏 ｜用 VibeCoding 做了一个 AI 原生桌面工作台：AijiuOPC。 它有 AI 员工、AI 浏览器、真实终端、全球热点、数据大屏和全局多 Tab 工作台。 不是 Demo，是我正在持…</h3>
-
+<h3 id="vibecoding-vibecoding-ai-aijiuopc-ai-ai-tab-demo">VibeCoding大赏 ｜用 VibeCoding 做了一个 AI 原生桌面工作台：AijiuOPC。 它有 AI 员工、AI 浏览器、真实终端、全球热点、数据大屏和全局多 Tab 工作台。 不是 Demo，是我正在持…</h3>
 <p><strong>作者</strong>：纵横（互关版） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646105696655772962">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：VibeCoding大赏 ｜用 VibeCoding 做了一个 AI 原生桌面工作台：AijiuOPC。<br />
 它有 AI 员工、AI 浏览器、真实终端、全球热点、数据大屏和全局多 Tab 工作台。<br />
@@ -8604,10 +8632,8 @@ IIGOPC現在還在進化
 天然地深蒼茫天地行
 
 </details>
-</div>
-<div class="video-card">
-<h3>ClaudeCode和Codex到底选哪个？ #AI新星计划 #青年创作者成长计划 #Claudecode #codex #AI</h3>
 
+<h3 id="claudecodecodex-ai-claudecode-codex-ai">ClaudeCode和Codex到底选哪个？ #AI新星计划 #青年创作者成长计划 #Claudecode #codex #AI</h3>
 <p><strong>作者</strong>：Josh的AI笔记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643861412246293796">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】  
@@ -8758,10 +8784,8 @@ AI说方向对了
 我是教师
 
 </details>
-</div>
-<div class="video-card">
-<h3>来了！藏师傅的 PPT Skill 更新了第二套主题，新主题更加简洁美观，适合讲一些数据和事实性的内容。 而且支持 4 种颜色、20 多个版式。支持用 Codex 内置的 GPT-2.0 帮你生成配图和美化截图。还能让它…</h3>
 
+<h3 id="ppt-skill-4-20-codex-gpt-20">来了！藏师傅的 PPT Skill 更新了第二套主题，新主题更加简洁美观，适合讲一些数据和事实性的内容。 而且支持 4 种颜色、20 多个版式。支持用 Codex 内置的 GPT-2.0 帮你生成配图和美化截图。还能让它…</h3>
 <p><strong>作者</strong>：歸藏 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7638543155519868169">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：来了！藏师傅的 PPT Skill 更新了第二套主题，新主题更加简洁美观，适合讲一些数据和事实性的内容。</p>
 <p>而且支持 4 种颜色、20 多个版式。支持用 Codex 内置的 GPT-2.0 帮你生成配图和美化截图。还能让它帮你生成各种封面以及配图。#ai新星计划 #设计 </p>
@@ -8801,10 +8825,8 @@ AI说方向对了
 变成合适的比例放在这个PVT里面 好 我是规准大家下期再见
 
 </details>
-</div>
-<div class="video-card">
-<h3>学音乐的天塌了 Codex创造一个demo跟玩一样，即使你不懂任何乐理知识，只要你想就可以创造自己的专属音乐#codex #音乐</h3>
 
+<h3 id="codexdemocodex">学音乐的天塌了 Codex创造一个demo跟玩一样，即使你不懂任何乐理知识，只要你想就可以创造自己的专属音乐#codex #音乐</h3>
 <p><strong>作者</strong>：菠萝菠萝绝情散🇺🇦 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644843423003201713">抖音</a> · <strong>价值评分</strong>：1</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -8818,10 +8840,8 @@ AI说方向对了
 一个demo就生成了 就是这么厉害
 
 </details>
-</div>
-<div class="video-card">
-<h3>最新开源工具 PilotDeck，让Token费用节省76% @抖音科技 #我在抖音聊科技 #开源项目 #卡帕西 #vibecoding大赏 #ai新星计划</h3>
 
+<h3 id="pilotdecktoken76-vibecoding-ai">最新开源工具 PilotDeck，让Token费用节省76% @抖音科技 #我在抖音聊科技 #开源项目 #卡帕西 #vibecoding大赏 #ai新星计划</h3>
 <p><strong>作者</strong>：赛脖古 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644888704003361673">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：最新开源工具 PilotDeck，让Token费用节省76% @抖音科技   #我在抖音聊科技  #开源项目   #卡帕西 #vibecoding大赏 #ai新星计划</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -8896,10 +8916,8 @@ Skew还分两层
 想尝试的可以本地装一个试试
 
 </details>
-</div>
-<div class="video-card">
-<h3>让Ai全链路接管你的自媒体频道！我把自用的Skill开源了 #青年创作者成长计划#VibeCoding大赏 #Ai新星计划 @抖音科技</h3>
 
+<h3 id="aiskill-vibecoding-ai">让Ai全链路接管你的自媒体频道！我把自用的Skill开源了 #青年创作者成长计划#VibeCoding大赏 #Ai新星计划 @抖音科技</h3>
 <p><strong>作者</strong>：柱子哥TzFilm · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644347037009366326">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】开源一个AI Agent（Hermes），全链路接管自媒体运营：自动抓数据、建库、定时推送、预测流量、生成飞书仪表盘，甚至自动回复评论并带货。
@@ -9040,10 +9058,8 @@ Skew还分两层
 那这个回复...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>前端动画再也不用手写了！Codex 一键搞定炫酷动效🔥 做过前端都知道动效很麻烦？只需接入 Codex，就能轻松实现炫酷动画！你也来试试吧，效果做好了记得评论区分享✨ #前端 #动效 #技术干货 #GSAP #开发者必备</h3>
 
+<h3 id="codex-codex-gsap">前端动画再也不用手写了！Codex 一键搞定炫酷动效🔥 做过前端都知道动效很麻烦？只需接入 Codex，就能轻松实现炫酷动画！你也来试试吧，效果做好了记得评论区分享✨ #前端 #动效 #技术干货 #GSAP #开发者必备</h3>
 <p><strong>作者</strong>：纵横（互关版） · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644757495176547647">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：前端动画再也不用手写了！Codex 一键搞定炫酷动效🔥 做过前端都知道动效很麻烦？只需接入 Codex，就能轻松实现炫酷动画！你也来试试吧，效果做好了记得评论区分享✨ </p>
 <h1 id="gsap">前端 #动效 #技术干货 #GSAP #开发者必备</h1>
@@ -9064,10 +9080,8 @@ Zapp是動畫力氣
 看看大家都能玩出什麼新花樣
 
 </details>
-</div>
-<div class="video-card">
-<h3>豆包和Claudecode/Codex有什么区别？小白扫盲 #豆包 #ai #codex #claudecode #ai新星计划</h3>
 
+<h3 id="claudecodecodex-ai-codex-claudecode-ai">豆包和Claudecode/Codex有什么区别？小白扫盲 #豆包 #ai #codex #claudecode #ai新星计划</h3>
 <p><strong>作者</strong>：Yuuhann · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643503568938388790">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】豆包是“问答入口”，只给建议；Claude Code/Codex是“执行入口”，能直接操作你的电脑干活。
@@ -9206,24 +9220,19 @@ Cloud Code这类的agent
 当它执行完这...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex 操作 CAD 画图 没有加速，就是这么快。@多元智能装备 #Ai自动化 #机械制图 #机械设计机械制图 #机械设计及加工 #机械工程制图</h3>
 
+<h3 id="codex-cad-ai">codex 操作 CAD 画图 没有加速，就是这么快。@多元智能装备 #Ai自动化 #机械制图 #机械设计机械制图 #机械设计及加工 #机械工程制图</h3>
 <p><strong>作者</strong>：Ai 员工养成记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642636973845705146">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：codex 操作 CAD 画图 没有加速，就是这么快。@多元智能装备 </p>
-<h1 id="ai">Ai自动化 #机械制图 #机械设计机械制图 #机械设计及加工 #机械工程制图</h1>
+<h1 id="ai_1">Ai自动化 #机械制图 #机械设计机械制图 #机械设计及加工 #机械工程制图</h1>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>没有小程序！没有！侨批生成器 @电影给阿嬷的情书 @李思潼tonton @王晓慧 @狗哥电影 #给阿嬷的情书 #vibecoding</h3>
-
+<h3 id="tonton-vibecoding">没有小程序！没有！侨批生成器 @电影给阿嬷的情书 @李思潼tonton @王晓慧 @狗哥电影 #给阿嬷的情书 #vibecoding</h3>
 <p><strong>作者</strong>：个体狐 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639329673462315377">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：没有小程序！没有！侨批生成器</p>
 <p>@电影给阿嬷的情书 @李思潼tonton @王晓慧 @狗哥电影 </p>
-<h1 id="vibecoding">给阿嬷的情书 #vibecoding</h1>
+<h1 id="vibecoding_1">给阿嬷的情书 #vibecoding</h1>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
@@ -9253,18 +9262,13 @@ KFC公华
 喜欢的话 欢迎点赞 关注 拜拜
 
 </details>
-</div>
-<div class="video-card">
-<h3>claude code deepseek.五月的下午，一个35岁的中年人使用claude code + deepseek问了句，你是谁#开发者工具 #代码助手 #deepseek #claude</h3>
 
+<h3 id="claude-code-deepseek35claude-code-deepseek-deepseek-claude">claude code deepseek.五月的下午，一个35岁的中年人使用claude code + deepseek问了句，你是谁#开发者工具 #代码助手 #deepseek #claude</h3>
 <p><strong>作者</strong>：芝麻喝香油 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642938840383095204">抖音</a> · <strong>价值评分</strong>：1</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>用Codex 自动聚合每日新闻到 Obsidian #Codex 变成了贾维斯，#obsidian 成为了记忆宫殿 但是ai 在记录历史，人民在创造历史</h3>
-
+<h3 id="codex-obsidian-codex-obsidian-ai">用Codex 自动聚合每日新闻到 Obsidian #Codex 变成了贾维斯，#obsidian 成为了记忆宫殿 但是ai 在记录历史，人民在创造历史</h3>
 <p><strong>作者</strong>：Hewla · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634243350208704744">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -9295,10 +9299,8 @@ KFC公华
 如果你的 Obsidian 介入了云服务,那么等到下一个早晨,你就可以在上班途中打开手机,收到 Codex 为你整理好的最新资讯了。
 
 </details>
-</div>
-<div class="video-card">
-<h3>动画自由！Codex + Remotion自动生成视频 在这个视频里，我用 Codex、Hyperframe 和 Remotion 做了一次尝试：不用传统剪辑软件，而是用代码直接生成视频和动画。 从时间轴到函数，从剪辑到…</h3>
 
+<h3 id="codex-remotion-codexhyperframe-remotion">动画自由！Codex + Remotion自动生成视频 在这个视频里，我用 Codex、Hyperframe 和 Remotion 做了一次尝试：不用传统剪辑软件，而是用代码直接生成视频和动画。 从时间轴到函数，从剪辑到…</h3>
 <p><strong>作者</strong>：肥仔吃肠粉 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640442762533375232">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：动画自由！Codex + Remotion自动生成视频 在这个视频里，我用 Codex、Hyperframe 和 Remotion 做了一次尝试：不用传统剪辑软件，而是用代码直接生成视频和动画。</p>
 <p>从时间轴到函数，从剪辑到编程，这不仅是工具的变化，更是视频制作方式的一次转变。</p>
@@ -9333,19 +9335,14 @@ Codex就可以自动帮你输出完整视频
 所有细节均可修改
 
 </details>
-</div>
-<div class="video-card">
-<h3>好用的录屏工具都付费⁉️文科生直接用AI手搓一个出来💥 hi大家好，这两天我用AI vibe coding了一个免费且可露脸的录屏工具。我给它起名clear recording！它完美解决了我不想为录屏软件付费的痛点，功…</h3>
 
+<h3 id="ai-hiai-vibe-codingclear-recording">好用的录屏工具都付费⁉️文科生直接用AI手搓一个出来💥 hi大家好，这两天我用AI vibe coding了一个免费且可露脸的录屏工具。我给它起名clear recording！它完美解决了我不想为录屏软件付费的痛点，功…</h3>
 <p><strong>作者</strong>：小露不迷糊 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7635311788468562088">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：好用的录屏工具都付费⁉️文科生直接用AI手搓一个出来💥  hi大家好，这两天我用AI vibe coding了一个免费且可露脸的录屏工具。我给它起名clear recording！它完美解决了我不想为录屏软件付费的痛点，功能甚至更多更个性化。我真的没有想到，作为文科生的我只是对codex用大白话说明我的痛点和需求，他就帮我做出来了一个应用。最终我还让他给我生成了对应的产品文档和技术文档，如果大家需要的话我可以分享出来～这样喂给自己的ai来做类似的录屏工具，可能会方便便捷很多～ #vibecoding #ai #ai工具 #ChatGPT #codex</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>99% 的人用 Codex 都漏了这步，难怪不好用 别再瞎用 Codex 了！ 99% 的人都漏掉这关键一步， 难怪你写代码又慢又卡 bug 看完直接起飞🚀 #Codex #AI编程 #程序员干货</h3>
-
+<h3 id="99-codex-codex-99-bug-codex-ai">99% 的人用 Codex 都漏了这步，难怪不好用 别再瞎用 Codex 了！ 99% 的人都漏掉这关键一步， 难怪你写代码又慢又卡 bug 看完直接起飞🚀 #Codex #AI编程 #程序员干货</h3>
 <p><strong>作者</strong>：关工聊编程 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7627026356294995254">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：99% 的人用 Codex 都漏了这步，难怪不好用 别再瞎用 Codex 了！<br />
 99% 的人都漏掉这关键一步，<br />
@@ -9413,10 +9410,8 @@ Codex是你的开发团队
 而是你有没有把它真正的能力打开
 
 </details>
-</div>
-<div class="video-card">
-<h3>分享下过去半年独立开发的产品 从不懂编程到从 0 用 AI 开发了 8 款产品，分享给大家我的作品。 #opc #ai #ai编程 #曲东奇 #超级个体</h3>
 
+<h3 id="0-ai-8-opc-ai-ai">分享下过去半年独立开发的产品 从不懂编程到从 0 用 AI 开发了 8 款产品，分享给大家我的作品。 #opc #ai #ai编程 #曲东奇 #超级个体</h3>
 <p><strong>作者</strong>：曲东奇 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640926067729904118">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】不懂编程的普通人，用AI工具半年做出8款产品，其中2款已月入过万。
@@ -9478,10 +9473,8 @@ Codex是你的开发团队
 如果你也感兴趣欢迎关注我们下期再会
 
 </details>
-</div>
-<div class="video-card">
-<h3>用AI做PPT，首选Codex 市面上那些杂七杂八的AI PPT工具都别用了，用Codex就可以。插件Presentations的效果完全OK。再结合Codex搜索和项目文档管理的能力，日常做点PPT交差没问题。 #AI…</h3>
 
+<h3 id="aipptcodex-ai-pptcodexpresentationsokcodexppt-ai">用AI做PPT，首选Codex 市面上那些杂七杂八的AI PPT工具都别用了，用Codex就可以。插件Presentations的效果完全OK。再结合Codex搜索和项目文档管理的能力，日常做点PPT交差没问题。 #AI…</h3>
 <p><strong>作者</strong>：黄益贺 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640458725416881450">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：用AI做PPT，首选Codex 市面上那些杂七杂八的AI PPT工具都别用了，用Codex就可以。插件Presentations的效果完全OK。再结合Codex搜索和项目文档管理的能力，日常做点PPT交差没问题。</p>
 <h1 id="ai-ppt-openai-codex">AI在抖音 #PPT #OpenAI #Codex</h1>
@@ -9608,10 +9601,8 @@ OK
 那咱們下期見
 
 </details>
-</div>
-<div class="video-card">
-<h3>用AI做旅游攻略，好像打游戏一样 Flipbook.page 实时场景渲染引擎，没有HTML没有代码，每个像素实时生成！ 搜「新疆」几分钟渲染出草原沙漠全景，搜「那拉提」连马头琴骑马的民族文化都画出来。点击哈萨克毡房营，…</h3>
 
+<h3 id="ai-flipbookpage-html">用AI做旅游攻略，好像打游戏一样 Flipbook.page 实时场景渲染引擎，没有HTML没有代码，每个像素实时生成！ 搜「新疆」几分钟渲染出草原沙漠全景，搜「那拉提」连马头琴骑马的民族文化都画出来。点击哈萨克毡房营，…</h3>
 <p><strong>作者</strong>：Olivia奥利维亚 AI 分享 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7639215487070555401">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：用AI做旅游攻略，好像打游戏一样 Flipbook.page 实时场景渲染引擎，没有HTML没有代码，每个像素实时生成！</p>
 <p>搜「新疆」几分钟渲染出草原沙漠全景，搜「那拉提」连马头琴骑马的民族文化都画出来。点击哈萨克毡房营，内部解剖图全有：地毯火炉床一清二楚。</p>
@@ -9692,10 +9683,8 @@ OK
 以及随身的现场的一些解说
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex 额度不够烧？试试接 DeepSeek V4 #codex #deepseekv4 #vibecoding #token #国产模型 视频含AI生成内容，仅供学习交流</h3>
 
+<h3 id="codex-deepseek-v4-codex-deepseekv4-vibecoding-token-ai">Codex 额度不够烧？试试接 DeepSeek V4 #codex #deepseekv4 #vibecoding #token #国产模型 视频含AI生成内容，仅供学习交流</h3>
 <p><strong>作者</strong>：木马_MUMAI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7638372894598270246">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】Codex额度不够时，可通过CCX+CC Switch把DeepSeek V4接进来当“平替”，操作简单且便宜大碗。
@@ -9813,10 +9802,8 @@ CCX、Deep Sleep的API还有CC Switch
 咱们下期见
 
 </details>
-</div>
-<div class="video-card">
-<h3>5分钟Claude桌端升级deepseek-v4-pro问题 Claude桌面端升级最新版后模型id前加claude前缀后，无法使用deepseek-v4-pro，5分钟解决#deepseek #claude #clau…</h3>
 
+<h3 id="5claudedeepseek-v4-pro-claudeidclaudedeepseek-v4-pro5deepseek-claude-clau">5分钟Claude桌端升级deepseek-v4-pro问题 Claude桌面端升级最新版后模型id前加claude前缀后，无法使用deepseek-v4-pro，5分钟解决#deepseek #claude #clau…</h3>
 <p><strong>作者</strong>：AI樟榆树 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7638206937938627874">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：5分钟Claude桌端升级deepseek-v4-pro问题 Claude桌面端升级最新版后模型id前加claude前缀后，无法使用deepseek-v4-pro，5分钟解决#deepseek  #claude  #claude桌面端  #claude接deepseek #ai工具  #ai编程  #ai编程工具</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -9885,10 +9872,8 @@ Claude桌面端升级后无法调用DeepSeek-V3-Pro，可用本地代理项目�
 看 Pro 消耗了 5M6 这样就齐活了
 
 </details>
-</div>
-<div class="video-card">
-<h3>用obsidian +Ai搭建个人知识库，效果出乎意料的好！#obsidian #codex #Ai知识库 #干货分享 #真实分享 @DOU+小助手</h3>
 
+<h3 id="obsidian-aiobsidian-codex-ai-dou">用obsidian +Ai搭建个人知识库，效果出乎意料的好！#obsidian #codex #Ai知识库 #干货分享 #真实分享 @DOU+小助手</h3>
 <p><strong>作者</strong>：努力还贷的小伦 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637528968758324707">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用Obsidian+Codex搭建个人知识库，全程对话即可自动完成分类归档，效果远超Notion+Code。
@@ -10018,13 +10003,11 @@ OK 这一来
 关注我一起进步找出路
 
 </details>
-</div>
-<div class="video-card">
-<h3>花 250 块！把小键盘变成语音输入小工具😆 上次给大家分享 iPad Air的时候，浅浅提过一嘴这个小键盘，这两天终于空下来，把自定义设置好了，变成非常好用的 vibe coding 语音输入工具，拿来看书也是相当好的…</h3>
 
+<h3 id="250-ipad-air-vibe-coding">花 250 块！把小键盘变成语音输入小工具😆 上次给大家分享 iPad Air的时候，浅浅提过一嘴这个小键盘，这两天终于空下来，把自定义设置好了，变成非常好用的 vibe coding 语音输入工具，拿来看书也是相当好的…</h3>
 <p><strong>作者</strong>：ami.moment · <strong>链接</strong>：<a href="https://www.douyin.com/video/7625828656639741236">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：花 250 块！把小键盘变成语音输入小工具😆 上次给大家分享 iPad Air的时候，浅浅提过一嘴这个小键盘，这两天终于空下来，把自定义设置好了，变成非常好用的 vibe coding 语音输入工具，拿来看书也是相当好的！而且不贵哦！开心✧٩(ˊωˋ*)و✧</p>
-<h1 id="vibecoding">VibeCoding #语音输入 #翻页器 #键盘 #小键盘</h1>
+<h1 id="vibecoding_2">VibeCoding #语音输入 #翻页器 #键盘 #小键盘</h1>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
 花250元左右，把一个小键盘改造成AI语音输入神器，适合vibe coding或语音提问场景。
@@ -10105,10 +10088,8 @@ shortcut就是commandr
 太错名了我想给大家
 
 </details>
-</div>
-<div class="video-card">
-<h3>Vibe coding太厉害了，我一下午完成了一个风格提取网站 #Vibecoding #AI #知识分享 #学习心得 #王善朴</h3>
 
+<h3 id="vibe-coding-vibecoding-ai">Vibe coding太厉害了，我一下午完成了一个风格提取网站 #Vibecoding #AI #知识分享 #学习心得 #王善朴</h3>
 <p><strong>作者</strong>：周末Zomo · <strong>链接</strong>：<a href="https://www.douyin.com/video/7618912781881885669">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】不会代码的设计师，用自然语言跟AI聊天，一下午就能做出一个解决自己工作痛点的网站。
@@ -10160,19 +10141,14 @@ webcoding出了一个视觉风格提取网站
 想像力跟执行力才是
 
 </details>
-</div>
-<div class="video-card">
-<h3>苏轼的朋友圈对你可见 使用vibe coding，将宋朝苏轼等诗词人互相赠送和提及的关系网络可视化出来，互相赠送越多的距离越近。 子瞻你果然巨擘！ #苏轼 #vibecoding #诗词人生</h3>
 
+<h3 id="vibe-coding-vibecoding">苏轼的朋友圈对你可见 使用vibe coding，将宋朝苏轼等诗词人互相赠送和提及的关系网络可视化出来，互相赠送越多的距离越近。 子瞻你果然巨擘！ #苏轼 #vibecoding #诗词人生</h3>
 <p><strong>作者</strong>：麻省理工Rui同学 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7616555517095227994">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：苏轼的朋友圈对你可见  使用vibe coding，将宋朝苏轼等诗词人互相赠送和提及的关系网络可视化出来，互相赠送越多的距离越近。 子瞻你果然巨擘！ #苏轼 #vibecoding #诗词人生</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>Codex的桌面宠物真的只是宠物吗 Codex桌面宠物不仅仅是宠物，实则是奥特曼的野性再次泛滥#codex #openai #chatGPT #ai工具 #ai编程 #ai编程工具</h3>
-
+<h3 id="codex-codexcodex-openai-chatgpt-ai-ai-ai">Codex的桌面宠物真的只是宠物吗 Codex桌面宠物不仅仅是宠物，实则是奥特曼的野性再次泛滥#codex #openai #chatGPT #ai工具 #ai编程 #ai编程工具</h3>
 <p><strong>作者</strong>：AI樟榆树 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7635605575887293731">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：Codex的桌面宠物真的只是宠物吗 Codex桌面宠物不仅仅是宠物，实则是奥特曼的野性再次泛滥#codex  #openai #chatGPT  #ai工具  #ai编程  #ai编程工具</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -10231,10 +10207,8 @@ Codex到这个蓝色的宠物朋友们都启用了吧
 那我会分享其期我Codex的实驾经验
 
 </details>
-</div>
-<div class="video-card">
-<h3>在Claude桌面版里用任意模型 Anthropic给Claude Desktop添加开发者模式，允许通过API调用各种模型。这下可以不用那些第三方的客户端了。Claude Desktop在产品层面就是最强的。 #AI在…</h3>
 
+<h3 id="claude-anthropicclaude-desktopapiclaude-desktop-ai">在Claude桌面版里用任意模型 Anthropic给Claude Desktop添加开发者模式，允许通过API调用各种模型。这下可以不用那些第三方的客户端了。Claude Desktop在产品层面就是最强的。 #AI在…</h3>
 <p><strong>作者</strong>：黄益贺 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7632976038946999588">抖音</a> · <strong>价值评分</strong>：1</p>
 <p><strong>简介</strong>：在Claude桌面版里用任意模型 Anthropic给Claude Desktop添加开发者模式，允许通过API调用各种模型。这下可以不用那些第三方的客户端了。Claude Desktop在产品层面就是最强的。</p>
 <h1 id="ai-claude-claudecode">AI在抖音 #Claude #claudecode</h1>
@@ -10332,10 +10306,8 @@ ok 以上就是本期内容
 那咱们下期见
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex，我不会编程开发，我是一名设计师 #vibecoding大赏</h3>
 
+<h3 id="codex-vibecoding">codex，我不会编程开发，我是一名设计师 #vibecoding大赏</h3>
 <p><strong>作者</strong>：小周同学 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7657858013047049713">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】不会编程的设计师，也能用 Codex 在一天内做出自动生成包装效果图的工具。
@@ -10364,10 +10336,8 @@ Codex原本
 然后都是自动识别的根据核心识别这个大小
 
 </details>
-</div>
-<div class="video-card">
-<h3>尝试让codex接入亚马逊广告数据库的效果，感觉还不错 #codex #亚马逊广告优化 #亚马逊运营</h3>
 
+<h3 id="codex-codex_1">尝试让codex接入亚马逊广告数据库的效果，感觉还不错 #codex #亚马逊广告优化 #亚马逊运营</h3>
 <p><strong>作者</strong>：Jack Ma · <strong>链接</strong>：<a href="https://www.douyin.com/video/7678721016931215979">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用Codex连接亚马逊广告数据库，通过多维度指令自动筛选异常广告词，大幅提升多店铺广告管理效率。
@@ -10454,10 +10424,8 @@ acos小于10%
 我也会给大家去进行更新
 
 </details>
-</div>
-<div class="video-card">
-<h3>超有质感的AI球动画，只需几分钟制作 #小白也能vibecoding #ai工具 #vibecoding</h3>
 
+<h3 id="ai-vibecoding-ai-vibecoding">超有质感的AI球动画，只需几分钟制作 #小白也能vibecoding #ai工具 #vibecoding</h3>
 <p><strong>作者</strong>：冯兄化吉 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7673897825927116977">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用AI球编辑工具，零基础也能快速做出有质感的3D动画素材，直接复制代码嵌入项目。
@@ -10485,10 +10453,8 @@ acos小于10%
 想体验这款产品的可以找我自求
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex接管ps 全自动操作#photoshop操作 #codex #ai工具 #电商图</h3>
 
+<h3 id="codexps-photoshop-codex-ai">codex接管ps 全自动操作#photoshop操作 #codex #ai工具 #电商图</h3>
 <p><strong>作者</strong>：斯派AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7663437682722295275">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用嘴说需求，Codex就能自动操作Photoshop改电商图，省掉手动修图。
@@ -10531,10 +10497,8 @@ You run me like a fever
 Fever
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex 今天刚重置的额度又蹬完了 坐等明天重置</h3>
 
+<h3 id="codex_1">codex 今天刚重置的额度又蹬完了 坐等明天重置</h3>
 <p><strong>作者</strong>：阿里虾 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7662765620971361915">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>__NO_VALUE__
@@ -10547,10 +10511,8 @@ Fever
 他还在跑
 
 </details>
-</div>
-<div class="video-card">
-<h3>所有人能不能发个一百多块钱买一个codex#codex 。</h3>
 
+<h3 id="codexcodex">所有人能不能发个一百多块钱买一个codex#codex 。</h3>
 <p><strong>作者</strong>：工位生存日记 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7657864603414465969">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -10585,18 +10547,13 @@ CodeX,CodeX都给我去下载一下 好吧
 这个软件就做出来了
 
 </details>
-</div>
-<div class="video-card">
-<h3>ai 生图辅助插件 #codex</h3>
 
+<h3 id="ai-codex">ai 生图辅助插件 #codex</h3>
 <p><strong>作者</strong>：小冷面 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7654213860924460520">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>用Codex边生成海报边做视觉审稿 #codex #ai #aigc #vibecoding #ai设计</h3>
-
+<h3 id="codex-codex-ai-aigc-vibecoding-ai">用Codex边生成海报边做视觉审稿 #codex #ai #aigc #vibecoding #ai设计</h3>
 <p><strong>作者</strong>：WayToAI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7653494978908060091">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用Codex边生成海报边做视觉审稿，让AI边画边改，效率翻倍。
@@ -10635,10 +10592,8 @@ CodeX,CodeX都给我去下载一下 好吧
 我看你不太好看
 
 </details>
-</div>
-<div class="video-card">
-<h3>强到离谱，40分钟吃透整本书 #vibecoding #智谱 #GLM #vibecoding大赏</h3>
 
+<h3 id="40-vibecoding-glm-vibecoding">强到离谱，40分钟吃透整本书 #vibecoding #智谱 #GLM #vibecoding大赏</h3>
 <p><strong>作者</strong>：哈维yao · <strong>链接</strong>：<a href="https://www.douyin.com/video/7654157813903697043">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -10702,19 +10657,14 @@ CodeX,CodeX都给我去下载一下 好吧
 它确实能自主做得很好
 
 </details>
-</div>
-<div class="video-card">
-<h3>你相信这是Codex完成的吗 #vibecoding #codex</h3>
 
+<h3 id="codex-vibecoding-codex">你相信这是Codex完成的吗 #vibecoding #codex</h3>
 <p><strong>作者</strong>：太阳Ai实验室 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7653844630240234786">抖音</a></p>
 <p><strong>简介</strong>：你相信这是Codex完成的吗 #vibecoding  #codex</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>让Codex做自动化任务 #codex #AI应用</h3>
-
+<h3 id="codex-codex-ai">让Codex做自动化任务 #codex #AI应用</h3>
 <p><strong>作者</strong>：小韦用AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7653466076809923903">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -10822,10 +10772,8 @@ recall的replay适合那种反复出现
 at效工具和方法的小尾
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex新插件：看一遍就复刻你的操作 #codex #AI工具 #ai新星计划 #抖音前沿科技首发计划</h3>
 
+<h3 id="codex-codex-ai-ai">Codex新插件：看一遍就复刻你的操作 #codex #AI工具 #ai新星计划 #抖音前沿科技首发计划</h3>
 <p><strong>作者</strong>：里昂说AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7653235346024467762">抖音</a></p>
 <p><strong>简介</strong>：Codex新插件：看一遍就复刻你的操作 #codex #AI工具 #ai新星计划  #抖音前沿科技首发计划</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -10932,10 +10880,8 @@ Codex这次更新
 我们真正不可替代的
 
 </details>
-</div>
-<div class="video-card">
-<h3>#codex #ai</h3>
 
+<h3 id="codex-ai_1">#codex #ai</h3>
 <p><strong>作者</strong>：顶美之路 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7651065306404962533">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】Codex目前无法读取微信聊天记录，也不能自动操作微信，因此基于微信数据的客户分析和视频配图需求无法实现。
@@ -10977,10 +10923,8 @@ Codex 我的两个需求它都满足不了
 帮我推荐一下
 
 </details>
-</div>
-<div class="video-card">
-<h3>“你的专属贾维斯—Codex”#codex #ai #科技 #codex安装 #openai</h3>
 
+<h3 id="codexcodex-ai-codex-openai">“你的专属贾维斯—Codex”#codex #ai #科技 #codex安装 #openai</h3>
 <p><strong>作者</strong>：Mr.凯 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650645434477899001">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】Codex不是聊天AI，而是能替你操作电脑、写代码、做产品的“专属科技团队”，让普通人一句话就能当工程师。
@@ -11040,10 +10984,8 @@ Codex就可以让你做出自己的产品
 这将是通往未来的要事
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex和WorkBuddy的使用感受 #AI #大模型 #Codex #workbuddy</h3>
 
+<h3 id="codexworkbuddy-ai-codex-workbuddy">Codex和WorkBuddy的使用感受 #AI #大模型 #Codex #workbuddy</h3>
 <p><strong>作者</strong>：王大强 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7649472159706541989">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】  
@@ -11156,10 +11098,8 @@ workbody反而是一个非常非常棒的智能体入口
 真的可以做很多非常屌的事情
 
 </details>
-</div>
-<div class="video-card">
-<h3>VibeCoding大赏 | 瓦学弟做了个打瓦 #vibecoding大赏 #ai新星计划#科技科普 #整活 #AI编程</h3>
 
+<h3 id="vibecoding-vibecoding-ai-ai">VibeCoding大赏 | 瓦学弟做了个打瓦 #vibecoding大赏 #ai新星计划#科技科普 #整活 #AI编程</h3>
 <p><strong>作者</strong>：英雄哪里出来 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7650709163172957474">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用AI编程工具（Vibe Coding）做游戏，核心是“描述需求+AI自主实现+人工微调”，能快速出成品。
@@ -11256,10 +11196,8 @@ A准的集群的8个修复效率就是高
 明天再做吧
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex 从 0 到 1 全攻略 #openai #gpt #codex #anthropic #claudecode</h3>
 
+<h3 id="codex-0-1-openai-gpt-codex-anthropic-claudecode">Codex 从 0 到 1 全攻略 #openai #gpt #codex #anthropic #claudecode</h3>
 <p><strong>作者</strong>：马克的技术工作坊 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7648838418205641994">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】Codex 不只是聊天写码工具，它能执行测试、操作浏览器、控制电脑，但要用好它，关键是先搞懂安装登录、项目配置和授权机制。
@@ -11386,10 +11324,8 @@ Codex首先会询问我们是干什么工作的
 就叫做马克...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>claude code绕过权限审查机制操作； #claudecode</h3>
 
+<h3 id="claude-code-claudecode">claude code绕过权限审查机制操作； #claudecode</h3>
 <p><strong>作者</strong>：幽杨OvO · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634633011492949290">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】通过修改Claude Code的配置文件，可彻底关闭权限询问，实现完全自动运行（高风险）。
@@ -11479,10 +11415,8 @@ Cloud Code這樣不再受任何約束
 大家拜拜
 
 </details>
-</div>
-<div class="video-card">
-<h3>绕过浏览器反爬 #计算机 #程序员 #github #开源</h3>
 
+<h3 id="github">绕过浏览器反爬 #计算机 #程序员 #github #开源</h3>
 <p><strong>作者</strong>：Github观察员 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637102194340285759">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -11496,10 +11430,8 @@ Cloud Code這樣不再受任何約束
 AI agent现在已经成为生产力了
 
 </details>
-</div>
-<div class="video-card">
-<h3>很多人可能还没有意识到，Claude Code 和 Codex 的可能是你这辈子遇到的最聪明的朋友了。</h3>
 
+<h3 id="claude-code-codex">很多人可能还没有意识到，Claude Code 和 Codex 的可能是你这辈子遇到的最聪明的朋友了。</h3>
 <p><strong>作者</strong>：瑶瑶 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643388009752937897">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -11516,10 +11448,8 @@ AI agent现在已经成为生产力了
 这个值多少瓶茅台
 
 </details>
-</div>
-<div class="video-card">
-<h3>AI靠眼睛操作你的电脑，不接API不接插件 #AI工具 #开源项目 #ClaudeCode #AI编程</h3>
 
+<h3 id="aiapi-ai-claudecode-ai">AI靠眼睛操作你的电脑，不接API不接插件 #AI工具 #开源项目 #ClaudeCode #AI编程</h3>
 <p><strong>作者</strong>：程序员少北晨 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7641669208228498740">抖音</a></p>
 <p><strong>简介</strong>：AI靠眼睛操作你的电脑，不接API不接插件 #AI工具  #开源项目  #ClaudeCode  #AI编程</p>
 <blockquote>
@@ -11538,10 +11468,8 @@ AI agent现在已经成为生产力了
 未来操作电脑的AI,不用接口,而是用眼睛
 
 </details>
-</div>
-<div class="video-card">
-<h3>国内使用codex的方法 #dou出新知#这个视频有点儿料#电脑#电脑知识#codex</h3>
 
+<h3 id="codex-doucodex">国内使用codex的方法 #dou出新知#这个视频有点儿料#电脑#电脑知识#codex</h3>
 <p><strong>作者</strong>：微机课代表阿银 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646482737188097332">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用开源项目EchoBird 5.15版，让Codex接入国产大模型，还能用上插件、computer use和浏览器操控。
@@ -11586,27 +11514,19 @@ ok
 歡迎和我一起探索AI吧
 
 </details>
-</div>
-<div class="video-card">
-<h3>vibe coding大赏｜抽张塔罗牌吗？#vibecoding #手势交互 #claude #ai新星计划</h3>
 
+<h3 id="vibe-codingvibecoding-claude-ai">vibe coding大赏｜抽张塔罗牌吗？#vibecoding #手势交互 #claude #ai新星计划</h3>
 <p><strong>作者</strong>：Episode. · <strong>链接</strong>：<a href="https://www.douyin.com/video/7646041395632251641">抖音</a></p>
 <p><strong>简介</strong>：vibe coding大赏｜抽张塔罗牌吗？#vibecoding  #手势交互 #claude #ai新星计划</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>大家vibecoding 了哪些惊艳的作品， 发出来炫炫！#vibecoding #codex</h3>
-
+<h3 id="vibecoding-vibecoding-codex">大家vibecoding 了哪些惊艳的作品， 发出来炫炫！#vibecoding #codex</h3>
 <p><strong>作者</strong>：AI代码交织 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7641143374556376933">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>AI是放大器，你的思维比ai更重视 #vibecoding #ai真的有帮助到我 #人工智能 #创业 #搞钱思维</h3>
-
+<h3 id="aiai-vibecoding-ai">AI是放大器，你的思维比ai更重视 #vibecoding #ai真的有帮助到我 #人工智能 #创业 #搞钱思维</h3>
 <p><strong>作者</strong>：阿莱娅Alaia · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643732186990260730">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】AI只是放大器，放大你已有的判断力；缺的不是AI技能，而是对“什么算好”的判断。
@@ -11656,10 +11576,8 @@ AI放大的不是你的技能
 你真的缺的是对一件事情的判断力
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex超好用skills，使用频率高，不吃灰#codex#skill#AnySearch #大模型#skill安装</h3>
 
+<h3 id="codexskillscodexskillanysearch-skill">codex超好用skills，使用频率高，不吃灰#codex#skill#AnySearch #大模型#skill安装</h3>
 <p><strong>作者</strong>：萌萌本萌🌸🌸🌸 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7642361133782160113">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】Codex搭配3个高频Skills，能显著提升任务质量与搜索效率，且安装简单。
@@ -11738,10 +11656,8 @@ Codex确实很厉害搭配各种Scale进攻的帮我们做任何事情
 感觉非常方便
 
 </details>
-</div>
-<div class="video-card">
-<h3>Claude和Codex玩上硬件了</h3>
 
+<h3 id="claudecodex">Claude和Codex玩上硬件了</h3>
 <p><strong>作者</strong>：道玄坂的樱花 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643686422650306410">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -11766,10 +11682,8 @@ Codex确实很厉害搭配各种Scale进攻的帮我们做任何事情
 天天叫都不帶睡的
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex把视频做成有排版能一键发布的公众号文章 #ai #aigc #AI新星计划 #vibecoding</h3>
 
+<h3 id="codex-ai-aigc-ai-vibecoding">codex把视频做成有排版能一键发布的公众号文章 #ai #aigc #AI新星计划 #vibecoding</h3>
 <p><strong>作者</strong>：喂鱼 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644067309427135089">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -11792,10 +11706,8 @@ Codex确实很厉害搭配各种Scale进攻的帮我们做任何事情
 直接發布就可以
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex光速出文章有格式有排版 #ai #ai新星计划 #职场 #自媒体 #文章</h3>
 
+<h3 id="codex-ai-ai">codex光速出文章有格式有排版 #ai #ai新星计划 #职场 #自媒体 #文章</h3>
 <p><strong>作者</strong>：喂鱼 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644997440995928689">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -11813,19 +11725,14 @@ Codex确实很厉害搭配各种Scale进攻的帮我们做任何事情
 有图有文有真相
 
 </details>
-</div>
-<div class="video-card">
-<h3>有了Codex就有无数员工同时干活，一人公司不是梦 #AI新星计划 #codex #一人公司 #ai工具 #博士</h3>
 
+<h3 id="codex-ai-codex-ai_1">有了Codex就有无数员工同时干活，一人公司不是梦 #AI新星计划 #codex #一人公司 #ai工具 #博士</h3>
 <p><strong>作者</strong>：袁博士的AI小灶 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643295864761768622">抖音</a></p>
 <p><strong>简介</strong>：有了Codex就有无数员工同时干活，一人公司不是梦 #AI新星计划 #codex #一人公司  #ai工具 #博士</p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>小米mimo大模型宣布降价9成！ #deepseek #模型 #程序员 #算力</h3>
-
+<h3 id="mimo9-deepseek">小米mimo大模型宣布降价9成！ #deepseek #模型 #程序员 #算力</h3>
 <p><strong>作者</strong>：算力炼丹炉 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644381052315684105">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -11860,10 +11767,8 @@ Light套餐6美元没变
 躲住用户数据才是关键
 
 </details>
-</div>
-<div class="video-card">
-<h3>一个视频说清楚Claude Code必装的6个skill #ClaudeCode #Skills #AI编程</h3>
 
+<h3 id="claude-code6skill-claudecode-skills-ai">一个视频说清楚Claude Code必装的6个skill #ClaudeCode #Skills #AI编程</h3>
 <p><strong>作者</strong>：冬白AI编程 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634951733260717318">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -11921,10 +11826,8 @@ PDF按虚装,装完重启Cloud Code,
 你就从聊天框用户变成完全T用户了。
 
 </details>
-</div>
-<div class="video-card">
-<h3>我在手机上搓了一个复古磁带日记app #ai #vibecoding #日记app #声音日记</h3>
 
+<h3 id="app-ai-vibecoding-app">我在手机上搓了一个复古磁带日记app #ai #vibecoding #日记app #声音日记</h3>
 <p><strong>作者</strong>：楼没有木字旁 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7644175481940708966">抖音</a></p>
 <p><strong>简介</strong>：我在手机上搓了一个复古磁带日记app  #ai #vibecoding #日记app #声音日记</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -12000,18 +11903,13 @@ PDF按虚装,装完重启Cloud Code,
 快来试试吧
 
 </details>
-</div>
-<div class="video-card">
-<h3>每天都被科技大震撼 #codex #visio #科研画图</h3>
 
+<h3 id="codex-visio">每天都被科技大震撼 #codex #visio #科研画图</h3>
 <p><strong>作者</strong>：冉冉冉 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643773545239735653">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>照片变桌宠，一键生成 #vibecoding大赏 #ai新星计划 @抖音科技</h3>
-
+<h3 id="vibecoding-ai_2">照片变桌宠，一键生成 #vibecoding大赏 #ai新星计划 @抖音科技</h3>
 <p><strong>作者</strong>：智简 AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643845319431703817">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -12041,10 +11939,8 @@ PDF按虚装,装完重启Cloud Code,
 不能真的用这就可以去互动
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex+DeepSeek+hyper制作视频 #deepseekv4 #ai #视频剪辑 #codex #视频</h3>
 
+<h3 id="codexdeepseekhyper-deepseekv4-ai-codex">codex+DeepSeek+hyper制作视频 #deepseekv4 #ai #视频剪辑 #codex #视频</h3>
 <p><strong>作者</strong>：不服输的奶爸 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7643715415294684507">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用Codex接入DeepSeek v4当大脑，再通过Codex++修复插件能力，最后调Hyper插件全自动做视频。
@@ -12104,10 +12000,8 @@ Hyper负责预览和渲染
 页面到MP4全流程跑起来
 
 </details>
-</div>
-<div class="video-card">
-<h3>Codex和claude code你一般用哪个呢？</h3>
 
+<h3 id="codexclaude-code">Codex和claude code你一般用哪个呢？</h3>
 <p><strong>作者</strong>：瑶瑶 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7641992748313663379">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -12124,10 +12018,8 @@ Hyper负责预览和渲染
 反正各有千秋 我现在两个都会用吧
 
 </details>
-</div>
-<div class="video-card">
-<h3>codex接入deepseek的方法 #dou出新知#这个视频有点儿料#电脑#电脑知识#codex</h3>
 
+<h3 id="codexdeepseek-doucodex">codex接入deepseek的方法 #dou出新知#这个视频有点儿料#电脑#电脑知识#codex</h3>
 <p><strong>作者</strong>：微机课代表阿银 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7641972124260797706">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -12151,10 +12043,8 @@ ECOBOT
 趕緊去配置試試吧
 
 </details>
-</div>
-<div class="video-card">
-<h3>#电脑调试 #ai硬件 #豆包输入法 #vibecoding #mac</h3>
 
+<h3 id="ai-vibecoding-mac">#电脑调试 #ai硬件 #豆包输入法 #vibecoding #mac</h3>
 <p><strong>作者</strong>：数字宅民MuteZ · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640514360913817713">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】AI从业者最优工作流：Mac+豆包输入法语音转文字，旧台式机变服务器统一管理。
@@ -12215,10 +12105,8 @@ OK 我看了一下
 这个真的是太方便了
 
 </details>
-</div>
-<div class="video-card">
-<h3>教你解锁codez插件功能并把国内大模型接入codex #AI #codex #openai</h3>
 
+<h3 id="codezcodex-ai-codex-openai">教你解锁codez插件功能并把国内大模型接入codex #AI #codex #openai</h3>
 <p><strong>作者</strong>：老李的AI工坊 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640052287101498979">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】用两个免费插件，把国产大模型（如智谱）接入Codex，并解锁桌面版被禁用的插件功能，省下GPT-5的高额费用。
@@ -12265,10 +12153,8 @@ Codex真的很好用
 让你的Codex更好用
 
 </details>
-</div>
-<div class="video-card">
-<h3>零成本手搓大厂产品，仅限生活科技技术分享 #Claude Code #Codex #AI分享</h3>
 
+<h3 id="claude-code-codex-ai">零成本手搓大厂产品，仅限生活科技技术分享 #Claude Code #Codex #AI分享</h3>
 <p><strong>作者</strong>：京厂长AI实战 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7638863823034793892">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】零成本手搓一个本地化、带长期记忆的AI对话助手，实时监听分析对话并自动总结建议。
@@ -12384,10 +12270,8 @@ Codex真的很好用
 而且本地化不上云
 
 </details>
-</div>
-<div class="video-card">
-<h3>看到好看的网站想「抄」？一条命令AI帮你克隆 #AI工具 #开源项目 #ClaudeCode #AI编程</h3>
 
+<h3 id="ai-ai-claudecode-ai">看到好看的网站想「抄」？一条命令AI帮你克隆 #AI工具 #开源项目 #ClaudeCode #AI编程</h3>
 <p><strong>作者</strong>：程序员少北晨 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640702779601849634">抖音</a></p>
 <p><strong>简介</strong>：看到好看的网站想「抄」？一条命令AI帮你克隆 #AI工具  #开源项目  #ClaudeCode  #AI编程</p>
 <blockquote>
@@ -12414,10 +12298,8 @@ Cloud Codex都能用
 建占的门槛正在被AI磨平
 
 </details>
-</div>
-<div class="video-card">
-<h3>这个Skill能让Codex生成视频！ #AI工具 #视频制作 #AI视频 #开源工具 #独立开发者</h3>
 
+<h3 id="skillcodex-ai-ai">这个Skill能让Codex生成视频！ #AI工具 #视频制作 #AI视频 #开源工具 #独立开发者</h3>
 <p><strong>作者</strong>：孙同学玩AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7640887976486182249">抖音</a></p>
 <p><strong>简介</strong>：这个Skill能让Codex生成视频！ #AI工具 #视频制作 #AI视频 #开源工具  #独立开发者</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -12457,10 +12339,8 @@ Cloud Codex都能用
 感兴趣的朋友快去试试吧
 
 </details>
-</div>
-<div class="video-card">
-<h3>立刻！马上！去用这个微信读书官方skill！ #微信读书skill #抖音科技风向标 #科技下一站 #skill</h3>
 
+<h3 id="skill-skill-skill">立刻！马上！去用这个微信读书官方skill！ #微信读书skill #抖音科技风向标 #科技下一站 #skill</h3>
 <p><strong>作者</strong>：Esther不二 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7641018097466663610">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】给AI Agent装上“微信读书”官方Skill，它就能读取你的阅读数据，变成懂你的私人阅读助理。
@@ -12554,10 +12434,8 @@ Agent它就会越来越懂你的思考方式和兴趣方向
 大家赶紧去体验一下
 
 </details>
-</div>
-<div class="video-card">
-<h3>他说的这些#ClaudeCode 的问题你有吗？你同意现在#Codex更好用吗？</h3>
 
+<h3 id="claudecode-codex">他说的这些#ClaudeCode 的问题你有吗？你同意现在#Codex更好用吗？</h3>
 <p><strong>作者</strong>：洛克AI · <strong>链接</strong>：<a href="https://www.douyin.com/video/7630751263433176430">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -12633,20 +12511,15 @@ Cloud Code像一个快而不稳的车
 更有生产力
 
 </details>
-</div>
-<div class="video-card">
-<h3>2026年Claude Code必装十大Skill #ai #claude #skills #skill #热门</h3>
 
+<h3 id="2026claude-codeskill-ai-claude-skills-skill">2026年Claude Code必装十大Skill #ai #claude #skills #skill #热门</h3>
 <p><strong>作者</strong>：爱摸鱼的Ai · <strong>链接</strong>：<a href="https://www.douyin.com/video/7638513185607240998">抖音</a></p>
 <p><strong>简介</strong>：2026年Claude Code必装十大Skill</p>
 <h1 id="ai-claude-skills-skill">ai #claude #skills #skill #热门</h1>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>谁能拒绝一个会陪你敲代码的Codex宠物呢？ #ai #干货分享 #代码 #ai新星计划 #ai工具</h3>
-
+<h3 id="codex-ai-ai-ai">谁能拒绝一个会陪你敲代码的Codex宠物呢？ #ai #干货分享 #代码 #ai新星计划 #ai工具</h3>
 <p><strong>作者</strong>：AI科技视野 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7637443653165665562">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
@@ -12672,10 +12545,8 @@ OpenAI上线宠物模式之后
 每只宠物都能互动还能持续训练
 
 </details>
-</div>
-<div class="video-card">
-<h3>跟着诗词去旅行 #vibecoding #ai新星计划</h3>
 
+<h3 id="vibecoding-ai_3">跟着诗词去旅行 #vibecoding #ai新星计划</h3>
 <p><strong>作者</strong>：麻省理工Rui同学 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7624739574863000307">抖音</a></p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
 <pre><code>【核心观点】
@@ -12774,10 +12645,8 @@ OpenAI上线宠物模式之后
 舒万里山河的先贤们
 
 </details>
-</div>
-<div class="video-card">
-<h3>我做了一个AI剪辑软件，它叫小剪 #ai创作浪潮计划 #ai #ai新星计划 #剪辑 #vibecoding</h3>
 
+<h3 id="ai-ai-ai-ai-vibecoding">我做了一个AI剪辑软件，它叫小剪 #ai创作浪潮计划 #ai #ai新星计划 #剪辑 #vibecoding</h3>
 <p><strong>作者</strong>：巴菲菲 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7634464868615698555">抖音</a></p>
 <p><strong>简介</strong>：我做了一个AI剪辑软件，它叫小剪  #ai创作浪潮计划 #ai #ai新星计划 #剪辑 #vibecoding</p>
 <p><strong>核心 insight</strong>（结构化提炼）：</p>
@@ -12923,10 +12792,8 @@ OK 那这是我们的说话人识别功能
 或者是访谈采访是非常...（转写过长，已截断，完整内容见原视频）
 
 </details>
-</div>
-<div class="video-card">
-<h3>万物 CLI命令 的时代要来了 #AI工具 #skill #开源项目</h3>
 
+<h3 id="cli-ai-skill">万物 CLI命令 的时代要来了 #AI工具 #skill #开源项目</h3>
 <p><strong>作者</strong>：程序员少北晨 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633479294735404351">抖音</a></p>
 <p><strong>简介</strong>：万物 CLI命令 的时代要来了 #AI工具  #skill  #开源项目</p>
 <blockquote>
@@ -12945,105 +12812,88 @@ OK 那这是我们的说话人识别功能
 现在你的AI Agenda将会更顺利的完成任务
 
 </details>
-</div>
-<div class="video-card">
-<h3>用claudecode打开你新世界的大门#claude</h3>
 
+<h3 id="claudecodeclaude">用claudecode打开你新世界的大门#claude</h3>
 <p><strong>作者</strong>：随便一个阿达 · <strong>链接</strong>：<a href="https://www.douyin.com/video/7633372431563122153">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-</div>
-<div class="video-card">
-<h3>用claude code打开你新世界的大门#程序代码 #Claude</h3>
-
+<h3 id="claude-code-claude">用claude code打开你新世界的大门#程序代码 #Claude</h3>
 <p><strong>作者</strong>：金哥king · <strong>链接</strong>：<a href="https://www.douyin.com/video/7632740077597063035">抖音</a></p>
 <blockquote>
 <p>暂无结构化 insight，参考简介与转写。</p>
 </blockquote>
-<hr />
-</div>
-</div>
+<hr /></div>
 <div class="footer">
-企业 AI 实战知识库 · 个人成长系统 v3.0 · 数据基于 514 条视频原文 + 110 方法簇 + 162 方法论<br>
+企业 AI 实战知识库 · 个人成长系统 v3.0<br>
+基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
 部署于 GitHub Pages · 2026-09-10
 </div>
 </main>
 </div>
 <script>
-// Search functionality
-const searchIndex = [];
-const PAGES = {};
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Build search index from current page content
-  const content = document.querySelector('.content');
-  if (content) {
-    const text = content.innerText.toLowerCase();
-    const title = document.querySelector('h1')?.innerText || '';
-    const headings = Array.from(document.querySelectorAll('h2, h3')).map(h => h.innerText);
-    searchIndex.push({
-      title, headings: headings.join(' '), text: text.substring(0, 5000)
-    });
-  }
-  
-  // Search input
-  const searchInput = document.getElementById('search');
-  if (searchInput) {
-    let timer;
-    searchInput.addEventListener('input', (e) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => doSearch(e.target.value), 200);
-    });
-  }
-  
-  // Highlight current page in nav
+  // Sidebar active state
   const path = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-item').forEach(el => {
+  document.querySelectorAll('.sidebar-item').forEach(el => {
     if (el.getAttribute('href') === path) el.classList.add('active');
   });
-});
-
-function doSearch(q) {
-  if (!q || q.length < 2) return;
-  // Basic in-page highlight (could be enhanced)
-  const content = document.querySelector('.content');
-  if (!content) return;
-  // remove old marks
-  content.querySelectorAll('mark.search-mark').forEach(m => {
-    const t = document.createTextNode(m.textContent);
-    m.parentNode.replaceChild(t, m);
+  document.querySelectorAll('.nav-items a').forEach(el => {
+    if (el.getAttribute('href') === path) el.classList.add('active');
   });
-  if (q.length < 2) return;
-  // walk text nodes
-  const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
-  const re = new RegExp(q.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&'), 'gi');
-  let count = 0;
-  while (walker.nextNode() && count < 30) {
-    const node = walker.currentNode;
-    if (node.parentNode.tagName === 'SCRIPT' || node.parentNode.tagName === 'STYLE') continue;
-    const text = node.nodeValue;
-    if (!re.test(text)) continue;
-    re.lastIndex = 0;
-    const frag = document.createDocumentFragment();
-    let last = 0;
-    let m;
-    while ((m = re.exec(text)) !== null) {
-      frag.appendChild(document.createTextNode(text.substring(last, m.index)));
-      const mark = document.createElement('mark');
-      mark.className = 'search-mark';
-      mark.style.background = '#ff9a4f';
-      mark.style.color = '#000';
-      mark.textContent = m[0];
-      frag.appendChild(mark);
-      last = m.index + m[0].length;
-      count++;
-      if (count > 30) break;
-    }
-    frag.appendChild(document.createTextNode(text.substring(last)));
-    node.parentNode.replaceChild(frag, node);
+  
+  // Search
+  const si = document.getElementById('search');
+  if (si) {
+    let t;
+    si.addEventListener('input', e => {
+      clearTimeout(t);
+      t = setTimeout(() => {
+        const q = e.target.value.toLowerCase();
+        const cards = document.querySelectorAll('.video-card, .card');
+        cards.forEach(c => {
+          c.style.display = c.innerText.toLowerCase().includes(q) || !q ? '' : 'none';
+        });
+        // For content pages
+        const content = document.querySelector('.content');
+        if (content) {
+          content.querySelectorAll('p, li, h2, h3').forEach(el => {
+            if (!q) { el.style.background = ''; return; }
+            el.style.background = el.innerText.toLowerCase().includes(q) ? 'rgba(255, 235, 59, 0.4)' : '';
+          });
+        }
+      }, 200);
+    });
   }
-}
+  
+  // Smooth scroll for TOC links
+  document.querySelectorAll('.page-toc a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+      }
+    });
+  });
+  
+  // Active TOC item on scroll
+  const tocLinks = document.querySelectorAll('.page-toc a');
+  if (tocLinks.length) {
+    const sections = Array.from(tocLinks).map(l => document.getElementById(l.getAttribute('href').slice(1))).filter(Boolean);
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          tocLinks.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.page-toc a[href="#${e.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    sections.forEach(s => observer.observe(s));
+  }
+});
 </script>
 </body>
 </html>
