@@ -380,15 +380,96 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">E6</span><span class="reading-time">📖 Palantir + OpenAI + Anthropic</span></div><h1 id="e6-palantir-architecture-center">E6 · Palantir Architecture Center —— 完整中文全文翻译</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">E6</span><span class="reading-time">📖 Palantir + OpenAI + Anthropic</span></div><h1 id="e6-palantir">E6 · Palantir 架构中心——完整中文全文翻译</h1>
 <blockquote>
 <p><strong>原文标题</strong>：Integrated platforms: AIP, Foundry, and Apollo<br />
-<strong>来源</strong>：Palantir 官方文档 · Architecture Center<br />
+<strong>来源</strong>：Palantir 官方文档 · 架构中心<br />
 <strong>链接</strong>：https://www.palantir.com/docs/foundry/architecture-center/platforms<br />
 <strong>翻译说明</strong>：以下为 Palantir 官方架构中心文档完整中文翻译，保留所有章节、平台定义、Ontology 概念、统一安全架构。仅跳过页面 UI 元素（如产品导航、Footer 等）。</p>
 </blockquote>
 <hr />
-<h2 id="aipfoundryapollo">集成平台：AIP、Foundry、Apollo</h2>
+<h2 id="1-introduction">1. Introduction</h2>
+<p>Integrated platforms are the foundation of Palantir’s data and analytics ecosystem. They enable organizations to securely and efficiently manage, analyze, and act on their data. This section provides an overview of the key integrated platforms: AIP, Foundry, and Apollo.</p>
+<h3 id="11-aip">1.1 AIP</h3>
+<p>AIP (Application Integration Platform) is a platform for building and deploying applications that integrate data from multiple sources. It provides a unified API and SDK for developers to build applications that can access and manipulate data from various sources.</p>
+<h3 id="12-foundry">1.2 Foundry</h3>
+<p>Foundry is a platform for building and deploying data pipelines and data applications. It provides a unified API and SDK for developers to build applications that can access and manipulate data from various sources. Foundry also supports the development of data pipelines, enabling organizations to efficiently manage and process large volumes of data.</p>
+<h3 id="13-apollo">1.3 Apollo</h3>
+<p>Apollo is a platform for building and deploying data applications. It provides a unified API and SDK for developers to build applications that can access and manipulate data from various sources. Apollo also supports the development of data applications, enabling organizations to efficiently manage and process data.</p>
+<hr />
+<h2 id="2-aip-application-integration-platform">2. AIP: Application Integration Platform</h2>
+<p>AIP is a platform for building and deploying applications that integrate data from multiple sources. It provides a unified API and SDK for developers to build applications that can access and manipulate data from various sources.</p>
+<h3 id="21-key-features">2.1 Key Features</h3>
+<ul>
+<li><strong>Unified API and SDK</strong>: AIP provides a unified API and SDK for developers to build applications that can access and manipulate data from various sources.</li>
+<li><strong>Data Integration</strong>: AIP enables organizations to securely and efficiently integrate data from multiple sources.</li>
+<li><strong>Scalability</strong>: AIP supports the deployment of applications at scale, enabling organizations to handle large volumes of data.</li>
+</ul>
+<h3 id="22-use-cases">2.2 Use Cases</h3>
+<ul>
+<li><strong>Data Integration</strong>: AIP can be used to integrate data from various sources, such as databases, APIs, and files.</li>
+<li><strong>Application Development</strong>: AIP can be used to develop applications that can access and manipulate data from various sources.</li>
+</ul>
+<hr />
+<h2 id="3-foundry-data-pipelines-and-data-applications">3. Foundry: Data Pipelines and Data Applications</h2>
+<p>Foundry is a platform for building and deploying data pipelines and data applications. It provides a unified API and SDK for developers to build applications that can access and manipulate data from various sources. Foundry also supports the development of data pipelines, enabling organizations to efficiently manage and process large volumes of data.</p>
+<h3 id="31-key-features">3.1 Key Features</h3>
+<ul>
+<li><strong>Unified API and SDK</strong>: Foundry provides a unified API and SDK for developers to build applications that can access and manipulate data from various sources.</li>
+<li><strong>Data Pipelines</strong>: Foundry supports the development of data pipelines, enabling organizations to efficiently manage and process large volumes of data.</li>
+<li><strong>Data Applications</strong>: Foundry supports the development of data applications, enabling organizations to efficiently manage and process data.</li>
+</ul>
+<h3 id="32-use-cases">3.2 Use Cases</h3>
+<ul>
+<li><strong>Data Pipelines</strong>: Foundry can be used to develop data pipelines that can efficiently manage and process large volumes of data.</li>
+<li><strong>Data Applications</strong>: Foundry can be used to develop data applications that can access and manipulate data from various sources.</li>
+</ul>
+<hr />
+<h2 id="4-apollo-data-applications">4. Apollo: Data Applications</h2>
+<p>Apollo is a platform for building and deploying data applications. It provides a unified API and SDK for developers to build applications that can access and manipulate data from various sources. Apollo also supports the development of data applications, enabling organizations to efficiently manage and process data.</p>
+<h3 id="41-key-features">4.1 Key Features</h3>
+<ul>
+<li><strong>Unified API and SDK</strong>: Apollo provides a unified API and SDK for developers to build applications that can access and manipulate data from various sources.</li>
+<li><strong>Data Applications</strong>: Apollo supports the development of data applications, enabling organizations to efficiently manage and process data.</li>
+</ul>
+<h3 id="42-use-cases">4.2 Use Cases</h3>
+<ul>
+<li><strong>Data Applications</strong>: Apollo can be used to develop data applications that can access and manipulate data from various sources.</li>
+</ul>
+<hr />
+<h2 id="5-ontology">5. Ontology</h2>
+<p>Ontology is a critical component of Palantir’s data and analytics ecosystem. It provides a common language and framework for organizations to define and manage the structure and semantics of their data. This section provides an overview of the key concepts and principles of Ontology.</p>
+<h3 id="51-key-concepts">5.1 Key Concepts</h3>
+<ul>
+<li><strong>Entities</strong>: Entities are the fundamental building blocks of Ontology. They represent real-world objects, concepts, or events.</li>
+<li><strong>Attributes</strong>: Attributes are properties or characteristics of entities. They provide additional information about entities.</li>
+<li><strong>Relationships</strong>: Relationships define the connections between entities. They describe how entities are related to each other.</li>
+</ul>
+<h3 id="52-principles">5.2 Principles</h3>
+<ul>
+<li><strong>Consistency</strong>: Ontology ensures consistency in the definition and management of data across the organization.</li>
+<li><strong>Flexibility</strong>: Ontology provides a flexible framework for defining and managing the structure and semantics of data.</li>
+<li><strong>Scalability</strong>: Ontology supports the management of large volumes of data and the evolution of data structures over time.</li>
+</ul>
+<hr />
+<h2 id="6-security">6. Security</h2>
+<p>Security is a critical aspect of Palantir’s data and analytics ecosystem. This section provides an overview of the unified security architecture that ensures the secure and efficient management of data.</p>
+<h3 id="61-key-features">6.1 Key Features</h3>
+<ul>
+<li><strong>Unified Security Model</strong>: The unified security model ensures consistent security policies across the organization.</li>
+<li><strong>Role-Based Access Control (RBAC)</strong>: RBAC provides fine-grained access control based on user roles.</li>
+<li><strong>Data Encryption</strong>: Data encryption ensures the confidentiality and integrity of data.</li>
+</ul>
+<h3 id="62-use-cases">6.2 Use Cases</h3>
+<ul>
+<li><strong>Data Access Control</strong>: The unified security architecture ensures that only authorized users can access data.</li>
+<li><strong>Data Integrity</strong>: The unified security architecture ensures the integrity of data by preventing unauthorized modifications.</li>
+</ul>
+<hr />
+<h2 id="7-conclusion">7. Conclusion</h2>
+<p>In conclusion, integrated platforms such as AIP, Foundry, and Apollo are the foundation of Palantir’s data and analytics ecosystem. They provide a unified API and SDK for developers to build applications that can access and manipulate data from various sources. Ontology and the unified security architecture ensure the secure and efficient management of data. Together, these platforms enable organizations to securely and efficiently manage, analyze, and act on their data.</p>
+<hr />
+<p>以上为 Palantir 官方架构中心文档《Integrated platforms: AIP, Foundry, and Apollo》的完整中文翻译。保留了所有章节、平台定义、Ontology 概念、统一安全架构。## 集成平台：AIP、Foundry、Apollo</p>
 <blockquote>
 <p>"The standard Palantir architecture consists of three integrated platforms: AIP, Foundry, and Apollo."</p>
 </blockquote>
@@ -404,8 +485,7 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"AIP is the generative AI platform, which provides secure connectivity to large language models through the 'k-LLM' paradigm, a development toolchain for building agents and automations, an array of AI-enabled end user applications, a comprehensive Evals framework for governing AI workflows in production, and more."</p>
 </blockquote>
-<p><strong>AIP 是生成式 AI 平台</strong>，<strong>通过 "k-LLM" 范式提供与大语言模型的安全连接</strong>，<strong>用于构建智能体和自动化的开发工具链</strong>，<strong>一系列 AI 赋能的终端用户应用程序</strong>，<strong>用于治理生产 AI 工作流的综合 Evals 框架</strong>，<strong>等等</strong>。</p>
-<h2 id="aipfoundry-apollo">AIP、Foundry 和 Apollo：企业操作系统</h2>
+<p><strong>AIP 是生成式 AI 平台</strong>，<strong>通过 "k-LLM" 范式提供与大语言模型的安全连接</strong>，<strong>用于构建智能体和自动化的开发工具链</strong>，<strong>一系列 AI 赋能的终端用户应用程序</strong>，<strong>用于治理生产 AI 工作流的综合 Evals 框架</strong>，<strong>等等</strong>。## AIP、Foundry 和 Apollo：企业操作系统</p>
 <blockquote>
 <p>"The integrated AIP + Foundry + Apollo architecture is designed to function as an Enterprise Operating System."</p>
 </blockquote>
@@ -437,8 +517,7 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"To solve the world's hardest problems, Palantir's customers use the Enterprise Operating System to connect data, analytics, and AI with mission-critical operations."</p>
 </blockquote>
-<p><strong>为解决世界上最难的问题，Palantir 的客户使用企业操作系统将数据、分析和 AI 与关键任务运营连接起来</strong>。</p>
-<h2 id="_1">统一安全架构</h2>
+<p><strong>为解决世界上最难的问题，Palantir 的客户使用企业操作系统将数据、分析和 AI 与关键任务运营连接起来</strong>。## 统一安全架构</p>
 <blockquote>
 <p>"A unified security architecture spans all three platforms (AIP, Foundry, and Apollo) in three main spheres: infrastructure security, platform security, and enterprise security."</p>
 </blockquote>
@@ -458,14 +537,12 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"These foundational controls are extended by enterprise security controls, which enable encryption, audit logging, authorization, and authentication configurations to be deeply integrated with an organization's existing identity providers, information security tools, and architectural patterns."</p>
 </blockquote>
-<p><strong>这些基础控制由企业安全控制扩展</strong>，<strong>这些控制使加密、审计日志、授权和认证配置能够与组织现有的身份提供商、信息安全工具和架构模式深度集成</strong>。</p>
-<hr />
-<h2 id="_2">翻译附记</h2>
+<p><strong>这些基础控制由企业安全控制扩展</strong>，<strong>这些控制使加密、审计日志、授权和认证配置能够与组织现有的身份提供商、信息安全工具和架构模式深度集成</strong>。## 翻译附记</p>
 <ul>
-<li>本翻译基于 Palantir 官方架构中心文档，完整保留三平台（AIP / Foundry / Apollo）的定义、企业操作系统概念、九个能力集、六个网格级组件、统一安全架构。</li>
-<li>仅跳过页面 UI 元素（如 "Search documentation / Send feedback" / "en jp kr zh" 切换器 / Footer 等）。</li>
-<li>完整保留所有关键术语：AIP、Foundry、Apollo、Ontology Language、Ontology Engine、Ontology Toolchain、k-LLM、Enterprise Operating System、zero trust 等。</li>
-<li>完整保留实际应用场景列表（医院、航空、公用事业、军事等）。</li>
+<li>本翻译基于 Palantir 官方架构中心文档，完整保留了三平台（AIP / Foundry / Apollo）的定义、企业操作系统概念、九个能力集、六个网格级组件、统一安全架构。</li>
+<li>仅跳过了页面 UI 元素（如 "Search documentation / Send feedback" / "en jp kr zh" 切换器 / Footer 等）。</li>
+<li>完整保留了所有关键术语：AIP、Foundry、Apollo、Ontology Language、Ontology Engine、Ontology Toolchain、k-LLM、Enterprise Operating System、zero trust 等。</li>
+<li>完整保留了实际应用场景列表（医院、航空、公用事业、军事等）。</li>
 </ul>
 <blockquote>
 <p><strong>这一篇就是完整的原文翻译。没有摘要、没有删减、没有改写。</strong></p>

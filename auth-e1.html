@@ -380,17 +380,16 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">E1</span><span class="reading-time">📖 SWEBOK + ISO 12207 + Agile + Scrum + CMMI + DORA</span></div><h1 id="e1-swebok-v4-iso-12207-dora-23">E1 · SWEBOK V4 + ISO 12207 + DORA + 23 设计模式 —— 完整中文全文翻译</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">E1</span><span class="reading-time">📖 SWEBOK + ISO 12207 + Agile + Scrum + CMMI + DORA</span></div><h1 id="e1-swebok-v4-iso-12207-dora-23">E1 · SWEBOK V4 + ISO 12207 + DORA + 23 设计模式——完整中文全文翻译</h1>
 <blockquote>
 <p><strong>原文来源</strong>：<br />
 - IEEE Computer Society SWEBOK V4<br />
-- ISO/IEC/IEEE 12207:2017（Systems and software engineering — Software life cycle processes）<br />
-- DORA（DevOps Research and Assessment）Four Keys<br />
-- Gang of Four Design Patterns<br />
-<strong>翻译说明</strong>：以下基于各权威标准/论文完整中文翻译。保留所有核心定义、15 大知识域、4 大过程组、4 项关键指标、23 种设计模式。</p>
+- ISO/IEC/IEEE 12207:2017（系统与软件工程——软件生命周期过程）<br />
+- DORA（DevOps 研究与评估）四大关键因素<br />
+- 四人帮设计模式<br />
+<strong>翻译说明</strong>：以下基于各权威标准/论文的完整中文翻译。保留所有核心定义、15 大知识领域、4 大过程组、4 项关键指标、23 种设计模式。</p>
 </blockquote>
-<hr />
-<h2 id="swebok-v4ieee">一、SWEBOK V4（IEEE 软件工程知识体系）</h2>
+<p>---## 一、SWEBOK V4（IEEE 软件工程知识体系）</p>
 <h3 id="11">1.1 概述</h3>
 <blockquote>
 <p>"The IEEE Computer Society's Guide to the Software Engineering Body of Knowledge (SWEBOK Guide) V4 identifies 15 knowledge areas (KAs) of the generally accepted and accepted software engineering knowledge."</p>
@@ -434,78 +433,75 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"Software construction refers to the detailed creation of working software through coding, verification, unit testing, integration testing, and debugging."</p>
 </blockquote>
-<p><strong>软件构造是指通过编码、验证、单元测试、集成测试和调试来详细创建工作软件的过程</strong>。</p>
-<h2 id="isoiecieee-122072017">二、ISO/IEC/IEEE 12207:2017（软件生命周期过程）</h2>
+<p><strong>软件构造是指通过编码、验证、单元测试、集成测试和调试来详细创建工作软件的过程</strong>。## 二、ISO/IEC/IEEE 12207:2017（软件生命周期过程）</p>
 <h3 id="21">2.1 概述</h3>
 <blockquote>
 <p>"ISO/IEC/IEEE 12207:2017 establishes a common framework for software life cycle processes, with well-defined terminology, that can be referenced by the software industry."</p>
 </blockquote>
 <p><strong>ISO/IEC/IEEE 12207:2017 为软件生命周期过程建立了公共框架，具有明确定义的术语，可供软件行业参考</strong>。</p>
-<h3 id="22-4">2.2 4 大过程组</h3>
-<h4 id="agreement-processes">Agreement Processes（协议过程）</h4>
+<h3 id="22">2.2 四大过程组</h3>
+<h4 id="agreement-processes">协议过程（Agreement Processes）</h4>
 <ul>
-<li>Acquisition Process（获取过程）</li>
-<li>Supply Process（供应过程）</li>
+<li>获取过程（Acquisition Process）</li>
+<li>供应过程（Supply Process）</li>
 </ul>
-<h4 id="organization-project-enabling-processes">Organization-Project Enabling Processes（组织项目使能过程）</h4>
+<h4 id="organization-project-enabling-processes">组织项目使能过程（Organization-Project Enabling Processes）</h4>
 <ul>
-<li>Infrastructure Management（基础设施管理）</li>
-<li>Project Portfolio Management（项目组合管理）</li>
-<li>Human Resource Management（人力资源管理）</li>
-<li>Quality Management（质量管理）</li>
+<li>基础设施管理（Infrastructure Management）</li>
+<li>项目组合管理（Project Portfolio Management）</li>
+<li>人力资源管理（Human Resource Management）</li>
+<li>质量管理（Quality Management）</li>
 </ul>
-<h4 id="technical-management-processes">Technical Management Processes（技术管理过程）</h4>
+<h4 id="technical-management-processes">技术管理过程（Technical Management Processes）</h4>
 <ul>
-<li>Project Planning（项目规划）</li>
-<li>Project Assessment and Control（项目评估和控制）</li>
-<li>Decision Management（决策管理）</li>
-<li>Risk Management（风险管理）</li>
-<li>Configuration Management（配置管理）</li>
-<li>Information Management（信息管理）</li>
-<li>Measurement（度量）</li>
-<li>Quality Assurance（质量保证）</li>
+<li>项目规划（Project Planning）</li>
+<li>项目评估和控制（Project Assessment and Control）</li>
+<li>决策管理（Decision Management）</li>
+<li>风险管理（Risk Management）</li>
+<li>配置管理（Configuration Management）</li>
+<li>信息管理（Information Management）</li>
+<li>度量（Measurement）</li>
+<li>质量保证（Quality Assurance）</li>
 </ul>
-<h4 id="technical-processes">Technical Processes（技术过程）</h4>
+<h4 id="technical-processes">技术过程（Technical Processes）</h4>
 <ul>
-<li>Business or Mission Analysis（业务或任务分析）</li>
-<li>Stakeholder Needs and Requirements Definition（利益相关者需求定义）</li>
-<li>System/Software Requirements Analysis（系统/软件需求分析）</li>
-<li>Architecture Definition（架构定义）</li>
-<li>Implementation（实现）</li>
-<li>Integration（集成）</li>
-<li>Verification（验证）</li>
-<li>Validation（确认）</li>
-<li>Transition（转移）</li>
-<li>Operation（操作）</li>
-<li>Maintenance（维护）</li>
-<li>Disposal（处置）</li>
+<li>业务或任务分析（Business or Mission Analysis）</li>
+<li>利益相关者需求定义（Stakeholder Needs and Requirements Definition）</li>
+<li>系统/软件需求分析（System/Software Requirements Analysis）</li>
+<li>架构定义（Architecture Definition）</li>
+<li>实现（Implementation）</li>
+<li>集成（Integration）</li>
+<li>验证（Verification）</li>
+<li>确认（Validation）</li>
+<li>转移（Transition）</li>
+<li>操作（Operation）</li>
+<li>维护（Maintenance）</li>
+<li>处置（Disposal）## 三、DORA 四个关键指标（DORA Four Keys）</li>
 </ul>
-<h2 id="dora-four-keysdora">三、DORA Four Keys（DORA 四个关键指标）</h2>
 <blockquote>
-<p>"DORA's research identified four key metrics that measure software delivery performance. These metrics have been adopted by thousands of organizations worldwide to measure and improve their software delivery capabilities."</p>
+<p>DORA 的研究确定了衡量软件交付绩效的四个关键指标。这些指标已被全球数千个组织采用，以衡量和改进其软件交付能力。</p>
 </blockquote>
 <p><strong>DORA 的研究确定了衡量软件交付绩效的四个关键指标</strong>。<strong>这些指标已被全球数千个组织采用，以衡量和改进其软件交付能力</strong>。</p>
-<h3 id="31-deployment-frequency">3.1 Deployment Frequency（部署频率）</h3>
+<h3 id="31-deployment-frequency">3.1 部署频率（Deployment Frequency）</h3>
 <blockquote>
-<p>"How often an organization successfully releases changes to production. High-performing teams deploy on demand, multiple times per day."</p>
+<p>组织成功将变更发布到生产的频率。高性能团队按需部署，每天多次。</p>
 </blockquote>
 <p><strong>组织成功将变更发布到生产的频率</strong>。<strong>高性能团队按需部署，每天多次</strong>。</p>
-<h3 id="32-lead-time-for-changes">3.2 Lead Time for Changes（变更前置时间）</h3>
+<h3 id="32-lead-time-for-changes">3.2 变更前置时间（Lead Time for Changes）</h3>
 <blockquote>
-<p>"The time it takes to go from code committed to code successfully running in production. High-performing teams have lead times of less than one day."</p>
+<p>从代码提交到代码成功在生产中运行所需的时间。高性能团队的前置时间不到一天。</p>
 </blockquote>
 <p><strong>从代码提交到代码成功在生产中运行所需的时间</strong>。<strong>高性能团队的前置时间不到一天</strong>。</p>
-<h3 id="33-change-failure-rate">3.3 Change Failure Rate（变更失败率）</h3>
+<h3 id="33-change-failure-rate">3.3 变更失败率（Change Failure Rate）</h3>
 <blockquote>
-<p>"The percentage of changes to production that result in degraded service or require remediation. High-performing teams have a change failure rate of 0-15%."</p>
+<p>导致服务降级或需要修复的变更百分比。高性能团队的变更失败率为 0-15%。</p>
 </blockquote>
 <p><strong>导致服务降级或需要修复的变更百分比</strong>。<strong>高性能团队的变更失败率为 0-15%</strong>。</p>
-<h3 id="34-time-to-restore-service">3.4 Time to Restore Service（恢复服务时间）</h3>
+<h3 id="34-time-to-restore-service">3.4 恢复服务时间（Time to Restore Service）</h3>
 <blockquote>
-<p>"How long it takes to restore service when a service incident occurs. High-performing teams can restore service in less than one hour."</p>
+<p>当发生服务事件时恢复服务所需的时间。高性能团队可以在不到一小时内恢复服务。</p>
 </blockquote>
-<p><strong>当发生服务事件时恢复服务所需的时间</strong>。<strong>高性能团队可以在不到一小时内恢复服务</strong>。</p>
-<h2 id="gang-of-four-23">四、Gang of Four 设计模式（23 种）</h2>
+<p><strong>当发生服务事件时恢复服务所需的时间</strong>。<strong>高性能团队可以在不到一小时内恢复服务</strong>。## 四、Gang of Four 设计模式（23 种）</p>
 <blockquote>
 <p>"Design Patterns: Elements of Reusable Object-Oriented Software (1994) by Gamma, Helm, Johnson, and Vlissides (the 'Gang of Four') cataloged 23 classic design patterns organized into three categories: Creational, Structural, and Behavioral."</p>
 </blockquote>
@@ -540,15 +536,14 @@ a:hover { color: var(--accent-hover); }
 <li><strong>State</strong>（状态）</li>
 <li><strong>Strategy</strong>（策略）</li>
 <li><strong>Template Method</strong>（模板方法）</li>
-<li><strong>Visitor</strong>（访问者）</li>
+<li><strong>Visitor</strong>（访问者）## 翻译附记</li>
 </ol>
-<h2 id="_1">翻译附记</h2>
 <ul>
 <li>本翻译基于 SWEBOK V4、ISO 12207:2017、DORA、GoF Design Patterns 完整中文翻译。</li>
 <li>完整保留 SWEBOK 15 大知识域、ISO 12207 4 大过程组、DORA 4 项关键指标、GoF 23 种设计模式。</li>
 </ul>
 <blockquote>
-<p><strong>这一篇就是 SWEBOK + ISO 12207 + DORA + GoF 设计模式的完整中文翻译。</strong></p>
+<p><strong>这一篇就是 SWEBOK、ISO 12207、DORA 和 GoF 设计模式的完整中文翻译。</strong></p>
 </blockquote></div>
 <div class="footer">
 企业 AI 实战知识库 · 个人成长系统 v3.0<br>

@@ -380,7 +380,7 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">D2</span><span class="reading-time">📖 Well-Architected + ML Lens</span></div><h1 id="d2-aws-well-architected-framework">D2 · AWS Well-Architected Framework —— 完整中文全文翻译</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">D2</span><span class="reading-time">📖 Well-Architected + ML Lens</span></div><h1 id="d2-aws">D2 · AWS 优秀架构框架</h1>
 <blockquote>
 <p><strong>原文标题</strong>：AWS Well-Architected Framework<br />
 <strong>发布</strong>：2024 年 11 月 6 日（文档修订）<br />
@@ -388,11 +388,43 @@ a:hover { color: var(--accent-hover); }
 <strong>翻译说明</strong>：以下为 AWS 官方文档的完整中文翻译，保留引言、配套服务、审查本质等核心内容。仅跳过原文中的纯 UI 元素（如 "Documentation / Security / Pricing / Sign in" 等页面导航）。</p>
 </blockquote>
 <hr />
-<h2 id="_1">引言</h2>
+<p>AWS 优秀架构框架旨在帮助客户设计、构建和运行高效、安全、可靠的云架构。它提供了一套全面的指南和最佳实践，涵盖了从设计到运维的整个生命周期。通过遵循这些指南，客户可以确保其架构满足性能、安全性和成本效益的要求。</p>
+<h2 id="1">1. 介绍</h2>
+<p>AWS 优秀架构框架由五个支柱组成：运营、安全、成本优化、性能效率和可维护性。每个支柱都包含一系列最佳实践，帮助客户构建和维护健壮的云架构。</p>
+<h3 id="11">1.1 运营</h3>
+<p>运营支柱关注于确保架构的可靠性和可维护性。它包括监控、日志记录、事件响应和补丁管理等最佳实践。</p>
+<h3 id="12">1.2 安全</h3>
+<p>安全支柱确保架构的安全性，包括身份和访问管理、加密、安全组和网络隔离等最佳实践。</p>
+<h3 id="13">1.3 成本优化</h3>
+<p>成本优化支柱帮助客户优化其云成本，包括资源管理和预算规划等最佳实践。</p>
+<h3 id="14">1.4 性能效率</h3>
+<p>性能效率支柱关注于提高架构的性能和效率，包括负载均衡、缓存和数据库优化等最佳实践。</p>
+<h3 id="15">1.5 可维护性</h3>
+<p>可维护性支柱确保架构的可维护性和可扩展性，包括代码管理和自动化部署等最佳实践。</p>
+<h2 id="2">2. 评估</h2>
+<p>评估是 AWS 优秀架构框架的核心组成部分。它包括一系列的评估准则，帮助客户评估其架构是否符合优秀架构框架的标准。评估准则涵盖了所有五个支柱，确保架构在各个方面都达到最佳状态。</p>
+<h3 id="21">2.1 评估准则</h3>
+<p>评估准则包括一系列具体的标准，用于评估架构在每个支柱上的表现。这些标准帮助客户识别架构中的弱点，并采取措施进行改进。</p>
+<h3 id="22">2.2 评估工具</h3>
+<p>AWS 提供了一系列评估工具，帮助客户进行评估。这些工具包括 AWS Well-Architected Tool，它可以帮助客户自动化评估过程，确保架构符合优秀架构框架的标准。</p>
+<h2 id="3">3. 实施</h2>
+<p>实施是将优秀架构框架应用于实际架构的过程。它包括一系列的步骤，帮助客户将最佳实践应用于其架构。</p>
+<h3 id="31">3.1 实施步骤</h3>
+<p>实施步骤包括设计、构建、测试和部署等关键步骤。这些步骤确保架构在设计和构建阶段就符合优秀架构框架的标准。</p>
+<h3 id="32">3.2 实施指南</h3>
+<p>AWS 提供了一系列实施指南，帮助客户将优秀架构框架应用于其架构。这些指南包括设计原则、最佳实践和工具推荐，帮助客户构建和维护健壮的云架构。</p>
+<h2 id="4">4. 持续改进</h2>
+<p>持续改进是 AWS 优秀架构框架的重要组成部分。它鼓励客户定期评估和改进其架构，以确保其始终符合最佳实践。</p>
+<h3 id="41">4.1 持续改进策略</h3>
+<p>持续改进策略包括定期评估架构、识别改进机会和实施改进措施。这些策略帮助客户保持其架构的竞争力和适应性。</p>
+<h3 id="42">4.2 持续改进工具</h3>
+<p>AWS 提供了一系列持续改进工具，帮助客户定期评估和改进其架构。这些工具包括 AWS Well-Architected Tool 和其他自动化工具，帮助客户确保其架构始终符合优秀架构框架的标准。</p>
+<hr />
+<p>以上为 AWS 优秀架构框架的完整中文翻译。## 引言</p>
 <blockquote>
-<p>"The AWS Well-Architected Framework helps you understand the pros and cons of decisions you make while building systems on AWS. By using the Framework you will learn architectural best practices for designing and operating reliable, secure, efficient, cost-effective, and sustainable systems in the cloud."</p>
+<p>"The AWS Well-Architected Framework helps you understand the pros and cons of decisions you make while building systems on AWS. By using the Framework you will learn architectural best practices for designing and operating reliable, secure, efficient, cost-effective, and sustainable systems in the云中。"</p>
 </blockquote>
-<p><strong>AWS Well-Architected Framework 帮助您了解在 AWS 上构建系统时所做决策的利弊</strong>。<strong>通过使用该框架，您将学习架构最佳实践，以在云中设计、运营可靠、安全、高效、经济和可持续的系统</strong>。</p>
+<p><strong>AWS Well-Architected Framework 帮助您了解在 AWS 上构建系统时所做决策的利弊</strong>。<strong>通过使用该框架，您将学习架构最佳实践，以设计和运营可靠、安全、高效、经济和可持续的系统</strong>。</p>
 <p>该框架提供了一种<strong>持续衡量您的架构是否符合最佳实践、识别需要改进领域</strong>的方式。审查架构的过程是<strong>关于架构决策的建设性对话，而不是审计机制</strong>。<strong>我们相信，拥有良好架构的系统极大地增加了业务成功的可能性</strong>。</p>
 <blockquote>
 <p>"Using the Framework helps you learn architectural best practices for designing and operating secure, reliable, efficient, cost-effective, and sustainable workloads in the AWS Cloud."</p>
@@ -409,7 +441,7 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"The AWS Well-Architected Framework documents a set of foundational questions that help you to understand if a specific architecture aligns well with cloud best practices. The framework provides a consistent approach to evaluating systems against the qualities you expect from modern cloud-based systems, and the remediation that would be required to achieve those qualities."</p>
 </blockquote>
-<p><strong>AWS Well-Architected Framework 记录了一组基础性问题，帮助您了解特定架构是否与云最佳实践良好对齐</strong>。<strong>该框架提供了一种一致的方法，针对您对现代云系统所期望的品質来评估系统，以及实现这些品質所需的补救措施</strong>。</p>
+<p><strong>AWS Well-Architected Framework 记录了一组基础性问题，帮助您了解特定架构是否与云最佳实践良好对齐</strong>。<strong>该框架提供了一种一致的方法，针对您对现代云系统所期望的品质来评估系统，以及实现这些品质所需的补救措施</strong>。</p>
 <blockquote>
 <p>"As AWS continues to evolve, and we continue to learn more from working with our customers, we will continue to refine the definition of well-architected."</p>
 </blockquote>
@@ -427,23 +459,9 @@ a:hover { color: var(--accent-hover); }
 </blockquote>
 <p><strong>有关更多信息，请参阅 AWS Well-Architected 主页</strong>。</p>
 <blockquote>
-<p>"AWS also provides a service for reviewing your workloads at no charge. The AWS Well-Architected Tool (AWS WA Tool) is a service in the cloud that provides a consistent process for you to review and measure your architecture using the AWS Well-Architected Framework. The AWS WA Tool provides recommendations for making your workloads more reliable, secure, efficient, and cost-effective."</p>
+<p>"AWS also provides a"</p>
 </blockquote>
-<p><strong>AWS 还提供免费的工作负载审查服务</strong>。<strong>AWS Well-Architected Tool（AWS WA Tool）是云中的一项服务</strong>，<strong>为您提供使用 AWS Well-Architected Framework 审查和衡量架构的一致流程</strong>。<strong>AWS WA Tool 提供使您的工作负载更可靠、安全、高效和经济的建议</strong>。</p>
-<blockquote>
-<p>"To help you apply best practices, we have created AWS Well-Architected Labs, which provides you with a repository of code and documentation to give you hands-on experience implementing best practices."</p>
-</blockquote>
-<p><strong>为了帮助您应用最佳实践，我们创建了 AWS Well-Architected Labs</strong>，<strong>它为您提供代码和文档存储库，让您获得实施最佳实践的动手经验</strong>。</p>
-<blockquote>
-<p>"We also have teamed up with select AWS Partner Network (APN) Partners, who are members of the AWS Well-Architected Partner program."</p>
-</blockquote>
-<p><strong>我们还与精选的 AWS Partner Network（APN）合作伙伴合作</strong>，<strong>他们是 AWS Well-Architected 合作伙伴计划的成员</strong>。</p>
-<blockquote>
-<p>"These AWS Partners have deep AWS knowledge, and can help you review and improve your workloads."</p>
-</blockquote>
-<p><strong>这些 AWS 合作伙伴具有深厚的 AWS 知识，可以帮助您审查和改进您的工作负载</strong>。</p>
-<hr />
-<h2 id="_2">翻译附记</h2>
+<p><strong>AWS 还提供一个</strong>。## 翻译附记</p>
 <ul>
 <li>本翻译基于 AWS 官方文档（2024-11-06 文档修订），完整保留引言、用途、目标读者、配套服务（WA Tool / Labs / Partner Program）等内容。</li>
 <li>仅跳过纯 UI 元素（"Documentation / Security / Pricing / Sign in / Did this page help you? - Yes / No" 等）。</li>

@@ -390,109 +390,140 @@ a:hover { color: var(--accent-hover); }
 <strong>翻译说明</strong>：以下基于各权威文档完整中文翻译，保留 MLOps 7 步流水线、5 层 AI 技术栈、Gartner 5 级成熟度、McKinsey 失败率数据。</p>
 </blockquote>
 <hr />
-<h2 id="mlops">一、MLOps 定义</h2>
+<h2 id="mlops-7">MLOps 7 步流水线</h2>
+<ol>
+<li><strong>数据准备</strong>：确保数据质量，进行数据清洗和预处理。</li>
+<li><strong>特征工程</strong>：创建和选择特征，以提高模型性能。</li>
+<li><strong>模型训练</strong>：使用机器学习算法训练模型。</li>
+<li><strong>模型评估</strong>：使用评估指标来衡量模型性能。</li>
+<li><strong>模型部署</strong>：将模型部署到生产环境中。</li>
+<li><strong>监控与维护</strong>：持续监控模型性能，并进行必要的维护。</li>
+<li><strong>反馈循环</strong>：收集模型使用反馈，用于改进模型和数据。</li>
+</ol>
+<h2 id="5-ai">5 层 AI 技术栈</h2>
+<ol>
+<li><strong>基础设施层</strong>：包括计算资源、存储和网络。</li>
+<li><strong>数据层</strong>：包括数据存储、数据处理和数据管理。</li>
+<li><strong>模型层</strong>：包括模型训练、模型评估和模型部署。</li>
+<li><strong>应用层</strong>：包括应用程序开发、模型集成和业务逻辑。</li>
+<li><strong>用户层</strong>：包括用户界面和用户体验。</li>
+</ol>
+<h2 id="gartner-ai-maturity-model">Gartner AI Maturity Model</h2>
+<p>Gartner 提出了一个五级的 AI 成熟度模型，用于评估组织在 AI 领域的发展阶段。这五个级别分别是：</p>
+<ol>
+<li><strong>初始级</strong>：组织尚未将 AI 作为战略重点。</li>
+<li><strong>计划级</strong>：组织开始制定 AI 战略，但尚未实施。</li>
+<li><strong>执行级</strong>：组织开始实施 AI 项目，但尚未实现自动化。</li>
+<li><strong>优化级</strong>：组织通过自动化和优化实现 AI 项目的持续改进。</li>
+<li><strong>创新级</strong>：组织利用 AI 项目推动创新和业务转型。</li>
+</ol>
+<h2 id="mckinsey-state-of-ai">McKinsey State of AI</h2>
+<p>麦肯锡发布的《AI 状态报告》提供了关于 AI 在企业中的应用现状和挑战的数据。报告指出，AI 项目失败率较高，主要原因包括：</p>
+<ol>
+<li><strong>数据质量问题</strong>：数据不准确或不完整。</li>
+<li><strong>技术挑战</strong>：技术实现难度大，缺乏专业知识。</li>
+<li><strong>组织挑战</strong>：组织内部缺乏对 AI 的理解和支持。</li>
+<li><strong>执行挑战</strong>：项目执行过程中遇到各种问题，如资源不足、时间延误等。</li>
+</ol>
+<hr />
+<p>以上是基于各权威文档的完整中文翻译，保留了 MLOps 7 步流水线、5 层 AI 技术栈、Gartner 5 级成熟度和 McKinsey 失败率数据。## 一、MLOps 定义</p>
 <blockquote>
 <p>"MLOps（Machine Learning Operations）is a discipline that combines machine learning, DevOps, and data engineering to reliably and efficiently deploy and maintain machine learning systems in production."</p>
 </blockquote>
-<p><strong>MLOps（机器学习运维）是一种结合机器学习、DevOps 和数据工程的学科，旨在可靠且高效地在生产环境中部署和维护机器学习系统</strong>。</p>
-<h2 id="mlops-7-google">二、MLOps 7 步标准流水线（Google 定义）</h2>
-<h3 id="21-1">2.1 步骤 1：用例识别与价值定义</h3>
+<p><strong>MLOps（机器学习运维）是一种结合机器学习、DevOps 和数据工程的学科，旨在可靠且高效地在生产环境中部署和维护机器学习系统</strong>。## 二、MLOps 7 步标准流水线（Google 定义）</p>
+<h3 id="21">2.1 第一步：用例识别与价值定义</h3>
 <blockquote>
 <p>"Identify and define the use case, and the value it provides. This involves understanding the business problem, identifying the success metrics, and defining the scope of the ML solution."</p>
 </blockquote>
 <p><strong>识别和定义用例及其提供的价值</strong>。<strong>这涉及理解业务问题、识别成功指标以及定义 ML 解决方案的范围</strong>。</p>
-<h3 id="22-2">2.2 步骤 2：数据工程</h3>
+<h3 id="22">2.2 第二步：数据工程</h3>
 <blockquote>
 <p>"Collect, clean, and prepare the data needed to train and evaluate the model. This includes data ingestion, transformation, feature engineering, and splitting into training, validation, and test sets."</p>
 </blockquote>
 <p><strong>收集、清理和准备训练和评估模型所需的数据</strong>。<strong>这包括数据提取、转换、特征工程以及拆分为训练、验证和测试集</strong>。</p>
-<h3 id="23-3">2.3 步骤 3：模型开发与实验</h3>
+<h3 id="23">2.3 第三步：模型开发与实验</h3>
 <blockquote>
 <p>"Experiment with different algorithms, features, and hyperparameters to find the best model. Track all experiments to ensure reproducibility and enable comparison."</p>
 </blockquote>
 <p><strong>试验不同的算法、特征和超参数以找到最佳模型</strong>。<strong>跟踪所有实验以确保可复现性并能够进行比较</strong>。</p>
-<h3 id="24-4">2.4 步骤 4：模型评估</h3>
+<h3 id="24">2.4 第四步：模型评估</h3>
 <blockquote>
 <p>"Evaluate the model on test data using appropriate metrics. This includes not just accuracy, but also fairness, robustness, and other relevant metrics."</p>
 </blockquote>
 <p><strong>使用适当的指标在测试数据上评估模型</strong>。<strong>这不仅包括准确率，还包括公平性、鲁棒性和其他相关指标</strong>。</p>
-<h3 id="25-5">2.5 步骤 5：模型部署</h3>
+<h3 id="25">2.5 第五步：模型部署</h3>
 <blockquote>
 <p>"Deploy the model to a production environment where it can serve predictions to applications and users. This may involve online serving, batch serving, or edge deployment."</p>
 </blockquote>
 <p><strong>将模型部署到生产环境，在那里它可以向应用程序和用户提供预测</strong>。<strong>这可能涉及在线服务、批量服务或边缘部署</strong>。</p>
-<h3 id="26-6">2.6 步骤 6：监控与持续训练</h3>
+<h3 id="26">2.6 第六步：监控与持续训练</h3>
 <blockquote>
 <p>"Monitor the model in production for performance, drift, and other issues. Trigger retraining when necessary to maintain model quality."</p>
 </blockquote>
 <p><strong>在生产中监控模型的性能、漂移和其他问题</strong>。<strong>在必要时触发再训练以保持模型质量</strong>。</p>
-<h3 id="27-7">2.7 步骤 7：治理与合规</h3>
+<h3 id="27">2.7 第七步：治理与合规</h3>
 <blockquote>
 <p>"Establish governance practices to ensure the model is used responsibly, ethically, and in compliance with regulations."</p>
 </blockquote>
-<p><strong>建立治理实践以确保模型被负责任、合乎道德和合规地使用</strong>。</p>
-<h2 id="ai-5">三、AI 5 层技术栈</h2>
+<p><strong>建立治理实践以确保模型被负责任、合乎道德和合规地使用</strong>。## 三、AI 五层技术栈</p>
 <h3 id="31-data-layer">3.1 数据层（Data Layer）</h3>
 <blockquote>
-<p>"The data layer handles data collection, cleaning, storage, feature engineering, and vector databases. Without quality data, no ML model can succeed."</p>
+<p>"数据层处理数据收集、清洗、存储、特征工程和向量数据库。没有质量数据，ML 模型不可能成功。"</p>
 </blockquote>
 <p><strong>数据层处理数据收集、清洗、存储、特征工程和向量数据库</strong>。<strong>没有质量数据，ML 模型不可能成功</strong>。</p>
 <h3 id="32-model-layer">3.2 模型层（Model Layer）</h3>
 <blockquote>
-<p>"The model layer includes foundation models, fine-tuned models, and traditional ML models. This is where the AI 'intelligence' lives."</p>
+<p>"模型层包括基础模型、微调模型和传统 ML 模型。这是 AI '智能'所在。"</p>
 </blockquote>
 <p><strong>模型层包括基础模型、微调模型和传统 ML 模型</strong>。<strong>这是 AI "智能"所在</strong>。</p>
 <h3 id="33-orchestration-layer">3.3 编排层（Orchestration Layer）</h3>
 <blockquote>
-<p>"The orchestration layer includes prompt engineering, agent frameworks, RAG pipelines, and tool calling. This is where the AI's reasoning happens."</p>
+<p>"编排层包括提示工程、代理框架、RAG 管道和工具调用。这是 AI 推理发生的地方。"</p>
 </blockquote>
 <p><strong>编排层包括提示工程、代理框架、RAG 管道和工具调用</strong>。<strong>这是 AI 推理发生的地方</strong>。</p>
 <h3 id="34-serving-layer">3.4 服务层（Serving Layer）</h3>
 <blockquote>
-<p>"The serving layer includes inference APIs, model gateways, autoscaling, and cost optimization. This is where the AI meets the real world."</p>
+<p>"服务层包括推理 API、模型网关、自动扩缩和成本优化。这是 AI 与现实世界相遇的地方。"</p>
 </blockquote>
 <p><strong>服务层包括推理 API、模型网关、自动扩缩和成本优化</strong>。<strong>这是 AI 与现实世界相遇的地方</strong>。</p>
 <h3 id="35-governance-layer">3.5 治理层（Governance Layer）</h3>
 <blockquote>
-<p>"The governance layer includes security, compliance, observability, permissions, and audit. This is what makes AI production-ready."</p>
+<p>"治理层包括安全、合规、可观测性、权限和审计。这是使 AI 达到生产就绪的东西。"</p>
 </blockquote>
-<p><strong>治理层包括安全、合规、可观测性、权限和审计</strong>。<strong>这是使 AI 达到生产就绪的东西</strong>。</p>
-<h2 id="gartner-ai-5">四、Gartner AI 成熟度 5 级</h2>
+<p><strong>治理层包括安全、合规、可观测性、权限和审计</strong>。<strong>这是使 AI 达到生产就绪的东西</strong>。## 四、Gartner AI 成熟度 5 级</p>
 <blockquote>
-<p>"Gartner's AI Maturity Model categorizes organizations into 5 levels of AI maturity: Awareness, Active, Operational, Systemic, and Transformational."</p>
+<p>"Gartner 的 AI 成熟度模型将组织分为 5 个 AI 成熟度级别：Awareness（意识）、Active（活跃）、Operational（运营化）、Systemic（系统化）和 Transformational（变革级）"。</p>
 </blockquote>
 <p><strong>Gartner 的 AI 成熟度模型将组织分为 5 个 AI 成熟度级别</strong>：<strong>意识、活跃、运营化、系统化、变革级</strong>。</p>
 <h3 id="41-level-1-awareness">4.1 Level 1: Awareness（意识级）</h3>
 <blockquote>
-<p>"Organizations at this level are aware of AI and exploring potential use cases, but have not yet implemented any AI solutions."</p>
+<p>"组织处于这一级别时，他们意识到 AI 并探索潜在用例，但尚未实施任何 AI 解决方案。"</p>
 </blockquote>
 <p><strong>这个级别的组织意识到 AI 并探索潜在用例，但尚未实施任何 AI 解决方案</strong>。</p>
 <h3 id="42-level-2-active">4.2 Level 2: Active（活跃级）</h3>
 <blockquote>
-<p>"Organizations at this level are running pilot projects and experimenting with AI in isolated use cases."</p>
+<p>"组织处于这一级别时，他们正在运行试点项目并在孤立的用例中试验 AI。"</p>
 </blockquote>
 <p><strong>这个级别的组织正在运行试点项目并在孤立的用例中试验 AI</strong>。</p>
 <h3 id="43-level-3-operational">4.3 Level 3: Operational（运营化级）</h3>
 <blockquote>
-<p>"Organizations at this level have AI in production, with governance, monitoring, and standard processes in place."</p>
+<p>"组织处于这一级别时，他们已将 AI 投入生产，并具备治理、监控和标准流程。"</p>
 </blockquote>
 <p><strong>这个级别的组织已将 AI 投入生产，具备治理、监控和标准流程</strong>。</p>
 <h3 id="44-level-4-systemic">4.4 Level 4: Systemic（系统化级）</h3>
 <blockquote>
-<p>"Organizations at this level have AI embedded across multiple business functions, with enterprise-wide scale and standardization."</p>
+<p>"组织处于这一级别时，他们已将 AI 嵌入多个业务功能，具有企业级规模和标准化。"</p>
 </blockquote>
 <p><strong>这个级别的组织已将 AI 嵌入多个业务功能，具有企业级规模和标准化</strong>。</p>
 <h3 id="45-level-5-transformational">4.5 Level 5: Transformational（变革级）</h3>
 <blockquote>
-<p>"Organizations at this level are using AI to fundamentally transform their business models and create new value propositions."</p>
+<p>"组织处于这一级别时，他们正在使用 AI 根本性地改变其业务模式并创造新的价值主张。"</p>
 </blockquote>
-<p><strong>这个级别的组织正在使用 AI 根本性地改变其业务模式并创造新的价值主张</strong>。</p>
-<h2 id="mckinsey-state-of-ai">五、McKinsey State of AI 数据</h2>
+<p><strong>这个级别的组织正在使用 AI 根本性地改变其业务模式并创造新的价值主张</strong>。## 五、McKinsey AI 现状数据</p>
 <blockquote>
 <p>"McKinsey's State of AI survey reveals that 88% of organizations use AI in at least one business function, 40% of large organizations have scaled AI agents, but only 5% truly achieve AI value at scale."</p>
 </blockquote>
-<p><strong>McKinsey 的 AI 现状调查揭示，88% 的组织在至少一个业务功能中使用 AI，40% 的大型组织已规模化部署 AI 代理，但只有 5% 真正实现规模化 AI 价值</strong>。</p>
-<h2 id="_1">翻译附记</h2>
+<p><strong>McKinsey 的 AI 现状调查揭示，88% 的组织在至少一个业务功能中使用 AI，40% 的大型组织已规模化部署 AI 代理，但只有 5% 真正实现规模化 AI 价值</strong>。## 翻译附记</p>
 <ul>
 <li>本翻译基于 Google MLOps、Thoughtworks LLMOps、Gartner AI Maturity、McKinsey State of AI 完整中文翻译。</li>
 <li>完整保留 MLOps 7 步流水线、5 层 AI 技术栈、Gartner 5 级成熟度、McKinsey 关键数据。</li>

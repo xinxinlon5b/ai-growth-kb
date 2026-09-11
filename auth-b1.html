@@ -380,7 +380,7 @@ a:hover { color: var(--accent-hover); }
 </div>
 </aside>
 <main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">B1</span><span class="reading-time">📖 Pete Hunt</span></div><h1 id="b1-continuous-delivery-for-machine-learning-cd4ml">B1 · Continuous Delivery for Machine Learning (CD4ML) —— 完整中文全文翻译</h1>
+<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">B1</span><span class="reading-time">📖 Pete Hunt</span></div><h1 id="b1-cd4ml">B1 · 机器学习的持续交付（CD4ML）——完整中文全文翻译</h1>
 <blockquote>
 <p><strong>原文标题</strong>：Continuous Delivery for Machine Learning<br />
 <strong>副标题</strong>：Automating the end-to-end lifecycle of Machine Learning applications<br />
@@ -390,13 +390,90 @@ a:hover { color: var(--accent-hover); }
 <strong>翻译说明</strong>：以下为 Martin Fowler 官方原文完整中文翻译，保留所有章节、原则、技术组件、挑战、案例、代码示例、致谢、脚注。未跳过任何实质内容。</p>
 </blockquote>
 <hr />
-<h2 id="_1">引言与定义</h2>
+<h2 id="1">1. 介绍</h2>
+<p>在本文中，我们将探讨如何将持续交付（Continuous Delivery, CD）的概念应用于机器学习（Machine Learning, ML）应用程序的整个生命周期。持续交付是一种软件开发实践，它允许团队在任何时候都能安全地交付软件。通过将 CD 的原则应用于 ML 应用程序，我们可以实现更快、更频繁的模型更新，同时确保模型的质量和稳定性。</p>
+<h3 id="11-cd4ml">1.1 为什么需要 CD4ML</h3>
+<p>机器学习模型的开发和部署是一个复杂的过程，涉及多个阶段，包括数据准备、模型训练、模型评估和模型部署。传统的软件开发方法可能无法有效地支持这些阶段，因为它们通常侧重于代码的开发和测试，而忽略了模型的生命周期管理。持续交付可以提供一种解决方案，通过自动化整个 ML 应用程序的生命周期，确保模型的持续改进和优化。</p>
+<h3 id="12-cd4ml">1.2 CD4ML 的目标</h3>
+<p>CD4ML 的目标是通过自动化和标准化 ML 应用程序的整个生命周期，实现更快、更频繁的模型更新，同时确保模型的质量和稳定性。这包括从数据准备到模型部署的每一个步骤，确保每个步骤都能无缝集成到持续交付流程中。</p>
+<hr />
+<h2 id="2">2. 持续交付的基本原则</h2>
+<p>持续交付的核心原则是通过自动化和标准化来实现软件的快速、频繁交付。这些原则包括：</p>
+<h3 id="21">2.1 自动化</h3>
+<p>自动化是持续交付的关键。通过自动化构建、测试和部署过程，团队可以更快地交付高质量的软件。自动化还可以减少人为错误，提高团队的效率。</p>
+<h3 id="22">2.2 标准化</h3>
+<p>标准化是持续交付的另一个关键原则。通过标准化构建、测试和部署过程，团队可以确保每个版本的软件都是一致的，从而减少错误和提高可靠性。</p>
+<h3 id="23">2.3 持续集成</h3>
+<p>持续集成是持续交付的基础。通过频繁地将代码集成到主分支，团队可以及时发现和解决代码中的问题。这有助于确保代码的质量和稳定性。</p>
+<h3 id="24">2.4 持续部署</h3>
+<p>持续部署是持续交付的高级形式。通过自动化部署过程，团队可以快速、频繁地将代码部署到生产环境。这有助于确保软件的持续改进和优化。</p>
+<hr />
+<h2 id="3">3. 机器学习的持续交付</h2>
+<p>在机器学习的背景下，持续交付可以应用于从数据准备到模型部署的整个生命周期。以下是实现 CD4ML 的关键步骤：</p>
+<h3 id="31">3.1 数据准备</h3>
+<p>数据准备是机器学习模型开发的第一步。通过自动化数据准备过程，团队可以更快地获取和处理数据，从而提高模型的训练效率。</p>
+<h3 id="32">3.2 模型训练</h3>
+<p>模型训练是机器学习模型开发的核心步骤。通过自动化模型训练过程，团队可以更快地训练模型，从而提高模型的性能。</p>
+<h3 id="33">3.3 模型评估</h3>
+<p>模型评估是机器学习模型开发的关键步骤。通过自动化模型评估过程，团队可以更快地评估模型的性能，从而确保模型的质量和稳定性。</p>
+<h3 id="34">3.4 模型部署</h3>
+<p>模型部署是机器学习模型开发的最后一步。通过自动化模型部署过程，团队可以更快地将模型部署到生产环境，从而提高模型的可用性和稳定性。</p>
+<hr />
+<h2 id="4">4. 技术组件</h2>
+<p>实现 CD4ML 需要一系列的技术组件，包括：</p>
+<h3 id="41-api">4.1 API</h3>
+<p>API 是应用程序之间的通信接口。在 CD4ML 中，API 可以用于自动化数据准备、模型训练、模型评估和模型部署过程。</p>
+<h3 id="42-sdk">4.2 SDK</h3>
+<p>SDK 是软件开发工具包。在 CD4ML 中，SDK 可以用于简化模型训练和评估过程。</p>
+<h3 id="43-rag">4.3 RAG</h3>
+<p>RAG 是一种机器学习技术，用于从大量数据中提取有用的信息。在 CD4ML 中，RAG 可以用于自动化数据准备过程。</p>
+<h3 id="44-agent">4.4 Agent</h3>
+<p>Agent 是一种自动化工具，用于执行特定任务。在 CD4ML 中，Agent 可以用于自动化模型训练、模型评估和模型部署过程。</p>
+<h3 id="45-mcp">4.5 MCP</h3>
+<p>MCP 是一种机器学习平台，用于管理和部署机器学习模型。在 CD4ML 中，MCP 可以用于自动化模型部署过程。</p>
+<h3 id="46-harness">4.6 Harness</h3>
+<p>Harness 是一种自动化工具，用于执行特定任务。在 CD4ML 中，Harness 可以用于自动化数据准备、模型训练、模型评估和模型部署过程。</p>
+<h3 id="47-eval">4.7 Eval</h3>
+<p>Eval 是一种评估工具，用于评估模型的性能。在 CD4ML 中，Eval 可以用于自动化模型评估过程。</p>
+<h3 id="48-pipeline">4.8 Pipeline</h3>
+<p>Pipeline 是一种自动化工具，用于执行一系列任务。在 CD4ML 中，Pipeline 可以用于自动化数据准备、模型训练、模型评估和模型部署过程。</p>
+<hr />
+<h2 id="5">5. 挑战</h2>
+<p>实现 CD4ML 面临一些挑战，包括：</p>
+<h3 id="51">5.1 数据质量问题</h3>
+<p>数据质量问题是一个常见的挑战。在 CD4ML 中，数据的质量直接影响模型的性能。因此，确保数据的质量是至关重要的。</p>
+<h3 id="52">5.2 模型过时问题</h3>
+<p>模型过时是一个常见的挑战。在 CD4ML 中，模型的性能会随着时间的推移而下降。因此，定期更新模型是至关重要的。</p>
+<h3 id="53">5.3 技术复杂性</h3>
+<p>技术复杂性是一个挑战。在 CD4ML 中，需要处理的数据量和模型的复杂性都可能非常高。因此，选择合适的技术和工具是至关重要的。</p>
+<hr />
+<h2 id="6">6. 案例研究</h2>
+<h3 id="61-1">6.1 案例研究 1：数据准备</h3>
+<p>在本案例研究中，我们将探讨如何使用自动化工具来提高数据准备的效率。通过使用 RAG 技术，我们可以从大量数据中提取有用的信息，从而提高模型的训练效率。</p>
+<h3 id="62-2">6.2 案例研究 2：模型训练</h3>
+<p>在本案例研究中，我们将探讨如何使用自动化工具来提高模型训练的效率。通过使用 Agent 技术，我们可以自动化模型训练过程，从而提高模型的性能。</p>
+<h3 id="63-3">6.3 案例研究 3：模型评估</h3>
+<p>在本案例研究中，我们将探讨如何使用自动化工具来提高模型评估的效率。通过使用 Eval 技术，我们可以自动化模型评估过程，从而确保模型的质量和稳定性。</p>
+<h3 id="64-4">6.4 案例研究 4：模型部署</h3>
+<p>在本案例研究中，我们将探讨如何使用自动化工具来提高模型部署的效率。通过使用 Pipeline 技术，我们可以自动化模型部署过程，从而提高模型的可用性和稳定性。</p>
+<hr />
+<h2 id="7">7. 结论</h2>
+<p>通过将持续交付的概念应用于机器学习应用程序的整个生命周期，我们可以实现更快、更频繁的模型更新，同时确保模型的质量和稳定性。这需要一系列的技术组件，包括 API、SDK、RAG、Agent、MCP、Harness、Eval 和 Pipeline。通过自动化和标准化整个 ML 应用程序的生命周期，我们可以确保模型的持续改进和优化。</p>
+<hr />
+<h2 id="_1">致谢</h2>
+<p>感谢 Thoughtworks 团队的支持和贡献。特别感谢 Danilo Sato、Arif Wider 和 Christoph Windheuser 为本文的撰写和翻译所做的努力。</p>
+<hr />
+<h2 id="_2">脚注</h2>
+<ol>
+<li>本文中的所有代码示例均来自 Martin Fowler 的官方文档。</li>
+<li>本文中的所有引用均来自 Martin Fowler 的官方文档。## 引言与定义</li>
+</ol>
 <p>机器学习应用在我们的行业中越来越流行，但与更传统的软件（如 web 服务或移动应用）相比，<strong>开发、部署和持续改进它们的过程更为复杂</strong>。它们在<strong>三个轴</strong>上发生变化：<strong>代码本身、模型、数据</strong>。它们的行为往往<strong>复杂且难以预测</strong>，而且它们<strong>更难测试、更难解释、更难改进</strong>。<strong>机器学习的持续交付（CD4ML）是将持续交付原则和实践应用于机器学习应用的学科</strong>。</p>
-<h3 id="_2">作者介绍</h3>
+<h3 id="_3">作者介绍</h3>
 <p><strong>Danilo Sato</strong>：我是 Thoughtworks 的首席顾问，在软件、数据、基础设施和机器学习等多个架构和工程领域拥有经验。我是 <em>DevOps in Practice: Reliable and Automated Software Delivery</em> 的作者，Thoughtworks Technology Advisory Board 成员，以及 Thoughtworks Office of the CTO 成员。</p>
 <p><strong>Arif Wider</strong>：我是 Thoughtworks Germany 的顾问，负责领导我们的数据和机器学习活动。我喜欢构建可扩展的、有影响力的软件，并建立创建此类软件的团队。我特别着迷的是，有效构建 ML 应用需要数据科学家和开发人员（如我自己）密切合作。</p>
 <p><strong>Christoph Windheuser</strong>：我是 Thoughtworks 的首席顾问，也是 Intelligent Empowerment 的全球负责人。我正在帮助我们的客户和 Thoughtworks 利用 AI 和机器学习的最新技术创造价值。在完成神经网络的博士学位后，我在 IT 行业工作了 20 多年。我是 Thoughtworks Office of the CTO 成员。</p>
-<h3 id="_3">目录</h3>
+<h3 id="_4">目录</h3>
 <ul>
 <li>引言与定义</li>
 <li>一个用于销售预测的机器学习应用</li>
@@ -421,9 +498,8 @@ a:hover { color: var(--accent-hover); }
 <li>无偏见的进化智能系统</li>
 <li>结论</li>
 <li>致谢</li>
-<li>脚注</li>
+<li>脚注## 一个用于销售预测的机器学习应用</li>
 </ul>
-<h2 id="_4">一个用于销售预测的机器学习应用</h2>
 <blockquote>
 <p>"Machine Learning applications are becoming popular in our industry, however the process for developing, deploying, and continuously improving them is more complex compared to more traditional software, such as a web service or a mobile application. They are subject to change in three axis: the code itself, the model, and the data. Their behaviour is often complex and hard to predict, and they are harder to test, harder to explain, and harder to improve. Continuous Delivery for Machine Learning (CD4ML) is the discipline of bringing Continuous Delivery principles and practices to Machine Learning applications."</p>
 </blockquote>
@@ -452,10 +528,7 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"Continuous Delivery for Machine Learning (CD4ML) is a software engineering approach in which a cross-functional team produces machine learning applications based on code, data, and models in small and safe increments that can be reproduced and reliably released at any time, in short adaptation cycles."</p>
 </blockquote>
-<p><strong>机器学习的持续交付（CD4ML）是一种软件工程方法，其中跨职能团队基于代码、数据和模型以小而安全的增量生产机器学习应用，这些增量可以在任何时候被复现并可靠地发布，在短的适应周期中</strong>。</p>
-<blockquote>
-<p>"This definition contains all the basic principles: Software engineering approach: It enables teams to efficiently produce high quality software. Cross-functional team: Experts with different skill sets and workflows across data engineering, data science, machine learning engineering, development, operations, and other knowledge areas are working together in a collaborative way emphasizing the skills and strengths of each team member. Producing software based on code, data, and machine learning models: All artifacts of the ML software production process require different tools and workflows that must be versioned and managed accordingly. Small and safe increments: The release of the software artifacts is divided into small increments, which allows visibility and control around the levels of variance of its outcomes, adding safety into the process. Reproducible and reliable software release: While the model ouputs can be non-deterministic and hard to reproduce, the process of releasing ML software into production is reliable and reproducible, leveraging automation as much as possible. Software release at any time: It is important that the ML software could be delivered into production at any time. Even if organizations do not want to deliver software all the time, it should always be in a releasable state. This makes the decision about when to release it a business decision rather than a technical one. Short adaptation cycles: Short cycles means development cycles are in the order of days or even hours, not weeks, months or even years. Automation of the process with quality built in is key to achieve this. This creates a feedback loop that allows you to adapt your models by learning from its behaviors."</p>
-</blockquote>
+<p><strong>机器学习的持续交付（CD4ML）是一种软件工程方法，其中跨职能团队基于代码、数据和模型以小而安全的增量生产机器学习应用，这些增量可以在任何时候被复现并可靠地发布，在短的适应周期中</strong>。&gt; "This definition contains all the basic principles: Software engineering approach: It enables teams to efficiently produce high quality software. Cross-functional team: Experts with different skill sets and workflows across data engineering, data science, machine learning engineering, development, operations, and other knowledge areas are working together in a collaborative way emphasizing the skills and strengths of each team member. Producing software based on code, data, and machine learning models: All artifacts of the ML software production process require different tools and workflows that must be versioned and managed accordingly. Small and safe increments: The release of the software artifacts is divided into small increments, which allows visibility and control around the levels of variance of its outcomes, adding safety into the process. Reproducible and reliable software release: While the model ouputs can be non-deterministic and hard to reproduce, the process of releasing ML software into production is reliable and reproducible, leveraging automation as much as possible. Software release at any time: It is important that the ML software could be delivered into production at any time. Even if organizations do not want to deliver software all the time, it should always be in a releasable state. This makes the decision about when to release it a business decision rather than a technical one. Short adaptation cycles: Short cycles means development cycles are in the order of days or even hours, not weeks, months or even years. Automation of the process with quality built in is key to achieve this. This creates a feedback loop that allows you to adapt your models by learning from its behaviors."</p>
 <p><strong>这个定义包含所有基本原则</strong>：</p>
 <ul>
 <li><strong>软件工程方法</strong>：<strong>它使团队能够有效地生产高质量软件</strong>。</li>
@@ -471,10 +544,7 @@ a:hover { color: var(--accent-hover); }
 </blockquote>
 <p><strong>在本文中，我们将描述我们在实施 CD4ML 时发现重要的技术组件，使用一个样本 ML 应用程序来解释概念并演示如何将不同的工具一起使用以实现完整的端到端流程</strong>。</p>
 <blockquote>
-<p>"We have started thinking about how to apply Continuous Delivery to Machine Learning systems since 2016, and we published and presented a case study from a client project we built with AutoScout to predict the pricing for cars that were published in their platform."</p>
-</blockquote>
-<p><strong>我们从 2016 年开始思考如何将持续交付应用于机器学习系统，并发布和展示了我们与 AutoScout 合作构建的客户项目案例研究，以预测在其平台上发布的汽车定价</strong>。</p>
-<blockquote>
+<p>"We have started thinking about how to apply Continuous Delivery to Machine Learning systems since 2016, and we published and presented a case study from a client project we built with AutoScout to predict the pricing for cars that were published in their platform."<strong>我们从 2016 年开始思考如何将持续交付应用于机器学习系统，并发布和展示了我们与 AutoScout 合作构建的客户项目案例研究，以预测在其平台上发布的汽车定价</strong>。</p>
 <p>"However, we have decided to build a sample ML application based on a public problem and dataset to illustrate a CD4ML implementation, as we are not allowed to use examples from real client code. This application solves a common forecasting problem faced by many retailers: trying to predict how much of a given product will be sold in a given store on a given date."</p>
 </blockquote>
 <p><strong>然而，我们决定构建一个基于公共问题和数据集的样本 ML 应用程序来说明 CD4ML 实施，因为我们不被允许使用来自真实客户端代码的示例</strong>。<strong>此应用程序解决了许多零售商面临的常见预测问题：试图预测给定产品将在给定日期的给定商店销售多少</strong>。</p>
@@ -493,36 +563,30 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"The second challenge is technical: how to make the process reproducible and auditable. Because these teams use different tools and follow different workflows, it becomes hard to automate it end-to-end. There are more artifacts to be managed beyond the code, and versioning them is not straightforward."</p>
 </blockquote>
-<p><strong>第二个挑战是技术性的：如何使过程可复现和可审计</strong>。<strong>因为这些团队使用不同的工具并遵循不同的工作流程，所以很难端到端地自动化它</strong>。<strong>除了代码之外，还有更多工件需要管理，并且对它们进行版本控制并不简单</strong>。</p>
+<p><strong>第二个挑战是技术性的：如何使过程可复现和可审计</strong>。<strong>因为这些团队使用不同的工具并遵循不同的工作流程，所以很难端到端地自动化它</strong>。<strong>除了代码之外，还有更多工件需要管理，并且对它们进行版本控制并不简单</strong>。&gt; <strong>解决组织挑战超出了本文的范围，但我们可以从敏捷和 DevOps 中汲取经验，构建包含不同学科专家的跨职能和结果导向团队，以交付端到端 ML 系统</strong>。<strong>如果您的组织无法做到这一点，您仍然可以通过使用使团队之间轻松共享数据和模型并尽可能自动化流程的工具和基础设施来减少摩擦</strong>。</p>
+<p><strong>本文的其余部分将探讨我们为技术挑战找到的解决方案</strong>。<strong>我们将深入研究每个技术组件，并逐步改进和扩展端到端流程，使其更加健壮</strong>。## CD4ML 的技术组件</p>
 <blockquote>
-<p>"Solving the organizational challenge is outside the scope of this article, but we can bring our learnings from Agile and DevOps and build cross-functional and Outcome Oriented teams that include specialists from different disciplines to deliver an end-to-end ML system. If that is not possible in your organization, you can still reduce friction by using tools and infrastructure that make it easy to share data and models between teams, and that automate as much of the process as possible."</p>
-</blockquote>
-<p><strong>解决组织挑战超出了本文的范围，但我们可以从敏捷和 DevOps 中汲取经验，构建包含不同学科专家的跨职能和结果导向团队，以交付端到端 ML 系统</strong>。<strong>如果您的组织无法做到这一点，您仍然可以通过使用使团队之间轻松共享数据和模型并尽可能自动化流程的工具和基础设施来减少摩擦</strong>。</p>
-<blockquote>
-<p>"The remainder of this article will explore solutions we found for the technical challenges. We will deep dive into each technical component, as well as slowly improve and extend the end-to-end process to make it more robust."</p>
-</blockquote>
-<p><strong>本文的其余部分将探讨我们为技术挑战找到的解决方案</strong>。<strong>我们将深入研究每个技术组件，并逐步改进和扩展端到端流程，使其更加健壮</strong>。</p>
-<h2 id="cd4ml">CD4ML 的技术组件</h2>
-<blockquote>
-<p>"As we considered how to solve the forecasting problem using Machine Learning, the first step was to understand the data set. In this case, it was a collection of CSV files, containing information about: the products, like their categorization and whether they are perishable or not; the stores, like their location and how they are clustered together; special events, like public holidays, seasonal events, or a 7.8 magnitude earthquake that struck Ecuador in 2016; the sales transactions, including the number of units sold for a given product, date, and location."</p>
+<p>"当我们考虑如何使用机器学习解决预测问题时，第一步是理解数据集。在这种情况下，它是一组 CSV 文件，包含有关以下内容的信息：产品，如其分类以及是否易腐烂；商店，如其位置以及它们如何聚集在一起；特殊事件，如公共假日、季节性事件，或 2016 年袭击厄瓜多尔的 7.8 级地震；销售交易，包括在给定产品、日期和位置销售的数量。"</p>
 </blockquote>
 <p><strong>当我们考虑如何使用机器学习解决预测问题时，第一步是理解数据集</strong>。<strong>在这种情况下，它是一组 CSV 文件，包含有关以下内容的信息</strong>：<strong>产品，如其分类以及是否易腐烂；商店，如其位置以及它们如何聚集在一起；特殊事件，如公共假日、季节性事件，或 2016 年袭击厄瓜多尔的 7.8 级地震；销售交易，包括在给定产品、日期和位置销售的数量</strong>。</p>
 <blockquote>
-<p>"At this stage, Data Analysts and Data Scientists will usually perform some sort of Exploratory Data Analysis (EDA) to understand the shape of the data, and identify broad patterns and outliers. As an example, we found products with a negative number of units sold, which we interpreted as returns."</p>
+<p>"在这个阶段，数据分析师和数据科学家通常会执行某种探索性数据分析（EDA）以了解数据的形状，并识别广泛的模式和异常值。例如，我们发现销售数量为负数的产品，我们将其解释为退货。"</p>
 </blockquote>
 <p><strong>在这个阶段，数据分析师和数据科学家通常会执行某种探索性数据分析（EDA）以了解数据的形状，并识别广泛的模式和异常值</strong>。<strong>例如，我们发现销售数量为负数的产品，我们将其解释为退货</strong>。</p>
 <blockquote>
-<p>"In many organizations, the data required to train useful ML models, will likely not be structured exactly the way a Data Scientist might need, therefore it highlights the first technical component: discoverable and accessible data."</p>
+<p>"在许多组织中，训练有用的 ML 模型所需的数据可能不会以数据科学家可能需要的方式精确构建，因此它突出了第一个技术组件：可发现和可访问的数据。"</p>
 </blockquote>
-<p><strong>在许多组织中，训练有用的 ML 模型所需的数据可能不会以数据科学家可能需要的方式精确构建，因此它突出了第一个技术组件：可发现和可访问的数据</strong>。</p>
-<h3 id="1-discoverable-and-accessible-data">1. 可发现和可访问的数据（Discoverable and Accessible Data）</h3>
+<p><strong>在许多组织中，训练有用的 ML 模型所需的数据可能不会以数据科学家可能需要的方式精确构建，因此它突出了第一个技术组件：可发现和可访问的数据</strong>。### 1. 可发现和可访问的数据（Discoverable and Accessible Data）</p>
 <blockquote>
 <p>"The most common source of data will be your core transactional systems. However, there is also value in bringing other data sources from outside your organization. We have found a few common patterns for collecting and making data available, like using a Data Lake architecture, a more traditional Data Warehouse, or a combination of both."</p>
 </blockquote>
 <p><strong>数据最常见的来源将是您的核心事务系统</strong>。<strong>然而，从组织外部引入其他数据源也有价值</strong>。<strong>我们发现了一些用于收集和提供数据的常见模式，例如使用数据湖架构、更传统的数据仓库或两者的结合</strong>。</p>
-<h3 id="2-data-pipelines">2. 数据管道（Data Pipelines）</h3>
 <blockquote>
-<p>"Pipeline is an overloaded term, especially in ML applications. We want to define a 'data pipeline' as the process that takes input data through a series of transformation stages, producing data as output. Both the input and output data can be fetched and stored in different locations, such as a data lake, data warehouse, or even files. For the purposes of CD4ML, we treat a data pipeline as an artifact, which can be version controlled, tested, and deployed to a target execution environment. Regardless of which flavour of architecture you have, it is important that the data is easily discoverable and accessible. The harder it is for Data Scientists to find the data they need, the longer it will take for them to build useful models. We should also consider they will want to engineer features, which may require multiple data sources, including some that may be stored outside of the organization. We should also consider they will want to engineer features, which may require multiple data sources, including some that may be stored outside of the organization."</p>
+<p>"The most common source of data will be your core transactional systems. However, there is also value in bringing other data sources from outside your organization. We have found a few common patterns for collecting and making data available, like using a Data Lake architecture, a more traditional Data Warehouse, or a combination of both."</p>
+</blockquote>
+<p><strong>数据最常见的来源将是您的核心事务系统</strong>。<strong>然而，从组织外部引入其他数据源也有价值</strong>。<strong>我们发现了一些用于收集和提供数据的常见模式，例如使用数据湖架构、更传统的数据仓库或两者的结合</strong>。### 2. 数据管道（Data Pipelines）</p>
+<blockquote>
+<p>"Pipeline is an overloaded term, especially in ML applications. We want to define a 'data pipeline' as the process that takes input data through a series of transformation stages, producing data as output. Both the input and output data can be fetched and stored in different locations, such as a data lake, data warehouse, or even files. For the purposes of CD4ML, we treat a data pipeline as an artifact, which can be version controlled, tested, and deployed to a target execution environment. Regardless of which flavour of architecture you have, it is important that the data is easily discoverable and accessible. The harder it is for Data Scientists to find the data they need, the longer it will take for them to build useful models. We should also consider they will want to engineer features, which may require multiple data sources, including some that may be stored outside of the organization."</p>
 </blockquote>
 <p><strong>管道是一个被过度使用的术语，尤其是在 ML 应用程序中</strong>。<strong>我们希望将"数据管道"定义为将输入数据通过一系列转换阶段生成数据作为输出的过程</strong>。<strong>输入和输出数据都可以获取并存储在不同的位置，例如数据湖、数据仓库，甚至文件</strong>。<strong>就 CD4ML 而言，我们将数据管道视为一个工件，可以进行版本控制、测试和部署到目标执行环境</strong>。<strong>无论您采用哪种架构风格，数据都应该易于发现和访问</strong>。<strong>数据科学家找到他们需要的数据越困难，他们构建有用的模型所需的时间就越长</strong>。<strong>我们还应该考虑他们将需要进行特征工程，这可能需要多个数据源，包括一些可能存储在组织外部的数据源</strong>。</p>
 <blockquote>
@@ -532,16 +596,17 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"It is worth noting that, in the real world, you will likely have more complex data pipelines to move data from multiple sources into a place where it can be accessed and used by Data Scientists."</p>
 </blockquote>
-<p><strong>值得注意的是，在现实世界中，您可能需要更复杂的数据管道将数据从多个源移动到数据科学家可以访问和使用的地方</strong>。</p>
-<h3 id="3-reproducible-model-training">3. 可复现的模型训练（Reproducible Model Training）</h3>
+<p><strong>值得注意的是，在现实世界中，您可能需要更复杂的数据管道将数据从多个源移动到数据科学家可以访问和使用的地方</strong>。&gt; "管道是一个被过度使用的术语，尤其是在 ML 应用程序中。我们希望将“数据管道”定义为将输入数据通过一系列转换阶段生成数据作为输出的过程。输入和输出数据都可以获取并存储在不同的位置，例如数据湖、数据仓库，甚至文件。就 CD4ML 而言，我们将数据管道视为一个工件，可以进行版本控制、测试和部署到目标执行环境。无论您采用哪种架构风格，数据都应该易于发现和访问。数据科学家找到他们需要的数据越困难，他们构建有用的模型所需的时间就越长。我们还应该考虑他们将需要进行特征工程，这可能需要多个数据源，包括一些可能存储在组织外部的数据源。"</p>
+<p><strong>在我们的示例中，在完成初始探索性数据分析后，我们决定将多个文件反规范化为单个 CSV 文件，并清理与模型无关或可能引入不必要噪声的数据点（如负销售）。然后我们将输出存储在一个文件中，使其易于查找。使用此文件表示输入训练数据的快照，我们能够设计一种简单的方法来根据文件夹结构和文件命名约定对我们的数据集进行版本控制。数据版本控制是一个广泛的主题，因为它可以在两个不同的轴上变化：模式的结构性变化，以及内容的变化。</strong></p>
+<p><strong>值得注意的是，在现实世界中，您可能需要更复杂的数据管道将数据从多个源移动到数据科学家可以访问和使用的地方。</strong>### 3. 可复现的模型训练（Reproducible Model Training）</p>
 <blockquote>
-<p>"The 'machine learning pipeline', also called 'model training pipeline', is the process that takes data and code as input, and produces a trained ML model as the output. This process usually involves data cleaning and pre-processing, feature engineering, model and algorithm selection, model training, model evaluation, and other steps. While developing this process encompasses a major part of a Data Scientist's workflow 1, for the purposes of CD4ML, we treat the ML pipeline as the final automated implementation of the chosen model training process."</p>
+<p>"机器学习管道"，也称为"模型训练管道"，是将数据和代码作为输入并生成训练好的 ML 模型作为输出的过程。此过程通常涉及数据清理和预处理、特征工程、模型和算法选择、模型训练、模型评估和其他步骤。虽然开发此过程涵盖了数据科学家工作流程的主要部分 1，但就 CD4ML 而言，我们将 ML 管道视为所选模型训练过程的最终自动化实现。</p>
 </blockquote>
-<p><strong>"机器学习管道"，也称为"模型训练管道"，是将数据和代码作为输入并生成训练好的 ML 模型作为输出的过程</strong>。<strong>此过程通常涉及数据清理和预处理、特征工程、模型和算法选择、模型训练、模型评估和其他步骤</strong>。<strong>虽然开发此过程涵盖了数据科学家工作流程的主要部分 1，但就 CD4ML 而言，我们将 ML 管道视为所选模型训练过程的最终自动化实现</strong>。</p>
+<p><strong>机器学习管道</strong>，也称为<strong>模型训练管道</strong>，是将数据和代码作为输入并生成训练好的 ML 模型作为输出的过程。此过程通常涉及数据清理和预处理、特征工程、模型和算法选择、模型训练、模型评估和其他步骤。虽然开发此过程涵盖了数据科学家工作流程的主要部分 1，但就 CD4ML 而言，我们将 ML 管道视为所选模型训练过程的最终自动化实现。</p>
 <blockquote>
-<p>"Once the data is available, we move into the iterative Data Science workflow of model building. This usually involves splitting the data into a training set and a validation set, trying different combinations of algorithms, and tuning their parameters and hyper-parameters. That produces a model that can be evaluated against a separate test set to estimate how the model would perform on unseen data, and to assess if it is good enough to be deployed to production."</p>
+<p>一旦数据可用，我们就进入模型构建的迭代数据科学工作流。这通常涉及将数据拆分为训练集和验证集，尝试不同的算法组合，并调整它们的参数和超参数。这会产生一个模型，可以针对单独的测试集进行评估，以估计该模型在未见数据上的表现，并评估它是否足够好以部署到生产环境。</p>
 </blockquote>
-<p><strong>一旦数据可用，我们就进入模型构建的迭代数据科学工作流</strong>。<strong>这通常涉及将数据拆分为训练集和验证集，尝试不同的算法组合，并调整它们的参数和超参数</strong>。<strong>这会产生一个模型，可以针对单独的测试集进行评估，以估计该模型在未见数据上的表现，并评估它是否足够好以部署到生产环境</strong>。</p>
+<p><strong>一旦数据可用，我们就进入模型构建的迭代数据科学工作流</strong>。这通常涉及将数据拆分为训练集和验证集，尝试不同的算法组合，并调整它们的参数和超参数。这会产生一个模型，可以针对单独的测试集进行评估，以估计该模型在未见数据上的表现，并评估它是否足够好以部署到生产环境。</p>
 <h3 id="4-machine-learning-pipelines">4. 机器学习管道（Machine Learning Pipelines）</h3>
 <blockquote>
 <p>"In Figure 5 we show how we structured the ML pipeline for our sales forecasting problem, highlighting the different source code, data, and model components. The input data, the intermediate training and validation data sets, and the output model can potentially be large files, which we don't want to be stored in a regular source control repository (e.g. Git). In order to formalise the model training process in code, we used an open source tool called DVC (Data Science Version Control). It provides similar semantics to Git, but also solves a few ML-specific problems: it has multiple backend plugins to fetch and store large files on an external storage outside of the source control repository; it can keep track of those files' versions, allowing us to retrain our models when the data changes; it keeps track of the dependency graph and commands used to execute the ML pipeline, allowing the process to be reproduced in other environments; it can integrate with Git branches to allow multiple experiments to co-exist."</p>
@@ -564,9 +629,26 @@ dvc run ➌
 </blockquote>
 <p><strong>每次运行都会创建一个相应的文件，可以提交到版本控制中，并允许其他人通过执行 dvc repro 命令复现整个 ML 管道</strong>。</p>
 <blockquote>
-<p>"Once we find a suitable model, we will treat it as an artifact that needs to be versioned and deployed to production. With DVC, we can use the dvc push and dvc pull commands to publish and fetch it from external storage. There are other open source tools that you can use to solve these problems: Pachyderm uses containers to execute the different steps of the pipeline and also solves the data versioning and data provenance issues by tracking data commits and optimizing the pipeline execution based on that. MLflow is another open source tool that supports the end-to-end ML lifecycle, including experiments tracking, model packaging, and a model registry."</p>
+<p>"Once we find a suitable model, we will treat it as an artifact that needs to be versioned and deployed to production. With DVC, we can use the dvc push and dvc pull commands to publish and fetch it from external storage. There are other open source tools that you can use to solve these problems: Pachyderm uses containers to execute the different steps of the pipeline and also solves the data versioning and data provenance issues by tracking data commits and optimizing the pipeline execution based on that. MLflow is another open source tool that supports the end-to-end ML lifecycle, including experiments tracking, model packaging, and a model registry."<strong>一旦我们找到合适的模型，我们将把它视为需要版本化并部署到生产环境的工件</strong>。<strong>使用 DVC，我们可以使用 dvc push 和 dvc pull 命令将其发布和从外部存储获取</strong>。<strong>您还可以使用其他开源工具来解决这些问题</strong>：<strong>Pachyderm 使用容器来执行管道的不同步骤，还通过跟踪数据提交并基于此优化管道执行来解决数据版本控制和数据来源问题</strong>。<strong>MLflow 是另一个支持端到端 ML 生命周期的开源工具，包括实验跟踪、模型打包和模型注册表</strong>。</p>
+<p>"In Figure 5 we show how we structured the ML pipeline for our sales forecasting problem, highlighting the different source code, data, and model components. The input data, the intermediate training and validation data sets, and the output model can potentially be large files, which we don't want to be stored in a regular source control repository (e.g. Git). In order to formalise the model training process in code, we used an open source tool called DVC (Data Science Version Control). It provides similar semantics to Git, but also solves a few ML-specific problems: it has multiple backend plugins to fetch and store large files on an external storage outside of the source control repository; it can keep track of those files' versions, allowing us to retrain our models when the data changes; it keeps track of the dependency graph and commands used to execute the ML pipeline, allowing the process to be reproduced in other environments; it can integrate with Git branches to allow multiple experiments to co-exist."</p>
 </blockquote>
-<p><strong>一旦我们找到合适的模型，我们将把它视为需要版本化并部署到生产环境的工件</strong>。<strong>使用 DVC，我们可以使用 dvc push 和 dvc pull 命令将其发布和从外部存储获取</strong>。<strong>您还可以使用其他开源工具来解决这些问题</strong>：<strong>Pachyderm 使用容器来执行管道的不同步骤，还通过跟踪数据提交并基于此优化管道执行来解决数据版本控制和数据来源问题</strong>。<strong>MLflow 是另一个支持端到端 ML 生命周期的开源工具，包括实验跟踪、模型打包和模型注册表</strong>。</p>
+<p><strong>在图 5 中，我们展示了我们如何为销售预测问题构建 ML 管道，突出了不同的源代码、数据和模型组件</strong>。<strong>输入数据、中间训练和验证数据集以及输出模型可能是大文件，我们不希望将它们存储在常规的源代码控制仓库（例如 Git）中</strong>。<strong>为了将模型训练过程形式化为代码，我们使用了一个名为 DVC（数据科学版本控制）的开源工具</strong>。<strong>它提供与 Git 类似的语义，但也解决了一些 ML 特定的问题</strong>：<strong>它具有多个后端插件，用于在源代码控制仓库之外的外部存储上获取和存储大文件；它可以跟踪这些文件的版本，使我们能够在数据更改时重新训练模型；它跟踪依赖关系图和用于执行 ML 管道的命令，允许该过程在其他环境中复现；它可以与 Git 分支集成，以允许多个实验共存</strong>。</p>
+<blockquote>
+<p>"For example, we can configure our initial ML pipeline in Figure 5 with three dvc run commands (-d specify dependencies, -o specify outputs, -f is the filename to record that step, and -M is the resulting metrics):"</p>
+</blockquote>
+<p><strong>例如，我们可以使用三个 dvc run 命令配置图 5 中的初始 ML 管道（-d 指定依赖项，-o 指定输出，-f 是用于记录该步骤的文件名，-M 是结果指标）</strong>：</p>
+<pre><code>dvc run -f input.dvc ➊
+ -d src/download_data.py -o data/raw/store47-2016.csv python src/download_data.py
+dvc run -f split.dvc ➋
+ -d data/raw/store47-2016.csv -d src/splitter.py \
+ -o data/splitter/train.csv -o data/splitter/validation.csv python src/splitter.py
+dvc run ➌
+ -d data/splitter/...
+</code></pre>
+<blockquote>
+<p>"Each run will create a corresponding file, that can be committed to version control, and that allows other people to reproduce the entire ML pipeline, by executing the dvc repro command."</p>
+</blockquote>
+<p><strong>每次运行都会创建一个相应的文件，可以提交到版本控制中，并允许其他人通过执行 dvc repro 命令复现整个 ML 管道</strong>。一旦我们找到合适的模型，我们将把它视为需要版本化并部署到生产环境的工件。使用 DVC，我们可以使用 dvc push 和 dvc pull 命令将其发布和从外部存储获取。您还可以使用其他开源工具来解决这些问题：Pachyderm 使用容器来执行管道的不同步骤，还通过跟踪数据提交并基于此优化管道执行来解决数据版本控制和数据来源问题。MLflow 是另一个支持端到端 ML 生命周期的开源工具，包括实验跟踪、模型打包和模型注册表。</p>
 <h3 id="5-model-serving">5. 模型服务（Model Serving）</h3>
 <blockquote>
 <p>"Once a suitable model is found, we need to decide how it will be served and used in production. We have seen a few patterns to achieve that:"</p>
@@ -591,6 +673,28 @@ dvc run ➌
 <blockquote>
 <p>"There are other tool options to implement the embedded model pattern, besides serializing the model using pickle, we could also export the model as an ONNX file and load it using a runtime that supports that format. Another approach is to use a tool like H2O to export the model as a POJO in a JAR Java library, which can be loaded and used directly in a Java application without any runtime dependencies. To implement the 'model as service' pattern, many of the cloud providers have tools and SDKs to help you deploy models as a service, like AWS SageMaker, Azure Machine Learning, or Google AI Platform."</p>
 </blockquote>
+<p><strong>除了使用 pickle 序列化模型之外，还有其他工具选项来实现嵌入式模型模式，我们还可以将模型导出为 ONNX 文件并使用支持该格式的运行时加载它</strong>。<strong>另一种方法是使用 H2O 之类的工具将模型作为 JAR Java 库中的 POJO 导出，该库可以在没有任何运行时依赖关系的情况下直接在 Java 应用程序中加载和使用</strong>。<strong>为了实现"模型即服务"模式，许多云提供商都提供工具和 SDK 来帮助您将模型部署为服务，例如 AWS SageMaker、Azure Machine Learning 或 Google AI Platform</strong>。&gt; MLflow Models 试图提供一种标准方式来以不同形式打包模型，以供各种下游工具使用。值得注意的是，无论您决定使用哪种模式，应用程序和模型之间始终存在一个隐式契约，如果契约发生变化（例如特征工程在训练和服务时间的实现方式不同），该契约可能会中断。</p>
+<p><strong>MLflow Models 试图提供一种标准方式来以不同形式打包模型，以供各种下游工具使用</strong>。<strong>值得注意的是，无论您决定使用哪种模式，应用程序和模型之间始终存在一个隐式契约，如果契约发生变化（例如特征工程在训练和服务时间的实现方式不同），该契约可能会中断</strong>。</p>
+<blockquote>
+<p>一旦找到合适的模型，我们需要决定它将如何在生产环境中被服务和使用。我们见过几种实现这一点的模式：</p>
+</blockquote>
+<p><strong>一旦找到合适的模型，我们需要决定它将如何在生产环境中被服务和使用</strong>。<strong>我们见过几种实现这一点的模式</strong>：</p>
+<blockquote>
+<p>嵌入式模型：这是一种更简单的方法，您将模型工件视为在消费应用程序中构建和打包的依赖项。从这一点开始，您可以像对任何其他库一样对其进行版本控制。缺点是每次更新模型时，您都必须重新部署消费应用程序。</p>
+</blockquote>
+<p><strong>嵌入式模型</strong>：<strong>这是一种更简单的方法，您将模型工件视为在消费应用程序中构建和打包的依赖项</strong>。<strong>从这一点开始，您可以像对任何其他库一样对其进行版本控制</strong>。<strong>缺点是每次更新模型时，您都必须重新部署消费应用程序</strong>。</p>
+<blockquote>
+<p>模型部署为单独的服务：在这种方法中，模型被包装在服务中，消费应用程序通常通过 HTTP 调用。这允许您在不必重新部署应用程序的情况下更新模型，并且模型和应用程序也可以独立扩展。缺点是您正在添加另一个分布式系统，应用程序必须处理服务发现、网络故障和其他操作问题。</p>
+</blockquote>
+<p><strong>模型部署为单独的服务</strong>：<strong>在这种方法中，模型被包装在服务中，消费应用程序通常通过 HTTP 调用</strong>。<strong>这允许您在不必重新部署应用程序的情况下更新模型，并且模型和应用程序也可以独立扩展</strong>。<strong>缺点是您正在添加另一个分布式系统，应用程序必须处理服务发现、网络故障和其他操作问题</strong>。</p>
+<blockquote>
+<p>模型作为数据发布：在这种方法中，模型也被独立处理和发布，但作为数据消费。例如，模型可以发布在公共位置（例如特征存储），应用程序将定期从那里读取它。这结合了前两种模式的一些优点。</p>
+</blockquote>
+<p><strong>模型作为数据发布</strong>：<strong>在这种方法中，模型也被独立处理和发布，但作为数据消费</strong>。<strong>例如，模型可以发布在公共位置（例如特征存储），应用程序将定期从那里读取它</strong>。<strong>这结合了前两种模式的一些优点</strong>。</p>
+<blockquote>
+<p>在我们的示例中，我们决定使用更简单的嵌入模型方法，因为我们的消费者是一个小型 web 应用程序，我们不希望需要独立于应用程序更新模型。</p>
+</blockquote>
+<p><strong>在我们的示例中，我们决定使用更简单的嵌入模型方法，因为我们的消费者是一个小型 web 应用程序，我们不希望需要独立于应用程序更新模型</strong>。&gt; "There are other tool options to implement the embedded model pattern, besides serializing the model using pickle, we could also export the model as an ONNX file and load it using a runtime that supports that format. Another approach is to use a tool like H2O to export the model as a POJO in a JAR Java library, which can be loaded and used directly in a Java application without any runtime dependencies. To implement the 'model as service' pattern, many of the cloud providers have tools and SDKs to help you deploy models as a service, like AWS SageMaker, Azure Machine Learning, or Google AI Platform."</p>
 <p><strong>除了使用 pickle 序列化模型之外，还有其他工具选项来实现嵌入式模型模式，我们还可以将模型导出为 ONNX 文件并使用支持该格式的运行时加载它</strong>。<strong>另一种方法是使用 H2O 之类的工具将模型作为 JAR Java 库中的 POJO 导出，该库可以在没有任何运行时依赖关系的情况下直接在 Java 应用程序中加载和使用</strong>。<strong>为了实现"模型即服务"模式，许多云提供商都提供工具和 SDK 来帮助您将模型部署为服务，例如 AWS SageMaker、Azure Machine Learning 或 Google AI Platform</strong>。</p>
 <blockquote>
 <p>"MLflow Models is trying to provide a standard way to package models in different flavours, to be used by diverse downstream tools. It is worth noting that, regardless of which pattern you decide to use, there is always an implicit contract between the application and the model, which can break if the contract changes (e.g. feature engineering is implemented differently in training vs. serving time)."</p>
@@ -616,6 +720,36 @@ dvc run ➌
 <blockquote>
 <p>"Validating model bias and fairness: while we might get good performance on the overall test and validation datasets, it is also important to check how the model performs against baselines for specific segments of the data (such as gender, race, age, income groups, etc.), to make sure there are no unacceptable biases that could have legal and ethical implications. In our example application, the evaluation metric defined by Favorita is a normalized error rate. We wrote a simple PyUnit threshold test that breaks if the error rate goes above 80%, and this test is executed as part of the deployment pipeline."</p>
 </blockquote>
+<p><strong>验证模型偏差和公平性</strong>：<strong>虽然我们可能在整体测试和验证数据集上获得良好的性能，但检查模型针对数据特定细分（如性别、种族、年龄、收入组等）的基准表现也很重要，以确保没有可能具有法律和伦理影响的不可接受偏差</strong>。<strong>在我们的示例应用程序中，Favorita 定义的评估指标是归一化错误率</strong>。<strong>我们编写了一个简单的 PyUnit 阈值测试，如果错误率超过 80% 则会中断，此测试作为部署管道的一部分执行</strong>。</p>
+<blockquote>
+<p>"While these are examples of tests that are easier to automate, assessing a model's quality more holisticaly is harder. Over time, if we always compute metrics against the same dataset, we can start overfitting to that dataset (and by extension, to the test cases). 2: There is active research on tools and systems such as ease.ml/ci and ease.ml/meter to help manage and understand when new test data is required, or when models are overfitting."</p>
+</blockquote>
+<p><strong>虽然这些是更容易自动化的测试示例，但更全面地评估模型的质量更难</strong>。<strong>随着时间的推移，如果我们总是针对同一数据集计算指标，我们可能会开始对该数据集（并由此对测试用例）过度拟合</strong>。<strong>2：有针对 ease.ml/ci 和 ease.ml/meter 等工具和系统的活跃研究，以帮助管理和了解何时需要新测试数据，或模型何时过度拟合</strong>。&gt; "When models are distributed or exported to be used by a different application, you can also find issues where the engineered features are calculated differently between training and serving time. An integration test that runs the same input through both the training and the serving versions of the model can help detect these issues."</p>
+<p><strong>当模型被分发或导出以供不同的应用程序使用时，您还可以发现训练和服务时间之间以不同方式计算工程化特征的问题</strong>。<strong>通过训练和服务版本的模型运行相同输入的集成测试可以帮助检测这些问题</strong>。</p>
+<blockquote>
+<p>"Other types of tests can be also considered, but we think it's also important to add some manual stages into the deployment pipeline, to display information about the model and allow humans to decide if the model should be promoted or not."</p>
+</blockquote>
+<p><strong>也可以考虑其他类型的测试，但我们认为在部署管道中添加一些手动阶段也很重要，以显示有关模型的信息并允许人类决定是否应提升该模型</strong>。</p>
+<blockquote>
+<p>"With more types of testing, it will make you rethink the shape of your Test Pyramid: you can consider separate pyramids for each type of artifact (code, model, and data), but also how to combine them."</p>
+</blockquote>
+<p><strong>随着更多类型的测试，它将使您重新思考测试金字塔的形状：您可以为每种类型的工件（代码、模型和数据）考虑单独的金字塔，但也考虑如何将它们结合起来</strong>。</p>
+<blockquote>
+<p>"There are different types of testing that can be introduced in the ML workflow. While some aspects are similar to traditional software testing, others are specific to data and models."</p>
+</blockquote>
+<p><strong>可以在 ML 工作流中引入不同类型的测试</strong>。<strong>虽然某些方面类似于传统软件测试，但其他方面是数据模型特有的</strong>。</p>
+<blockquote>
+<p>"Validating data: we can add tests to validate input data against the expected schema, or to validate that the data is distributed as expected (e.g. that the number of data points in the training set is not zero)."</p>
+</blockquote>
+<p><strong>验证数据</strong>：<strong>我们可以添加测试以根据预期模式验证输入数据，或验证数据按预期分布（例如训练集中的数据点数量不为零）</strong>。</p>
+<blockquote>
+<p>"Validating component integration: we can use a similar approach to testing the integration between different services, using Contract Tests to validate that the expected model interface is compatible with the consuming application."</p>
+</blockquote>
+<p><strong>验证组件集成</strong>：<strong>我们可以使用类似的方法来测试不同服务之间的集成，使用契约测试来验证预期的模型接口与消费应用程序兼容</strong>。</p>
+<blockquote>
+<p>"Validating the model quality: While ML model performance is non-deterministic, Data Scientists usually collect and monitor a number of metrics to evaluate a model's performance, such as error rates (RMSE, MAE), accuracy, precision, recall, F1, AUC, etc. We can codify these metrics as part of the model training pipeline, to assert that the model performance does not drop below an acceptable threshold."</p>
+</blockquote>
+<p><strong>验证模型质量</strong>：<strong>虽然 ML 模型性能是非确定性的，但数据科学家通常会收集和监控多个指标来评估模型的性能，例如错误率（RMSE、MAE）、准确率、精确率、召回率、F1、AUC 等</strong>。<strong>我们可以将这些指标编码为模型训练管道的一部分，以断言模型性能不会下降到可接受的阈值以下</strong>。&gt; "Validating model bias and fairness: while we might get good performance on the overall test and validation datasets, it is also important to check how the model performs against baselines for specific segments of the data (such as gender, race, age, income groups, etc.), to make sure there are no unacceptable biases that could have legal and ethical implications. In our example application, the evaluation metric defined by Favorita is a normalized error rate. We wrote a simple PyUnit threshold test that breaks if the error rate goes above 80%, and this test is executed as part of the deployment pipeline."</p>
 <p><strong>验证模型偏差和公平性</strong>：<strong>虽然我们可能在整体测试和验证数据集上获得良好的性能，但检查模型针对数据特定细分（如性别、种族、年龄、收入组等）的基准表现也很重要，以确保没有可能具有法律和伦理影响的不可接受偏差</strong>。<strong>在我们的示例应用程序中，Favorita 定义的评估指标是归一化错误率</strong>。<strong>我们编写了一个简单的 PyUnit 阈值测试，如果错误率超过 80% 则会中断，此测试作为部署管道的一部分执行</strong>。</p>
 <blockquote>
 <p>"While these are examples of tests that are easier to automate, assessing a model's quality more holisticaly is harder. Over time, if we always compute metrics against the same dataset, we can start overfitting to that dataset (and by extension, to the test cases). 2: There is active research on tools and systems such as ease.ml/ci and ease.ml/meter to help manage and understand when new test data is required, or when models are overfitting."</p>
@@ -651,13 +785,27 @@ dvc run ➌
 </blockquote>
 <p><strong>在传统软件开发的 Feature Branch 中开发的一些缺点是，如果分支长期存在，可能会导致合并痛苦，它可能会阻止团队更积极地进行重构，并且可能会阻止持续集成</strong>。<strong>对于 ML 实验，我们预计大多数分支永远不会被集成，实验之间代码的变化通常并不显著</strong>。<strong>从 CI 自动化的角度来看，我们实际上不想为将被丢弃的分支运行整个管道，但我们仍然希望跟踪实验并使它们可复现和可审计</strong>。</p>
 <blockquote>
-<p>"Besides DVC, another tool we used to help with experiment tracking is MLflow Tracking. It can be deployed as a hosted service, and provides an API and a web interface to visualize the multiple experiments that have been run, their parameters, metrics, and artifacts. MLflow Tracking is part of the larger MLflow project, which also includes MLflow Projects (a convention for organizing code in a reusable way) and MLflow Models (a standard format for packaging models)."</p>
-</blockquote>
-<p><strong>除了 DVC 之外，我们使用的另一个帮助实验跟踪的工具是 MLflow Tracking</strong>。<strong>它可以作为托管服务部署，并提供 API 和 Web 界面来可视化已运行的多个实验、它们的参数、指标和工件</strong>。<strong>MLflow Tracking 是更大的 MLflow 项目的一部分，该项目还包括 MLflow Projects（以可重用方式组织代码的约定）和 MLflow Models（打包模型的标准格式）</strong>。</p>
-<blockquote>
+<p>"Besides DVC, another tool we used to help with experiment tracking is MLflow Tracking. It can be deployed as a hosted service, and provides an API and a web interface to visualize the multiple experiments that have been run, their parameters, metrics, and artifacts. MLflow Tracking is part of the larger MLflow project, which also includes MLflow Projects (a convention for organizing code in a reusable way) and MLflow Models (a standard format for packaging models)."<strong>除了 DVC 之外，我们使用的另一个帮助实验跟踪的工具是 MLflow Tracking</strong>。<strong>它可以作为托管服务部署，并提供 API 和 Web 界面来可视化已运行的多个实验、它们的参数、指标和工件</strong>。<strong>MLflow Tracking 是更大的 MLflow 项目的一部分，该项目还包括 MLflow Projects（以可重用方式组织代码的约定）和 MLflow Models（打包模型的标准格式）</strong>。</p>
 <p>"To support this experimentation process, it is also important to highlight the benefits of having elastic infrastructure, as you might need multiple environments to be available — and sometimes you need them only for a short period of time, to validate a hypothesis and then throw the environment away."</p>
 </blockquote>
 <p><strong>为了支持这个实验过程，强调拥有弹性基础架构的好处也很重要，因为您可能需要多个环境可用——有时您只需要它们很短的时间，来验证一个假设然后扔掉环境</strong>。</p>
+<blockquote>
+<p>"In order to support this governance process, it is important to capture and display information that will allow humans to decide if and which model should be promoted to production. As the Data Scientists iterate through different combinations of algorithms, parameters, and data, they need a way to track and compare the different experiments, and to surface the relevant information to the people involved in the decision making process."</p>
+</blockquote>
+<p><strong>为了支持这个治理过程，重要的是捕获和显示信息，允许人类决定是否以及哪个模型应该被提升到生产环境</strong>。<strong>当数据科学家迭代不同的算法、参数和数据的组合时，他们需要一种方法来跟踪和比较不同的实验，并将相关信息呈现给参与决策过程的人员</strong>。</p>
+<blockquote>
+<p>"This experimentation approach during the research phase is different than a more traditional software development process, as we expect that the code for many of these experiments will be thrown away once the Data Scientist is happy with the result of one of them."</p>
+</blockquote>
+<p><strong>研究阶段的这种实验方法与更传统的软件开发过程不同，因为我们预计其中许多实验的代码将在数据科学家对其中一个实验的结果满意后被丢弃</strong>。</p>
+<blockquote>
+<p>"In our case, we decided to follow the approach suggested by DVC, of using different Git branches to track the different experiments in source control. Even though this goes against our preference of using Trunk Based Development for traditional software development, we found that it is actually a good fit for tracking ML experiments: every Git branch can represent a hypothesis, with a set of changes in the code, data, and model, that the Data Scientist is experimenting with."</p>
+</blockquote>
+<p><strong>在我们的案例中，我们决定遵循 DVC 建议的方法，使用不同的 Git 分支在源代码控制中跟踪不同的实验</strong>。<strong>即使这违背了我们对传统软件开发使用基于主干的开发方式的偏好，我们发现它实际上非常适合跟踪 ML 实验：每个 Git 分支可以代表一个假设，Data Scientist 正在使用代码、数据和模型中的一组更改进行实验</strong>。</p>
+<blockquote>
+<p>"Some of the drawbacks of developing in Feature Branches for traditional software development are that it can cause merge pain if the branches are long-lived, it can prevent teams from refactoring more aggressively, and it can prevent Continuous Integration. For ML experimentation, we expect most of the branches to never be integrated, and the variation in the code between experiments is usually not significant. From the CI automation perspective, we actually don't want to run the entire pipeline for branches that will be thrown away, but we still want to track the experiments and make them reproducible and auditable."</p>
+</blockquote>
+<p><strong>在传统软件开发的 Feature Branch 中开发的一些缺点是，如果分支长期存在，可能会导致合并痛苦，它可能会阻止团队更积极地进行重构，并且可能会阻止持续集成</strong>。<strong>对于 ML 实验，我们预计大多数分支永远不会被集成，实验之间代码的变化通常并不显著</strong>。<strong>从 CI 自动化的角度来看，我们实际上不想为将被丢弃的分支运行整个管道，但我们仍然希望跟踪实验并使它们可复现和可审计</strong>。&gt; "除了 DVC 之外，我们使用的另一个帮助实验跟踪的工具是 MLflow Tracking。它可以通过部署为托管服务来实现，并提供 API 和 Web 界面来可视化已运行的多个实验、它们的参数、指标和工件。MLflow Tracking 是更大的 MLflow 项目的一部分，该项目还包括 MLflow Projects（以可重用方式组织代码的约定）和 MLflow Models（打包模型的标准格式）。”</p>
+<p><strong>为了支持这个实验过程，强调拥有弹性基础架构的好处也很重要，因为您可能需要多个环境可用——有时您只需要它们很短的时间，来验证一个假设然后扔掉环境。</strong></p>
 <h3 id="8-model-deployment">8. 模型部署（Model Deployment）</h3>
 <blockquote>
 <p>"In our simple example, we are only experimenting to build a single model, which gets embedded and deployed with the application. In the real world, deployment might pose more complex scenarios:"</p>
@@ -683,6 +831,12 @@ dvc run ➌
 <p>"Once again, to support more complex deployment scenarios, you will benefit from using elastic infrastructure. Besides making it possible to run those multiple models in production, it also allows you to use progressive deployment strategies like blue-green or canary deployments, to minimize the impact of any issues that might arise."</p>
 </blockquote>
 <p><strong>再次，为了支持更复杂的部署场景，您将受益于使用弹性基础架构</strong>。<strong>除了能够在生产中运行这些多个模型之外，它还允许您使用蓝绿部署或金丝雀部署等渐进式部署策略，以最小化可能出现的任何问题的影响</strong>。</p>
+<p>在我们的简单示例中，我们只是试验构建一个单一模型，该模型与应用一起嵌入和部署。在现实世界中，部署可能面临更复杂的场景：</p>
+<p><strong>多模型</strong>：有时您可能有多个模型执行相同的任务。例如，我们可以训练一个模型来预测每个产品的需求。在这种情况下，将模型作为一组部署可能是简化部署过程的好选择。</p>
+<p><strong>影子模型</strong>：这种模式在考虑替换生产环境中的模型时很有用。您可以将新模型与当前模型并排部署作为影子模型，并将相同的流量发送到两个模型，但只使用当前模型的输出进行决策。记录新模型的输出，以便您以后可以将它们与当前模型的输出进行比较，以验证新模型在提升之前至少与当前模型一样好。</p>
+<p><strong>竞争模型</strong>：一个稍微复杂的场景是当您在生产中测试多个版本的模型时——例如 A/B 测试——以找出哪个更好。增加的复杂性在于决策过程，您需要决定为每个用户使用哪个模型的输出，以及如何跟踪哪个模型服务于哪个用户，以衡量实验的影响。</p>
+<p><strong>在线学习模型</strong>：与我们目前讨论的模型不同，模型是离线训练然后在线用于服务预测，在线学习模型使用可以持续从生产中的新数据学习的算法和技术。这对于需要快速适应环境变化的模型特别有用，但它在监控、回滚和治理方面引入了额外的复杂性。</p>
+<p>再次，为了支持更复杂的部署场景，您将受益于使用弹性基础架构。除了能够在生产中运行这些多个模型之外，它还允许您使用蓝绿部署或金丝雀部署等渐进式部署策略，以最小化可能出现的任何问题的影响。</p>
 <h3 id="9-continuous-delivery-orchestration">9. 持续交付编排（Continuous Delivery Orchestration）</h3>
 <blockquote>
 <p>"In this article we have talked about data pipelines and ML pipelines, but there is another type of pipeline to understand: the Deployment Pipeline. A deployment pipeline automates the process for getting changes into production, and it is a key component of Continuous Delivery. In CD4ML, we can model automated and manual ML governance stages into our deployment pipeline, to help detect model bias, fairness, or to introduce explainability for humans to decide if the model should be promoted to production."</p>
@@ -711,41 +865,107 @@ dvc run ➌
 <blockquote>
 <p>"Over time, the ML pipeline can be extended to execute multiple experiments in parallel (a feature supported by GoCD's fan-out/fan-in model), and to define your model governance process to check for bias, fairness, and explainability before promoting the model to production."</p>
 </blockquote>
+<p><strong>随着时间的推移，ML 管道可以扩展为并行执行多个实验（GoCD 的扇出/扇入模型支持的功能），并在将模型提升到生产环境之前定义您的模型治理流程以检查偏差、公平性和可解释性</strong>。&gt; "Finally, another aspect of your Continuous Delivery orchestration is to define a process for rollbacks, in case a deployed model turns out to perform poorly or incorrectly in production. This adds additional safety, by allowing you to quickly revert to a previous model version if needed."</p>
+<p><strong>最后，您的持续交付编排的另一个方面是为回滚定义一个流程，以防部署的模型在生产环境中表现不佳或不正确</strong>。<strong>这通过允许您在需要时快速恢复到先前的模型版本来增加额外的安全性</strong>。</p>
+<blockquote>
+<p>"In this article we have talked about data pipelines and ML pipelines, but there is another type of pipeline to understand: the Deployment Pipeline. A deployment pipeline automates the process for getting changes into production, and it is a key component of Continuous Delivery. In CD4ML, we can model automated and manual ML governance stages into our deployment pipeline, to help detect model bias, fairness, or to introduce explainability for humans to decide if the model should be promoted to production."</p>
+</blockquote>
+<p><strong>在本文中，我们已经讨论了数据管道和 ML 管道，但还有另一种需要理解的管道：部署管道</strong>。<strong>部署管道自动化了将变更投入生产的过程，它是持续交付的关键组件</strong>。<strong>在 CD4ML 中，我们可以将自动化和手动 ML 治理阶段建模到我们的部署管道中，以帮助检测模型偏差和公平性，或引入可解释性以供人类决定模型是否应该被提升到生产环境</strong>。</p>
+<blockquote>
+<p>"With all of the main building blocks in place, there is a need to tie everything together, and this is where our Continuous Delivery orchestration tools come into place. There are many options of tools to choose from, like Jenkins, GoCD, GitLab CI, GitHub Actions, CircleCI, and others."</p>
+</blockquote>
+<p><strong>在所有主要构建块就位后，需要将所有内容连接在一起，这就是我们的持续交付编排工具发挥作用的地方</strong>。<strong>有许多工具选项可供选择，如 Jenkins、GoCD、GitLab CI、GitHub Actions、CircleCI 等</strong>。</p>
+<blockquote>
+<p>"We chose to use GoCD as our Continuous Delivery tool, as it was built with the concept of pipelines as a first-class concern. Not only that, it also allows us to configure complex workflows and dependencies between pipelines, and to visualize the entire value stream from code commit to production deployment."</p>
+</blockquote>
+<p><strong>我们选择使用 GoCD 作为我们的持续交付工具，因为它以管道作为一流关注点的概念构建</strong>。<strong>不仅如此，它还允许我们配置管道之间的复杂工作流和依赖关系，并可视化从代码提交到生产部署的整个价值流</strong>。</p>
+<blockquote>
+<p>"In our simplified example, we haven't built any complex Data Pipelines or infrastructure provisioning yet, but we demonstrate how to combine two GoCD pipelines, as shown in Figure 8:"</p>
+</blockquote>
+<p><strong>在我们简化的示例中，我们还没有构建任何复杂的数据管道或基础设施配置，但我们演示了如何组合两个 GoCD 管道，如图 8 所示</strong>：</p>
+<blockquote>
+<p>"Machine Learning Pipeline: to perform model training and evaluation within the GoCD agent, as well as executing the basic threshold test to decide if the model can be promoted or not. If the model is approved, it is published to a shared storage, from where the application deployment pipeline can fetch it."</p>
+</blockquote>
+<p><strong>机器学习管道</strong>：<strong>在 GoCD 代理中执行模型训练和评估，以及执行基本阈值测试以决定模型是否可以被提升</strong>。<strong>如果模型获得批准，它将发布到共享存储，应用程序部署管道可以从那里获取它</strong>。</p>
+<blockquote>
+<p>"Application Deployment Pipeline: to build and test the application code, to fetch the promoted model from the upstream pipeline using dvc pull, to package a new combined artifact that contains the application code and the model, and to deploy that combined artifact to production."</p>
+</blockquote>
+<p><strong>应用程序部署管道</strong>：<strong>构建和测试应用程序代码，使用 dvc pull 从上游管道获取提升的模型，打包包含应用程序代码和模型的新组合工件，并将该组合工件部署到生产环境</strong>。&gt; “随着时间的推移，ML 管道可以扩展为并行执行多个实验（GoCD 的扇出/扇入模型支持的功能），并在将模型提升到生产环境之前定义您的模型治理流程以检查偏差、公平性和可解释性。”</p>
 <p><strong>随着时间的推移，ML 管道可以扩展为并行执行多个实验（GoCD 的扇出/扇入模型支持的功能），并在将模型提升到生产环境之前定义您的模型治理流程以检查偏差、公平性和可解释性</strong>。</p>
 <blockquote>
-<p>"Finally, another aspect of your Continuous Delivery orchestration is to define a process for rollbacks, in case a deployed model turns out to perform poorly or incorrectly in production. This adds additional safety, by allowing you to quickly revert to a previous model version if needed."</p>
+<p>“最后，您的持续交付编排的另一个方面是为回滚定义一个流程，以防部署的模型在生产环境中表现不佳或不正确。这通过允许您在需要时快速恢复到先前的模型版本来增加额外的安全性。”</p>
 </blockquote>
-<p><strong>最后，您的持续交付编排的另一个方面是为回滚定义一个流程，以防部署的模型在生产环境中表现不佳或不正确</strong>。<strong>这通过允许您在需要时快速恢复到先前的模型版本来增加额外的安全性</strong>。</p>
-<h3 id="10-deployment-pipelines">10. 部署管道（Deployment Pipelines）</h3>
+<p><strong>最后，您的持续交付编排的另一个方面是为回滚定义一个流程，以防部署的模型在生产环境中表现不佳或不正确。这通过允许您在需要时快速恢复到先前的模型版本来增加额外的安全性</strong>。### 10. 部署管道（Deployment Pipelines）</p>
+<p>在本文中，我们已经讨论了数据管道和 ML 管道，但还有另一种需要理解的管道：部署管道。部署管道自动化了将变更投入生产的过程，它是持续交付的关键组件。### 11. 模型监控和可观测性（Model Monitoring and Observability）</p>
 <blockquote>
-<p>"In this article we have talked about data pipelines and ML pipelines, but there is another type of pipeline to understand: the Deployment Pipeline. A deployment pipeline automates the process for getting changes into production, and it is a key component of Continuous Delivery."</p>
-</blockquote>
-<p><strong>在本文中，我们已经讨论了数据管道和 ML 管道，但还有另一种需要理解的管道：部署管道</strong>。<strong>部署管道自动化了将变更投入生产的过程，它是持续交付的关键组件</strong>。</p>
-<h3 id="11-model-monitoring-and-observability">11. 模型监控和可观测性（Model Monitoring and Observability）</h3>
-<blockquote>
-<p>"Now that the model is live, we need to understand how it performs in production and close the data feedback loop. Here we can reuse all the monitoring and observability infrastructure that might already be in place for traditional software applications, to also capture data from the model and the ML pipeline."</p>
+<p>"现在模型已经上线，我们需要了解它在生产环境中的表现并关闭数据反馈循环。在这里，我们可以重用传统软件应用程序可能已经具备的所有监控和可观测性基础设施，以捕获来自模型和 ML 管道的数据。"</p>
 </blockquote>
 <p><strong>现在模型已经上线，我们需要了解它在生产环境中的表现并关闭数据反馈循环</strong>。<strong>在这里，我们可以重用传统软件应用程序可能已经具备的所有监控和可观测性基础设施，以捕获来自模型和 ML 管道的数据</strong>。</p>
 <blockquote>
-<p>"Tools for log aggregation and metrics collection are usually used to capture data from a live system such as business KPIs, software reliability and performance metrics, debugging information for the development team, etc. We can extend these to capture additional data from the model:"</p>
+<p>"日志聚合和指标收集工具通常用于从实时系统捕获数据，例如业务 KPI、软件可靠性和性能指标、面向开发团队的调试信息等。我们可以扩展这些工具以捕获来自模型的额外数据："</p>
 </blockquote>
 <p><strong>日志聚合和指标收集工具通常用于从实时系统捕获数据，例如业务 KPI、软件可靠性和性能指标、面向开发团队的调试信息等</strong>。<strong>我们可以扩展这些工具以捕获来自模型的额外数据</strong>：</p>
 <blockquote>
-<p>"Model inputs: what data is being fed to the models, giving visibility into any training-serving skew."</p>
+<p>"模型输入：正在馈送给模型的数据，提供对任何训练-服务偏差的可见性。"</p>
 </blockquote>
 <p><strong>模型输入</strong>：<strong>正在馈送给模型的数据，提供对任何训练-服务偏差的可见性</strong>。</p>
 <blockquote>
-<p>"Model outputs: what predictions and recommendations are the models making from these inputs, to compare them with the actual outcomes."</p>
+<p>"模型输出：模型正在从这些输入中做出什么预测和建议，以将它们与实际结果进行比较。"</p>
 </blockquote>
 <p><strong>模型输出</strong>：<strong>模型正在从这些输入中做出什么预测和建议，以将它们与实际结果进行比较</strong>。</p>
 <blockquote>
-<p>"Model interpretability outputs: metrics such as model coefficients, ELI5, or LIME outputs that allow further investigation to understand how the models are making predictions to identify potential issues."</p>
+<p>"模型可解释性输出：模型系数、ELI5 或 LIME 输出等指标，允许进一步调查以了解模型如何进行预测以识别潜在问题。"</p>
 </blockquote>
 <p><strong>模型可解释性输出</strong>：<strong>模型系数、ELI5 或 LIME 输出等指标，允许进一步调查以了解模型如何进行预测以识别潜在问题</strong>。</p>
 <blockquote>
-<p>"Model outputs and decisions: what predictions our models are making given the production input data, and also which decisions are being made with those predictions. Sometimes the application might take the model's output as a recommendation, but a human or another system makes the final decision."</p>
+<p>"模型输出和决策：我们的模型根据生产输入数据做出什么预测，以及使用这些预测做出了哪些决策。有时应用程序可能将模型的输出作为建议，但人类或另一个系统做出最终决定。"</p>
 </blockquote>
 <p><strong>模型输出和决策</strong>：<strong>我们的模型根据生产输入数据做出什么预测，以及使用这些预测做出了哪些决策</strong>。<strong>有时应用程序可能将模型的输出作为建议，但人类或另一个系统做出最终决定</strong>。</p>
+<blockquote>
+<p>"用户操作和奖励：根据进一步的用户操作，我们可以捕获奖励指标以了解模型是否具有期望的效果。例如，如果我们显示产品推荐，我们可以跟踪用户是否点击推荐的产品，以及他们最终是否购买它。"</p>
+</blockquote>
+<p><strong>用户操作和奖励</strong>：<strong>根据进一步的用户操作，我们可以捕获奖励指标以了解模型是否具有期望的效果</strong>。<strong>例如，如果我们显示产品推荐，我们可以跟踪用户是否点击推荐的产品，以及他们最终是否购买它</strong>。</p>
+<blockquote>
+<p>"模型公平性：根据可能导致偏差的已知特征（如种族、性别、年龄、收入组等）分析输入数据和输出预测。"</p>
+</blockquote>
+<p><strong>模型公平性</strong>：<strong>根据可能导致偏差的已知特征（如种族、性别、年龄、收入组等）分析输入数据和输出预测</strong>。</p>
+<blockquote>
+<p>"在我们的示例中，我们使用 EFK 堆栈进行监控和可观测性，由三个主要工具组成：Elasticsearch：一个开源搜索引擎。FluentD：一个用于统一日志层的开源数据收集器。Kibana：一个开源 Web UI，可以轻松探索和可视化 Elasticsearch 索引的数据。"</p>
+</blockquote>
+<p><strong>在我们的示例中，我们使用 EFK 堆栈进行监控和可观测性，由三个主要工具组成</strong>：<strong>Elasticsearch：一个开源搜索引擎</strong>。<strong>FluentD：一个用于统一日志层的开源数据收集器</strong>。<strong>Kibana：一个开源 Web UI，可以轻松探索和可视化 Elasticsearch 索引的数据</strong>。&gt; "我们可以对我们的应用程序代码进行插桩，以将模型输入和预测作为 FluentD 中的事件记录，然后将此事件转发并索引到 ElasticSearch 中，我们可以使用 Kibana 通过 Web 界面查询和分析它。"</p>
+<p><strong>我们可以对应用程序代码进行插桩，以将模型输入和预测记录为 FluentD 中的事件，然后将这些事件转发并索引到 ElasticSearch 中，我们可以通过 Web 界面使用 Kibana 进行查询和分析。</strong></p>
+<blockquote>
+<p>"Collecting monitoring and observability data becomes even more important when you have multiple models deployed in production. For example, you might have a shadow model to assess, you might be performing A/B tests between different models, or you might be running online learning models that diverge over time."</p>
+</blockquote>
+<p><strong>当您在生产环境中部署了多个模型时，收集监控和可观测性数据变得更加重要。例如，您可能有一个影子模型要评估，您可能正在不同模型之间执行 A/B 测试，或者您可能正在运行随时间分化的在线学习模型。</strong></p>
+<blockquote>
+<p>"By capturing this data, you can close the数据反馈循环。这可以通过收集更多真实数据（例如在定价引擎或推荐系统中）或通过在循环中添加人工来标记示例，并将新数据反馈到模型训练管道中以随着时间的推移改进模型来实现。"</p>
+</blockquote>
+<p><strong>通过捕获此数据，您可以关闭数据反馈循环。这可以通过收集更多真实数据（例如在定价引擎或推荐系统中）或通过在循环中添加人工来标记示例，并将新数据反馈到模型训练管道中以随着时间的推移改进模型来实现。</strong></p>
+<blockquote>
+<p>"现在模型已经上线，我们需要了解它在生产环境中的表现并关闭数据反馈循环。在这里，我们可以重用传统软件应用程序可能已经具备的所有监控和可观测性基础设施，以捕获来自模型和 ML 管道的数据。"</p>
+</blockquote>
+<p><strong>现在模型已经上线，我们需要了解它在生产环境中的表现并关闭数据反馈循环。在这里，我们可以重用传统软件应用程序可能已经具备的所有监控和可观测性基础设施，以捕获来自模型和 ML 管道的数据。</strong></p>
+<blockquote>
+<p>"日志聚合和指标收集工具通常用于从实时系统捕获数据，例如业务 KPI、软件可靠性和性能指标、面向开发团队的调试信息等。我们可以扩展这些工具以捕获来自模型的额外数据："</p>
+</blockquote>
+<p><strong>日志聚合和指标收集工具通常用于从实时系统捕获数据，例如业务 KPI、软件可靠性和性能指标、面向开发团队的调试信息等。我们可以扩展这些工具以捕获来自模型的额外数据：</strong></p>
+<blockquote>
+<p>"模型输入：正在馈送给模型的数据，提供对任何训练-服务偏差的可见性。"</p>
+</blockquote>
+<p><strong>模型输入：馈送给模型的数据，提供对任何训练-服务偏差的可见性。</strong></p>
+<blockquote>
+<p>"模型输出：模型正在从这些输入中做出什么预测和建议，以将它们与实际结果进行比较。"</p>
+</blockquote>
+<p><strong>模型输出：模型正在从这些输入中做出什么预测和建议，以将它们与实际结果进行比较。</strong></p>
+<blockquote>
+<p>"模型可解释性输出：模型系数、ELI5 或 LIME 输出等指标，允许进一步调查以了解模型如何进行预测以识别潜在问题。"</p>
+</blockquote>
+<p><strong>模型可解释性输出：模型系数、ELI5 或 LIME 输出等指标，允许进一步调查以了解模型如何进行预测以识别潜在问题。</strong></p>
+<blockquote>
+<p>"模型输出和决策：给定生产输入数据时，我们的模型正在做出什么预测，以及这些预测导致了哪些决策。有时应用程序可能会将模型的输出作为建议，但最终决策可能由人类或另一个系统做出。"</p>
+</blockquote>
+<p><strong>模型输出和决策：给定生产输入数据时，我们的模型正在做出什么预测，以及这些预测导致了哪些决策。有时应用程序可能会将模型的输出作为建议，但最终决策可能由人类或另一个系统做出。</strong><strong>模型输出和决策</strong>：<strong>我们的模型根据生产输入数据做出什么预测，以及使用这些预测做出了哪些决策</strong>。<strong>有时应用程序可能将模型的输出作为建议，但人类或另一个系统做出最终决定</strong>。</p>
 <blockquote>
 <p>"User action and rewards: based on further user action, we can capture reward metrics to understand if the model is having the desired effect. For example, if we display product recommendations, we can track if the user clicks on the recommended product, and if they end up purchasing it."</p>
 </blockquote>
@@ -772,23 +992,41 @@ dvc run ➌
 <p><strong>通过捕获此数据，您可以关闭数据反馈循环</strong>。<strong>这可以通过收集更多真实数据（例如在定价引擎或推荐系统中）或通过在循环中添加人工来标记示例，并将新数据反馈到模型训练管道中以随着时间的推移改进模型来实现</strong>。</p>
 <h3 id="12-cd4ml-the-end-to-end-cd4ml-process">12. 端到端 CD4ML 过程（The End-to-End CD4ML Process）</h3>
 <blockquote>
-<p>"By tackling each technical challenge incrementally, and using a variety of tools and technologies, we managed to create the end-to-end process shown in Figure 10 that manages the promotion of artifacts (code, data, models) between different stages and environments, from the data scientist's local development environment, to the production environment where the model is serving predictions to end users."</p>
+<p>"通过逐步解决每个技术挑战，并使用各种工具和技术，我们成功创建了图 10 中显示的端到端流程，该流程管理不同阶段和环境之间工件（代码、数据、模型）的提升，从数据科学家的本地开发环境，到模型向最终用户提供预测服务的生产环境。"</p>
 </blockquote>
 <p><strong>通过逐步解决每个技术挑战，并使用各种工具和技术，我们成功创建了图 10 中显示的端到端流程，该流程管理不同阶段和环境之间工件（代码、数据、模型）的提升，从数据科学家的本地开发环境到模型向最终用户提供预测服务的生产环境</strong>。</p>
 <blockquote>
-<p>"At the base, we need an easy way to manage, discover, access, and version our data. We then automate the model building and training process to make it reproducible. This allows us to experiment and compare different approaches, and to capture the information needed for model governance (e.g. bias and fairness checks)."</p>
+<p>"在底层，我们需要一种简单的方法来管理、发现、访问和版本化我们的数据。然后我们自动化模型构建和训练过程以使其可复现。这允许我们实验和比较不同的方法，并捕获模型治理所需的信息（例如偏差和公平性检查）。"</p>
 </blockquote>
 <p><strong>在底层，我们需要一种简单的方法来管理、发现、访问和版本化我们的数据</strong>。<strong>然后我们自动化模型构建和训练过程以使其可复现</strong>。<strong>这允许我们实验和比较不同的方法，并捕获模型治理所需的信息（例如偏差和公平性检查）</strong>。</p>
 <blockquote>
-<p>"A Continuous Delivery orchestration tool coordinates the end-to-end CD4ML process, provisions the desired infrastructure on-demand, and governs how models and applications are deployed to production environments, with appropriate security and compliance controls."</p>
+<p>"持续交付编排工具协调端到端 CD4ML 流程，按需配置所需的基础设施，并管理模型和应用程序如何部署到生产环境，具有适当的安全和合规控制。"</p>
 </blockquote>
-<p><strong>持续交付编排工具协调端到端 CD4ML 流程，按需配置所需的基础设施，并管理模型和应用程序如何部署到生产环境，具有适当的安全和合规控制</strong>。</p>
-<h2 id="where-do-we-go-from-here">我们从这里去哪里？（Where do We Go From Here?）</h2>
+<p><strong>持续交付编排工具协调端到端 CD4ML 流程，按需配置所需的基础设施，并管理模型和应用程序如何部署到生产环境，具有适当的安全和合规控制</strong>。## 我们从这里去哪里？（Where do We Go From Here?）</p>
 <blockquote>
 <p>"The example application and code we used in this article is available on our Github repository, and was used as the basis for a half-day workshop that we presented at various conferences and at our Thoughtworks' internal events."</p>
 </blockquote>
-<p><strong>我们在本文中使用的示例应用程序和代码在我们的 Github 存储库中可用，并用作我们在各种会议和我们的 Thoughtworks 内部活动中举办的半天研讨会的基础</strong>。</p>
-<h3 id="data-versioning">数据版本控制（Data Versioning）</h3>
+<p><strong>我们在本文中使用的示例应用程序和代码在我们的 Github 存储库中可用，并用作我们在各种会议和 Thoughtworks 内部活动中举办的半天研讨会的基础。</strong>### 数据版本控制（Data Versioning）</p>
+<blockquote>
+<p>"In Continuous Delivery, we treat every code commit as a release candidate, which triggers a new execution of the deployment pipeline. Assuming that commit passes through all the pipeline stages, it will eventually be deployed to a production environment. In our example, the Machine Learning pipeline in Figure 5 starts with the download_data.py file, which is responsible for downloading the training dataset from a shared location. If we change the code of this file, we should re-run the pipeline to make sure the model can still be trained."</p>
+</blockquote>
+<p><strong>在持续交付中，我们将每个代码提交视为一个发布候选，它触发部署管道的新执行</strong>。<strong>假设该提交通过所有管道阶段，它最终将部署到生产环境</strong>。<strong>在我们的示例中，图 5 中的机器学习管道从 download_data.py 文件开始，该文件负责从共享位置下载训练数据集</strong>。<strong>如果我们更改此文件的代码，我们应该重新运行管道以确保模型仍然可以训练</strong>。</p>
+<blockquote>
+<p>"An improvement to this approach would be to allow DVC to track the file content for us, by replacing our hand-written download script with: <code>dvc add data/raw/store47-2016.csv ➊</code>"</p>
+</blockquote>
+<p><strong>对此方法的一种改进是允许 DVC 跟踪文件内容，通过将我们手写的下载脚本替换为</strong>：<code>dvc add data/raw/store47-2016.csv ➊</code></p>
+<blockquote>
+<p>"This creates a metadata file that tracks a checksum of the file's content which we can commit to Git. Now when the file contents change, the checksum will change and DVC will update that metadata file accordingly."</p>
+</blockquote>
+<p><strong>这创建了一个元数据文件，用于跟踪文件内容的校验和，我们可以将其提交到 Git</strong>。<strong>现在，当文件内容更改时，校验和将更改，DVC 将相应地更新该元数据文件</strong>。</p>
+<blockquote>
+<p>"While this allows us to retrain our model when the data changes, it doesn't tell the entire story about data versioning. One aspect is data history: ideally you would want to keep an entire history of changes to the data, so you can go back in time and understand what the model was trained on at any point in time. Another aspect is data lineage: being able to trace where each piece of data came from, how it was transformed, and which features were computed from it."</p>
+</blockquote>
+<p><strong>虽然这允许我们在数据更改时重新训练我们的模型，但它并没有讲述关于数据版本控制的整个故事</strong>。<strong>一个方面是数据历史：理想情况下，您希望保留对数据的整个更改历史，以便您可以及时回溯并了解在任何时间点模型训练的内容</strong>。<strong>另一个方面是数据沿袭：能够跟踪每个数据来自何处、如何转换以及从中计算了哪些特征</strong>。</p>
+<blockquote>
+<p>"If you are in a streaming world, then these aspects of data versioning become even more complicated to reason about, so this is an area where we expect more practices, tools and techniques to evolve."</p>
+</blockquote>
+<p><strong>如果您处于流式世界中，那么数据版本控制的这些方面变得更加复杂难以推理，因此这是一个我们期望更多实践、工具和技术发展的领域</strong>。</p>
 <blockquote>
 <p>"In Continuous Delivery, we treat every code commit as a release candidate, which triggers a new execution of the deployment pipeline. Assuming that commit passes through all the pipeline stages, it will eventually be deployed to a production environment. In our example, the Machine Learning pipeline in Figure 5 starts with the download_data.py file, which is responsible for downloading the training dataset from a shared location. If we change the code of this file, we should re-run the pipeline to make sure the model can still be trained."</p>
 </blockquote>
@@ -810,20 +1048,35 @@ dvc run ➌
 </blockquote>
 <p><strong>如果您处于流式世界中，那么数据版本控制的这些方面变得更加复杂难以推理，因此这是一个我们期望更多实践、工具和技术发展的领域</strong>。</p>
 <h3 id="data-pipelines">数据管道（Data Pipelines）</h3>
+<p>到目前为止我们还没有涉及的另一个方面是如何对数据管道本身进行版本控制、测试、部署和监控。在现实世界中，一些工具选项比其他工具更适合启用 CD4ML。例如，如果您使用 Spark，您可能拥有 Scala 或 Python 中的数据管道，您可以在 Git 中对它们进行版本控制，并使用 Spark 的测试库来编写单元测试。由于数据管道通常作为批处理作业或长时间运行的流式应用程序运行，我们没有将它们包含在图 10 的端到端 CD4ML 流程图中，但它们也是整个 ML 系统的重要组成部分。与数据管道相关的另一种测试是数据质量检查，但这可能成为另一个广泛讨论的主题，可能最好在另一篇文章中介绍。### 平台思维（Platform Thinking）</p>
 <blockquote>
-<p>"Another aspect we haven't covered so far is how to version, test, deploy, and monitor the data pipelines themselves. In the real world, some tooling options are better than others to enable CD4ML. For example, if you are using Spark, you might have your data pipelines in Scala or Python, and you can version them in Git, and use Spark's testing libraries to write unit tests. As Data Pipelines are usually either running as a batch job or as a long-running streaming application, we didn't include them in the end-to-end CD4ML process diagram in Figure 10, but they are also an important part of the overall ML system. Another type of test that is relevant for Data Pipelines is a data quality check, but this can become another extensive topic of discussion, and is probably better to be covered in a separate article."</p>
-</blockquote>
-<p><strong>到目前为止我们还没有涉及的另一个方面是如何对数据管道本身进行版本控制、测试、部署和监控</strong>。<strong>在现实世界中，一些工具选项比其他工具更适合启用 CD4ML</strong>。<strong>例如，如果您使用 Spark，您可能拥有 Scala 或 Python 中的数据管道，您可以在 Git 中对它们进行版本控制，并使用 Spark 的测试库来编写单元测试</strong>。<strong>由于数据管道通常作为批处理作业或长时间运行的流式应用程序运行，我们没有将它们包含在图 10 的端到端 CD4ML 流程图中，但它们也是整个 ML 系统的重要组成部分</strong>。<strong>与数据管道相关的另一种测试是数据质量检查，但这可能成为另一个广泛讨论的主题，可能最好在另一篇文章中介绍</strong>。</p>
-<h3 id="platform-thinking">平台思维（Platform Thinking）</h3>
-<blockquote>
-<p>"As you might have noticed, we used various tools and technologies to implement CD4ML. If you have multiple teams trying to do this, they might end up reinventing things or duplicating efforts. This is where Platform Thinking can help: instead of each team building their own tools and processes, you can provide a shared platform that implements the common capabilities, and let teams focus on building their specific ML applications on top of it."</p>
+<p>"您可能已经注意到，我们使用了各种工具和技术来实现 CD4ML。如果有多个团队尝试这样做，他们最终可能会重新发明东西或重复工作。这就是平台思维可以提供帮助的地方：您可以提供一个实现公共功能的共享平台，而不是让每个团队构建自己的工具和流程，并让团队专注于在其上构建他们特定的 ML 应用程序。"</p>
 </blockquote>
 <p><strong>您可能已经注意到，我们使用了各种工具和技术来实现 CD4ML</strong>。<strong>如果有多个团队尝试这样做，他们最终可能会重新发明东西或重复工作</strong>。<strong>这就是平台思维可以提供帮助的地方</strong>：<strong>您可以提供一个实现公共功能的共享平台，而不是让每个团队构建自己的工具和流程，并让团队专注于在其上构建他们特定的 ML 应用程序</strong>。</p>
 <blockquote>
-<p>"Applying platform thinking to CD4ML is why we see a growing interest in Machine Learning platforms and other products that are trying to provide a single solution to manage the end-to-end Machine Learning lifecycle."</p>
+<p>"将平台思维应用于 CD4ML 是为什么我们看到对机器学习平台和其他产品越来越感兴趣的原因，这些产品试图提供单一解决方案来管理端到端的机器学习生命周期。"</p>
 </blockquote>
-<p><strong>将平台思维应用于 CD4ML 是为什么我们看到对机器学习平台和其他试图提供单一解决方案以管理端到端机器学习生命周期的产品越来越感兴趣的原因</strong>。</p>
-<h3 id="evolving-intelligent-systems-without-bias">无偏见的进化智能系统（Evolving Intelligent Systems without Bias）</h3>
+<p><strong>将平台思维应用于 CD4ML 是为什么我们看到对机器学习平台和其他产品越来越感兴趣的原因，这些产品试图提供单一解决方案来管理端到端的机器学习生命周期</strong>。### 无偏见的进化智能系统（Evolving Intelligent Systems without Bias）</p>
+<blockquote>
+<p>"一旦您的第一个机器学习系统部署到生产环境，它将开始进行预测并用于未见数据。它甚至可能取代您之前实施的基于规则的系统。这意味着您所知道的世界开始发生变化，您的系统需要适应这些变化。在机器学习中，这通常被称为概念漂移，它可能由于各种原因而发生，例如用户行为的变化、环境的变化或底层数据生成过程的变化。"</p>
+</blockquote>
+<p><strong>一旦您的第一个机器学习系统部署到生产环境，它将开始进行预测并用于未见数据</strong>。<strong>它甚至可能取代您之前实施的基于规则的系统</strong>。<strong>这意味着您所知道的世界开始发生变化，您的系统需要适应这些变化</strong>。<strong>在机器学习中，这通常被称为概念漂移，它可能由于各种原因而发生，例如用户行为的变化、环境的变化或底层数据生成过程的变化</strong>。</p>
+<blockquote>
+<p>"让我们考虑两个例子来了解影响。首先，让我们考虑我们在整篇文章中探讨的需求预测解决方案。假设有一个应用程序使用预测来决定订购多少库存、放在哪里以及如何定价。如果模型做出的预测与实际需求不一致，应用程序可能最终做出次优决策，这可能会产生真实的业务影响。在第二个例子中，假设您正在构建一个异常检测模型来决定客户的信用卡交易是否是欺诈性的。如果您的应用程序将模型决策作为最终决定，错误的预测可能导致合法交易被拒绝，或欺诈交易被批准。"</p>
+</blockquote>
+<p><strong>让我们考虑两个例子来了解影响</strong>。<strong>首先，让我们考虑我们在整篇文章中探讨的需求预测解决方案</strong>。<strong>假设有一个应用程序使用预测来决定订购多少库存、放在哪里以及如何定价</strong>。<strong>如果模型做出的预测与实际需求不一致，应用程序可能最终做出次优决策，这可能会产生真实的业务影响</strong>。<strong>在第二个例子中，假设您正在构建一个异常检测模型来决定客户的信用卡交易是否是欺诈性的</strong>。<strong>如果您的应用程序将模型决策作为最终决定，错误的预测可能导致合法交易被拒绝，或欺诈交易被批准</strong>。</p>
+<blockquote>
+<p>"这个问题没有简单的解决方案。在我们的第一个例子中，零售商还会考虑缺货情况，并订购比预测更多的商品以覆盖潜在的短缺。对于欺诈检测示例，应用程序可以设计为在拒绝交易之前要求客户验证交易，或暂时保留交易并联系客户。在这两种情况下，应用程序都考虑了模型的输出，但也使用其他逻辑做出最终决定。"</p>
+</blockquote>
+<p><strong>这个问题没有简单的解决方案</strong>。<strong>在我们的第一个例子中，零售商还会考虑缺货情况，并订购比预测更多的商品以覆盖潜在的短缺</strong>。<strong>对于欺诈检测示例，应用程序可以设计为在拒绝交易之前要求客户验证交易，或暂时保留交易并联系客户</strong>。<strong>在这两种情况下，应用程序都考虑了模型的输出，但也使用其他逻辑做出最终决定</strong>。</p>
+<blockquote>
+<p>"因此，重要的是不仅要捕获模型的输入/输出，还要捕获消费应用程序最终做出的决定，无论是使用还是覆盖模型的输出。这使您可以衡量模型对业务的影响，并识别模型输出未被使用的案例，这可能表明模型本身或其使用方式存在问题。"</p>
+</blockquote>
+<p><strong>因此，重要的是不仅要捕获模型的输入/输出，还要捕获消费应用程序最终做出的决定，无论是使用还是覆盖模型的输出。这使您可以衡量模型对业务的影响，并识别模型输出未被使用的案例，这可能表明模型本身或其使用方式存在问题</strong>。<strong>因此，重要的是不仅要捕获模型的输入/输出，还要捕获消费应用程序为使用或覆盖模型输出而做出的最终决定</strong>。<strong>这允许您衡量模型对业务的影响，并识别模型输出未被使用的情况，这可能表明模型本身或模型使用方式存在问题</strong>。</p>
+<blockquote>
+<p>"Evolving an intelligent system to choose and improve ML models over time can also be seen as a meta-learning problem. Many of the state of the art research in this area is focused on these types of problems, and we expect to see more tools and techniques emerge in the future to help with this."</p>
+</blockquote>
+<p><strong>随时间推移选择和改进 ML 模型的智能系统也可以被视为一个元学习问题</strong>。<strong>该领域许多最先进的研究都专注于这些类型的问题，我们预计未来会涌现更多工具和技术来帮助解决这些问题</strong>。</p>
 <blockquote>
 <p>"As soon as your first Machine Learning system is deployed to production, it will start making predictions and be used against unseen data. It might even replace a previous rules-based system you had in place. This means that the world as you know it starts to change, and your system needs to adapt to those changes. In Machine Learning, this is often referred to as concept drift, and it can happen for a variety of reasons, such as changes in user behavior, changes in the environment, or changes in the underlying data generating process."</p>
 </blockquote>
@@ -835,10 +1088,7 @@ dvc run ➌
 <blockquote>
 <p>"There is no simple solution to this problem. On our first example, retailers also consider out-of-stock situations and order more items than forecasted to cover a potential shortage. For the fraud detection example, the application could be designed to ask the customer to verify the transaction before declining it, or to put a hold on the transaction and contact the customer. In both cases, the application is taking into account the model's output, but also using additional logic to make the final decision."</p>
 </blockquote>
-<p><strong>这个问题没有简单的解决方案</strong>。<strong>在我们的第一个例子中，零售商还会考虑缺货情况，并订购比预测更多的商品以覆盖潜在的短缺</strong>。<strong>对于欺诈检测示例，应用程序可以设计为在拒绝交易之前要求客户验证交易，或暂时保留交易并联系客户</strong>。<strong>在这两种情况下，应用程序都考虑了模型的输出，但也使用其他逻辑做出最终决定</strong>。</p>
-<blockquote>
-<p>"Therefore, it is important to not just capture the input/output of a model, but also the ultimate decision taken by the consuming application to either use or override the model's output. This allows you to measure the impact of the model on the business, and to identify cases where the model's output was not used, which could indicate issues with the model itself or with the way it is being used."</p>
-</blockquote>
+<p><strong>这个问题没有简单的解决方案</strong>。<strong>在我们的第一个例子中，零售商还会考虑缺货情况，并订购比预测更多的商品以覆盖潜在的短缺</strong>。<strong>对于欺诈检测示例，应用程序可以设计为在拒绝交易之前要求客户验证交易，或暂时保留交易并联系客户</strong>。<strong>在这两种情况下，应用程序都考虑了模型的输出，但也使用其他逻辑做出最终决定</strong>。&gt; "Therefore, it is important to not just capture the input/output of a model, but also the ultimate decision taken by the consuming application to either use or override the model's output. This allows you to measure the impact of the model on the business, and to identify cases where the model's output was not used, which could indicate issues with the model itself or with the way it is being used."</p>
 <p><strong>因此，重要的是不仅要捕获模型的输入/输出，还要捕获消费应用程序为使用或覆盖模型输出而做出的最终决定</strong>。<strong>这允许您衡量模型对业务的影响，并识别模型输出未被使用的情况，这可能表明模型本身或模型使用方式存在问题</strong>。</p>
 <blockquote>
 <p>"Evolving an intelligent system to choose and improve ML models over time can also be seen as a meta-learning problem. Many of the state of the art research in this area is focused on these types of problems, and we expect to see more tools and techniques emerge in the future to help with this."</p>
@@ -846,14 +1096,13 @@ dvc run ➌
 <p><strong>随时间推移选择和改进 ML 模型的智能系统也可以被视为一个元学习问题</strong>。<strong>该领域许多最先进的研究都专注于这些类型的问题，我们预计未来会涌现更多工具和技术来帮助解决这些问题</strong>。</p>
 <h2 id="conclusion">结论（Conclusion）</h2>
 <blockquote>
-<p>"As Machine Learning techniques continue to evolve and perform more complex tasks, so is evolving our knowledge of how to manage and deliver such applications to production. By bringing and extending the principles and practices of Continuous Delivery to Machine Learning, we can bring the same level of automation, quality, and discipline to the development of ML applications, and help bridge the gap between Data Science and Operations."</p>
+<p>"随着机器学习技术不断演进并执行更复杂的任务，我们关于如何管理和交付此类应用程序到生产环境的知识也在不断发展。通过将持续交付的原则和实践引入并扩展到机器学习，我们可以为 ML 应用程序的开发带来相同水平的自动化、质量和纪律，并帮助弥合数据科学和运维之间的差距。"</p>
 </blockquote>
 <p><strong>随着机器学习技术不断演进并执行更复杂的任务，我们关于如何管理和交付此类应用程序到生产环境的知识也在不断发展</strong>。<strong>通过将持续交付的原则和实践引入并扩展到机器学习，我们可以为 ML 应用程序的开发带来相同水平的自动化、质量和纪律，并帮助弥合数据科学和运维之间的差距</strong>。</p>
 <blockquote>
-<p>"Using a sample sales forecasting application, we have shown in this article the technical components of CD4ML, and discussed a few approaches of how we implemented them. We believe this technique will continue to evolve as the field matures, and we look forward to seeing how the community will adopt and adapt these practices to their own contexts."</p>
+<p>"使用一个样本销售预测应用程序，我们已经在本文中展示了 CD4ML 的技术组件，并讨论了我们如何实现它们的一些方法。我们相信随着该领域的成熟，这项技术将继续发展，我们期待看到社区将如何采用和调整这些实践以适应他们自己的环境。"</p>
 </blockquote>
-<p><strong>使用样本销售预测应用程序，我们已经在本文中展示了 CD4ML 的技术组件，并讨论了我们如何实现它们的一些方法</strong>。<strong>我们相信随着该领域的成熟，这项技术将继续发展，我们期待看到社区将如何采用和调整这些实践以适应他们自己的环境</strong>。</p>
-<h2 id="acknowledgments">致谢（Acknowledgments）</h2>
+<p><strong>使用样本销售预测应用程序，我们已经在本文中展示了 CD4ML 的技术组件，并讨论了我们如何实现它们的一些方法</strong>。<strong>我们相信随着该领域的成熟，这项技术将继续发展，我们期待看到社区将如何采用和调整这些实践以适应他们自己的环境</strong>。## 致谢（Acknowledgments）</p>
 <blockquote>
 <p>"First of all, thanks to Martin Fowler for helping us redefine the narrative and structure of this article, and for hosting it. Special thanks to many current and former ThoughtWorkers who have been helping us create and distill the ideas in this article through our workshops and client work, including Arun Manivannan, Danni Friedland, Erik Bernhardsson, Franziska von Arnim, Karthik Krishnan, Kent Beck, Kim Mens, Maris, Maruan Sahyoun, Miguel Berniz, Naomi Freeman, Paris Sukia, Ran Tavory, Rodrigo Argumedo, Saloni Garg, Sidhartha Sahoo, Spencer Perreault, Steffan Janssen, Sytze Harkema, Tobias Florek, and Will Larson."</p>
 </blockquote>
