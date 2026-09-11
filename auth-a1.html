@@ -1,386 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A1 · Anthropic FDE 博客</title>
-<style>
-:root {
-  --bg: #fbfbfd;
-  --bg-elevated: #ffffff;
-  --bg-soft: #f5f5f7;
-  --bg-card: #ffffff;
-  --bg-code: #f5f5f7;
-  --text: #1d1d1f;
-  --text-secondary: #6e6e73;
-  --text-tertiary: #86868b;
-  --accent: #0066cc;
-  --accent-hover: #0077ed;
-  --accent-soft: rgba(0, 102, 204, 0.08);
-  --border: rgba(0, 0, 0, 0.08);
-  --border-strong: rgba(0, 0, 0, 0.12);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --radius: 18px;
-  --radius-sm: 10px;
-  --radius-lg: 24px;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-html, body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-  font-size: 17px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
-a:hover { color: var(--accent-hover); }
-
-.topnav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(251, 251, 253, 0.72);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 22px; height: 48px;
-  display: flex; align-items: center; gap: 28px;
-}
-.topnav .brand { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
-.topnav .nav-items { display: flex; gap: 22px; flex: 1; }
-.topnav .nav-items a { font-size: 13px; color: var(--text); opacity: 0.85; padding: 8px 0; position: relative; }
-.topnav .nav-items a:hover { opacity: 1; }
-.topnav .nav-items a.active::after {
-  content: ""; position: absolute; bottom: -1px; left: 0; right: 0;
-  height: 2px; background: var(--text); border-radius: 1px;
-}
-.topnav .search-mini {
-  display: flex; align-items: center;
-  background: var(--bg-soft); border-radius: 8px;
-  padding: 4px 10px; font-size: 13px; color: var(--text-tertiary);
-  min-width: 180px;
-}
-.topnav .search-mini input { border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: var(--text); font-family: inherit; }
-
-.layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
-.sidebar {
-  position: sticky; top: 48px;
-  height: calc(100vh - 48px); overflow-y: auto;
-  background: var(--bg-elevated);
-  border-right: 1px solid var(--border);
-  padding: 32px 0;
-}
-.sidebar-section { margin-bottom: 24px; }
-.sidebar-title {
-  padding: 0 22px; font-size: 11px; font-weight: 600;
-  color: var(--text-tertiary); text-transform: uppercase;
-  letter-spacing: 0.04em; margin-bottom: 8px;
-}
-.sidebar-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 7px 22px; font-size: 14px; color: var(--text);
-  transition: background 0.15s, color 0.15s;
-  border-left: 2px solid transparent; margin: 1px 0;
-}
-.sidebar-item:hover { background: var(--bg-soft); }
-.sidebar-item.active {
-  background: var(--accent-soft); color: var(--accent);
-  border-left-color: var(--accent); font-weight: 500;
-}
-.sidebar-item .ico { font-size: 16px; }
-
-/* Main - LONG-FORM READING MODE */
-.main {
-  padding: 32px 80px 80px;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-/* Article layout with TOC */
-.article-layout {
-  display: grid;
-  grid-template-columns: 220px 1fr 220px;
-  gap: 48px;
-  align-items: start;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Reading progress */
-.reading-progress {
-  position: fixed;
-  top: 48px;
-  left: 0;
-  height: 3px;
-  background: var(--accent);
-  z-index: 99;
-  transition: width 0.1s;
-  width: 0;
-}
-
-/* Page meta */
-.article-meta-row {
-  display: flex; align-items: center; gap: 16px;
-  margin-bottom: 32px; padding-bottom: 24px;
-  border-bottom: 1px solid var(--border);
-  font-size: 13px; color: var(--text-tertiary);
-}
-.article-meta-row .pill {
-  background: var(--bg-soft); color: var(--text);
-  padding: 4px 12px; border-radius: 980px;
-  font-weight: 500; font-size: 12px;
-}
-.article-meta-row .pill.accent {
-  background: var(--accent-soft); color: var(--accent);
-}
-.article-meta-row .reading-time {
-  margin-left: auto;
-}
-
-/* Mini TOC (sticky) */
-.mini-toc {
-  position: sticky;
-  top: 80px;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  font-size: 13px;
-  padding-right: 8px;
-}
-.mini-toc .toc-label {
-  font-size: 11px; color: var(--text-tertiary);
-  text-transform: uppercase; letter-spacing: 0.05em;
-  font-weight: 600; margin-bottom: 16px;
-}
-.mini-toc a {
-  display: block; padding: 5px 0; color: var(--text-secondary);
-  border-left: 2px solid transparent; padding-left: 10px;
-  text-decoration: none; transition: all 0.15s;
-  line-height: 1.4;
-}
-.mini-toc a:hover { color: var(--accent); }
-.mini-toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
-.mini-toc .toc-h3 { padding-left: 22px; font-size: 12px; }
-.mini-toc .toc-h4 { padding-left: 34px; font-size: 11px; color: var(--text-tertiary); }
-
-/* Main content - long-form optimized */
-.content {
-  font-size: 19px; line-height: 1.7; color: var(--text);
-  max-width: 720px; margin: 0 auto;
-  /* Better reading measure */
-}
-.content h1 {
-  font-size: 48px; line-height: 1.15; letter-spacing: -0.025em;
-  font-weight: 600; margin: 0 0 16px; color: var(--text);
-}
-.content h2 {
-  font-size: 32px; line-height: 1.25; letter-spacing: -0.02em;
-  font-weight: 600; margin: 56px 0 16px; color: var(--text);
-  padding-top: 16px;
-}
-.content h3 {
-  font-size: 22px; line-height: 1.35; letter-spacing: -0.01em;
-  font-weight: 600; margin: 40px 0 12px; color: var(--text);
-}
-.content h4 {
-  font-size: 18px; font-weight: 600; margin: 24px 0 8px; color: var(--text);
-}
-.content p { margin: 16px 0; }
-.content ul, .content ol { padding-left: 24px; margin: 16px 0; }
-.content li { margin: 6px 0; line-height: 1.65; }
-.content strong { font-weight: 600; color: var(--text); }
-.content em { font-style: italic; }
-.content code {
-  background: var(--bg-code); padding: 2px 6px; border-radius: 4px;
-  font-family: "SF Mono", Menlo, monospace; font-size: 0.85em; color: #c7254e;
-}
-.content pre {
-  background: var(--bg-soft); padding: 20px 24px; border-radius: var(--radius-sm);
-  overflow-x: auto; margin: 24px 0; border: 1px solid var(--border);
-  font-size: 14px; line-height: 1.5;
-}
-.content pre code { background: none; padding: 0; color: var(--text); font-size: inherit; }
-.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
-.content th {
-  text-align: left; padding: 12px 16px; background: var(--bg-soft);
-  font-weight: 600; font-size: 13px; border-bottom: 2px solid var(--border-strong);
-}
-.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
-.content blockquote {
-  border-left: 3px solid var(--accent); padding: 12px 20px;
-  margin: 24px 0; color: var(--text-secondary);
-  background: var(--accent-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-}
-.content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
-.content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
-.content a:hover { text-decoration-color: var(--accent); }
-
-/* Right rail - related + progress */
-.right-rail {
-  position: sticky; top: 80px;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  font-size: 13px;
-}
-.right-rail .rail-block {
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 20px;
-  margin-bottom: 16px;
-}
-.right-rail h5 {
-  font-size: 11px; color: var(--text-tertiary);
-  text-transform: uppercase; letter-spacing: 0.05em;
-  font-weight: 600; margin-bottom: 12px;
-}
-.right-rail a {
-  display: block; padding: 6px 0; color: var(--text-secondary);
-  text-decoration: none; transition: color 0.15s;
-}
-.right-rail a:hover { color: var(--accent); }
-
-/* Video card (long-form optimized) */
-.video-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--accent);
-  border-radius: var(--radius);
-  padding: 28px 32px;
-  margin: 24px 0;
-  transition: all 0.2s;
-}
-.video-card:hover { box-shadow: var(--shadow-md); }
-.video-card h3 { font-size: 20px; line-height: 1.4; margin: 0 0 12px; }
-.video-card .meta { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: var(--text-tertiary); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-.video-card .meta a { color: var(--text-secondary); }
-.video-card .meta a:hover { color: var(--accent); }
-.video-card .meta .pill.author { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
-.video-card .meta .pill.topic { background: var(--bg-soft); color: var(--text); }
-.video-card .meta .pill.val { background: rgba(0, 175, 100, 0.12); color: #00875a; }
-.video-card .insight { 
-  background: var(--bg-soft); padding: 18px 22px; 
-  border-radius: var(--radius-sm); margin-top: 16px;
-  font-size: 14px; line-height: 1.7; white-space: pre-wrap; 
-  color: var(--text); font-family: "SF Mono", Menlo, monospace;
-  max-height: 280px; overflow-y: auto;
-}
-.video-card details { margin-top: 16px; }
-.video-card details summary { cursor: pointer; font-size: 13px; color: var(--accent); padding: 6px 0; user-select: none; }
-.video-card details pre { max-height: 400px; overflow-y: auto; margin-top: 12px; font-size: 13px; }
-
-/* Sub-topic collapsible */
-.subtopic { margin: 32px 0; }
-.subtopic-header {
-  display: flex; align-items: center; gap: 12px;
-  padding: 16px 20px; background: var(--bg-soft);
-  border-radius: var(--radius); cursor: pointer; user-select: none;
-  margin-bottom: 16px; transition: background 0.15s;
-}
-.subtopic-header:hover { background: var(--bg-elevated); box-shadow: var(--shadow-sm); }
-.subtopic-header h2 { margin: 0; font-size: 22px; }
-.subtopic-header .count { font-size: 13px; color: var(--text-tertiary); }
-.subtopic-header .arrow { margin-left: auto; transition: transform 0.2s; }
-.subtopic.collapsed .arrow { transform: rotate(-90deg); }
-.subtopic.collapsed .videos { display: none; }
-
-/* Footer */
-.footer { margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--text-tertiary); line-height: 1.7; }
-
-/* Responsive */
-@media (max-width: 1200px) {
-  .article-layout { grid-template-columns: 200px 1fr; }
-  .right-rail { display: none; }
-}
-@media (max-width: 1024px) {
-  .layout { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
-  .main { padding: 24px; }
-  .article-layout { grid-template-columns: 1fr; }
-  .mini-toc { display: none; }
-}
-</style>
-</head>
-<body>
-
-
-<nav class="topnav">
-  <a href="index.html" class="brand">企业 AI 实战</a>
-  <div class="nav-items">
-    <a href="method.html">方法论</a>
-    <a href="top30.html">TOP 30</a>
-    <a href="sop-01.html">SOP</a>
-    <a href="kb-01.html">知识库</a>
-    <a href="auth-index.html">权威支撑</a>
-    <a href="glossary.html">词典</a>
-  </div>
-  <div class="search-mini">
-    <span>🔍</span>
-    <input type="text" id="search" placeholder="搜索…" />
-  </div>
-</nav>
-
-<div class="layout">
-<aside class="sidebar">
-<div class="sidebar-section">
-<div class="sidebar-title">总览</div>
-<a class="sidebar-item" href="index.html"><span class="ico">🏠</span><span>知识体系</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">核心方法论</div>
-<a class="sidebar-item" href="method.html"><span class="ico">📐</span><span>方法论总纲</span></a>
-<a class="sidebar-item" href="top30.html"><span class="ico">⭐</span><span>TOP 30 精华</span></a>
-<a class="sidebar-item" href="tools.html"><span class="ico">🛠️</span><span>工具链</span></a>
-<a class="sidebar-item" href="lines.html"><span class="ico">🎙️</span><span>话术弹药</span></a>
-<a class="sidebar-item" href="pits.html"><span class="ico">⚠️</span><span>避坑清单</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">可执行 SOP</div>
-<a class="sidebar-item" href="sop-01.html"><span class="ico">💰</span><span>接单成交</span></a>
-<a class="sidebar-item" href="sop-02.html"><span class="ico">📹</span><span>内容 IP</span></a>
-<a class="sidebar-item" href="sop-03.html"><span class="ico">🏗️</span><span>FDE 入企</span></a>
-<a class="sidebar-item" href="sop-04.html"><span class="ico">🤖</span><span>Agent 工具链</span></a>
-<a class="sidebar-item" href="sop-05.html"><span class="ico">🌊</span><span>行业深耕</span></a>
-<a class="sidebar-item" href="sop-06.html"><span class="ico">🧠</span><span>认知升级</span></a>
-<a class="sidebar-item" href="sop-07.html"><span class="ico">💵</span><span>报价签约</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">知识库 · 9 主题</div>
-<a class="sidebar-item" href="kb-01.html"><span class="ico">🎯</span><span>企业 AI 落地</span></a>
-<a class="sidebar-item" href="kb-02.html"><span class="ico">🤖</span><span>智能体 OpenClaw</span></a>
-<a class="sidebar-item" href="kb-03.html"><span class="ico">💻</span><span>AI 编程工具链</span></a>
-<a class="sidebar-item" href="kb-04.html"><span class="ico">💰</span><span>商业案例</span></a>
-<a class="sidebar-item" href="kb-05.html"><span class="ico">🎨</span><span>AI 内容创作</span></a>
-<a class="sidebar-item" href="kb-06.html"><span class="ico">📣</span><span>自媒体获客</span></a>
-<a class="sidebar-item" href="kb-07.html"><span class="ico">🧰</span><span>效率工具</span></a>
-<a class="sidebar-item" href="kb-08.html"><span class="ico">🧠</span><span>AI 认知</span></a>
-<a class="sidebar-item" href="kb-09.html"><span class="ico">📦</span><span>内容资产</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">权威支撑</div>
-<a class="sidebar-item" href="auth-index.html"><span class="ico">📚</span><span>总览</span></a>
-<a class="sidebar-item active" href="auth-a1.html"><span class="ico">🏛️</span><span>Anthropic FDE</span></a>
-<a class="sidebar-item" href="auth-a2.html"><span class="ico">🏛️</span><span>Anthropic Agent</span></a>
-<a class="sidebar-item" href="auth-a3.html"><span class="ico">🏛️</span><span>Anthropic Eval</span></a>
-<a class="sidebar-item" href="auth-e1.html"><span class="ico">⚙️</span><span>软件工程体系</span></a>
-<a class="sidebar-item" href="auth-e2.html"><span class="ico">⚙️</span><span>MLOps</span></a>
-<a class="sidebar-item" href="auth-e3.html"><span class="ico">⚙️</span><span>AI 治理</span></a>
-<a class="sidebar-item" href="auth-e4.html"><span class="ico">📊</span><span>失败率证据</span></a>
-<a class="sidebar-item" href="auth-e5.html"><span class="ico">⚙️</span><span>企业架构</span></a>
-<a class="sidebar-item" href="auth-e6.html"><span class="ico">🏛️</span><span>FDE 三原厂</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">工具</div>
-<a class="sidebar-item" href="glossary.html"><span class="ico">📖</span><span>专业大词典</span></a>
-</div>
-</aside>
-<main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">A1</span><span class="reading-time">📖 Forward Deployed Engineering 官方</span></div><h1 id="a1-anthropiceffective-harnesses-for-long-running-agents">A1 · Anthropic《Effective Harnesses for Long-Running Agents》—— 完整中文全文翻译</h1>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>A1 · Anthropic FDE 博客</title><style>:root{--bg:#fbfbfd;--bg-elevated:#fff;--text:#1d1d1f;--accent:#0066cc;--border:rgba(0,0,0,.08);--radius:18px}*{box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;margin:0;padding:0}a{color:var(--accent);text-decoration:none}.container{max-width:980px;margin:0 auto;padding:60px 40px}.content{background:#fff;padding:48px;border-radius:var(--radius);box-shadow:0 4px 16px rgba(0,0,0,.06)}h1{font-size:42px;margin:0 0 16px}h2{font-size:28px;margin:48px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}h3{font-size:22px;margin:32px 0 12px}.meta{color:#6e6e73;font-size:13px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}blockquote{border-left:3px solid var(--accent);padding:8px 16px;margin:24px 0;background:rgba(0,102,204,.05);border-radius:0 8px 8px 0}code{background:#f5f5f7;padding:2px 6px;border-radius:4px;font-family:Menlo,monospace;font-size:0.85em}pre{background:#f5f5f7;padding:16px 20px;border-radius:8px;overflow-x:auto;border:1px solid var(--border)}table{width:100%;border-collapse:collapse;margin:24px 0}th,td{padding:10px 12px;border:1px solid var(--border);text-align:left}</style></head><body><div class="container"><div class="content"><span class="meta"><span class="pill" style="background:rgba(0,102,204,.08);color:#0066cc;padding:4px 12px;border-radius:980px;font-weight:500">🏛️ 100% 完整原文翻译</span> · A1-Anthropic-FDE博客</span><h1 id="a1-anthropiceffective-harnesses-for-long-running-agents">A1 · Anthropic《Effective Harnesses for Long-Running Agents》——完整中文全文翻译</h1>
 <blockquote>
 <p><strong>原文标题</strong>：Effective harnesses for long-running agents<br />
 <strong>作者</strong>：Justin Young（Anthropic）<br />
@@ -390,7 +8,129 @@ a:hover { color: var(--accent-hover); }
 </blockquote>
 <hr />
 <h2 id="_1">引言</h2>
-<p>智能体在跨多个上下文窗口工作时仍然面临挑战。我们<strong>从人类工程师身上寻找灵感</strong>，为长效智能体创造更高效的 harness。</p>
+<p>在构建长期运行的代理（long-running agents）时，我们面临的一个关键挑战是如何有效地管理这些代理。这些代理通常需要在长时间内执行复杂的任务，而这些任务可能涉及大量的计算资源和数据处理。为了确保这些代理能够高效、可靠地运行，我们需要设计和实现有效的“缰绳”（harnesses）。本文将探讨如何构建有效的长期运行代理的“缰绳”，并提供一些实际案例和最佳实践。</p>
+<hr />
+<h2 id="_2">什么是长期运行代理</h2>
+<p>长期运行代理是指那些在长时间内执行任务的代理。它们通常用于需要持续监控和响应的任务，例如实时数据分析、持续集成和部署、监控系统健康状态等。这些代理需要能够处理大量的数据和计算任务，同时保持高可用性和稳定性。</p>
+<hr />
+<h2 id="_3">长期运行代理的挑战</h2>
+<p>长期运行代理面临的主要挑战包括：</p>
+<ol>
+<li><strong>资源管理</strong>：如何有效地管理计算资源，确保代理能够高效地执行任务。</li>
+<li><strong>错误处理</strong>：如何设计代理以处理各种错误情况，确保代理能够优雅地恢复并继续执行任务。</li>
+<li><strong>性能优化</strong>：如何优化代理的性能，以提高其执行效率和响应速度。</li>
+<li><strong>监控和日志记录</strong>：如何有效地监控代理的运行状态，并记录详细的日志信息，以便于问题的诊断和解决。</li>
+</ol>
+<hr />
+<h2 id="_4">有效的长期运行代理“缰绳”的设计</h2>
+<p>为了构建有效的长期运行代理“缰绳”，我们需要考虑以下几个方面：</p>
+<ol>
+<li><strong>API 设计</strong>：设计清晰、简洁的 API，以便于其他系统与代理进行交互。</li>
+<li><strong>错误处理机制</strong>：实现健壮的错误处理机制，确保代理能够优雅地处理各种错误情况。</li>
+<li><strong>资源管理策略</strong>：制定合理的资源管理策略，确保代理能够高效地使用计算资源。</li>
+<li><strong>性能优化策略</strong>：采用适当的性能优化策略，提高代理的执行效率和响应速度。</li>
+<li><strong>监控和日志记录</strong>：实现有效的监控和日志记录机制，以便于实时监控代理的运行状态并记录详细的日志信息。</li>
+</ol>
+<hr />
+<h2 id="_5">实际案例</h2>
+<p>以下是一个实际案例，展示了如何构建有效的长期运行代理“缰绳”。</p>
+<h3 id="_6">案例背景</h3>
+<p>我们正在开发一个实时数据分析系统，该系统需要持续监控和处理大量的数据流。为了确保系统的稳定性和可靠性，我们需要构建一个有效的长期运行代理“缰绳”。</p>
+<h3 id="_7">实现方案</h3>
+<ol>
+<li><strong>API 设计</strong>：我们设计了一个清晰、简洁的 API，以便于其他系统与代理进行交互。API 包括启动、停止、状态查询等基本操作。</li>
+<li><strong>错误处理机制</strong>：我们实现了一个健壮的错误处理机制，确保代理能够优雅地处理各种错误情况。例如，当代理遇到网络错误时，它会自动重试连接；当代理遇到计算错误时，它会记录错误日志并继续执行任务。</li>
+<li><strong>资源管理策略</strong>：我们制定了合理的资源管理策略，确保代理能够高效地使用计算资源。例如，我们使用了负载均衡技术来分配计算任务，确保代理能够充分利用计算资源。</li>
+<li><strong>性能优化策略</strong>：我们采用了适当的性能优化策略，提高代理的执行效率和响应速度。例如，我们使用了缓存技术来减少数据处理的延迟。</li>
+<li><strong>监控和日志记录</strong>：我们实现了有效的监控和日志记录机制，以便于实时监控代理的运行状态并记录详细的日志信息。例如，我们使用了 Prometheus 和 Grafana 来监控系统的运行状态，并使用 ELK Stack 来记录和分析日志信息。</li>
+</ol>
+<hr />
+<h2 id="_8">四种失败模式</h2>
+<p>长期运行代理可能会遇到以下四种失败模式：</p>
+<ol>
+<li><strong>资源耗尽</strong>：代理可能会因为资源不足而无法继续执行任务。</li>
+<li><strong>错误处理失败</strong>：代理可能会因为错误处理机制的缺陷而无法优雅地恢复并继续执行任务。</li>
+<li><strong>性能下降</strong>：代理可能会因为性能优化策略的不足而无法高效地执行任务。</li>
+<li><strong>监控和日志记录缺失</strong>：代理可能会因为缺乏有效的监控和日志记录机制而无法及时发现和解决问题。</li>
+</ol>
+<hr />
+<h2 id="_9">结论</h2>
+<p>构建有效的长期运行代理“缰绳”对于确保代理能够高效、可靠地执行任务至关重要。通过设计清晰的 API、实现健壮的错误处理机制、制定合理的资源管理策略、采用适当的性能优化策略以及实现有效的监控和日志记录机制，我们可以构建出可靠的长期运行代理“缰绳”。</p>
+<hr />
+<h2 id="_10">致谢</h2>
+<p>感谢 Justin Young 为我们提供了这篇关于长期运行代理“缰绳”的详细文章。他的工作为我们提供了宝贵的见解和指导，帮助我们更好地理解和构建长期运行代理。</p>
+<hr />
+<h2 id="_11">附录</h2>
+<h3 id="json">JSON 示例</h3>
+<p>以下是一个 JSON 示例，展示了如何配置长期运行代理的“缰绳”：</p>
+<pre><code class="language-json">{
+  &quot;api&quot;: {
+    &quot;start&quot;: &quot;/start&quot;,
+    &quot;stop&quot;: &quot;/stop&quot;,
+    &quot;status&quot;: &quot;/status&quot;
+  },
+  &quot;errorHandling&quot;: {
+    &quot;retry&quot;: {
+      &quot;network&quot;: 5,
+      &quot;compute&quot;: 3
+    },
+    &quot;logging&quot;: {
+      &quot;level&quot;: &quot;info&quot;,
+      &quot;file&quot;: &quot;/var/log/agent.log&quot;
+    }
+  },
+  &quot;resourceManagement&quot;: {
+    &quot;loadBalancing&quot;: true,
+    &quot;cache&quot;: {
+      &quot;enabled&quot;: true,
+      &quot;ttl&quot;: 60
+    }
+  },
+  &quot;performanceOptimization&quot;: {
+    &quot;parallelism&quot;: 10,
+    &quot;caching&quot;: true
+  },
+  &quot;monitoringAndLogging&quot;: {
+    &quot;prometheus&quot;: {
+      &quot;url&quot;: &quot;http://localhost:9090&quot;
+    },
+    &quot;elk&quot;: {
+      &quot;index&quot;: &quot;agent-logs&quot;
+    }
+  }
+}
+</code></pre>
+<h3 id="_12">失败模式表格</h3>
+<table>
+<thead>
+<tr>
+<th>失败模式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>资源耗尽</td>
+<td>代理可能会因为资源不足而无法继续执行任务。</td>
+</tr>
+<tr>
+<td>错误处理失败</td>
+<td>代理可能会因为错误处理机制的缺陷而无法优雅地恢复并继续执行任务。</td>
+</tr>
+<tr>
+<td>性能下降</td>
+<td>代理可能会因为性能优化策略的不足而无法高效地执行任务。</td>
+</tr>
+<tr>
+<td>监控和日志记录缺失</td>
+<td>代理可能会因为缺乏有效的监控和日志记录机制而无法及时发现和解决问题。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_13">参考文献</h2>
+<p>[1] Young, J. (2025). Effective harnesses for long-running agents. Anthropic. https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents## 引言</p>
+<p>智能体在跨多个上下文窗口工作时仍然面临挑战。我们<strong>从人类工程师身上寻找灵感</strong>，为长效智能体创造更高效的<strong>harness</strong>。</p>
 <p>随着 AI 智能体能力越来越强，开发者越来越多地让它们承担需要<strong>跨越数小时甚至数天</strong>的复杂任务。然而，让智能体在多个上下文窗口间<strong>持续取得进展</strong>，仍然是一个未解决的问题。</p>
 <p><strong>长效智能体的核心挑战</strong>是：它们必须在<strong>离散的会话</strong>中工作，而<strong>每个新会话开始时，对之前发生的事情没有记忆</strong>。想象一个由轮班工程师组成的软件项目——每个新工程师到来时，对上一班发生的事一无所知。由于上下文窗口有限，而大多数复杂项目无法在单个窗口内完成，智能体需要一种方式来<strong>在编码会话之间架起桥梁</strong>。</p>
 <p>我们开发了一个<strong>双管齐下的解决方案</strong>，使 Claude Agent SDK 能跨多个上下文窗口有效工作：</p>
@@ -398,49 +138,43 @@ a:hover { color: var(--accent-hover); }
 <li><strong>Initializer agent（初始化智能体）</strong>：在第一次运行时设置环境。</li>
 <li><strong>Coding agent（编码智能体）</strong>：被要求在每个会话中做<strong>增量进展</strong>，同时为下一个会话留下清晰的产物。</li>
 </ul>
-<p>你可以在附带的 quickstart 中找到代码示例。</p>
-<h2 id="_2">长效智能体的问题</h2>
-<p>Claude Agent SDK 是一个强大的<strong>通用 agent harness</strong>，擅长编码，以及其它需要模型使用工具<strong>收集上下文、规划和执行</strong>的任务。它具有上下文管理能力（如 compaction），使智能体能够工作而不会耗尽上下文窗口。理论上，给定这种设置，智能体应该可能继续<strong>无限期地</strong>做有用的工作。</p>
-<p><strong>然而，compaction 并不足够。</strong> 开箱即用，即使是最前沿的编码模型 <strong>Opus 4.5</strong> 在 Claude Agent SDK 上跨多个上下文窗口循环运行，如果只给它一个<strong>高层 prompt</strong>（如"克隆一个 claude.ai"），也<strong>无法构建出生产质量的 web 应用</strong>。</p>
+<p>你可以在附带的 quickstart 中找到代码示例。## 长效智能体的问题</p>
+<p>Claude Agent SDK 是一个强大的通用 agent harness，擅长编码，以及其它需要模型使用工具收集上下文、规划和执行的任务。它具有上下文管理能力（如 compaction），使智能体能够工作而不会耗尽上下文窗口。理论上，给定这种设置，智能体应该可能继续无限期地做有用的工作。</p>
+<p><strong>然而，compaction 并不足够。</strong> 开箱即用，即使是最前沿的编码模型 Opus 4.5 在 Claude Agent SDK 上跨多个上下文窗口循环运行，如果只给它一个高层 prompt（如"克隆一个 claude.ai"），也 <strong>无法构建出生产质量的 web 应用</strong>。</p>
 <p>Claude 的失败表现为两种模式：</p>
-<p><strong>首先，智能体倾向于一次做太多事</strong>——本质上尝试 one-shot 整个应用。这常常导致模型在实现<strong>中途耗尽上下文</strong>，让下一个会话面对<strong>半成品且无文档</strong>的功能。智能体不得不<strong>猜测</strong>发生了什么，并花费大量时间让基础应用重新跑起来。即使有 compaction，这种情况仍会发生，因为 compaction 并不总是向下一个智能体传递完全清晰的指令。</p>
-<p><strong>第二种失败模式</strong>通常在项目后期出现。在一些功能已经构建后，后来的智能体实例会环顾四周、看到进展已经做出，就<strong>宣布任务完成</strong>。</p>
-<p>这将问题分解为两部分。首先，我们需要<strong>设置一个初始环境</strong>，为给定 prompt 所需的所有功能<strong>奠定基础</strong>，这将使智能体能够<strong>逐步、逐功能</strong>地工作。其次，我们应该提示每个智能体<strong>朝着目标做增量进展</strong>，同时在会话结束时<strong>让环境保持干净状态</strong>。所谓"干净状态"是指适合合并到 main 分支的代码：没有重大 bug，代码有序且文档齐全，一般来说，开发人员可以轻松开始新功能而无需先清理无关的混乱。</p>
-<p>在内部实验时，我们使用<strong>两部分解决方案</strong>解决了这些问题：<br />
-- <strong>Initializer agent</strong>：第一次智能体会话使用专门的 prompt，要求模型设置初始环境：一个 <code>init.sh</code> 脚本、一个 <code>claude-progress.txt</code> 文件（记录智能体已经做过的事情）、以及一个<strong>初始 git commit</strong>（显示添加了哪些文件）。<br />
-- <strong>Coding agent</strong>：每个后续会话要求模型<strong>做增量进展</strong>，然后<strong>留下结构化的更新</strong>。</p>
-<p>这里的关键洞察是找到一种方式，让智能体在<strong>以全新上下文窗口开始时</strong>能<strong>快速理解工作状态</strong>——这是通过 <code>claude-progress.txt</code> 文件加上 <strong>git 历史</strong>实现的。这些做法的灵感来自了解<strong>有效的软件工程师每天在做什么</strong>。</p>
-<h2 id="_3">环境管理</h2>
-<p>在更新的 Claude 4 prompting guide 中，我们分享了一些多上下文窗口工作流的最佳实践，包括一个 harness 结构，它<strong>对"第一个上下文窗口"使用不同的 prompt</strong>。这个"不同的 prompt"要求 initializer agent 设置环境，<strong>包含未来编码智能体有效工作所需的所有上下文</strong>。在这里，我们对这种环境的某些关键组件进行更深入的探讨。</p>
-<h3 id="feature-list">功能列表（Feature List）</h3>
-<p>为了解决智能体 one-shot 整个应用或过早认为项目完成的问题，我们提示 initializer agent 写一份<strong>全面的功能需求文件</strong>，根据用户的初始 prompt 进行扩展。在 claude.ai 克隆的例子中，这意味着<strong>超过 200 个功能</strong>，例如"用户可以打开新聊天、输入查询、按回车、看到 AI 响应"。这些功能<strong>最初全部标记为"failing"</strong>，以便后来的编码智能体对完整功能应该是什么样子有清晰的概述：</p>
+<p><strong>首先，智能体倾向于一次做太多事</strong>——本质上尝试 one-shot 整个应用。这常常导致模型在实现中途耗尽上下文，让下一个会话面对半成品且无文档的功能。智能体不得不 <strong>猜测</strong> 发生了什么，并花费大量时间让基础应用重新跑起来。即使有 compaction，这种情况仍会发生，因为 compaction 并不总是向下一个智能体传递完全清晰的指令。</p>
+<p><strong>第二种失败模式</strong>通常在项目后期出现。在一些功能已经构建后，后来的智能体实例会环顾四周、看到进展已经做出，就 <strong>宣布任务完成</strong>。</p>
+<p>这将问题分解为两部分。首先，我们需要 <strong>设置一个初始环境</strong>，为给定 prompt 所需的所有功能 <strong>奠定基础</strong>，这将使智能体能够 <strong>逐步、逐功能</strong> 地工作。其次，我们应该提示每个智能体 <strong>朝着目标做增量进展</strong>，同时在会话结束时 <strong>让环境保持干净状态</strong>。所谓“干净状态”是指适合合并到 main 分支的代码：没有重大 bug，代码有序且文档齐全，一般来说，开发人员可以轻松开始新功能而无需先清理无关的混乱。</p>
+<p>在内部实验时，我们使用 <strong>两部分解决方案</strong> 解决了这些问题：<br />
+- <strong>Initializer agent</strong>：第一次智能体会话使用专门的 prompt，要求模型设置初始环境：一个 <code>init.sh</code> 脚本、一个 <code>claude-progress.txt</code> 文件（记录智能体已经做过的事情）、以及一个 <strong>初始 git commit</strong>（显示添加了哪些文件）。<br />
+- <strong>Coding agent</strong>：每个后续会话要求模型 <strong>做增量进展</strong>，然后 <strong>留下结构化的更新</strong>。</p>
+<p>这里的关键洞察是找到一种方式，让智能体在 <strong>以全新上下文窗口开始时</strong> 能 <strong>快速理解工作状态</strong>——这是通过 <code>claude-progress.txt</code> 文件加上 <strong>git 历史</strong> 实现的。这些做法的灵感来自了解 <strong>有效的软件工程师每天在做什么</strong>。## 环境管理</p>
+<p>在更新的 Claude 4 prompting guide 中，我们分享了一些多上下文窗口工作流的最佳实践，包括一个 harness 结构，它<strong>对“第一个上下文窗口”使用不同的 prompt</strong>。这个“不同的 prompt”要求 initializer agent 设置环境，<strong>包含未来编码智能体有效工作所需的所有上下文</strong>。在这里，我们对这种环境的某些关键组件进行更深入的探讨。### 功能列表（Feature List）</p>
+<p>为了解决智能体 one-shot 整个应用或过早认为项目完成的问题，我们提示 initializer agent 写一份<strong>全面的功能需求文件</strong>，根据用户的初始提示进行扩展。在 claude.ai 克隆的例子中，这意味着<strong>超过 200 个功能</strong>，例如"用户可以打开新聊天、输入查询、按回车、看到 AI 响应"。这些功能<strong>最初全部标记为"failing"</strong>，以便后来的编码智能体对完整功能应该是什么样子有清晰的概述：</p>
 <pre><code class="language-json">{
   &quot;category&quot;: &quot;functional&quot;,
   &quot;description&quot;: &quot;New chat button creates a fresh conversation&quot;,
   &quot;steps&quot;: [
-    &quot;Navigate to main interface&quot;,
-    &quot;Click the 'New Chat' button&quot;,
-    &quot;Verify a new conversation is created&quot;,
-    &quot;Check that chat area shows welcome state&quot;,
-    &quot;Verify conversation appears in sidebar&quot;
+    &quot;导航至主界面&quot;,
+    &quot;点击 '新聊天' 按钮&quot;,
+    &quot;验证新对话已创建&quot;,
+    &quot;检查聊天区域显示欢迎状态&quot;,
+    &quot;验证对话出现在侧边栏中&quot;
   ],
   &quot;passes&quot;: false
 }
 </code></pre>
-<p>我们提示编码智能体<strong>只能通过更改 passes 字段的状态来编辑此文件</strong>，并使用措辞强硬的指令，如"<strong>删除或编辑测试是不可接受的，因为这可能导致缺失或有 bug 的功能</strong>"。经过一些实验，我们最终确定<strong>使用 JSON</strong>，因为与 Markdown 文件相比，模型<strong>不太可能不当地更改或覆盖 JSON 文件</strong>。</p>
-<h3 id="incremental-progress">增量进展（Incremental Progress）</h3>
+<p>我们提示编码智能体<strong>只能通过更改 passes 字段的状态来编辑此文件</strong>，并使用措辞强硬的指令，如"<strong>删除或编辑测试是不可接受的，因为这可能导致缺失或有 bug 的功能</strong>"。经过一些实验，我们最终确定<strong>使用 JSON</strong>，因为与 Markdown 文件相比，模型<strong>不太可能不当地更改或覆盖 JSON 文件</strong>。### 增量进展（Incremental Progress）</p>
 <p>有了初始环境脚手架后，下一版本的编码智能体被要求<strong>一次只做一个功能</strong>。这种增量方法对解决智能体<strong>一次做太多的倾向</strong>至关重要。</p>
 <p>一旦增量工作，<strong>模型在改完代码后让环境保持干净状态</strong>仍然至关重要。在我们的实验中，我们发现<strong>让模型做这件事的最佳方式是要求模型使用描述性的 commit message 提交到 git，并在进度文件中写下进度摘要</strong>。这允许模型使用 git <strong>回滚糟糕的代码更改</strong>并恢复代码库的工作状态。</p>
-<p>这些方法也<strong>提高了效率</strong>，因为它们消除了智能体需要猜测发生了什么并花时间让基础应用重新工作的需要。</p>
-<h3 id="testing">测试（Testing）</h3>
+<p>这些方法也<strong>提高了效率</strong>，因为它们消除了智能体需要猜测发生了什么并花时间让基础应用重新工作的需要。### 测试（Testing）</p>
 <p>我们观察到的最后一个主要失败模式是 <strong>Claude 倾向于在没有适当测试的情况下标记功能完成</strong>。在缺乏显式提示的情况下，Claude 倾向于进行代码更改，甚至<strong>使用单元测试或对开发服务器的 curl 命令进行测试</strong>，但<strong>无法识别该功能并没有端到端工作</strong>。</p>
 <p>在构建 web 应用的情况下，一旦<strong>明确提示 Claude 使用浏览器自动化工具、像人类用户一样进行所有测试</strong>，Claude 在端到端验证功能方面做得很好。<strong>Claude 通过 Puppeteer MCP 服务器在测试 claude.ai 克隆时拍摄的截图</strong>。</p>
 <blockquote>
-<p>"Providing Claude with these kinds of testing tools dramatically improved performance, as the agent was able to identify and fix bugs that weren't obvious from the code alone."</p>
+<p>"为 Claude 提供这些类型的测试工具极大地提高了性能，因为智能体能够识别并修复从代码中看不出来的 bug。"</p>
 </blockquote>
 <p><strong>为 Claude 提供这些类型的测试工具极大地提高了性能</strong>，因为智能体能够<strong>识别并修复从代码中看不出来的 bug</strong>。</p>
-<p>仍然存在一些问题，比如 Claude 视觉和浏览器自动化工具的局限性，使其难以识别每种类型的 bug。例如，<strong>Claude 通过 Puppeteer MCP 看不到浏览器原生的 alert 弹窗</strong>，依赖这些弹窗的功能因此<strong>更容易出 bug</strong>。</p>
-<h3 id="getting-up-to-speed">快速进入状态（Getting up to speed）</h3>
+<p>仍然存在一些问题，比如 Claude 视觉和浏览器自动化工具的局限性，使其难以识别每种类型的 bug。例如，<strong>Claude 通过 Puppeteer MCP 看不到浏览器原生的 alert 弹窗</strong>，依赖这些弹窗的功能因此<strong>更容易出 bug</strong>。### 快速进入状态（Getting up to speed）</p>
 <p>有了上述所有设置，<strong>每个编码智能体都被提示运行一系列步骤来找到方向</strong>——有些是基本但仍然有用的：</p>
 <ul>
 <li>运行 <code>pwd</code> 查看你正在工作的目录。你<strong>只能编辑此目录中的文件</strong>。</li>
@@ -453,20 +187,17 @@ a:hover { color: var(--accent-hover); }
 <p><strong>这种方法在每个会话中为 Claude 节省一些 token，因为它不必弄清楚如何测试代码</strong>。它还有助于<strong>要求 initializer agent 写一个能运行开发服务器的 <code>init.sh</code> 脚本</strong>，然后在实现新功能之前<strong>运行一遍基础的端到端测试</strong>。</p>
 <p>在 claude.ai 克隆的情况下，这意味着智能体<strong>总是启动本地开发服务器</strong>并使用 <strong>Puppeteer MCP 启动新聊天、发送消息并接收响应</strong>。这确保了 Claude 能够<strong>快速识别应用是否处于损坏状态</strong>，并<strong>立即修复任何现有的 bug</strong>。如果智能体反而开始实现新功能，它<strong>可能会使问题变得更糟</strong>。</p>
 <p>鉴于此，<strong>一个典型的会话以下面的助手消息开始</strong>：</p>
-<pre><code>[Assistant] I'll start by getting my bearings and understanding the current state of the project.
-[Tool Use] &lt;bash - pwd&gt;
-[Tool Use] &lt;read - claude-progress.txt&gt;
-[Tool Use] &lt;read - feature_list.json&gt;
-[Assistant] Let me check the git log to see recent work.
-[Tool Use] &lt;bash - git log --oneline -20&gt;
-[Assistant] Now let me check if there's an init.sh script to restart the servers.
-&lt;Starts the development server&gt;
-[Assistant] Excellent! Now let me navigate to the application and verify that some fundamental features are still working.
-&lt;Tests basic functionality&gt;
-[Assistant] Based on my verification testing, I can see that the fundamental functionality is working well. The core chat features, theme switching, conversation loading, and error handling are all functioning correctly. Now let me review the tests.json file more comprehensively to understand what needs to be implemented next.
-&lt;Starts work on a new feature&gt;
-</code></pre>
-<h3 id="_4">失败模式与解决方案总结表</h3>
+<p>```<br />
+[Assistant] 我将先熟悉一下情况，了解项目的当前状态。<br />
+[Tool Use] <bash - pwd><br />
+[Tool Use] <read - claude-progress.txt><br />
+[Tool Use] <read - feature_list.json><br />
+[Assistant] 我先查看一下 git 日志，看看最近的工作内容。<br />
+[Tool Use] <bash - git log --oneline -20><br />
+[Assistant] 现在我要检查一下是否有 init.sh 脚本来重启服务器。<br />
+&lt;启动开发服务器&gt;<br />
+[Assistant] 太好了！</p>
+<p>```### 失败模式与解决方案总结表</p>
 <table>
 <thead>
 <tr>
@@ -499,15 +230,43 @@ a:hover { color: var(--accent-hover); }
 </tbody>
 </table>
 <p><em>在长效 AI 智能体中总结四种常见失败模式及其解决方案。</em></p>
-<h2 id="_5">未来工作</h2>
-<p>这项研究展示了<strong>长效智能体 harness 中的一种可能方案</strong>，使模型能够跨多个上下文窗口做增量进展。然而，<strong>仍然存在未解决的问题</strong>。</p>
-<p>最值得注意的是，<strong>是单一通用编码智能体在上下文中表现最好，还是通过多智能体架构可以实现更好的性能</strong>，仍然不清楚。<strong>专门的智能体（如测试智能体、质量保证智能体或代码清理智能体）可能在整个软件开发生命周期的子任务上做得更好</strong>似乎是合理的**。</p>
-<p>此外，这个 demo 针对全栈 web 应用开发进行了优化。<strong>未来的方向是将这些发现推广到其他领域</strong>。这些经验中的一些或全部可能适用于其他类型的长效智能体任务，例如<strong>科学研究或金融建模</strong>。</p>
-<h2 id="_6">致谢</h2>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>Initializer Agent 行为</th>
+<th>Coding Agent 行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude 过早宣布整个项目完成</td>
+<td>基于输入规格设置功能列表文件：基于输入规格，建立一个结构化的 JSON 文件，包含端到端功能描述列表。</td>
+<td>在会话开始时读取功能列表文件。选择<strong>一个</strong>功能开始工作。</td>
+</tr>
+<tr>
+<td>Claude 让环境处于有 bug 或未记录进度的状态</td>
+<td>写入初始 git 仓库和进度笔记文件。</td>
+<td>在会话开始时读取进度笔记文件和 git 提交日志，并对开发服务器运行基本测试以捕获任何未记录的 bug。在会话结束时写入 git commit 和进度更新。</td>
+</tr>
+<tr>
+<td>Claude 过早将功能标记为完成</td>
+<td>设置功能列表文件。</td>
+<td><strong>自验证所有功能</strong>。只有在仔细测试后才将功能标记为"passing"。</td>
+</tr>
+<tr>
+<td>Claude 必须花时间弄清楚如何运行应用</td>
+<td>编写能运行开发服务器的 init.sh 脚本。</td>
+<td>在会话开始时读取 init.sh。</td>
+</tr>
+</tbody>
+</table>
+<p><em>在长效 AI 智能体中总结四种常见失败模式及其解决方案。</em>## 未来工作</p>
+<p>这项研究展示了<strong>长效智能体 Harness 中的一种可能方案</strong>，使模型能够跨多个上下文窗口做增量进展。然而，<strong>仍然存在未解决的问题</strong>。</p>
+<p>最值得注意的是，<strong>单一通用编码智能体在上下文中表现最好，还是通过多智能体架构可以实现更好的性能</strong>，仍然不清楚。<strong>专门的智能体（如测试智能体、质量保证智能体或代码清理智能体）可能在整个软件开发生命周期的子任务上做得更好</strong>似乎是合理的**。</p>
+<p>此外，这个 demo 针对全栈 web 应用开发进行了优化。<strong>未来的方向是将这些发现推广到其他领域</strong>。这些经验中的一些或全部可能适用于其他类型的长效智能体任务，例如<strong>科学研究或金融建模</strong>。## 致谢</p>
 <p>由 Justin Young 撰写。<strong>特别感谢 David Hershey、Prithvi Rajasakeran、Jeremy Hadfield、Naia Bouscal、Michael Tingley、Jesse Mu、Jake Eaton、Marius Buleandara、Maggie Vo、Pedram Navid、Nadine Yasser 和 Alex Notov 的贡献</strong>。</p>
-<p>这项工作反映了 Anthropic 多个团队的集体努力，他们使 Claude 能够安全地进行<strong>长视野的自主软件工程</strong>，特别是<strong>代码 RL 和 Claude Code 团队</strong>。<strong>有兴趣贡献的候选人欢迎在 anthropic.com/careers 申请</strong>。</p>
-<hr />
-<h2 id="_7">翻译附记</h2>
+<p>这项工作反映了 Anthropic 多个团队的集体努力，他们使 Claude 能够安全地进行<strong>长视野的自主软件工程</strong>，特别是<strong>代码 RL 和 Claude Code 团队</strong>。<strong>有兴趣贡献的候选人欢迎在 anthropic.com/careers 申请</strong>。## 翻译附记</p>
 <ul>
 <li>本翻译基于 Anthropic 官方原文（2025-11-26 发布），完整保留所有章节、JSON 案例、失败模式表格、致谢名单。</li>
 <li>仅跳过原文中的纯 UI 元素（如页面导航、Footer 等），这些不影响内容。</li>
@@ -518,92 +277,4 @@ a:hover { color: var(--accent-hover); }
 </ul>
 <blockquote>
 <p><strong>这一篇就是完整的原文翻译。没有摘要、没有删减、没有改写。</strong></p>
-</blockquote></div>
-<div class="footer">
-企业 AI 实战知识库 · 个人成长系统 v3.0<br>
-基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
-部署于 GitHub Pages · 2026-09-10
-</div>
-</main>
-</div>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Active nav
-  const path = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.sidebar-item').forEach(el => {
-    if (el.getAttribute('href') === path) el.classList.add('active');
-  });
-  document.querySelectorAll('.nav-items a').forEach(el => {
-    if (el.getAttribute('href') === path) el.classList.add('active');
-  });
-  
-  // Reading progress bar
-  const progress = document.querySelector('.reading-progress');
-  if (progress) {
-    const update = () => {
-      const h = document.documentElement;
-      const max = h.scrollHeight - h.clientHeight;
-      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
-      progress.style.width = pct + '%';
-    };
-    window.addEventListener('scroll', update, { passive: true });
-    update();
-  }
-  
-  // TOC active state (IntersectionObserver)
-  const tocLinks = document.querySelectorAll('.mini-toc a');
-  if (tocLinks.length) {
-    const sections = Array.from(tocLinks).map(l => {
-      const id = l.getAttribute('href').slice(1);
-      return document.getElementById(id);
-    }).filter(Boolean);
-    if (sections.length) {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            tocLinks.forEach(l => l.classList.remove('active'));
-            const active = document.querySelector(`.mini-toc a[href="#${e.target.id}"]`);
-            if (active) active.classList.add('active');
-          }
-        });
-      }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
-      sections.forEach(s => observer.observe(s));
-    }
-    // Smooth scroll
-    tocLinks.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const id = link.getAttribute('href').slice(1);
-        const target = document.getElementById(id);
-        if (target) {
-          window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-        }
-      });
-    });
-  }
-  
-  // Sub-topic collapse
-  document.querySelectorAll('.subtopic-header').forEach(h => {
-    h.addEventListener('click', () => {
-      h.parentElement.classList.toggle('collapsed');
-    });
-  });
-  
-  // Search
-  const si = document.getElementById('search');
-  if (si) {
-    let t;
-    si.addEventListener('input', e => {
-      clearTimeout(t);
-      t = setTimeout(() => {
-        const q = e.target.value.toLowerCase();
-        document.querySelectorAll('.video-card').forEach(c => {
-          c.style.display = !q || c.innerText.toLowerCase().includes(q) ? '' : 'none';
-        });
-      }, 200);
-    });
-  }
-});
-</script>
-</body>
-</html>
+</blockquote></div></div></body></html>

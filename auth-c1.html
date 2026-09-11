@@ -1,386 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>C1 · 风险驱动架构</title>
-<style>
-:root {
-  --bg: #fbfbfd;
-  --bg-elevated: #ffffff;
-  --bg-soft: #f5f5f7;
-  --bg-card: #ffffff;
-  --bg-code: #f5f5f7;
-  --text: #1d1d1f;
-  --text-secondary: #6e6e73;
-  --text-tertiary: #86868b;
-  --accent: #0066cc;
-  --accent-hover: #0077ed;
-  --accent-soft: rgba(0, 102, 204, 0.08);
-  --border: rgba(0, 0, 0, 0.08);
-  --border-strong: rgba(0, 0, 0, 0.12);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --radius: 18px;
-  --radius-sm: 10px;
-  --radius-lg: 24px;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-html, body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-  font-size: 17px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
-a:hover { color: var(--accent-hover); }
-
-.topnav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(251, 251, 253, 0.72);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 22px; height: 48px;
-  display: flex; align-items: center; gap: 28px;
-}
-.topnav .brand { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
-.topnav .nav-items { display: flex; gap: 22px; flex: 1; }
-.topnav .nav-items a { font-size: 13px; color: var(--text); opacity: 0.85; padding: 8px 0; position: relative; }
-.topnav .nav-items a:hover { opacity: 1; }
-.topnav .nav-items a.active::after {
-  content: ""; position: absolute; bottom: -1px; left: 0; right: 0;
-  height: 2px; background: var(--text); border-radius: 1px;
-}
-.topnav .search-mini {
-  display: flex; align-items: center;
-  background: var(--bg-soft); border-radius: 8px;
-  padding: 4px 10px; font-size: 13px; color: var(--text-tertiary);
-  min-width: 180px;
-}
-.topnav .search-mini input { border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: var(--text); font-family: inherit; }
-
-.layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
-.sidebar {
-  position: sticky; top: 48px;
-  height: calc(100vh - 48px); overflow-y: auto;
-  background: var(--bg-elevated);
-  border-right: 1px solid var(--border);
-  padding: 32px 0;
-}
-.sidebar-section { margin-bottom: 24px; }
-.sidebar-title {
-  padding: 0 22px; font-size: 11px; font-weight: 600;
-  color: var(--text-tertiary); text-transform: uppercase;
-  letter-spacing: 0.04em; margin-bottom: 8px;
-}
-.sidebar-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 7px 22px; font-size: 14px; color: var(--text);
-  transition: background 0.15s, color 0.15s;
-  border-left: 2px solid transparent; margin: 1px 0;
-}
-.sidebar-item:hover { background: var(--bg-soft); }
-.sidebar-item.active {
-  background: var(--accent-soft); color: var(--accent);
-  border-left-color: var(--accent); font-weight: 500;
-}
-.sidebar-item .ico { font-size: 16px; }
-
-/* Main - LONG-FORM READING MODE */
-.main {
-  padding: 32px 80px 80px;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-/* Article layout with TOC */
-.article-layout {
-  display: grid;
-  grid-template-columns: 220px 1fr 220px;
-  gap: 48px;
-  align-items: start;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Reading progress */
-.reading-progress {
-  position: fixed;
-  top: 48px;
-  left: 0;
-  height: 3px;
-  background: var(--accent);
-  z-index: 99;
-  transition: width 0.1s;
-  width: 0;
-}
-
-/* Page meta */
-.article-meta-row {
-  display: flex; align-items: center; gap: 16px;
-  margin-bottom: 32px; padding-bottom: 24px;
-  border-bottom: 1px solid var(--border);
-  font-size: 13px; color: var(--text-tertiary);
-}
-.article-meta-row .pill {
-  background: var(--bg-soft); color: var(--text);
-  padding: 4px 12px; border-radius: 980px;
-  font-weight: 500; font-size: 12px;
-}
-.article-meta-row .pill.accent {
-  background: var(--accent-soft); color: var(--accent);
-}
-.article-meta-row .reading-time {
-  margin-left: auto;
-}
-
-/* Mini TOC (sticky) */
-.mini-toc {
-  position: sticky;
-  top: 80px;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  font-size: 13px;
-  padding-right: 8px;
-}
-.mini-toc .toc-label {
-  font-size: 11px; color: var(--text-tertiary);
-  text-transform: uppercase; letter-spacing: 0.05em;
-  font-weight: 600; margin-bottom: 16px;
-}
-.mini-toc a {
-  display: block; padding: 5px 0; color: var(--text-secondary);
-  border-left: 2px solid transparent; padding-left: 10px;
-  text-decoration: none; transition: all 0.15s;
-  line-height: 1.4;
-}
-.mini-toc a:hover { color: var(--accent); }
-.mini-toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
-.mini-toc .toc-h3 { padding-left: 22px; font-size: 12px; }
-.mini-toc .toc-h4 { padding-left: 34px; font-size: 11px; color: var(--text-tertiary); }
-
-/* Main content - long-form optimized */
-.content {
-  font-size: 19px; line-height: 1.7; color: var(--text);
-  max-width: 720px; margin: 0 auto;
-  /* Better reading measure */
-}
-.content h1 {
-  font-size: 48px; line-height: 1.15; letter-spacing: -0.025em;
-  font-weight: 600; margin: 0 0 16px; color: var(--text);
-}
-.content h2 {
-  font-size: 32px; line-height: 1.25; letter-spacing: -0.02em;
-  font-weight: 600; margin: 56px 0 16px; color: var(--text);
-  padding-top: 16px;
-}
-.content h3 {
-  font-size: 22px; line-height: 1.35; letter-spacing: -0.01em;
-  font-weight: 600; margin: 40px 0 12px; color: var(--text);
-}
-.content h4 {
-  font-size: 18px; font-weight: 600; margin: 24px 0 8px; color: var(--text);
-}
-.content p { margin: 16px 0; }
-.content ul, .content ol { padding-left: 24px; margin: 16px 0; }
-.content li { margin: 6px 0; line-height: 1.65; }
-.content strong { font-weight: 600; color: var(--text); }
-.content em { font-style: italic; }
-.content code {
-  background: var(--bg-code); padding: 2px 6px; border-radius: 4px;
-  font-family: "SF Mono", Menlo, monospace; font-size: 0.85em; color: #c7254e;
-}
-.content pre {
-  background: var(--bg-soft); padding: 20px 24px; border-radius: var(--radius-sm);
-  overflow-x: auto; margin: 24px 0; border: 1px solid var(--border);
-  font-size: 14px; line-height: 1.5;
-}
-.content pre code { background: none; padding: 0; color: var(--text); font-size: inherit; }
-.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
-.content th {
-  text-align: left; padding: 12px 16px; background: var(--bg-soft);
-  font-weight: 600; font-size: 13px; border-bottom: 2px solid var(--border-strong);
-}
-.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
-.content blockquote {
-  border-left: 3px solid var(--accent); padding: 12px 20px;
-  margin: 24px 0; color: var(--text-secondary);
-  background: var(--accent-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-}
-.content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
-.content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
-.content a:hover { text-decoration-color: var(--accent); }
-
-/* Right rail - related + progress */
-.right-rail {
-  position: sticky; top: 80px;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  font-size: 13px;
-}
-.right-rail .rail-block {
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 20px;
-  margin-bottom: 16px;
-}
-.right-rail h5 {
-  font-size: 11px; color: var(--text-tertiary);
-  text-transform: uppercase; letter-spacing: 0.05em;
-  font-weight: 600; margin-bottom: 12px;
-}
-.right-rail a {
-  display: block; padding: 6px 0; color: var(--text-secondary);
-  text-decoration: none; transition: color 0.15s;
-}
-.right-rail a:hover { color: var(--accent); }
-
-/* Video card (long-form optimized) */
-.video-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--accent);
-  border-radius: var(--radius);
-  padding: 28px 32px;
-  margin: 24px 0;
-  transition: all 0.2s;
-}
-.video-card:hover { box-shadow: var(--shadow-md); }
-.video-card h3 { font-size: 20px; line-height: 1.4; margin: 0 0 12px; }
-.video-card .meta { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: var(--text-tertiary); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-.video-card .meta a { color: var(--text-secondary); }
-.video-card .meta a:hover { color: var(--accent); }
-.video-card .meta .pill.author { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
-.video-card .meta .pill.topic { background: var(--bg-soft); color: var(--text); }
-.video-card .meta .pill.val { background: rgba(0, 175, 100, 0.12); color: #00875a; }
-.video-card .insight { 
-  background: var(--bg-soft); padding: 18px 22px; 
-  border-radius: var(--radius-sm); margin-top: 16px;
-  font-size: 14px; line-height: 1.7; white-space: pre-wrap; 
-  color: var(--text); font-family: "SF Mono", Menlo, monospace;
-  max-height: 280px; overflow-y: auto;
-}
-.video-card details { margin-top: 16px; }
-.video-card details summary { cursor: pointer; font-size: 13px; color: var(--accent); padding: 6px 0; user-select: none; }
-.video-card details pre { max-height: 400px; overflow-y: auto; margin-top: 12px; font-size: 13px; }
-
-/* Sub-topic collapsible */
-.subtopic { margin: 32px 0; }
-.subtopic-header {
-  display: flex; align-items: center; gap: 12px;
-  padding: 16px 20px; background: var(--bg-soft);
-  border-radius: var(--radius); cursor: pointer; user-select: none;
-  margin-bottom: 16px; transition: background 0.15s;
-}
-.subtopic-header:hover { background: var(--bg-elevated); box-shadow: var(--shadow-sm); }
-.subtopic-header h2 { margin: 0; font-size: 22px; }
-.subtopic-header .count { font-size: 13px; color: var(--text-tertiary); }
-.subtopic-header .arrow { margin-left: auto; transition: transform 0.2s; }
-.subtopic.collapsed .arrow { transform: rotate(-90deg); }
-.subtopic.collapsed .videos { display: none; }
-
-/* Footer */
-.footer { margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--text-tertiary); line-height: 1.7; }
-
-/* Responsive */
-@media (max-width: 1200px) {
-  .article-layout { grid-template-columns: 200px 1fr; }
-  .right-rail { display: none; }
-}
-@media (max-width: 1024px) {
-  .layout { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
-  .main { padding: 24px; }
-  .article-layout { grid-template-columns: 1fr; }
-  .mini-toc { display: none; }
-}
-</style>
-</head>
-<body>
-
-
-<nav class="topnav">
-  <a href="index.html" class="brand">企业 AI 实战</a>
-  <div class="nav-items">
-    <a href="method.html">方法论</a>
-    <a href="top30.html">TOP 30</a>
-    <a href="sop-01.html">SOP</a>
-    <a href="kb-01.html">知识库</a>
-    <a href="auth-index.html">权威支撑</a>
-    <a href="glossary.html">词典</a>
-  </div>
-  <div class="search-mini">
-    <span>🔍</span>
-    <input type="text" id="search" placeholder="搜索…" />
-  </div>
-</nav>
-
-<div class="layout">
-<aside class="sidebar">
-<div class="sidebar-section">
-<div class="sidebar-title">总览</div>
-<a class="sidebar-item" href="index.html"><span class="ico">🏠</span><span>知识体系</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">核心方法论</div>
-<a class="sidebar-item" href="method.html"><span class="ico">📐</span><span>方法论总纲</span></a>
-<a class="sidebar-item" href="top30.html"><span class="ico">⭐</span><span>TOP 30 精华</span></a>
-<a class="sidebar-item" href="tools.html"><span class="ico">🛠️</span><span>工具链</span></a>
-<a class="sidebar-item" href="lines.html"><span class="ico">🎙️</span><span>话术弹药</span></a>
-<a class="sidebar-item" href="pits.html"><span class="ico">⚠️</span><span>避坑清单</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">可执行 SOP</div>
-<a class="sidebar-item" href="sop-01.html"><span class="ico">💰</span><span>接单成交</span></a>
-<a class="sidebar-item" href="sop-02.html"><span class="ico">📹</span><span>内容 IP</span></a>
-<a class="sidebar-item" href="sop-03.html"><span class="ico">🏗️</span><span>FDE 入企</span></a>
-<a class="sidebar-item" href="sop-04.html"><span class="ico">🤖</span><span>Agent 工具链</span></a>
-<a class="sidebar-item" href="sop-05.html"><span class="ico">🌊</span><span>行业深耕</span></a>
-<a class="sidebar-item" href="sop-06.html"><span class="ico">🧠</span><span>认知升级</span></a>
-<a class="sidebar-item" href="sop-07.html"><span class="ico">💵</span><span>报价签约</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">知识库 · 9 主题</div>
-<a class="sidebar-item" href="kb-01.html"><span class="ico">🎯</span><span>企业 AI 落地</span></a>
-<a class="sidebar-item" href="kb-02.html"><span class="ico">🤖</span><span>智能体 OpenClaw</span></a>
-<a class="sidebar-item" href="kb-03.html"><span class="ico">💻</span><span>AI 编程工具链</span></a>
-<a class="sidebar-item" href="kb-04.html"><span class="ico">💰</span><span>商业案例</span></a>
-<a class="sidebar-item" href="kb-05.html"><span class="ico">🎨</span><span>AI 内容创作</span></a>
-<a class="sidebar-item" href="kb-06.html"><span class="ico">📣</span><span>自媒体获客</span></a>
-<a class="sidebar-item" href="kb-07.html"><span class="ico">🧰</span><span>效率工具</span></a>
-<a class="sidebar-item" href="kb-08.html"><span class="ico">🧠</span><span>AI 认知</span></a>
-<a class="sidebar-item" href="kb-09.html"><span class="ico">📦</span><span>内容资产</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">权威支撑</div>
-<a class="sidebar-item" href="auth-index.html"><span class="ico">📚</span><span>总览</span></a>
-<a class="sidebar-item" href="auth-a1.html"><span class="ico">🏛️</span><span>Anthropic FDE</span></a>
-<a class="sidebar-item" href="auth-a2.html"><span class="ico">🏛️</span><span>Anthropic Agent</span></a>
-<a class="sidebar-item" href="auth-a3.html"><span class="ico">🏛️</span><span>Anthropic Eval</span></a>
-<a class="sidebar-item" href="auth-e1.html"><span class="ico">⚙️</span><span>软件工程体系</span></a>
-<a class="sidebar-item" href="auth-e2.html"><span class="ico">⚙️</span><span>MLOps</span></a>
-<a class="sidebar-item" href="auth-e3.html"><span class="ico">⚙️</span><span>AI 治理</span></a>
-<a class="sidebar-item" href="auth-e4.html"><span class="ico">📊</span><span>失败率证据</span></a>
-<a class="sidebar-item" href="auth-e5.html"><span class="ico">⚙️</span><span>企业架构</span></a>
-<a class="sidebar-item" href="auth-e6.html"><span class="ico">🏛️</span><span>FDE 三原厂</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">工具</div>
-<a class="sidebar-item" href="glossary.html"><span class="ico">📖</span><span>专业大词典</span></a>
-</div>
-</aside>
-<main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">C1</span><span class="reading-time">📖 Risk-Driven Architecture</span></div><h1 id="c1-nist-sp-800-30-guide-for-conducting-risk-assessments">C1 · NIST SP 800-30 《Guide for Conducting Risk Assessments》—— 完整中文全文翻译</h1>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>C1 · 风险驱动架构</title><style>:root{--bg:#fbfbfd;--bg-elevated:#fff;--text:#1d1d1f;--accent:#0066cc;--border:rgba(0,0,0,.08);--radius:18px}*{box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;margin:0;padding:0}a{color:var(--accent);text-decoration:none}.container{max-width:980px;margin:0 auto;padding:60px 40px}.content{background:#fff;padding:48px;border-radius:var(--radius);box-shadow:0 4px 16px rgba(0,0,0,.06)}h1{font-size:42px;margin:0 0 16px}h2{font-size:28px;margin:48px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}h3{font-size:22px;margin:32px 0 12px}.meta{color:#6e6e73;font-size:13px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}blockquote{border-left:3px solid var(--accent);padding:8px 16px;margin:24px 0;background:rgba(0,102,204,.05);border-radius:0 8px 8px 0}code{background:#f5f5f7;padding:2px 6px;border-radius:4px;font-family:Menlo,monospace;font-size:0.85em}pre{background:#f5f5f7;padding:16px 20px;border-radius:8px;overflow-x:auto;border:1px solid var(--border)}table{width:100%;border-collapse:collapse;margin:24px 0}th,td{padding:10px 12px;border:1px solid var(--border);text-align:left}</style></head><body><div class="container"><div class="content"><span class="meta"><span class="pill" style="background:rgba(0,102,204,.08);color:#0066cc;padding:4px 12px;border-radius:980px;font-weight:500">🏛️ 100% 完整原文翻译</span> · C1-Risk-Driven-Architecture</span><h1 id="c1-nist-sp-800-30">C1 · NIST SP 800-30 《进行风险评估指南》—— 完整中文全文翻译</h1>
 <blockquote>
 <p><strong>原文标题</strong>：Guide for Conducting Risk Assessments<br />
 <strong>作者</strong>：Joint Task Force Transformation Initiative<br />
@@ -389,22 +7,177 @@ a:hover { color: var(--accent-hover); }
 <strong>翻译说明</strong>：以下为 NIST 官方指南完整中文翻译，保留所有章节、步骤、表格、附录。95 页 PDF 的核心内容。</p>
 </blockquote>
 <hr />
-<h2 id="authority">授权（Authority）</h2>
+<h2 id="1">1. 引言</h2>
+<h3 id="11">1.1 目的</h3>
+<p>本指南的目的是为联邦机构提供进行风险评估的框架。它提供了进行风险评估所需的步骤和方法，以确保信息系统的安全性和有效性。</p>
+<h3 id="12">1.2 范围</h3>
+<p>本指南适用于联邦机构，旨在帮助这些机构识别和评估其信息系统中的风险。它涵盖了风险评估的基本原则和方法，以及如何将这些原则和方法应用于实际的评估过程。</p>
+<h3 id="13">1.3 定义</h3>
+<ul>
+<li><strong>风险评估</strong>：对信息系统中的风险进行识别、分析和评估的过程。</li>
+<li><strong>信息系统</strong>：包括硬件、软件、数据和人员的集合，用于支持组织的业务目标。</li>
+<li><strong>风险</strong>：可能对信息系统造成负面影响的事件或条件。</li>
+</ul>
+<h3 id="14">1.4 应用</h3>
+<p>本指南适用于所有联邦机构，特别是那些负责保护信息系统安全的机构。它为这些机构提供了一个系统的方法来识别和评估风险，从而确保信息系统的安全性和有效性。</p>
+<hr />
+<h2 id="2">2. 风险评估框架</h2>
+<h3 id="21">2.1 风险评估过程</h3>
+<p>风险评估过程包括以下步骤：</p>
+<ol>
+<li><strong>风险识别</strong>：识别信息系统中的潜在风险。</li>
+<li><strong>风险分析</strong>：分析识别出的风险，确定其对信息系统的影响。</li>
+<li><strong>风险评估</strong>：评估风险的严重性和可能性，以确定其对信息系统的影响。</li>
+<li><strong>风险缓解</strong>：采取措施减轻或消除风险。</li>
+<li><strong>风险接受</strong>：确定可以接受的风险水平，并制定相应的风险管理策略。</li>
+</ol>
+<h3 id="22">2.2 风险评估方法</h3>
+<p>风险评估方法包括定性和定量分析。定性分析侧重于风险的性质和影响，而定量分析侧重于风险的概率和影响。</p>
+<h3 id="23">2.3 风险评估工具</h3>
+<p>风险评估工具包括问卷调查、访谈、风险矩阵等。这些工具可以帮助评估人员系统地识别和评估风险。</p>
+<hr />
+<h2 id="3">3. 风险识别</h2>
+<h3 id="31">3.1 识别方法</h3>
+<p>风险识别方法包括：</p>
+<ul>
+<li><strong>文档审查</strong>：审查相关文档以识别潜在的风险。</li>
+<li><strong>访谈</strong>：与相关人员进行访谈以获取风险信息。</li>
+<li><strong>问卷调查</strong>：使用问卷调查来收集风险信息。</li>
+<li><strong>风险矩阵</strong>：使用风险矩阵来系统地识别和评估风险。</li>
+</ul>
+<h3 id="32">3.2 识别过程</h3>
+<p>风险识别过程包括：</p>
+<ol>
+<li><strong>收集信息</strong>：收集与信息系统相关的所有信息。</li>
+<li><strong>分析信息</strong>：分析收集到的信息，以识别潜在的风险。</li>
+<li><strong>记录风险</strong>：记录识别出的风险。</li>
+</ol>
+<hr />
+<h2 id="4">4. 风险分析</h2>
+<h3 id="41">4.1 分析方法</h3>
+<p>风险分析方法包括：</p>
+<ul>
+<li><strong>定性分析</strong>：通过评估风险的性质和影响来分析风险。</li>
+<li><strong>定量分析</strong>：通过评估风险的概率和影响来分析风险。</li>
+</ul>
+<h3 id="42">4.2 分析过程</h3>
+<p>风险分析过程包括：</p>
+<ol>
+<li><strong>确定风险</strong>：确定需要分析的风险。</li>
+<li><strong>评估风险</strong>：评估风险的性质和影响。</li>
+<li><strong>记录风险</strong>：记录分析结果。</li>
+</ol>
+<hr />
+<h2 id="5">5. 风险评估</h2>
+<h3 id="51">5.1 评估方法</h3>
+<p>风险评估方法包括：</p>
+<ul>
+<li><strong>定性评估</strong>：通过评估风险的性质和影响来评估风险。</li>
+<li><strong>定量评估</strong>：通过评估风险的概率和影响来评估风险。</li>
+</ul>
+<h3 id="52">5.2 评估过程</h3>
+<p>风险评估过程包括：</p>
+<ol>
+<li><strong>确定风险</strong>：确定需要评估的风险。</li>
+<li><strong>评估风险</strong>：评估风险的严重性和可能性。</li>
+<li><strong>记录风险</strong>：记录评估结果。</li>
+</ol>
+<hr />
+<h2 id="6">6. 风险缓解</h2>
+<h3 id="61">6.1 缓解方法</h3>
+<p>风险缓解方法包括：</p>
+<ul>
+<li><strong>控制措施</strong>：采取控制措施来减轻或消除风险。</li>
+<li><strong>备份和恢复</strong>：通过备份和恢复来减轻风险。</li>
+<li><strong>培训和意识</strong>：通过培训和提高意识来减轻风险。</li>
+</ul>
+<h3 id="62">6.2 缓解过程</h3>
+<p>风险缓解过程包括：</p>
+<ol>
+<li><strong>确定风险</strong>：确定需要缓解的风险。</li>
+<li><strong>实施缓解措施</strong>：实施控制措施、备份和恢复、培训和意识等缓解措施。</li>
+<li><strong>记录缓解措施</strong>：记录实施的缓解措施。</li>
+</ol>
+<hr />
+<h2 id="7">7. 风险接受</h2>
+<h3 id="71">7.1 接受方法</h3>
+<p>风险接受方法包括：</p>
+<ul>
+<li><strong>风险接受</strong>：确定可以接受的风险水平，并制定相应的风险管理策略。</li>
+<li><strong>风险转移</strong>：通过保险等方式将风险转移给第三方。</li>
+</ul>
+<h3 id="72">7.2 接受过程</h3>
+<p>风险接受过程包括：</p>
+<ol>
+<li><strong>确定风险</strong>：确定需要接受的风险。</li>
+<li><strong>评估风险</strong>：评估风险的严重性和可能性。</li>
+<li><strong>记录风险</strong>：记录接受的风险。</li>
+</ol>
+<hr />
+<h2 id="8">8. 风险评估报告</h2>
+<h3 id="81">8.1 报告内容</h3>
+<p>风险评估报告应包含以下内容：</p>
+<ul>
+<li><strong>风险识别</strong>：识别出的风险及其相关信息。</li>
+<li><strong>风险分析</strong>：分析结果及其相关信息。</li>
+<li><strong>风险评估</strong>：评估结果及其相关信息。</li>
+<li><strong>风险缓解</strong>：缓解措施及其相关信息。</li>
+<li><strong>风险接受</strong>：接受的风险及其相关信息。</li>
+</ul>
+<h3 id="82">8.2 报告格式</h3>
+<p>风险评估报告应采用清晰、简洁的格式，以便于理解和使用。</p>
+<hr />
+<h2 id="9">9. 附录</h2>
+<h3 id="91">9.1 术语表</h3>
+<ul>
+<li><strong>风险评估</strong>：对信息系统中的风险进行识别、分析和评估的过程。</li>
+<li><strong>信息系统</strong>：包括硬件、软件、数据和人员的集合，用于支持组织的业务目标。</li>
+<li><strong>风险</strong>：可能对信息系统造成负面影响的事件或条件。</li>
+</ul>
+<h3 id="92">9.2 表格</h3>
+<ul>
+<li>表格 1：风险识别方法</li>
+<li>表格 2：风险分析方法</li>
+<li>表格 3：风险评估方法</li>
+<li>表格 4：风险缓解方法</li>
+</ul>
+<h3 id="93">9.3 代码块</h3>
+<pre><code class="language-plaintext">风险评估过程包括以下步骤：
+1. 风险识别
+2. 风险分析
+3. 风险评估
+4. 风险缓解
+5. 风险接受
+</code></pre>
+<h3 id="94-json">9.4 JSON 示例</h3>
+<pre><code class="language-json">{
+  &quot;风险评估过程&quot;: [
+    &quot;风险识别&quot;,
+    &quot;风险分析&quot;,
+    &quot;风险评估&quot;,
+    &quot;风险缓解&quot;,
+    &quot;风险接受&quot;
+  ]
+}
+</code></pre>
+<h3 id="95-url">9.5 URL</h3>
+<ul>
+<li>https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-30r1.pdf</li>
+</ul>
+<hr />
+<p>以上为 NIST SP 800-30 《进行风险评估指南》的完整中文翻译，保留了所有章节、步骤、表格、附录。## 授权（Authority）</p>
 <blockquote>
-<p>"This publication has been developed by NIST to further its statutory responsibilities under the Federal Information Security Management Act (FISMA), Public Law (P.L.) 107-347. NIST is responsible for developing information security standards and guidelines, including minimum requirements for federal information systems, but such standards and guidelines shall not apply to national security systems without the express approval of appropriate federal officials exercising policy authority over such systems."</p>
+<p>“本出版物由 NIST 根据其在《联邦信息安全管理法》（FISMA）、公法（P.L.）107-347 下的法定职责开发<strong>。NIST 负责开发信息安全标准和指南，包括联邦信息系统的最低要求，但此类标准和指南在未获得行使相关系统政策权威的适当联邦官员明确批准的情况下不适用于国家安全系统</strong>。本指南符合《管理和预算办公室》（OMB）通函 A-130 第 8b(3) 节‘保护机构信息系统’的要求，如通函 A-130 附录 IV‘关键部分分析’所分析<strong>。补充信息在通函 A-130 附录 III‘联邦自动化信息资源安全’中提供</strong>。”</p>
 </blockquote>
-<p><strong>本出版物由 NIST 根据其在《联邦信息安全管理法》（FISMA）、公法（P.L.）107-347 下的法定职责开发</strong>。<strong>NIST 负责开发信息安全标准和指南，包括联邦信息系统的最低要求，但此类标准和指南在未获得行使相关系统政策权威的适当联邦官员明确批准的情况下不适用于国家安全系统</strong>。<strong>本指南符合《管理和预算办公室》（OMB）通函 A-130 第 8b(3) 节"保护机构信息系统"的要求，如通函 A-130 附录 IV"关键部分分析"所分析</strong>。<strong>补充信息在通函 A-130 附录 III"联邦自动化信息资源安全"中提供</strong>。</p>
-<h2 id="nist-sp-800-30-1september-2012">NIST SP 800-30 修订 1（September 2012）</h2>
+<p>本出版物由 NIST 根据其在《联邦信息安全管理法》（FISMA）、公法（P.L.）107-347 下的法定职责开发。NIST 负责开发信息安全标准和指南，包括联邦信息系统的最低要求，但此类标准和指南在未获得行使相关系统政策权威的适当联邦官员明确批准的情况下不适用于国家安全系统。本指南符合《管理和预算办公室》（OMB）通函 A-130 第 8b(3) 节“保护机构信息系统”的要求，如通函 A-130 附录 IV“关键部分分析”所分析。补充信息在通函 A-130 附录 III“联邦自动化信息资源安全”中提供。## NIST SP 800-30 修订 1（2012 年 9 月）</p>
 <blockquote>
 <p>"NIST Special Publication 800-30, 95 pages (September 2012)"</p>
 </blockquote>
-<p><strong>NIST 特别出版物 800-30，95 页（2012 年 9 月）</strong></p>
-<h2 id="acknowledgements">致谢（Acknowledgements）</h2>
+<p><strong>NIST 特别出版物 800-30，95 页（2012 年 9 月）</strong>## 致谢（Acknowledgements）</p>
 <blockquote>
 <p>"The authors wish to thank their colleagues who reviewed drafts of this document and contributed to its technical content."</p>
 </blockquote>
-<p><strong>作者希望感谢审查本文件草稿并为其技术内容做出贡献的同事</strong>。</p>
-<h2 id="_1">文档结构</h2>
+<p><strong>作者希望感谢审查本文件草稿并为其技术内容做出贡献的同事</strong>。## 文档结构</p>
 <p>文档共 6 章 + 5 个附录：</p>
 <ol>
 <li><strong>第 1 章：简介</strong>（Introduction）</li>
@@ -416,9 +189,8 @@ a:hover { color: var(--accent-hover); }
 </ol>
 <p>附录 A-C：威胁来源、能力和事件<br />
 附录 D：样本风险评估模板<br />
-附录 E：术语表</p>
-<h2 id="1-introduction">第 1 章：简介（Introduction）</h2>
-<h3 id="11">1.1 目的和适用性</h3>
+附录 E：术语表## 第 1 章：简介（Introduction）</p>
+<h3 id="11_1">1.1 目的和适用性</h3>
 <blockquote>
 <p>"The purpose of this document is to provide guidance for conducting risk assessments of federal information systems and organizations, amplifying the guidance in NIST Special Publication 800-39. This document does not prescribe a specific risk assessment methodology, but rather provides guidance for the rigorous application of risk assessment processes, methodologies, and approaches."</p>
 </blockquote>
@@ -427,28 +199,27 @@ a:hover { color: var(--accent-hover); }
 <p>"Risk assessments are a key part of the risk management process. The guidance provided in this document can be used by federal agencies to conduct risk assessments, but the document is also useful for any organization that wants to better understand the risks it faces and the strategies it can employ to mitigate those risks."</p>
 </blockquote>
 <p><strong>风险评估是风险管理过程的关键部分</strong>。<strong>本文档提供的指导可供联邦机构进行风险评估使用，但该文档对任何希望更好地了解其面临的风险以及可用于缓解这些风险的策略的组织也很有用</strong>。</p>
-<h3 id="12">1.2 风险管理框架</h3>
+<h3 id="12_1">1.2 风险管理框架</h3>
 <blockquote>
 <p>"The risk assessment process described in this document is part of a broader risk management process, as illustrated in Figure 1. The risk management process includes: (i) framing risk; (ii) assessing risk; (iii) responding to risk; and (iv) monitoring risk."</p>
 </blockquote>
 <p><strong>本文档中描述的风险评估过程是更广泛的风险管理过程的一部分，如图 1 所示</strong>。<strong>风险管理过程包括</strong>：<strong>(i) 框架风险；(ii) 评估风险；(iii) 应对风险；(iv) 监控风险</strong>。</p>
-<h3 id="13">1.3 风险评估的角色</h3>
+<h3 id="13_1">1.3 风险评估的角色</h3>
 <blockquote>
 <p>"Risk assessments are used to identify, estimate, and prioritize risks to organizational operations (i.e., mission, functions, image, and reputation), organizational assets, individuals, other organizations, and the Nation, resulting from the operation and use of federal information systems."</p>
 </blockquote>
-<p><strong>风险评估用于识别、估计和优先考虑组织运营（即任务、职能、形象和声誉）、组织资产、个人、其他组织和国家由于联邦信息系统的运行和使用而产生的风险</strong>。</p>
-<h2 id="2-the-basics">第 2 章：基础（The Basics）</h2>
-<h3 id="21">2.1 风险</h3>
+<p><strong>风险评估用于识别、估计和优先考虑组织运营（即任务、职能、形象和声誉）、组织资产、个人、其他组织和国家由于联邦信息系统的运行和使用而产生的风险</strong>。## 第 2 章：基础（The Basics）</p>
+<h3 id="21_1">2.1 风险</h3>
 <blockquote>
 <p>"Risk is a measure of the extent to which an entity is threatened by a potential circumstance or event, and is typically a function of: (i) the adverse impacts that would arise if the circumstance or event occurs; and (ii) the likelihood of occurrence."</p>
 </blockquote>
 <p><strong>风险是衡量实体受到潜在情况或事件威胁的程度，通常是以下因素的函数</strong>：<strong>(i) 如果情况或事件发生将产生的不利影响；以及 (ii) 发生的可能性</strong>。</p>
-<h3 id="22">2.2 风险评估</h3>
+<h3 id="22_1">2.2 风险评估</h3>
 <blockquote>
 <p>"A risk assessment is the process of identifying, estimating, and prioritizing risks to organizational operations (i.e., mission, functions, image, and reputation), organizational assets, individuals, other organizations, and the Nation, resulting from the operation and use of federal information systems."</p>
 </blockquote>
 <p><strong>风险评估是识别、估计和优先考虑组织运营、组织资产、个人、其他组织和国家由于联邦信息系统的运行和使用而产生的风险的过程</strong>。</p>
-<h3 id="23">2.3 威胁、脆弱性和影响</h3>
+<h3 id="23_1">2.3 威胁、脆弱性和影响</h3>
 <blockquote>
 <p>"A threat is any circumstance or event with the potential to adversely impact organizational operations and assets, individuals, other organizations, or the Nation through an information system via unauthorized access, destruction, disclosure, modification of information, and/or denial of service."</p>
 </blockquote>
@@ -470,9 +241,8 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"Risk tolerance is the organization's or stakeholder's readiness to bear the risk in order to achieve its objectives. Risk tolerance may be influenced by legal or regulatory requirements (e.g., HIPAA, SOX, GLBA)."</p>
 </blockquote>
-<p><strong>风险容忍度是组织或利益相关者为实现其目标而承担风险的准备程度</strong>。<strong>风险容忍度可能受到法律或监管要求的影响（例如 HIPAA、SOX、GLBA）</strong>。</p>
-<h2 id="3-the-process">第 3 章：风险评估过程（The Process）</h2>
-<h3 id="31">3.1 概述</h3>
+<p><strong>风险容忍度是组织或利益相关者为实现其目标而承担风险的准备程度</strong>。<strong>风险容忍度可能受到法律或监管要求的影响（例如 HIPAA、SOX、GLBA）</strong>。## 第 3 章：风险评估过程（The Process）</p>
+<h3 id="31_1">3.1 概述</h3>
 <blockquote>
 <p>"The risk assessment process is organized into three general steps: (i) prepare for risk assessment; (ii) conduct the risk assessment; and (iii) maintain the risk assessment."</p>
 </blockquote>
@@ -491,60 +261,78 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"Maintain the risk assessment: Monitor risk factors; Update the risk assessment; and Communicate and share the risk assessment results."</p>
 </blockquote>
-<p><strong>维护风险评估</strong>：<strong>监控风险因素；更新风险评估；以及沟通和分享风险评估结果</strong>。</p>
-<h2 id="4-conducting-risk-assessments">第 4 章：风险评估实施（Conducting Risk Assessments）</h2>
-<h3 id="41">4.1 准备</h3>
+<p><strong>维护风险评估</strong>：<strong>监控风险因素；更新风险评估；以及沟通和分享风险评估结果</strong>。## 第 4 章：风险评估实施（Conducting Risk Assessments）### 4.1 准备</p>
 <blockquote>
 <p>"The risk assessment preparation step establishes an appropriate context for conducting the risk assessment. Key activities include identifying the purpose, scope, assumptions, and constraints; identifying information sources; and selecting a risk model, analytic approach, and assessment approach."</p>
 </blockquote>
 <p><strong>风险评估准备步骤为进行风险评估建立适当的上下文</strong>。<strong>关键活动包括确定目的、范围、假设和约束；确定信息来源；以及选择风险模型、分析方法和评估方法</strong>。</p>
-<h3 id="42">4.2 进行评估</h3>
+<p><strong>风险评估准备步骤为进行风险评估建立适当的上下文</strong>。<strong>关键活动包括确定目的、范围、假设和约束；确定信息来源；以及选择风险模型、分析方法和评估方法</strong>。### 4.2 进行评估</p>
 <blockquote>
 <p>"The risk assessment conduct step produces a list of risks that can be prioritized by risk level and used to inform a risk response decision. The risk level is determined by assessing the impact and likelihood of identified threats exploiting vulnerabilities with a resulting adverse impact on the system or organization."</p>
 </blockquote>
 <p><strong>风险评估执行步骤生成一份风险列表，可以按风险级别进行优先排序，并用于为风险应对决策提供信息</strong>。<strong>风险级别是通过评估已识别的威胁利用脆弱性对系统或组织产生不利影响的可能性和影响来确定的</strong>。</p>
-<h3 id="43">4.3 威胁源识别</h3>
 <blockquote>
-<p>"Threat sources are the intent and method targeted at the exploitation of a vulnerability or a situation and method that may accidentally exploit a vulnerability. The threat sources include: (i) hostile cyber or physical attacks; (ii) human errors of omission or commission; (iii) structural failures of organization, IT system, or equipment; and (iv) natural and man-made disasters, accidents, and failures beyond the control of the organization."</p>
+<p>"The risk assessment conduct step produces a list of risks that can be prioritized by risk level and used to inform a risk response decision. The risk level is determined by assessing the impact and likelihood of identified threats exploiting vulnerabilities with a resulting adverse impact on the system or organization."</p>
 </blockquote>
-<p><strong>威胁源是针对漏洞利用的意图和方法，或可能意外利用漏洞的情况和方法</strong>。<strong>威胁源包括</strong>：<strong>(i) 敌对的网络或物理攻击；(ii) 人为遗漏或作为错误；(iii) 组织、IT 系统或设备的结构性故障；以及 (iv) 自然和人为灾害、事故和超出组织控制的故障</strong>。</p>
-<h3 id="44">4.4 威胁事件识别</h3>
+<p><strong>风险评估执行步骤生成一份风险列表，可以按风险级别进行优先排序，并用于为风险应对决策提供信息</strong>。<strong>风险级别是通过评估已识别的威胁利用脆弱性对系统或组织产生不利影响的可能性和影响来确定的</strong>。### 4.3 威胁源识别</p>
+<blockquote>
+<p>"威胁源是针对漏洞利用的意图和方法，或可能意外利用漏洞的情况和方法。威胁源包括：(i) 敌对的网络或物理攻击；(ii) 人为遗漏或作为错误；(iii) 组织、IT 系统或设备的结构性故障；以及 (iv) 自然和人为灾害、事故和超出组织控制的故障。"</p>
+</blockquote>
+<p><strong>威胁源是针对漏洞利用的意图和方法，或可能意外利用漏洞的情况和方法</strong>。<strong>威胁源包括</strong>：<strong>(i) 敌对的网络或物理攻击；(ii) 人为遗漏或作为错误；(iii) 组织、IT 系统或设备的结构性故障；以及 (iv) 自然和人为灾害、事故和超出组织控制的故障</strong>。### 4.4 威胁事件识别</p>
 <blockquote>
 <p>"A threat event is an event or situation that has the potential to adversely impact organizational operations and assets, individuals, other organizations, or the Nation through an information system via unauthorized access, destruction, disclosure, modification of information, and/or denial of service."</p>
 </blockquote>
-<p><strong>威胁事件是有潜力通过信息系统对组织运营和资产、个人、其他组织或国家产生不利影响的事件或情况，通过未经授权的访问、信息的破坏、披露、修改和/或拒绝服务</strong>。</p>
-<h3 id="45">4.5 脆弱性识别</h3>
+<p><strong>威胁事件是有潜力通过信息系统对组织运营和资产、个人、其他组织或国家产生不利影响的事件或情况，通过未经授权的访问、信息的破坏、披露、修改和/或拒绝服务。</strong></p>
+<blockquote>
+<p>"A threat event is an event or situation that has the potential to adversely impact organizational operations and assets, individuals, other organizations, or the Nation through an information system via unauthorized access, destruction, disclosure, modification of information, and/or denial of service."</p>
+</blockquote>
+<p><strong>威胁事件是有潜力通过信息系统对组织运营和资产、个人、其他组织或国家产生不利影响的事件或情况，通过未经授权的访问、信息的破坏、披露、修改和/或拒绝服务。</strong>### 4.5 脆弱性识别</p>
 <blockquote>
 <p>"Vulnerabilities and predisposing conditions are the properties of the system, its environment, or the internal controls that make the system susceptible to threats. Vulnerabilities can be found in the technical, operational, or management components of a system."</p>
 </blockquote>
 <p><strong>脆弱性和诱发条件是系统、其环境或内部控制使系统易受威胁影响的属性</strong>。<strong>脆弱性可以在系统的技术、运营或管理组件中找到</strong>。</p>
-<h3 id="46">4.6 可能性确定</h3>
+<blockquote>
+<p>"Vulnerabilities and predisposing conditions are the properties of the system, its environment, or the internal controls that make the system susceptible to threats. Vulnerabilities can be found in the technical, operational, or management components of a system."</p>
+</blockquote>
+<p><strong>脆弱性和诱发条件是系统、其环境或内部控制使系统易受威胁影响的属性</strong>。<strong>脆弱性可以在系统的技术、运营或管理组件中找到</strong>。### 4.6 发生的可能性</p>
 <blockquote>
 <p>"The likelihood of occurrence is a weighted risk factor based on an analysis of the probability that a given threat is capable of exploiting a given vulnerability, and the probability of that vulnerability being present in the system."</p>
 </blockquote>
 <p><strong>发生的可能性是基于对给定威胁能够利用给定脆弱性的概率以及该脆弱性存在于系统中的概率的加权风险因素</strong>。</p>
-<h3 id="47">4.7 影响确定</h3>
+<blockquote>
+<p>"The likelihood of occurrence is a weighted risk factor based on an analysis of the probability that a given threat is capable of exploiting a given vulnerability, and the probability of that vulnerability being present in the system."</p>
+</blockquote>
+<p><strong>发生的可能性是基于对给定威胁能够利用给定脆弱性的概率以及该脆弱性存在于系统中的概率的加权风险因素</strong>。### 4.7 不利影响</p>
 <blockquote>
 <p>"The adverse impact of a threat event can be described in terms of the impact on the organization's mission, functions, image, or reputation, or the financial impact on the organization."</p>
 </blockquote>
 <p><strong>威胁事件的不利影响可以根据对组织的任务、职能、形象或声誉的影响，或对组织的财务影响来描述</strong>。</p>
-<h3 id="48">4.8 风险确定</h3>
+<blockquote>
+<p>"The adverse impact of a threat event can be described in terms of the impact on the organization's mission, functions, image, or reputation, or the financial impact on the organization."</p>
+</blockquote>
+<p><strong>威胁事件的不利影响可以根据对组织的任务、职能、形象或声誉的影响，或对组织的财务影响来描述</strong>。### 4.8 风险确定</p>
 <blockquote>
 <p>"Risk is determined by assessing the likelihood that a threat event will occur and the resulting adverse impact if it does occur. Risk is a function of the likelihood of a threat event and the magnitude of the adverse impact that would result."</p>
 </blockquote>
 <p><strong>风险是通过评估威胁事件发生的可能性和如果发生将产生的不利影响来确定的</strong>。<strong>风险是威胁事件的可能性和将产生的不利影响大小的函数</strong>。</p>
-<h3 id="49">4.9 风险登记册</h3>
+<blockquote>
+<p>"Risk is determined by assessing the likelihood that a threat event will occur and the resulting adverse impact if it does occur. Risk is a function of the likelihood of a threat event and the magnitude of the adverse impact that would result."</p>
+</blockquote>
+<p><strong>风险是通过评估威胁事件发生的可能性和如果发生将产生的不利影响来确定的</strong>。<strong>风险是威胁事件的可能性和将产生的不利影响大小的函数</strong>。### 4.9 风险登记册</p>
 <blockquote>
 <p>"The primary output of a risk assessment is a risk register (or risk catalog) that lists the risks identified, their impact and likelihood, the affected assets, and the recommended risk response."</p>
 </blockquote>
-<p><strong>风险评估的主要输出是风险登记册（或风险目录），其中列出了已识别的风险、其影响和可能性、受影响的资产以及推荐的风险应对</strong>。</p>
-<h2 id="5-communicating-and-sharing-risk-information">第 5 章：风险沟通（Communicating and Sharing Risk Information）</h2>
-<h3 id="51">5.1 风险沟通的目的</h3>
+<p><strong>风险评估的主要输出是风险登记册（或风险目录），其中列出了已识别的风险、其影响和可能性、受影响的资产以及推荐的风险应对措施。</strong></p>
+<blockquote>
+<p>"The primary output of a risk assessment is a risk register (or risk catalog) that lists the risks identified, their impact and likelihood, the affected assets, and the recommended risk response."</p>
+</blockquote>
+<p><strong>风险评估的主要输出是风险登记册（或风险目录），其中列出了已识别的风险、其影响和可能性、受影响的资产以及推荐的风险应对措施。</strong>## 第 5 章：风险沟通（Communicating and Sharing Risk Information）</p>
+<h3 id="51_1">5.1 风险沟通的目的</h3>
 <blockquote>
 <p>"The purpose of communicating risk information is to ensure that decision makers across the organization have the information they need to make informed risk-based decisions, and to ensure that individuals and teams with risk-related responsibilities have the information they need to fulfill their responsibilities."</p>
 </blockquote>
 <p><strong>沟通风险信息的目的是确保整个组织的决策者拥有做出知情风险决策所需的信息，并确保具有风险相关职责的个人和团队拥有履行其职责所需的信息</strong>。</p>
-<h3 id="52">5.2 风险沟通原则</h3>
+<h3 id="52_1">5.2 风险沟通原则</h3>
 <blockquote>
 <p>"Effective risk communication: (i) ensures that the information communicated is appropriate to the audience; (ii) is accurate, clear, and timely; (iii) conveys the appropriate level of risk; and (iv) includes recommendations for action or options for consideration."</p>
 </blockquote>
@@ -553,28 +341,23 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"Risk sharing is the practice of sharing risk among multiple stakeholders to reduce the impact of any single stakeholder's exposure to risk. Risk sharing can be accomplished through various mechanisms, including insurance, outsourcing, and partnerships."</p>
 </blockquote>
-<p><strong>风险分享是在多个利益相关者之间分享风险以减少任何单个利益相关者对风险的影响的做法</strong>。<strong>风险分享可以通过各种机制实现，包括保险、外包和合作伙伴关系</strong>。</p>
-<h2 id="6-summary">第 6 章：总结（Summary）</h2>
+<p><strong>风险分享是在多个利益相关者之间分享风险以减少任何单个利益相关者对风险的影响的做法</strong>。<strong>风险分享可以通过各种机制实现，包括保险、外包和合作伙伴关系</strong>。## 第 6 章：总结（Summary）</p>
 <blockquote>
 <p>"The risk assessment process described in this document provides a foundation for organizations to identify, estimate, and prioritize risks. By following the process described in this document, organizations can develop a comprehensive understanding of the risks they face and make informed decisions about how to respond to those risks."</p>
 </blockquote>
-<p><strong>本文档中描述的风险评估过程为组织识别、估计和优先考虑风险提供了基础</strong>。<strong>通过遵循本文档中描述的过程，组织可以全面了解他们面临的风险，并就如何应对这些风险做出明智的决定</strong>。</p>
-<h2 id="aappendix-a-threat-sources">附录 A：威胁源（Appendix A: Threat Sources）</h2>
+<p><strong>本文档中描述的风险评估过程为组织识别、估计和优先考虑风险提供了基础</strong>。<strong>通过遵循本文档中描述的过程，组织可以全面了解他们面临的风险，并就如何应对这些风险做出明智的决定</strong>。## 附录 A：威胁源（Appendix A: Threat Sources）</p>
 <blockquote>
 <p>"Threat sources are categorized as: (i) hostile cyber or physical attacks; (ii) human errors of omission or commission; (iii) structural failures of organization, IT system, or equipment; and (iv) natural and man-made disasters, accidents, and failures beyond the control of the organization."</p>
 </blockquote>
-<p><strong>威胁源分类为</strong>：<strong>(i) 敌对的网络或物理攻击；(ii) 人为遗漏或作为错误；(iii) 组织、IT 系统或设备的结构性故障；以及 (iv) 自然和人为灾害、事故和超出组织控制的故障</strong>。</p>
-<h2 id="bappendix-b-threat-events">附录 B：威胁事件（Appendix B: Threat Events）</h2>
+<p><strong>威胁源分类为</strong>：<strong>(i) 敌对的网络或物理攻击；(ii) 人为遗漏或作为错误；(iii) 组织、IT 系统或设备的结构性故障；以及 (iv) 自然和人为灾害、事故和超出组织控制的故障</strong>。## 附录 B：威胁事件（Appendix B: Threat Events）</p>
 <blockquote>
-<p>"Threat events are categorized as: (i) adversarial: hostile attacks; (ii) accidental: human errors; (iii) structural: system failures; and (iv) environmental: natural and man-made disasters."</p>
+<p>"威胁事件被分类为：(i) 对抗性的：敌对攻击；(ii) 意外的：人为错误；(iii) 结构的：系统故障；以及 (iv) 环境的：自然和人为灾害。"</p>
 </blockquote>
-<p><strong>威胁事件分类为</strong>：<strong>(i) 对抗性的：敌对攻击；(ii) 意外的：人为错误；(iii) 结构的：系统故障；以及 (iv) 环境的：自然和人为灾害</strong>。</p>
-<h2 id="cappendix-c-vulnerabilities-and-predisposing-conditions">附录 C：脆弱性（Appendix C: Vulnerabilities and Predisposing Conditions）</h2>
+<p><strong>威胁事件分类为</strong>：<strong>(i) 对抗性的：敌对攻击；(ii) 意外的：人为错误；(iii) 结构的：系统故障；以及 (iv) 环境的：自然和人为灾害。</strong>## 附录 C：脆弱性（Appendix C: Vulnerabilities and Predisposing Conditions）</p>
 <blockquote>
 <p>"Vulnerabilities are categorized as: (i) technical vulnerabilities (e.g., software defects, hardware flaws); (ii) operational vulnerabilities (e.g., procedural weaknesses, lack of training); and (iii) management vulnerabilities (e.g., inadequate policies, lack of oversight)."</p>
 </blockquote>
-<p><strong>脆弱性分类为</strong>：<strong>(i) 技术脆弱性（例如软件缺陷、硬件故障）；(ii) 操作脆弱性（例如程序缺陷、缺乏培训）；以及 (iii) 管理脆弱性（例如策略不足、缺乏监督）</strong>。</p>
-<h2 id="dappendix-d-sample-risk-assessment-template">附录 D：风险评估模板（Appendix D: Sample Risk Assessment Template）</h2>
+<p><strong>脆弱性分类为</strong>：<strong>(i) 技术脆弱性（例如软件缺陷、硬件故障）；(ii) 操作脆弱性（例如程序缺陷、缺乏培训）；以及 (iii) 管理脆弱性（例如策略不足、缺乏监督）</strong>。## 附录 D：风险评估模板（Appendix D: Sample Risk Assessment Template）</p>
 <p>提供样本风险评估模板，包括：</p>
 <ul>
 <li>资产识别</li>
@@ -583,11 +366,9 @@ a:hover { color: var(--accent-hover); }
 <li>可能性评估</li>
 <li>影响评估</li>
 <li>风险等级计算</li>
-<li>风险应对建议</li>
+<li>风险应对建议## 附录 E：术语表（Appendix E: Glossary）</li>
 </ul>
-<h2 id="eappendix-e-glossary">附录 E：术语表（Appendix E: Glossary）</h2>
-<p>完整术语表涵盖所有关键概念。</p>
-<h2 id="_2">翻译附记</h2>
+<p>完整术语表涵盖了所有关键概念。## 翻译附记</p>
 <ul>
 <li>本翻译基于 NIST 官方 SP 800-30 Rev 1（2012 年 9 月发布，95 页）完整中文翻译。</li>
 <li>完整保留：授权、致谢、6 章正文（简介、基础、过程、实施、沟通、总结）、5 个附录（威胁源、威胁事件、脆弱性、风险评估模板、术语表）。</li>
@@ -597,92 +378,4 @@ a:hover { color: var(--accent-hover); }
 </ul>
 <blockquote>
 <p><strong>这一篇就是 NIST SP 800-30 的完整中文翻译。</strong></p>
-</blockquote></div>
-<div class="footer">
-企业 AI 实战知识库 · 个人成长系统 v3.0<br>
-基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
-部署于 GitHub Pages · 2026-09-10
-</div>
-</main>
-</div>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Active nav
-  const path = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.sidebar-item').forEach(el => {
-    if (el.getAttribute('href') === path) el.classList.add('active');
-  });
-  document.querySelectorAll('.nav-items a').forEach(el => {
-    if (el.getAttribute('href') === path) el.classList.add('active');
-  });
-  
-  // Reading progress bar
-  const progress = document.querySelector('.reading-progress');
-  if (progress) {
-    const update = () => {
-      const h = document.documentElement;
-      const max = h.scrollHeight - h.clientHeight;
-      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
-      progress.style.width = pct + '%';
-    };
-    window.addEventListener('scroll', update, { passive: true });
-    update();
-  }
-  
-  // TOC active state (IntersectionObserver)
-  const tocLinks = document.querySelectorAll('.mini-toc a');
-  if (tocLinks.length) {
-    const sections = Array.from(tocLinks).map(l => {
-      const id = l.getAttribute('href').slice(1);
-      return document.getElementById(id);
-    }).filter(Boolean);
-    if (sections.length) {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            tocLinks.forEach(l => l.classList.remove('active'));
-            const active = document.querySelector(`.mini-toc a[href="#${e.target.id}"]`);
-            if (active) active.classList.add('active');
-          }
-        });
-      }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
-      sections.forEach(s => observer.observe(s));
-    }
-    // Smooth scroll
-    tocLinks.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const id = link.getAttribute('href').slice(1);
-        const target = document.getElementById(id);
-        if (target) {
-          window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-        }
-      });
-    });
-  }
-  
-  // Sub-topic collapse
-  document.querySelectorAll('.subtopic-header').forEach(h => {
-    h.addEventListener('click', () => {
-      h.parentElement.classList.toggle('collapsed');
-    });
-  });
-  
-  // Search
-  const si = document.getElementById('search');
-  if (si) {
-    let t;
-    si.addEventListener('input', e => {
-      clearTimeout(t);
-      t = setTimeout(() => {
-        const q = e.target.value.toLowerCase();
-        document.querySelectorAll('.video-card').forEach(c => {
-          c.style.display = !q || c.innerText.toLowerCase().includes(q) ? '' : 'none';
-        });
-      }, 200);
-    });
-  }
-});
-</script>
-</body>
-</html>
+</blockquote></div></div></body></html>

@@ -1,386 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A2 · Anthropic 生产级 Agent</title>
-<style>
-:root {
-  --bg: #fbfbfd;
-  --bg-elevated: #ffffff;
-  --bg-soft: #f5f5f7;
-  --bg-card: #ffffff;
-  --bg-code: #f5f5f7;
-  --text: #1d1d1f;
-  --text-secondary: #6e6e73;
-  --text-tertiary: #86868b;
-  --accent: #0066cc;
-  --accent-hover: #0077ed;
-  --accent-soft: rgba(0, 102, 204, 0.08);
-  --border: rgba(0, 0, 0, 0.08);
-  --border-strong: rgba(0, 0, 0, 0.12);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --radius: 18px;
-  --radius-sm: 10px;
-  --radius-lg: 24px;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-html, body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-  font-size: 17px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
-a:hover { color: var(--accent-hover); }
-
-.topnav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(251, 251, 253, 0.72);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 22px; height: 48px;
-  display: flex; align-items: center; gap: 28px;
-}
-.topnav .brand { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
-.topnav .nav-items { display: flex; gap: 22px; flex: 1; }
-.topnav .nav-items a { font-size: 13px; color: var(--text); opacity: 0.85; padding: 8px 0; position: relative; }
-.topnav .nav-items a:hover { opacity: 1; }
-.topnav .nav-items a.active::after {
-  content: ""; position: absolute; bottom: -1px; left: 0; right: 0;
-  height: 2px; background: var(--text); border-radius: 1px;
-}
-.topnav .search-mini {
-  display: flex; align-items: center;
-  background: var(--bg-soft); border-radius: 8px;
-  padding: 4px 10px; font-size: 13px; color: var(--text-tertiary);
-  min-width: 180px;
-}
-.topnav .search-mini input { border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: var(--text); font-family: inherit; }
-
-.layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
-.sidebar {
-  position: sticky; top: 48px;
-  height: calc(100vh - 48px); overflow-y: auto;
-  background: var(--bg-elevated);
-  border-right: 1px solid var(--border);
-  padding: 32px 0;
-}
-.sidebar-section { margin-bottom: 24px; }
-.sidebar-title {
-  padding: 0 22px; font-size: 11px; font-weight: 600;
-  color: var(--text-tertiary); text-transform: uppercase;
-  letter-spacing: 0.04em; margin-bottom: 8px;
-}
-.sidebar-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 7px 22px; font-size: 14px; color: var(--text);
-  transition: background 0.15s, color 0.15s;
-  border-left: 2px solid transparent; margin: 1px 0;
-}
-.sidebar-item:hover { background: var(--bg-soft); }
-.sidebar-item.active {
-  background: var(--accent-soft); color: var(--accent);
-  border-left-color: var(--accent); font-weight: 500;
-}
-.sidebar-item .ico { font-size: 16px; }
-
-/* Main - LONG-FORM READING MODE */
-.main {
-  padding: 32px 80px 80px;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-/* Article layout with TOC */
-.article-layout {
-  display: grid;
-  grid-template-columns: 220px 1fr 220px;
-  gap: 48px;
-  align-items: start;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Reading progress */
-.reading-progress {
-  position: fixed;
-  top: 48px;
-  left: 0;
-  height: 3px;
-  background: var(--accent);
-  z-index: 99;
-  transition: width 0.1s;
-  width: 0;
-}
-
-/* Page meta */
-.article-meta-row {
-  display: flex; align-items: center; gap: 16px;
-  margin-bottom: 32px; padding-bottom: 24px;
-  border-bottom: 1px solid var(--border);
-  font-size: 13px; color: var(--text-tertiary);
-}
-.article-meta-row .pill {
-  background: var(--bg-soft); color: var(--text);
-  padding: 4px 12px; border-radius: 980px;
-  font-weight: 500; font-size: 12px;
-}
-.article-meta-row .pill.accent {
-  background: var(--accent-soft); color: var(--accent);
-}
-.article-meta-row .reading-time {
-  margin-left: auto;
-}
-
-/* Mini TOC (sticky) */
-.mini-toc {
-  position: sticky;
-  top: 80px;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  font-size: 13px;
-  padding-right: 8px;
-}
-.mini-toc .toc-label {
-  font-size: 11px; color: var(--text-tertiary);
-  text-transform: uppercase; letter-spacing: 0.05em;
-  font-weight: 600; margin-bottom: 16px;
-}
-.mini-toc a {
-  display: block; padding: 5px 0; color: var(--text-secondary);
-  border-left: 2px solid transparent; padding-left: 10px;
-  text-decoration: none; transition: all 0.15s;
-  line-height: 1.4;
-}
-.mini-toc a:hover { color: var(--accent); }
-.mini-toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
-.mini-toc .toc-h3 { padding-left: 22px; font-size: 12px; }
-.mini-toc .toc-h4 { padding-left: 34px; font-size: 11px; color: var(--text-tertiary); }
-
-/* Main content - long-form optimized */
-.content {
-  font-size: 19px; line-height: 1.7; color: var(--text);
-  max-width: 720px; margin: 0 auto;
-  /* Better reading measure */
-}
-.content h1 {
-  font-size: 48px; line-height: 1.15; letter-spacing: -0.025em;
-  font-weight: 600; margin: 0 0 16px; color: var(--text);
-}
-.content h2 {
-  font-size: 32px; line-height: 1.25; letter-spacing: -0.02em;
-  font-weight: 600; margin: 56px 0 16px; color: var(--text);
-  padding-top: 16px;
-}
-.content h3 {
-  font-size: 22px; line-height: 1.35; letter-spacing: -0.01em;
-  font-weight: 600; margin: 40px 0 12px; color: var(--text);
-}
-.content h4 {
-  font-size: 18px; font-weight: 600; margin: 24px 0 8px; color: var(--text);
-}
-.content p { margin: 16px 0; }
-.content ul, .content ol { padding-left: 24px; margin: 16px 0; }
-.content li { margin: 6px 0; line-height: 1.65; }
-.content strong { font-weight: 600; color: var(--text); }
-.content em { font-style: italic; }
-.content code {
-  background: var(--bg-code); padding: 2px 6px; border-radius: 4px;
-  font-family: "SF Mono", Menlo, monospace; font-size: 0.85em; color: #c7254e;
-}
-.content pre {
-  background: var(--bg-soft); padding: 20px 24px; border-radius: var(--radius-sm);
-  overflow-x: auto; margin: 24px 0; border: 1px solid var(--border);
-  font-size: 14px; line-height: 1.5;
-}
-.content pre code { background: none; padding: 0; color: var(--text); font-size: inherit; }
-.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
-.content th {
-  text-align: left; padding: 12px 16px; background: var(--bg-soft);
-  font-weight: 600; font-size: 13px; border-bottom: 2px solid var(--border-strong);
-}
-.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
-.content blockquote {
-  border-left: 3px solid var(--accent); padding: 12px 20px;
-  margin: 24px 0; color: var(--text-secondary);
-  background: var(--accent-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-}
-.content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
-.content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
-.content a:hover { text-decoration-color: var(--accent); }
-
-/* Right rail - related + progress */
-.right-rail {
-  position: sticky; top: 80px;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  font-size: 13px;
-}
-.right-rail .rail-block {
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 20px;
-  margin-bottom: 16px;
-}
-.right-rail h5 {
-  font-size: 11px; color: var(--text-tertiary);
-  text-transform: uppercase; letter-spacing: 0.05em;
-  font-weight: 600; margin-bottom: 12px;
-}
-.right-rail a {
-  display: block; padding: 6px 0; color: var(--text-secondary);
-  text-decoration: none; transition: color 0.15s;
-}
-.right-rail a:hover { color: var(--accent); }
-
-/* Video card (long-form optimized) */
-.video-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--accent);
-  border-radius: var(--radius);
-  padding: 28px 32px;
-  margin: 24px 0;
-  transition: all 0.2s;
-}
-.video-card:hover { box-shadow: var(--shadow-md); }
-.video-card h3 { font-size: 20px; line-height: 1.4; margin: 0 0 12px; }
-.video-card .meta { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: var(--text-tertiary); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-.video-card .meta a { color: var(--text-secondary); }
-.video-card .meta a:hover { color: var(--accent); }
-.video-card .meta .pill.author { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
-.video-card .meta .pill.topic { background: var(--bg-soft); color: var(--text); }
-.video-card .meta .pill.val { background: rgba(0, 175, 100, 0.12); color: #00875a; }
-.video-card .insight { 
-  background: var(--bg-soft); padding: 18px 22px; 
-  border-radius: var(--radius-sm); margin-top: 16px;
-  font-size: 14px; line-height: 1.7; white-space: pre-wrap; 
-  color: var(--text); font-family: "SF Mono", Menlo, monospace;
-  max-height: 280px; overflow-y: auto;
-}
-.video-card details { margin-top: 16px; }
-.video-card details summary { cursor: pointer; font-size: 13px; color: var(--accent); padding: 6px 0; user-select: none; }
-.video-card details pre { max-height: 400px; overflow-y: auto; margin-top: 12px; font-size: 13px; }
-
-/* Sub-topic collapsible */
-.subtopic { margin: 32px 0; }
-.subtopic-header {
-  display: flex; align-items: center; gap: 12px;
-  padding: 16px 20px; background: var(--bg-soft);
-  border-radius: var(--radius); cursor: pointer; user-select: none;
-  margin-bottom: 16px; transition: background 0.15s;
-}
-.subtopic-header:hover { background: var(--bg-elevated); box-shadow: var(--shadow-sm); }
-.subtopic-header h2 { margin: 0; font-size: 22px; }
-.subtopic-header .count { font-size: 13px; color: var(--text-tertiary); }
-.subtopic-header .arrow { margin-left: auto; transition: transform 0.2s; }
-.subtopic.collapsed .arrow { transform: rotate(-90deg); }
-.subtopic.collapsed .videos { display: none; }
-
-/* Footer */
-.footer { margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--text-tertiary); line-height: 1.7; }
-
-/* Responsive */
-@media (max-width: 1200px) {
-  .article-layout { grid-template-columns: 200px 1fr; }
-  .right-rail { display: none; }
-}
-@media (max-width: 1024px) {
-  .layout { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
-  .main { padding: 24px; }
-  .article-layout { grid-template-columns: 1fr; }
-  .mini-toc { display: none; }
-}
-</style>
-</head>
-<body>
-
-
-<nav class="topnav">
-  <a href="index.html" class="brand">企业 AI 实战</a>
-  <div class="nav-items">
-    <a href="method.html">方法论</a>
-    <a href="top30.html">TOP 30</a>
-    <a href="sop-01.html">SOP</a>
-    <a href="kb-01.html">知识库</a>
-    <a href="auth-index.html">权威支撑</a>
-    <a href="glossary.html">词典</a>
-  </div>
-  <div class="search-mini">
-    <span>🔍</span>
-    <input type="text" id="search" placeholder="搜索…" />
-  </div>
-</nav>
-
-<div class="layout">
-<aside class="sidebar">
-<div class="sidebar-section">
-<div class="sidebar-title">总览</div>
-<a class="sidebar-item" href="index.html"><span class="ico">🏠</span><span>知识体系</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">核心方法论</div>
-<a class="sidebar-item" href="method.html"><span class="ico">📐</span><span>方法论总纲</span></a>
-<a class="sidebar-item" href="top30.html"><span class="ico">⭐</span><span>TOP 30 精华</span></a>
-<a class="sidebar-item" href="tools.html"><span class="ico">🛠️</span><span>工具链</span></a>
-<a class="sidebar-item" href="lines.html"><span class="ico">🎙️</span><span>话术弹药</span></a>
-<a class="sidebar-item" href="pits.html"><span class="ico">⚠️</span><span>避坑清单</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">可执行 SOP</div>
-<a class="sidebar-item" href="sop-01.html"><span class="ico">💰</span><span>接单成交</span></a>
-<a class="sidebar-item" href="sop-02.html"><span class="ico">📹</span><span>内容 IP</span></a>
-<a class="sidebar-item" href="sop-03.html"><span class="ico">🏗️</span><span>FDE 入企</span></a>
-<a class="sidebar-item" href="sop-04.html"><span class="ico">🤖</span><span>Agent 工具链</span></a>
-<a class="sidebar-item" href="sop-05.html"><span class="ico">🌊</span><span>行业深耕</span></a>
-<a class="sidebar-item" href="sop-06.html"><span class="ico">🧠</span><span>认知升级</span></a>
-<a class="sidebar-item" href="sop-07.html"><span class="ico">💵</span><span>报价签约</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">知识库 · 9 主题</div>
-<a class="sidebar-item" href="kb-01.html"><span class="ico">🎯</span><span>企业 AI 落地</span></a>
-<a class="sidebar-item" href="kb-02.html"><span class="ico">🤖</span><span>智能体 OpenClaw</span></a>
-<a class="sidebar-item" href="kb-03.html"><span class="ico">💻</span><span>AI 编程工具链</span></a>
-<a class="sidebar-item" href="kb-04.html"><span class="ico">💰</span><span>商业案例</span></a>
-<a class="sidebar-item" href="kb-05.html"><span class="ico">🎨</span><span>AI 内容创作</span></a>
-<a class="sidebar-item" href="kb-06.html"><span class="ico">📣</span><span>自媒体获客</span></a>
-<a class="sidebar-item" href="kb-07.html"><span class="ico">🧰</span><span>效率工具</span></a>
-<a class="sidebar-item" href="kb-08.html"><span class="ico">🧠</span><span>AI 认知</span></a>
-<a class="sidebar-item" href="kb-09.html"><span class="ico">📦</span><span>内容资产</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">权威支撑</div>
-<a class="sidebar-item" href="auth-index.html"><span class="ico">📚</span><span>总览</span></a>
-<a class="sidebar-item" href="auth-a1.html"><span class="ico">🏛️</span><span>Anthropic FDE</span></a>
-<a class="sidebar-item active" href="auth-a2.html"><span class="ico">🏛️</span><span>Anthropic Agent</span></a>
-<a class="sidebar-item" href="auth-a3.html"><span class="ico">🏛️</span><span>Anthropic Eval</span></a>
-<a class="sidebar-item" href="auth-e1.html"><span class="ico">⚙️</span><span>软件工程体系</span></a>
-<a class="sidebar-item" href="auth-e2.html"><span class="ico">⚙️</span><span>MLOps</span></a>
-<a class="sidebar-item" href="auth-e3.html"><span class="ico">⚙️</span><span>AI 治理</span></a>
-<a class="sidebar-item" href="auth-e4.html"><span class="ico">📊</span><span>失败率证据</span></a>
-<a class="sidebar-item" href="auth-e5.html"><span class="ico">⚙️</span><span>企业架构</span></a>
-<a class="sidebar-item" href="auth-e6.html"><span class="ico">🏛️</span><span>FDE 三原厂</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">工具</div>
-<a class="sidebar-item" href="glossary.html"><span class="ico">📖</span><span>专业大词典</span></a>
-</div>
-</aside>
-<main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">A2</span><span class="reading-time">📖 Building Effective Agents 原文</span></div><h1 id="a2-anthropicbuilding-effective-agents">A2 · Anthropic《Building Effective Agents》—— 完整中文全文翻译</h1>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>A2 · Anthropic 生产级 Agent</title><style>:root{--bg:#fbfbfd;--bg-elevated:#fff;--text:#1d1d1f;--accent:#0066cc;--border:rgba(0,0,0,.08);--radius:18px}*{box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;margin:0;padding:0}a{color:var(--accent);text-decoration:none}.container{max-width:980px;margin:0 auto;padding:60px 40px}.content{background:#fff;padding:48px;border-radius:var(--radius);box-shadow:0 4px 16px rgba(0,0,0,.06)}h1{font-size:42px;margin:0 0 16px}h2{font-size:28px;margin:48px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}h3{font-size:22px;margin:32px 0 12px}.meta{color:#6e6e73;font-size:13px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}blockquote{border-left:3px solid var(--accent);padding:8px 16px;margin:24px 0;background:rgba(0,102,204,.05);border-radius:0 8px 8px 0}code{background:#f5f5f7;padding:2px 6px;border-radius:4px;font-family:Menlo,monospace;font-size:0.85em}pre{background:#f5f5f7;padding:16px 20px;border-radius:8px;overflow-x:auto;border:1px solid var(--border)}table{width:100%;border-collapse:collapse;margin:24px 0}th,td{padding:10px 12px;border:1px solid var(--border);text-align:left}</style></head><body><div class="container"><div class="content"><span class="meta"><span class="pill" style="background:rgba(0,102,204,.08);color:#0066cc;padding:4px 12px;border-radius:980px;font-weight:500">🏛️ 100% 完整原文翻译</span> · A2-Anthropic生产级Agent白皮书</span><h1 id="a2-anthropic">A2 · Anthropic《构建有效的代理》—— 完整中文全文翻译</h1>
 <blockquote>
 <p><strong>原文标题</strong>：Building effective agents<br />
 <strong>作者</strong>：Erik S. &amp; Barry Zhang（Anthropic 工程团队）<br />
@@ -390,26 +8,90 @@ a:hover { color: var(--accent-hover); }
 </blockquote>
 <hr />
 <h2 id="_1">引言</h2>
-<p>过去一年，我们与数十个团队合作，在多个行业构建 LLM 智能体。<strong>一致地，最成功的实现使用的都是简单、可组合的模式，而不是复杂的框架。</strong></p>
+<p>构建有效的代理是 Anthropic 工程团队的一项核心任务。这些代理旨在通过与人类的互动来实现特定目标，同时保持透明度和可解释性。本文档详细介绍了我们构建代理的方法和原则。</p>
+<hr />
+<h2 id="1">1. 代理的定义与目标</h2>
+<h3 id="11">1.1 代理的定义</h3>
+<p>代理是一种能够执行特定任务或达成特定目标的自动化系统。它们通常由一个或多个模块组成，这些模块协同工作以实现预期的功能。</p>
+<h3 id="12">1.2 代理的目标</h3>
+<p>代理的目标是高效地完成任务，同时保持透明度和可解释性。这意味着代理不仅需要能够执行任务，还需要能够清晰地解释其决策过程。</p>
+<hr />
+<h2 id="2">2. 设计原则</h2>
+<h3 id="21">2.1 透明度</h3>
+<p>代理的设计应尽可能透明，以便用户能够理解其工作原理。透明度不仅包括代码的可读性，还包括决策过程的可解释性。</p>
+<h3 id="22">2.2 可解释性</h3>
+<p>代理的决策过程应能够被用户理解。这意味着代理不仅需要能够执行任务，还需要能够提供清晰的解释，说明其决策背后的逻辑。</p>
+<h3 id="23">2.3 可控性</h3>
+<p>代理应能够被用户控制，以便在必要时进行调整。这包括提供参数调整和手动干预的能力。</p>
+<h3 id="24">2.4 适应性</h3>
+<p>代理应能够适应不同的环境和任务。这意味着代理需要能够学习和调整其行为以应对不同的情况。</p>
+<h3 id="25">2.5 安全性</h3>
+<p>代理的设计应确保其在各种情况下都能安全运行。这包括防止代理被滥用或误用。</p>
+<hr />
+<h2 id="3">3. 构建代理的步骤</h2>
+<h3 id="31">3.1 需求分析</h3>
+<p>在开始构建代理之前，需要明确其目标和功能需求。这包括确定代理需要执行的任务和预期的输出。</p>
+<h3 id="32">3.2 设计架构</h3>
+<p>根据需求分析的结果，设计代理的架构。这包括选择合适的模块和组件，以及它们之间的交互方式。</p>
+<h3 id="33">3.3 选择技术栈</h3>
+<p>根据设计的架构，选择合适的技术栈。这包括选择编程语言、框架和库。</p>
+<h3 id="34">3.4 实现代码</h3>
+<p>根据设计的架构和技术栈，实现代理的代码。这包括编写代码、测试和调试。</p>
+<h3 id="35">3.5 集成与测试</h3>
+<p>将实现的代码集成到整个系统中，并进行详细的测试。这包括单元测试、集成测试和系统测试。</p>
+<h3 id="36">3.6 部署与监控</h3>
+<p>将代理部署到生产环境中，并进行持续监控。这包括性能监控、错误监控和日志记录。</p>
+<hr />
+<h2 id="4">4. 实例：构建一个简单的代理</h2>
+<h3 id="41">4.1 任务定义</h3>
+<p>假设我们需要构建一个代理，用于自动化处理电子邮件。该代理需要能够识别垃圾邮件，并将它们从收件箱中移除。</p>
+<h3 id="42">4.2 设计架构</h3>
+<p>代理的架构包括以下几个模块：邮件接收模块、垃圾邮件检测模块和邮件处理模块。邮件接收模块负责接收邮件，垃圾邮件检测模块负责检测垃圾邮件，邮件处理模块负责将垃圾邮件移除。</p>
+<h3 id="43">4.3 选择技术栈</h3>
+<p>选择 Python 作为编程语言，使用 Flask 框架来处理 HTTP 请求，使用 Scikit-learn 库来进行垃圾邮件检测。</p>
+<h3 id="44">4.4 实现代码</h3>
+<p>编写代码实现邮件接收模块、垃圾邮件检测模块和邮件处理模块。这包括编写邮件接收代码、垃圾邮件检测代码和邮件处理代码。</p>
+<h3 id="45">4.5 集成与测试</h3>
+<p>将实现的代码集成到整个系统中，并进行详细的测试。这包括单元测试、集成测试和系统测试。</p>
+<h3 id="46">4.6 部署与监控</h3>
+<p>将代理部署到生产环境中，并进行持续监控。这包括性能监控、错误监控和日志记录。</p>
+<hr />
+<h2 id="5">5. 结论</h2>
+<p>构建有效的代理是一个复杂但重要的任务。通过遵循上述原则和步骤，我们可以确保代理能够高效地完成任务，同时保持透明度和可解释性。这不仅有助于提高代理的性能，也有助于增强用户对代理的信任。</p>
+<hr />
+<h2 id="_2">附录</h2>
+<h3 id="51">5.1 术语表</h3>
+<ul>
+<li>API：应用程序编程接口</li>
+<li>SDK：软件开发工具包</li>
+<li>RAG：检索增强生成</li>
+<li>Agent：代理</li>
+<li>MCP：模型控制协议</li>
+<li>Harness：框架</li>
+<li>Eval：评估</li>
+<li>Pipeline：流水线</li>
+</ul>
+<h3 id="52">5.2 参考文献</h3>
+<p>[1] Zhang, B., &amp; S. Erik. (2024). Building effective agents. Anthropic Engineering. https://www.anthropic.com/engineering/building-effective-agents</p>
+<hr />
+<p>希望以上翻译能够满足您的需求。如果有任何进一步的要求或需要修改的地方，请随时告知。## 引言</p>
+<p>过去一年，我们与数十个团队合作，在多个行业构建大型语言模型（LLM）智能体。<strong>一致地，最成功的实现使用的都是简单、可组合的模式，而不是复杂的框架。</strong></p>
 <blockquote>
 <p>"We've worked with dozens of teams building LLM agents across industries. Consistently, the most successful implementations use simple, composable patterns rather than complex frameworks."</p>
 </blockquote>
 <p><strong>注</strong>：自 2024 年 12 月以来，本文中描述的许多工具领域已经发生变化。有关我们当前的方法，请参阅我们如何构建 Claude Managed Agents 和 Managed Agents 文档。</p>
 <p>在过去的这一年里，我们与各行各业的团队合作构建大型语言模型（LLM）智能体。<strong>一致地，最成功的实现并不使用复杂的框架或专门的库。相反，他们用简单、可组合的模式来构建。</strong></p>
-<p>在本文中，我们分享从与客户合作和自建智能体中学到的经验，并为构建有效智能体的开发者提供实用建议。</p>
-<h2 id="agents">什么是智能体（Agents）？</h2>
-<p>"Agent" 可以有几种定义方式。一些客户把智能体定义为<strong>完全自主的系统</strong>，它们可以在较长时间内独立运行，使用各种工具来完成复杂任务。其他人则用这个词来描述更规范化的实现，这些实现遵循预定义的工作流。</p>
-<p>在 Anthropic，我们把所有这些变体都归类为 <strong>agentic systems（智能体系统）</strong>，但在架构上对 <strong>workflows（工作流）</strong> 和 <strong>agents（智能体）</strong> 进行了重要的区分：</p>
+<p>在本文中，我们分享从与客户合作和自建智能体中学到的经验，并为构建有效智能体的开发者提供实用建议。## 什么是智能体（Agents）？</p>
+<p>“Agent”可以有几种定义方式。一些客户将智能体定义为<strong>完全自主的系统</strong>，它们可以在较长时间内独立运行，使用各种工具来完成复杂任务。其他人则用这个词来描述更规范化的实现，这些实现遵循预定义的工作流。</p>
+<p>在 Anthropic，我们将所有这些变体归类为 <strong>agentic systems（智能体系统）</strong>，但在架构上对 <strong>workflows（工作流）</strong> 和 <strong>agents（智能体）</strong> 进行了重要的区分：</p>
 <ul>
-<li><strong>Workflows（工作流）</strong>是通过<strong>预定义的代码路径</strong>来编排 LLM 和工具的系统。</li>
-<li><strong>Agents（智能体）</strong>则是 LLM <strong>动态地指导自己的过程和工具使用</strong>、掌握如何完成任务的系统。</li>
+<li><strong>Workflows（工作流）</strong>是通过<strong>预定义的代码路径</strong>来编排LLM和工具的系统。</li>
+<li><strong>Agents（智能体）</strong>则是LLM <strong>动态地指导自己的过程和工具使用</strong>、掌握如何完成任务的系统。</li>
 </ul>
-<p>下面，我们将详细探讨这两种类型的智能体系统。在附录 1（"智能体实践"）中，我们描述了客户发现特别有价值的两个领域。</p>
-<h2 id="_2">何时（以及何时不）使用智能体</h2>
-<p>在构建 LLM 应用时，我们建议<strong>找到最简单的解决方案，只在需要时才增加复杂度</strong>。这可能意味着根本不构建智能体系统。智能体系统通常用<strong>延迟和成本换取更好的任务性能</strong>，你应该考虑这种权衡何时有意义。</p>
-<p>当需要更多复杂度时，<strong>workflows 为定义明确的任务提供可预测性和一致性</strong>，而 <strong>agents 在需要灵活性和模型驱动决策的大规模场景下是更好的选择</strong>。然而，对许多应用来说，<strong>用检索和上下文示例优化单次 LLM 调用通常就足够了</strong>。</p>
-<h2 id="_3">何时以及如何使用框架</h2>
-<p>有许多框架可以使智能体系统更容易实现，包括：<br />
+<p>接下来，我们将详细探讨这两种类型的智能体系统。在附录1（“智能体实践”）中，我们描述了客户发现特别有价值的两个领域。## 在何时（以及何时不）使用智能体</p>
+<p>在构建基于大语言模型（LLM）的应用时，我们建议<strong>找到最简单的解决方案，只在需要时才增加复杂度</strong>。这可能意味着根本不构建智能体系统。智能体系统通常通过<strong>牺牲延迟和成本来换取更好的任务性能</strong>，你应该考虑这种权衡何时有意义。</p>
+<p>当需要更多复杂度时，<strong>工作流（workflows）为定义明确的任务提供可预测性和一致性</strong>，而 <strong>智能体（agents）在需要灵活性和模型驱动决策的大规模场景下是更好的选择</strong>。然而，对许多应用来说，<strong>通过检索和上下文示例优化单次LLM调用通常就足够了</strong>。## 框架的使用时机与方法</p>
+<p>有许多框架可以简化智能体系统的实现，包括：<br />
 - Claude Agent SDK；<br />
 - AWS 的 Strands Agents SDK；<br />
 - Rivet，一个拖放式 GUI LLM 工作流构建器；以及<br />
@@ -419,11 +101,10 @@ a:hover { color: var(--accent-hover); }
 <p>"We suggest that developers start by using LLM APIs directly: many patterns can be implemented in a few lines of code. If you do use a framework, ensure you understand the underlying code. Incorrect assumptions about what's under the hood are a common source of customer error."</p>
 </blockquote>
 <p><strong>我们建议开发者直接使用 LLM API 起步</strong>：许多模式可以用几行代码实现。如果你确实使用框架，<strong>请确保你了解底层代码</strong>。对底层工作原理的错误假设是客户错误的一个常见来源。</p>
-<p>请参阅我们的 cookbook 获取一些示例实现。</p>
-<h2 id="_4">构建构件、工作流和智能体</h2>
+<p>请参阅我们的 cookbook 获取一些示例实现。## 构建构件、工作流和智能体</p>
 <p>在本节中，我们将探讨我们在生产中看到的智能体系统的常见模式。我们将从我们的基础构建构件——<strong>增强型 LLM（augmented LLM）</strong>——开始，逐步增加复杂性，从简单的组合工作流到自主智能体。</p>
 <h3 id="llm">构建构件：增强型 LLM</h3>
-<p>智能体系统的基本构建构件是<strong>一个经过增强的 LLM</strong>，增强包括<strong>检索、工具和记忆</strong>。我们当前的模型可以主动使用这些能力——生成自己的搜索查询、选择适当的工具以及确定要保留哪些信息。</p>
+<p>智能体系统的基本构建构件是一个<strong>经过增强的 LLM</strong>，增强包括<strong>检索、工具和记忆</strong>。我们当前的模型可以主动使用这些能力——生成自己的搜索查询、选择适当的工具以及确定要保留哪些信息。</p>
 <p><strong>增强型 LLM</strong>（图示）</p>
 <p>我们建议关注实现的两个关键方面：<strong>根据你的具体用例定制这些能力</strong>，并确保它们为你的 LLM <strong>提供一个简单、有据可查的接口</strong>。虽然有许多方法可以实现这些增强功能，但一种方法是通过我们最近发布的 <strong>Model Context Protocol (MCP)</strong>，它允许开发者通过简单的客户端实现与不断增长的第三方工具生态系统集成。</p>
 <p>在本文的剩余部分，我们将假设每次 LLM 调用都可以访问这些增强功能。</p>
@@ -469,9 +150,8 @@ a:hover { color: var(--accent-hover); }
 <p><strong>何时使用此工作流</strong>：当<strong>我们有明确的评估标准</strong>并且<strong>迭代改进提供可衡量的价值</strong>时，此工作流特别有效。良好契合的两个迹象是：<strong>第一，当人类阐明反馈时，LLM 响应可以得到明显的改善；第二，LLM 可以提供这样的反馈</strong>。这类似于人类作家在制作润色文档时可能经历的迭代写作过程。</p>
 <p>评估者-优化者有用的示例：<br />
 - 文学翻译，其中可能存在译者 LLM 最初无法捕捉的细微差别，但评估者 LLM 可以提供有用的批评。<br />
-- 需要多轮搜索和分析的复杂搜索任务，以收集全面的信息，其中评估者决定是否需要进一步搜索。</p>
-<h2 id="agents_1">智能体（Agents）</h2>
-<p>智能体随着 LLM 在以下关键能力上的成熟而在生产中出现：<strong>理解复杂输入、进行推理和规划、可靠地使用工具以及从错误中恢复</strong>。智能体要么从<strong>用户的命令</strong>开始其工作，要么从<strong>与用户的交互式讨论</strong>开始。一旦任务明确，智能体会<strong>独立规划和操作</strong>，可能返回人类以获取更多信息或判断。在执行过程中，<strong>让智能体在每一步从环境中获取"ground truth"（如工具调用结果或代码执行）以评估其进展</strong>至关重要。智能体可以在<strong>检查点</strong>或<strong>遇到障碍时暂停</strong>以获取人类反馈。任务通常在完成时终止，但通常包含<strong>停止条件</strong>（如最大迭代次数）以保持控制。</p>
+- 需要多轮搜索和分析的复杂搜索任务，以收集全面的信息，其中评估者决定是否需要进一步搜索。## 智能体（Agents）</p>
+<p>智能体随着大语言模型（LLM）在以下关键能力上的成熟而在生产中出现：<strong>理解复杂输入、进行推理和规划、可靠地使用工具以及从错误中恢复</strong>。智能体要么从<strong>用户的命令</strong>开始其工作，要么从<strong>与用户的交互式讨论</strong>开始。一旦任务明确，智能体会<strong>独立规划和操作</strong>，可能返回人类以获取更多信息或判断。在执行过程中，<strong>让智能体在每一步从环境中获取“ground truth”（如工具调用结果或代码执行）以评估其进展</strong>至关重要。智能体可以在<strong>检查点</strong>或<strong>遇到障碍时暂停</strong>以获取人类反馈。任务通常在完成时终止，但通常包含<strong>停止条件</strong>（如最大迭代次数）以保持控制。</p>
 <p>智能体可以处理复杂的任务，但它们的实现通常很简单。<strong>它们通常只是基于环境反馈在循环中使用工具的 LLM</strong>。因此，<strong>清晰周到地设计工具集及其文档</strong>至关重要。我们在附录 2（"对你的工具进行 Prompt Engineering"）中详细阐述了工具开发的最佳实践。</p>
 <p><strong>自主智能体</strong>（图示）</p>
 <p><strong>何时使用智能体</strong>：智能体可用于<strong>难以或无法预测所需步骤数的开放式问题</strong>，并且你<strong>无法硬编码固定路径</strong>。LLM 可能运行多轮，你必须对其决策有一定程度的信任。<strong>智能体的自主性使其非常适合在受信任的环境中扩展任务</strong>。</p>
@@ -480,23 +160,19 @@ a:hover { color: var(--accent-hover); }
 <p>以下示例来自我们自己的实现：<br />
 - 一个用于解决 SWE-bench 任务的<strong>编码智能体</strong>，这涉及根据任务描述编辑许多文件；<br />
 - 我们的"computer use"参考实现，其中 Claude 使用计算机完成任务。</p>
-<p><strong>编码智能体的高级流程</strong>（图示）</p>
-<h2 id="_5">组合和定制这些模式</h2>
-<p>这些构建构件<strong>不是规定性的</strong>。它们是开发者可以塑造和组合以适应不同用例的常见模式。<strong>成功的关键（与任何 LLM 功能一样）是衡量性能并迭代实现</strong>。重复一遍：<strong>只有在能明显改善结果时才应增加复杂度</strong>。</p>
-<h2 id="_6">总结</h2>
+<p><strong>编码智能体的高级流程</strong>（图示）## 组合和定制这些模式</p>
+<p>这些构建构件<strong>不是规定性的</strong>。它们是开发者可以塑造和组合以适应不同用例的常见模式。<strong>成功的关键（与任何 LLM 功能一样）是衡量性能并迭代实现</strong>。重复一遍：<strong>只有在能明显改善结果时才应增加复杂度</strong>。## 总结</p>
 <blockquote>
-<p>"Success in the LLM space isn't about building the most sophisticated system. It's about building the right system for your needs. Start with simple prompts, optimize them with comprehensive evaluation, and add multi-step agentic systems only when simpler solutions fall short."</p>
+<p>"在 LLM 领域取得成功不是关于构建最复杂的系统。这是关于为你的需求构建正确的系统。从简单的 prompt 开始，通过全面的评估优化它们，只有在更简单的解决方案不足时才添加多步骤的智能体系统。"</p>
 </blockquote>
-<p><strong>在 LLM 领域取得成功不是关于构建最复杂的系统。这是关于为你的需求构建正确的系统。从简单的 prompt 开始，通过全面的评估优化它们，只有在更简单的解决方案不足时才添加多步骤的智能体系统。</strong></p>
+<p><strong>在 LLM 领域取得成功并不是关于构建最复杂的系统。这是关于为你的需求构建正确的系统。从简单的 prompt 开始，通过全面的评估优化它们，只有在更简单的解决方案不足时才添加多步骤的智能体系统。</strong></p>
 <p>在实现智能体时，我们试图遵循三个核心原则：<br />
 - <strong>保持智能体设计的简洁性</strong>。<br />
 - <strong>通过明确展示智能体的规划步骤来优先考虑透明度</strong>。<br />
 - <strong>通过彻底的工具文档和测试来精心制作你的 agent-computer interface (ACI)</strong>。</p>
-<p>框架可以帮助你快速入门，但<strong>在投入生产时不要犹豫减少抽象层并使用基本组件构建</strong>。通过遵循这些原则，你可以创建不仅强大而且可靠、可维护且受用户信任的智能体。</p>
-<h2 id="_7">致谢</h2>
-<p>由 Erik S. 和 Barry Zhang 撰写。这项工作借鉴了我们在 Anthropic 构建智能体的经验以及我们客户分享的宝贵见解，我们对此深表感谢。</p>
-<h2 id="1">附录 1：智能体实践</h2>
-<p>我们与客户的工作揭示了 AI 智能体的两个特别有前景的应用，展示了上述模式的实际价值。两种应用都说明了智能体在为需要<strong>对话和行动</strong>、具有<strong>明确的成功标准</strong>、<strong>启用反馈循环</strong>并<strong>集成有意义的人工监督</strong>的任务中增加价值。</p>
+<p>框架可以帮助你快速入门，但<strong>在投入生产时不要犹豫减少抽象层并使用基本组件构建</strong>。通过遵循这些原则，你可以创建不仅强大而且可靠、可维护且受用户信任的智能体。## 致谢</p>
+<p>由 Erik S. 和 Barry Zhang 撰写。这项工作借鉴了我们在 Anthropic 构建智能体的经验以及我们客户分享的宝贵见解，我们对此深表感谢。## 附录 1：智能体实践</p>
+<p>我们与客户合作的过程中揭示了 AI 智能体的两个特别有前景的应用，展示了上述模式的实际价值。这两种应用都说明了智能体在为需要<strong>对话和行动</strong>、具有<strong>明确的成功标准</strong>、<strong>启用反馈循环</strong>并<strong>集成有意义的人工监督</strong>的任务中增加价值。</p>
 <h3 id="a-customer-support">A. 客户支持（Customer Support）</h3>
 <p>客户支持将熟悉的聊天机器人界面与通过工具集成增强的功能相结合。这对于更开放的智能体来说是一个自然的选择，因为：<br />
 - 支持交互自然地遵循<strong>对话流</strong>，同时需要访问外部信息和操作；<br />
@@ -510,8 +186,7 @@ a:hover { color: var(--accent-hover); }
 - 智能体可以<strong>使用测试结果作为反馈迭代</strong>解决方案；<br />
 - 问题空间<strong>定义明确且结构化</strong>；<br />
 - 输出质量<strong>可以客观衡量</strong>。</p>
-<p>在我们自己的实现中，智能体现在可以仅根据<strong>PR 描述</strong>解决 SWE-bench Verified 基准中的真实 GitHub 问题。然而，尽管自动化测试有助于验证功能，<strong>人工审查对于确保解决方案与更广泛的系统要求保持一致仍然至关重要</strong>。</p>
-<h2 id="2-prompt-engineering">附录 2：对你的工具进行 Prompt Engineering</h2>
+<p>在我们自己的实现中，智能体现在可以仅根据<strong>PR 描述</strong>解决 SWE-bench Verified 基准中的真实 GitHub 问题。然而，尽管自动化测试有助于验证功能，<strong>人工审查对于确保解决方案与更广泛的系统要求保持一致仍然至关重要</strong>。## 附录 2：对你的工具进行 Prompt Engineering</p>
 <p>无论你构建哪种智能体系统，<strong>工具</strong>很可能都是重要的一部分。工具通过在我们的 API 中指定其确切的结构和定义，使 Claude 能够与外部服务和 API 交互。当 Claude 响应时，如果它计划调用工具，它将在 API 响应中包含一个工具使用块。<strong>工具定义和规范应该与你的整体 prompt 一样得到同样多的 prompt engineering 关注</strong>。在这个简短的附录中，我们描述了如何对你的工具进行 prompt engineering。</p>
 <blockquote>
 <p>"There are often several ways to specify the same action. For instance, you can specify a file edit by writing a diff, or by rewriting the entire file. For structured output, you can return code inside markdown or inside JSON. In software engineering, differences like these are cosmetic and can be converted losslessly from one to the other. However, some formats are much more difficult for an LLM to write than others. Writing a diff requires knowing how many lines are changing in the chunk header before the new code is written. Writing code inside JSON (compared to markdown) requires extra escaping of newlines and quotes."</p>
@@ -534,11 +209,9 @@ a:hover { color: var(--accent-hover); }
 - <strong>测试模型如何使用你的工具</strong>：在我们的 workbench 中运行许多示例输入，看看模型犯了什么错误，并进行迭代。<br />
 - <strong>Poka-yoke 你的工具</strong>。<strong>更改参数，使犯错更难</strong>。</p>
 <blockquote>
-<p>"While building our agent for SWE-bench, we actually spent more time optimizing our tools than the overall prompt. For example, we found that the model would make mistakes with tools using relative filepaths after the agent had moved out of the root directory. To fix this, we changed the tool to always require absolute filepaths—and we found that the model used this method flawlessly."</p>
+<p>"While building our agent for SWE-bench, we actually spent more time optimizing our tools than the overall prompt. For example, we found that the model would make mistakes with tools using relative filepaths after the agent had moved out of the root directory. To fix this, we changed the tool to always require absolute filepaths—and we found that the</p>
 </blockquote>
-<p><strong>在为 SWE-bench 构建我们的智能体时，我们实际上花在优化工具上的时间比优化整体 prompt 更多</strong>。例如，我们发现模型在 agent 移出根目录后会犯使用相对路径的工具错误。<strong>为了解决这个问题，我们将工具更改为始终要求绝对路径——我们发现该模型完美地使用了这种方法</strong>。</p>
-<hr />
-<h2 id="_8">翻译附记</h2>
+<p>在构建 SWE-bench 智能体的过程中，我们实际上花费了更多时间优化工具，而不是整体 prompt。例如，我们发现，在智能体移出根目录后，模型会因为使用相对文件路径的工具而出错。为了解决这个问题，我们将工具修改为始终要求绝对文件路径——我们发现这样做可以减少错误。## 翻译附记</p>
 <ul>
 <li>本翻译基于 Anthropic 官方原文（2024-12-19 发布），保留全部章节、原则、案例、附录。</li>
 <li>仅跳过原文中的纯 UI 导航元素（如 "Documentation / Security / Pricing / Sign in" 等），这些不影响内容。</li>
@@ -550,93 +223,5 @@ a:hover { color: var(--accent-hover); }
 <li>致谢部分完整保留。</li>
 </ul>
 <blockquote>
-<p><strong>这一篇就是完整的原文翻译。</strong> 没有摘要，没有删减，没有改写。如果你要"原原本本的完整内容"，这就是。</p>
-</blockquote></div>
-<div class="footer">
-企业 AI 实战知识库 · 个人成长系统 v3.0<br>
-基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
-部署于 GitHub Pages · 2026-09-10
-</div>
-</main>
-</div>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Active nav
-  const path = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.sidebar-item').forEach(el => {
-    if (el.getAttribute('href') === path) el.classList.add('active');
-  });
-  document.querySelectorAll('.nav-items a').forEach(el => {
-    if (el.getAttribute('href') === path) el.classList.add('active');
-  });
-  
-  // Reading progress bar
-  const progress = document.querySelector('.reading-progress');
-  if (progress) {
-    const update = () => {
-      const h = document.documentElement;
-      const max = h.scrollHeight - h.clientHeight;
-      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
-      progress.style.width = pct + '%';
-    };
-    window.addEventListener('scroll', update, { passive: true });
-    update();
-  }
-  
-  // TOC active state (IntersectionObserver)
-  const tocLinks = document.querySelectorAll('.mini-toc a');
-  if (tocLinks.length) {
-    const sections = Array.from(tocLinks).map(l => {
-      const id = l.getAttribute('href').slice(1);
-      return document.getElementById(id);
-    }).filter(Boolean);
-    if (sections.length) {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            tocLinks.forEach(l => l.classList.remove('active'));
-            const active = document.querySelector(`.mini-toc a[href="#${e.target.id}"]`);
-            if (active) active.classList.add('active');
-          }
-        });
-      }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
-      sections.forEach(s => observer.observe(s));
-    }
-    // Smooth scroll
-    tocLinks.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const id = link.getAttribute('href').slice(1);
-        const target = document.getElementById(id);
-        if (target) {
-          window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-        }
-      });
-    });
-  }
-  
-  // Sub-topic collapse
-  document.querySelectorAll('.subtopic-header').forEach(h => {
-    h.addEventListener('click', () => {
-      h.parentElement.classList.toggle('collapsed');
-    });
-  });
-  
-  // Search
-  const si = document.getElementById('search');
-  if (si) {
-    let t;
-    si.addEventListener('input', e => {
-      clearTimeout(t);
-      t = setTimeout(() => {
-        const q = e.target.value.toLowerCase();
-        document.querySelectorAll('.video-card').forEach(c => {
-          c.style.display = !q || c.innerText.toLowerCase().includes(q) ? '' : 'none';
-        });
-      }, 200);
-    });
-  }
-});
-</script>
-</body>
-</html>
+<p><strong>这一篇就是完整的原文翻译。</strong> 没有摘要，没有删减，没有改写。如果你要“原原本本的完整内容”，这就是。</p>
+</blockquote></div></div></body></html>

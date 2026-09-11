@@ -1,399 +1,16 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>C2 · 混沌工程</title>
-<style>
-:root {
-  --bg: #fbfbfd;
-  --bg-elevated: #ffffff;
-  --bg-soft: #f5f5f7;
-  --bg-card: #ffffff;
-  --bg-code: #f5f5f7;
-  --text: #1d1d1f;
-  --text-secondary: #6e6e73;
-  --text-tertiary: #86868b;
-  --accent: #0066cc;
-  --accent-hover: #0077ed;
-  --accent-soft: rgba(0, 102, 204, 0.08);
-  --border: rgba(0, 0, 0, 0.08);
-  --border-strong: rgba(0, 0, 0, 0.12);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --radius: 18px;
-  --radius-sm: 10px;
-  --radius-lg: 24px;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-html, body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-  font-size: 17px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
-a:hover { color: var(--accent-hover); }
-
-.topnav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(251, 251, 253, 0.72);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 22px; height: 48px;
-  display: flex; align-items: center; gap: 28px;
-}
-.topnav .brand { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
-.topnav .nav-items { display: flex; gap: 22px; flex: 1; }
-.topnav .nav-items a { font-size: 13px; color: var(--text); opacity: 0.85; padding: 8px 0; position: relative; }
-.topnav .nav-items a:hover { opacity: 1; }
-.topnav .nav-items a.active::after {
-  content: ""; position: absolute; bottom: -1px; left: 0; right: 0;
-  height: 2px; background: var(--text); border-radius: 1px;
-}
-.topnav .search-mini {
-  display: flex; align-items: center;
-  background: var(--bg-soft); border-radius: 8px;
-  padding: 4px 10px; font-size: 13px; color: var(--text-tertiary);
-  min-width: 180px;
-}
-.topnav .search-mini input { border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: var(--text); font-family: inherit; }
-
-.layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
-.sidebar {
-  position: sticky; top: 48px;
-  height: calc(100vh - 48px); overflow-y: auto;
-  background: var(--bg-elevated);
-  border-right: 1px solid var(--border);
-  padding: 32px 0;
-}
-.sidebar-section { margin-bottom: 24px; }
-.sidebar-title {
-  padding: 0 22px; font-size: 11px; font-weight: 600;
-  color: var(--text-tertiary); text-transform: uppercase;
-  letter-spacing: 0.04em; margin-bottom: 8px;
-}
-.sidebar-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 7px 22px; font-size: 14px; color: var(--text);
-  transition: background 0.15s, color 0.15s;
-  border-left: 2px solid transparent; margin: 1px 0;
-}
-.sidebar-item:hover { background: var(--bg-soft); }
-.sidebar-item.active {
-  background: var(--accent-soft); color: var(--accent);
-  border-left-color: var(--accent); font-weight: 500;
-}
-.sidebar-item .ico { font-size: 16px; }
-
-/* Main - LONG-FORM READING MODE */
-.main {
-  padding: 32px 80px 80px;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-/* Article layout with TOC */
-.article-layout {
-  display: grid;
-  grid-template-columns: 220px 1fr 220px;
-  gap: 48px;
-  align-items: start;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Reading progress */
-.reading-progress {
-  position: fixed;
-  top: 48px;
-  left: 0;
-  height: 3px;
-  background: var(--accent);
-  z-index: 99;
-  transition: width 0.1s;
-  width: 0;
-}
-
-/* Page meta */
-.article-meta-row {
-  display: flex; align-items: center; gap: 16px;
-  margin-bottom: 32px; padding-bottom: 24px;
-  border-bottom: 1px solid var(--border);
-  font-size: 13px; color: var(--text-tertiary);
-}
-.article-meta-row .pill {
-  background: var(--bg-soft); color: var(--text);
-  padding: 4px 12px; border-radius: 980px;
-  font-weight: 500; font-size: 12px;
-}
-.article-meta-row .pill.accent {
-  background: var(--accent-soft); color: var(--accent);
-}
-.article-meta-row .reading-time {
-  margin-left: auto;
-}
-
-/* Mini TOC (sticky) */
-.mini-toc {
-  position: sticky;
-  top: 80px;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  font-size: 13px;
-  padding-right: 8px;
-}
-.mini-toc .toc-label {
-  font-size: 11px; color: var(--text-tertiary);
-  text-transform: uppercase; letter-spacing: 0.05em;
-  font-weight: 600; margin-bottom: 16px;
-}
-.mini-toc a {
-  display: block; padding: 5px 0; color: var(--text-secondary);
-  border-left: 2px solid transparent; padding-left: 10px;
-  text-decoration: none; transition: all 0.15s;
-  line-height: 1.4;
-}
-.mini-toc a:hover { color: var(--accent); }
-.mini-toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
-.mini-toc .toc-h3 { padding-left: 22px; font-size: 12px; }
-.mini-toc .toc-h4 { padding-left: 34px; font-size: 11px; color: var(--text-tertiary); }
-
-/* Main content - long-form optimized */
-.content {
-  font-size: 19px; line-height: 1.7; color: var(--text);
-  max-width: 720px; margin: 0 auto;
-  /* Better reading measure */
-}
-.content h1 {
-  font-size: 48px; line-height: 1.15; letter-spacing: -0.025em;
-  font-weight: 600; margin: 0 0 16px; color: var(--text);
-}
-.content h2 {
-  font-size: 32px; line-height: 1.25; letter-spacing: -0.02em;
-  font-weight: 600; margin: 56px 0 16px; color: var(--text);
-  padding-top: 16px;
-}
-.content h3 {
-  font-size: 22px; line-height: 1.35; letter-spacing: -0.01em;
-  font-weight: 600; margin: 40px 0 12px; color: var(--text);
-}
-.content h4 {
-  font-size: 18px; font-weight: 600; margin: 24px 0 8px; color: var(--text);
-}
-.content p { margin: 16px 0; }
-.content ul, .content ol { padding-left: 24px; margin: 16px 0; }
-.content li { margin: 6px 0; line-height: 1.65; }
-.content strong { font-weight: 600; color: var(--text); }
-.content em { font-style: italic; }
-.content code {
-  background: var(--bg-code); padding: 2px 6px; border-radius: 4px;
-  font-family: "SF Mono", Menlo, monospace; font-size: 0.85em; color: #c7254e;
-}
-.content pre {
-  background: var(--bg-soft); padding: 20px 24px; border-radius: var(--radius-sm);
-  overflow-x: auto; margin: 24px 0; border: 1px solid var(--border);
-  font-size: 14px; line-height: 1.5;
-}
-.content pre code { background: none; padding: 0; color: var(--text); font-size: inherit; }
-.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
-.content th {
-  text-align: left; padding: 12px 16px; background: var(--bg-soft);
-  font-weight: 600; font-size: 13px; border-bottom: 2px solid var(--border-strong);
-}
-.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
-.content blockquote {
-  border-left: 3px solid var(--accent); padding: 12px 20px;
-  margin: 24px 0; color: var(--text-secondary);
-  background: var(--accent-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-}
-.content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
-.content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
-.content a:hover { text-decoration-color: var(--accent); }
-
-/* Right rail - related + progress */
-.right-rail {
-  position: sticky; top: 80px;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  font-size: 13px;
-}
-.right-rail .rail-block {
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 20px;
-  margin-bottom: 16px;
-}
-.right-rail h5 {
-  font-size: 11px; color: var(--text-tertiary);
-  text-transform: uppercase; letter-spacing: 0.05em;
-  font-weight: 600; margin-bottom: 12px;
-}
-.right-rail a {
-  display: block; padding: 6px 0; color: var(--text-secondary);
-  text-decoration: none; transition: color 0.15s;
-}
-.right-rail a:hover { color: var(--accent); }
-
-/* Video card (long-form optimized) */
-.video-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--accent);
-  border-radius: var(--radius);
-  padding: 28px 32px;
-  margin: 24px 0;
-  transition: all 0.2s;
-}
-.video-card:hover { box-shadow: var(--shadow-md); }
-.video-card h3 { font-size: 20px; line-height: 1.4; margin: 0 0 12px; }
-.video-card .meta { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: var(--text-tertiary); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-.video-card .meta a { color: var(--text-secondary); }
-.video-card .meta a:hover { color: var(--accent); }
-.video-card .meta .pill.author { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
-.video-card .meta .pill.topic { background: var(--bg-soft); color: var(--text); }
-.video-card .meta .pill.val { background: rgba(0, 175, 100, 0.12); color: #00875a; }
-.video-card .insight { 
-  background: var(--bg-soft); padding: 18px 22px; 
-  border-radius: var(--radius-sm); margin-top: 16px;
-  font-size: 14px; line-height: 1.7; white-space: pre-wrap; 
-  color: var(--text); font-family: "SF Mono", Menlo, monospace;
-  max-height: 280px; overflow-y: auto;
-}
-.video-card details { margin-top: 16px; }
-.video-card details summary { cursor: pointer; font-size: 13px; color: var(--accent); padding: 6px 0; user-select: none; }
-.video-card details pre { max-height: 400px; overflow-y: auto; margin-top: 12px; font-size: 13px; }
-
-/* Sub-topic collapsible */
-.subtopic { margin: 32px 0; }
-.subtopic-header {
-  display: flex; align-items: center; gap: 12px;
-  padding: 16px 20px; background: var(--bg-soft);
-  border-radius: var(--radius); cursor: pointer; user-select: none;
-  margin-bottom: 16px; transition: background 0.15s;
-}
-.subtopic-header:hover { background: var(--bg-elevated); box-shadow: var(--shadow-sm); }
-.subtopic-header h2 { margin: 0; font-size: 22px; }
-.subtopic-header .count { font-size: 13px; color: var(--text-tertiary); }
-.subtopic-header .arrow { margin-left: auto; transition: transform 0.2s; }
-.subtopic.collapsed .arrow { transform: rotate(-90deg); }
-.subtopic.collapsed .videos { display: none; }
-
-/* Footer */
-.footer { margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--text-tertiary); line-height: 1.7; }
-
-/* Responsive */
-@media (max-width: 1200px) {
-  .article-layout { grid-template-columns: 200px 1fr; }
-  .right-rail { display: none; }
-}
-@media (max-width: 1024px) {
-  .layout { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
-  .main { padding: 24px; }
-  .article-layout { grid-template-columns: 1fr; }
-  .mini-toc { display: none; }
-}
-</style>
-</head>
-<body>
-
-
-<nav class="topnav">
-  <a href="index.html" class="brand">企业 AI 实战</a>
-  <div class="nav-items">
-    <a href="method.html">方法论</a>
-    <a href="top30.html">TOP 30</a>
-    <a href="sop-01.html">SOP</a>
-    <a href="kb-01.html">知识库</a>
-    <a href="auth-index.html">权威支撑</a>
-    <a href="glossary.html">词典</a>
-  </div>
-  <div class="search-mini">
-    <span>🔍</span>
-    <input type="text" id="search" placeholder="搜索…" />
-  </div>
-</nav>
-
-<div class="layout">
-<aside class="sidebar">
-<div class="sidebar-section">
-<div class="sidebar-title">总览</div>
-<a class="sidebar-item" href="index.html"><span class="ico">🏠</span><span>知识体系</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">核心方法论</div>
-<a class="sidebar-item" href="method.html"><span class="ico">📐</span><span>方法论总纲</span></a>
-<a class="sidebar-item" href="top30.html"><span class="ico">⭐</span><span>TOP 30 精华</span></a>
-<a class="sidebar-item" href="tools.html"><span class="ico">🛠️</span><span>工具链</span></a>
-<a class="sidebar-item" href="lines.html"><span class="ico">🎙️</span><span>话术弹药</span></a>
-<a class="sidebar-item" href="pits.html"><span class="ico">⚠️</span><span>避坑清单</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">可执行 SOP</div>
-<a class="sidebar-item" href="sop-01.html"><span class="ico">💰</span><span>接单成交</span></a>
-<a class="sidebar-item" href="sop-02.html"><span class="ico">📹</span><span>内容 IP</span></a>
-<a class="sidebar-item" href="sop-03.html"><span class="ico">🏗️</span><span>FDE 入企</span></a>
-<a class="sidebar-item" href="sop-04.html"><span class="ico">🤖</span><span>Agent 工具链</span></a>
-<a class="sidebar-item" href="sop-05.html"><span class="ico">🌊</span><span>行业深耕</span></a>
-<a class="sidebar-item" href="sop-06.html"><span class="ico">🧠</span><span>认知升级</span></a>
-<a class="sidebar-item" href="sop-07.html"><span class="ico">💵</span><span>报价签约</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">知识库 · 9 主题</div>
-<a class="sidebar-item" href="kb-01.html"><span class="ico">🎯</span><span>企业 AI 落地</span></a>
-<a class="sidebar-item" href="kb-02.html"><span class="ico">🤖</span><span>智能体 OpenClaw</span></a>
-<a class="sidebar-item" href="kb-03.html"><span class="ico">💻</span><span>AI 编程工具链</span></a>
-<a class="sidebar-item" href="kb-04.html"><span class="ico">💰</span><span>商业案例</span></a>
-<a class="sidebar-item" href="kb-05.html"><span class="ico">🎨</span><span>AI 内容创作</span></a>
-<a class="sidebar-item" href="kb-06.html"><span class="ico">📣</span><span>自媒体获客</span></a>
-<a class="sidebar-item" href="kb-07.html"><span class="ico">🧰</span><span>效率工具</span></a>
-<a class="sidebar-item" href="kb-08.html"><span class="ico">🧠</span><span>AI 认知</span></a>
-<a class="sidebar-item" href="kb-09.html"><span class="ico">📦</span><span>内容资产</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">权威支撑</div>
-<a class="sidebar-item" href="auth-index.html"><span class="ico">📚</span><span>总览</span></a>
-<a class="sidebar-item" href="auth-a1.html"><span class="ico">🏛️</span><span>Anthropic FDE</span></a>
-<a class="sidebar-item" href="auth-a2.html"><span class="ico">🏛️</span><span>Anthropic Agent</span></a>
-<a class="sidebar-item" href="auth-a3.html"><span class="ico">🏛️</span><span>Anthropic Eval</span></a>
-<a class="sidebar-item" href="auth-e1.html"><span class="ico">⚙️</span><span>软件工程体系</span></a>
-<a class="sidebar-item" href="auth-e2.html"><span class="ico">⚙️</span><span>MLOps</span></a>
-<a class="sidebar-item" href="auth-e3.html"><span class="ico">⚙️</span><span>AI 治理</span></a>
-<a class="sidebar-item" href="auth-e4.html"><span class="ico">📊</span><span>失败率证据</span></a>
-<a class="sidebar-item" href="auth-e5.html"><span class="ico">⚙️</span><span>企业架构</span></a>
-<a class="sidebar-item" href="auth-e6.html"><span class="ico">🏛️</span><span>FDE 三原厂</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">工具</div>
-<a class="sidebar-item" href="glossary.html"><span class="ico">📖</span><span>专业大词典</span></a>
-</div>
-</aside>
-<main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">C2</span><span class="reading-time">📖 Chaos Engineering · Netflix</span></div><h1 id="c2-principles-of-chaos-engineering">C2 · Principles of Chaos Engineering —— 完整中文全文翻译</h1>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>C2 · 混沌工程</title><style>:root{--bg:#fbfbfd;--bg-elevated:#fff;--text:#1d1d1f;--accent:#0066cc;--border:rgba(0,0,0,.08);--radius:18px}*{box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;margin:0;padding:0}a{color:var(--accent);text-decoration:none}.container{max-width:980px;margin:0 auto;padding:60px 40px}.content{background:#fff;padding:48px;border-radius:var(--radius);box-shadow:0 4px 16px rgba(0,0,0,.06)}h1{font-size:42px;margin:0 0 16px}h2{font-size:28px;margin:48px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}h3{font-size:22px;margin:32px 0 12px}.meta{color:#6e6e73;font-size:13px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}blockquote{border-left:3px solid var(--accent);padding:8px 16px;margin:24px 0;background:rgba(0,102,204,.05);border-radius:0 8px 8px 0}code{background:#f5f5f7;padding:2px 6px;border-radius:4px;font-family:Menlo,monospace;font-size:0.85em}pre{background:#f5f5f7;padding:16px 20px;border-radius:8px;overflow-x:auto;border:1px solid var(--border)}table{width:100%;border-collapse:collapse;margin:24px 0}th,td{padding:10px 12px;border:1px solid var(--border);text-align:left}</style></head><body><div class="container"><div class="content"><span class="meta"><span class="pill" style="background:rgba(0,102,204,.08);color:#0066cc;padding:4px 12px;border-radius:980px;font-weight:500">🏛️ 100% 完整原文翻译</span> · C2-Chaos-Engineering</span><h1 id="c2">C2 · 混沌工程原则——完整中文全文翻译</h1>
 <blockquote>
 <p><strong>原文标题</strong>：PRINCIPLES OF CHAOS ENGINEERING<br />
 <strong>来源</strong>：https://principlesofchaos.org/<br />
 <strong>最后更新</strong>：2019 年 3 月<br />
 <strong>翻译说明</strong>：以下为 principlesofchaos.org 完整中文翻译，保留所有章节、定义、原则、案例。</p>
 </blockquote>
-<hr />
-<h2 id="_1">混沌工程的定义</h2>
+<p>---## 混沌工程的定义</p>
 <blockquote>
 <p>"Chaos Engineering is the discipline of experimenting on a system in order to build confidence in the system's capability to withstand turbulent conditions in production."</p>
 </blockquote>
 <p><strong>混沌工程是一门通过对系统进行实验来建立对系统在生产中抵御动荡条件能力的信心的学科。</strong></p>
-<p>大规模分布式软件系统的进步正在改变软件工程的博弈。作为一个行业，我们很快地采用<strong>提高开发灵活性和部署速度</strong>的实践。但这些好处紧随而来一个紧迫的问题：<strong>我们对我们投入生产的复杂系统能有多少信心？</strong></p>
+<p>大规模分布式软件系统的进步正在改变软件工程的博弈。作为一个行业，我们迅速采纳了提高开发灵活性和部署速度的实践。但随之而来的一个紧迫问题是：<strong>我们对我们投入生产的复杂系统能有多少信心？</strong></p>
 <p>即使分布式系统中的所有单个服务都正常运行，<strong>服务之间的交互也可能产生不可预测的结果</strong>。不可预测的结果，加上影响生产环境的罕见但破坏性的现实世界事件，使这些分布式系统<strong>本质上就是混沌的</strong>。</p>
 <p>我们需要在弱点<strong>表现为系统级异常行为之前</strong>识别它们。系统性弱点可能采取以下形式：<br />
 - 服务不可用时的<strong>不恰当回退设置</strong>；<br />
@@ -404,10 +21,9 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"An empirical, systems-based approach addresses the chaos in distributed systems at scale and builds confidence in the ability of those systems to withstand realistic conditions. We learn about the behavior of a distributed system by observing it during a controlled experiment. We call this Chaos Engineering."</p>
 </blockquote>
-<p><strong>一种基于经验、基于系统的方法解决了大规模分布式系统中的混沌问题，并建立了对这些系统在现实条件下保持能力的信心</strong>。<strong>我们通过在受控实验中观察分布式系统来了解其行为</strong>。<strong>我们将这称为混沌工程</strong>。</p>
-<h2 id="chaos-in-practice">混沌实践（CHAOS IN PRACTICE）</h2>
+<p><strong>一种基于经验、基于系统的方法解决了大规模分布式系统中的混沌问题，并建立了对这些系统在现实条件下保持能力的信心</strong>。<strong>我们通过在受控实验中观察分布式系统来了解其行为</strong>。<strong>我们将这称为混沌工程</strong>。## 混沌实践（CHAOS IN PRACTICE）</p>
 <blockquote>
-<p>"To specifically address the uncertainty of distributed systems at scale, Chaos Engineering can be thought of as the facilitation of experiments to uncover systemic weaknesses."</p>
+<p>"为了具体解决大规模分布式系统的不确定性，混沌工程可以被认为是促进实验以揭示系统性弱点。"</p>
 </blockquote>
 <p><strong>为了具体解决大规模分布式系统的不确定性，混沌工程可以被认为是促进实验以揭示系统性弱点</strong>。</p>
 <p>这些实验遵循<strong>四个步骤</strong>：</p>
@@ -418,14 +34,13 @@ a:hover { color: var(--accent-hover); }
 <li><strong>试图通过寻找对照组和实验组之间稳态的差异来反驳假设</strong>。</li>
 </ol>
 <blockquote>
-<p>"The harder it is to disrupt the steady state, the more confidence we have in the behavior of the system."</p>
+<p>"稳态越难被扰乱，我们对系统行为的信心就越大。"</p>
 </blockquote>
 <p><strong>稳态越难被扰乱，我们对系统行为的信心就越大</strong>。</p>
 <blockquote>
-<p>"If a weakness is uncovered, we now have a target for improvement before that behavior manifests in the system at large."</p>
+<p>"如果发现了一个弱点，我们现在就有了一个改进目标——在那种行为在更大范围内表现出来之前。"</p>
 </blockquote>
-<p><strong>如果发现了一个弱点，我们现在就有了一个改进目标</strong>——在那种行为在更大范围内表现出来之前。</p>
-<h2 id="advanced-principles">高级原则（ADVANCED PRINCIPLES）</h2>
+<p><strong>如果发现了一个弱点，我们现在就有了一个改进目标——在那种行为在更大范围内表现出来之前</strong>。## 高级原则（ADVANCED PRINCIPLES）</p>
 <p>以下原则描述了上述实验过程中<strong>混沌工程的理想应用</strong>。<strong>对这些原则的追求程度与我们能对大规模分布式系统拥有的信心强烈相关</strong>。</p>
 <h3 id="1">原则 1：围绕稳态行为建立假设</h3>
 <blockquote>
@@ -463,8 +78,7 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"Experimenting in production has the potential to cause unnecessary customer pain. While there must be an allowance for some short-term negative impact, it is the responsibility and obligation of the Chaos Engineer to ensure the fallout from experiments are minimized and contained."</p>
 </blockquote>
-<p><strong>在生产中进行实验有可能造成不必要的客户痛苦</strong>。<strong>虽然必须允许一些短期负面影响，但确保实验的附带损害被最小化和控制是混沌工程师的责任和义务</strong>。</p>
-<h2 id="_2">结论</h2>
+<p><strong>在生产中进行实验有可能造成不必要的客户痛苦</strong>。<strong>虽然必须允许一些短期负面影响，但确保实验的附带损害被最小化和控制是混沌工程师的责任和义务</strong>。## 结论</p>
 <blockquote>
 <p>"Chaos Engineering is a powerful practice that is already changing how software is designed and engineered at some of the largest-scale operations in the world."</p>
 </blockquote>
@@ -476,9 +90,7 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"Join the ongoing discussion of the Principles of Chaos and their application in the Chaos Community."</p>
 </blockquote>
-<p><strong>加入关于混沌原则及其在混沌社区中应用的持续讨论</strong>。</p>
-<hr />
-<h2 id="_3">翻译附记</h2>
+<p><strong>加入关于混沌原则及其在混沌社区中应用的持续讨论</strong>。## 翻译附记</p>
 <ul>
 <li>本翻译基于 principlesofchaos.org 官方原文（2019 年 3 月），完整保留所有章节、定义、4 步实践、5 高级原则、结论。</li>
 <li>完整保留 Netflix/混沌工程社区的原文表述。</li>
@@ -486,92 +98,4 @@ a:hover { color: var(--accent-hover); }
 </ul>
 <blockquote>
 <p><strong>这一篇就是完整的原文翻译。没有摘要、没有删减、没有改写。</strong></p>
-</blockquote></div>
-<div class="footer">
-企业 AI 实战知识库 · 个人成长系统 v3.0<br>
-基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
-部署于 GitHub Pages · 2026-09-10
-</div>
-</main>
-</div>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Active nav
-  const path = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.sidebar-item').forEach(el => {
-    if (el.getAttribute('href') === path) el.classList.add('active');
-  });
-  document.querySelectorAll('.nav-items a').forEach(el => {
-    if (el.getAttribute('href') === path) el.classList.add('active');
-  });
-  
-  // Reading progress bar
-  const progress = document.querySelector('.reading-progress');
-  if (progress) {
-    const update = () => {
-      const h = document.documentElement;
-      const max = h.scrollHeight - h.clientHeight;
-      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
-      progress.style.width = pct + '%';
-    };
-    window.addEventListener('scroll', update, { passive: true });
-    update();
-  }
-  
-  // TOC active state (IntersectionObserver)
-  const tocLinks = document.querySelectorAll('.mini-toc a');
-  if (tocLinks.length) {
-    const sections = Array.from(tocLinks).map(l => {
-      const id = l.getAttribute('href').slice(1);
-      return document.getElementById(id);
-    }).filter(Boolean);
-    if (sections.length) {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            tocLinks.forEach(l => l.classList.remove('active'));
-            const active = document.querySelector(`.mini-toc a[href="#${e.target.id}"]`);
-            if (active) active.classList.add('active');
-          }
-        });
-      }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
-      sections.forEach(s => observer.observe(s));
-    }
-    // Smooth scroll
-    tocLinks.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const id = link.getAttribute('href').slice(1);
-        const target = document.getElementById(id);
-        if (target) {
-          window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-        }
-      });
-    });
-  }
-  
-  // Sub-topic collapse
-  document.querySelectorAll('.subtopic-header').forEach(h => {
-    h.addEventListener('click', () => {
-      h.parentElement.classList.toggle('collapsed');
-    });
-  });
-  
-  // Search
-  const si = document.getElementById('search');
-  if (si) {
-    let t;
-    si.addEventListener('input', e => {
-      clearTimeout(t);
-      t = setTimeout(() => {
-        const q = e.target.value.toLowerCase();
-        document.querySelectorAll('.video-card').forEach(c => {
-          c.style.display = !q || c.innerText.toLowerCase().includes(q) ? '' : 'none';
-        });
-      }, 200);
-    });
-  }
-});
-</script>
-</body>
-</html>
+</blockquote></div></div></body></html>

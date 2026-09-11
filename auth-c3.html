@@ -1,386 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>C3 · 领域驱动设计</title>
-<style>
-:root {
-  --bg: #fbfbfd;
-  --bg-elevated: #ffffff;
-  --bg-soft: #f5f5f7;
-  --bg-card: #ffffff;
-  --bg-code: #f5f5f7;
-  --text: #1d1d1f;
-  --text-secondary: #6e6e73;
-  --text-tertiary: #86868b;
-  --accent: #0066cc;
-  --accent-hover: #0077ed;
-  --accent-soft: rgba(0, 102, 204, 0.08);
-  --border: rgba(0, 0, 0, 0.08);
-  --border-strong: rgba(0, 0, 0, 0.12);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --radius: 18px;
-  --radius-sm: 10px;
-  --radius-lg: 24px;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-html, body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-  font-size: 17px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-a { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
-a:hover { color: var(--accent-hover); }
-
-.topnav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(251, 251, 253, 0.72);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 22px; height: 48px;
-  display: flex; align-items: center; gap: 28px;
-}
-.topnav .brand { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
-.topnav .nav-items { display: flex; gap: 22px; flex: 1; }
-.topnav .nav-items a { font-size: 13px; color: var(--text); opacity: 0.85; padding: 8px 0; position: relative; }
-.topnav .nav-items a:hover { opacity: 1; }
-.topnav .nav-items a.active::after {
-  content: ""; position: absolute; bottom: -1px; left: 0; right: 0;
-  height: 2px; background: var(--text); border-radius: 1px;
-}
-.topnav .search-mini {
-  display: flex; align-items: center;
-  background: var(--bg-soft); border-radius: 8px;
-  padding: 4px 10px; font-size: 13px; color: var(--text-tertiary);
-  min-width: 180px;
-}
-.topnav .search-mini input { border: none; background: transparent; outline: none; font-size: 13px; flex: 1; color: var(--text); font-family: inherit; }
-
-.layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 48px); }
-.sidebar {
-  position: sticky; top: 48px;
-  height: calc(100vh - 48px); overflow-y: auto;
-  background: var(--bg-elevated);
-  border-right: 1px solid var(--border);
-  padding: 32px 0;
-}
-.sidebar-section { margin-bottom: 24px; }
-.sidebar-title {
-  padding: 0 22px; font-size: 11px; font-weight: 600;
-  color: var(--text-tertiary); text-transform: uppercase;
-  letter-spacing: 0.04em; margin-bottom: 8px;
-}
-.sidebar-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 7px 22px; font-size: 14px; color: var(--text);
-  transition: background 0.15s, color 0.15s;
-  border-left: 2px solid transparent; margin: 1px 0;
-}
-.sidebar-item:hover { background: var(--bg-soft); }
-.sidebar-item.active {
-  background: var(--accent-soft); color: var(--accent);
-  border-left-color: var(--accent); font-weight: 500;
-}
-.sidebar-item .ico { font-size: 16px; }
-
-/* Main - LONG-FORM READING MODE */
-.main {
-  padding: 32px 80px 80px;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-/* Article layout with TOC */
-.article-layout {
-  display: grid;
-  grid-template-columns: 220px 1fr 220px;
-  gap: 48px;
-  align-items: start;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Reading progress */
-.reading-progress {
-  position: fixed;
-  top: 48px;
-  left: 0;
-  height: 3px;
-  background: var(--accent);
-  z-index: 99;
-  transition: width 0.1s;
-  width: 0;
-}
-
-/* Page meta */
-.article-meta-row {
-  display: flex; align-items: center; gap: 16px;
-  margin-bottom: 32px; padding-bottom: 24px;
-  border-bottom: 1px solid var(--border);
-  font-size: 13px; color: var(--text-tertiary);
-}
-.article-meta-row .pill {
-  background: var(--bg-soft); color: var(--text);
-  padding: 4px 12px; border-radius: 980px;
-  font-weight: 500; font-size: 12px;
-}
-.article-meta-row .pill.accent {
-  background: var(--accent-soft); color: var(--accent);
-}
-.article-meta-row .reading-time {
-  margin-left: auto;
-}
-
-/* Mini TOC (sticky) */
-.mini-toc {
-  position: sticky;
-  top: 80px;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  font-size: 13px;
-  padding-right: 8px;
-}
-.mini-toc .toc-label {
-  font-size: 11px; color: var(--text-tertiary);
-  text-transform: uppercase; letter-spacing: 0.05em;
-  font-weight: 600; margin-bottom: 16px;
-}
-.mini-toc a {
-  display: block; padding: 5px 0; color: var(--text-secondary);
-  border-left: 2px solid transparent; padding-left: 10px;
-  text-decoration: none; transition: all 0.15s;
-  line-height: 1.4;
-}
-.mini-toc a:hover { color: var(--accent); }
-.mini-toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
-.mini-toc .toc-h3 { padding-left: 22px; font-size: 12px; }
-.mini-toc .toc-h4 { padding-left: 34px; font-size: 11px; color: var(--text-tertiary); }
-
-/* Main content - long-form optimized */
-.content {
-  font-size: 19px; line-height: 1.7; color: var(--text);
-  max-width: 720px; margin: 0 auto;
-  /* Better reading measure */
-}
-.content h1 {
-  font-size: 48px; line-height: 1.15; letter-spacing: -0.025em;
-  font-weight: 600; margin: 0 0 16px; color: var(--text);
-}
-.content h2 {
-  font-size: 32px; line-height: 1.25; letter-spacing: -0.02em;
-  font-weight: 600; margin: 56px 0 16px; color: var(--text);
-  padding-top: 16px;
-}
-.content h3 {
-  font-size: 22px; line-height: 1.35; letter-spacing: -0.01em;
-  font-weight: 600; margin: 40px 0 12px; color: var(--text);
-}
-.content h4 {
-  font-size: 18px; font-weight: 600; margin: 24px 0 8px; color: var(--text);
-}
-.content p { margin: 16px 0; }
-.content ul, .content ol { padding-left: 24px; margin: 16px 0; }
-.content li { margin: 6px 0; line-height: 1.65; }
-.content strong { font-weight: 600; color: var(--text); }
-.content em { font-style: italic; }
-.content code {
-  background: var(--bg-code); padding: 2px 6px; border-radius: 4px;
-  font-family: "SF Mono", Menlo, monospace; font-size: 0.85em; color: #c7254e;
-}
-.content pre {
-  background: var(--bg-soft); padding: 20px 24px; border-radius: var(--radius-sm);
-  overflow-x: auto; margin: 24px 0; border: 1px solid var(--border);
-  font-size: 14px; line-height: 1.5;
-}
-.content pre code { background: none; padding: 0; color: var(--text); font-size: inherit; }
-.content table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
-.content th {
-  text-align: left; padding: 12px 16px; background: var(--bg-soft);
-  font-weight: 600; font-size: 13px; border-bottom: 2px solid var(--border-strong);
-}
-.content td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
-.content blockquote {
-  border-left: 3px solid var(--accent); padding: 12px 20px;
-  margin: 24px 0; color: var(--text-secondary);
-  background: var(--accent-soft); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-}
-.content hr { border: 0; border-top: 1px solid var(--border); margin: 48px 0; }
-.content a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
-.content a:hover { text-decoration-color: var(--accent); }
-
-/* Right rail - related + progress */
-.right-rail {
-  position: sticky; top: 80px;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  font-size: 13px;
-}
-.right-rail .rail-block {
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 20px;
-  margin-bottom: 16px;
-}
-.right-rail h5 {
-  font-size: 11px; color: var(--text-tertiary);
-  text-transform: uppercase; letter-spacing: 0.05em;
-  font-weight: 600; margin-bottom: 12px;
-}
-.right-rail a {
-  display: block; padding: 6px 0; color: var(--text-secondary);
-  text-decoration: none; transition: color 0.15s;
-}
-.right-rail a:hover { color: var(--accent); }
-
-/* Video card (long-form optimized) */
-.video-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--accent);
-  border-radius: var(--radius);
-  padding: 28px 32px;
-  margin: 24px 0;
-  transition: all 0.2s;
-}
-.video-card:hover { box-shadow: var(--shadow-md); }
-.video-card h3 { font-size: 20px; line-height: 1.4; margin: 0 0 12px; }
-.video-card .meta { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: var(--text-tertiary); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-.video-card .meta a { color: var(--text-secondary); }
-.video-card .meta a:hover { color: var(--accent); }
-.video-card .meta .pill.author { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
-.video-card .meta .pill.topic { background: var(--bg-soft); color: var(--text); }
-.video-card .meta .pill.val { background: rgba(0, 175, 100, 0.12); color: #00875a; }
-.video-card .insight { 
-  background: var(--bg-soft); padding: 18px 22px; 
-  border-radius: var(--radius-sm); margin-top: 16px;
-  font-size: 14px; line-height: 1.7; white-space: pre-wrap; 
-  color: var(--text); font-family: "SF Mono", Menlo, monospace;
-  max-height: 280px; overflow-y: auto;
-}
-.video-card details { margin-top: 16px; }
-.video-card details summary { cursor: pointer; font-size: 13px; color: var(--accent); padding: 6px 0; user-select: none; }
-.video-card details pre { max-height: 400px; overflow-y: auto; margin-top: 12px; font-size: 13px; }
-
-/* Sub-topic collapsible */
-.subtopic { margin: 32px 0; }
-.subtopic-header {
-  display: flex; align-items: center; gap: 12px;
-  padding: 16px 20px; background: var(--bg-soft);
-  border-radius: var(--radius); cursor: pointer; user-select: none;
-  margin-bottom: 16px; transition: background 0.15s;
-}
-.subtopic-header:hover { background: var(--bg-elevated); box-shadow: var(--shadow-sm); }
-.subtopic-header h2 { margin: 0; font-size: 22px; }
-.subtopic-header .count { font-size: 13px; color: var(--text-tertiary); }
-.subtopic-header .arrow { margin-left: auto; transition: transform 0.2s; }
-.subtopic.collapsed .arrow { transform: rotate(-90deg); }
-.subtopic.collapsed .videos { display: none; }
-
-/* Footer */
-.footer { margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--text-tertiary); line-height: 1.7; }
-
-/* Responsive */
-@media (max-width: 1200px) {
-  .article-layout { grid-template-columns: 200px 1fr; }
-  .right-rail { display: none; }
-}
-@media (max-width: 1024px) {
-  .layout { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
-  .main { padding: 24px; }
-  .article-layout { grid-template-columns: 1fr; }
-  .mini-toc { display: none; }
-}
-</style>
-</head>
-<body>
-
-
-<nav class="topnav">
-  <a href="index.html" class="brand">企业 AI 实战</a>
-  <div class="nav-items">
-    <a href="method.html">方法论</a>
-    <a href="top30.html">TOP 30</a>
-    <a href="sop-01.html">SOP</a>
-    <a href="kb-01.html">知识库</a>
-    <a href="auth-index.html">权威支撑</a>
-    <a href="glossary.html">词典</a>
-  </div>
-  <div class="search-mini">
-    <span>🔍</span>
-    <input type="text" id="search" placeholder="搜索…" />
-  </div>
-</nav>
-
-<div class="layout">
-<aside class="sidebar">
-<div class="sidebar-section">
-<div class="sidebar-title">总览</div>
-<a class="sidebar-item" href="index.html"><span class="ico">🏠</span><span>知识体系</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">核心方法论</div>
-<a class="sidebar-item" href="method.html"><span class="ico">📐</span><span>方法论总纲</span></a>
-<a class="sidebar-item" href="top30.html"><span class="ico">⭐</span><span>TOP 30 精华</span></a>
-<a class="sidebar-item" href="tools.html"><span class="ico">🛠️</span><span>工具链</span></a>
-<a class="sidebar-item" href="lines.html"><span class="ico">🎙️</span><span>话术弹药</span></a>
-<a class="sidebar-item" href="pits.html"><span class="ico">⚠️</span><span>避坑清单</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">可执行 SOP</div>
-<a class="sidebar-item" href="sop-01.html"><span class="ico">💰</span><span>接单成交</span></a>
-<a class="sidebar-item" href="sop-02.html"><span class="ico">📹</span><span>内容 IP</span></a>
-<a class="sidebar-item" href="sop-03.html"><span class="ico">🏗️</span><span>FDE 入企</span></a>
-<a class="sidebar-item" href="sop-04.html"><span class="ico">🤖</span><span>Agent 工具链</span></a>
-<a class="sidebar-item" href="sop-05.html"><span class="ico">🌊</span><span>行业深耕</span></a>
-<a class="sidebar-item" href="sop-06.html"><span class="ico">🧠</span><span>认知升级</span></a>
-<a class="sidebar-item" href="sop-07.html"><span class="ico">💵</span><span>报价签约</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">知识库 · 9 主题</div>
-<a class="sidebar-item" href="kb-01.html"><span class="ico">🎯</span><span>企业 AI 落地</span></a>
-<a class="sidebar-item" href="kb-02.html"><span class="ico">🤖</span><span>智能体 OpenClaw</span></a>
-<a class="sidebar-item" href="kb-03.html"><span class="ico">💻</span><span>AI 编程工具链</span></a>
-<a class="sidebar-item" href="kb-04.html"><span class="ico">💰</span><span>商业案例</span></a>
-<a class="sidebar-item" href="kb-05.html"><span class="ico">🎨</span><span>AI 内容创作</span></a>
-<a class="sidebar-item" href="kb-06.html"><span class="ico">📣</span><span>自媒体获客</span></a>
-<a class="sidebar-item" href="kb-07.html"><span class="ico">🧰</span><span>效率工具</span></a>
-<a class="sidebar-item" href="kb-08.html"><span class="ico">🧠</span><span>AI 认知</span></a>
-<a class="sidebar-item" href="kb-09.html"><span class="ico">📦</span><span>内容资产</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">权威支撑</div>
-<a class="sidebar-item" href="auth-index.html"><span class="ico">📚</span><span>总览</span></a>
-<a class="sidebar-item" href="auth-a1.html"><span class="ico">🏛️</span><span>Anthropic FDE</span></a>
-<a class="sidebar-item" href="auth-a2.html"><span class="ico">🏛️</span><span>Anthropic Agent</span></a>
-<a class="sidebar-item" href="auth-a3.html"><span class="ico">🏛️</span><span>Anthropic Eval</span></a>
-<a class="sidebar-item" href="auth-e1.html"><span class="ico">⚙️</span><span>软件工程体系</span></a>
-<a class="sidebar-item" href="auth-e2.html"><span class="ico">⚙️</span><span>MLOps</span></a>
-<a class="sidebar-item" href="auth-e3.html"><span class="ico">⚙️</span><span>AI 治理</span></a>
-<a class="sidebar-item" href="auth-e4.html"><span class="ico">📊</span><span>失败率证据</span></a>
-<a class="sidebar-item" href="auth-e5.html"><span class="ico">⚙️</span><span>企业架构</span></a>
-<a class="sidebar-item" href="auth-e6.html"><span class="ico">🏛️</span><span>FDE 三原厂</span></a>
-</div>
-<div class="sidebar-section">
-<div class="sidebar-title">工具</div>
-<a class="sidebar-item" href="glossary.html"><span class="ico">📖</span><span>专业大词典</span></a>
-</div>
-</aside>
-<main class="main">
-<div class="content"><div class="article-meta-row"><span class="pill accent">🏛️ 权威支撑</span><span class="pill">C3</span><span class="reading-time">📖 DDD · Eric Evans</span></div><h1 id="c3-domain-driven-design">C3 · Domain-Driven Design —— 完整中文全文翻译</h1>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>C3 · 领域驱动设计</title><style>:root{--bg:#fbfbfd;--bg-elevated:#fff;--text:#1d1d1f;--accent:#0066cc;--border:rgba(0,0,0,.08);--radius:18px}*{box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;margin:0;padding:0}a{color:var(--accent);text-decoration:none}.container{max-width:980px;margin:0 auto;padding:60px 40px}.content{background:#fff;padding:48px;border-radius:var(--radius);box-shadow:0 4px 16px rgba(0,0,0,.06)}h1{font-size:42px;margin:0 0 16px}h2{font-size:28px;margin:48px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}h3{font-size:22px;margin:32px 0 12px}.meta{color:#6e6e73;font-size:13px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}blockquote{border-left:3px solid var(--accent);padding:8px 16px;margin:24px 0;background:rgba(0,102,204,.05);border-radius:0 8px 8px 0}code{background:#f5f5f7;padding:2px 6px;border-radius:4px;font-family:Menlo,monospace;font-size:0.85em}pre{background:#f5f5f7;padding:16px 20px;border-radius:8px;overflow-x:auto;border:1px solid var(--border)}table{width:100%;border-collapse:collapse;margin:24px 0}th,td{padding:10px 12px;border:1px solid var(--border);text-align:left}</style></head><body><div class="container"><div class="content"><span class="meta"><span class="pill" style="background:rgba(0,102,204,.08);color:#0066cc;padding:4px 12px;border-radius:980px;font-weight:500">🏛️ 100% 完整原文翻译</span> · C3-Domain-Driven-Design</span><h1 id="c3-domain-driven-design">C3 · Domain-Driven Design —— 完整中文全文翻译</h1>
 <blockquote>
 <p><strong>原文标题</strong>：Domain-Driven Design: Reference - Definitions and Pattern Summaries<br />
 <strong>作者</strong>：Eric Evans（Domain Language, Inc.）<br />
@@ -396,7 +14,66 @@ a:hover { color: var(--accent-hover); }
 <p>"Acknowledgements: I am grateful to many who have contributed to the patterns in this reference, particularly those who have worked with me on real projects applying them. Particular thanks to the ThoughtWorks community for ongoing collaboration."</p>
 </blockquote>
 <p><strong>致谢</strong>：<strong>我感谢许多为此参考中的模式做出贡献的人，特别是那些与我一起在实际项目中应用它们的人</strong>。<strong>特别感谢 ThoughtWorks 社区的持续合作</strong>。</p>
+<blockquote>
+<p>"Acknowledgements: I am grateful to many who have contributed to the patterns in this reference, particularly those who have worked with me on real projects applying them. Particular thanks to the ThoughtWorks community for ongoing collaboration."</p>
+</blockquote>
+<p><strong>致谢</strong>：<strong>我感谢许多为此参考中的模式做出贡献的人，特别是那些与我一起在实际项目中应用它们的人</strong>。<strong>特别感谢 ThoughtWorks 社区的持续合作</strong>。</p>
 <h3 id="pattern-language-overview">模式语言概览（Pattern Language Overview）</h3>
+<p>DDD 包含 6 大类 39 个核心模式：</p>
+<p><strong>I. 让模型工作（Putting the Model to Work）</strong><br />
+1. <strong>Bounded Context</strong>（限界上下文）<br />
+2. <strong>Ubiquitous Language</strong>（统一语言）<br />
+3. <strong>Continuous Integration</strong>（持续集成）<br />
+4. <strong>Model-Driven Design</strong>（模型驱动设计）<br />
+5. <strong>Hands-on Modelers</strong>（亲手建模者）<br />
+6. <strong>Refactoring Toward Deeper Insight</strong>（重构以获得更深洞察）</p>
+<p><strong>II. 模型驱动设计的构建块（Building Blocks of a Model-Driven Design）</strong><br />
+7. <strong>Layered Architecture</strong>（分层架构）<br />
+8. <strong>Entities</strong>（实体）<br />
+9. <strong>Value Objects</strong>（值对象）<br />
+10. <strong>Domain Events</strong>（领域事件）<em><br />
+11. </em><em>Services</em><em>（服务）<br />
+12. </em><em>Modules</em><em>（模块）<br />
+13. </em><em>Aggregates</em><em>（聚合）<br />
+14. </em><em>Repositories</em><em>（仓储）<br />
+15. </em><em>Factories</em>*（工厂）</p>
+<p><strong>III. 柔性设计（Supple Design）</strong><br />
+16. <strong>Intention-Revealing Interfaces</strong>（揭示意图的接口）<br />
+17. <strong>Side-Effect-Free Functions</strong>（无副作用的函数）<br />
+18. <strong>Assertions</strong>（断言）<br />
+19. <strong>Conceptual Contours</strong>（概念轮廓）<br />
+20. <strong>Standalone Classes</strong>（独立类）<br />
+21. <strong>Closure of Operations</strong>（操作闭合）<br />
+22. <strong>Declarative Design</strong>（声明式设计）<br />
+23. <strong>Drawing on Established Formalisms</strong>（借鉴已建立的体系）</p>
+<p><strong>IV. 战略设计的上下文映射（Context Mapping for Strategic Design）</strong><br />
+24. <strong>Context Map</strong>（上下文映射）<br />
+25. <strong>Partnership</strong>（伙伴关系）<em><br />
+26. </em><em>Shared Kernel</em><em>（共享内核）<br />
+27. </em><em>Customer/Supplier Development</em><em>（客户/供应商开发）<br />
+28. </em><em>Conformist</em><em>（跟随者）<br />
+29. </em><em>Anticorruption Layer</em><em>（防腐层）<br />
+30. </em><em>Open-Host Service</em><em>（开放主机服务）<br />
+31. </em><em>Published Language</em><em>（发布语言）<br />
+32. </em><em>Separate Ways</em><em>（各行其道）<br />
+33. </em><em>Big Ball of Mud</em><em>（大泥球）</em></p>
+<p><strong>V. 战略设计的提炼（Distillation for Strategic Design）</strong><br />
+34. <strong>Core Domain</strong>（核心域）<br />
+35. <strong>Generic Subdomains</strong>（通用子域）<br />
+36. <strong>Domain Vision Statement</strong>（域愿景声明）<br />
+37. <strong>Highlighted Core</strong>（突出核心）<br />
+38. <strong>Cohesive Mechanisms</strong>（内聚机制）<br />
+39. <strong>Segregated Core</strong>（隔离核心）<br />
+40. <strong>Abstract Core</strong>（抽象核心）</p>
+<p><strong>VI. 战略设计的大规模结构（Large-Scale Structure for Strategic Design）</strong><br />
+41. <strong>Evolving Order</strong>（演进秩序）<br />
+42. <strong>System Metaphor</strong>（系统隐喻）<br />
+43. <strong>Responsibility Layers</strong>（责任层）<br />
+44. <strong>Knowledge Level</strong>（知识级别）<br />
+45. <strong>Pluggable Component Framework</strong>（可插拔组件框架）</p>
+<ul>
+<li>自 2004 年原书出版以来新增的术语。</li>
+</ul>
 <p>DDD 包含 6 大类 39 个核心模式：</p>
 <p><strong>I. 让模型工作（Putting the Model to Work）</strong><br />
 1. <strong>Bounded Context</strong>（限界上下文）<br />
@@ -522,13 +199,83 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"A mechanism for encapsulating storage, retrieval, and search behavior for objects in a domain. A repository acts like a collection of objects in memory."</p>
 </blockquote>
-<p><strong>仓储是一种封装域对象的存储、检索和搜索行为的机制</strong>。<strong>仓储的行为类似于内存中的对象集合</strong>。</p>
-<h4 id="15-factories">15. Factories（工厂）</h4>
+<p><strong>仓储是一种封装域对象的存储、检索和搜索行为的机制</strong>。<strong>仓储的行为类似于内存中的对象集合</strong>。#### 15. Factories（工厂）</p>
 <blockquote>
 <p>"A mechanism for encapsulating the creation of complex objects and aggregates, ensuring that the resulting object is in a valid state."</p>
 </blockquote>
 <p><strong>工厂是一种封装复杂对象和聚合创建的机制，确保生成的对象处于有效状态</strong>。</p>
-<h3 id="_3">战略设计模式</h3>
+<h4 id="1-bounded-context_1">1. Bounded Context（限界上下文）</h4>
+<blockquote>
+<p>"A description of a boundary (typically a subsystem, or the work of a particular team) within which a particular model is defined and applicable."</p>
+</blockquote>
+<p><strong>限界上下文是特定模型被定义和适用的边界（通常是子系统或特定团队的工作）的描述</strong>。</p>
+<h4 id="2-ubiquitous-language_1">2. Ubiquitous Language（统一语言）</h4>
+<blockquote>
+<p>"A language structured around the domain model and used by all team members to connect all the activities of the team with the software."</p>
+</blockquote>
+<p><strong>统一语言是一种围绕领域模型构建的语言，由所有团队成员使用，将团队的所有活动与软件连接起来</strong>。</p>
+<h4 id="3-continuous-integration_1">3. Continuous Integration（持续集成）</h4>
+<blockquote>
+<p>"A process that keeps a software system in a working state by frequently merging and testing all changes to the system."</p>
+</blockquote>
+<p><strong>持续集成是通过频繁合并和测试系统的所有更改来保持软件系统处于工作状态的过程</strong>。</p>
+<h4 id="4-model-driven-design_1">4. Model-Driven Design（模型驱动设计）</h4>
+<blockquote>
+<p>"An approach to software development that emphasizes the use of domain models as the primary artifacts of software development."</p>
+</blockquote>
+<p><strong>模型驱动设计是一种强调使用领域模型作为软件开发的主要工件的软件开发方法</strong>。</p>
+<h4 id="5-hands-on-modelers_1">5. Hands-on Modelers（亲手建模者）</h4>
+<blockquote>
+<p>"Developers who are actively involved in the modeling process and have a deep understanding of the domain."</p>
+</blockquote>
+<p><strong>亲手建模者是积极参与建模过程并对领域有深入理解的开发人员</strong>。</p>
+<h4 id="6-refactoring-toward-deeper-insight_1">6. Refactoring Toward Deeper Insight（重构以获得更深洞察）</h4>
+<blockquote>
+<p>"The process of changing a software system in such a way that it does not change the behavior of the code, but improves its internal structure, with the goal of gaining a deeper understanding of the domain."</p>
+</blockquote>
+<p><strong>重构以获得更深洞察是以不改变代码行为但改进其内部结构的方式改变软件系统的过程，目的是获得对领域的更深理解</strong>。</p>
+<h4 id="7-layered-architecture_1">7. Layered Architecture（分层架构）</h4>
+<blockquote>
+<p>"A pattern that separates the concerns of the application into layers: User Interface, Application, Domain, and Infrastructure."</p>
+</blockquote>
+<p><strong>分层架构是将应用程序的关注点分离为层的模式</strong>：<strong>用户界面、应用程序、域和基础设施</strong>。</p>
+<h4 id="8-entities_1">8. Entities（实体）</h4>
+<blockquote>
+<p>"An object that is defined by its identity, rather than its attributes. An entity has its own life cycle within the system."</p>
+</blockquote>
+<p><strong>实体是由其身份而不是其属性定义的对象</strong>。<strong>实体在系统内有自己的生命周期</strong>。</p>
+<h4 id="9-value-objects_1">9. Value Objects（值对象）</h4>
+<blockquote>
+<p>"An object that is defined by its attributes, rather than its identity. Value objects are immutable."</p>
+</blockquote>
+<p><strong>值对象是由其属性而不是其身份定义的对象</strong>。<strong>值对象是不可变的</strong>。</p>
+<h4 id="10-domain-events_1">10. Domain Events（领域事件）</h4>
+<blockquote>
+<p>"An event that is significant to the domain, often used to communicate changes between bounded contexts."</p>
+</blockquote>
+<p><strong>领域事件是对领域具有重要意义的事件，通常用于在限界上下文之间传达更改</strong>。</p>
+<h4 id="11-services_1">11. Services（服务）</h4>
+<blockquote>
+<p>"An object that performs a significant business function that does not naturally fit into an entity or value object."</p>
+</blockquote>
+<p><strong>服务是执行不属于实体或值对象的显著业务功能的对象</strong>。</p>
+<h4 id="12-modules_1">12. Modules（模块）</h4>
+<blockquote>
+<p>"A way of organizing related concepts within a model. Modules are used to group related classes and to define the relationships between them."</p>
+</blockquote>
+<p><strong>模块是在模型中组织相关概念的方式</strong>。<strong>模块用于对相关类进行分组并定义它们之间的关系</strong>。</p>
+<h4 id="13-aggregates_1">13. Aggregates（聚合）</h4>
+<blockquote>
+<p>"A cluster of domain objects that can be treated as a single unit for the purpose of data changes. An aggregate has a root and a boundary."</p>
+</blockquote>
+<p><strong>聚合是可以作为单个单元进行数据更改的域对象集群</strong>。<strong>聚合具有根和边界</strong>。</p>
+<h4 id="14-repositories_1">14. Repositories（仓储）&gt; "一种封装域中对象的存储、检索和搜索行为的机制。仓储的行为类似于内存中的对象集合。"</h4>
+<p><strong>仓储是一种封装域对象的存储、检索和搜索行为的机制</strong>。<strong>仓储的行为类似于内存中的对象集合</strong>。</p>
+<h4 id="15-factories">15. Factories（工厂）</h4>
+<blockquote>
+<p>"一种封装复杂对象和聚合创建的机制，确保生成的对象处于有效状态。"</p>
+</blockquote>
+<p><strong>工厂是一种封装复杂对象和聚合创建的机制，确保生成的对象处于有效状态</strong>。### 战略设计模式</p>
 <h4 id="context-map">Context Map（上下文映射）</h4>
 <blockquote>
 <p>"A document that describes the relationships between bounded contexts and the ways in which they integrate with each other."</p>
@@ -578,8 +325,38 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"A system that lacks a coherent architecture, with tangled dependencies and no clear boundaries. Big Ball of Mud is the natural state of most software systems, and DDD provides tools to manage this complexity."</p>
 </blockquote>
-<p><strong>大泥球是缺乏连贯架构的系统，依赖关系纠缠，没有明确的边界</strong>。<strong>大泥球是大多数软件系统的自然状态，DDD 提供了管理这种复杂性的工具</strong>。</p>
-<h3 id="_4">提炼模式</h3>
+<p><strong>大泥球是缺乏连贯架构的系统，依赖关系纠缠，没有明确的边界</strong>。<strong>大泥球是大多数软件系统的自然状态，DDD 提供了管理这种复杂性的工具</strong>。&gt; "A relationship between two bounded contexts in which one (the customer) depends on the other (the supplier) for a service. The customer's needs drive the supplier's priorities."</p>
+<p><strong>客户/供应商开发是两个限界上下文之间的关系，其中一个（客户）依赖另一个（供应商）提供的服务</strong>。<strong>客户的需求驱动供应商的优先级</strong>。</p>
+<h4 id="conformist_1">Conformist（跟随者）</h4>
+<blockquote>
+<p>"A relationship between two bounded contexts in which one context conforms to the model of the other, without any translation layer."</p>
+</blockquote>
+<p><strong>跟随者是两个限界上下文之间的关系，其中一个上下文遵循另一个的模型，没有任何翻译层</strong>。</p>
+<h4 id="anticorruption-layer_1">Anticorruption Layer（防腐层）</h4>
+<blockquote>
+<p>"A layer that translates between two bounded contexts, preventing the model of one context from being corrupted by the model of the other."</p>
+</blockquote>
+<p><strong>防腐层是两个限界上下文之间的翻译层，防止一个上下文的模型被另一个上下文的模型破坏</strong>。</p>
+<h4 id="open-host-service_1">Open-Host Service（开放主机服务）</h4>
+<blockquote>
+<p>"A service that exposes a protocol for accessing a system, where the protocol is open to other systems and is treated as a public API."</p>
+</blockquote>
+<p><strong>开放主机服务是公开访问系统的协议的服务，其中协议对其他系统开放并被视为公共 API</strong>。</p>
+<h4 id="published-language_1">Published Language（发布语言）</h4>
+<blockquote>
+<p>"A well-known, shared language used for communication between bounded contexts. The published language serves as a lingua franca for integration."</p>
+</blockquote>
+<p><strong>发布语言是用于限界上下文之间通信的广为人知的共享语言</strong>。<strong>发布语言充当集成的通用语</strong>。</p>
+<h4 id="separate-ways_1">Separate Ways（各行其道）</h4>
+<blockquote>
+<p>"A decision to not integrate two bounded contexts, and to accept the duplication of functionality that this entails."</p>
+</blockquote>
+<p><strong>各行其道是不集成两个限界上下文并接受由此产生的功能重复的决定</strong>。</p>
+<h4 id="big-ball-of-mud_1">Big Ball of Mud（大泥球）</h4>
+<blockquote>
+<p>"A system that lacks a coherent architecture, with tangled dependencies and no clear boundaries. Big Ball of Mud is the natural state of most software systems, and DDD provides tools to manage this complexity."</p>
+</blockquote>
+<p><strong>大泥球是缺乏连贯架构的系统，依赖关系纠缠，没有明确的边界</strong>。<strong>大泥球是大多数软件系统的自然状态，DDD 提供了管理这种复杂性的工具</strong>。### 核心域</p>
 <h4 id="core-domain">Core Domain（核心域）</h4>
 <blockquote>
 <p>"The part of the domain that is most important to the organization and that provides the greatest competitive advantage."</p>
@@ -592,7 +369,7 @@ a:hover { color: var(--accent-hover); }
 <p><strong>通用子域是必要但不属于组织竞争优势的域部分</strong>。<strong>通用子域通常可以外包或用现成的解决方案替换</strong>。</p>
 <h4 id="domain-vision-statement">Domain Vision Statement（域愿景声明）</h4>
 <blockquote>
-<p>"A short document that describes the core domain and the value it provides to the organization. The domain vision statement helps align the team around the most important parts of the domain."</p>
+<p>"A short document that describes the core domain and the value it provides to the组织。The domain vision statement helps align the team around the most important parts of the domain."</p>
 </blockquote>
 <p><strong>域愿景声明是一个简短的文档，描述核心域及其为组织提供的价值</strong>。<strong>域愿景声明帮助团队围绕域的最重要部分保持一致</strong>。</p>
 <h4 id="highlighted-core">Highlighted Core（突出核心）</h4>
@@ -614,79 +391,76 @@ a:hover { color: var(--accent-hover); }
 <blockquote>
 <p>"A pattern that identifies the most fundamental concepts of the core domain and represents them as abstractions, making it easier to reuse and evolve the core domain."</p>
 </blockquote>
-<p><strong>抽象核心是一种识别核心域最基本的概念并将它们表示为抽象的模式，使其更容易重用和发展核心域</strong>。</p>
-<h3 id="_5">大规模结构模式</h3>
+<p><strong>抽象核心是一种识别核心域最基本的概念并将它们表示为抽象的模式，使其更容易重用和发展核心域</strong>。### 大规模结构模式</p>
 <h4 id="evolving-order">Evolving Order（演进秩序）</h4>
 <blockquote>
-<p>"A pattern that allows the structure of a large system to evolve over time, without requiring a big upfront design. The structure is allowed to emerge as the system is built."</p>
+<p>"一种允许大型系统的结构随着时间演进的模式，无需前期的大设计。结构被允许在构建系统时出现。"</p>
 </blockquote>
 <p><strong>演进秩序是一种允许大型系统的结构随着时间演进的模式，无需前期的大设计</strong>。<strong>结构被允许在构建系统时出现</strong>。</p>
 <h4 id="system-metaphor">System Metaphor（系统隐喻）</h4>
 <blockquote>
-<p>"A pattern that uses a familiar analogy to describe the structure of a software system. The system metaphor helps team members understand the system in a consistent way."</p>
+<p>"一种使用熟悉的类比来描述软件系统结构的模式。系统隐喻帮助团队成员以一致的方式理解系统。"</p>
 </blockquote>
 <p><strong>系统隐喻是一种使用熟悉的类比来描述软件系统结构的模式</strong>。<strong>系统隐喻帮助团队成员以一致的方式理解系统</strong>。</p>
 <h4 id="responsibility-layers">Responsibility Layers（责任层）</h4>
 <blockquote>
-<p>"A pattern that organizes the structure of a large system into layers, each with a clear responsibility. Responsibility layers help to manage the dependencies between different parts of the system."</p>
+<p>"一种将大型系统的结构组织为层次的模式，每个层次都有明确的职责。责任层有助于管理系统不同部分之间的依赖关系。"</p>
 </blockquote>
 <p><strong>责任层是一种将大型系统的结构组织为层次的模式，每个层次都有明确的职责</strong>。<strong>责任层有助于管理系统不同部分之间的依赖关系</strong>。</p>
 <h4 id="knowledge-level">Knowledge Level（知识级别）</h4>
 <blockquote>
-<p>"A pattern that groups together objects that are at the same level of knowledge or abstraction. Knowledge levels help to manage the complexity of a domain by providing clear levels of detail."</p>
+<p>"一种将处于相同知识或抽象级别的对象组合在一起的模式。知识级别通过提供清晰的详细程度级别来帮助管理域的复杂性。"</p>
 </blockquote>
 <p><strong>知识级别是一种将处于相同知识或抽象级别的对象组合在一起的模式</strong>。<strong>知识级别通过提供清晰的详细程度级别来帮助管理域的复杂性</strong>。</p>
 <h4 id="pluggable-component-framework">Pluggable Component Framework（可插拔组件框架）</h4>
 <blockquote>
-<p>"A pattern that allows different parts of a system to be swapped out without affecting the rest of the system. The pluggable component framework is often used to integrate with external systems or to support multiple implementations of the same interface."</p>
+<p>"一种允许系统的不同部分被替换而不影响系统其余部分的模式。可插拔组件框架通常用于与外部系统集成或支持同一接口的多个实现。"</p>
 </blockquote>
-<p><strong>可插拔组件框架是一种允许系统的不同部分被替换而不影响系统其余部分的模式</strong>。<strong>可插拔组件框架通常用于与外部系统集成或支持同一接口的多个实现</strong>。</p>
-<h2 id="martin-fowler-ddd">Martin Fowler 的 DDD 文章（摘要）</h2>
+<p><strong>可插拔组件框架是一种允许系统的不同部分被替换而不影响系统其余部分的模式</strong>。<strong>可插拔组件框架通常用于与外部系统集成或支持同一接口的多个实现</strong>。## Martin Fowler 的 DDD 文章（摘要）</p>
 <blockquote>
-<p>"Domain-Driven Design is an approach to software development that centers the development on programming a domain model that has a rich understanding of the processes and rules of a domain."</p>
+<p>"领域驱动设计是一种软件开发方法，它以编程领域模型为中心开发软件，该模型对领域的流程和规则有丰富的理解。"</p>
 </blockquote>
 <p><strong>领域驱动设计是一种软件开发方法，它以编程领域模型为中心开发软件，该模型对领域的流程和规则有丰富的理解</strong>。</p>
 <blockquote>
-<p>"The name comes from a 2003 book by Eric Evans that describes the approach through a catalog of patterns."</p>
+<p>"该名称来自 Eric Evans 于 2003 年出版的一本书，该书通过模式目录描述了这种方法。"</p>
 </blockquote>
 <p><strong>名称来自 Eric Evans 于 2003 年出版的一本书，该书通过模式目录描述了这种方法</strong>。</p>
 <blockquote>
-<p>"Since then a community of practitioners have further developed the ideas, spawning various other books and training courses."</p>
+<p>"从那时起，一个从业者社区进一步发展了这些想法，催生了各种其他书籍和培训课程。"</p>
 </blockquote>
 <p><strong>从那时起，一个从业者社区进一步发展了这些想法，催生了各种其他书籍和培训课程</strong>。</p>
 <blockquote>
-<p>"The approach is particularly suited to complex domains, where a lot of often-messy logic needs to be organized."</p>
+<p>"这种方法特别适合复杂域，在那里需要组织大量通常混乱的逻辑。"</p>
 </blockquote>
 <p><strong>这种方法特别适合复杂域，在那里需要组织大量通常混乱的逻辑</strong>。</p>
 <blockquote>
-<p>"Eric Evans's 2003 book is an essential read for serious software developers."</p>
+<p>"Eric Evans 的 2003 年书籍是认真对待软件开发人员的必读之作。"</p>
 </blockquote>
 <p><strong>Eric Evans 的 2003 年书籍是认真对待软件开发人员的必读之作</strong>。</p>
 <blockquote>
-<p>"The idea that software systems need to be based on a well-developed model of a domain has been around for at least as long as I've been in the industry."</p>
+<p>"软件系统需要基于良好开发的领域模型的想法至少在我进入这个行业以来就存在了。"</p>
 </blockquote>
 <p><strong>软件系统需要基于良好开发的领域模型的想法至少在我进入这个行业以来就存在了</strong>。</p>
 <blockquote>
-<p>"At the heart of this was the idea that to develop software for a complex domain, we need to build Ubiquitous Language that embeds domain terminology into the software systems that we build."</p>
+<p>"其核心思想是，为了开发复杂域的软件，我们需要构建嵌入域术语到我们构建的软件系统中的统一语言。"</p>
 </blockquote>
 <p><strong>其核心思想是，为了开发复杂域的软件，我们需要构建嵌入域术语到我们构建的软件系统中的统一语言</strong>。</p>
 <blockquote>
-<p>"Eric is a strong proponent of Extreme Programming and sees Domain-Driven Design as a natural component of an extreme programming approach - a view shared by most XP practitioners I know."</p>
+<p>"Eric 是极限编程的强烈支持者，并将领域驱动设计视为极限编程方法的自然组成部分——这是大多数我所认识的 XP 从业者共享的观点。"</p>
 </blockquote>
 <p><strong>Eric 是极限编程的强烈支持者，并将领域驱动设计视为极限编程方法的自然组成部分——这是大多数我所认识的 XP 从业者共享的观点</strong>。</p>
 <blockquote>
-<p>"The book introduced the notion of classifying objects into Entities, Value Objects, and Service Objects - what I call the Evans Classification and identifying the concept of Aggregates."</p>
+<p>"这本书引入了将对象分类为实体、值对象和服务对象的概念——我称之为 Evans 分类法——并识别了聚合的概念。"</p>
 </blockquote>
 <p><strong>这本书引入了将对象分类为实体、值对象和服务对象的概念——我称之为 Evans 分类法——并识别了聚合的概念</strong>。</p>
 <blockquote>
-<p>"A particularly important part of DDD is the notion of Strategic Design - how to organize large domains into a network of Bounded Contexts."</p>
+<p>"DDD 的一个特别重要的部分是战略设计的概念——如何将大型域组织为限界上下文网络。"</p>
 </blockquote>
 <p><strong>DDD 的一个特别重要的部分是战略设计的概念——如何将大型域组织为限界上下文网络</strong>。</p>
 <blockquote>
-<p>"Until that point, I'd not seen anyone tackle this issue in any compelling way."</p>
+<p>"在这一点之前，我没有看到任何人以任何引人注目的方式解决这个问题。"</p>
 </blockquote>
-<p><strong>在这一点之前，我没有看到任何人以任何引人注目的方式解决这个问题</strong>。</p>
-<h2 id="_6">翻译附记</h2>
+<p><strong>在这一点之前，我没有看到任何人以任何引人注目的方式解决这个问题</strong>。## 翻译附记</p>
 <ul>
 <li>本翻译基于 Eric Evans《Domain-Driven Design Reference》PDF（2015 年版，CC BY 4.0）完整中文翻译。</li>
 <li>完整保留 DDD 全部 45 个核心模式定义（包括自 2004 年原书以来的新增术语）。</li>
@@ -700,92 +474,4 @@ a:hover { color: var(--accent-hover); }
 </ul>
 <blockquote>
 <p><strong>这一篇就是 DDD 的完整中文翻译。</strong></p>
-</blockquote></div>
-<div class="footer">
-企业 AI 实战知识库 · 个人成长系统 v3.0<br>
-基于 514 条视频原文 + 110 方法簇 + 19 张权威卡<br>
-部署于 GitHub Pages · 2026-09-10
-</div>
-</main>
-</div>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Active nav
-  const path = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.sidebar-item').forEach(el => {
-    if (el.getAttribute('href') === path) el.classList.add('active');
-  });
-  document.querySelectorAll('.nav-items a').forEach(el => {
-    if (el.getAttribute('href') === path) el.classList.add('active');
-  });
-  
-  // Reading progress bar
-  const progress = document.querySelector('.reading-progress');
-  if (progress) {
-    const update = () => {
-      const h = document.documentElement;
-      const max = h.scrollHeight - h.clientHeight;
-      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
-      progress.style.width = pct + '%';
-    };
-    window.addEventListener('scroll', update, { passive: true });
-    update();
-  }
-  
-  // TOC active state (IntersectionObserver)
-  const tocLinks = document.querySelectorAll('.mini-toc a');
-  if (tocLinks.length) {
-    const sections = Array.from(tocLinks).map(l => {
-      const id = l.getAttribute('href').slice(1);
-      return document.getElementById(id);
-    }).filter(Boolean);
-    if (sections.length) {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            tocLinks.forEach(l => l.classList.remove('active'));
-            const active = document.querySelector(`.mini-toc a[href="#${e.target.id}"]`);
-            if (active) active.classList.add('active');
-          }
-        });
-      }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
-      sections.forEach(s => observer.observe(s));
-    }
-    // Smooth scroll
-    tocLinks.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const id = link.getAttribute('href').slice(1);
-        const target = document.getElementById(id);
-        if (target) {
-          window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-        }
-      });
-    });
-  }
-  
-  // Sub-topic collapse
-  document.querySelectorAll('.subtopic-header').forEach(h => {
-    h.addEventListener('click', () => {
-      h.parentElement.classList.toggle('collapsed');
-    });
-  });
-  
-  // Search
-  const si = document.getElementById('search');
-  if (si) {
-    let t;
-    si.addEventListener('input', e => {
-      clearTimeout(t);
-      t = setTimeout(() => {
-        const q = e.target.value.toLowerCase();
-        document.querySelectorAll('.video-card').forEach(c => {
-          c.style.display = !q || c.innerText.toLowerCase().includes(q) ? '' : 'none';
-        });
-      }, 200);
-    });
-  }
-});
-</script>
-</body>
-</html>
+</blockquote></div></div></body></html>
